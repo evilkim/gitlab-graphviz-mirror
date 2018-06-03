@@ -17,6 +17,13 @@
 #define IMAGEVIEWER_H
 #include <QtGui/QtGui>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QScrollArea>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QLabel>
 #include <QtPrintSupport/QPrinter>
 
 QT_BEGIN_NAMESPACE
