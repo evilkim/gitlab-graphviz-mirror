@@ -2334,14 +2334,14 @@ else
 
   AC_CHECK_PROGS(QMAKE,qmake-qt4 qmake-qt3 qmake,false)
   if test "$QMAKE" != "false"; then
-    PKG_CHECK_MODULES(QTCORE, [QtCore],[
-      PKG_CHECK_MODULES(QTGUI, [QtGui],[
+    PKG_CHECK_MODULES(QTCORE, [Qt5Core],[
+      PKG_CHECK_MODULES(QTGUI, [Qt5Gui],[
 	use_qt="Yes"
       ],[
-        use_qt="No (QtGui not available)"
+        use_qt="No (Qt5Gui not available)"
       ])
     ],[
-      use_qt="No (QtCore not available)"
+      use_qt="No (Qt5Core not available)"
     ])
   else
     use_qt="No (qmake not found)"

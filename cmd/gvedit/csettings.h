@@ -16,8 +16,8 @@
 #define CSETTINGS_H
 
 class MdiChild;
-#include <QDialog>
-#include <QString>
+#include <QtWidgets/QDialog>
+#include <QtCore/QString>
 #include "ui_settings.h"
 
 #include "config.h"

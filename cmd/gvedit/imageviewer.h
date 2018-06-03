@@ -15,9 +15,9 @@
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
-#include <QtGui>
-#include <QMainWindow>
-#include <QPrinter>
+#include <QtGui/QtGui>
+#include <QtWidgets/QMainWindow>
+#include <QtPrintSupport/QPrinter>
 
 QT_BEGIN_NAMESPACE
 class QAction;

@@ -17,9 +17,9 @@
 #include "windows.h"
 #endif
 #include <stdio.h>
-#include <QApplication>
-#include <QFile>
-/* #include <QTextStream> */
+#include <QtWidgets/QApplication>
+#include <QtCore/QFile>
+#include <QTextStream>
 #include "mainwindow.h"
 
 #include <getopt.h>

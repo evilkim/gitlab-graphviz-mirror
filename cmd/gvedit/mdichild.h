@@ -15,7 +15,7 @@
 #ifndef MDICHILD_H
 #define MDICHILD_H
 
-#include <QTextEdit>
+#include <QtWidgets/QTextEdit>
 #include "imageviewer.h"
 class CMainWindow;
 

@@ -19,8 +19,13 @@ These examples are published under the terms of the BSD
 #ifndef CMAINWINDOW_H
 #define CMAINWINDOW_H
 
-#include <QMainWindow>
-#include <QTextStream>
+#include <QtCore/QTextStream>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMdiSubWindow>
 #include "ui_settings.h"
 #include <vector>
 

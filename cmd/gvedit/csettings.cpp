@@ -14,8 +14,9 @@
 #include "windows.h"
 #endif
 #include "csettings.h"
-#include "qmessagebox.h"
-#include "qfiledialog.h"
+#include "QtWidgets/qmessagebox.h"
+#include "QtWidgets/qfiledialog.h"
+#include <QtWidgets/QMdiArea>
 #include <QtGui>
 #include <qfile.h>
 #include "mdichild.h"
