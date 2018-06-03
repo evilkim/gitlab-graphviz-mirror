@@ -17,6 +17,7 @@
 #define IMAGEVIEWER_H
 #include <QtGui/QtGui>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMdiSubWindow>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QAction>

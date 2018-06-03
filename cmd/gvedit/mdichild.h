@@ -16,6 +16,8 @@
 #define MDICHILD_H
 
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QMdiSubWindow>
+#include <QtWidgets/QMdiArea>
 #include "imageviewer.h"
 class CMainWindow;
 
