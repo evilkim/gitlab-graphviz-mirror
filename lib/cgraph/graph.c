@@ -269,11 +269,3 @@ Agdesc_t Agundirected = { 0, 0, 0, 1 };
 Agdesc_t Agstrictundirected = { 0, 1, 0, 1 };
 
 Agdisc_t AgDefaultDisc = { &AgMemDisc, &AgIdDisc, &AgIoDisc };
-
-
-#include <stdio.h>
-void scndump(Agraph_t *g, char *file)
-{
-	FILE * f = fopen(file,"w");
-	if (f) {agwrite(g,f); fclose(f);}
-}
