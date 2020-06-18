@@ -52,9 +52,3 @@ void agflatten(Agraph_t * g, int flag)
 	}
     }
 }
-
-void agnotflat(Agraph_t * g)
-{
-    if (g->desc.flatlock)
-	agerr(AGERR, "flat lock broken");
-}
