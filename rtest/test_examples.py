@@ -3,6 +3,7 @@
 import os
 import platform
 import pytest
+import shutil
 import subprocess
 
 def c_compiler():
@@ -32,3 +33,24 @@ def test_compile_example(src):
     else:
       subprocess.check_call([cc, '-o', os.devnull, filepath]
         + ['-l{}'.format(l) for l in libs])
+
+@pytest.mark.parametrize('src', ['addrings', 'attr', 'bbox', 'bipart',
+  'chkedges', 'clustg', 'collapse', 'cycle', 'deghist', 'delmulti', 'depath',
+  'flatten', 'group', 'indent', 'path', 'scale', 'span', 'treetoclust',
+  'addranks', 'anon', 'bb', 'chkclusters', 'cliptree', 'col', 'color',
+  'dechain', 'deledges', 'delnodes', 'dijkstra', 'get-layers-list', 'knbhd',
+  'maxdeg', 'rotate', 'scalexy', 'topon'])
+def test_gvpr_example(src):
+    '''check GVPR can parse the given example'''
+
+    # skip this test if GVPR is unavailable
+    if shutil.which('gvpr') is None:
+      pytest.skip('GVPR not available')
+
+    # construct an absolute path to the example
+    path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+      '../cmd/gvpr/lib', src)
+
+    # run GVPR with the given script
+    with open(os.devnull, 'rt') as nul:
+      subprocess.check_call(['gvpr', '-f', path], stdin=nul)
