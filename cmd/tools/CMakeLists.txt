@@ -123,6 +123,50 @@ target_link_libraries(gml2gv
 
 tool_defaults(gml2gv)
 
+# Note: This is lifted almost wholesale from cmd/dot/CMakeLists.txt for setting up
+# aliases to dot. This is overkill for a single alias.
+
+# Aliases to the gml2gv executable (not including '.exe' suffix)
+list(APPEND gml2gv_aliases gv2gml)
+if(WIN32)
+    # Copy gml2gv executable to each alias name then install copies to bindir
+    foreach(cmd_alias IN LISTS gml2gv_aliases)
+        set(gml2gvcopy "${CMAKE_CURRENT_BINARY_DIR}/${cmd_alias}${CMAKE_EXECUTABLE_SUFFIX}")
+        add_custom_command(
+            TARGET gml2gv
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:gml2gv> ${gml2gvcopy}
+            COMMENT "Copying $<TARGET_FILE:gml2gv> to ${gml2gvcopy}"
+        )
+        install(
+            PROGRAMS ${gml2gvcopy}
+            DESTINATION ${BINARY_INSTALL_DIR}
+        )
+    endforeach()
+else()
+    # For not-WIN32, install symlinks from gml2gv_aliases -> gml2gv_executable in bindir.
+    # Note: This may be brittle. This builds a symlink from ./cmd_alias -> ./gml2gv
+    # in ${CMAKE_CURRENT_BINARY_DIR}, then installs that symlink
+    # into ${BINARY_INSTALL_DIR}. This presumes ${CMAKE_CURRENT_BINARY_DIR}/gml2gv
+    # is installed to ${BINARY_INSTALL_DIR}/gml2gv. There is a (small?) risk of
+    # dangling symlinks
+    foreach(cmd_alias IN LISTS gml2gv_aliases)
+        set(gml2gvlink "${CMAKE_CURRENT_BINARY_DIR}/${cmd_alias}")
+        add_custom_command(
+            TARGET gml2gv
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink $<TARGET_FILE_NAME:gml2gv> ${cmd_alias}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Linking $<TARGET_FILE_NAME:gml2gv> as ${cmd_alias}"
+        )
+        install(
+            FILES ${gml2gvlink}
+            DESTINATION ${BINARY_INSTALL_DIR}
+        )
+    endforeach()
+endif()
+
+
 # ================================= graphml2gv =================================
 if(EXPAT_FOUND)
 
