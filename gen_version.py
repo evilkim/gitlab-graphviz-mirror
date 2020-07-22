@@ -21,6 +21,7 @@
 version = '2.44.2-dev'
 
 import os
+import sys
 import subprocess
 
 major_version, minor_version, patch_version = version.split('.')
@@ -30,17 +31,24 @@ try:
 except ValueError:
     # Non-numerical patch version; add committer date
     os.environ['TZ'] = 'UTC'
-    committer_date = subprocess.run(
-        [
-            'git',
-            'log',
-            '-n',
-            '1',
-            '--format=%cd',
-            '--date=format-local:%Y%m%d.%H%M'
-        ],
-        stdout=subprocess.PIPE,
-    ).stdout.decode('utf-8').strip()
-    patch_version += '.' + committer_date
+    try:
+        committer_date = subprocess.run(
+            [
+                'git',
+                'log',
+                '-n',
+                '1',
+                '--format=%cd',
+                '--date=format-local:%Y%m%d.%H%M'
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True,
+        ).stdout.decode('utf-8').strip()
+        patch_version += '.' + committer_date
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print('Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.', file=sys.stderr)
+
+        patch_version += '.0'
 
 print(f'{major_version}.{minor_version}.{patch_version}')
