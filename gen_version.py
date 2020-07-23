@@ -27,17 +27,31 @@ import argparse
 
 from datetime import datetime
 
+graphviz_date_format = '%Y%m%d.%H%M'
+iso_date_format = '%Y-%m-%d %H:%M:%S'
+
 parser = argparse.ArgumentParser(description='Generate Graphviz version.')
 parser.add_argument('--committer-date-iso',
-                    action='store_true',
+                    dest='date_format',
+                    action='store_const',
+                    const=iso_date_format,
                     help='Print ISO formatted committer date in UTC instead of version'
+)
+parser.add_argument('--committer-date-graphviz',
+                    dest='date_format',
+                    action='store_const',
+                    const=graphviz_date_format,
+                    help='Print graphviz special formatted committer date in UTC '
+                    'instead of version'
 )
 
 args = parser.parse_args()
 
+date_format = args.date_format or graphviz_date_format
+
 major_version, minor_version, patch_version = version.split('.')
 
-if not patch_version.isnumeric() or args.committer_date_iso:
+if not patch_version.isnumeric() or args.date_format:
     os.environ['TZ'] = 'UTC'
     try:
         committer_date = datetime.strptime(
@@ -53,16 +67,15 @@ if not patch_version.isnumeric() or args.committer_date_iso:
                 universal_newlines=True,
             ).strip(),
             '%Y-%m-%d %H:%M:%S',
-        )
+        ).strftime(date_format)
     except (subprocess.CalledProcessError, FileNotFoundError):
         print('Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.', file=sys.stderr)
-
         committer_date = '0'
 
-if args.committer_date_iso:
+if args.date_format:
     print(committer_date)
 else:
     if not patch_version.isnumeric():
         # Non-numerical patch version; add committer date
-        patch_version += '.' + committer_date.strftime('%Y%m%d.%H%M')
+        patch_version += '.' + committer_date
     print('{0}.{1}.{2}'.format(major_version, minor_version, patch_version))
