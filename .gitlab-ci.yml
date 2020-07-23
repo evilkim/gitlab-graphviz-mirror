@@ -67,6 +67,7 @@ portable-source:
         # Install and set PATH
         - choco install --no-progress -y activeperl
         - choco install --no-progress -y python3
+        - C:\ProgramData\chocolatey\tools\shimgen.exe -o=C:\Python38\python3.exe -p=C:\Python38\python.exe
         - choco install --no-progress -y grep
         - $Env:Path += ";C:\Python38"
         - $Env:Path += ";C:\Python38\Scripts"
