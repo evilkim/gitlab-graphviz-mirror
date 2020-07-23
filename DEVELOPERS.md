@@ -25,25 +25,7 @@ Before making the release, it must be decided if it is a *major*, *minor* or
 
 #### Stable release versions and development versions numbering convention
 
-Stable release versions always have an *even* minor version and
-development versions always have an *odd* minor version that is the
-latest stable release minor version *plus* 1. Development releases
-have the patch version automatically set to the
-[committer date](https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-emciem)
-(not the [author date](https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-emadem)
-which is what `git log` shows by default) of the latest commit using the format `%Y%m%d.%H%M`.
-
-Release version examples:
-
-- 2.42.3
-- 2.42.4
-- 2.44.0
-- 2.44.1
-
-Development version examples:
-
-- 2.43.20200403.0503
-- 2.45.20200601.1555
+See gen-version.py.
 
 ### Instructions
 
@@ -55,39 +37,7 @@ is green
 
    Example: `stable-release-2.44.1`
 
-1. Edit `autogen.sh`:
-
-   * Comment 4 lines after the line ` dnl uncomment the next 4 lines for
-   development releases, minor version must be odd ` by adding `dnl `.
-   * Uncomment 4 lines below ` dnl uncomment the next 4 lines for stable
-   releases, minor version must be even` by removing `dnl `.
-   * Increment the patch version with 1 *or* minor version to the next *even*
-   number.
-
-   Example (from
-   https://gitlab.com/graphviz/graphviz/-/commit/5e0d3b1841b7e358274c916b52276d251eabef3d#152c3993c79ed609cfec1b4276c2eb31f4d518b3):
-
-    ```diff
-     dnl uncomment the next 4 lines for development releases, minor version must be odd
-    -m4_define([graphviz_version_major],[2])
-    -m4_define([graphviz_version_minor],[45])
-    -m4_define([graphviz_version_micro],[$GRAPHVIZ_VERSION_DATE])
-    -m4_define([graphviz_collection],[development])
-    +dnl m4_define([graphviz_version_major],[2])
-    +dnl m4_define([graphviz_version_minor],[45])
-    +dnl m4_define([graphviz_version_micro],[$GRAPHVIZ_VERSION_DATE])
-    +dnl m4_define([graphviz_collection],[development])
-
-     dnl uncomment the next 4 lines for stable releases, minor version must be even
-    -dnl m4_define([graphviz_version_major],[2])
-    -dnl m4_define([graphviz_version_minor],[44])
-    -dnl m4_define([graphviz_version_micro],[0])
-    -dnl m4_define([graphviz_collection],[stable])
-    +m4_define([graphviz_version_major],[2])
-    +m4_define([graphviz_version_minor],[44])
-    +m4_define([graphviz_version_micro],[1])
-    +m4_define([graphviz_collection],[stable])
-    ```
+1. Edit `gen_version.py` according to instructions in that file.
 
 1. Edit `windows/include/builddate.h` (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
 
@@ -187,40 +137,7 @@ is green
 
    Example: `return-to-2.45-dev`
 
-1. Edit `autogen.sh` again:
-
-   * Uncomment 4 lines after the line ` dnl uncomment the next 4 lines for
-   development releases, minor version must be odd ` by removing `dnl `.
-   * Comment 4 lines below ` dnl uncomment the next 4 lines for stable
-   releases, minor version must be even` by adding `dnl `.
-   * If a minor release was made, increment the minor version to the
-   next odd number and zero the patch version, *otherwise* increment
-   the patch version.
-
-   Example (from
-   https://gitlab.com/graphviz/graphviz/-/commit/2bd021b3ef38ddcc7e7f9445f26026fadf441a52#152c3993c79ed609cfec1b4276c2eb31f4d518b3):
-
-    ```diff
-    dnl uncomment the next 4 lines for development releases, minor version must be odd
-    -dnl m4_define([graphviz_version_major],[2])
-    -dnl m4_define([graphviz_version_minor],[45])
-    -dnl m4_define([graphviz_version_micro],[$GRAPHVIZ_VERSION_DATE])
-    -dnl m4_define([graphviz_collection],[development])
-    +m4_define([graphviz_version_major],[2])
-    +m4_define([graphviz_version_minor],[45])
-    +m4_define([graphviz_version_micro],[$GRAPHVIZ_VERSION_DATE])
-    +m4_define([graphviz_collection],[development])
-
-     dnl uncomment the next 4 lines for stable releases, minor version must be even
-    -m4_define([graphviz_version_major],[2])
-    -m4_define([graphviz_version_minor],[44])
-    -m4_define([graphviz_version_micro],[1])
-    -m4_define([graphviz_collection],[stable])
-    +dnl m4_define([graphviz_version_major],[2])
-    +dnl m4_define([graphviz_version_minor],[44])
-    +dnl m4_define([graphviz_version_micro],[1])
-    +dnl m4_define([graphviz_collection],[stable])
-    ```
+1. Edit `gen_version.py` again according to instructions in that file.
 
 1. Edit `windows/include/builddate.h` again (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
 
@@ -277,6 +194,10 @@ is green
 1. Create a merge request
 
 1. Merge the merge request
+
+## TODO with this guide
+
+* Update with new example commits after next stable release.
 
 ## How to update this guide
 
