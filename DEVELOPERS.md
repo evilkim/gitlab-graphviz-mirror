@@ -39,39 +39,6 @@ is green
 
 1. Edit `gen_version.py` according to instructions in that file.
 
-1. Edit `windows/include/builddate.h` (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
-
-   Set version, date and time in UTC. Time will be approximate and the
-   minutes part should be `00` to not indicate any exactness.
-
-   Example (from
-   https://gitlab.com/graphviz/graphviz/-/commit/5e0d3b1841b7e358274c916b52276d251eabef3d#2dcbe62b02ff1b46c3e5dc995a0a86f993cb6eca):
-
-    ```diff
-    -#define BUILDDATE "20090106.0545"
-    +#define BUILDDATE "20200629.0800"
-    ```
-
-1. Edit `windows/include/config.h` (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
-
-   Set version, date and time in UTC. Time will be approximate and the
-   minutes part should be `00` to not indicate any exactness.
-
-   Example (from
-   https://gitlab.com/graphviz/graphviz/-/commit/5e0d3b1841b7e358274c916b52276d251eabef3d#5299703d1b79f96afe7c4bf2fc8bd368da39d5e2):
-
-    ```diff
-     /* Define to the full name and version of this package. */
-    -#define PACKAGE_STRING "graphviz 2.39.20160612.1140"
-    +#define PACKAGE_STRING "graphviz 2.44.1 (20200629.0800)" /* 08:00
-    is approximate */
-    ```
-    ```diff
-     /* Define to the version of this package. */
-    -#define PACKAGE_VERSION "2.39.20160612.1140"
-    +#define PACKAGE_VERSION "2.44.1"
-    ```
-
 1. Edit `CHANGELOG.md`
 
     Add the new version between `[Unreleased]` and the previous
@@ -138,40 +105,6 @@ is green
    Example: `return-to-2.45-dev`
 
 1. Edit `gen_version.py` again according to instructions in that file.
-
-1. Edit `windows/include/builddate.h` again (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
-
-    Set version, date and time. Date and time will be fixed for every
-    build and everything except the year should be question marks (`?´)
-    to not indicate any exactness.
-
-    Example (from
-    https://gitlab.com/graphviz/graphviz/-/commit/2bd021b3ef38ddcc7e7f9445f26026fadf441a52#2dcbe62b02ff1b46c3e5dc995a0a86f993cb6eca):
-
-    ```diff
-     /* Define to the full name and version of this package. */
-    -#define PACKAGE_STRING "graphviz 2.44.1 (20200629.0800)" /* 08:00 is approximate */
-    +#define PACKAGE_STRING "graphviz 2.45.2020????.???? (2020????.????)" /* FIXME: https://gitlab.com/graphviz/graphviz/-/issues/1745 */
-    ```
-    ```diff
-     /* Define to the version of this package. */
-    -#define PACKAGE_VERSION "2.44.1"
-    +#define PACKAGE_VERSION "2.45.2020????.????" /* FIXME: https://gitlab.com/graphviz/graphviz/-/issues/1745 */
-    ```
-
-1. Edit `windows/include/config.h` again (if https://gitlab.com/graphviz/graphviz/-/issues/1745 isn't fixed)
-
-    Set version, date and time. Date and time will be fixed for every
-    build and everything except the year should be question marks
-    (`?´) to not indicate any exactness.
-
-    Example (from
-    https://gitlab.com/graphviz/graphviz/-/commit/2bd021b3ef38ddcc7e7f9445f26026fadf441a52#5299703d1b79f96afe7c4bf2fc8bd368da39d5e2)
-
-    ```diff
-    -#define BUILDDATE "20200629.0800"
-    +#define BUILDDATE "2020????.????"  /* FIXME: https://gitlab.com/graphviz/graphviz/-/issues/1745 */
-    ```
 
 1. Commit:
 
