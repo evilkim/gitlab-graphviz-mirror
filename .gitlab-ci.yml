@@ -173,7 +173,8 @@ portable-source:
 .test_template: &test_definition
     stage: test
     script:
-        - ci/test.sh
+        - ci/install-packages.sh
+        - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:
             junit: ./report.xml

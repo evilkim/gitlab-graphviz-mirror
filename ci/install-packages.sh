@@ -30,4 +30,3 @@ else
         ${DIR}/os/${ARCH}/graphviz-plugins-gd-${GV_VERSION}*.rpm \
         ${DIR}/os/${ARCH}/graphviz-nox-${GV_VERSION}*.rpm
 fi
-python3 -m pytest --junitxml=report.xml tests rtest
