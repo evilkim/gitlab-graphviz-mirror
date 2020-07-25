@@ -124,10 +124,8 @@ portable-source:
         - >-
             if($env:build_system -eq "cmake" -and $env:configuration -eq "Release") {
               cd build;
-              dir;
               $FILENAME = & invoke-Expression "Get-ChildItem Graphviz*.exe";
               mv $FILENAME graphviz-install.exe;
-              dir;
               # Install using installer and add bin directory to path.
               # Piping the output of the installer to Out-Null, makes the script wait
               # for the .exe to exit, instead continuing to the next command (which
