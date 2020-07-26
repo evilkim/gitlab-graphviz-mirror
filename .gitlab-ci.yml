@@ -138,7 +138,7 @@ portable-source:
               cd ..;
               $Env:INCLUDE += ";C:\Graphviz\include";
               $Env:LIB += ";C:\Graphviz\lib";
-              python3 -m pytest --junitxml=report.xml rtest\test_examples.py tests\regression_tests\shapes;
+              python3 -m pytest --junitxml=report.xml rtest\test_examples.py tests
             }
             elseif($env:build_system -eq "msbuild") {
               # Append build destination to the PATH, configure dot and execute regression tests
