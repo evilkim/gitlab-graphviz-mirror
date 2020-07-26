@@ -265,7 +265,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gvc.def">
+    <None Include="gvc\gvc.def">
       <Filter>Source Files</Filter>
     </None>
     <None Include="common\entities.html" />

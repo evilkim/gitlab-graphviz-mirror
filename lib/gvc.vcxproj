@@ -68,7 +68,7 @@
       <SubSystem>Windows</SubSystem>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <ModuleDefinitionFile>gvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -103,7 +103,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <ModuleDefinitionFile>gvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -209,7 +209,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="common\entities.html" />
-    <None Include="gvc.def" />
+    <None Include="gvc\gvc.def" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="cdt\cdt.vcxproj">

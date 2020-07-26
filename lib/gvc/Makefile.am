@@ -74,6 +74,6 @@ gvc.3.pdf: gvc.3.ps
 gvc.3.ps: $(srcdir)/gvc.3
 	@GROFF@ -Tps -man $< >$@
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA)
+EXTRA_DIST = $(man_MANS) $(pdf_DATA) gvc.def
 
 DISTCLEANFILES = $(pdf_DATA) gvc.3.ps
