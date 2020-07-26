@@ -285,9 +285,6 @@ rb_red_blk_node * RBTreeInsert(rb_red_blk_tree* tree, void* key, void* info) {
   }
   tree->root->left->red=0;
   return(newNode);
-
-  assert(!tree->nil->red && "nil not red in RBTreeInsert");
-  assert(!tree->root->red && "root not red in RBTreeInsert");
 }
 
 /***********************************************************************/
