@@ -12,7 +12,6 @@
 extern "C" {
 #endif
 
-#include "misc.h"
 #include "stack.h"
 
 /*  CONVENTIONS:  All data structures for red-black trees have the prefix */

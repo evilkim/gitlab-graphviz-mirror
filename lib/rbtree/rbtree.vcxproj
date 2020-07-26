@@ -76,7 +76,6 @@
     <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="misc.h" />
     <ClInclude Include="red_black_tree.h" />
     <ClInclude Include="stack.h" />
   </ItemGroup>

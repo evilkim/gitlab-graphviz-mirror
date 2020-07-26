@@ -8,6 +8,7 @@
 #include "config.h"
 
 #include "stack.h"
+#include <stdlib.h>
 
 intptr_t StackNotEmpty(stk_stack * theStack) {
   return( theStack ? (intptr_t) theStack->top : 0);
@@ -28,28 +29,38 @@ stk_stack * StackJoin(stk_stack * stack1, stk_stack * stack2) {
 stk_stack * StackCreate() {
   stk_stack * newStack;
   
-  newStack=(stk_stack *) SafeMalloc(sizeof(stk_stack));
+  newStack= malloc(sizeof(stk_stack));
+  if (newStack == NULL) {
+    return NULL;
+  }
   newStack->top=newStack->tail=NULL;
   return(newStack);
 }
 
 
-void StackPush(stk_stack * theStack, DATA_TYPE newInfoPointer) {
+int StackPush(stk_stack * theStack, DATA_TYPE newInfoPointer) {
   stk_stack_node * newNode;
 
   if(!theStack->top) {
-    newNode=(stk_stack_node *) SafeMalloc(sizeof(stk_stack_node));
+    newNode= malloc(sizeof(stk_stack_node));
+    if (newNode == NULL) {
+      return -1;
+    }
     newNode->info=newInfoPointer;
     newNode->next=theStack->top;
     theStack->top=newNode;
     theStack->tail=newNode;
   } else {
-    newNode=(stk_stack_node *) SafeMalloc(sizeof(stk_stack_node));
+    newNode= malloc(sizeof(stk_stack_node));
+    if (newNode == NULL) {
+      return -1;
+    }
     newNode->info=newInfoPointer;
     newNode->next=theStack->top;
     theStack->top=newNode;
   }
-  
+
+  return 0;
 }
 
 DATA_TYPE StackPop(stk_stack * theStack) {

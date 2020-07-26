@@ -10,6 +10,7 @@
 #include <assert.h>
 #include "red_black_tree.h"
 #include "stdio.h"
+#include <stdlib.h>
 
 /***********************************************************************/
 /*  FUNCTION:  RBTreeCreate */
@@ -39,14 +40,10 @@ rb_red_blk_tree* RBTreeCreate( int (*CompFunc) (const void*,const void*),
   rb_red_blk_tree* newTree = NULL;
   rb_red_blk_node* temp;
 
-  if (setjmp(rb_jbuf)) {
-    if (newTree) {
-      if (newTree->nil) free (newTree->nil);
-      free (newTree);
-    }
+  newTree= malloc(sizeof(rb_red_blk_tree));
+  if (newTree == NULL) {
     return NULL;
   }
-  newTree=(rb_red_blk_tree*) SafeMalloc(sizeof(rb_red_blk_tree));
   newTree->nil = newTree->root = NULL;
   newTree->Compare=  CompFunc;
   newTree->DestroyKey= DestFunc;
@@ -56,11 +53,20 @@ rb_red_blk_tree* RBTreeCreate( int (*CompFunc) (const void*,const void*),
 
   /*  see the comment in the rb_red_blk_tree structure in red_black_tree.h */
   /*  for information on nil and root */
-  temp=newTree->nil= (rb_red_blk_node*) SafeMalloc(sizeof(rb_red_blk_node));
+  temp=newTree->nil= malloc(sizeof(rb_red_blk_node));
+  if (temp == NULL) {
+    free(newTree);
+    return NULL;
+  }
   temp->parent=temp->left=temp->right=temp;
   temp->red=0;
   temp->key=0;
-  temp=newTree->root= (rb_red_blk_node*) SafeMalloc(sizeof(rb_red_blk_node));
+  temp=newTree->root= malloc(sizeof(rb_red_blk_node));
+  if (temp == NULL) {
+    free(newTree->nil);
+    free(newTree);
+    return NULL;
+  }
   temp->parent=temp->left=temp->right=newTree->nil;
   temp->key=0;
   temp->red=0;
@@ -239,9 +245,10 @@ rb_red_blk_node * RBTreeInsert(rb_red_blk_tree* tree, void* key, void* info) {
   rb_red_blk_node * x;
   rb_red_blk_node * newNode;
 
-  if (setjmp(rb_jbuf))
+  x= malloc(sizeof(rb_red_blk_node));
+  if (x == NULL) {
     return NULL;
-  x=(rb_red_blk_node*) SafeMalloc(sizeof(rb_red_blk_node));
+  }
   x->key=key;
   x->info=info;
 
@@ -651,10 +658,10 @@ stk_stack* RBEnumerate(rb_red_blk_tree* tree, void* low, void* high) {
   rb_red_blk_node* x=tree->root->left;
   rb_red_blk_node* lastBest=nil;
 
-  if (setjmp(rb_jbuf)) {
+  enumResultStack=StackCreate();
+  if (enumResultStack == NULL) {
     return NULL;
   }
-  enumResultStack=StackCreate();
   while(nil != x) {
     if ( 1 == (tree->Compare(x->key,high)) ) { /* x->key > high */
       x=x->left;
@@ -664,7 +671,10 @@ stk_stack* RBEnumerate(rb_red_blk_tree* tree, void* low, void* high) {
     }
   }
   while ( (lastBest != nil) && (1 != tree->Compare(low,lastBest->key))) {
-    StackPush(enumResultStack,lastBest);
+    if (StackPush(enumResultStack,lastBest) != 0) {
+      StackDestroy(enumResultStack, NullFunction);
+      return NULL;
+    }
     lastBest=TreePredecessor(tree,lastBest);
   }
   return(enumResultStack);
