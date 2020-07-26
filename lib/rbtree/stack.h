@@ -59,6 +59,13 @@ void StackPush(stk_stack * theStack, DATA_TYPE newInfoPointer);
 void * StackPop(stk_stack * theStack);
 intptr_t StackNotEmpty(stk_stack *);
 
+/** deallocate a previously created stack
+ *
+ * @param theStack Stack to operate on
+ * @param DestFunc Destructor to run on each item remaining on the stack
+ */
+void StackDestroy(stk_stack * theStack,void DestFunc(void * a));
+
 #ifdef __cplusplus
 }
 #endif
