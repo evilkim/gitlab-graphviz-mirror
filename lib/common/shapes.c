@@ -3546,9 +3546,10 @@ static void record_init(node_t * n)
     reclblp = ND_label(n)->text;
     len = strlen(reclblp);
     /* For some forgotten reason, an empty label is parsed into a space, so
-     * we need at least two bytes in textbuf.
+     * we need at least two bytes in textbuf, as well as accounting for the
+     * error path involving "\\N" below.
      */
-    len = MAX(len, 1);
+    len = MAX(MAX(len, 1), (int)strlen("\\N"));
     textbuf = N_NEW(len + 1, char);
     if (!(info = parse_reclbl(n, flip, TRUE, textbuf))) {
 	agerr(AGERR, "bad label format %s\n", ND_label(n)->text);
