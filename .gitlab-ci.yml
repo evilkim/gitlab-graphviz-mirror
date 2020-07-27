@@ -173,6 +173,7 @@ portable-source:
     script:
         - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
+        - export build_system="autotools"
         - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:

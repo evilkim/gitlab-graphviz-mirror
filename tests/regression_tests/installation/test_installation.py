@@ -2,6 +2,12 @@ import pytest
 import subprocess
 import os
 
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1745 is fixed
+@pytest.mark.skipif(
+    os.getenv('build_system') == 'msbuild',
+    reason='Windows msbuild executables have the wrong version (#1745)'
+)
 def test_installation():
     expected_version = os.environ['GV_VERSION']
     actual_version_string = subprocess.check_output(
