@@ -92,7 +92,7 @@ portable-source:
               msbuild /p:Configuration=$env:configuration
             }
         # Package
-        - $GV_VERSION=$( cat VERSION )
+        - $Env:GV_VERSION=$( cat VERSION )
         - >-
             if($env:platform -eq "x64") {
                 $API = "win64";
@@ -172,6 +172,7 @@ portable-source:
     stage: test
     script:
         - ci/install-packages.sh
+        - export GV_VERSION=$( cat VERSION )
         - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:
