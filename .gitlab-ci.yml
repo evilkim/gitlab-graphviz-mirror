@@ -100,13 +100,13 @@ portable-source:
                 $API = "win32";
             }
         - >-
-            if($env:configuration -eq "Release") {
-              if($env:build_system -eq "cmake") {
-                cd build;
-                C:\"Program Files"\CMake\bin\cpack
-                cd ..;
-              }
-              elseif($env:build_system -eq "msbuild") {
+            if($env:build_system -eq "cmake") {
+              cd build;
+              C:\"Program Files"\CMake\bin\cpack -C $env:configuration
+              cd ..;
+            }
+            elseif($env:build_system -eq "msbuild") {
+              if($env:configuration -eq "Release") {
                 rm Release\Graphviz\bin\*.lastcodeanalysissucceeded;
                 rm Release\Graphviz\bin\*.iobj;
                 rm Release\Graphviz\bin\*.ipdb;
@@ -123,7 +123,7 @@ portable-source:
               }
             }
         - >-
-            if($env:build_system -eq "cmake" -and $env:configuration -eq "Release") {
+            if($env:build_system -eq "cmake") {
               cd build;
               $FILENAME = & invoke-Expression "Get-ChildItem Graphviz*.exe";
               mv $FILENAME graphviz-install.exe;
