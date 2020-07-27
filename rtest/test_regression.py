@@ -143,6 +143,12 @@ def test_1449():
 
     assert stderr.strip() == '', 'SVG color scheme use caused warnings'
 
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
+@pytest.mark.skipif(
+    os.environ.get('build_system') == 'cmake',
+    reason='The Windows "CMake" installer does not install gvpr (#1753)'
+)
 def test_1594():
     '''
     GVPR should give accurate line numbers in error messages
