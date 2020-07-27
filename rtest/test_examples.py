@@ -15,6 +15,12 @@ def c_compiler():
 
 @pytest.mark.parametrize('src', ['demo.c', 'dot.c', 'example.c', 'neatopack.c',
   'simple.c'])
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+@pytest.mark.skipif(
+    os.getenv('build_system') == 'msbuild',
+    reason='Windows MSBuild release does not contain any header files (#1777)'
+)
 def test_compile_example(src):
     '''try to compile the example'''
 
