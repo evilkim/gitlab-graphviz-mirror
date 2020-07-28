@@ -22,7 +22,7 @@ def test_vmalloc():
     # compile the unit tests
     dst = os.path.join(tmp, 'vmalloc-tests.exe')
     if platform.system() == 'Windows':
-      subprocess.check_call(['cl', '-nologo', src, '-Fe', dst])
+      subprocess.check_call(['cl', '-nologo', src, '-Fe:', dst])
     else:
       subprocess.check_call([os.environ.get('CC', 'cc'), '-Wall', '-Wextra',
         '-Werror', '-o', dst, src])
