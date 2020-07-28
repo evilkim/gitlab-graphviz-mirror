@@ -113,6 +113,14 @@ portable-source:
               }
             }
         # Test
+        # Set up VCTools variables and import into PowerShell environment
+        - cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`" $TARGET_ARCH && set > %temp%\vcvars.txt";
+        - >-
+            Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
+              if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2];
+              }
+            }
         - >-
             if($env:build_system -eq "cmake" -and $env:configuration -eq "Release") {
               cd build;
@@ -130,12 +138,6 @@ portable-source:
               dot -c;
               ctest -C $env:configuration;
               cd ..;
-              cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`" $TARGET_ARCH && set > %temp%\vcvars.txt";
-              Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
-                if ($_ -match "^(.*?)=(.*)$") {
-                  Set-Content "env:\$($matches[1])" $matches[2];
-                }
-              }
               $Env:INCLUDE += ";C:\Graphviz\include";
               $Env:LIB += ";C:\Graphviz\lib";
               pytest -s rtest\test_examples.py;
