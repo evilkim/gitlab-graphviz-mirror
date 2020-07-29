@@ -61,6 +61,7 @@ exnewnode(Expr_t* p, int op, int binary, int type, Exnode_t* left, Exnode_t* rig
 	register Exnode_t*	x;
 
 	x = ALLOCATE(p, Exnode_t);
+	memzero(x, sizeof(*x));
 	x->op = op;
 	x->type = type;
 	x->binary = binary;
