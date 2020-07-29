@@ -384,17 +384,27 @@ CGRAPH_API void aginternalmapclearlocalnames(Agraph_t * g);
 #define agnew(g,t)		((t*)agalloc(g,sizeof(t)))
 #define agnnew(g,n,t)	((t*)agalloc(g,(n)*sizeof(t)))
 
+/* support for extra API misuse warnings if available */
+#ifdef __GNUC__
+  #define PRINTF_LIKE(index, first) __attribute__((format(printf, index, first)))
+#else
+  #define PRINTF_LIKE(index, first) /* nothing */
+#endif
+
 /* error handling */
 typedef enum { AGWARN, AGERR, AGMAX, AGPREV } agerrlevel_t;
 typedef int (*agusererrf) (char*);
 CGRAPH_API agerrlevel_t agseterr(agerrlevel_t);
 CGRAPH_API char *aglasterr(void);
-CGRAPH_API int agerr(agerrlevel_t level, const char *fmt, ...);
-CGRAPH_API void agerrorf(const char *fmt, ...);
-CGRAPH_API void agwarningf(const char *fmt, ...);
+CGRAPH_API int agerr(agerrlevel_t level, const char *fmt, ...)
+  PRINTF_LIKE(2, 3);
+CGRAPH_API void agerrorf(const char *fmt, ...) PRINTF_LIKE(1, 2);
+CGRAPH_API void agwarningf(const char *fmt, ...) PRINTF_LIKE(1, 2);
 CGRAPH_API int agerrors(void);
 CGRAPH_API int agreseterrors(void);
 CGRAPH_API agusererrf agseterrf(agusererrf);
+
+#undef PRINTF_LIKE
 
 /* data access macros */
 /* this assumes that e[0] is out and e[1] is inedge, see edgepair in edge.c  */
