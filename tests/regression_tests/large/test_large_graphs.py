@@ -3,10 +3,11 @@ import pytest
 import subprocess
 import os
 import sys
+import platform
 
 
 class TestLargeGraphs():
-	@pytest.mark.skipif(sys.platform == 'win32', reason='https://gitlab.com/graphviz/graphviz/-/issues/1710')
+	@pytest.mark.skipif(platform.system() == 'Windows' and platform.architecture()[0] == '32bit', reason='https://gitlab.com/graphviz/graphviz/-/issues/1710')
 	def test_long_chain(self):
 		"""
 		This test will fail on 32bit Windows machine if compiled with stack size < 16MB.
