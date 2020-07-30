@@ -566,9 +566,7 @@ static void endgraph()
 static void opensubg(char *name)
 {
   if (++SubgraphDepth >= YYMAXDEPTH/2) {
-    char buf[128];
-    sprintf(buf,"subgraphs nested more than %d deep",YYMAXDEPTH);
-    agerr(AGERR,buf);
+    agerr(AGERR,"subgraphs nested more than %d deep",YYMAXDEPTH);
   }
 	S = push(S,agsubg(S->g,name,TRUE));
 	agstrfree(G,name);
