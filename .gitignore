@@ -19,9 +19,9 @@ CMakeFiles
 CMakeCache.txt
 
 # product of: make dist
-graphviz-*.tar.gz
-VERSION
-COLLECTION
+/graphviz-*.tar.gz
+/VERSION
+/COLLECTION
 
 lib/rxspencer/re
 lib/rxspencer/*.oo

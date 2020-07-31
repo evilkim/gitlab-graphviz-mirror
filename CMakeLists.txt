@@ -100,103 +100,42 @@ endif()
 configure_file(graphviz_version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h DESTINATION ${HEADER_INSTALL_DIR})
 
-execute_process(
-    COMMAND           grep "^m4_define.*graphviz_version_major" autogen.sh
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    RESULT_VARIABLE   major_version_result
-    OUTPUT_VARIABLE   AUTOGEN_MAJOR_VERSION_LINE
-    ERROR_VARIABLE    major_version_error
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_STRIP_TRAILING_WHITESPACE
-)
-if (major_version_result EQUAL 0)
-    string(REGEX REPLACE ".*\\[([0-9]*)\\].*"
-       "\\1" GRAPHVIZ_VERSION_MAJOR
-       ${AUTOGEN_MAJOR_VERSION_LINE})
-else()
-    message(FATAL_ERROR "Failed to set major version: ${major_version_error}")
-    set(GRAPHVIZ_VERSION_MAJOR {$major_version_result})
-endif()
-
-execute_process(
-    COMMAND           grep "^m4_define.*graphviz_version_minor" autogen.sh
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    RESULT_VARIABLE   minor_version_result
-    OUTPUT_VARIABLE   AUTOGEN_MINOR_VERSION_LINE
-    ERROR_VARIABLE    minor_version_error
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_STRIP_TRAILING_WHITESPACE
-)
-if (minor_version_result EQUAL 0)
-    string(REGEX REPLACE ".*\\[([0-9]*)\\].*"
-       "\\1" GRAPHVIZ_VERSION_MINOR
-       ${AUTOGEN_MINOR_VERSION_LINE})
-else()
-    message(FATAL_ERROR "Failed to set minor version: ${minor_version_error}")
-    set(GRAPHVIZ_VERSION_MINOR {$minor_version_result})
-endif()
-
-execute_process(
-    COMMAND           grep "^m4_define.*graphviz_version_micro" autogen.sh
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    RESULT_VARIABLE   patch_version_result
-    OUTPUT_VARIABLE   AUTOGEN_PATCH_VERSION_LINE
-    ERROR_VARIABLE    patch_version_error
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_STRIP_TRAILING_WHITESPACE
-)
-if (patch_version_result EQUAL 0)
-    string(REGEX REPLACE ".*,\\[(.*)\\].*"
-       "\\1" GRAPHVIZ_VERSION_PATCH
-       ${AUTOGEN_PATCH_VERSION_LINE})
-else()
-    message(FATAL_ERROR "Failed to set patch version: ${patch_version_error}")
-    set(GRAPHVIZ_VERSION_PATCH {$patch_version_result})
-endif()
-
-# Set GRAPHVIZ_VERSION_BUILD to time of last commit, or to 0 if that fails.
-if (DEFINED ENV{TZ})
-  set(TZ_ORIG $ENV{TZ})
-endif()
-set(ENV{TZ} UTC)
-execute_process(
-    COMMAND           "${GIT_EXECUTABLE}" log -n 1 --format=%cd --date=format-local:%Y%m%d.%H%M
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    RESULT_VARIABLE   git_result
-    OUTPUT_VARIABLE   GRAPHVIZ_VERSION_BUILD
-    ERROR_VARIABLE    git_error
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_STRIP_TRAILING_WHITESPACE
-)
-set(ENV{TZ} ${TZ_ORIG})
-if(NOT git_result EQUAL 0)
-    message(WARNING "Failed to set build version: ${git_error}")
-    set(GRAPHVIZ_VERSION_BUILD 0)
-endif()
-
-if (GRAPHVIZ_VERSION_PATCH STREQUAL "\$GRAPHVIZ_VERSION_DATE")
-    set(GRAPHVIZ_VERSION_PATCH ${GRAPHVIZ_VERSION_BUILD})
-endif()
-
 if (DEFINED VERSION)
-    string(REGEX REPLACE "\\..*"
-       "" GRAPHVIZ_VERSION_MAJOR
-       ${VERSION})
-    string(REGEX REPLACE "[^.]*\\.([^.]*)\\..*"
-       "\\1" GRAPHVIZ_VERSION_MINOR
-       ${VERSION})
-    string(REGEX REPLACE "[^.]*\\.[^.]*\\."
-       "" GRAPHVIZ_VERSION_PATCH
-       ${VERSION})
-    set(GRAPHVIZ_VERSION_BUILD "${GRAPHVIZ_VERSION_PATCH}")
+    set(GRAPHVIZ_VERSION_STRING "${VERSION}")
+else()
+    execute_process(
+        COMMAND           python3 gen_version.py
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        RESULT_VARIABLE   gen_version_result
+        OUTPUT_VARIABLE   GRAPHVIZ_VERSION_STRING
+        ERROR_VARIABLE    gen_version_error
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_STRIP_TRAILING_WHITESPACE
+        )
+    if (NOT gen_version_result EQUAL 0)
+        message(FATAL_ERROR "Failed to set version: ${gen_version_error}")
+    endif()
 endif()
 
 if (DEFINED DATE)
     set(GRAPHVIZ_VERSION_BUILD "${DATE}")
+else()
+    # Set GRAPHVIZ_VERSION_BUILD to time of last commit, or to 0 if that fails.
+    execute_process(
+        COMMAND           python3 gen_version.py --committer-date-graphviz
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        RESULT_VARIABLE   gen_date_result
+        OUTPUT_VARIABLE   GRAPHVIZ_VERSION_BUILD
+        ERROR_VARIABLE    gen_date_error
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_STRIP_TRAILING_WHITESPACE
+        )
+    if (NOT gen_date_result EQUAL 0)
+        message(FATAL_ERROR "Failed to set date: ${gen_date_error}")
+    endif()
 endif()
 
-set(GRAPHVIZ_VERSION_STRING "${GRAPHVIZ_VERSION_MAJOR}.${GRAPHVIZ_VERSION_MINOR}.${GRAPHVIZ_VERSION_PATCH}")
-set(GRAPHVIZ_VERSION_FULL "${GRAPHVIZ_VERSION_MAJOR}.${GRAPHVIZ_VERSION_MINOR}.${GRAPHVIZ_VERSION_PATCH}")
+set(GRAPHVIZ_VERSION_FULL "${GRAPHVIZ_VERSION_STRING}")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.h "#define BUILDDATE \"${GRAPHVIZ_VERSION_BUILD}\"")
 
 message(STATUS "Graphviz version: ${GRAPHVIZ_VERSION_FULL}")
