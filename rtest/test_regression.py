@@ -1,3 +1,5 @@
+import pytest
+import platform
 import subprocess
 import os
 import re
@@ -13,6 +15,11 @@ import re
 # First run a subset of all the tests that produces equal output files
 # for all platforms and fail the test if there are differences.
 
+# FIXME: Remove skip when rtest.sh has been ported to python
+@pytest.mark.skipif(
+    platform.system() == 'Windows',
+    reason='ksh script rtest.sh does not run on Windows (#1779)'
+)
 def test_regression_subset_differences():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     result = subprocess.Popen(['./rtest.sh', 'tests_subset.txt'], stderr=subprocess.PIPE)
@@ -24,6 +31,11 @@ def test_regression_subset_differences():
 # only if there is a crash. This will leave the differences for png
 # output in rtest/nhtml/index.html for review.
 
+# FIXME: Remove skip when rtest.sh has been ported to python
+@pytest.mark.skipif(
+    platform.system() == 'Windows',
+    reason='ksh script rtest.sh does not run on Windows'
+)
 def test_regression_failure():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     result = subprocess.Popen(['./rtest.sh'], stderr=subprocess.PIPE)
@@ -131,6 +143,12 @@ def test_1449():
 
     assert stderr.strip() == '', 'SVG color scheme use caused warnings'
 
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
+@pytest.mark.skipif(
+    os.environ.get('build_system') == 'cmake',
+    reason='The Windows "CMake" installer does not install gvpr (#1753)'
+)
 def test_1594():
     '''
     GVPR should give accurate line numbers in error messages
@@ -138,10 +156,14 @@ def test_1594():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1594.gvpr')
+# FIXME: remove cwd workaround when
+# https://gitlab.com/graphviz/graphviz/-/issues/1780 is fixed
+#    input = os.path.join(os.path.dirname(__file__), '1594.gvpr')
+    input = '1594.gvpr'
 
     # run GVPR with our (malformed) input program
     p = subprocess.Popen(['gvpr', '-f', input], stdin=subprocess.PIPE,
+      cwd=os.path.join(os.path.dirname(__file__)),
       stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     _, stderr = p.communicate()
 

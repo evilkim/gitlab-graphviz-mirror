@@ -1,6 +1,5 @@
 check test rtest:
-	./check_installation.sh
+	python3 -m pytest
 
 EXTRA_DIST = \
-	check_installation.sh \
 	test_installation.py

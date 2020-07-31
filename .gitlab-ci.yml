@@ -92,7 +92,7 @@ portable-source:
               msbuild /p:Configuration=$env:configuration
             }
         # Package
-        - $GV_VERSION=$( cat VERSION )
+        - $Env:GV_VERSION=$( cat VERSION )
         - >-
             if($env:platform -eq "x64") {
                 $API = "win64";
@@ -100,13 +100,13 @@ portable-source:
                 $API = "win32";
             }
         - >-
-            if($env:configuration -eq "Release") {
-              if($env:build_system -eq "cmake") {
-                cd build;
-                C:\"Program Files"\CMake\bin\cpack
-                cd ..;
-              }
-              elseif($env:build_system -eq "msbuild") {
+            if($env:build_system -eq "cmake") {
+              cd build;
+              C:\"Program Files"\CMake\bin\cpack -C $env:configuration
+              cd ..;
+            }
+            elseif($env:build_system -eq "msbuild") {
+              if($env:configuration -eq "Release") {
                 rm Release\Graphviz\bin\*.lastcodeanalysissucceeded;
                 rm Release\Graphviz\bin\*.iobj;
                 rm Release\Graphviz\bin\*.ipdb;
@@ -114,13 +114,19 @@ portable-source:
               }
             }
         # Test
+        # Set up VCTools variables and import into PowerShell environment
+        - cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`" $TARGET_ARCH && set > %temp%\vcvars.txt";
         - >-
-            if($env:build_system -eq "cmake" -and $env:configuration -eq "Release") {
+            Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
+              if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2];
+              }
+            }
+        - >-
+            if($env:build_system -eq "cmake") {
               cd build;
-              dir;
               $FILENAME = & invoke-Expression "Get-ChildItem Graphviz*.exe";
               mv $FILENAME graphviz-install.exe;
-              dir;
               # Install using installer and add bin directory to path.
               # Piping the output of the installer to Out-Null, makes the script wait
               # for the .exe to exit, instead continuing to the next command (which
@@ -129,26 +135,17 @@ portable-source:
               mv graphviz-install.exe graphviz-install-$GV_VERSION-$API.exe;
               $env:Path += ";" + $env:graphviz_install_dir + "\bin"
               dot -c;
-              ctest -C $env:configuration;
               cd ..;
-              cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`" $TARGET_ARCH && set > %temp%\vcvars.txt";
-              Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
-                if ($_ -match "^(.*?)=(.*)$") {
-                  Set-Content "env:\$($matches[1])" $matches[2];
-                }
-              }
               $Env:INCLUDE += ";C:\Graphviz\include";
               $Env:LIB += ";C:\Graphviz\lib";
-              pytest -s rtest\test_examples.py;
+              python3 -m pytest --junitxml=report.xml tests rtest
             }
             elseif($env:build_system -eq "msbuild") {
               # Append build destination to the PATH, configure dot and execute regression tests
               # The following is per https://gitlab.com/graphviz/graphviz/-/merge_requests/1345
               $env:Path = $env:CI_PROJECT_DIR + "\" + $env:configuration + "\Graphviz\bin" + ";" + $env:Path;
               dot -c;
-              cd tests\regression_tests;
-              ./regression_tests.ps1;
-              cd ..\..;
+              python3 -m pytest --junitxml=report.xml tests rtest
             }
         # Create artifacts to archive
         - $ID = "windows"
@@ -174,7 +171,10 @@ portable-source:
 .test_template: &test_definition
     stage: test
     script:
-        - ci/test.sh
+        - ci/install-packages.sh
+        - export GV_VERSION=$( cat VERSION )
+        - export build_system="autotools"
+        - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:
             junit: ./report.xml

@@ -15,6 +15,12 @@ def c_compiler():
 
 @pytest.mark.parametrize('src', ['demo.c', 'dot.c', 'example.c', 'neatopack.c',
   'simple.c'])
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+@pytest.mark.skipif(
+    os.getenv('build_system') == 'msbuild',
+    reason='Windows MSBuild release does not contain any header files (#1777)'
+)
 def test_compile_example(src):
     '''try to compile the example'''
 
@@ -46,6 +52,13 @@ def test_gvpr_example(src):
     # skip this test if GVPR is unavailable
     if shutil.which('gvpr') is None:
       pytest.skip('GVPR not available')
+
+# FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1784 is fixed
+    if os.environ.get('build_system') == 'msbuild' and \
+      os.environ.get('configuration') == 'Debug' and \
+      src in ['bbox', 'col']:
+      pytest.skip('GVPR tests "bbox" and "col" hangs on Windows MSBuild Debug '
+                  'builds (#1784)')
 
     # construct an absolute path to the example
     path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
