@@ -58,6 +58,16 @@ static char* pango_psfontResolve (PostscriptAlias* pa)
 #define FULL_MARKUP "<span weight=\"bold\" style=\"italic\" underline=\"single\"><sup><sub></sub></sup></span>"
 #endif
 
+/* strdup, exiting on failure */
+static char *xstrdup(const char *str) {
+  char *s = strdup(str);
+  if (s == NULL) {
+    fprintf(stderr, "out of memory\n");
+    abort();
+  }
+  return s;
+}
+
 static boolean pango_textlayout(textspan_t * span, char **fontpath)
 {
     static char buf[1024];  /* returned in fontpath, only good until next call */
@@ -103,7 +113,8 @@ static boolean pango_textlayout(textspan_t * span, char **fontpath)
 	    return FALSE;
 	}
 
-	fontname = span->font->name;
+	free(fontname);
+	fontname = xstrdup(span->font->name);
 	fontsize = span->font->size;
 	pango_font_description_free (desc);
 
