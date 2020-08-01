@@ -31,7 +31,7 @@ extern "C" {
 #include	"sfio_t.h"
 #include	"config.h"
 
-#include	<vthread.h>
+#include	"vthread.h"
 
 #if defined(__mips) && __mips == 2 && !defined(_NO_LARGEFILE64_SOURCE)
 #define _NO_LARGEFILE64_SOURCE  1
