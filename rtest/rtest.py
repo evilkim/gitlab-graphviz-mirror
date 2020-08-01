@@ -242,6 +242,17 @@ def doTest(TEST):
             .format(TESTNAME, i, SUBTEST['FMT']),
             file=sys.stderr)
       continue
+    # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1269 is
+    # fixed
+    if platform.system() == 'Windows' and \
+       os.environ.get('build_system') == 'msbuild' and \
+       '-Goverlap=false' in SUBTEST['FLAGS']:
+      print('Skipping test {0}:{1} : with flag -Goverlap=false because it fails '
+            'with Windows MSBuild builds which are not built with '
+            'triangulation library (#1269)'
+            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            file=sys.stderr)
+      continue
 
     result = subprocess.Popen(
        testcmd,
