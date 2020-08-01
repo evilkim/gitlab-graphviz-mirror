@@ -97,6 +97,12 @@ static boolean pango_textlayout(textspan_t * span, char **fontpath)
     }
 
     if (!fontname || strcmp(fontname, span->font->name) != 0 || fontsize != span->font->size) {
+
+	/* check if the conversion to Pango units below will overflow */
+	if ((double)(G_MAXINT / PANGO_SCALE) < span->font->size) {
+	    return FALSE;
+	}
+
 	fontname = span->font->name;
 	fontsize = span->font->size;
 	pango_font_description_free (desc);

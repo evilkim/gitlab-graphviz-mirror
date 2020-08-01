@@ -111,6 +111,25 @@ def test_165_3():
     assert any(r'hello \\\" world' in l for l in ldraw), \
       'unexpected ldraw contents'
 
+def test_1314():
+    '''
+    test that a large font size that produces an overflow in Pango is rejected
+    https://gitlab.com/graphviz/graphviz/-/issues/1314
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1314.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # ask Graphviz to process it, which should fail
+    try:
+      subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
+    except subprocess.CalledProcessError:
+      return
+
+    # the execution did not fail as expected
+    pytest.fail('dot incorrectly exited with success')
+
 def test_1436():
     '''
     test a segfault from https://gitlab.com/graphviz/graphviz/-/issues/1436 has
