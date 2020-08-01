@@ -109,8 +109,10 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
     if (str && (str[0] != LOCALNAMEPREFIX)) {
 	rv = AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
 				createflag);
-	if (rv)
+	if (rv) {
+	    aginternalmapinsert(g, objtype, str, *result);
 	    return rv;
+	}
     }
 
     if (createflag) {
