@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 
 /*	Convert a Sfdouble_t value represented in an ASCII format into
 **	the internal Sfdouble_t representation.

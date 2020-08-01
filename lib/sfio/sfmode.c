@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 static char *Version = "\n@(#)sfio (AT&T Labs - kpv) 2001-02-01\0\n";
 
 /*	Functions to set a given stream to some desired mode

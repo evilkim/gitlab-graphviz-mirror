@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 
 /*	Set some control flags or file descript for the stream
 **

@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 
 /*	Internal function to do a hard read.
 **	This knows about discipline and memory mapping, peek read.

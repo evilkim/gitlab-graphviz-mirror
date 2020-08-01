@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 
 /*	Push back one byte to a given SF_READ stream
 **

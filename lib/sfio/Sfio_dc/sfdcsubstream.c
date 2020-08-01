@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfdchdr.h"
+#include	<sfio/sfdchdr.h>
 
 
 /*	Discipline to treat a contiguous segment of a stream as a stream

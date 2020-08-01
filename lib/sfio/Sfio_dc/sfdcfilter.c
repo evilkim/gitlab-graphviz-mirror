@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfdchdr.h"
+#include	<sfio/sfdchdr.h>
 
 /*	Discipline to invoke UNIX processes as data filters.
 **	These processes must be able to fit in pipelines.

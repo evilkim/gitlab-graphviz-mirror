@@ -11,9 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 #ifdef _WIN32
-#include	"io.h"
+#include	<io.h>
 #endif
 
 /*	Open a file/string for IO.

@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 #ifndef FIONREAD
 #ifdef HAVE_SYS_IOCTL_H
 #include	<sys/ioctl.h>

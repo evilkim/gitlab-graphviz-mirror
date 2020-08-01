@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfhdr.h"
+#include	<sfio/sfhdr.h>
 
 /*	Fill the buffer of a stream with data.
 **	If n < 0, sffilbuf() attempts to fill the buffer if it's empty.

@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfdchdr.h"
+#include	<sfio/sfdchdr.h>
 
 /*	A discipline to tee the output to a stream to another stream.
 **	This is similar to what the "tee" program does. As implemented

@@ -3,6 +3,8 @@
 
 SUBDIRS = Sfio_f
 
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+
 noinst_HEADERS = sfhdr.h sfio.h sfio_t.h vthread.h
 noinst_LTLIBRARIES = libsfio_C.la
 

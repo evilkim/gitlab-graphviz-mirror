@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfdchdr.h"
+#include	<sfio/sfdchdr.h>
 
 /*	Discipline to turn \r\n into \n.
 **	This is useful to deal with DOS text files.

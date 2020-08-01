@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	"sfdchdr.h"
+#include	<sfio/sfdchdr.h>
 
 
 /*	Make a sequence of streams act like a single stream.
