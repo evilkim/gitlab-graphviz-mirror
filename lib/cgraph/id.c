@@ -32,7 +32,7 @@ static long idmap(void *state, int objtype, char *str, IDTYPE *id,
     NOTUSED(createflag);
 
     *id = ctr;
-    ctr += 2;
+    ++ctr;
 
     return TRUE;
 }
