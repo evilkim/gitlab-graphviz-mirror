@@ -63,10 +63,8 @@ static char *idprint(void *state, int objtype, IDTYPE id)
 {
     NOTUSED(state);
     NOTUSED(objtype);
-    if (id % 2 == 0)
-	return (char *) id;
-    else
-	return NILstr;
+    NOTUSED(id);
+    return NILstr;
 }
 
 static void idclose(void *state)
