@@ -98,13 +98,6 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 {
     int rv;
 
-    if (str && (str[0] != LOCALNAMEPREFIX)) {
-	rv = AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
-				createflag);
-	if (rv)
-	    return rv;
-    }
-
     /* either an internal ID, or disc. can't map strings */
     if (str) {
 	rv = aginternalmaplookup(g, objtype, str, result);
@@ -112,6 +105,13 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 	    return rv;
     } else
 	rv = 0;
+
+    if (str && (str[0] != LOCALNAMEPREFIX)) {
+	rv = AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
+				createflag);
+	if (rv)
+	    return rv;
+    }
 
     if (createflag) {
 	/* get a new anonymous ID, and store in the internal map */
