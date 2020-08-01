@@ -1,8 +1,11 @@
+import atexit
 import pytest
 import platform
+import shutil
 import subprocess
 import os
 import re
+import tempfile
 
 # The terminology used in rtest.sh is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -190,3 +193,50 @@ def test_1594():
 
     assert 'line 3:' in stderr, \
       'GVPR did not identify correct line of syntax error'
+
+def test_1767():
+    '''
+    using the Pango plugin multiple times should produce consistent results
+    https://gitlab.com/graphviz/graphviz/-/issues/1767
+    '''
+
+    # FIXME: some of the Windows CI builds don't install libcgraph that this
+    # test depends on. Others fail the execution of the compiled binary for
+    # unknown reasons.
+    if platform.system() == 'Windows':
+      pytest.skip('test disabled on Windows')
+
+    # find co-located test source
+    c_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.c'))
+    assert os.path.exists(c_src), 'missing test case'
+
+    # create some scratch space to work in
+    tmp = tempfile.mkdtemp()
+    atexit.register(shutil.rmtree, tmp)
+
+    # compile our test code
+    exe = os.path.join(tmp, 'a.exe')
+    if platform.system() == 'Windows':
+        subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo', '-link',
+          'cgraph.lib', 'gvc.lib'])
+    else:
+        cc = os.environ.get('CC', 'cc')
+        subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
+
+    # find our co-located dot input
+    dot = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.dot'))
+    assert os.path.exists(dot), 'missing test case'
+
+    # run the test
+    stdout = subprocess.check_output([exe, dot], universal_newlines=True)
+
+    assert stdout == 'Loaded graph:clusters\n' \
+                     'cluster_0 contains 5 nodes\n' \
+                     'cluster_1 contains 1 nodes\n' \
+                     'cluster_2 contains 3 nodes\n' \
+                     'cluster_3 contains 3 nodes\n' \
+                     'Loaded graph:clusters\n' \
+                     'cluster_0 contains 5 nodes\n' \
+                     'cluster_1 contains 1 nodes\n' \
+                     'cluster_2 contains 3 nodes\n' \
+                     'cluster_3 contains 3 nodes\n'

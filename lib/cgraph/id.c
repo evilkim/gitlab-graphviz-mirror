@@ -24,22 +24,16 @@ static void *idopen(Agraph_t * g, Agdisc_t* disc)
 static long idmap(void *state, int objtype, char *str, IDTYPE *id,
 		  int createflag)
 {
-    char *s;
     static IDTYPE ctr = 1;
 
+    NOTUSED(state);
     NOTUSED(objtype);
-    if (str) {
-        Agraph_t *g;
-        g = state;
-        if (createflag)
-            s = agstrdup(g, str);
-        else
-            s = agstrbind(g, str);
-        *id = (IDTYPE) s;
-    } else {
-        *id = ctr;
-        ctr += 2;
-    }
+    NOTUSED(str);
+    NOTUSED(createflag);
+
+    *id = ctr;
+    ctr += 2;
+
     return TRUE;
 }
 
@@ -54,9 +48,9 @@ static long idalloc(void *state, int objtype, IDTYPE request)
 
 static void idfree(void *state, int objtype, IDTYPE id)
 {
+    NOTUSED(state);
     NOTUSED(objtype);
-    if (id % 2 == 0)
-	agstrfree((Agraph_t *) state, (char *) id);
+    NOTUSED(id);
 }
 
 static char *idprint(void *state, int objtype, IDTYPE id)
