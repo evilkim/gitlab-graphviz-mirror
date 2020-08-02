@@ -19,6 +19,7 @@
 
 #include "render.h"
 #include "gvio.h"
+#include "strcasecmp.h"
 
 static int N_EPSF_files;
 static Dict_t *EPSF_contents;

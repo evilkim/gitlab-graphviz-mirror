@@ -34,6 +34,7 @@
 #include "arcball.h"
 #include "hotkeymap.h"
 #include "topviewfuncs.h"
+#include "strcasecmp.h"
 
 
   /* Forward declarations */

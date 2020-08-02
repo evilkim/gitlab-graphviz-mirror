@@ -30,14 +30,11 @@
 #include "geom.h"
 #include "geomprocs.h"
 #include "gvcproc.h"
+#include "strcasecmp.h"
 
 extern int emit_once(char *str);
 extern shape_desc *find_user_shape(char *name);
 extern boolean mapbool(char *s);
-
-#ifndef HAVE_STRCASECMP
-extern int strcasecmp(const char *s1, const char *s2);
-#endif
 
 /* storage for temporary hacks until client API is FP */
 static pointf *AF;

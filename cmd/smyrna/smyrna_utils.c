@@ -12,6 +12,7 @@
  *************************************************************************/
 #include "smyrna_utils.h"
 #include "memory.h"
+#include "strcasecmp.h"
 /* many of these functions are available in libcommon.
  * We cannot use those because dependencies cause a great
  * deal of libcommon to be brought in, which complicates

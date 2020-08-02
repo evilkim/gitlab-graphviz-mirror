@@ -38,6 +38,7 @@
 #include "pointset.h"
 #include "intset.h"
 #include "cdt.h"
+#include "strcasecmp.h"
 
 #define DEFAULT_BORDER    1
 #define DEFAULT_CELLPADDING  2

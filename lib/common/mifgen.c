@@ -13,6 +13,7 @@
 
 
 #include "render.h"
+#include "strcasecmp.h"
 
 #define	NONE	0
 #define	NODE	1

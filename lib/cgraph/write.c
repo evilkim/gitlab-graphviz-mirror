@@ -14,6 +14,7 @@
 #include <stdio.h>		/* need sprintf() */
 #include <ctype.h>
 #include "cghdr.h"
+#include "strcasecmp.h"
 
 #define EMPTY(s)		((s == 0) || (s)[0] == '\0')
 #define MAX(a,b)     ((a)>(b)?(a):(b))
@@ -42,23 +43,6 @@ static int indent(Agraph_t * g, iochan_t * ofile)
 	CHKRV(ioput(g, ofile, "\t"));
     return 0;
 }
-
-#ifndef HAVE_STRCASECMP
-
-#include <string.h>
-
-static int strcasecmp(const char *s1, const char *s2)
-{
-    while ((*s1 != '\0')
-	   && (tolower(*(unsigned char *) s1) ==
-	       tolower(*(unsigned char *) s2))) {
-	s1++;
-	s2++;
-    }
-
-    return tolower(*(unsigned char *) s1) - tolower(*(unsigned char *) s2);
-}
-#endif
 
     /* alphanumeric, '.', '-', or non-ascii; basically, chars used in unquoted ids */
 #define is_id_char(c) (isalnum(c) || ((c) == '.') || ((c) == '-') || !isascii(c))

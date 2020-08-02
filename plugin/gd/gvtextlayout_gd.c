@@ -18,6 +18,7 @@
 #include <string.h>
 #include "gvplugin_textlayout.h"
 #include "gd.h"
+#include "strcasecmp.h"
 
 #ifdef HAVE_GD_FREETYPE
 

@@ -24,6 +24,7 @@
 #include <overlap.h>
 #include <uniform_stress.h>
 #include <stress_model.h>
+#include "strcasecmp.h"
 
 static void sfdp_init_edge(edge_t * e)
 {

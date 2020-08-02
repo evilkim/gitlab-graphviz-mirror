@@ -24,6 +24,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include "strcasecmp.h"
 
 #define KINDS(p) ((AGTYPE(p) == AGRAPH) ? "graph" : (AGTYPE(p) == AGNODE) ? "node" : "edge")
 
@@ -823,12 +824,6 @@ char *canon(Expr_t * pgm, char *arg)
 #include "colortbl.h"
 
 static char* colorscheme;
-
-#ifdef _MSC_VER
-extern int strcasecmp(const char *s1, const char *s2);
-extern int strncasecmp(const char *s1, const char *s2, unsigned int n);
-#endif
-
 
 static void hsv2rgb(double h, double s, double v,
 			double *r, double *g, double *b)

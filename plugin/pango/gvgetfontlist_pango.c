@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "strcasecmp.h"
 
 /* FIXME - the following declaration should be removed
  * when configure is coordinated with flags passed to the

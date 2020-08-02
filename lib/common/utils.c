@@ -17,6 +17,7 @@
 #include "entities.h"
 #include "logic.h"
 #include "gvc.h"
+#include "strcasecmp.h"
 
 #ifdef _WIN32
 #define R_OK 4
@@ -1888,53 +1889,6 @@ void get_gradient_points(pointf * A, pointf * G, int n, float angle, int flags)
     }
 }
 
-#ifndef WIN32_STATIC
-#ifndef HAVE_STRCASECMP
-
-
-#include <string.h>
-//#include <ctype.h>
-
-
-int strcasecmp(const char *s1, const char *s2)
-{
-    while ((*s1 != '\0')
-	   && (tolower(*(unsigned char *) s1) ==
-	       tolower(*(unsigned char *) s2))) {
-	s1++;
-	s2++;
-    }
-
-    return tolower(*(unsigned char *) s1) - tolower(*(unsigned char *) s2);
-}
-
-#endif				/* HAVE_STRCASECMP */
-#endif				/* WIN32_STATIC */
-
-#ifndef WIN32_STATIC
-#ifndef HAVE_STRNCASECMP
-#include <string.h>
-//#include <ctype.h>
-
-int strncasecmp(const char *s1, const char *s2, unsigned int n)
-{
-    if (n == 0)
-	return 0;
-
-    while ((n-- != 0)
-	   && (tolower(*(unsigned char *) s1) ==
-	       tolower(*(unsigned char *) s2))) {
-	if (n == 0 || *s1 == '\0' || *s2 == '\0')
-	    return 0;
-	s1++;
-	s2++;
-    }
-
-    return tolower(*(unsigned char *) s1) - tolower(*(unsigned char *) s2);
-}
-
-#endif				/* HAVE_STRNCASECMP */
-#endif                          /* WIN32_STATIC */
 void gv_free_splines(edge_t * e)
 {
     int i;

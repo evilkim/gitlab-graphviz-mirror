@@ -36,10 +36,7 @@
 #include        "gvio.h"
 
 #include	"const.h"
-
-#ifndef HAVE_STRCASECMP
-extern int strcasecmp(const char *s1, const char *s2);
-#endif
+#include "strcasecmp.h"
 
 #ifdef _WIN32
 #define strdup(x) _strdup(x)

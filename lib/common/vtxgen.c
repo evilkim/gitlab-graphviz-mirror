@@ -28,6 +28,7 @@
 #ifdef SUPPORT_WRITEDATE
 #include <time.h>
 #endif
+#include "strcasecmp.h"
 
 
 /* VTX font modifiers */

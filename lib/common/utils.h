@@ -27,13 +27,6 @@ extern "C" {
 #endif
 /*end visual studio*/
 
-#ifndef HAVE_STRCASECMP
-    extern int strcasecmp(const char *s1, const char *s2);
-#endif
-#ifndef HAVE_STRNCASECMP
-    extern int strncasecmp(const char *s1, const char *s2, size_t n);
-#endif
-
     extern nodequeue *new_queue(int);
     extern void free_queue(nodequeue *);
     extern void enqueue(nodequeue *, Agnode_t *);

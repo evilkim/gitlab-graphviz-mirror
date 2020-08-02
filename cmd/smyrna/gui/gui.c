@@ -21,14 +21,10 @@
 #include <gdk/gdk.h>
 #include "viewport.h"
 #include "memory.h"
+#include "strcasecmp.h"
 
 
 static char guibuffer[BUFSIZ];	//general purpose buffer
-
-#ifdef _WIN32
-extern int strcasecmp(const char *s1, const char *s2);
-extern int strncasecmp(const char *s1, const char *s2, unsigned int n);
-#endif
 
 GdkWindow *window1;
 GtkWidget *statusbar1;

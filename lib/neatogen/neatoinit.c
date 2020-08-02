@@ -29,6 +29,7 @@
 #include "kkutils.h"
 #include "pointset.h"
 #include "sgd.h"
+#include "strcasecmp.h"
 
 #ifndef HAVE_SRAND48
 #define srand48 srand

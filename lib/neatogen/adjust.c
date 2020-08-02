@@ -34,6 +34,7 @@
 #include "csolve_VPSC.h"
 #include "quad_prog_vpsc.h"
 #endif
+#include "strcasecmp.h"
 
 #define SEPFACT         0.8  /* default esep/sep */
 

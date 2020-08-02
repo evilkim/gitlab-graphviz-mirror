@@ -26,15 +26,7 @@
 #include <assert.h>
 #include "sfstr.h"
 #include "gvprpipe.h"
-
-
-
-#ifdef _WIN32
-#define STRCASECMP stricmp
-#else
-#include <strings.h>
-#define STRCASECMP strcasecmp
-#endif
+#include "strcasecmp.h"
 
 static attr_t *binarySearch(attr_list * l, char *searchKey);
 static int sel_node;
@@ -212,7 +204,7 @@ int attr_compare(const void *a, const void *b)
 {
     const attr_t *a1 = *(attr_t *const *) a;
     const attr_t *a2 = *(attr_t *const *) b;
-    return STRCASECMP(a1->name, a2->name);
+    return strcasecmp(a1->name, a2->name);
 }
 
 static void attr_list_sort(attr_list * l)
@@ -298,7 +290,7 @@ static attr_t *binarySearch(attr_list * l, char *searchKey)
 
     while (low <= high) {
 	middle = (low + high) / 2;
-	res = STRCASECMP(searchKey, l->attributes[middle]->name);
+	res = strcasecmp(searchKey, l->attributes[middle]->name);
 	if (res == 0) {
 	    return l->attributes[middle];
 	} else if (res < 0) {
@@ -326,7 +318,7 @@ static attr_t *pBinarySearch(attr_list * l, char *searchKey)
 	middle = (low + high) / 2;
 	strncpy(buf, l->attributes[middle]->name, strlen(searchKey));
 	buf[strlen(searchKey)] = '\0';
-	res = STRCASECMP(searchKey, buf);
+	res = strcasecmp(searchKey, buf);
 	if (res == 0) {
 	    return l->attributes[middle];
 	}
@@ -366,14 +358,14 @@ void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
 	at = sl->attributes[at->index - 1];
 	strncpy(buf, at->name, strlen(prefix));
 	buf[strlen(prefix)] = '\0';;
-	res = STRCASECMP(prefix, buf);
+	res = strcasecmp(prefix, buf);
     }
     res = 0;
     while ((at->index < sl->attr_count) && (res == 0)) {
 	at = sl->attributes[at->index + 1];
 	strncpy(buf, at->name, strlen(prefix));
 	buf[strlen(prefix)] = '\0';
-	res = STRCASECMP(prefix, buf);
+	res = strcasecmp(prefix, buf);
 	if ((res == 0) && (at->objType[objKind] == 1))
 	    attr_list_add(tl, new_attr_ref(at));
     }
@@ -434,7 +426,7 @@ void filter_attributes(char *prefix, topview * t)
 
 
     for (ind = 0; ind < fl->attr_count; ind++) {
-	if (STRCASECMP(prefix, fl->attributes[ind]->name) == 0) {	/*an existing attribute */
+	if (strcasecmp(prefix, fl->attributes[ind]->name) == 0) {	/*an existing attribute */
 
 	    Color_Widget_bg("green", glade_xml_get_widget(xml, "txtAttr"));
 
@@ -488,15 +480,15 @@ _BB void on_txtAttr_changed(GtkWidget * widget, gpointer user_data)
 
 static void set_refresh_filters(ViewInfo * v, int type, char *name)
 {
-    if (STRCASECMP(name, "pos") == 0)
+    if (strcasecmp(name, "pos") == 0)
 	v->refresh.pos = 1;
-    if (STRCASECMP(name, "color") == 0)
+    if (strcasecmp(name, "color") == 0)
 	v->refresh.color = 1;
-    if ((STRCASECMP(name, "size") == 0) && (type == AGNODE))
+    if ((strcasecmp(name, "size") == 0) && (type == AGNODE))
 	v->refresh.nodesize = 1;
-    if (STRCASECMP(name, "selected") == 0)
+    if (strcasecmp(name, "selected") == 0)
 	v->refresh.selection = 1;
-    if (STRCASECMP(name, "visible") == 0)
+    if (strcasecmp(name, "visible") == 0)
 	v->refresh.visibility = 1;
 
 }

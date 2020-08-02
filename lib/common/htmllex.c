@@ -18,6 +18,7 @@
 #include "htmllex.h"
 #include "cdt.h"
 #include <ctype.h>
+#include "strcasecmp.h"
 
 #ifdef HAVE_EXPAT
 #include <expat.h>

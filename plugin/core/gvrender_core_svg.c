@@ -37,6 +37,7 @@
 #include "gvplugin_device.h"
 #include "gvio.h"
 #include "gvcint.h"
+#include "strcasecmp.h"
 
 #define LOCALNAMEPREFIX		'%'
 
@@ -46,10 +47,6 @@ typedef enum { FORMAT_SVG, FORMAT_SVGZ, } format_type;
 static char *sdasharray = "5,2";
 /* SVG dot array */
 static char *sdotarray = "1,5";
-
-#ifndef HAVE_STRCASECMP
-extern int strcasecmp(const char *s1, const char *s2);
-#endif
 
 static void svg_bzptarray(GVJ_t * job, pointf * A, int n)
 {

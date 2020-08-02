@@ -17,6 +17,7 @@
 #include "gvc.h"
 #include "xdot.h"
 #include "agxbuf.h"
+#include "strcasecmp.h"
 
 static char *usageFmt =
     "Usage: %s [-Vv?] [-(GNE)name=val] [-(KTlso)<val>] <dot files>\n";

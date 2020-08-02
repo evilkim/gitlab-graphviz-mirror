@@ -306,8 +306,6 @@ xml_url_string
 Y_invert    
 zmalloc    
 zrealloc    
-strcasecmp
-strncasecmp
 colorxlate
 fix_fc
 gvContextPlugins
