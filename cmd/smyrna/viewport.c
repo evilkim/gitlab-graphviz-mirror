@@ -16,7 +16,6 @@
 #else
 #include "unistd.h"
 #endif
-#include "compat.h"
 #include "viewport.h"
 #include "draw.h"
 #include "color.h"

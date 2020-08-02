@@ -12,7 +12,6 @@
  *************************************************************************/
 
 #include <stdio.h>
-#include "compat.h"
 #include <stdlib.h>
 #include "gui.h"
 /* #include "abstring.h" */

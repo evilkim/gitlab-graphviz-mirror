@@ -18,7 +18,6 @@
 #ifdef _WIN32
 #include <string.h>
 #include <ctype.h>
-#include "compat.h"
 #endif
 #include <string.h>
 #include <ctype.h>

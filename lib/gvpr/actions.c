@@ -815,9 +815,6 @@ char *canon(Expr_t * pgm, char *arg)
 }
 
 #include <stdlib.h>
-#ifdef _WIN32
-#include "compat.h"
-#endif
 
 #include "arith.h"
 #include "color.h"

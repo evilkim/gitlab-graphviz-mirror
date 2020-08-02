@@ -29,7 +29,6 @@
 #ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
-#include "compat.h"
 #endif
 
 #ifdef HAVE_LIBZ
