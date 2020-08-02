@@ -17,8 +17,6 @@ lib fesetenv -D_GNU_SOURCE fenv.h -lm
 lib lrand48
 lib srand48
 lib sincos
-lib strcasecmp
-lib strncasecmp
 
 hdr dlfcn
 hdr errno

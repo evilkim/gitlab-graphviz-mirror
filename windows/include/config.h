@@ -210,14 +210,8 @@
 /* Define to 1 if you have the `srand48' function. */
 /* #undef HAVE_SRAND48 */
 
-/* Define to 1 if you have the `strcasecmp' function. */
-//#define HAVE_STRCASECMP 1
-
 /* Define to 1 if you have the <strings.h> header file. */
 //#define HAVE_STRINGS_H 1
-
-/* Define to 1 if you have the `strncasecmp' function. */
-//#define HAVE_STRNCASECMP 1
 
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
    */
