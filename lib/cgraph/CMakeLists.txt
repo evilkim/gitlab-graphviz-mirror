@@ -42,6 +42,7 @@ add_library(cgraph SHARED
     agxbuf.h
     cghdr.h
     cgraph.h
+    strcasecmp.h
 
     # Source files
     agerror.c
@@ -81,7 +82,7 @@ install(
 
 # Specify headers to be installed
 install(
-    FILES cgraph.h
+    FILES cgraph.h strcasecmp.h
     DESTINATION ${HEADER_INSTALL_DIR}
 )
 

@@ -10,7 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/lib/cdt
 
-pkginclude_HEADERS = cgraph.h
+pkginclude_HEADERS = cgraph.h strcasecmp.h
 noinst_HEADERS = agxbuf.h cghdr.h
 noinst_LTLIBRARIES = libcgraph_C.la
 lib_LTLIBRARIES = libcgraph.la

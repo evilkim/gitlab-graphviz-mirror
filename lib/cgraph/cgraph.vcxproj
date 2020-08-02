@@ -101,6 +101,7 @@ flex -oscan.c scan.l</Command>
     <ClInclude Include="agxbuf.h" />
     <ClInclude Include="cghdr.h" />
     <ClInclude Include="cgraph.h" />
+    <ClInclude Include="strcasecmp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="agerror.c" />
