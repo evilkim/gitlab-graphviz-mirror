@@ -452,6 +452,8 @@ static int handle_file_events(GVJ_t *job, int inotify_fd)
 }
 #endif
 
+static boolean initialized;
+
 static void xlib_initialize(GVJ_t *firstjob)
 {
     Display *dpy;
@@ -489,6 +491,8 @@ static void xlib_initialize(GVJ_t *firstjob)
     firstjob->device_dpi.x = DisplayWidth(dpy, scr) * 25.4 / DisplayWidthMM(dpy, scr);
     firstjob->device_dpi.y = DisplayHeight(dpy, scr) * 25.4 / DisplayHeightMM(dpy, scr);
     firstjob->device_sets_dpi = TRUE;
+
+    initialized = TRUE;
 }
 
 static void xlib_finalize(GVJ_t *firstjob)
@@ -513,6 +517,11 @@ static void xlib_finalize(GVJ_t *firstjob)
 	return;
     }
 #endif
+
+    /* skip if initialization previously failed */
+    if (!initialized) {
+        return;
+    }
 
     numfds = xlib_fd = XConnectionNumber(dpy);
 

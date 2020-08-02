@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - heap-over-flow(off-by-null) in lib/common/shapes.c #1700
 - Windows MSBuild executables have the wrong version #1745
 - Cast Overflow at pango_textlayout #1314
+- x11 back end segfaults if display is unavailable #1776
 
 ## [2.44.1] - 2020-06-29
 
