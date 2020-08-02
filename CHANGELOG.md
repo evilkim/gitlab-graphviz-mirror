@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - x11 back end segfaults if display is unavailable #1776
 - Repeated file read gives different results with libcgraph #1767
 - typo in cmd/gvpr/lib/clustg #1781
+- Segfault in dot #1783
 
 ## [2.44.1] - 2020-06-29
 

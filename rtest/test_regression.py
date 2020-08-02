@@ -2,6 +2,7 @@ import atexit
 import pytest
 import platform
 import shutil
+import signal
 import subprocess
 import os
 import re
@@ -228,3 +229,20 @@ def test_1767():
                      'cluster_1 contains 1 nodes\n' \
                      'cluster_2 contains 3 nodes\n' \
                      'cluster_3 contains 3 nodes\n'
+
+def test_1783():
+    '''
+    Graphviz should not segfault when passed large edge weights
+    https://gitlab.com/graphviz/graphviz/-/issues/1783
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1783.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # run Graphviz with this input
+    ret = subprocess.call(['dot', '-Tsvg', '-o', os.devnull, input])
+
+    assert ret != 0, 'Graphviz accepted illegal edge weight'
+
+    assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'

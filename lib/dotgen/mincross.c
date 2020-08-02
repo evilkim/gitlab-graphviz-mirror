@@ -19,7 +19,10 @@
  * because mincross may compare nodes in different clusters.
  */
 
+#include <assert.h>
 #include "dot.h"
+#include <limits.h>
+#include <stdlib.h>
 
 /* #define DEBUG */
 #define MARK(v)		(ND_mark(v))
@@ -1899,6 +1902,14 @@ void virtual_weight(edge_t * e)
 {
     int t;
     t = table[endpoint_class(agtail(e))][endpoint_class(aghead(e))];
+
+    /* check whether the upcoming computation will overflow */
+    assert(t >= 0);
+    if (INT_MAX / t < ED_weight(e)) {
+	agerr(AGERR, "overflow when calculating virtual weight of edge\n");
+	exit(EXIT_FAILURE);
+    }
+
     ED_weight(e) *= t;
 }
 
