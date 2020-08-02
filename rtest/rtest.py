@@ -253,6 +253,17 @@ def doTest(TEST):
             .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
             file=sys.stderr)
       continue
+    # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1787 is
+    # fixed
+    if platform.system() == 'Windows' and \
+       os.environ.get('build_system') == 'msbuild' and \
+       os.environ.get('configuration') == 'Debug' and \
+       TESTNAME == 'user_shapes':
+      print('Skipping test {0}:{1} : using shapefile because it fails '
+            'with Windows MSBuild Debug builds (#1787)'
+            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            file=sys.stderr)
+      continue
 
     result = subprocess.Popen(
        testcmd,
