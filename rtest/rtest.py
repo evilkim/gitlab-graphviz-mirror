@@ -312,6 +312,8 @@ if not REFDIR:
     REFDIR = 'linux.x86'
   elif platform.system() == 'Darwin':
     REFDIR = 'macosx'
+  elif platform.system() == 'Windows':
+    REFDIR = 'nshare'
   else:
     print('Unrecognized system "{0}"'.format(platform.system()), file=sys.stderr)
     REFDIR = 'nshare'
