@@ -113,6 +113,17 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
   FILE1 = os.path.join(OUTDIR, OUTFILE)
   FILE2 = os.path.join(REFDIR, OUTFILE)
   F = fmt.split(':')[0]
+  # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1789 is
+  # fixed
+  if platform.system() == 'Windows' and \
+     F in ['ps', 'gv'] and \
+     testname in ['clusters', 'compound', 'rootlabel']:
+      print('Warning: Skipping {0} output comparison for test {1}:{2} : format '
+            '{3} because the order of clusters in gv or ps output is not '
+            'stable on Windows (#1789)'
+            .format(F, testname, subtest_index, fmt),
+            file=sys.stderr)
+      return
   if F in ['ps', 'ps2']:
     with open(TMPFILE1, mode='w') as fd1, \
          open(TMPFILE2, mode='w') as fd2:
