@@ -67,3 +67,28 @@ def test_gvpr_example(src):
     # run GVPR with the given script
     with open(os.devnull, 'rt') as nul:
       subprocess.check_call(['gvpr', '-f', path], stdin=nul)
+
+@pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
+def test_gvpr_clustg():
+    '''check cmd/gvpr/lib/clustg works'''
+
+    # construct an absolute path to clustg
+    path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+      '../cmd/gvpr/lib/clustg')
+
+    # some sample input
+    input = 'digraph { N1; N2; N1 -> N2; N3; }'
+
+    # run GVPR on this input
+    p = subprocess.Popen(['gvpr', '-f', path], stdin=subprocess.PIPE,
+      stdout=subprocess.PIPE, universal_newlines=True)
+    output, _ = p.communicate(input)
+
+    assert p.returncode == 0, 'GVPR exited with non-zero status'
+
+    assert output.strip() == 'strict digraph "clust%1" {\n' \
+                             '\tnode [_cnt=0];\n' \
+                             '\tedge [_cnt=0];\n' \
+                             '\tN1 -> N2\t[_cnt=1];\n' \
+                             '\tN3;\n' \
+                             '}', 'unexpected output'

@@ -35,7 +35,7 @@ BEG_G{
   setDflt(dg,"E","_cnt","0");
   setDflt(dg,"N","_cnt","0");
   proc($,NULL);
-  $tv_type = TV_ne;
+  $tvtype = TV_ne;
 }
 N[!nmap[$]]{
   dn = node(dg, name);
