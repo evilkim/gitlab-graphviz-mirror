@@ -284,6 +284,15 @@ def doTest(TEST):
             .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
             file=sys.stderr)
       continue
+    # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1790 is
+    # fixed
+    if platform.system() == 'Windows' and \
+       TESTNAME == 'ps_user_shapes':
+      print('Skipping test {0}:{1} : using PostScript shapefile because it '
+            'fails with Windows builds (#1790)'
+            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            file=sys.stderr)
+      continue
 
     result = subprocess.Popen(
        testcmd,
