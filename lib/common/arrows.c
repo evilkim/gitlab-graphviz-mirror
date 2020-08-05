@@ -211,10 +211,21 @@ void arrow_flags(Agedge_t * e, int *sflag, int *eflag)
 	    }
 	}
     }
-    if (E_arrowhead && (*eflag == ARR_TYPE_NORM) && ((attr = agxget(e, E_arrowhead)))[0])
-	arrow_match_name(attr, eflag);
-    if (E_arrowtail && (*sflag == ARR_TYPE_NORM) && ((attr = agxget(e, E_arrowtail)))[0])
-	arrow_match_name(attr, sflag);
+    if (*eflag == ARR_TYPE_NORM) {
+	/* we cannot use the pre-constructed E_arrowhead here because the order in
+	 * which edge attributes appear and are thus parsed into a dictionary mean
+	 * E_arrowhead->id potentially points at a stale attribute value entry
+	 */
+	Agsym_t *arrowhead = agfindedgeattr(agraphof(e), "arrowhead");
+	if (arrowhead != NULL && ((attr = agxget(e, arrowhead)))[0])
+		arrow_match_name(attr, eflag);
+    }
+    if (*sflag == ARR_TYPE_NORM) {
+	/* similar to above, we cannot use E_arrowtail here */
+	Agsym_t *arrowtail = agfindedgeattr(agraphof(e), "arrowtail");
+	if (arrowtail != NULL && ((attr = agxget(e, arrowtail)))[0])
+		arrow_match_name(attr, sflag);
+    }
     if (ED_conc_opp_flag(e)) {
 	edge_t *f;
 	int s0, e0;

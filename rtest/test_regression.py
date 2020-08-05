@@ -136,6 +136,42 @@ def test_1436():
     # has been reintroduced
     subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
 
+def test_1444():
+    '''
+    specifying 'headport' as an edge attribute should work regardless of what
+    order attributes appear in
+    https://gitlab.com/graphviz/graphviz/-/issues/1444
+    '''
+
+    # locate the first of our associated tests
+    input1 = os.path.join(os.path.dirname(__file__), '1444.dot')
+    assert os.path.exists(input1), 'unexpectedly missing test case'
+
+    # ask Graphviz to process it
+    p = subprocess.Popen(['dot', '-Tsvg', input1], stdout=subprocess.PIPE,
+      stderr=subprocess.PIPE, universal_newlines=True)
+    stdout1, stderr = p.communicate()
+
+    assert p.returncode == 0, 'failed to process a headport edge'
+
+    assert stderr.strip() == '', 'emitted an error for a legal graph'
+
+    # now locate our second variant, that simply has the attributes swapped
+    input2 = os.path.join(os.path.dirname(__file__), '1444-2.dot')
+    assert os.path.exists(input2), 'unexpectedly missing test case'
+
+    # process it identically
+    p = subprocess.Popen(['dot', '-Tsvg', input2], stdout=subprocess.PIPE,
+      stderr=subprocess.PIPE, universal_newlines=True)
+    stdout2, stderr = p.communicate()
+
+    assert p.returncode == 0, 'failed to process a headport edge'
+
+    assert stderr.strip() == '', 'emitted an error for a legal graph'
+
+    assert stdout1 == stdout2, \
+      'swapping edge attributes altered the output graph'
+
 def test_1449():
     '''
     using the SVG color scheme should not cause warnings
