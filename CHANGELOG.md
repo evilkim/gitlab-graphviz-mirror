@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - URL typo in patchwork man page
 - Escaped backslashes are not correctly handled when producing xdot with dot #165
 - heap-over-flow(off-by-null) in lib/common/shapes.c #1700
+- Windows MSBuild executables have the wrong version #1745
 
 ## [2.44.1] - 2020-06-29
 
