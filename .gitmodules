@@ -1,9 +1,9 @@
 [submodule "windows/dependencies/graphviz-build-utilities"]
 	path = windows/dependencies/graphviz-build-utilities
-	url = https://github.com/ErwinJanssen/graphviz-build-utilities.git
+	url = https://gitlab.com/graphviz/graphviz-build-utilities
 [submodule "dependencies/criterion"]
 	path = dependencies/criterion
 	url = https://github.com/Snaipe/Criterion.git
 [submodule "windows/dependencies/libraries"]
 	path = windows/dependencies/libraries
-	url = https://github.com/ErwinJanssen/graphviz-windows-dependencies.git
+	url = https://gitlab.com/graphviz/graphviz-windows-dependencies
