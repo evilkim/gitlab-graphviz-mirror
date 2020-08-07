@@ -33,7 +33,6 @@
 #include <compat_unistd.h>
 #endif
 
-/* #include <option.h> */
 #ifdef HAVE_CRT_EXTERNS_H
 #include <crt_externs.h>
 #endif

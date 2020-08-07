@@ -33,8 +33,6 @@
  */
 
 #include <ast.h>
-/* #include <ls.h> */
-/* #include <fs3d.h> */
 #include <errno.h>
 #include <error.h>
 #include <sys/types.h>

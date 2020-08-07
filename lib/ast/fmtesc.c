@@ -19,7 +19,6 @@
  */
 
 #include <ast.h>
-/* #include <ccode.h> */
 #include <string.h>
 #include <ctype.h>
 

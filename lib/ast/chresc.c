@@ -21,7 +21,6 @@
  */
 
 #include <ast.h>
-/* #include <ccode.h> */
 
 int chresc(register const char *s, char **p)
 {

@@ -30,8 +30,6 @@
 #ifdef _WIN32
 #include <compat_unistd.h>
 #endif
-/* #include "lclib.h" */
-/* #include <ls.h> */
 
 typedef struct Tree_s {
     struct Tree_s *next;

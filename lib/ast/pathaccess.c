@@ -31,8 +31,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-/* #include <ls.h> */
-
 char *pathcanon(char *path, int flags);
 
 char *pathaccess(register char *path, register const char *dirs,
