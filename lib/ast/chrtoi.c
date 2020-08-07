@@ -18,7 +18,7 @@
  * convert a 0 terminated character constant string to an int
  */
 
-#include <ast.h>
+#include "ast.h"
 
 int chrtoi(register const char *s)
 {

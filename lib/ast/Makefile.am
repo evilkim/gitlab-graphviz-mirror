@@ -1,7 +1,7 @@
 # $Id$ $Revision$
 ## Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir)/lib/sfio
+AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/lib/sfio
 
 noinst_HEADERS = ast.h error.h hashkey.h
 noinst_LTLIBRARIES = libast_C.la

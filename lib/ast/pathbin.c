@@ -18,7 +18,7 @@
  * return current PATH
  */
 
-#include <ast.h>
+#include "ast.h"
 
 char *pathbin(void)
 {

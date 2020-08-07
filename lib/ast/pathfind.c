@@ -19,7 +19,7 @@
  */
 
 #include "config.h"
-#include <ast.h>
+#include "ast.h"
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else

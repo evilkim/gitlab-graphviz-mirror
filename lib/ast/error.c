@@ -23,8 +23,8 @@
 #endif
 #endif
 
-#include <ast.h>
-#include <error.h>
+#include "ast.h"
+#include "error.h"
 #include <string.h>
 #include <errno.h>
 

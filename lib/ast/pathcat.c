@@ -18,7 +18,7 @@
  * single dir support for pathaccess()
  */
 
-#include <ast.h>
+#include "ast.h"
 
 char *pathcat(char *path, register const char *dirs, int sep,
 	      const char *a, register const char *b)
