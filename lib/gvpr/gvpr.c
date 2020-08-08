@@ -971,7 +971,7 @@ int gvpr (int argc, char *argv[], gvpropts * uopts)
     info.outFile = opts->outFile;
     info.argc = opts->argc;
     info.argv = opts->argv;
-    info.errf = (Exerror_f)gverrorf;
+    info.errf = gverrorf;
     if (uopts) 
 	info.flags = uopts->flags; 
     else
