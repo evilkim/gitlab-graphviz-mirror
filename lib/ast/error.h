@@ -62,8 +62,8 @@ extern "C" {
     extern void setErrorErrors (int);
     extern int  getErrorErrors (void);
 
-    extern void error(int, ...);
-    extern void errorf(void *, void *, int, ...);
+    extern void error(int, const char *, ...);
+    extern void errorf(void *, void *, int, const char *, ...);
     extern void errorv(const char *, int, const char *, va_list);
 
 #endif

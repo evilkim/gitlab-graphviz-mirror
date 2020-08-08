@@ -87,24 +87,20 @@ void errorv(const char *id, int level, const char *s, va_list ap)
 	exit(level - ERROR_FATAL + 1);
 }
 
-void error(int level, ...)
+void error(int level, const char *s, ...)
 {
     va_list ap;
-    const char *s;
 
-    va_start(ap, level);
-    s = va_arg(ap, char *);
+    va_start(ap, s);
     errorv(NiL, level, s, ap);
     va_end(ap);
 }
 
-void errorf(void *handle, void *discipline, int level, ...)
+void errorf(void *handle, void *discipline, int level, const char *s, ...)
 {
     va_list ap;
-    const char *s;
 
-    va_start(ap, level);
-    s = va_arg(ap, char *);
+    va_start(ap, s);
     errorv((discipline
 	    && handle) ? *((char **) handle) : (char *) handle, level, s, ap);
     va_end(ap);
