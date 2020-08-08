@@ -906,10 +906,12 @@ static int
 gverrorf (Expr_t *handle, Exdisc_t *discipline, int level, ...)
 {
     va_list ap;
+    const char *s;
 
     va_start(ap, level);
+    s = va_arg(ap, char *);
     errorv((discipline
-	    && handle) ? *((char **) handle) : (char *) handle, level, ap);
+	    && handle) ? *((char **) handle) : (char *) handle, level, s, ap);
     va_end(ap);
 
     if (level >= ERROR_ERROR) {

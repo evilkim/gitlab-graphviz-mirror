@@ -64,7 +64,7 @@ extern "C" {
 
     extern void error(int, ...);
     extern void errorf(void *, void *, int, ...);
-    extern void errorv(const char *, int, va_list);
+    extern void errorv(const char *, int, const char *, va_list);
 
 #endif
 
