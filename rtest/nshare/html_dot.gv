@@ -1,15 +1,25 @@
 digraph structs {
-	node [label="\N", shape=plaintext];
-	graph [bb="0,0,235,154"];
-	struct1 [label=<
+	graph [bb="0,0,234,155"];
+	node [label="\N",
+		shape=plaintext
+	];
+	struct1	[height=0.5,
+		label=<
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
   <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
-</TABLE>>, pos="78,136", width="1.7222", height="0.5"];
-	struct2 [label=<
+</TABLE>>,
+		pos="76.5,137",
+		width=1.6528];
+	struct2	[height=0.5,
+		label=<
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
   <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
-</TABLE>>, pos="36,41", width=1, height="0.5"];
-	struct3 [label=<
+</TABLE>>,
+		pos="35.5,41.5",
+		width=0.98611];
+	struct1:f1 -> struct2:f0	[pos="e,21.5,52.5 73.5,125 73.5,89.064 30.793,91.285 22.785,62.504"];
+	struct3	[height=1.1528,
+		label=<
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR> 
     <TD ROWSPAN="3">hello<BR/>world</TD>
@@ -23,7 +33,8 @@ digraph structs {
   <TR>
     <TD COLSPAN="3">f</TD>
   </TR>
-</TABLE>>, pos="163,41", width="2.0069", height="1.125"];
-	struct1:f1 -> struct2:f0 [pos="e,22,52 74,124 74,88.228 31.293,90.579 23.285,61.954"];
-	struct1:f2 -> struct3:here [pos="e,159.77,48.654 116,124 116,96.629 136.73,71.032 152.26,55.694"];
+</TABLE>>,
+		pos="161.5,41.5",
+		width=2.0139];
+	struct1:f2 -> struct3:here	[pos="e,157.27,49.212 113.5,125 113.5,97.512 134.23,71.748 149.76,56.303"];
 }

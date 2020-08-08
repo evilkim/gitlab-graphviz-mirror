@@ -18,33 +18,21 @@ import tempfile
 # First run a subset of all the tests that produces equal output files
 # for all platforms and fail the test if there are differences.
 
-# FIXME: Remove skip when rtest.sh has been ported to python
-@pytest.mark.skipif(
-    platform.system() == 'Windows',
-    reason='ksh script rtest.sh does not run on Windows (#1779)'
-)
 def test_regression_subset_differences():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    result = subprocess.Popen(['./rtest.sh', 'tests_subset.txt'], stderr=subprocess.PIPE)
-    text = result.communicate()[1]
-    print(text)
-    assert result.returncode == 0
+    subprocess.check_call(['python3', 'rtest.py', 'tests_subset.txt'])
 
 # Secondly, run all tests but ignore differences and fail the test
 # only if there is a crash. This will leave the differences for png
 # output in rtest/nhtml/index.html for review.
 
-# FIXME: Remove skip when rtest.sh has been ported to python
-@pytest.mark.skipif(
-    platform.system() == 'Windows',
-    reason='ksh script rtest.sh does not run on Windows'
-)
 def test_regression_failure():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    result = subprocess.Popen(['./rtest.sh'], stderr=subprocess.PIPE)
+    result = subprocess.Popen(['python3', 'rtest.py'], stderr=subprocess.PIPE,
+                              universal_newlines=True)
     text = result.communicate()[1]
     print(text)
-    assert "Layout failures: 0" in str(text)
+    assert "Layout failures: 0" in text
 # FIXME: re-enable when all tests pass on all platforms
 #    assert result.returncode == 0
 
