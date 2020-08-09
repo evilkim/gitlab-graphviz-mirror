@@ -77,12 +77,10 @@ portable-source:
         # CMake's cpack must be before Chocolatey's in the path
         - $Env:Path = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;$Env:Path"
         - $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
-        - $Env:Path += ";C:\Program Files (x86)\NSIS\Bin"
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
         - >-
             if($env:build_system -eq "cmake") {
-              choco install --no-progress -y NSIS;
               mkdir build;
               cd build;
               cmake -G "$env:generator" -A $Env:platform ..;
