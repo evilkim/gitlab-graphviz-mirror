@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include <stdint.h>
 static char *Version = "\n@(#)sfio (AT&T Labs - kpv) 2001-02-01\0\n";
 
 /*	Functions to set a given stream to some desired mode
@@ -300,7 +301,6 @@ static int _sfpmode(Sfio_t * f, int type)
  */
 int _sfmode(reg Sfio_t * f, reg int wanted, reg int local)
 {
-    reg int n;
     Sfoff_t addr;
     reg int rv = 0;
 
@@ -381,7 +381,7 @@ int _sfmode(reg Sfio_t * f, reg int wanted, reg int local)
 	    else
 		f->endw = f->endb;
 	} else {
-	    n = f->flags;
+	    unsigned short n = f->flags;
 	    (void) SFSETBUF(f, f->data, f->size);
 	    f->flags |= (n & SF_MALLOC);
 	}
@@ -458,7 +458,7 @@ int _sfmode(reg Sfio_t * f, reg int wanted, reg int local)
 
 	/* reset buffer and seek pointer */
 	if (!(f->mode & SF_SYNCED)) {
-	    n = f->endb - f->next;
+	    intptr_t n = (intptr_t)(f->endb - f->next);
 	    if (f->extent >= 0 && (n > 0 || (f->data && (f->bits & SF_MMAP)))) {	/* reset file pointer */
 		addr = f->here - n;
 		if (SFSK(f, addr, SEEK_SET, f->disc) < 0)
