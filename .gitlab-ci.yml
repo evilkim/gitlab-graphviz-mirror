@@ -74,6 +74,7 @@ portable-source:
         - $Env:Path += ";C:\Python38\Scripts"
         - pip install pytest
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities"
+        - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\NSIS\Bin"
         # CMake's cpack must be before Chocolatey's in the path
         - $Env:Path = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;$Env:Path"
         - $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
