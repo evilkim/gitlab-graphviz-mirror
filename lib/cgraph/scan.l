@@ -148,9 +148,6 @@ static int twoDots(void)
 static int chkNum(void) {
     unsigned char c = (unsigned char)yytext[yyleng-1];   /* last character */
     if ((!isdigit(c) && (c != '.')) || ((c == '.') && twoDots())) {  /* c is letter */
-	unsigned char xbuf[BUFSIZ];
-	char buf[BUFSIZ];
-	agxbuf  xb;
 	char* fname;
 
 	if (InputFile)
@@ -158,17 +155,9 @@ static int chkNum(void) {
 	else
 	    fname = "input";
 
-	agxbinit(&xb, BUFSIZ, xbuf);
+	agerr(AGWARN, "syntax ambiguity - badly delimited number '%s' in line %d of "
+	  "%s splits into two tokens\n", yytext, line_num, fname);
 
-	agxbput(&xb,"syntax ambiguity - badly delimited number '");
-	agxbput(&xb,yytext);
-	sprintf(buf,"' in line %d of ", line_num);
-	agxbput(&xb,buf);
-	agxbput(&xb,fname);
-	agxbput(&xb, " splits into two tokens\n");
-	agerr(AGWARN, "%s", agxbuse(&xb));
-
-	agxbfree(&xb);
 	return 1;
     }
     else return 0;
