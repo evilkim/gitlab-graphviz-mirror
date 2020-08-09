@@ -273,7 +273,7 @@ void *sfsetbuf(reg Sfio_t * f, reg void * buf, reg size_t size)
 	    f->endb = f->data + size;
     }
 
-    f->flags = (f->flags & ~SF_MALLOC) | sf_malloc;
+    f->flags = (unsigned short)((f->flags & ~SF_MALLOC) | sf_malloc);
 
     if (obuf && obuf != f->data && osize > 0 && (oflags & SF_MALLOC)) {
 	free((void *) obuf);
