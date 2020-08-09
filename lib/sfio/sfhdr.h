@@ -187,18 +187,18 @@ extern "C" {
 #define SFCLRBITS(f)	(SFMVUNSET(f), ((f)->bits &= ~(SF_DCDOWN|SF_MVSIZE)) )
 
 /* bits for the mode field, SF_INIT defined in sfio_t.h */
-#define SF_RC		00000010	/* peeking for a record                 */
-#define SF_RV		00000020	/* reserve without read or most write   */
-#define SF_LOCK		00000040	/* stream is locked for io op           */
-#define SF_PUSH		00000100	/* stream has been pushed               */
-#define SF_POOL		00000200	/* stream is in a pool but not current  */
-#define SF_PEEK		00000400	/* there is a pending peek              */
-#define SF_PKRD		00001000	/* did a peek read                      */
-#define SF_GETR		00002000	/* did a getr on this stream            */
-#define SF_SYNCED	00004000	/* stream was synced                    */
-#define SF_STDIO	00010000	/* given up the buffer to stdio         */
-#define SF_AVAIL	00020000	/* was closed, available for reuse      */
-#define SF_LOCAL	00100000	/* sentinel for a local call            */
+#define SF_RC		00000010u	/* peeking for a record                 */
+#define SF_RV		00000020u	/* reserve without read or most write   */
+#define SF_LOCK		00000040u	/* stream is locked for io op           */
+#define SF_PUSH		00000100u	/* stream has been pushed               */
+#define SF_POOL		00000200u	/* stream is in a pool but not current  */
+#define SF_PEEK		00000400u	/* there is a pending peek              */
+#define SF_PKRD		00001000u	/* did a peek read                      */
+#define SF_GETR		00002000u	/* did a getr on this stream            */
+#define SF_SYNCED	00004000u	/* stream was synced                    */
+#define SF_STDIO	00010000u	/* given up the buffer to stdio         */
+#define SF_AVAIL	00020000u	/* was closed, available for reuse      */
+#define SF_LOCAL	00100000u	/* sentinel for a local call            */
 
 #ifdef DEBUG
 #define ASSERT(p)	((p) ? 0 : (abort(),0) )

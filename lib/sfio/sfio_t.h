@@ -46,7 +46,7 @@ extern "C" {
 #include	"sfio.h"
 
 /* mode bit to indicate that the structure hasn't been initialized */
-#define SF_INIT		0000004
+#define SF_INIT		0000004u
 
 /* short-hand for common stream types */
 #define SF_RDWR		(SF_READ|SF_WRITE)

@@ -51,7 +51,8 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 {
     Sfoff_t r;
     reg Sfdisc_t *dc;
-    reg int local, rcrv, dosync, oerrno;
+    reg int local, dosync, oerrno;
+    unsigned rcrv;
 
     SFMTXSTART(f, -1);
 

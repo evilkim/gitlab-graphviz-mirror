@@ -24,7 +24,8 @@
 Sfio_t *sfswap(reg Sfio_t * f1, reg Sfio_t * f2)
 {
     Sfio_t tmp;
-    int f1pool, f2pool, f1mode, f2mode, f1flags, f2flags;
+    int f1pool, f2pool, f1mode, f1flags, f2flags;
+    unsigned f2mode;
 
     if (!f1 || (f1->mode & SF_AVAIL)
 	|| (SFFROZEN(f1) && (f1->mode & SF_PUSH)))
