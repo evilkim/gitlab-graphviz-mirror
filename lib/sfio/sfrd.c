@@ -59,7 +59,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
     GETLOCAL(f, local);
     if ((rcrv = f->mode & (SF_RC | SF_RV)))
 	f->mode &= ~(SF_RC | SF_RV);
-    f->bits &= ~SF_JUSTSEEK;
+    f->bits &= (unsigned short)~SF_JUSTSEEK;
 
     if (f->mode & SF_PKRD)
 	SFMTXRETURN(f, -1);

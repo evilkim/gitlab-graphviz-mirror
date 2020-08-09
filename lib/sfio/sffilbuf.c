@@ -41,7 +41,7 @@ int _sffilbuf(Sfio_t * f, reg int n)
     rc = f->getr;
 
     justseek = f->bits & SF_JUSTSEEK;
-    f->bits &= ~SF_JUSTSEEK;
+    f->bits &= (unsigned short)~SF_JUSTSEEK;
 
     for (first = 1;; first = 0, (f->mode &= ~SF_LOCK)) {	/* check mode */
 	if (SFMODE(f, local) != SF_READ && _sfmode(f, SF_READ, local) < 0)

@@ -86,7 +86,7 @@ int sfsetfd(reg Sfio_t * f, reg int newfd)
 		f->endb = f->endr = f->endw = f->data;
 		f->extent = f->here = 0;
 		f->mode = (f->mode & SF_RDWR) | SF_INIT;
-		f->bits &= ~SF_NULL;	/* off /dev/null handling */
+		f->bits &= (unsigned short)~SF_NULL;	/* off /dev/null handling */
 	    }
 	}
 

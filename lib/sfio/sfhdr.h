@@ -183,8 +183,8 @@ extern "C" {
 #define SF_MVSIZE	00002000
 #define SFMVSET(f)	(((f)->size *= SF_NMAP), ((f)->bits |= SF_MVSIZE) )
 #define SFMVUNSET(f)	(!((f)->bits&SF_MVSIZE) ? 0 : \
-				(((f)->bits &= ~SF_MVSIZE), ((f)->size /= SF_NMAP)) )
-#define SFCLRBITS(f)	(SFMVUNSET(f), ((f)->bits &= ~(SF_DCDOWN|SF_MVSIZE)) )
+				(((f)->bits &= (unsigned short)~SF_MVSIZE), ((f)->size /= SF_NMAP)) )
+#define SFCLRBITS(f)	(SFMVUNSET(f), ((f)->bits &= (unsigned short)~(SF_DCDOWN|SF_MVSIZE)) )
 
 /* bits for the mode field, SF_INIT defined in sfio_t.h */
 #define SF_RC		00000010u	/* peeking for a record                 */
@@ -555,17 +555,17 @@ extern "C" {
 #define SFDCRD(f,buf,n,dc,rv) \
 	{	int		dcdown = f->bits&SF_DCDOWN; f->bits |= SF_DCDOWN; \
 		rv = (*dc->readf)(f,buf,n,dc); \
-		if(!dcdown)	f->bits &= ~SF_DCDOWN; \
+		if(!dcdown)	f->bits &= (unsigned short)~SF_DCDOWN; \
 	}
 #define SFDCWR(f,buf,n,dc,rv) \
 	{	int		dcdown = f->bits&SF_DCDOWN; f->bits |= SF_DCDOWN; \
 		rv = (*dc->writef)(f,buf,n,dc); \
-		if(!dcdown)	f->bits &= ~SF_DCDOWN; \
+		if(!dcdown)	f->bits &= (unsigned short)~SF_DCDOWN; \
 	}
 #define SFDCSK(f,addr,type,dc,rv) \
 	{	int		dcdown = f->bits&SF_DCDOWN; f->bits |= SF_DCDOWN; \
 		rv = (*dc->seekf)(f,addr,type,dc); \
-		if(!dcdown)	f->bits &= ~SF_DCDOWN; \
+		if(!dcdown)	f->bits &= (unsigned short)~SF_DCDOWN; \
 	}
 
 /* fast peek of a stream */

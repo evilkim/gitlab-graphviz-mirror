@@ -58,7 +58,7 @@ Sfio_t *sfopen(reg Sfio_t * f, const char *file, const char *mode)
 		if ((f->flags & SF_RDWR) == SF_RDWR)
 		    f->bits |= SF_BOTH;
 		else
-		    f->bits &= ~SF_BOTH;
+		    f->bits &= (unsigned short)~SF_BOTH;
 
 		if (f->flags & SF_READ)
 		    f->mode = (f->mode & ~SF_WRITE) | SF_READ;

@@ -124,7 +124,7 @@ Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
 
 	if (reinit) {
 	    SETLOCAL(f);
-	    f->bits &= ~SF_NULL;	/* turn off /dev/null handling */
+	    f->bits &= (unsigned short)~SF_NULL;	/* turn off /dev/null handling */
 	    if ((f->bits & SF_MMAP) || (f->mode & SF_INIT))
 		sfsetbuf(f, NIL(void *), (size_t) SF_UNBOUND);
 	    else if (f->data == f->tiny)

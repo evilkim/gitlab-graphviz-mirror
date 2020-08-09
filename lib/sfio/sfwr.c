@@ -76,7 +76,7 @@ static ssize_t sfoutput(Sfio_t * f, reg char *buf, reg size_t n)
 	    }
 	    if ((wr = write(f->file, wbuf, buf - wbuf)) > 0) {
 		w += wr;
-		f->bits &= ~SF_HOLE;
+		f->bits &= (unsigned short)~SF_HOLE;
 	    }
 	    if (wr != (buf - wbuf))
 		break;
@@ -173,7 +173,7 @@ ssize_t sfwr(reg Sfio_t * f, reg const void * buf, reg size_t n,
 	    } else {
 	      do_write:
 		if ((w = write(f->file, (char *) buf, n)) > 0)
-		    f->bits &= ~SF_HOLE;
+		    f->bits &= (unsigned short)~SF_HOLE;
 	    }
 
 	    if (errno == 0)

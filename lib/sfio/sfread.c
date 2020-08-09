@@ -34,7 +34,7 @@ ssize_t sfread(reg Sfio_t * f, void * buf, reg size_t n)
 
     GETLOCAL(f, local);
     justseek = f->bits & SF_JUSTSEEK;
-    f->bits &= ~SF_JUSTSEEK;
+    f->bits &= (unsigned short)~SF_JUSTSEEK;
 
     if (!buf)
 	SFMTXRETURN(f, (ssize_t) (-1));

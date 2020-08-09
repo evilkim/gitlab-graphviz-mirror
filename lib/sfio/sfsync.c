@@ -115,7 +115,7 @@ int sfsync(reg Sfio_t * f)
 	    if (!SFISNULL(f) && (f->bits & SF_HOLE)) {	/* realize a previously created hole of 0's */
 		if (SFSK(f, (Sfoff_t) (-1), SEEK_CUR, f->disc) >= 0)
 		    (void) SFWR(f, "", 1, f->disc);
-		f->bits &= ~SF_HOLE;
+		f->bits &= (unsigned short)~SF_HOLE;
 	    }
 	    f->mode |= pool;
 	}
