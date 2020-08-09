@@ -65,19 +65,17 @@ portable-source:
         # Retrieve submodules, dependencies are stored there.
         - git submodule update --init
         # Install and set PATH
-        - choco install --no-progress -y python3
-        - C:\ProgramData\chocolatey\tools\shimgen.exe -o=C:\Python38\python3.exe -p=C:\Python38\python.exe
         - choco install --no-progress -y grep
         - choco install --no-progress -y diffutils
-        - $Env:Path += ";C:\Python38"
-        - $Env:Path += ";C:\Python38\Scripts"
-        - pip install pytest
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities"
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\NSIS\Bin"
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\Perl64\bin"
+        - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\Python38-32"
+        - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\Python38-32\Scripts"
         # CMake's cpack must be before Chocolatey's in the path
         - $Env:Path = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;$Env:Path"
         - $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
+        - python3 -m pip install pytest
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
         - >-
