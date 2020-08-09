@@ -990,9 +990,11 @@ static void compile_edges(graph_t * ug, graph_t * Xg)
 	    hc = ND_clust(aghead(e));
 
 	    if (is_internal_to_cluster(e)) {
+		graph_t *clust_tail = ND_clust(agtail(e));
+		graph_t *clust_head = ND_clust(aghead(e));
 		/* determine if graph requires reversed edge */
-		if ((find(agtail(e)) == GD_maxrep(ND_clust(agtail(e))))
-		    || (find(aghead(e)) == GD_minrep(ND_clust(aghead(e))))) {
+		if ((clust_tail != NULL && find(agtail(e)) == GD_maxrep(clust_tail))
+		    || (clust_head != NULL && find(aghead(e)) == GD_minrep(clust_head))) {
 		    node_t *temp = Xt;
 		    Xt = Xh;
 		    Xh = temp;
