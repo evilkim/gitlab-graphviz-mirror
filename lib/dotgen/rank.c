@@ -836,13 +836,17 @@ static void compile_samerank(graph_t * ug, graph_t * parent_clust)
 	GD_has_sourcerank(clust) = TRUE;	/* fall through */
     case MINRANK:
 	leader = union_all(ug);
-	GD_minrep(clust) = union_one(leader, GD_minrep(clust));
+	if (clust != NULL) {
+	    GD_minrep(clust) = union_one(leader, GD_minrep(clust));
+	}
 	break;
     case SINKRANK:
 	GD_has_sinkrank(clust) = TRUE;	/* fall through */
     case MAXRANK:
 	leader = union_all(ug);
-	GD_maxrep(clust) = union_one(leader, GD_maxrep(clust));
+	if (clust != NULL) {
+	    GD_maxrep(clust) = union_one(leader, GD_maxrep(clust));
+	}
 	break;
     case SAMERANK:
 	leader = union_all(ug);
