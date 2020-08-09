@@ -130,7 +130,7 @@ Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
 	    else if (f->data == f->tiny)
 		sfsetbuf(f, NIL(void *), 0);
 	    else {
-		int flags = f->flags;
+		unsigned short flags = f->flags;
 		sfsetbuf(f, (void *) f->data, f->size);
 		f->flags |= (flags & SF_MALLOC);
 	    }
