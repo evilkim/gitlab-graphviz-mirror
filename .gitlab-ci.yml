@@ -54,6 +54,7 @@ portable-source:
 
 .build_template: &windows_build_definition
     stage: build
+    needs: []
     script:
         # Toolchain definitions
         - if($env:platform -eq "x64") {
