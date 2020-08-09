@@ -46,7 +46,7 @@ static File_t *File;		/* list pf temp files   */
 
 static int _tmprmfile(Sfio_t * f, int type, void * val, Sfdisc_t * disc)
 {
-    reg File_t *ff, *last;
+    File_t *ff, *last;
 
     NOTUSED(val);
 
@@ -81,7 +81,7 @@ static int _tmprmfile(Sfio_t * f, int type, void * val, Sfdisc_t * disc)
 
 static void _rmfiles(void)
 {
-    reg File_t *ff, *next;
+    File_t *ff, *next;
 
     vtmtxlock(_Sfmutex);
     for (ff = File; ff; ff = next) {
@@ -100,7 +100,7 @@ NIL(Sfdisc_t *) };
 static int _rmtmp(Sfio_t * f, char *file)
 {
 #if _tmp_rmfail			/* remove only when stream is closed */
-    reg File_t *ff;
+    File_t *ff;
 
     if (!File)
 	atexit(_rmfiles);
@@ -128,8 +128,8 @@ static char **Tmppath, **Tmpcur;
 
 char **_sfgetpath(char *path)
 {
-    reg char *p, **dirs;
-    reg int n;
+    char *p, **dirs;
+    int n;
 
     if (!(path = getenv(path)))
 	return NIL(char **);
@@ -168,8 +168,8 @@ char **_sfgetpath(char *path)
 
 static int _tmpfd(Sfio_t * f)
 {
-    reg char *file;
-    reg int fd;
+    char *file;
+    int fd;
     int t;
 
     /* set up path of dirs to create temp files */
@@ -198,7 +198,7 @@ static int _tmpfd(Sfio_t * f)
     for (t = 0; t < 10; ++t) {	/* compute a random name */
 	static ulong Key, A;
 	if (A == 0 || t > 0) {	/* get a quasi-random coefficient */
-	    reg int r;
+	    int r;
 	    A = (ulong) time(NIL(time_t *)) ^ (((ulong) (&t)) >> 3);
 	    if (Key == 0)
 		Key = (A >> 16) | ((A & 0xffff) << 16);
@@ -242,8 +242,8 @@ static int _tmpfd(Sfio_t * f)
 
 static int _tmpexcept(Sfio_t * f, int type, void * val, Sfdisc_t * disc)
 {
-    reg int fd, m;
-    reg Sfio_t *sf;
+    int fd, m;
+    Sfio_t *sf;
     Sfio_t newf, savf;
     void (*notifyf) (Sfio_t *, int, int);
 
@@ -320,9 +320,9 @@ static int _tmpexcept(Sfio_t * f, int type, void * val, Sfdisc_t * disc)
     return 1;
 }
 
-Sfio_t *sftmp(reg size_t s)
+Sfio_t *sftmp(size_t s)
 {
-    reg Sfio_t *f;
+    Sfio_t *f;
     static Sfdisc_t Tmpdisc =
 	{ NIL(Sfread_f), NIL(Sfwrite_f), NIL(Sfseek_f), _tmpexcept,
 #if _tmp_rmfail

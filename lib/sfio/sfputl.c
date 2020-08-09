@@ -22,11 +22,11 @@
  * @param f write a portable long to this stream
  * @param v the value to be written
  */
-int _sfputl(reg Sfio_t * f, Sflong_t v)
+int _sfputl(Sfio_t * f, Sflong_t v)
 {
 #define N_ARRAY		(2*sizeof(Sflong_t))
-    reg uchar *s, *ps;
-    reg ssize_t n, p;
+    uchar *s, *ps;
+    ssize_t n, p;
     uchar c[N_ARRAY];
 
     SFMTXSTART(f, -1);

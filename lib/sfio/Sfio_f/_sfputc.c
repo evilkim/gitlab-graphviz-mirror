@@ -15,7 +15,7 @@
 
 #undef sfputc
 
-int sfputc(reg Sfio_t * f, reg int c)
+int sfputc(Sfio_t * f, int c)
 {
     return __sf_putc(f, c);
 }

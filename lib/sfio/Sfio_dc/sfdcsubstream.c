@@ -32,9 +32,9 @@ typedef struct _subfile_s {
 static ssize_t streamio(Sfio_t * f, void * buf, size_t n,
 			Sfdisc_t * disc, int type)
 {
-    reg Subfile_t *su;
-    reg Sfoff_t here, parent;
-    reg ssize_t io;
+    Subfile_t *su;
+    Sfoff_t here, parent;
+    ssize_t io;
 
     su = (Subfile_t *) disc;
 
@@ -82,8 +82,8 @@ static ssize_t streamread(Sfio_t * f, void * buf, size_t n,
 static Sfoff_t streamseek(Sfio_t * f, Sfoff_t pos, int type,
 			  Sfdisc_t * disc)
 {
-    reg Subfile_t *su;
-    reg Sfoff_t here, parent;
+    Subfile_t *su;
+    Sfoff_t here, parent;
 
     su = (Subfile_t *) disc;
 
@@ -134,8 +134,8 @@ static int streamexcept(Sfio_t * f, int type, void * data,
 int sfdcsubstream(Sfio_t * f, Sfio_t * parent, Sfoff_t offset,
 		  Sfoff_t extent)
 {
-    reg Subfile_t *su;
-    reg Sfoff_t here;
+    Subfile_t *su;
+    Sfoff_t here;
 
     /* establish that we can seek to offset */
     if ((here = sfseek(parent, (Sfoff_t) 0, 1)) < 0

@@ -6,7 +6,7 @@
 */
 
 
-static void* dtvsearch(Dt_t* dt, reg void* obj, reg int type)
+static void* dtvsearch(Dt_t* dt, void* obj, int type)
 {
 	Dt_t		*d, *p;
 	void		*o, *n, *ok, *nk;
@@ -86,9 +86,9 @@ static void* dtvsearch(Dt_t* dt, reg void* obj, reg int type)
 	}
 }
 
-Dt_t* dtview(reg Dt_t* dt, reg Dt_t* view)
+Dt_t* dtview(Dt_t* dt, Dt_t* view)
 {
-	reg Dt_t*	d;
+	Dt_t*	d;
 
 	UNFLATTEN(dt);
 	if(view)

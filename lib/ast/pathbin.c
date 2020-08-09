@@ -22,7 +22,7 @@
 
 char *pathbin(void)
 {
-    register char *bin;
+    char *bin;
 
     static char *val;
 

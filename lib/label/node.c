@@ -21,7 +21,7 @@
 */
 Node_t *RTreeNewNode(RTree_t * rtp)
 {
-    register Node_t *n;
+    Node_t *n;
 
     rtp->NodeCount++;
     n = (Node_t *) malloc(sizeof(Node_t));
@@ -43,7 +43,7 @@ void RTreeFreeNode(RTree_t * rtp, Node_t * p)
 */
 void InitNode(Node_t * n)
 {
-    register int i;
+    int i;
     n->count = 0;
     n->level = -1;
     for (i = 0; i < NODECARD; i++)
@@ -94,7 +94,7 @@ void PrintBranch(int i, Branch_t * b)
 */
 Rect_t NodeCover(Node_t * n)
 {
-    register int i, flag;
+    int i, flag;
     Rect_t r;
     assert(n);
 
@@ -119,8 +119,8 @@ Rect_t NodeCover(Node_t * n)
 */
 int PickBranch(Rect_t * r, Node_t * n)
 {
-    register Rect_t *rr=0;
-    register int i=0, flag=1, increase=0, bestIncr=0, area=0, bestArea=0;
+    Rect_t *rr=0;
+    int i=0, flag=1, increase=0, bestIncr=0, area=0, bestArea=0;
     int best=0;
     assert(r && n);
 
@@ -162,7 +162,7 @@ int PickBranch(Rect_t * r, Node_t * n)
 */
 int AddBranch(RTree_t * rtp, Branch_t * b, Node_t * n, Node_t ** new)
 {
-    register int i;
+    int i;
 
     assert(b);
     assert(n);

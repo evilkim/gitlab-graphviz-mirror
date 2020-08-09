@@ -24,7 +24,7 @@ static char *nxt = buf;
 
 char *fmtbuf(size_t n)
 {
-    register char *cur;
+    char *cur;
 
     if (n > (&buf[elementsof(buf)] - nxt))
 	nxt = buf;

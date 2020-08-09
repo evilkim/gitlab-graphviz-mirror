@@ -23,12 +23,12 @@
  * @param f write out the buffered content of this stream
  * @param c if c>=0, c is also written out
  */
-int _sfflsbuf(reg Sfio_t * f, reg int c)
+int _sfflsbuf(Sfio_t * f, int c)
 {
-    reg ssize_t n, w;
-    reg uchar *data;
+    ssize_t n, w;
+    uchar *data;
     uchar outc;
-    reg int local, isall;
+    int local, isall;
     int inpc = c;
 
     SFMTXSTART(f, -1);

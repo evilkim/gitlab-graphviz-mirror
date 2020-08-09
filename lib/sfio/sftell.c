@@ -18,9 +18,9 @@
 **	Written by Kiem-Phong Vo.
 */
 
-Sfoff_t sftell(reg Sfio_t * f)
+Sfoff_t sftell(Sfio_t * f)
 {
-    reg int mode;
+    int mode;
     Sfoff_t p;
 
     SFMTXSTART(f, (Sfoff_t) (-1));

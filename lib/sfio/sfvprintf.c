@@ -33,9 +33,9 @@
  */
 int sfvprintf(Sfio_t * f, const char *form, va_list args)
 {
-    reg int v = 0, n_s, base, fmt, flags;
+    int v = 0, n_s, base, fmt, flags;
     Sflong_t lv;
-    reg char *sp, *ssp, *endsp, *ep, *endep;
+    char *sp, *ssp, *endsp, *ep, *endep;
     int dot, width, precis, n, n_output;
     int sign, decpt;
     ssize_t size;
@@ -58,8 +58,8 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
     char decimal = 0, thousand = 0;
 
     /* fast io system */
-    reg uchar *d, *endd;
-    reg int w;
+    uchar *d, *endd;
+    int w;
 #define SFBUF(f)	(d = f->next, endd = f->endb)
 #define SFINIT(f)	(SFBUF(f), n_output = 0)
 #define SFEND(f)	((n_output += d - f->next), (f->next = d))
@@ -639,7 +639,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 			lv = -lv;
 		}
 		if (n_s < 0) {	/* base 10 */
-		    reg Sflong_t nv;
+		    Sflong_t nv;
 		    sfucvt(lv, sp, nv, ssp, Sflong_t, Sfulong_t);
 		} else if (n_s > 0) {	/* base power-of-2 */
 		    do {

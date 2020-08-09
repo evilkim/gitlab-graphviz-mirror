@@ -18,9 +18,9 @@
 **	Written by Kiem-Phong Vo
 */
 
-int sfclose(reg Sfio_t * f)
+int sfclose(Sfio_t * f)
 {
-    reg int local, ex, rv;
+    int local, ex, rv;
     void *data = NIL(void *);
 
     SFMTXSTART(f, -1);
@@ -35,7 +35,7 @@ int sfclose(reg Sfio_t * f)
 
     /* closing a stack of streams */
     while (f->push) {
-	reg Sfio_t *pop;
+	Sfio_t *pop;
 
 	if (!(pop = (*_Sfstack) (f, NIL(Sfio_t *))))
 	    SFMTXRETURN(f, -1);
@@ -63,7 +63,7 @@ int sfclose(reg Sfio_t * f)
 
     if (!local && f->pool) {	/* remove from pool */
 	if (f->pool == &_Sfpool) {
-	    reg int n;
+	    int n;
 
 	    POOLMTXLOCK(&_Sfpool);
 	    for (n = 0; n < _Sfpool.n_sf; ++n) {

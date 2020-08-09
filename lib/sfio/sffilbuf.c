@@ -27,10 +27,10 @@
  * @param f fill the read buffer of this stream
  * @param n see above
  */
-int _sffilbuf(Sfio_t * f, reg int n)
+int _sffilbuf(Sfio_t * f, int n)
 {
-    reg ssize_t r;
-    reg int first, local, rcrv, rc, justseek;
+    ssize_t r;
+    int first, local, rcrv, rc, justseek;
 
     SFMTXSTART(f, -1);
 

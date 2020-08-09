@@ -54,13 +54,13 @@ extern "C" {
  * @param buf new buffer
  * @param size buffer size, -1 for default size
  */
-void *sfsetbuf(reg Sfio_t * f, reg void * buf, reg size_t size)
+void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 {
-    reg int sf_malloc;
-    reg uchar *obuf;
-    reg Sfdisc_t *disc;
-    reg ssize_t osize, blksize;
-    reg int oflags, init, local;
+    int sf_malloc;
+    uchar *obuf;
+    Sfdisc_t *disc;
+    ssize_t osize, blksize;
+    int oflags, init, local;
     Stat_t st;
 
     SFONCE();
@@ -187,7 +187,7 @@ void *sfsetbuf(reg Sfio_t * f, reg void * buf, reg size_t size)
 			f->flags |= SF_LINE;
 #ifdef HAVE_SYS_STAT_H
 		    else {	/* special case /dev/null */
-			reg int dev, ino;
+			int dev, ino;
 			dev = (int) st.st_dev;
 			ino = (int) st.st_ino;
 			if (stat(DEVNULL, &st) >= 0 &&

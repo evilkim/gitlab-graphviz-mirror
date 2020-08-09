@@ -58,7 +58,7 @@ static int T(int t)
 Exnode_t*
 exnewnode(Expr_t* p, int op, int binary, int type, Exnode_t* left, Exnode_t* right)
 {
-	register Exnode_t*	x;
+	Exnode_t*	x;
 
 	x = ALLOCATE(p, Exnode_t);
 	memzero(x, sizeof(*x));
@@ -77,10 +77,10 @@ exnewnode(Expr_t* p, int op, int binary, int type, Exnode_t* left, Exnode_t* rig
  */
 
 void
-exfreenode(Expr_t* p, register Exnode_t* x)
+exfreenode(Expr_t* p, Exnode_t* x)
 {
-	register Print_t*	pr;
-	register Exref_t*	r;
+	Print_t*	pr;
+	Exref_t*	r;
 	Print_t*		pn;
 	Exref_t*		rn;
 	int			i;
@@ -294,7 +294,7 @@ static Exnode_t *exnewsubstr(Expr_t * p, Exnode_t * args) {
  * Cast x to type STRING
  * Assume x->type != STRING
  */
-static Exnode_t *exstringOf(Expr_t * p, register Exnode_t * x) {
+static Exnode_t *exstringOf(Expr_t * p, Exnode_t * x) {
 	int type = x->type;
 	int cvt = 0;
 
@@ -444,16 +444,16 @@ char *extypename(Expr_t * p, int type) {
 /* exnoncast:
  * Return first non-cast node.
  */
-Exnode_t *exnoncast(register Exnode_t * x) {
+Exnode_t *exnoncast(Exnode_t * x) {
 	while (x && (x->op >= F2I) && (x->op <= X2X))
 	    x = x->data.operand.left;
 	return x;
 }
 
 Exnode_t*
-excast(Expr_t* p, register Exnode_t* x, register int type, register Exnode_t* xref, int arg)
+excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 {
-	register int	t2t;
+	int	t2t;
 	char*		s;
 	char*		e;
 
@@ -553,7 +553,7 @@ excast(Expr_t* p, register Exnode_t* x, register int type, register Exnode_t* xr
 Extype_t
 exconvert(Expr_t* p, Extype_t v, int from, int to, char* buf, size_t size)
 {
-	register int	t2t;
+	int	t2t;
 	int		n;
 	Exnode_t	tmp;
 
@@ -620,9 +620,9 @@ exconvert(Expr_t* p, Extype_t v, int from, int to, char* buf, size_t size)
  */
 
 static Exid_t*
-qualify(register Exref_t* ref, register Exid_t* sym)
+qualify(Exref_t* ref, Exid_t* sym)
 {
-	register Exid_t*	x;
+	Exid_t*	x;
 	char*			s;
 
 	while (ref->next)
@@ -652,10 +652,10 @@ qualify(register Exref_t* ref, register Exid_t* sym)
  */
 
 static Exnode_t*
-call(Exref_t* ref, register Exid_t* fun, register Exnode_t* args)
+call(Exref_t* ref, Exid_t* fun, Exnode_t* args)
 {
-	register int	t;
-	register int	type;
+	int	t;
+	int	type;
 	Exnode_t*	x;
 	int		num;
 
@@ -688,11 +688,11 @@ call(Exref_t* ref, register Exid_t* fun, register Exnode_t* args)
  */
 
 static Print_t*
-preprint(register Exnode_t* args)
+preprint(Exnode_t* args)
 {
-	register Print_t*	x;
-	register char*		s;
-	register int		c;
+	Print_t*	x;
+	char*		s;
+	int		c;
 	int			t;
 	int			i;
 	int			n;
@@ -892,8 +892,8 @@ preprint(register Exnode_t* args)
 int
 expush(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 {
-	register Exinput_t*	in;
-	register char*		s;
+	Exinput_t*	in;
+	char*		s;
 	char			buf[PATH_MAX];
 
 	if (!(in = newof(0, Exinput_t, 1, 0)))
@@ -954,10 +954,10 @@ expush(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
  */
 
 int
-expop(register Expr_t* p)
+expop(Expr_t* p)
 {
-	register int		c;
-	register Exinput_t*	in;
+	int		c;
+	Exinput_t*	in;
 
 	if (!(in = p->input) || !in->next || in->unit)
 		return -1;
@@ -1003,7 +1003,7 @@ void exinit(void) {
  */
 
 int
-excomp(register Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
+excomp(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 {
 	Exid_t*	v;
 	int	eof;
@@ -1042,10 +1042,10 @@ excomp(register Expr_t* p, const char* name, int line, const char* sp, Sfio_t* f
  */
 
 void
-exclose(register Expr_t* p, int all)
+exclose(Expr_t* p, int all)
 {
-	register int		i;
-	register Exinput_t*	in;
+	int		i;
+	Exinput_t*	in;
 
 	if (p)
 	{

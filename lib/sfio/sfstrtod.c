@@ -24,7 +24,7 @@
 #define FPART		1	/* doing fractional part */
 #define EPART		2	/* doing exponent part */
 
-static Sfdouble_t sfpow10(reg int n)
+static Sfdouble_t sfpow10(int n)
 {
     Sfdouble_t dval;
 
@@ -62,10 +62,10 @@ static Sfdouble_t sfpow10(reg int n)
  * @param s string to convert
  * @param retp to return the remainder of string
  */
-Sfdouble_t _sfstrtod(reg const char *s, char **retp)
+Sfdouble_t _sfstrtod(const char *s, char **retp)
 {
-    reg int n, c, m;
-    reg int mode, fexp, sign, expsign;
+    int n, c, m;
+    int mode, fexp, sign, expsign;
     Sfdouble_t dval;
     char decpoint = 0, thousand;
     SFSETLOCALE(decpoint, thousand);

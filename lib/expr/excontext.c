@@ -27,9 +27,9 @@
 char*
 excontext(Expr_t* p, char* buf, int n)
 {
-	register char*	s;
-	register char*	t;
-	register char*	e;
+	char*	s;
+	char*	t;
+	char*	e;
 
 	s = buf;
 	if (p->linep > p->line || p->linewrap)

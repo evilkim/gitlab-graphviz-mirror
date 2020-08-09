@@ -18,9 +18,9 @@
 **	Written by Kiem-Phong Vo.
 */
 
-static int _sfdup(reg int fd, reg int newfd)
+static int _sfdup(int fd, int newfd)
 {
-    reg int dupfd;
+    int dupfd;
 
 #ifdef F_DUPFD			/* the simple case */
     while ((dupfd = fcntl(fd, F_DUPFD, newfd)) < 0 && errno == EINTR)
@@ -41,9 +41,9 @@ static int _sfdup(reg int fd, reg int newfd)
 #endif
 }
 
-int sfsetfd(reg Sfio_t * f, reg int newfd)
+int sfsetfd(Sfio_t * f, int newfd)
 {
-    reg int oldfd;
+    int oldfd;
 
     SFMTXSTART(f, -1);
 

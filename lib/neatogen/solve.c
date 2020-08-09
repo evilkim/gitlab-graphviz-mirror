@@ -24,10 +24,10 @@ void solve(double *a, double *b, double *c, int n)
 {				/*a[n][n],b[n],c[n] */
     double *asave, *csave;
     double amax, dum, pivot;
-    register int i, ii, j;
-    register int k, m, mp;
-    register int istar, ip;
-    register int nm, nsq, t;
+    int i, ii, j;
+    int k, m, mp;
+    int istar, ip;
+    int nm, nsq, t;
 
     istar = 0;			/* quiet warnings */
     nsq = n * n;

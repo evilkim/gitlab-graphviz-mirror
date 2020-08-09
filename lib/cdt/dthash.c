@@ -11,7 +11,7 @@
 /* resize the hash table */
 static void dthtab(Dt_t* dt)
 {
-	reg Dtlink_t	*t, *r, *p, **s, **hs, **is, **olds;
+	Dtlink_t	*t, *r, *p, **s, **hs, **is, **olds;
 	int		n, k;
 
 	if(dt->data->minp > 0 && dt->data->ntab > 0) /* fixed table size */
@@ -70,15 +70,15 @@ static void dthtab(Dt_t* dt)
 	}
 }
 
-static void* dthash(Dt_t* dt, reg void* obj, int type)
+static void* dthash(Dt_t* dt, void* obj, int type)
 {
-	reg Dtlink_t	*t, *r = NULL, *p;
-	reg void	*k, *key;
-	reg uint	hsh;
-	reg int		lk, sz, ky;
-	reg Dtcompar_f	cmpf;
-	reg Dtdisc_t*	disc;
-	reg Dtlink_t	**s = NULL, **ends;
+	Dtlink_t	*t, *r = NULL, *p;
+	void	*k, *key;
+	uint	hsh;
+	int		lk, sz, ky;
+	Dtcompar_f	cmpf;
+	Dtdisc_t*	disc;
+	Dtlink_t	**s = NULL, **ends;
 
 	UNFLATTEN(dt);
 

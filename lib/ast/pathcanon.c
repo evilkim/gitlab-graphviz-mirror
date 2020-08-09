@@ -41,11 +41,11 @@
 
 char *pathcanon(char *path, int flags)
 {
-    register char *p;
-    register char *r;
-    register char *s;
-    register char *t;
-    register int dots;
+    char *p;
+    char *r;
+    char *s;
+    char *t;
+    int dots;
     char *phys;
     char *v;
     char* e = path + PATH_MAX;

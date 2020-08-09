@@ -208,7 +208,6 @@ extern "C" {
 
 /* short-hands */
 #define NIL(t)		((t)0)
-#define reg		register
 #ifndef uchar
 #define uchar		unsigned char
 #endif

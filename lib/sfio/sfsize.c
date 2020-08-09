@@ -17,10 +17,10 @@
 **
 **	Written by Kiem-Phong Vo.
 */
-Sfoff_t sfsize(reg Sfio_t * f)
+Sfoff_t sfsize(Sfio_t * f)
 {
     Sfdisc_t *disc;
-    reg int mode;
+    int mode;
     Sfoff_t s;
 
     SFMTXSTART(f, (Sfoff_t) (-1));

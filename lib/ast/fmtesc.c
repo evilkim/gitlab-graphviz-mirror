@@ -34,12 +34,12 @@
 char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 	       int flags)
 {
-    register const unsigned char *s = (const unsigned char *) as;
-    register const unsigned char *e = s + n;
-    register char *b;
-    register int c;
-    register int escaped;
-    register int spaced;
+    const unsigned char *s = (const unsigned char *) as;
+    const unsigned char *e = s + n;
+    char *b;
+    int c;
+    int escaped;
+    int spaced;
     int shell;
     char *f;
     char *buf;

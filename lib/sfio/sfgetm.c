@@ -18,11 +18,11 @@
 **	Written by Kiem-Phong Vo
 */
 
-Sfulong_t sfgetm(reg Sfio_t * f, Sfulong_t m)
+Sfulong_t sfgetm(Sfio_t * f, Sfulong_t m)
 {
     Sfulong_t v;
-    reg uchar *s, *ends, c;
-    reg int p;
+    uchar *s, *ends, c;
+    int p;
 
     SFMTXSTART(f, (Sfulong_t) (-1));
 

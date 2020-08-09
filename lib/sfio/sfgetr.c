@@ -24,13 +24,13 @@
  * @param rc record separator. r10 on Vax
  * @param type
  */
-char *sfgetr(reg Sfio_t * f, reg int rc, int type)
+char *sfgetr(Sfio_t * f, int rc, int type)
 {
-    reg ssize_t n;
-    reg uchar *s, *ends, *us;
-    reg ssize_t un;
-    reg int found;
-    reg Sfrsrv_t *rsrv;
+    ssize_t n;
+    uchar *s, *ends, *us;
+    ssize_t un;
+    int found;
+    Sfrsrv_t *rsrv;
 
     SFMTXSTART(f, NIL(char *));
 

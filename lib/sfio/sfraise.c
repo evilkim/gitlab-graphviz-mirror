@@ -25,8 +25,8 @@
  */
 int sfraise(Sfio_t * f, int type, void * data)
 {
-    reg Sfdisc_t *disc, *next, *d;
-    reg int local, rv;
+    Sfdisc_t *disc, *next, *d;
+    int local, rv;
 
     SFMTXSTART(f, -1);
 

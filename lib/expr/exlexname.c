@@ -26,7 +26,7 @@
 char*
 exlexname(int op, int subop)
 {
-	register char*	b;
+	char*	b;
 
 	static int	n;
 	static char	buf[TOTNAME][MAXNAME];

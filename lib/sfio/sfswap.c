@@ -21,7 +21,7 @@
 **	Written by Kiem-Phong Vo.
 */
 
-Sfio_t *sfswap(reg Sfio_t * f1, reg Sfio_t * f2)
+Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
 {
     Sfio_t tmp;
     int f1pool, f2pool, f1mode, f1flags, f2flags;

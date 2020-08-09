@@ -385,7 +385,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 /* function to initialize conversion tables */
 static int sfcvinit(void)
 {
-    reg int d, l;
+    int d, l;
 
     for (d = 0; d <= SF_MAXCHAR; ++d) {
 	_Sfcv36[d] = SF_RADIX;

@@ -7,11 +7,11 @@
 **	Written by Kiem-Phong Vo (5/25/96)
 */
 
-int dtrestore(reg Dt_t* dt, reg Dtlink_t* list)
+int dtrestore(Dt_t* dt, Dtlink_t* list)
 {
-	reg Dtlink_t	*t, **s, **ends;
-	reg int		type;
-	reg Dtsearch_f	searchf = dt->meth->searchf;
+	Dtlink_t	*t, **s, **ends;
+	int		type;
+	Dtsearch_f	searchf = dt->meth->searchf;
 
 	type = dt->data->type&DT_FLATTEN;
 	if(!list) /* restoring a flattened dictionary */

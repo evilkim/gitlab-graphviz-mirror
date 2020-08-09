@@ -15,7 +15,7 @@
 
 #undef sfvalue
 
-ssize_t sfvalue(reg Sfio_t * f)
+ssize_t sfvalue(Sfio_t * f)
 {
     return __sf_value(f);
 }

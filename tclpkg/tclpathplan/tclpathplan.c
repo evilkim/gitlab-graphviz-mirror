@@ -139,13 +139,13 @@ static void dgsprintxy(Tcl_DString * result, int npts, point p[])
 }
 
 static void expandPercentsEval(Tcl_Interp * interp,	/* interpreter context */
-			       register char *before,	/* Command with percent expressions */
+			       char *before,	/* Command with percent expressions */
 			       char *r,	/* vgpaneHandle string to substitute for "%r" */
 			       int npts,	/* number of coordinates */
 			       point * ppos	/* Cordinates to substitute for %t */
     )
 {
-    register char *string;
+    char *string;
     Tcl_DString scripts;
 
     Tcl_DStringInit(&scripts);

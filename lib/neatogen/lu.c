@@ -66,7 +66,7 @@ static int *ps;
 
 int lu_decompose(double **a, int n)
 {
-    register int i, j, k;
+    int i, j, k;
     int pivotindex = 0;
     double pivot, biggest, mult, tempf;
 
@@ -141,7 +141,7 @@ int lu_decompose(double **a, int n)
 
 void lu_solve(double *x, double *b, int n)
 {
-    register int i, j;
+    int i, j;
     double dot;
 
     /* Vector reduction using U triangular matrix */

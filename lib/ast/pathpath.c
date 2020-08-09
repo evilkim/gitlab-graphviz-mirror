@@ -48,9 +48,9 @@ extern char **environ;
 #endif
 char **opt_info_argv;
 
-char *pathpath(register char *path, const char *p, const char *a, int mode)
+char *pathpath(char *path, const char *p, const char *a, int mode)
 {
-    register char *s;
+    char *s;
     char *x;
     char buf[PATH_MAX];
 

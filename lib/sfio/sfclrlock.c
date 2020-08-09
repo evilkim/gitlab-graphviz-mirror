@@ -19,7 +19,7 @@
 **
 **	Written by Kiem-Phong Vo
 */
-int sfclrlock(reg Sfio_t * f)
+int sfclrlock(Sfio_t * f)
 {
     int rv;
 

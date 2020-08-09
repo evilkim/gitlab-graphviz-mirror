@@ -18,9 +18,9 @@
 **	Written by Kiem-Phong Vo.
 */
 
-int sfset(reg Sfio_t * f, reg int flags, reg int set)
+int sfset(Sfio_t * f, int flags, int set)
 {
-    reg int oflags;
+    int oflags;
 
     SFMTXSTART(f, 0);
 

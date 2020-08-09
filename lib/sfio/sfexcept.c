@@ -25,9 +25,9 @@
  */
 int _sfexcept(Sfio_t * f, int type, ssize_t io, Sfdisc_t * disc)
 {
-    reg int ev, local, lock;
-    reg ssize_t size;
-    reg uchar *data;
+    int ev, local, lock;
+    ssize_t size;
+    uchar *data;
 
     SFMTXSTART(f, -1);
 
@@ -97,7 +97,7 @@ int _sfexcept(Sfio_t * f, int type, ssize_t io, Sfdisc_t * disc)
 
   chk_stack:
     if (local && f->push && ((type == SF_READ && f->next >= f->endb) || (type == SF_WRITE && f->next <= f->data))) {	/* pop the stack */
-	reg Sfio_t *pf;
+	Sfio_t *pf;
 
 	if (lock)
 	    SFOPEN(f, 0);

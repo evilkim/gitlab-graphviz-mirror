@@ -5,14 +5,14 @@
 **	Written by Kiem-Phong Vo (5/25/96)
 */
 
-static int treecount(reg Dtlink_t* e)
+static int treecount(Dtlink_t* e)
 {	return e ? treecount(e->left) + treecount(e->right) + 1 : 0;
 }
 
 int dtsize(Dt_t* dt)
 {
-	reg Dtlink_t*	t;
-	reg int		size;
+	Dtlink_t*	t;
+	int		size;
 
 	UNFLATTEN(dt);
 

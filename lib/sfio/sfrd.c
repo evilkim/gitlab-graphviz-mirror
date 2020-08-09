@@ -22,9 +22,9 @@
 /* synchronize unseekable write streams */
 static void _sfwrsync(void)
 {
-    reg Sfpool_t *p;
-    reg Sfio_t *f;
-    reg int n;
+    Sfpool_t *p;
+    Sfio_t *f;
+    int n;
 
     /* sync all pool heads */
     for (p = _Sfpool.next; p; p = p->next) {
@@ -46,12 +46,12 @@ static void _sfwrsync(void)
     }
 }
 
-ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
+ssize_t sfrd(Sfio_t * f, void * buf, size_t n,
 	     Sfdisc_t * disc)
 {
     Sfoff_t r;
-    reg Sfdisc_t *dc;
-    reg int local, dosync, oerrno;
+    Sfdisc_t *dc;
+    int local, dosync, oerrno;
     unsigned rcrv;
 
     SFMTXSTART(f, -1);
@@ -92,7 +92,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 	/* warn that a read is about to happen */
 	SFDISC(f, dc, readf);
 	if (dc && dc->exceptf && (f->flags & SF_IOCHECK)) {
-	    reg int rv;
+	    int rv;
 	    if (local)
 		SETLOCAL(f);
 	    if ((rv = _sfexcept(f, SF_READ, n, dc)) > 0)

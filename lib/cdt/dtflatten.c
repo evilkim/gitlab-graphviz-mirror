@@ -8,7 +8,7 @@
 
 Dtlink_t* dtflatten(Dt_t* dt)
 {
-	reg Dtlink_t	*t, *r, *list, *last, **s, **ends;
+	Dtlink_t	*t, *r, *list, *last, **s, **ends;
 
 	/* already flattened */
 	if(dt->data->type&DT_FLATTEN )

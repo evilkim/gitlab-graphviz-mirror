@@ -565,11 +565,11 @@ static int left2right(graph_t * g, node_t * v, node_t * w)
 
 static int in_cross(node_t * v, node_t * w)
 {
-    register edge_t **e1, **e2;
-    register int inv, cross = 0, t;
+    edge_t **e1, **e2;
+    int inv, cross = 0, t;
 
     for (e2 = ND_in(w).list; *e2; e2++) {
-	register int cnt = ED_xpenalty(*e2);		
+	int cnt = ED_xpenalty(*e2);		
 		
 	inv = ND_order((agtail(*e2)));
 
@@ -586,11 +586,11 @@ static int in_cross(node_t * v, node_t * w)
 
 static int out_cross(node_t * v, node_t * w)
 {
-    register edge_t **e1, **e2;
-    register int inv, cross = 0, t;
+    edge_t **e1, **e2;
+    int inv, cross = 0, t;
 
     for (e2 = ND_out(w).list; *e2; e2++) {
-	register int cnt = ED_xpenalty(*e2);
+	int cnt = ED_xpenalty(*e2);
 	inv = ND_order(aghead(*e2));
 
 	for (e1 = ND_out(v).list; *e1; e1++) {
@@ -1608,8 +1608,8 @@ static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 	    if (rp >= ep)
 		break;
 	    if (muststay == FALSE) {
-		register int p1 = (ND_mval(*lp));
-		register int p2 = (ND_mval(*rp));
+		int p1 = (ND_mval(*lp));
+		int p2 = (ND_mval(*rp));
 		if ((p1 > p2) || ((p1 == p2) && (reverse))) {
 		    exchange(*lp, *rp);
 		    changed++;
@@ -1712,7 +1712,7 @@ static int rcross(graph_t * g, int r)
 	Count[i] = 0;
 
     for (top = 0; top < GD_rank(g)[r].n; top++) {
-	register edge_t *e;
+	edge_t *e;
 	if (max > 0) {
 	    for (i = 0; (e = ND_out(rtop[top]).list[i]); i++) {
 		for (k = ND_order(aghead(e)) + 1; k <= max; k++)
@@ -1720,7 +1720,7 @@ static int rcross(graph_t * g, int r)
 	    }
 	}
 	for (i = 0; (e = ND_out(rtop[top]).list[i]); i++) {
-	    register int inv = ND_order(aghead(e));
+	    int inv = ND_order(aghead(e));
 	    if (inv > max)
 		max = inv;
 	    Count[inv] += ED_xpenalty(e);

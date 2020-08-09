@@ -6,11 +6,11 @@
 **	Written by Kiem-Phong Vo (5/25/96)
 */
 
-int dtwalk(reg Dt_t* dt, int (*userf)(Dt_t*, void*, void*), void* data)
+int dtwalk(Dt_t* dt, int (*userf)(Dt_t*, void*, void*), void* data)
 {
-	reg void	*obj, *next;
-	reg Dt_t*	walk;
-	reg int		rv;
+	void	*obj, *next;
+	Dt_t*	walk;
+	int		rv;
 
 	for(obj = dtfirst(dt); obj; )
 	{	if(!(walk = dt->walk) )

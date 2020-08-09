@@ -30,7 +30,7 @@ extern Rect_t CoverAll;
 -----------------------------------------------------------------------------*/
 void InitRect(Rect_t * r)
 {
-    register int i;
+    int i;
     for (i = 0; i < NUMSIDES; i++)
 	r->boundary[i] = 0;
 }
@@ -42,7 +42,7 @@ void InitRect(Rect_t * r)
 Rect_t NullRect()
 {
     Rect_t r;
-    register int i;
+    int i;
 
     r.boundary[0] = 1;
     r.boundary[NUMDIMS] = -1;
@@ -58,7 +58,7 @@ Rect_t NullRect()
 -----------------------------------------------------------------------------*/
 RandomRect(Rect_t * r)
 {
-    register int i, width;
+    int i, width;
     for (i = 0; i < NUMDIMS; i++) {
 	/* width from 1 to 1000 / 4, more small ones */
 	width = rand() % (1000 / 4) + 1;
@@ -79,7 +79,7 @@ RandomRect(Rect_t * r)
 -----------------------------------------------------------------------------*/
 SearchRect(Rect_t * search, Rect_t * data)
 {
-    register int i, j, size, center;
+    int i, j, size, center;
 
     assert(search);
     assert(data);
@@ -107,7 +107,7 @@ SearchRect(Rect_t * search, Rect_t * data)
 -----------------------------------------------------------------------------*/
 void PrintRect(Rect_t * r)
 {
-    register int i;
+    int i;
     assert(r);
     fprintf(stderr, "rect:");
     for (i = 0; i < NUMDIMS; i++)
@@ -123,7 +123,7 @@ void PrintRect(Rect_t * r)
 #if LLONG_MAX > UINT_MAX
 unsigned int RectArea(Rect_t * r)
 {
-  register int i;
+  int i;
   unsigned int area;
   assert(r);
 
@@ -147,7 +147,7 @@ unsigned int RectArea(Rect_t * r)
 #else
 unsigned int RectArea(Rect_t * r)
 {
-  register int i;
+  int i;
   unsigned int area=1, a=1;
   assert(r);
 
@@ -172,7 +172,7 @@ unsigned int RectArea(Rect_t * r)
 #if 0 /*original code*/
 int RectArea(Rect_t * r)
 {
-    register int i, area=1;
+    int i, area=1;
     assert(r);
 
     if (Undefined(r))
@@ -190,7 +190,7 @@ int RectArea(Rect_t * r)
 -----------------------------------------------------------------------------*/
 Rect_t CombineRect(Rect_t * r, Rect_t * rr)
 {
-    register int i, j;
+    int i, j;
     Rect_t new;
     assert(r && rr);
 
@@ -212,7 +212,7 @@ Rect_t CombineRect(Rect_t * r, Rect_t * rr)
 -----------------------------------------------------------------------------*/
 int Overlap(Rect_t * r, Rect_t * s)
 {
-    register int i, j;
+    int i, j;
     assert(r && s);
 
     for (i = 0; i < NUMDIMS; i++) {
@@ -229,7 +229,7 @@ int Overlap(Rect_t * r, Rect_t * s)
 -----------------------------------------------------------------------------*/
 int Contained(Rect_t * r, Rect_t * s)
 {
-    register int i, j, result;
+    int i, j, result;
     assert(r && s);
 
     /* undefined rect is contained in any other */

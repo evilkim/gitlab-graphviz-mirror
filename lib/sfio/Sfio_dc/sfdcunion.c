@@ -56,8 +56,8 @@ static ssize_t unwrite(Sfio_t * f, const void * buf, size_t n,
  */
 static ssize_t unread(Sfio_t * f, void * buf, size_t n, Sfdisc_t * disc)
 {
-    reg Union_t *un;
-    reg ssize_t r, m;
+    Union_t *un;
+    ssize_t r, m;
 
     un = (Union_t *) disc;
     m = n;
@@ -81,9 +81,9 @@ static ssize_t unread(Sfio_t * f, void * buf, size_t n, Sfdisc_t * disc)
 
 static Sfoff_t unseek(Sfio_t * f, Sfoff_t addr, int type, Sfdisc_t * disc)
 {
-    reg Union_t *un;
-    reg int i;
-    reg Sfoff_t extent, s;
+    Union_t *un;
+    int i;
+    Sfoff_t extent, s;
 
     un = (Union_t *) disc;
     if (un->type & UNSEEKABLE)
@@ -133,8 +133,8 @@ static int unexcept(Sfio_t * f, int type, void * data, Sfdisc_t * disc)
 
 int sfdcunion(Sfio_t * f, Sfio_t ** array, int n)
 {
-    reg Union_t *un;
-    reg int i;
+    Union_t *un;
+    int i;
 
     if (n <= 0)
 	return -1;

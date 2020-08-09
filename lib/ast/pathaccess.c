@@ -33,10 +33,10 @@
 
 char *pathcanon(char *path, int flags);
 
-char *pathaccess(register char *path, register const char *dirs,
-		 const char *a, const char *b, register int mode)
+char *pathaccess(char *path, const char *dirs,
+		 const char *a, const char *b, int mode)
 {
-    register int m = 0;
+    int m = 0;
     int sep = ':';
     char cwd[PATH_MAX];
     struct stat st;

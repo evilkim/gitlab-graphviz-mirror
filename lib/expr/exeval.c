@@ -49,7 +49,7 @@ static Extype_t	eval(Expr_t*, Exnode_t*, void*);
 static char*
 lexname(int op, int subop)
 {
-	register char*	b;
+	char*	b;
 
 	static int	n;
 	static char	buf[TOTNAME][MAXNAME];
@@ -83,7 +83,7 @@ lexname(int op, int subop)
  * 
  */
 static int
-evaldyn (Expr_t * ex, register Exnode_t * expr, void *env, int delete)
+evaldyn (Expr_t * ex, Exnode_t * expr, void *env, int delete)
 {
 	Exassoc_t *b;
 	Extype_t v;
@@ -126,7 +126,7 @@ evaldyn (Expr_t * ex, register Exnode_t * expr, void *env, int delete)
  */
 
 static Extype_t
-getdyn(Expr_t* ex, register Exnode_t* expr, void* env, Exassoc_t** assoc)
+getdyn(Expr_t* ex, Exnode_t* expr, void* env, Exassoc_t** assoc)
 {
 	Exassoc_t*	b;
 	Extype_t	v;
@@ -198,10 +198,10 @@ typedef struct
 static int
 prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 {
-	register Fmt_t*		fmt = (Fmt_t*)dp;
-	register Exnode_t*	node;
-	register char*		s;
-	register char*		txt;
+	Fmt_t*		fmt = (Fmt_t*)dp;
+	Exnode_t*	node;
+	char*		s;
+	char*		txt;
 	int			n;
 	int			from;
 	int			to = 0;
@@ -376,7 +376,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
  */
 
 static int
-prints(Expr_t * ex, register Exnode_t * expr, void *env, Sfio_t * sp)
+prints(Expr_t * ex, Exnode_t * expr, void *env, Sfio_t * sp)
 {
     Extype_t v;
     Exnode_t *args;
@@ -398,7 +398,7 @@ prints(Expr_t * ex, register Exnode_t * expr, void *env, Sfio_t * sp)
 static int
 print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 {
-	register Print_t*	x;
+	Print_t*	x;
 	Extype_t		v;
 	Fmt_t			fmt;
 
@@ -450,8 +450,8 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 static int
 scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 {
-	register Fmt_t*		fmt = (Fmt_t*)dp;
-	register Exnode_t*	node;
+	Fmt_t*		fmt = (Fmt_t*)dp;
+	Exnode_t*	node;
 
 	if (!fmt->actuals)
 	{
@@ -556,7 +556,7 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
  */
 
 static char*
-str_add(Expr_t* ex, register char* l, register char* r)
+str_add(Expr_t* ex, char* l, char* r)
 {
 	sfprintf(ex->tmp, "%s%s", l, r);
 	return exstash(ex->tmp, ex->ve);
@@ -567,10 +567,10 @@ str_add(Expr_t* ex, register char* l, register char* r)
  */
 
 static char*
-str_ior(Expr_t* ex, register char* l, register char* r)
+str_ior(Expr_t* ex, char* l, char* r)
 {
-	register int	c;
-	register char*	s = l;
+	int	c;
+	char*	s = l;
 
 	while ((c = *s++))
 		if (!strchr(s, c))
@@ -586,9 +586,9 @@ str_ior(Expr_t* ex, register char* l, register char* r)
  */
 
 static char*
-str_and(Expr_t* ex, register char* l, register char* r)
+str_and(Expr_t* ex, char* l, char* r)
 {
-	register int	c;
+	int	c;
 
 	while ((c = *l++))
 		if (strchr(r, c) && !strchr(l, c))
@@ -601,10 +601,10 @@ str_and(Expr_t* ex, register char* l, register char* r)
  */
 
 static char*
-str_xor(Expr_t* ex, register char* l, register char* r)
+str_xor(Expr_t* ex, char* l, char* r)
 {
-	register int	c;
-	register char*	s = l;
+	int	c;
+	char*	s = l;
 
 	while ((c = *s++))
 		if (!strchr(r, c) && !strchr(s, c))
@@ -620,9 +620,9 @@ str_xor(Expr_t* ex, register char* l, register char* r)
  */
 
 static char*
-str_mod(Expr_t* ex, register char* l, register char* r)
+str_mod(Expr_t* ex, char* l, char* r)
 {
-	register int	c;
+	int	c;
 
 	while ((c = *l++))
 		if (!strchr(r, c) && !strchr(l, c))
@@ -635,10 +635,10 @@ str_mod(Expr_t* ex, register char* l, register char* r)
  */
 
 static char*
-str_mpy(Expr_t* ex, register char* l, register char* r)
+str_mpy(Expr_t* ex, char* l, char* r)
 {
-	register int	lc;
-	register int	rc;
+	int	lc;
+	int	rc;
 
 	while ((lc = *l++) && (rc = *r++))
 		sfputc(ex->tmp, lc == rc ? lc : ' ');
@@ -650,7 +650,7 @@ str_mpy(Expr_t* ex, register char* l, register char* r)
  * \digit is replaced with a subgroup match, if any.
  */
 static void
-replace(Sfio_t * s, char *base, register char *repl, int ng, int *sub)
+replace(Sfio_t * s, char *base, char *repl, int ng, int *sub)
 {
 	char c;
 	int idx, offset;
@@ -692,7 +692,7 @@ addItem (Dt_t* arr, Extype_t v, char* tok)
  * return number of fields
  */
 static Extype_t
-exsplit(Expr_t * ex, register Exnode_t * expr, void *env)
+exsplit(Expr_t * ex, Exnode_t * expr, void *env)
 {
 	Extype_t v;
 	char *str;
@@ -744,7 +744,7 @@ exsplit(Expr_t * ex, register Exnode_t * expr, void *env)
  * return number of tokens
  */
 static Extype_t
-extokens(Expr_t * ex, register Exnode_t * expr, void *env)
+extokens(Expr_t * ex, Exnode_t * expr, void *env)
 {
 	Extype_t v;
 	char *str;
@@ -783,7 +783,7 @@ extokens(Expr_t * ex, register Exnode_t * expr, void *env)
  * return string after pattern substitution
  */
 static Extype_t
-exsub(Expr_t * ex, register Exnode_t * expr, void *env, int global)
+exsub(Expr_t * ex, Exnode_t * expr, void *env, int global)
 {
 	char *str;
 	char *pat;
@@ -859,7 +859,7 @@ exsub(Expr_t * ex, register Exnode_t * expr, void *env, int global)
 /* exsubstr:
  * return substring.
  */
-static Extype_t exsubstr(Expr_t * ex, register Exnode_t * expr, void *env)
+static Extype_t exsubstr(Expr_t * ex, Exnode_t * expr, void *env)
 {
 	Extype_t s;
 	Extype_t i;
@@ -927,12 +927,12 @@ xPrint(Expr_t * ex, Exnode_t * expr, Extype_t v, Exnode_t * tmp)
 static long seed;
 
 static Extype_t
-eval(Expr_t* ex, register Exnode_t* expr, void* env)
+eval(Expr_t* ex, Exnode_t* expr, void* env)
 {
-	register Exnode_t*	x;
-	register Exnode_t*	a;
-	register Extype_t**	t;
-	register int		n;
+	Exnode_t*	x;
+	Exnode_t*	a;
+	Extype_t**	t;
+	int		n;
 	Extype_t		v;
 	Extype_t		r = {0};
 	Extype_t		i;

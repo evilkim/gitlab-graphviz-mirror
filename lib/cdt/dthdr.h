@@ -11,7 +11,6 @@
 
 /* short-hand notations */
 #define NIL(t)	((t)0)
-#define reg	register
 #define uint	unsigned int
 #define left	hl._left
 #define hash	hl._hash

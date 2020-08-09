@@ -2085,7 +2085,7 @@ tvtypeToStr (int v)
  * Return -1 if conversion cannot be done, 0 otherwise.
  * If arg is > 0, conversion unnecessary; just report possibility.
  */
-static int stringOf(Expr_t * prog, register Exnode_t * x, int arg, Exdisc_t* disc)
+static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
 {
     Agobj_t *objp;
     int rv = 0;
@@ -2122,8 +2122,8 @@ static int stringOf(Expr_t * prog, register Exnode_t * x, int arg, Exdisc_t* dis
  * as this seemed to dangerous.
  */
 static int
-convert(Expr_t * prog, register Exnode_t * x, int type,
-	register Exid_t * xref, int arg, Exdisc_t * disc)
+convert(Expr_t * prog, Exnode_t * x, int type,
+	Exid_t * xref, int arg, Exdisc_t * disc)
 {
     Agobj_t *objp;
     int ret = -1;

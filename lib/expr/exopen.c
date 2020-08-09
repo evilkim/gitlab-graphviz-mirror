@@ -32,10 +32,10 @@
  */
 
 Expr_t*
-exopen(register Exdisc_t* disc)
+exopen(Exdisc_t* disc)
 {
-	register Expr_t*	program;
-	register Exid_t*	sym;
+	Expr_t*	program;
+	Exid_t*	sym;
 
 	if (!(program = newof(0, Expr_t, 1, 0)))
 		return 0;
