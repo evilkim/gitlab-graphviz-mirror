@@ -78,7 +78,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 	if (!(f->flags & SF_STRING) && f->file < 0)
 	    SFMTXRETURN(f, 0);
 
-	f->flags &= ~(SF_EOF | SF_ERROR);
+	f->flags &= (unsigned short)~(SF_EOF | SF_ERROR);
 
 	dc = disc;
 	if (f->flags & SF_STRING) {
@@ -127,7 +127,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 		f->mode |= rcrv;
 	    /* tell readf that no peeking necessary */
 	    else
-		f->flags &= ~SF_SHARE;
+		f->flags &= (unsigned short)~SF_SHARE;
 
 	    SFDCRD(f, buf, n, dc, r);
 

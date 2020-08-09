@@ -30,7 +30,7 @@ int sfclrlock(reg Sfio_t * f)
     SFMTXSTART(f, 0);
 
     /* clear error bits */
-    f->flags &= ~(SF_ERROR | SF_EOF);
+    f->flags &= (unsigned short)~(SF_ERROR | SF_EOF);
 
     /* clear peek locks */
     if (f->mode & SF_PKRD) {

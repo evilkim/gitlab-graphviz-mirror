@@ -121,7 +121,7 @@ void *sfsetbuf(reg Sfio_t * f, reg void * buf, reg size_t size)
     obuf = f->data;
     osize = f->size;
 
-    f->flags &= ~SF_MALLOC;
+    f->flags &= (unsigned short)~SF_MALLOC;
     f->bits &= ~SF_MMAP;
 
     /* pure read/string streams must have a valid string */

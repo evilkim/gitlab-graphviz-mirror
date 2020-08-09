@@ -88,12 +88,12 @@ Sfio_t *sfswap(reg Sfio_t * f1, reg Sfio_t * f2)
     if (f2flags & SF_STATIC)
 	f2->flags |= SF_STATIC;
     else
-	f2->flags &= ~SF_STATIC;
+	f2->flags &= (unsigned short)~SF_STATIC;
 
     if (f1flags & SF_STATIC)
 	f1->flags |= SF_STATIC;
     else
-	f1->flags &= ~SF_STATIC;
+	f1->flags &= (unsigned short)~SF_STATIC;
 
     if (f2mode & SF_AVAIL) {	/* swapping to a closed stream */
 	if (!(f1->flags & SF_STATIC))

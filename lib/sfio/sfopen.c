@@ -170,7 +170,7 @@ int _sftype(reg const char *mode, int *oflagsp, int *uflagp)
 	    uflag = 0;
 	    continue;
 	case 'u':
-	    sflags &= ~SF_MTSAFE;
+	    sflags &= (unsigned short)~SF_MTSAFE;
 	    uflag = 1;
 	    continue;
 	default:

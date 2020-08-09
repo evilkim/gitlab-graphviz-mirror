@@ -64,7 +64,7 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
 		f->data = NIL(uchar *);
 	    }
 	    if (!f->data)
-		sflags &= ~SF_MALLOC;
+		sflags &= (unsigned short)~SF_MALLOC;
 	}
     }
 

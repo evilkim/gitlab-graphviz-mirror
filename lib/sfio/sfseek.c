@@ -87,7 +87,7 @@ Sfoff_t sfseek(Sfio_t * f, Sfoff_t p, int type)
     SFLOCK(f, local);
 
     /* clear error and eof bits */
-    f->flags &= ~(SF_EOF | SF_ERROR);
+    f->flags &= (unsigned short)~(SF_EOF | SF_ERROR);
 
     while (f->flags & SF_STRING) {
 	SFSTRSIZE(f);
