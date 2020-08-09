@@ -65,7 +65,6 @@ portable-source:
         # Retrieve submodules, dependencies are stored there.
         - git submodule update --init
         # Install and set PATH
-        - choco install --no-progress -y grep
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities"
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\NSIS\Bin"
         - $Env:Path += ";$env:CI_PROJECT_DIR\windows\dependencies\graphviz-build-utilities\Perl64\bin"
