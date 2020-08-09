@@ -365,7 +365,19 @@ static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash)
 		newlen += n_len;
 		break;
 	    case 'E':
-		newlen += e_len;
+		if (isEdge) {
+		    newlen += t_len;
+		    if (tp_len) {
+			newlen++;
+			newlen += tp_len;
+		    }
+		    newlen += e_len;
+		    newlen += h_len;;
+		    if (hp_len) {
+			newlen++;
+			newlen += hp_len;
+		    }
+		}
 		break;
 	    case 'H':
 		newlen += h_len;

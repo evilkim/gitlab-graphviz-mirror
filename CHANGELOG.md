@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Segfault in dot #1783
 - Incorrect 'Arrow type "s" unknown' error #1444
 - segfault on reading 0x10 #1724
+- Null-dereference READ (144736912) #1676
 
 ## [2.44.1] - 2020-06-29
 
