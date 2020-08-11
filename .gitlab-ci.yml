@@ -128,7 +128,7 @@ portable-source:
               # for the .exe to exit, instead continuing to the next command (which
               # will then fail because the install hasn't finished)
               ./graphviz-install.exe /S /D=$env:graphviz_install_dir | Out-Null;
-              mv graphviz-install.exe graphviz-install-$GV_VERSION-$API.exe;
+              mv graphviz-install.exe graphviz-install-$Env:GV_VERSION-$API.exe;
               $env:Path += ";" + $env:graphviz_install_dir + "\bin"
               dot -c;
               cd ..;
@@ -153,7 +153,7 @@ portable-source:
             if($env:build_system -eq "cmake") {
                 mv "build\*.exe" $DIR;
             } else {
-                Compress-Archive -Path "$env:configuration\*" -DestinationPath "$DIR\graphviz-$GV_VERSION-$API.zip";
+                Compress-Archive -Path "$env:configuration\*" -DestinationPath "$DIR\graphviz-$Env:GV_VERSION-$API.zip";
             }
     artifacts:
         when: on_success
