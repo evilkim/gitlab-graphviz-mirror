@@ -1,3 +1,4 @@
+set(CPACK_PACKAGE_INSTALL_DIRECTORY     Graphviz                        )
 set(CPACK_PACKAGE_NAME                  ${PROJECT_NAME}                 )
 SET(CPACK_PACKAGE_VERSION_MAJOR         ${GRAPHVIZ_VERSION_MAJOR}       )
 SET(CPACK_PACKAGE_VERSION_MINOR         ${GRAPHVIZ_VERSION_MINOR}       )
