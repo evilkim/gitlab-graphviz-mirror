@@ -53,6 +53,13 @@ extern "C" {
 #define error		_err_msg
 #define errorv		_err_msgv
 
+/* support for extra API misuse warnings if available */
+#ifdef __GNUC__
+  #define PRINTF_LIKE(index, first) __attribute__((format(printf, index, first)))
+#else
+  #define PRINTF_LIKE(index, first) /* nothing */
+#endif
+
     extern Error_info_t error_info;
 
     extern void setTraceLevel (int);
@@ -62,9 +69,11 @@ extern "C" {
     extern void setErrorErrors (int);
     extern int  getErrorErrors (void);
 
-    extern void error(int, ...);
-    extern void errorf(void *, void *, int, ...);
-    extern void errorv(const char *, int, va_list);
+    extern void error(int, const char *, ...) PRINTF_LIKE(2, 3);
+    extern void errorf(void *, void *, int, const char *, ...) PRINTF_LIKE(4, 5);
+    extern void errorv(const char *, int, const char *, va_list);
+
+#undef PRINTF_LIKE
 
 #endif
 

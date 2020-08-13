@@ -40,9 +40,8 @@ void setErrorErrors (int errors) { error_info.errors = errors; }
 int  getErrorErrors () { return error_info.errors; }
 void setTraceLevel (int i) { error_info.trace = i; }
 
-void errorv(const char *id, int level, va_list ap)
+void errorv(const char *id, int level, const char *s, va_list ap)
 {
-    const char *s;
     int flags;
 
     if (level < error_info.trace) return;
@@ -80,7 +79,6 @@ void errorv(const char *id, int level, va_list ap)
 	    sfprintf(sfstderr, "line %d: ", error_info.line);
 	}
     }
-    s = va_arg(ap, char *);
     sfvprintf(sfstderr, s, ap);
     if (flags & ERROR_SYSTEM)
 	sfprintf(sfstderr, "\n%s", strerror(errno));
@@ -89,21 +87,21 @@ void errorv(const char *id, int level, va_list ap)
 	exit(level - ERROR_FATAL + 1);
 }
 
-void error(int level, ...)
+void error(int level, const char *s, ...)
 {
     va_list ap;
 
-    va_start(ap, level);
-    errorv(NiL, level, ap);
+    va_start(ap, s);
+    errorv(NiL, level, s, ap);
     va_end(ap);
 }
 
-void errorf(void *handle, void *discipline, int level, ...)
+void errorf(void *handle, void *discipline, int level, const char *s, ...)
 {
     va_list ap;
 
-    va_start(ap, level);
+    va_start(ap, s);
     errorv((discipline
-	    && handle) ? *((char **) handle) : (char *) handle, level, ap);
+	    && handle) ? *((char **) handle) : (char *) handle, level, s, ap);
     va_end(ap);
 }

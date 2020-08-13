@@ -903,13 +903,13 @@ gvexitf (Expr_t *handle, Exdisc_t *discipline, int v)
 }
 
 static int 
-gverrorf (Expr_t *handle, Exdisc_t *discipline, int level, ...)
+gverrorf (Expr_t *handle, Exdisc_t *discipline, int level, const char *fmt, ...)
 {
     va_list ap;
 
-    va_start(ap, level);
+    va_start(ap, fmt);
     errorv((discipline
-	    && handle) ? *((char **) handle) : (char *) handle, level, ap);
+	    && handle) ? *((char **) handle) : (char *) handle, level, fmt, ap);
     va_end(ap);
 
     if (level >= ERROR_ERROR) {
@@ -971,7 +971,7 @@ int gvpr (int argc, char *argv[], gvpropts * uopts)
     info.outFile = opts->outFile;
     info.argc = opts->argc;
     info.argv = opts->argv;
-    info.errf = (Exerror_f)gverrorf;
+    info.errf = gverrorf;
     if (uopts) 
 	info.flags = uopts->flags; 
     else
