@@ -271,9 +271,11 @@ def test_1767():
 
     # compile our test code
     exe = os.path.join(tmp, 'a.exe')
+    rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
     if platform.system() == 'Windows':
-        subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo', '-link',
-          'cgraph.lib', 'gvc.lib'])
+        subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
+          rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
     else:
         cc = os.environ.get('CC', 'cc')
         subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
