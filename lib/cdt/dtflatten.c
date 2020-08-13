@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /*	Flatten a dictionary into a linked list.
 **	This may be used when many traversals are likely.

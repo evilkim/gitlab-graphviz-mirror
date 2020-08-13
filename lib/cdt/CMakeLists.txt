@@ -1,7 +1,5 @@
 add_definitions(-DEXPORT_CDT)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_library(cdt SHARED
     # Header files
     cdt.h
@@ -25,6 +23,10 @@ add_library(cdt SHARED
     dtview.c
     dtwalk.c
 )
+
+target_include_directories(cdt PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Installation location of library files
 install(
