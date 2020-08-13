@@ -32,11 +32,9 @@
  * will contain the components following the failure point
  */
 
-#include <ast.h>
-/* #include <ls.h> */
-/* #include <fs3d.h> */
+#include "ast.h"
 #include <errno.h>
-#include <error.h>
+#include "error.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>

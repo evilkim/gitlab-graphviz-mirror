@@ -20,8 +20,7 @@
  * p is updated to point to the next character in s
  */
 
-#include <ast.h>
-/* #include <ccode.h> */
+#include "ast.h"
 
 int chresc(register const char *s, char **p)
 {

@@ -25,7 +25,7 @@
  * if path==0 then the space is malloc'd
  */
 
-#include <ast.h>
+#include "ast.h"
 #include <string.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -33,7 +33,6 @@
 #include <compat_unistd.h>
 #endif
 
-/* #include <option.h> */
 #ifdef HAVE_CRT_EXTERNS_H
 #include <crt_externs.h>
 #endif

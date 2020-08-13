@@ -22,16 +22,14 @@
  * in half by checking ENOTDIR vs. ENOENT
  */
 
-#include <ast.h>
-#include <error.h>
+#include "ast.h"
+#include "error.h"
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifdef _WIN32
 #include <compat_unistd.h>
 #endif
-/* #include "lclib.h" */
-/* #include <ls.h> */
 
 typedef struct Tree_s {
     struct Tree_s *next;

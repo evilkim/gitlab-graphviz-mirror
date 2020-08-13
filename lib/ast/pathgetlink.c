@@ -17,7 +17,7 @@
 */
 
 #include "config.h"
-#include "errno.h"
+#include <errno.h>
 
 #ifdef UNIV_MAX
 

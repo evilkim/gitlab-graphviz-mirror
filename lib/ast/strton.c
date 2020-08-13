@@ -53,7 +53,7 @@
 
 #include <ctype.h>
 
-#include "sfhdr.h"
+#include <sfio/sfhdr.h>
 
 #define QL		01
 #define QU		02

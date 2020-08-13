@@ -22,7 +22,7 @@
  * path returned in path buffer
  */
 
-#include <ast.h>
+#include "ast.h"
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
@@ -30,8 +30,6 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
-
-/* #include <ls.h> */
 
 char *pathcanon(char *path, int flags);
 
