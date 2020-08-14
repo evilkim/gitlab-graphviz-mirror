@@ -51,8 +51,8 @@ static struct {			/* directory list state           */
 char *pathfind(const char *name, const char *lib, const char *type,
 	       char *buf, size_t size)
 {
-    register Dir_t *dp;
-    register char *s;
+    Dir_t *dp;
+    char *s;
     char tmp[PATH_MAX];
 
     if (access(name, R_OK) >= 0)

@@ -6,11 +6,11 @@
 **	Written by Kiem-Phong Vo (5/25/96)
 */
 
-void* dtrenew(Dt_t* dt, reg void* obj)
+void* dtrenew(Dt_t* dt, void* obj)
 {
-	reg void*	key;
-	reg Dtlink_t	*e, *t, **s;
-	reg Dtdisc_t*	disc = dt->disc;
+	void*	key;
+	Dtlink_t	*e, *t, **s;
+	Dtdisc_t*	disc = dt->disc;
 
 	UNFLATTEN(dt);
 

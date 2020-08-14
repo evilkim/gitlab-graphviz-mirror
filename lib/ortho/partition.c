@@ -205,7 +205,7 @@ static int
 get_vertex_positions (int v0, int v1, int *ip, int *iq)
 {
   vertexchain_t *vp0, *vp1;
-  register int i;
+  int i;
   double angle, temp;
   int tp = 0, tq = 0;
 

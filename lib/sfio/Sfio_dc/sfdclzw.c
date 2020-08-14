@@ -112,9 +112,9 @@ static char_type rmask[9] =
     { 0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff };
 
 static int peek(Sfio_t * f, char_type ** bufp, int count,
-		reg LZW_Disc * disc)
+		LZW_Disc * disc)
 {
-    reg int io_sz, j;
+    int io_sz, j;
 
     if (count <= 0)
 	return count;
@@ -150,9 +150,9 @@ static int peek(Sfio_t * f, char_type ** bufp, int count,
 
 static code_int getcode(Sfio_t * f, LZW_Disc * disc)
 {
-    reg code_int code;
-    reg int r_off, bits;
-    reg char_type *bp;
+    code_int code;
+    int r_off, bits;
+    char_type *bp;
 
     if (disc->clear_flg > 0
 	|| disc->gc_offset >= disc->gc_size
@@ -225,10 +225,10 @@ ssize_t lzwRead(Sfio_t * f, void * iobuf, size_t iocnt,
 		Sfdisc_t * sfdisc)
 {
     LZW_Disc *disc = (LZW_Disc *) sfdisc;
-    reg char_type *stackp;
-    reg code_int code;
+    char_type *stackp;
+    code_int code;
     char *ioend = (char *) iobuf + iocnt;
-    register char *ioptr = iobuf;
+    char *ioptr = iobuf;
 #define END_REGS	{disc->code=code;disc->stackp=stackp;}
 #define BEGIN_REGS	{code=disc->code;stackp=disc->stackp;}
 

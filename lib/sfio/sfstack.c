@@ -35,10 +35,10 @@
  */
 Sfio_t *sfstack(Sfio_t * f1, Sfio_t * f2)
 {
-    reg int n;
-    reg Sfio_t *rf;
-    reg Sfrsrv_t *rsrv;
-    reg Vtmutex_t *mtx;
+    int n;
+    Sfio_t *rf;
+    Sfrsrv_t *rsrv;
+    Vtmutex_t *mtx;
 
     STKMTXLOCK(f1, f2);
 

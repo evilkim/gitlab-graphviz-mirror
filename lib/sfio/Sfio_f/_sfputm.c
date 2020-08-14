@@ -15,7 +15,7 @@
 
 #undef sfputm
 
-int sfputm(reg Sfio_t * f, Sfulong_t u, Sfulong_t m)
+int sfputm(Sfio_t * f, Sfulong_t u, Sfulong_t m)
 {
     return __sf_putm(f, u, m);
 }

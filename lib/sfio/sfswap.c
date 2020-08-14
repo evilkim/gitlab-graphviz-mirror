@@ -21,10 +21,11 @@
 **	Written by Kiem-Phong Vo.
 */
 
-Sfio_t *sfswap(reg Sfio_t * f1, reg Sfio_t * f2)
+Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
 {
     Sfio_t tmp;
-    int f1pool, f2pool, f1mode, f2mode, f1flags, f2flags;
+    int f1pool, f2pool, f1mode, f1flags, f2flags;
+    unsigned f2mode;
 
     if (!f1 || (f1->mode & SF_AVAIL)
 	|| (SFFROZEN(f1) && (f1->mode & SF_PUSH)))
@@ -87,12 +88,12 @@ Sfio_t *sfswap(reg Sfio_t * f1, reg Sfio_t * f2)
     if (f2flags & SF_STATIC)
 	f2->flags |= SF_STATIC;
     else
-	f2->flags &= ~SF_STATIC;
+	f2->flags &= (unsigned short)~SF_STATIC;
 
     if (f1flags & SF_STATIC)
 	f1->flags |= SF_STATIC;
     else
-	f1->flags &= ~SF_STATIC;
+	f1->flags &= (unsigned short)~SF_STATIC;
 
     if (f2mode & SF_AVAIL) {	/* swapping to a closed stream */
 	if (!(f1->flags & SF_STATIC))

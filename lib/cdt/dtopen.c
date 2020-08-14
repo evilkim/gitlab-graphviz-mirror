@@ -9,7 +9,7 @@ static char*     Version = "\n@(#)$Id$\0\n";
 Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 {
 	Dt_t*		dt = (Dt_t*)Version;	/* shut-up unuse warning */
-	reg int		e;
+	int		e;
 	Dtdata_t*	data;
 
 	if(!disc || !meth)

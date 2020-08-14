@@ -18,12 +18,12 @@
 **	Written by Kiem-Phong Vo
 */
 
-Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
+Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
 {
-    reg Sfdisc_t *d, *rdisc;
-    reg Sfread_f oreadf;
-    reg Sfwrite_f owritef;
-    reg Sfseek_f oseekf;
+    Sfdisc_t *d, *rdisc;
+    Sfread_f oreadf;
+    Sfwrite_f owritef;
+    Sfseek_f oseekf;
     ssize_t n;
 
     SFMTXSTART(f, NIL(Sfdisc_t *));
@@ -46,8 +46,8 @@ Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
 	if (((f->mode & SF_WRITE) && (n = f->next - f->data) > 0) ||
 	    ((f->mode & SF_READ) && f->extent < 0
 	     && (n = f->endb - f->next) > 0)) {
-	    reg Sfexcept_f exceptf;
-	    reg int rv = 0;
+	    Sfexcept_f exceptf;
+	    int rv = 0;
 
 	    exceptf = disc ? disc->exceptf :
 		f->disc ? f->disc->exceptf : NIL(Sfexcept_f);
@@ -109,7 +109,7 @@ Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
     }
 
     if (!(f->flags & SF_STRING)) {	/* this stream may have to be reinitialized */
-	reg int reinit = 0;
+	int reinit = 0;
 #define DISCF(dst,iof,type)	(dst ? dst->iof : NIL(type))
 #define REINIT(oiof,iof,type) \
 		if(!reinit) \
@@ -124,13 +124,13 @@ Sfdisc_t *sfdisc(reg Sfio_t * f, reg Sfdisc_t * disc)
 
 	if (reinit) {
 	    SETLOCAL(f);
-	    f->bits &= ~SF_NULL;	/* turn off /dev/null handling */
+	    f->bits &= (unsigned short)~SF_NULL;	/* turn off /dev/null handling */
 	    if ((f->bits & SF_MMAP) || (f->mode & SF_INIT))
 		sfsetbuf(f, NIL(void *), (size_t) SF_UNBOUND);
 	    else if (f->data == f->tiny)
 		sfsetbuf(f, NIL(void *), 0);
 	    else {
-		int flags = f->flags;
+		unsigned short flags = f->flags;
 		sfsetbuf(f, (void *) f->data, f->size);
 		f->flags |= (flags & SF_MALLOC);
 	    }

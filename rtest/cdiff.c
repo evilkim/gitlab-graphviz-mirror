@@ -41,9 +41,9 @@ static int fileSize(int fd)
 
 main(int argc, char *argv[])
 {
-    register char *p1;
-    register char *p2;
-    register int i, count;
+    char *p1;
+    char *p2;
+    int i, count;
     int f1, f2;
     int l1, l2;
     int n1, n2, n;

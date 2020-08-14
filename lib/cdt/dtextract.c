@@ -5,9 +5,9 @@
 **	Written by Kiem-Phong Vo (5/25/96).
 */
 
-Dtlink_t* dtextract(reg Dt_t* dt)
+Dtlink_t* dtextract(Dt_t* dt)
 {
-	reg Dtlink_t	*list, **s, **ends;
+	Dtlink_t	*list, **s, **ends;
 
 	if(dt->data->type&(DT_OSET|DT_OBAG) )
 		list = dt->data->here;

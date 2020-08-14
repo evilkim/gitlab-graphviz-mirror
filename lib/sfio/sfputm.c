@@ -23,11 +23,11 @@
  * @param v the unsigned value to be written
  * @param max the max value of the range
  */
-int _sfputm(reg Sfio_t * f, Sfulong_t v, Sfulong_t max)
+int _sfputm(Sfio_t * f, Sfulong_t v, Sfulong_t max)
 {
 #define N_ARRAY		(2*sizeof(Sfulong_t))
-    reg uchar *s, *ps;
-    reg ssize_t n, p;
+    uchar *s, *ps;
+    ssize_t n, p;
     uchar c[N_ARRAY];
 
     SFMTXSTART(f, -1);

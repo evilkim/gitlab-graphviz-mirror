@@ -28,7 +28,7 @@
  * @param file file/string to be opened
  * @param mode mode of the stream
  */
-Sfio_t *sfopen(reg Sfio_t * f, const char *file, const char *mode)
+Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
 {
     int fd, oldfd, oflags, sflags;
 
@@ -58,7 +58,7 @@ Sfio_t *sfopen(reg Sfio_t * f, const char *file, const char *mode)
 		if ((f->flags & SF_RDWR) == SF_RDWR)
 		    f->bits |= SF_BOTH;
 		else
-		    f->bits &= ~SF_BOTH;
+		    f->bits &= (unsigned short)~SF_BOTH;
 
 		if (f->flags & SF_READ)
 		    f->mode = (f->mode & ~SF_WRITE) | SF_READ;
@@ -94,7 +94,7 @@ Sfio_t *sfopen(reg Sfio_t * f, const char *file, const char *mode)
 		return NIL(Sfio_t *);
 	    }
 	    if (oflags & O_TRUNC) {	/* truncate file */
-		reg int tf;
+		int tf;
 		while ((tf = creat(file, SF_CREATMODE)) < 0 &&
 		       errno == EINTR)
 		    errno = 0;
@@ -124,9 +124,9 @@ Sfio_t *sfopen(reg Sfio_t * f, const char *file, const char *mode)
     return f;
 }
 
-int _sftype(reg const char *mode, int *oflagsp, int *uflagp)
+int _sftype(const char *mode, int *oflagsp, int *uflagp)
 {
-    reg int sflags, oflags, uflag;
+    int sflags, oflags, uflag;
 
     if (!mode)
 	return 0;
@@ -170,7 +170,7 @@ int _sftype(reg const char *mode, int *oflagsp, int *uflagp)
 	    uflag = 0;
 	    continue;
 	case 'u':
-	    sflags &= ~SF_MTSAFE;
+	    sflags &= (unsigned short)~SF_MTSAFE;
 	    uflag = 1;
 	    continue;
 	default:

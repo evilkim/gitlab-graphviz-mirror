@@ -4,7 +4,7 @@
 **
 **	Written by Kiem-Phong Vo (05/25/96)
 */
-int dtclose(reg Dt_t* dt)
+int dtclose(Dt_t* dt)
 {
 	Dtdisc_t	*disc;
 	int		ev = 0;

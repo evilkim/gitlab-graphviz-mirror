@@ -33,8 +33,8 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b);
 -----------------------------------------------------------------------------*/
 void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 {
-    register struct PartitionVars *p;
-    register int level;
+    struct PartitionVars *p;
+    int level;
     int area;
 
     assert(n);
@@ -101,7 +101,7 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 -----------------------------------------------------------------------------*/
 static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 {
-    register int i;
+    int i;
 
     assert(n);
     assert(b);
@@ -139,9 +139,9 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 -----------------------------------------------------------------------------*/
 static void MethodZero(RTree_t * rtp)
 {
-    register Rect_t *r;
-    register int i, growth0, growth1, diff, biggestDiff;
-    register int group, chosen = 0, betterGroup = 0;
+    Rect_t *r;
+    int i, growth0, growth1, diff, biggestDiff;
+    int group, chosen = 0, betterGroup = 0;
 
     InitPVars(rtp);
     PickSeeds(rtp);
@@ -218,7 +218,7 @@ static void MethodZero(RTree_t * rtp)
 -----------------------------------------------------------------------------*/
 static void PickSeeds(RTree_t * rtp)
 {
-  register int i, j;
+  int i, j;
   unsigned int waste, worst;
   int seed0 = 0, seed1 = 0;
   unsigned int area[NODECARD + 1];
@@ -293,7 +293,7 @@ static void Classify(RTree_t * rtp, int i, int group)
 static void LoadNodes(RTree_t * rtp, Node_t * n, Node_t * q,
 		      struct PartitionVars *p)
 {
-    register int i;
+    int i;
     assert(n);
     assert(q);
     assert(p);
@@ -313,7 +313,7 @@ static void LoadNodes(RTree_t * rtp, Node_t * n, Node_t * q,
 -----------------------------------------------------------------------------*/
 static void InitPVars(RTree_t * rtp)
 {
-    register int i;
+    int i;
 
     rtp->split.Partitions[0].count[0] = rtp->split.Partitions[0].count[1] =
 	0;
@@ -334,7 +334,7 @@ static void InitPVars(RTree_t * rtp)
 -----------------------------------------------------------------------------*/
 PrintPVars(RTree_t * rtp)
 {
-    register int i;
+    int i;
 
     fprintf(stderr, "\npartition:\n");
     for (i = 0; i < NODECARD + 1; i++) {

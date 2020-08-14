@@ -15,7 +15,7 @@
 
 #undef sfputd
 
-int sfputd(reg Sfio_t * f, Sfdouble_t d)
+int sfputd(Sfio_t * f, Sfdouble_t d)
 {
     return __sf_putd(f, d);
 }

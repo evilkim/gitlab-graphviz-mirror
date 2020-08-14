@@ -23,7 +23,7 @@
 char *sfprints(const char *form, ...)
 {
     va_list args;
-    reg int rv;
+    int rv;
     static Sfio_t *f;
     va_start(args, form);
 

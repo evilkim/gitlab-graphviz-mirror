@@ -15,7 +15,7 @@
 
 #undef sfeof
 
-int sfeof(reg Sfio_t * f)
+int sfeof(Sfio_t * f)
 {
     return __sf_eof(f);
 }

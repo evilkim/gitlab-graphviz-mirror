@@ -15,7 +15,7 @@
 
 #undef sfdlen
 
-int sfdlen(reg Sfdouble_t v)
+int sfdlen(Sfdouble_t v)
 {
     return __sf_dlen(v);
 }

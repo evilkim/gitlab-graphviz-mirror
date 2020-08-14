@@ -5,13 +5,13 @@
 **	Written by Kiem-Phong Vo (05/25/96)
 */
 
-static void* dtlist(reg Dt_t* dt, reg void* obj, reg int type)
+static void* dtlist(Dt_t* dt, void* obj, int type)
 {
-	reg int		lk, sz, ky;
-	reg Dtcompar_f	cmpf;
-	reg Dtdisc_t*	disc;
-	reg Dtlink_t	*r, *t;
-	reg void	*key, *k;
+	int		lk, sz, ky;
+	Dtcompar_f	cmpf;
+	Dtdisc_t*	disc;
+	Dtlink_t	*r, *t;
+	void	*key, *k;
 
 	UNFLATTEN(dt);
 	disc = dt->disc; _DTDSC(disc,ky,sz,lk,cmpf);

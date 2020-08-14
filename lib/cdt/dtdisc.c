@@ -21,10 +21,10 @@ static void* dtmemory(Dt_t* dt,void* addr,size_t size,Dtdisc_t* disc)
 
 Dtdisc_t* dtdisc(Dt_t* dt, Dtdisc_t* disc, int type)
 {
-	reg Dtsearch_f	searchf;
-	reg Dtlink_t	*r, *t;
-	reg char*	k;
-	reg Dtdisc_t*	old;
+	Dtsearch_f	searchf;
+	Dtlink_t	*r, *t;
+	char*	k;
+	Dtdisc_t*	old;
 
 	if(!(old = dt->disc) )	/* initialization call from dtopen() */
 	{	dt->disc = disc;
@@ -69,7 +69,7 @@ Dtdisc_t* dtdisc(Dt_t* dt, Dtdisc_t* disc, int type)
 		dt->data->size = 0;
 
 		if(dt->data->type&(DT_SET|DT_BAG))
-		{	reg Dtlink_t	**s, **ends;
+		{	Dtlink_t	**s, **ends;
 			ends = (s = dt->data->htab) + dt->data->ntab;
 			while(s < ends)
 				*s++ = NIL(Dtlink_t*);

@@ -32,9 +32,9 @@ static char *Inf = "Inf", *Zero = "0";
  */
 char *_sfcvt(void * dv, int n_digit, int *decpt, int *sign, int format)
 {
-    reg char *sp;
-    reg long n, v;
-    reg char *ep, *buf, *endsp;
+    char *sp;
+    long n, v;
+    char *ep, *buf, *endsp;
     static char *Buf;
 
     /* set up local buffer */
@@ -91,7 +91,7 @@ char *_sfcvt(void * dv, int n_digit, int *decpt, int *sign, int format)
 	    sp = ep;
 	else {
 	    if ((format & SFFMT_EFORMAT) && *decpt == 0 && dval > 0.) {
-		reg double d;
+		double d;
 		while ((int) (d = dval * 10.) == 0) {
 		    dval = d;
 		    *decpt -= 1;

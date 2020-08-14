@@ -138,7 +138,7 @@ static int skexcept(Sfio_t * f, int type, void * data, Sfdisc_t * disc)
 
 int sfdcseekable(Sfio_t * f)
 {
-    reg Seek_t *sk;
+    Seek_t *sk;
 
     /* see if already seekable */
     if (sfseek(f, (Sfoff_t) 0, 1) >= 0)

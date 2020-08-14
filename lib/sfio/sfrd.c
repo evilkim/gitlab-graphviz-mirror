@@ -22,9 +22,9 @@
 /* synchronize unseekable write streams */
 static void _sfwrsync(void)
 {
-    reg Sfpool_t *p;
-    reg Sfio_t *f;
-    reg int n;
+    Sfpool_t *p;
+    Sfio_t *f;
+    int n;
 
     /* sync all pool heads */
     for (p = _Sfpool.next; p; p = p->next) {
@@ -46,19 +46,20 @@ static void _sfwrsync(void)
     }
 }
 
-ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
+ssize_t sfrd(Sfio_t * f, void * buf, size_t n,
 	     Sfdisc_t * disc)
 {
     Sfoff_t r;
-    reg Sfdisc_t *dc;
-    reg int local, rcrv, dosync, oerrno;
+    Sfdisc_t *dc;
+    int local, dosync, oerrno;
+    unsigned rcrv;
 
     SFMTXSTART(f, -1);
 
     GETLOCAL(f, local);
     if ((rcrv = f->mode & (SF_RC | SF_RV)))
 	f->mode &= ~(SF_RC | SF_RV);
-    f->bits &= ~SF_JUSTSEEK;
+    f->bits &= (unsigned short)~SF_JUSTSEEK;
 
     if (f->mode & SF_PKRD)
 	SFMTXRETURN(f, -1);
@@ -77,7 +78,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 	if (!(f->flags & SF_STRING) && f->file < 0)
 	    SFMTXRETURN(f, 0);
 
-	f->flags &= ~(SF_EOF | SF_ERROR);
+	f->flags &= (unsigned short)~(SF_EOF | SF_ERROR);
 
 	dc = disc;
 	if (f->flags & SF_STRING) {
@@ -91,7 +92,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 	/* warn that a read is about to happen */
 	SFDISC(f, dc, readf);
 	if (dc && dc->exceptf && (f->flags & SF_IOCHECK)) {
-	    reg int rv;
+	    int rv;
 	    if (local)
 		SETLOCAL(f);
 	    if ((rv = _sfexcept(f, SF_READ, n, dc)) > 0)
@@ -126,7 +127,7 @@ ssize_t sfrd(reg Sfio_t * f, reg void * buf, reg size_t n,
 		f->mode |= rcrv;
 	    /* tell readf that no peeking necessary */
 	    else
-		f->flags &= ~SF_SHARE;
+		f->flags &= (unsigned short)~SF_SHARE;
 
 	    SFDCRD(f, buf, n, dc, r);
 

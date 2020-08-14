@@ -13,9 +13,9 @@
 ** Written by Kiem-Phong Vo (02/28/03)
 */
 
-uint dtstrhash(reg uint h, void* args, reg int n)
+uint dtstrhash(uint h, void* args, int n)
 {
-	reg unsigned char*	s = (unsigned char*)args;
+	unsigned char*	s = (unsigned char*)args;
 
 	if(n <= 0)
 	{	for(; *s != 0; s += s[1] ? 2 : 1)
@@ -23,7 +23,7 @@ uint dtstrhash(reg uint h, void* args, reg int n)
 		n = s - (unsigned char*)args;
 	}
 	else
-	{	reg unsigned char*	ends;
+	{	unsigned char*	ends;
 		for(ends = s+n-1; s < ends; s += 2)
 			h = (h + (s[0]<<8) + s[1])*DT_PRIME;
 		if(s <= ends)

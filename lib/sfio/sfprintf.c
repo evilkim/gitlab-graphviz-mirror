@@ -21,7 +21,7 @@
 int sfprintf(Sfio_t * f, const char *form, ...)
 {
     va_list args;
-    reg int rv;
+    int rv;
 
     va_start(args, form);
     rv = sfvprintf(f, form, args);
@@ -33,7 +33,7 @@ int sfprintf(Sfio_t * f, const char *form, ...)
 int sfvsprintf(char *s, int n, const char *form, va_list args)
 {
     Sfio_t f;
-    reg int rv;
+    int rv;
 
     if (!s || n <= 0)
 	return -1;
@@ -57,7 +57,7 @@ int sfvsprintf(char *s, int n, const char *form, va_list args)
 int sfsprintf(char *s, int n, const char *form, ...)
 {
     va_list args;
-    reg int rv;
+    int rv;
     va_start(args, form);
     rv = sfvsprintf(s, n, form, args);
     va_end(args);

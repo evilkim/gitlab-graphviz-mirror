@@ -18,9 +18,9 @@
 **	Written by Kiem-Phong Vo.
 */
 
-int sfset(reg Sfio_t * f, reg int flags, reg int set)
+int sfset(Sfio_t * f, int flags, int set)
 {
-    reg int oflags;
+    int oflags;
 
     SFMTXSTART(f, 0);
 
@@ -45,7 +45,7 @@ int sfset(reg Sfio_t * f, reg int flags, reg int set)
     if (set)
 	f->flags |= (flags & SF_SETS);
     else
-	f->flags &= ~(flags & SF_SETS);
+	f->flags &= (unsigned short)~(flags & SF_SETS);
 
     /* must have at least one of read/write */
     if (!(f->flags & SF_RDWR))
@@ -69,7 +69,7 @@ int sfset(reg Sfio_t * f, reg int flags, reg int set)
 
     /* if not shared or unseekable, public means nothing */
     if (!(f->flags & SF_SHARE) || f->extent < 0)
-	f->flags &= ~SF_PUBLIC;
+	f->flags &= (unsigned short)~SF_PUBLIC;
 
     SFOPEN(f, 0);
     SFMTXRETURN(f, (oflags & SF_FLAGS));

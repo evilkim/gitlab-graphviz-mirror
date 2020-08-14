@@ -1016,7 +1016,7 @@ find_new_roots(int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 /* Get log*n for given n */
 static int math_logstar_n(int n)
 {
-  register int i;
+  int i;
   double v;
 
   for (i = 0, v = (double) n; v >= 1; i++)
@@ -1027,7 +1027,7 @@ static int math_logstar_n(int n)
 
 static int math_N(int n, int h)
 {
-  register int i;
+  int i;
   double v;
 
   for (i = 0, v = (int) n; i < h; i++)

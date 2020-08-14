@@ -20,10 +20,10 @@
 
 #include "ast.h"
 
-char *pathcat(char *path, register const char *dirs, int sep,
-	      const char *a, register const char *b)
+char *pathcat(char *path, const char *dirs, int sep,
+	      const char *a, const char *b)
 {
-    register char *s;
+    char *s;
 
     s = path;
     while (*dirs && *dirs != sep)

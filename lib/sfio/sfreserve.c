@@ -23,12 +23,12 @@
  * @param size size of peek
  * @param type LOCKR: lock stream, LASTR: last record
  */
-void *sfreserve(reg Sfio_t * f, ssize_t size, int type)
+void *sfreserve(Sfio_t * f, ssize_t size, int type)
 {
-    reg ssize_t n, sz;
-    reg Sfrsrv_t *rsrv;
-    reg void *data;
-    reg int mode;
+    ssize_t n, sz;
+    Sfrsrv_t *rsrv;
+    void *data;
+    int mode;
 
     SFMTXSTART(f, NIL(void *));
 

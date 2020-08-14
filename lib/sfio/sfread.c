@@ -24,17 +24,17 @@
  * @param n number of bytes to be read
  * @param 
  */
-ssize_t sfread(reg Sfio_t * f, void * buf, reg size_t n)
+ssize_t sfread(Sfio_t * f, void * buf, size_t n)
 {
-    reg uchar *s, *begs;
-    reg ssize_t r;
-    reg int local, justseek;
+    uchar *s, *begs;
+    ssize_t r;
+    int local, justseek;
 
     SFMTXSTART(f, (ssize_t) (-1));
 
     GETLOCAL(f, local);
     justseek = f->bits & SF_JUSTSEEK;
-    f->bits &= ~SF_JUSTSEEK;
+    f->bits &= (unsigned short)~SF_JUSTSEEK;
 
     if (!buf)
 	SFMTXRETURN(f, (ssize_t) (-1));

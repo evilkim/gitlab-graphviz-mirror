@@ -24,9 +24,9 @@
  * @param form format string
  * @param accept accepted characters are set to 1
  */
-static char *setclass(reg char *form, reg char *accept)
+static char *setclass(char *form, char *accept)
 {
-    reg int fmt, c, yes;
+    int fmt, c, yes;
 
     if ((fmt = *form++) == '^') {	/* we want the complement of this set */
 	yes = 0;
@@ -77,10 +77,10 @@ static void _sfbuf(Sfio_t * f, int *rs)
  * @param form scanning format
  * @param args
  */
-int sfvscanf(Sfio_t * f, reg const char *form, va_list args)
+int sfvscanf(Sfio_t * f, const char *form, va_list args)
 {
-    reg uchar *d, *endd, *data;
-    reg int inp, shift, base, width;
+    uchar *d, *endd, *data;
+    int inp, shift, base, width;
     ssize_t size;
     int fmt, flags, dot, n_assign, v, n, n_input;
     char *sp;
@@ -501,8 +501,8 @@ int sfvscanf(Sfio_t * f, reg const char *form, va_list args)
 	    goto done;
 
 	if (_Sftype[fmt] == SFFMT_FLOAT) {
-	    reg char *val;
-	    reg int dot, exponent;
+	    char *val;
+	    int dot, exponent;
 
 	    val = accept;
 	    if (width >= SF_MAXDIGITS)

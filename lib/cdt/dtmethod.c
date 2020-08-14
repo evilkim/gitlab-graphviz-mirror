@@ -7,9 +7,9 @@
 
 Dtmethod_t* dtmethod(Dt_t* dt, Dtmethod_t* meth)
 {
-	reg Dtlink_t	*list, *r;
-	reg Dtdisc_t*	disc = dt->disc;
-	reg Dtmethod_t*	oldmeth = dt->meth;
+	Dtlink_t	*list, *r;
+	Dtdisc_t*	disc = dt->disc;
+	Dtmethod_t*	oldmeth = dt->meth;
 
 	if(!meth || meth->type == oldmeth->type)
 		return oldmeth;
@@ -41,7 +41,7 @@ Dtmethod_t* dtmethod(Dt_t* dt, Dtmethod_t* meth)
 	if(meth->type&(DT_LIST|DT_STACK|DT_QUEUE) )
 	{	if(!(oldmeth->type&(DT_LIST|DT_STACK|DT_QUEUE)) )
 		{	if((r = list) )
-			{	reg Dtlink_t*	t;
+			{	Dtlink_t*	t;
 				for(t = r->right; t; r = t, t = t->right )
 					t->left = r;
 				list->left = r;
@@ -67,7 +67,7 @@ Dtmethod_t* dtmethod(Dt_t* dt, Dtmethod_t* meth)
 		while(list)
 		{	r = list->right;
 			if(rehash)
-			{	reg void* key = _DTOBJ(list,disc->link);
+			{	void* key = _DTOBJ(list,disc->link);
 				key = _DTKEY(key,disc->key,disc->size);
 				list->hash = _DTHSH(dt,key,disc,disc->size);
 			}

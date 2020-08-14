@@ -19,10 +19,10 @@
 */
 
 /* hole preserving writes */
-static ssize_t sfoutput(Sfio_t * f, reg char *buf, reg size_t n)
+static ssize_t sfoutput(Sfio_t * f, char *buf, size_t n)
 {
-    reg char *sp, *wbuf, *endbuf;
-    reg ssize_t s, w, wr;
+    char *sp, *wbuf, *endbuf;
+    ssize_t s, w, wr;
 
     s = w = 0;
     wbuf = buf;
@@ -76,7 +76,7 @@ static ssize_t sfoutput(Sfio_t * f, reg char *buf, reg size_t n)
 	    }
 	    if ((wr = write(f->file, wbuf, buf - wbuf)) > 0) {
 		w += wr;
-		f->bits &= ~SF_HOLE;
+		f->bits &= (unsigned short)~SF_HOLE;
 	    }
 	    if (wr != (buf - wbuf))
 		break;
@@ -104,12 +104,12 @@ static ssize_t sfoutput(Sfio_t * f, reg char *buf, reg size_t n)
     return w > 0 ? w : -1;
 }
 
-ssize_t sfwr(reg Sfio_t * f, reg const void * buf, reg size_t n,
-	     reg Sfdisc_t * disc)
+ssize_t sfwr(Sfio_t * f, const void * buf, size_t n,
+	     Sfdisc_t * disc)
 {
-    reg ssize_t w;
-    reg Sfdisc_t *dc;
-    reg int local, oerrno;
+    ssize_t w;
+    Sfdisc_t *dc;
+    int local, oerrno;
 
     SFMTXSTART(f, (ssize_t) (-1));
 
@@ -126,7 +126,7 @@ ssize_t sfwr(reg Sfio_t * f, reg const void * buf, reg size_t n,
 	    SFMTXRETURN(f, (ssize_t) 0);
 
 	/* clear current error states */
-	f->flags &= ~(SF_EOF | SF_ERROR);
+	f->flags &= (unsigned short)~(SF_EOF | SF_ERROR);
 
 	dc = disc;
 	if (f->flags & SF_STRING)	/* total required buffer */
@@ -134,7 +134,7 @@ ssize_t sfwr(reg Sfio_t * f, reg const void * buf, reg size_t n,
 	else {			/* warn that a write is about to happen */
 	    SFDISC(f, dc, writef);
 	    if (dc && dc->exceptf && (f->flags & SF_IOCHECK)) {
-		reg int rv;
+		int rv;
 		if (local)
 		    SETLOCAL(f);
 		if ((rv = _sfexcept(f, SF_WRITE, n, dc)) > 0)
@@ -173,7 +173,7 @@ ssize_t sfwr(reg Sfio_t * f, reg const void * buf, reg size_t n,
 	    } else {
 	      do_write:
 		if ((w = write(f->file, (char *) buf, n)) > 0)
-		    f->bits &= ~SF_HOLE;
+		    f->bits &= (unsigned short)~SF_HOLE;
 	    }
 
 	    if (errno == 0)
