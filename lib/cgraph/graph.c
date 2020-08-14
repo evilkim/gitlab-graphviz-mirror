@@ -11,8 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#define EXTERN
 #include <cghdr.h>
+
+Agraph_t *Ag_G_global;
 
 const char AgraphVersion[] = PACKAGE_VERSION;
 
