@@ -53,8 +53,6 @@ exop.h: exparse.h
 exparse.c: y.tab.c 
 	@SED@ "s/yy/ex/g" <y.tab.c | \
 		@SED@ "s/YY/EX/g" | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-		@SED@ "s/unsigned long/uint64_t/g" | \
 		@SED@ "s/fprintf/sfprintf/g" | \
 		@SED@ "s/FILE/Sfio_t/g" | \
 		@SED@ "s/stderr/sfstderr/g" > exparse.c
@@ -63,8 +61,6 @@ exparse.h: y.tab.h
 	echo "#ifndef _EXPARSE_H" > exparse.h
 	echo "#define _EXPARSE_H" >> exparse.h
 	@SED@ "s/yy/ex/g" < y.tab.h | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-		@SED@ "s/unsigned long/uint64_t/g" | \
 		@SED@ "s/YY/EX/g" >> exparse.h
 	echo "#endif /* _EXPARSE_H */" >> exparse.h
 

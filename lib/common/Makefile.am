@@ -60,14 +60,10 @@ htmllex.o htmllex.lo: htmllex.c htmllex.h htmlparse.h
 htmlparse.o htmlparse.lo: htmlparse.c htmlparse.h
                                                                                 
 htmlparse.c: y.tab.c
-	@SED@ "s/yy/html/g" < y.tab.c | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-                @SED@ "s/unsigned long/uint64_t/g" > htmlparse.c
+	@SED@ "s/yy/html/g" < y.tab.c > htmlparse.c
 
 htmlparse.h: y.tab.h
-	@SED@ "s/yy/html/g" < y.tab.h | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-                @SED@ "s/unsigned long/uint64_t/g"> htmlparse.h
+	@SED@ "s/yy/html/g" < y.tab.h > htmlparse.h
 
 y.tab.c y.tab.h: y.output
 
