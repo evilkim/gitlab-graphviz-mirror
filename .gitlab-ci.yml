@@ -78,6 +78,7 @@ portable-source:
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
         - python3 gen_version.py > VERSION
+        - python3 gen_version.py --collection > COLLECTION
         - >-
             if($env:build_system -eq "cmake") {
               mkdir build;
