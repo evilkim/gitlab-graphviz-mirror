@@ -48,6 +48,11 @@ parser.add_argument('--committer-date-graphviz',
                     help='Print graphviz special formatted committer date in UTC '
                     'instead of version'
 )
+parser.add_argument('--collection',
+                    action='store_true',
+                    help='Print collection ("stable" or "development") '
+                    'instead of version'
+)
 
 args = parser.parse_args()
 
@@ -87,6 +92,8 @@ if not patch_version.isnumeric() or args.date_format:
 
 if args.date_format:
     print(committer_date)
+elif args.collection:
+    print(collection)
 else:
     if not patch_version.isnumeric():
         # Non-numerical patch version; add committer date
