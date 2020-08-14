@@ -4,12 +4,6 @@ ADD_FLEX_BISON_DEPENDENCY(Scan Grammar)
 
 add_definitions(-DEXPORT_CGRAPH -DEXPORT_AGXBUF -DEXPORT_CGHDR -DYY_NO_UNISTD_H)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-)
-
 add_library(cgraph SHARED
     # Header files
     agxbuf.h
@@ -41,6 +35,13 @@ add_library(cgraph SHARED
     # Generated files
     ${BISON_Grammar_OUTPUTS}
     ${FLEX_Scan_OUTPUTS}
+)
+
+target_include_directories(cgraph PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(cgraph cdt)

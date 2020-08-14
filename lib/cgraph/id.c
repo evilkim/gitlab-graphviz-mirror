@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include <stdio.h>
-#include <cghdr.h>
+#include <cgraph/cghdr.h>
 
 /* a default ID allocator that works off the shared string lib */
 

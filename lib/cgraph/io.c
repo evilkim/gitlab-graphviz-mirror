@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include <stdio.h>
-#include <cghdr.h>
+#include <cgraph/cghdr.h>
 #if defined(_WIN32)
 #include <io.h>
 #endif

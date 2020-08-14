@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include <stdio.h>
-#include <cghdr.h>
+#include <cgraph/cghdr.h>
 
 #define MAX(a,b)	((a)>(b)?(a):(b))
 static agerrlevel_t agerrno;		/* Last error level */
