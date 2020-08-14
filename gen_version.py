@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Generate version
 #
 # Stable release entry format     : <major>.<minor>.>patch>
