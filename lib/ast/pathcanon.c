@@ -32,9 +32,9 @@
  * will contain the components following the failure point
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 #include <errno.h>
-#include "error.h"
+#include <ast/error.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>

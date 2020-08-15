@@ -22,8 +22,8 @@
  * in half by checking ENOTDIR vs. ENOENT
  */
 
-#include "ast.h"
-#include "error.h"
+#include <ast/ast.h>
+#include <ast/error.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>

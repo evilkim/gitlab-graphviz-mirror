@@ -19,7 +19,7 @@
  * the length of the converted s is returned (may have imbedded \0's)
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 
 int stresc(char *s)
 {

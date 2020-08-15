@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "ast.h"
+#include <ast/ast.h>
 
 /*
  * return small format buffer chunk of size n
