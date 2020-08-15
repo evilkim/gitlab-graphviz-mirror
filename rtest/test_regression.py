@@ -219,6 +219,21 @@ def test_1594():
     assert 'line 3:' in stderr, \
       'GVPR did not identify correct line of syntax error'
 
+def test_1676():
+    '''
+    https://gitlab.com/graphviz/graphviz/-/issues/1676
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1676.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # run Graphviz with this input
+    ret = subprocess.call(['dot', '-Tsvg', '-o', os.devnull, input])
+
+    # this malformed input should not have caused Graphviz to crash
+    assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
+
 def test_1724():
     '''
     passing malformed node and newrank should not cause segfaults
