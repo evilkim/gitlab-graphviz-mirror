@@ -14,7 +14,7 @@
 /* mpgen.c 1999-Feb-23 Jim Hefferon jim@joshua.smcvt.edu 
  *  Adapted from psgen.c.  See 1st_read.mp.
  */
-#include "render.h"
+#include <common/render.h>
 #ifndef _WIN32
 #include <unistd.h>
 #endif

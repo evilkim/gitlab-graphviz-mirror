@@ -15,24 +15,6 @@ add_custom_command(
 
 add_definitions(-DGVC_EXPORTS -D_BLD_gvc=1)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/label
-    ${GRAPHVIZ_LIB_DIR}/pack
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/fdpgen
-    ${GRAPHVIZ_LIB_DIR}/xdot
-)
-
-if (WIN32)
-    include_directories(${WINDOWS_DEPENDENCY_DIR}/include)
-endif()
-
 # Generate colortbl.h from sources
 add_custom_command(
     OUTPUT svgcolor_lib
@@ -134,6 +116,24 @@ add_library(common STATIC
     # Generated files
     ${BISON_HTMLparse_OUTPUTS}
 )
+
+target_include_directories(common PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/label
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/fdpgen
+    ${GRAPHVIZ_LIB_DIR}/xdot
+)
+
+if (WIN32)
+    target_include_directories(common PRIVATE ${WINDOWS_DEPENDENCY_DIR}/include)
+endif()
 
 # From https://gitlab.com/graphviz/graphviz/-/issues/1613 @mdwies 20093010
 if(APPLE)

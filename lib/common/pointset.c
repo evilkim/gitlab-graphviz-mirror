@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include "render.h"
-#include "pointset.h"
+#include <common/render.h>
+#include <common/pointset.h>
 
 typedef struct {
     Dtlink_t link;

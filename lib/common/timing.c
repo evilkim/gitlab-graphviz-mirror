@@ -30,8 +30,8 @@ typedef struct tms mytime_t;
 #else
 
 #include	<time.h>
-#include "render.h"
-#include    "utils.h"
+#include <common/render.h>
+#include    <common/utils.h>
 
 typedef clock_t mytime_t;
 #define GET_TIME(S) S = clock()

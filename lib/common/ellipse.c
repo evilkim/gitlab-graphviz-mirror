@@ -77,8 +77,8 @@ typedef struct Ppoly_t {
 
 typedef Ppoly_t Ppolyline_t;
 #else
-#include "render.h"
-#include "pathplan.h"
+#include <common/render.h>
+#include <pathplan/pathplan.h>
 #endif
 
 #define TWOPI (2*M_PI)

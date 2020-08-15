@@ -12,13 +12,13 @@
  *************************************************************************/
 
 
-#include "render.h"
-#include "htmltable.h"
+#include <common/render.h>
+#include <common/htmltable.h>
 #include "htmlparse.h"
-#include "htmllex.h"
-#include "cdt.h"
+#include <common/htmllex.h>
+#include <cdt/cdt.h>
 #include <ctype.h>
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 #ifdef HAVE_EXPAT
 #include <expat.h>

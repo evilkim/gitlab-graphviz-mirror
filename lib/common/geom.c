@@ -16,8 +16,8 @@
 
 #include "config.h"
 
-#include "geom.h"
-#include "geomprocs.h"
+#include <common/geom.h>
+#include <common/geomprocs.h>
 #ifdef _WIN32
 #define inline 
 #endif

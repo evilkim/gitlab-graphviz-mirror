@@ -16,7 +16,7 @@
  *  Use encoded form for polyline and polygon
  */
 #include <ctype.h>
-#include "render.h"
+#include <common/render.h>
 
 #define SOLID  0
 #define DOTTED 1

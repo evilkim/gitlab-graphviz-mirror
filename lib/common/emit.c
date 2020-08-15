@@ -20,12 +20,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
-#include "render.h"
-#include "agxbuf.h"
-#include "htmltable.h"
-#include "gvc.h"
-#include "cdt.h"
-#include "xdot.h"
+#include <common/render.h>
+#include <cgraph/agxbuf.h>
+#include <common/htmltable.h>
+#include <gvc/gvc.h>
+#include <cdt/cdt.h>
+#include <xdot/xdot.h>
 
 #ifdef _WIN32
 #define strtok_r strtok_s

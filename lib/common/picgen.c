@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "render.h"
+#include <common/render.h>
 
 #define PIC_COORDS_PER_LINE (16)	/* to avoid stdio BUF overflow */
 

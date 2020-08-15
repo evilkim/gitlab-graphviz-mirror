@@ -21,10 +21,10 @@
  */
 
 #include <ctype.h>
-#include "render.h"
-#include "tlayout.h"
-#include "gvc.h"
-#include "fdp.h"
+#include <common/render.h>
+#include <fdpgen/tlayout.h>
+#include <gvc/gvc.h>
+#include <fdpgen/fdp.h>
 
 /* neato_extra_args:
  * Handle special neato arguments.

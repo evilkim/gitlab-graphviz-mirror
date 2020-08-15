@@ -12,12 +12,12 @@
  *************************************************************************/
 
 #include <ctype.h>
-#include "render.h"
-#include "htmltable.h"
-#include "gvc.h"
-#include "xdot.h"
-#include "agxbuf.h"
-#include "strcasecmp.h"
+#include <common/render.h>
+#include <common/htmltable.h>
+#include <gvc/gvc.h>
+#include <xdot/xdot.h>
+#include <cgraph/agxbuf.h>
+#include <cgraph/strcasecmp.h>
 
 static char *usageFmt =
     "Usage: %s [-Vv?] [-(GNE)name=val] [-(KTlso)<val>] <dot files>\n";

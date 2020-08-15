@@ -24,11 +24,11 @@
  */
 #define SUPPORT_WRITEDATE
 
-#include "render.h"
+#include <common/render.h>
 #ifdef SUPPORT_WRITEDATE
 #include <time.h>
 #endif
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 
 /* VTX font modifiers */

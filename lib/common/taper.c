@@ -21,10 +21,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <types.h>
-#include <memory.h>
-#include <logic.h>
-#include <agxbuf.h>
-#include <utils.h>
+#include <common/memory.h>
+#include <common/logic.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
 
   /* sample point size; should be dynamic based on dpi or under user control */
 #define BEZIERSUBDIVISION 20

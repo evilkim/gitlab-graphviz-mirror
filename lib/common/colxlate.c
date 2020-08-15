@@ -22,12 +22,12 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "arith.h"
-#include "color.h"
-#include "colorprocs.h"
+#include <common/arith.h>
+#include <common/color.h>
+#include <common/colorprocs.h>
 #include "colortbl.h"
-#include "memory.h"
-#include "strcasecmp.h"
+#include <common/memory.h>
+#include <cgraph/strcasecmp.h>
 
 static char* colorscheme;
 
