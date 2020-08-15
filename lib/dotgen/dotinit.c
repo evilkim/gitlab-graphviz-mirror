@@ -13,9 +13,9 @@
 
 
 #include <time.h>
-#include "dot.h"
-#include "pack.h"
-#include "aspect.h"
+#include <dotgen/dot.h>
+#include <pack/pack.h>
+#include <dotgen/aspect.h>
 
 static void
 dot_init_subg(graph_t * g, graph_t* droot)

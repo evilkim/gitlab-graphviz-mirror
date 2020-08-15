@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include	"dot.h"
+#include	<dotgen/dot.h>
 
 
 static node_t *make_vn_slot(graph_t * g, int r, int pos)

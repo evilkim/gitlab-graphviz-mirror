@@ -20,7 +20,7 @@
  */
 
 #include <assert.h>
-#include "dot.h"
+#include <dotgen/dot.h>
 #include <limits.h>
 #include <stdlib.h>
 

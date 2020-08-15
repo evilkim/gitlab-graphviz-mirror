@@ -20,7 +20,7 @@
  * component.
  */
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 static node_t *Last_node;
 static char Cmark;

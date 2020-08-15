@@ -16,11 +16,11 @@
  * set edge splines.
  */
 
-#include "dot.h"
+#include <dotgen/dot.h>
 #include <math.h>
 
 #ifdef ORTHO
-#include <ortho.h>
+#include <ortho/ortho.h>
 #endif
 
 #define	NSUB	9		/* number of subdivisions, re-aiming splines */

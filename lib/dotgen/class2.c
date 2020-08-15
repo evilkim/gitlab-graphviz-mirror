@@ -14,7 +14,7 @@
 
 /* classify edges for mincross/nodepos/splines, using given ranks */
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 static node_t*
 label_vnode(graph_t * g, edge_t * orig)

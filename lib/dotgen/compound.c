@@ -15,7 +15,7 @@
 /* Module for clipping splines to cluster boxes.
  */
 
-#include	"dot.h"
+#include	<dotgen/dot.h>
 
 /* pf2s:
  * Convert a pointf to its string representation.

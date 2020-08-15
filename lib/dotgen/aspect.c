@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 /*
  * Author: Mohammad T. Irfan

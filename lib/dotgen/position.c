@@ -20,8 +20,8 @@
  * created and correctly separated.
  */
 
-#include "dot.h"
-#include "aspect.h"
+#include <dotgen/dot.h>
+#include <dotgen/aspect.h>
 
 static int nsiter2(graph_t * g);
 static void create_aux_edges(graph_t * g);

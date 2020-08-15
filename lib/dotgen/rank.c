@@ -26,7 +26,7 @@
  *  watch out for interactions between leaves and clusters.
  */
 
-#include	"dot.h"
+#include	<dotgen/dot.h>
 
 static void dot1_rank(graph_t * g, aspect_t* asp);
 static void dot2_rank(graph_t * g, aspect_t* asp);
