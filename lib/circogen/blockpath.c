@@ -12,10 +12,10 @@
  *************************************************************************/
 
 
-#include	"blockpath.h"
-#include	"edgelist.h"
-#include	"nodeset.h"
-#include	"deglist.h"
+#include	<circogen/blockpath.h>
+#include	<circogen/edgelist.h>
+#include	<circogen/nodeset.h>
+#include	<circogen/deglist.h>
 
 /* The code below lays out a single block on a circle.
  */

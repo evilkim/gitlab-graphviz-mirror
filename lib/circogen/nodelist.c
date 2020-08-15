@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include	"nodelist.h"
-#include	"circular.h"
+#include	<circogen/nodelist.h>
+#include	<circogen/circular.h>
 #include	<assert.h>
 
 static nodelistitem_t *init_nodelistitem(Agnode_t * n)

@@ -19,7 +19,7 @@
  * especially in the case where one block is the sole child of the other.
  */
 
-#include	"blockpath.h"
+#include	<circogen/blockpath.h>
 
 /* getRotation:
  * The function determines how much the block should be rotated

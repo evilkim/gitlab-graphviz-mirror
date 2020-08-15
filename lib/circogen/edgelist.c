@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include	"edgelist.h"
+#include	<circogen/edgelist.h>
 #include	<assert.h>
 
 static edgelistitem *mkItem(Dt_t * d, edgelistitem * obj, Dtdisc_t * disc)
