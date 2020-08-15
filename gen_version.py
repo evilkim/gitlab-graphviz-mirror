@@ -1,24 +1,28 @@
+#!/usr/bin/env python3
+
 # Generate version
 #
-# Stable release entry format     : <major>.<minor>.>patch>
-# Development release entry format: <major>.<minor>.<patch>~dev
+# Release version entry format : <major>.<minor>.<patch>
 #
-# Stable release output format     : <major>.<minor>.<patch>
-# Development release output format: <major>.<minor>.<patch>~dev.<YYYYmmdd.HHMM>
+# Stable release version output format     : <major>.<minor>.<patch>
+# Development release version output format: <major>.<minor>.<patch>~dev.<YYYYmmdd.HHMM>
 
-# The patch version of a development release should be the next stable
-# release patch number followed by "~dev". The committer date will be
-# added with a period separator.
+# The patch version of a development release should be the same as the
+# next stable release patch number. The string "~dev." and the
+# committer date will be added.
 #
 # Example sequence:
 #
-# Entry          Output
-# 2.44.1      => 2.44.1
-# 2.44.2~dev  => 2.44.2~dev.20200704.1652
-# 2.44.2      => 2.44.2
-# 2.44.3~dev  => 2.44.3~dev.20200824.1337
+# Entry version   Entry collection          Output
+# 2.44.1          stable                 => 2.44.1
+# 2.44.2          development            => 2.44.2~dev.20200704.1652
+# 2.44.2          stable                 => 2.44.2
+# 2.44.3          development            => 2.44.3~dev.20200824.1337
 
-version = '2.44.2~dev'
+#collection = 'stable'
+collection = 'development'
+
+version = '2.44.2'
 
 import os
 import sys
@@ -44,10 +48,24 @@ parser.add_argument('--committer-date-graphviz',
                     help='Print graphviz special formatted committer date in UTC '
                     'instead of version'
 )
+parser.add_argument('--collection',
+                    action='store_true',
+                    help='Print collection ("stable" or "development") '
+                    'instead of version'
+)
 
 args = parser.parse_args()
 
 date_format = args.date_format or graphviz_date_format
+
+assert collection in ('stable', 'development'), \
+    'The collection is not "stable" or "development"'
+assert len(version.split('.')) == 3, 'Wrong number of version elements'
+assert all(part.isnumeric() for part in version.split('.')), \
+    'All version elements are not numeric'
+
+if collection == 'development':
+    version += '~dev'
 
 major_version, minor_version, patch_version = version.split('.')
 
@@ -74,6 +92,8 @@ if not patch_version.isnumeric() or args.date_format:
 
 if args.date_format:
     print(committer_date)
+elif args.collection:
+    print(collection)
 else:
     if not patch_version.isnumeric():
         # Non-numerical patch version; add committer date
