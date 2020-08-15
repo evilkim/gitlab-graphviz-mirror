@@ -1552,7 +1552,7 @@ char* htmlEntityUTF8 (char* s, graph_t* g)
 	            }
 	    agxbputc(&xb, c);
     }
-    ns = strdup (agxbuse(&xb));
+    ns = agxbdisown(&xb);
     agxbfree(&xb);
     return ns;
 }
@@ -1591,7 +1591,7 @@ char* latin1ToUTF8 (char* s)
 	    agxbputc(&xb, (v & 0x3F) | 0x80);
 	}
     }
-    ns = strdup (agxbuse(&xb));
+    ns = agxbdisown(&xb);
     agxbfree(&xb);
     return ns;
 }
@@ -1622,7 +1622,7 @@ utf8ToLatin1 (char* s)
 	    agxbputc(&xb, outc);
 	}
     }
-    ns = strdup (agxbuse(&xb));
+    ns = agxbdisown(&xb);
     agxbfree(&xb);
     return ns;
 }

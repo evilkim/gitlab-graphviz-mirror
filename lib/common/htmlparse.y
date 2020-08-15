@@ -179,7 +179,7 @@ appendFItemList (agxbuf *ag)
 {
     fitem *fi = NEW(fitem);
 
-    fi->ti.str = strdup(agxbuse(ag));
+    fi->ti.str = agxbdisown(ag);
     fi->ti.font = HTMLstate.fontstack->cfont;
     dtinsert(HTMLstate.fitemList, fi);
 }	

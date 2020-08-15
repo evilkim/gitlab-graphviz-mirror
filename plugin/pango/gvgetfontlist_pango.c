@@ -481,7 +481,7 @@ static char *gv_get_font(availfont_t* gv_af_p,
 		    }
 		}
 	    }
-	    return strdup(agxbuse(xb2));
+	    return agxbdisown(xb2);
 	}
     }
     return NULL;
