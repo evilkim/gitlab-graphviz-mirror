@@ -110,3 +110,37 @@ int agxbpop(agxbuf * xb)
 	return -1;
 
 }
+
+char *agxbdisown(agxbuf * xb) {
+
+  size_t size;
+  char *buf;
+
+  /* terminate the existing string */
+  agxbputc(xb, '\0');
+
+  size = (size_t)(xb->ptr - xb->buf);
+
+  if (!xb->dyna) {
+    /* the buffer is not dynamically allocated, so we need to copy its contents
+     * to heap memory
+     */
+
+    buf = malloc(size);
+    if (buf == NULL) {
+      return NULL;
+    }
+
+    memcpy(buf, xb->buf, size);
+
+  } else {
+    /* the buffer is already dynamically allocated, so take it as-is */
+    buf = (char*)xb->buf;
+  }
+
+  /* reset xb to a state where it is usable */
+  xb->buf = xb->ptr = xb->eptr = NULL;
+  xb->dyna = 1;
+
+  return buf;
+}

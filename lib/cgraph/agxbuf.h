@@ -77,7 +77,10 @@ extern "C" {
 #define agxbputc(X,C) ((((X)->ptr >= (X)->eptr) ? agxbmore(X,1) : 0), (void)(*(X)->ptr++ = ((unsigned char)C)))
 
 /* agxbuse:
- * Null-terminates buffer; resets and returns pointer to data;
+ * Null-terminates buffer; resets and returns pointer to data. The buffer is
+ * still associated with the agxbuf and will be overwritten on the next, e.g.,
+ * agxbput. If you want to retrieve and disassociate the buffer, use agxbdisown
+ * instead.
  *  char* agxbuse(agxbuf* xb)
  */
 #define agxbuse(X) ((void)agxbputc(X,'\0'),(char*)((X)->ptr = (X)->buf))
@@ -105,6 +108,16 @@ extern "C" {
  *  char* agxbnext(agxbuf* xb)
  */
 #define agxbnext(X) ((char*)((X)->ptr))
+
+/* agxbdisown:
+ * Disassociate the backing buffer from this agxbuf and return it. The buffer is
+ * NUL terminated before being returned. If the agxbuf is using stack memory,
+ * this will first copy the data to a new heap buffer to then return. If failure
+ * occurs, NULL is returned. If you want to temporarily access the string in the
+ * buffer, but have it overwritten and reused the next time, e.g., agxbput is
+ * called, use agxbuse instead of agxbdisown.
+ */
+    AGXBUF_API char *agxbdisown(agxbuf * xb);
 
 #endif
 
