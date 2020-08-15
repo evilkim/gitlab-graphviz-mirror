@@ -18,6 +18,8 @@ extern "C" {
 #ifndef         AGXBUF_H
 #define         AGXBUF_H
 
+#include <stddef.h>
+
 #ifdef _WIN32
 #   ifdef EXPORT_AGXBUF
 #       define AGXBUF_API __declspec(dllexport)
