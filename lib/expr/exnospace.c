@@ -17,7 +17,7 @@
  * expression library
  */
 
-#include <exlib.h>
+#include <expr/exlib.h>
 
 /*
  * no space message with default (empty) string value

@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#include "exlib.h"
+#include <expr/exlib.h>
 #include <string.h>
 
 #if !defined(TRACE_lex) && _BLD_DEBUG

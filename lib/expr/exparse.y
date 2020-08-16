@@ -37,7 +37,7 @@
 #endif
 
 #include <stdio.h>
-#include <ast.h>
+#include <ast/ast.h>
 
 #undef	RS	/* hp.pa <signal.h> grabs this!! */
 

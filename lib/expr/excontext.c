@@ -17,7 +17,7 @@
  * expression library
  */
 
-#include "exlib.h"
+#include <expr/exlib.h>
 
 /*
  * copy input token error context into buf of n chars and reset the context

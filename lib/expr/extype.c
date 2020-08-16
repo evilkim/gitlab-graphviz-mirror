@@ -18,7 +18,7 @@
  * expression library C program generator
  */
 
-#include "exlib.h"
+#include <expr/exlib.h>
 
 #define str(s)		# s
 #define xstr(s)		str(s)

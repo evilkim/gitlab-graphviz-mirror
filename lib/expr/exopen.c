@@ -24,7 +24,7 @@
 #define _BLD_sfio 1
 #endif
 
-#include <exlib.h>
+#include <expr/exlib.h>
 #include <string.h>
 
 /*

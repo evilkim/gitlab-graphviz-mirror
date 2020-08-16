@@ -23,7 +23,7 @@
 	int		tmp;		/* temp var index		*/ \
 	Exccdisc_t*	ccdisc;		/* excc() discipline		*/
 
-#include "exlib.h"
+#include <expr/exlib.h>
 #include <string.h>
 
 #define EX_CC_DUMP	0x8000

@@ -18,7 +18,7 @@
  * expression library
  */
 
-#include "exlib.h"
+#include <expr/exlib.h>
 #include <string.h>
 
 int
