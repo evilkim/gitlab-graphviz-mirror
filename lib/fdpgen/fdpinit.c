@@ -21,9 +21,9 @@
 /* uses PRIVATE interface */
 #define FDP_PRIVATE 1
 
-#include    "tlayout.h"
-#include    "neatoprocs.h"
-#include    "agxbuf.h"
+#include    <fdpgen/tlayout.h>
+#include    <neatogen/neatoprocs.h>
+#include    <cgraph/agxbuf.h>
 
 static void initialPositions(graph_t * g)
 {

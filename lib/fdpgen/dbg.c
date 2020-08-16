@@ -21,9 +21,9 @@
 
 #define FDP_PRIVATE
 
-#include <dbg.h>
-#include <neatoprocs.h>
-#include <fdp.h>
+#include <fdpgen/dbg.h>
+#include <neatogen/neatoprocs.h>
+#include <fdpgen/fdp.h>
 #include <math.h>
 
 static int indent = -1;

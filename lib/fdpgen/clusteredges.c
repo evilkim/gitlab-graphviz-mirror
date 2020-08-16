@@ -23,11 +23,11 @@
 
 #include "config.h"
 
-#include <clusteredges.h>
-#include <fdp.h>
-#include <neatoprocs.h>
-#include "vispath.h"
-#include "pack.h"
+#include <fdpgen/clusteredges.h>
+#include <fdpgen/fdp.h>
+#include <neatogen/neatoprocs.h>
+#include <pathplan/vispath.h>
+#include <pack/pack.h>
 
 typedef struct {
     int cnt;

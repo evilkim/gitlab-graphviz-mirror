@@ -35,13 +35,13 @@
 #include <limits.h>
 #include <inttypes.h>
 #include <assert.h>
-#include "tlayout.h"
-#include "neatoprocs.h"
-#include "adjust.h"
-#include "comp.h"
-#include "pack.h"
-#include "clusteredges.h"
-#include "dbg.h"
+#include <fdpgen/tlayout.h>
+#include <neatogen/neatoprocs.h>
+#include <neatogen/adjust.h>
+#include <fdpgen/comp.h>
+#include <pack/pack.h>
+#include <fdpgen/clusteredges.h>
+#include <fdpgen/dbg.h>
 #include <setjmp.h>
 
 static jmp_buf jbuf;

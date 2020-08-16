@@ -27,9 +27,9 @@ Increase less between tries
 /* uses PRIVATE interface */
 #define FDP_PRIVATE 1
 
-#include <xlayout.h>
-#include <adjust.h>
-#include <dbg.h>
+#include <fdpgen/xlayout.h>
+#include <neatogen/adjust.h>
+#include <fdpgen/dbg.h>
 #include <ctype.h>
 
 /* Use bbox based force function */
