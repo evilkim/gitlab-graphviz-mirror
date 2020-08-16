@@ -7,14 +7,14 @@
  *
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
-#include "general.h"
+#include <sparse/general.h>
 #include <math.h>
-#include "time.h"
-#include "SparseMatrix.h"
-#include "node_distinct_coloring.h"
-#include "DotIO.h"
-#include "intersection.h"
-#include "QuadTree.h"
+#include <time.h>
+#include <sparse/SparseMatrix.h>
+#include <edgepaint/node_distinct_coloring.h>
+#include <sparse/DotIO.h>
+#include <edgepaint/intersection.h>
+#include <sparse/QuadTree.h>
 
 static int splines_intersect(int dim, int u1, int v1, int u2, int v2, 
 			     real cos_critical, int check_edges_with_same_endpoint, 

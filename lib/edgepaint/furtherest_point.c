@@ -7,9 +7,9 @@
  *
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
-#include "general.h"
-#include "QuadTree.h"
-#include "furtherest_point.h"
+#include <sparse/general.h>
+#include <sparse/QuadTree.h>
+#include <edgepaint/furtherest_point.h>
 #include <string.h>
 
 static real dist(int dim, real *x, real *y){

@@ -7,13 +7,13 @@
  *
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
-#include "general.h"
-#include "SparseMatrix.h"
-#include "QuadTree.h"
-#include "node_distinct_coloring.h"
-#include "lab.h"
-#include "furtherest_point.h"
-#include "color_palette.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/QuadTree.h>
+#include <edgepaint/node_distinct_coloring.h>
+#include <edgepaint/lab.h>
+#include <edgepaint/furtherest_point.h>
+#include <sparse/color_palette.h>
 #include <string.h>
 
 #ifndef _WIN32

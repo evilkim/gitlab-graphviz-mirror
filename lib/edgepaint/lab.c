@@ -7,14 +7,14 @@
  *
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
-#include "general.h"
-#include "QuadTree.h"
-#include "lab.h"
-#include "math.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include "color_palette.h"
-#include "lab_gamut.h"
+#include <sparse/general.h>
+#include <sparse/QuadTree.h>
+#include <edgepaint/lab.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sparse/color_palette.h>
+#include <edgepaint/lab_gamut.h>
 
 color_rgb color_rgb_init(double r, double g, double b){
   color_rgb rgb;
