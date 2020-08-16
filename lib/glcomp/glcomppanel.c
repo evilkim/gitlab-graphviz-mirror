@@ -12,12 +12,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcomppanel.h"
-#include "glcompfont.h"
-#include "glcompset.h"
-#include "glcomptexture.h"
-#include "glutils.h"
-#include "memory.h"
+#include <glcomp/glcomppanel.h>
+#include <glcomp/glcompfont.h>
+#include <glcomp/glcompset.h>
+#include <glcomp/glcomptexture.h>
+#include <glcomp/glutils.h>
+#include <common/memory.h>
 
 glCompPanel *glCompPanelNew(glCompObj * parentObj, GLfloat x, GLfloat y,
 			    GLfloat w, GLfloat h)

@@ -11,14 +11,14 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcompset.h"
-#include "memory.h"
-#include "glcomppanel.h"
-#include "glcomplabel.h"
-#include "glcompbutton.h"
-#include "glcompmouse.h"
+#include <glcomp/glcompset.h>
+#include <common/memory.h>
+#include <glcomp/glcomppanel.h>
+#include <glcomp/glcomplabel.h>
+#include <glcomp/glcompbutton.h>
+#include <glcomp/glcompmouse.h>
 
-#include "glutils.h"
+#include <glcomp/glutils.h>
 //typedef enum {glPanelObj,glbuttonObj,glLabelObj,glImageObj}glObjType;
 
 static GLfloat startX, startY;

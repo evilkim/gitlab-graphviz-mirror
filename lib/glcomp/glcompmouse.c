@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcompmouse.h"
-#include "glcompfont.h"
-#include "glcompset.h"
-#include "glutils.h"
+#include <glcomp/glcompmouse.h>
+#include <glcomp/glcompfont.h>
+#include <glcomp/glcompset.h>
+#include <glcomp/glutils.h>
 
 void glCompMouseInit(glCompMouse * m)
 {

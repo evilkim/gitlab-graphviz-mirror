@@ -11,12 +11,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcompimage.h"
-#include "glcompfont.h"
-#include "glcompset.h"
-#include "glutils.h"
-#include "glcomptexture.h"
-#include "memory.h"
+#include <glcomp/glcompimage.h>
+#include <glcomp/glcompfont.h>
+#include <glcomp/glcompset.h>
+#include <glcomp/glutils.h>
+#include <glcomp/glcomptexture.h>
+#include <common/memory.h>
 
 glCompImage *glCompImageNew(glCompObj * par, GLfloat x, GLfloat y)
 {

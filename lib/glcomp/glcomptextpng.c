@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcompfont.h"
-#include "memory.h"
+#include <glcomp/glcompfont.h>
+#include <common/memory.h>
 #include <gtk/gtk.h>
 #include <png.h>
 

@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcomptext.h"
-#include "glpangofont.h"
-#include "glutils.h"
-#include "memory.h"
+#include <glcomp/glcomptext.h>
+#include <glcomp/glpangofont.h>
+#include <glcomp/glutils.h>
+#include <common/memory.h>
 #include <GL/glut.h>
 
 void print_bitmap_string(void *font, char *s)
