@@ -6,7 +6,6 @@ LAB_GAMUT_VERSION="1:0:0"
 pkgconfigdir = $(libdir)/pkgconfig
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir) \
 	-I$(top_srcdir)/lib/common \
 	-I$(top_srcdir)/lib/sparse \
 	-I$(top_srcdir)/lib/gvc \
