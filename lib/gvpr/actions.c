@@ -16,15 +16,15 @@
  *  Code for main functions in gpr
  */
 
-#include <actions.h>
-#include <error.h>
-#include <ast.h>
-#include "compile.h"
-#include "sfstr.h"
+#include <gvpr/actions.h>
+#include <ast/error.h>
+#include <ast/ast.h>
+#include <gvpr/compile.h>
+#include <ast/sfstr.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 #define KINDS(p) ((AGTYPE(p) == AGRAPH) ? "graph" : (AGTYPE(p) == AGNODE) ? "node" : "edge")
 
@@ -816,9 +816,9 @@ char *canon(Expr_t * pgm, char *arg)
 
 #include <stdlib.h>
 
-#include "arith.h"
-#include "color.h"
-#include "colortbl.h"
+#include <common/arith.h>
+#include <common/color.h>
+#include <common/colortbl.h>
 
 static char* colorscheme;
 
