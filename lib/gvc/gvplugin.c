@@ -26,17 +26,17 @@
 #include	<ltdl.h>
 #endif
 
-#include	<agxbuf.h>
-#include        "memory.h"
-#include        "types.h"
-#include        "gvplugin.h"
-#include        "gvcjob.h"
-#include        "gvcint.h"
-#include        "gvcproc.h"
-#include        "gvio.h"
+#include	<cgraph/agxbuf.h>
+#include        <common/memory.h>
+#include        <common/types.h>
+#include        <gvc/gvplugin.h>
+#include        <gvc/gvcjob.h>
+#include        <gvc/gvcint.h>
+#include        <gvc/gvcproc.h>
+#include        <gvc/gvio.h>
 
-#include	"const.h"
-#include "strcasecmp.h"
+#include	<common/const.h>
+#include <cgraph/strcasecmp.h>
 
 #ifdef _WIN32
 #define strdup(x) _strdup(x)

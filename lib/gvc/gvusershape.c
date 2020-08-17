@@ -29,14 +29,14 @@
 #endif
 
 #include <regex.h>
-#include "types.h"
-#include "logic.h"
-#include "memory.h"
-#include "agxbuf.h"
+#include <common/types.h>
+#include <common/logic.h>
+#include <common/memory.h>
+#include <cgraph/agxbuf.h>
 
 #define _BLD_gvc 1
-#include "utils.h"
-#include "gvplugin_loadimage.h"
+#include <common/utils.h>
+#include <gvc/gvplugin_loadimage.h>
 
 extern char *Gvimagepath;
 extern char *HTTPServerEnVar;

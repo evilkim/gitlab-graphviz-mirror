@@ -18,12 +18,12 @@
 
 #include "config.h"
 
-#include "const.h"
-#include "gvplugin_layout.h"
-#include "gvcint.h"
-#include "cgraph.h"
-#include "gvcproc.h"
-#include "gvc.h"
+#include <common/const.h>
+#include <gvc/gvplugin_layout.h>
+#include <gvc/gvcint.h>
+#include <cgraph/cgraph.h>
+#include <gvc/gvcproc.h>
+#include <gvc/gvc.h>
 
 extern void graph_init(Agraph_t *g, boolean use_rankdir);
 extern void graph_cleanup(Agraph_t *g);

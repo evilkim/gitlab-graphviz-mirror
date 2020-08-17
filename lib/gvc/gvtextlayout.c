@@ -17,10 +17,10 @@
 
 #include "config.h"
 
-#include "const.h"
-#include "gvplugin_textlayout.h"
-#include "gvcint.h"
-#include "gvcproc.h"
+#include <common/const.h>
+#include <gvc/gvplugin_textlayout.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
 
 int gvtextlayout_select(GVC_t * gvc)
 {

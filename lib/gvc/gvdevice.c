@@ -46,14 +46,14 @@ static unsigned int dfallocated;
 static uint64_t crc;
 #endif /* HAVE_LIBZ */
 
-#include "const.h"
-#include "memory.h"
-#include "gvplugin_device.h"
-#include "gvcjob.h"
-#include "gvcint.h"
-#include "gvcproc.h"
-#include "logic.h"
-#include "gvio.h"
+#include <common/const.h>
+#include <common/memory.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvcjob.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
+#include <common/logic.h>
+#include <gvc/gvio.h>
 
 static const int PAGE_ALIGN = 4095;		/* align to a 4K boundary (less one), typical for Linux, Mac OS X and Windows memory allocation */
 

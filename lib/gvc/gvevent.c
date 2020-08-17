@@ -17,9 +17,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "gvplugin_layout.h"
-#include "gvcint.h"
-#include "gvcproc.h"
+#include <gvc/gvplugin_layout.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
 
 extern char *strdup_and_subst_obj(char *str, void * n);
 extern void emit_graph(GVJ_t * job, graph_t * g);

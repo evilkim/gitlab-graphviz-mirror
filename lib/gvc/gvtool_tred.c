@@ -24,8 +24,8 @@
 
 #include "config.h"
 #include <stdio.h>
-#include "cgraph.h"
-#include "gvc.h"
+#include <cgraph/cgraph.h>
+#include <gvc/gvc.h>
 
 typedef struct {
     Agrec_t h;

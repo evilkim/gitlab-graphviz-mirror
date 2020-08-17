@@ -20,17 +20,17 @@
 #include "config.h"
 
 #include <string.h>
-#include "memory.h"
-#include "const.h"
-#include "macros.h"
-#include "colorprocs.h"
-#include "gvplugin_render.h"
-#include "cgraph.h"
-#include "gvcint.h"
-#include "geom.h"
-#include "geomprocs.h"
-#include "gvcproc.h"
-#include "strcasecmp.h"
+#include <common/memory.h>
+#include <common/const.h>
+#include <common/macros.h>
+#include <common/colorprocs.h>
+#include <gvc/gvplugin_render.h>
+#include <cgraph/cgraph.h>
+#include <gvc/gvcint.h>
+#include <common/geom.h>
+#include <common/geomprocs.h>
+#include <gvc/gvcproc.h>
+#include <cgraph/strcasecmp.h>
 
 extern int emit_once(char *str);
 extern shape_desc *find_user_shape(char *name);
