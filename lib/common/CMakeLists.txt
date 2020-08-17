@@ -39,10 +39,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/generate_color_lib.cmake
 )
 add_custom_command(
-    OUTPUT colortbl.h
+    OUTPUT common/colortbl.h
     DEPENDS color_lib
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/common"
     COMMAND ${AWK_EXECUTABLE} -f ${TOP_SOURCE_DIR}/awk/colortbl.awk
-            ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/colortbl.h
+            ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
 )
 
 # Generate ps_font_equiv.h from sources
@@ -66,7 +67,7 @@ add_library(common STATIC
     arith.h
     color.h
     colorprocs.h
-    colortbl.h
+    ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
     const.h
     entities.h
     geom.h

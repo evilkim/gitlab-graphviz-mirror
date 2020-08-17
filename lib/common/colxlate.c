@@ -25,7 +25,7 @@
 #include <common/arith.h>
 #include <common/color.h>
 #include <common/colorprocs.h>
-#include "colortbl.h"
+#include <common/colortbl.h>
 #include <common/memory.h>
 #include <cgraph/strcasecmp.h>
 
