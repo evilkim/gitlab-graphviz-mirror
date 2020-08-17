@@ -134,19 +134,17 @@ portable-source:
               ./graphviz-install.exe /S /D=$env:graphviz_install_dir | Out-Null;
               mv graphviz-install.exe graphviz-install-$Env:GV_VERSION-$API.exe;
               $env:Path += ";" + $env:graphviz_install_dir + "\bin"
-              dot -c;
               cd ..;
               $Env:INCLUDE += ";C:\Graphviz\include";
               $Env:LIB += ";C:\Graphviz\lib";
-              python3 -m pytest --junitxml=report.xml tests rtest
             }
             elseif($env:build_system -eq "msbuild") {
               # Append build destination to the PATH, configure dot and execute regression tests
               # The following is per https://gitlab.com/graphviz/graphviz/-/merge_requests/1345
               $env:Path = $env:CI_PROJECT_DIR + "\" + $env:configuration + "\Graphviz\bin" + ";" + $env:Path;
-              dot -c;
-              python3 -m pytest --junitxml=report.xml tests rtest
             }
+        - dot -c
+        - python3 -m pytest --junitxml=report.xml tests rtest
         # Create artifacts to archive
         - $ID = "windows"
         - $VERSION_ID = "10"
