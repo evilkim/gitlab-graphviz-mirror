@@ -34,8 +34,10 @@ def test_compile_example(src):
 
     # ensure the C compiler can build this without error
     if platform.system() == 'Windows':
-      subprocess.check_call([cc, filepath, '-nologo', '-link']
-        + ['{}.lib'.format(l) for l in libs])
+      debug = os.environ.get('configuration') == 'Debug'
+      rt_lib_option = '-MDd' if debug else '-MD'
+      subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
+        rt_lib_option, '-link'] + ['{}.lib'.format(l) for l in libs])
     else:
       subprocess.check_call([cc, '-o', os.devnull, filepath]
         + ['-l{}'.format(l) for l in libs])
