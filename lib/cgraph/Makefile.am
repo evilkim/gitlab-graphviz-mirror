@@ -30,18 +30,14 @@ scan.o scan.lo: scan.c grammar.h
 
 scan.c: $(top_srcdir)/lib/cgraph/scan.l
 	@LEX@ -i $(top_srcdir)/lib/cgraph/scan.l
-	@SED@ "s/yy/aag/g" < @LEX_OUTPUT_ROOT@.c | @SED@ '/extern.*isatty/d' > scan.c
+	@SED@ "s/yy/aag/g" < @LEX_OUTPUT_ROOT@.c > scan.c
 	rm @LEX_OUTPUT_ROOT@.c
 
 grammar.c: y.tab.c
-	@SED@ "s/yy/aag/g" < y.tab.c | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-                @SED@ "s/unsigned long/uint64_t/g" > grammar.c
+	@SED@ "s/yy/aag/g" < y.tab.c > grammar.c
 
 grammar.h: y.tab.h
-	@SED@ "s/yy/aag/g" < y.tab.h | \
-		@SED@ "s/unsigned long int/uint64_t/g" | \
-                @SED@ "s/unsigned long/uint64_t/g" > grammar.h
+	@SED@ "s/yy/aag/g" < y.tab.h > grammar.h
 
 y.tab.c y.tab.h: y.output
 
