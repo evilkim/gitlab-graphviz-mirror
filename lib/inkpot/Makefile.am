@@ -6,6 +6,8 @@ INKPOT_VERSION="1:0:0"
 pdfdir = $(pkgdatadir)/doc/pdf
 pkgconfigdir = $(libdir)/pkgconfig
 
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+
 pkginclude_HEADERS = inkpot.h
 lib_LTLIBRARIES = libinkpot.la
 pkgconfig_DATA = libinkpot.pc
