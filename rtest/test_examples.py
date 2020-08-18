@@ -5,6 +5,7 @@ import platform
 import pytest
 import shutil
 import subprocess
+import tempfile
 
 def c_compiler():
     '''find the system's C compiler'''
@@ -32,15 +33,30 @@ def test_compile_example(src):
 
     libs = ('cgraph', 'gvc')
 
-    # ensure the C compiler can build this without error
-    if platform.system() == 'Windows':
-      debug = os.environ.get('configuration') == 'Debug'
-      rt_lib_option = '-MDd' if debug else '-MD'
-      subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
-        rt_lib_option, '-link'] + ['{}.lib'.format(l) for l in libs])
-    else:
-      subprocess.check_call([cc, '-o', os.devnull, filepath]
-        + ['-l{}'.format(l) for l in libs])
+    # create some scratch space to work in
+    with tempfile.TemporaryDirectory() as tmp:
+
+      # compile our test code
+      exe = os.path.join(tmp, 'a.exe')
+      if platform.system() == 'Windows':
+        debug = os.environ.get('configuration') == 'Debug'
+        rt_lib_option = '-MDd' if debug else '-MD'
+        subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
+          rt_lib_option, '-link'] + ['{}.lib'.format(l) for l in libs])
+      else:
+        subprocess.check_call([cc, '-o', exe, filepath]
+          + ['-l{}'.format(l) for l in libs])
+
+      # run the example
+      args = ['-Kneato'] if src in ['demo.c', 'dot.c'] else [];
+
+      p = subprocess.Popen(
+          [exe] + args,
+          stdin=subprocess.PIPE,
+          universal_newlines=True,
+      )
+      p.communicate(input='graph {a -- b}')
+      print('returncode: {} = 0x{:08x}'.format(p.returncode, p.returncode))
 
 @pytest.mark.parametrize('src', ['addrings', 'attr', 'bbox', 'bipart',
   'chkedges', 'clustg', 'collapse', 'cycle', 'deghist', 'delmulti', 'depath',
