@@ -18,8 +18,8 @@
 #include <stdio.h>
 #include <string.h>
 #define XLABEL_INT
-#include <xlabels.h>
-#include <memory.h>
+#include <label/xlabels.h>
+#include <common/memory.h>
 
 extern int Verbose;
 

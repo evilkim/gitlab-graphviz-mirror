@@ -1,10 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-)
-
 add_library(label STATIC
     # Header files
     index.h
@@ -19,4 +12,12 @@ add_library(label STATIC
     rectangle.c
     split.q.c
     xlabels.c
+)
+
+target_include_directories(label PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
 )

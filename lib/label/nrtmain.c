@@ -14,9 +14,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <memory.h>
-#include <gvc.h>
-#include "xlabels.h"
+#include <common/memory.h>
+#include <gvc/gvc.h>
+#include <labels/xlabels.h>
 
 #if 0
 #define POINTS_PER_INCH 72

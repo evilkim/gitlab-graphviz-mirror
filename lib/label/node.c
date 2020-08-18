@@ -12,10 +12,10 @@
 
 #include <stdlib.h>
 
-#include "index.h"
+#include <label/index.h>
 #include <stdio.h>
 #include <assert.h>
-#include "node.h"
+#include <label/node.h>
 
 /* Make a new node and initialize to have all branch cells empty.
 */
