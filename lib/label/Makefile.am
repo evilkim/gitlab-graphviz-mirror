@@ -2,7 +2,6 @@
 ## Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS = \
-    -I$(top_srcdir) \
 	-I$(top_srcdir)/lib/common \
 	-I$(top_srcdir)/lib/cgraph \
     -I$(top_srcdir)/lib/cdt
