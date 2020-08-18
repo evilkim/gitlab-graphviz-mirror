@@ -255,11 +255,10 @@ def test_1767():
     https://gitlab.com/graphviz/graphviz/-/issues/1767
     '''
 
-    # FIXME: some of the Windows CI builds don't install libcgraph that this
-    # test depends on. Others fail the execution of the compiled binary for
-    # unknown reasons.
-    if platform.system() == 'Windows':
-      pytest.skip('test disabled on Windows')
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+    if os.getenv('build_system') == 'msbuild':
+      pytest.skip('Windows MSBuild release does not contain any header files (#1777)')
 
     # find co-located test source
     c_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.c'))
@@ -271,9 +270,11 @@ def test_1767():
 
     # compile our test code
     exe = os.path.join(tmp, 'a.exe')
+    rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
     if platform.system() == 'Windows':
-        subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo', '-link',
-          'cgraph.lib', 'gvc.lib'])
+        subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
+          rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
     else:
         cc = os.environ.get('CC', 'cc')
         subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
