@@ -10,12 +10,12 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "types.h"
-#include "globals.h"
-#include "general.h"
-#include "SparseMatrix.h"
-#include "edge_bundling.h"
-#include "ink.h"
+#include <common/types.h>
+#include <common/globals.h>
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <mingle/edge_bundling.h>
+#include <mingle/ink.h>
 
 double ink_count;
 

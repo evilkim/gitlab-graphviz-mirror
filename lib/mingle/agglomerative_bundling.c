@@ -8,21 +8,21 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "types.h"
-#include "globals.h"
-#include "general.h"
+#include <common/types.h>
+#include <common/globals.h>
+#include <sparse/general.h>
 #include <math.h>
-#include "time.h"
-#include "SparseMatrix.h"
-#include "vector.h"
-#include "edge_bundling.h"
-#include "ink.h"
-#include "agglomerative_bundling.h"
-#include "nearest_neighbor_graph.h"
+#include <time.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/vector.h>
+#include <mingle/edge_bundling.h>
+#include <mingle/ink.h>
+#include <mingle/agglomerative_bundling.h>
+#include <mingle/nearest_neighbor_graph.h>
 #include <string.h>
 
 #if OPENGL
-#include "gl.h"
+#include <gl.h>
 extern pedge *edges_global;
 extern int nedges_global;
 #endif
