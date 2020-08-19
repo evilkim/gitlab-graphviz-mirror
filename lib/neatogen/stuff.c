@@ -14,8 +14,8 @@
 
 #include "config.h"
 
-#include	"neato.h"
-#include	"stress.h"
+#include	<neatogen/neato.h>
+#include	<neatogen/stress.h>
 #include	<time.h>
 #ifndef _WIN32
 #include	<unistd.h>

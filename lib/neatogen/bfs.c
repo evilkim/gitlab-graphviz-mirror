@@ -20,7 +20,7 @@
 
 ******************************************/
 
-#include "bfs.h"
+#include <neatogen/bfs.h>
 #include <stdlib.h>
 /* #include <math.h> */
 

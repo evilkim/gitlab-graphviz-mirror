@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include "kkutils.h"
-#include "closest.h"
+#include <neatogen/kkutils.h>
+#include <neatogen/closest.h>
 #include <stdlib.h>
 
 /*****************************************

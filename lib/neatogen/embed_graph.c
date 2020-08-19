@@ -20,10 +20,10 @@
 ************************************************/
 
 
-#include "dijkstra.h"
-#include "bfs.h"
-#include "kkutils.h"
-#include "embed_graph.h"
+#include <neatogen/dijkstra.h>
+#include <neatogen/bfs.h>
+#include <neatogen/kkutils.h>
+#include <neatogen/embed_graph.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

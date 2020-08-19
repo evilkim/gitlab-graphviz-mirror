@@ -12,9 +12,9 @@
  *************************************************************************/
 
 
-#include "matrix_ops.h"
-#include "pca.h"
-#include "closest.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/pca.h>
+#include <neatogen/closest.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

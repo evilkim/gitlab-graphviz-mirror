@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "neato.h"
+#include <neatogen/neato.h>
 #include <stdio.h>
-#include "mem.h"
-#include "info.h"
+#include <neatogen/mem.h>
+#include <neatogen/info.h>
 
 
 Info_t *nodeInfo;		/* Array of node info */

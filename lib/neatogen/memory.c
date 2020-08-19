@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "geometry.h"
-#include "render.h"
+#include <neatogen/geometry.h>
+#include <common/render.h>
 
 typedef struct freenode {
     struct freenode *nextfree;
@@ -23,7 +23,7 @@ typedef struct freeblock {
     struct freenode *nodes;
 } Freeblock;
 
-#include "mem.h"
+#include <neatogen/mem.h>
 #include <stdlib.h>
 #include <stdio.h>
 

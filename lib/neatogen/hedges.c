@@ -11,9 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "mem.h"
-#include "hedges.h"
-#include "render.h"
+#include <neatogen/mem.h>
+#include <neatogen/hedges.h>
+#include <common/render.h>
 
 
 #define DELETED -2

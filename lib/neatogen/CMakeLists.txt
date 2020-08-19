@@ -1,17 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/ortho
-    ${GRAPHVIZ_LIB_DIR}/pack
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/rbtree
-    ${GRAPHVIZ_LIB_DIR}/sfdpgen
-    ${GRAPHVIZ_LIB_DIR}/sparse
-)
-
 set(sources
     # Header files
     adjust.h
@@ -98,10 +84,25 @@ if (with_ipsepcola)
         mosek_quad_solve.h
         quad_prog_vpsc.c
     )
-    include_directories(${GRAPHVIZ_LIB_DIR}/vpsc)
+    target_include_directories(${GRAPHVIZ_LIB_DIR}/vpsc)
 endif (with_ipsepcola)
 
 
 add_library(neatogen STATIC
     ${sources}
+)
+
+target_include_directories(neatogen PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ortho
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/rbtree
+    ${GRAPHVIZ_LIB_DIR}/sfdpgen
+    ${GRAPHVIZ_LIB_DIR}/sparse
 )

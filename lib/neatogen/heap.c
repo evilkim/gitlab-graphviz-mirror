@@ -12,12 +12,12 @@
  *************************************************************************/
 
 
-#include "render.h"
+#include <common/render.h>
 #include <stdio.h>
 
-#include "mem.h"
-#include "hedges.h"
-#include "heap.h"
+#include <neatogen/mem.h>
+#include <neatogen/hedges.h>
+#include <neatogen/heap.h>
 
 
 static Halfedge *PQhash;

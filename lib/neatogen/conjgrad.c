@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include "matrix_ops.h"
-#include "conjgrad.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/conjgrad.h>
 /* #include <math.h> */
 #include <stdlib.h>
 

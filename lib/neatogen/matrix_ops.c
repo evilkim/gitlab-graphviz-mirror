@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include "matrix_ops.h"
-#include "memory.h"
+#include <neatogen/matrix_ops.h>
+#include <common/memory.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>

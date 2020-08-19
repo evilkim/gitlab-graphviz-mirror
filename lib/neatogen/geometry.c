@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "geometry.h"
+#include <neatogen/geometry.h>
 #include <math.h>
 
 

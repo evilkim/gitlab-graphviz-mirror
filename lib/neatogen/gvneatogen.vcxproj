@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)windows\include;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvc;$(SolutionDir)lib\pack;$(SolutionDir)lib\pathplan;$(SolutionDir)lib\ortho;$(SolutionDir)lib\rbtree;$(SolutionDir)lib\sfdpgen;$(SolutionDir)lib\sparse;$(SolutionDir)lib\vpsc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)windows\include;$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvc;$(SolutionDir)lib\pack;$(SolutionDir)lib\pathplan;$(SolutionDir)lib\ortho;$(SolutionDir)lib\rbtree;$(SolutionDir)lib\sfdpgen;$(SolutionDir)lib\sparse;$(SolutionDir)lib\vpsc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;WIN32_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,7 +71,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)windows\include;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvc;$(SolutionDir)lib\pack;$(SolutionDir)lib\pathplan;$(SolutionDir)lib\ortho;$(SolutionDir)lib\rbtree;$(SolutionDir)lib\sfdpgen;$(SolutionDir)lib\sparse;$(SolutionDir)lib\vpsc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)windows\include;$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvc;$(SolutionDir)lib\pack;$(SolutionDir)lib\pathplan;$(SolutionDir)lib\ortho;$(SolutionDir)lib\rbtree;$(SolutionDir)lib\sfdpgen;$(SolutionDir)lib\sparse;$(SolutionDir)lib\vpsc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;WIN32_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>

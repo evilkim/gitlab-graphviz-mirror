@@ -11,11 +11,11 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef DIGCOLA
-#include "kkutils.h"
-#include "matrix_ops.h"
-#include "conjgrad.h"
+#include <neatogen/kkutils.h>
+#include <neatogen/matrix_ops.h>
+#include <neatogen/conjgrad.h>
 
 static void
 standardize(double* orthog, int nvtxs) 

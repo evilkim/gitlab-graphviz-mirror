@@ -12,8 +12,8 @@
  *************************************************************************/
 
 #include <math.h>
-#include "neato.h"
-#include "pathutil.h"
+#include <neatogen/neato.h>
+#include <pathplan/pathutil.h>
 #include <setjmp.h>
 
 static jmp_buf jbuf;

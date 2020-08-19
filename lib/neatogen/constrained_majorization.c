@@ -11,21 +11,21 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef DIGCOLA
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
 #include <float.h>
-#include "stress.h"
-#include "dijkstra.h"
-#include "bfs.h"
-#include "matrix_ops.h"
-#include "kkutils.h"
-#include "conjgrad.h"
-#include "quad_prog_solver.h"
-#include "matrix_ops.h"
+#include <neatogen/stress.h>
+#include <neatogen/dijkstra.h>
+#include <neatogen/bfs.h>
+#include <neatogen/matrix_ops.h>
+#include <neatogen/kkutils.h>
+#include <neatogen/conjgrad.h>
+#include <neatogen/quad_prog_solver.h>
+#include <neatogen/matrix_ops.h>
 
 #define localConstrMajorIterations 15
 #define levels_sep_tol 1e-1
