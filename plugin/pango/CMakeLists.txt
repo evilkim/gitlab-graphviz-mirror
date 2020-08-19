@@ -1,4 +1,4 @@
-if(CAIRO_FOUND AND PANGOCAIRO_FOUND)
+if(CAIRO_FOUND AND PangoCairo_FOUND)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -9,7 +9,7 @@ include_directories(
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${CAIRO_INCLUDE_DIRS}/cairo
-    ${PANGOCAIRO_INCLUDE_DIRS}
+    ${PangoCairo_INCLUDE_DIRS}
 )
 
 add_library(gvplugin_pango SHARED
@@ -28,7 +28,7 @@ add_library(gvplugin_pango SHARED
 target_link_libraries(gvplugin_pango
     gvc
     ${CAIRO_LIBRARIES}
-    ${PANGOCAIRO_LIBRARIES}
+    ${PangoCairo_LINK_LIBRARIES}
 )
 
 # Installation location of library files
@@ -44,7 +44,7 @@ if (WIN32)
     install(
         FILES
             ${CAIRO_RUNTIME_LIBRARIES}
-            ${PANGOCAIRO_RUNTIME_LIBRARIES}
+            ${PangoCairo_RUNTIME_LIBRARIES}
         DESTINATION ${BINARY_INSTALL_DIR}
     )
 endif()
@@ -55,4 +55,4 @@ set_target_properties(gvplugin_pango PROPERTIES
     SOVERSION ${GRAPHVIZ_PLUGIN_VERSION}
 )
 
-endif(CAIRO_FOUND AND PANGOCAIRO_FOUND)
+endif()
