@@ -16,6 +16,7 @@
  *	merge edges with specified samehead/sametail onto the same port
  */
 
+#include <math.h>
 #include	"dot.h"
 
 
@@ -206,11 +207,11 @@ nodes and maintaining equal separation when specified
 	   FIXME: I guess this adds an extra box for all edges in the rank */
 	if (u == l->list[0]->head) {
 	    if (GD_rank(u->graph)[ND_rank(u)].ht2 <
-		(ht = ABS(arr_prt.p.y)))
+		(ht = fabs(arr_prt.p.y)))
 		GD_rank(u->graph)[ND_rank(u)].ht2 = ht;
 	} else {
 	    if (GD_rank(u->graph)[ND_rank(u)].ht1 <
-		(ht = ABS(arr_prt.p.y)))
+		(ht = fabs(arr_prt.p.y)))
 		GD_rank(u->graph)[ND_rank(u)].ht1 = ht;
 	}
     }

@@ -16,6 +16,7 @@
 #include "htmltable.h"
 #include "entities.h"
 #include "logic.h"
+#include <math.h>
 #include "gvc.h"
 #include "strcasecmp.h"
 
@@ -591,7 +592,7 @@ pointf spline_at_y(splines * spl, double y)
 	    t = (low + high) / 2.0;
 	    p = Bezier(c, 3, t, NULL, NULL);
 	    d = p.y - y;
-	    if (ABS(d) <= 1)
+	    if (fabs(d) <= 1)
 		break;
 	    if (d < 0)
 		high = t;

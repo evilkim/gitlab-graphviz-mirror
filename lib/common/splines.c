@@ -16,6 +16,7 @@
  * an edge, starting from a list of control points.
  */
 
+#include <math.h>
 #include "render.h"
 
 #ifdef DEBUG
@@ -140,7 +141,7 @@ void bezier_clip(inside_t * inside_context,
 	    found = TRUE;
 	    *odir = t;
 	}
-    } while (ABS(opt.x - pt.x) > .5 || ABS(opt.y - pt.y) > .5);
+    } while (fabs(opt.x - pt.x) > .5 || fabs(opt.y - pt.y) > .5);
     if (found)
 	for (i = 0; i < 4; i++)
 	    sp[i] = best[i];
