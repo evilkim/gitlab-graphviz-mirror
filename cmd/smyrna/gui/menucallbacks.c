@@ -431,7 +431,7 @@ static char **splitArgs(const char *args, int *argcp)
 	    asize += 10;
 	    argv = ALLOC(asize, argv, char *);
 	}
-	argv[argc++] = strdup(agxbuse(&xbuf));
+	argv[argc++] = agxbdisown(&xbuf);
     }
 
     agxbfree(&xbuf);
