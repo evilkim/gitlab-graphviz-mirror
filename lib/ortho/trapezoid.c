@@ -21,10 +21,10 @@
 #define __USE_ISOC99
 #endif
 #include <math.h>
-#include <geom.h>
-#include <logic.h>
-#include <memory.h>
-#include <trap.h>
+#include <common/geom.h>
+#include <common/logic.h>
+#include <common/memory.h>
+#include <ortho/trap.h>
 
 /* Node types */
 

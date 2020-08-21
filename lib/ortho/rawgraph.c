@@ -15,9 +15,9 @@
 
 #include "config.h"
 
-#include "rawgraph.h"
-#include "memory.h"
-#include "intset.h"
+#include <ortho/rawgraph.h>
+#include <common/memory.h>
+#include <common/intset.h>
 
 #define UNSCANNED 0
 #define SCANNING  1

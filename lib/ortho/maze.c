@@ -17,11 +17,10 @@
 #define DEBUG
 
 #include <stddef.h>
-#include <maze.h>
-#include <partition.h>
-#include <memory.h>
-#include <arith.h>
-/* #include <values.h> */
+#include <ortho/maze.h>
+#include <ortho/partition.h>
+#include <common/memory.h>
+#include <common/arith.h>
 
 #define MARGIN 36;
 

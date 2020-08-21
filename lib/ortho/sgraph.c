@@ -15,9 +15,9 @@
 #include "config.h"
 
 #include <limits.h>
-#include "memory.h"
-#include "sgraph.h"
-#include "fPQ.h"
+#include <common/memory.h>
+#include <ortho/sgraph.h>
+#include <ortho/fPQ.h>
 
 #if 0
 /* Max. number of maze segments around a node */
@@ -179,7 +179,7 @@ freeSGraph (sgraph* g)
     free (g);
 }
 
-#include "fPQ.h"
+#include <ortho/fPQ.h>
 
 /* shortest path:
  * Constructs the path of least weight between from and to.

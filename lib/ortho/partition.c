@@ -13,9 +13,9 @@
 
 #include "config.h"
 
-#include <partition.h>
-#include <trap.h>
-#include <memory.h>
+#include <ortho/partition.h>
+#include <ortho/trap.h>
+#include <common/memory.h>
 #include <math.h>
 #include <stdlib.h>
 
