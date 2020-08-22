@@ -257,7 +257,7 @@ static void xdot_style (GVJ_t *job)
  * @param sym Symbol to set
  * @param value Unescaped string
  */
-static void put_escaping_backslashes(Agnode_t* n, Agsym_t *sym, const char *value)
+static void put_escaping_backslashes(Agobj_t* n, Agsym_t *sym, const char *value)
 {
     agxbuf buf;
 
@@ -285,7 +285,7 @@ static void xdot_end_node(GVJ_t* job)
     if (agxblen(xbufs[EMIT_NDRAW]))
 	agxset(n, xd->n_draw, agxbuse(xbufs[EMIT_NDRAW]));
     if (agxblen(xbufs[EMIT_NLABEL]))
-	put_escaping_backslashes(n, xd->n_l_draw, agxbuse(xbufs[EMIT_NLABEL]));
+	put_escaping_backslashes(&n->base, xd->n_l_draw, agxbuse(xbufs[EMIT_NLABEL]));
     penwidth[EMIT_NDRAW] = 1;
     penwidth[EMIT_NLABEL] = 1;
     textflags[EMIT_NDRAW] = 0;
@@ -303,7 +303,7 @@ static void xdot_end_edge(GVJ_t* job)
     if (agxblen(xbufs[EMIT_HDRAW]))
 	agxset(e, xd->h_draw, agxbuse(xbufs[EMIT_HDRAW]));
     if (agxblen(xbufs[EMIT_ELABEL]))
-	put_escaping_backslashes(e, xd->e_l_draw, agxbuse(xbufs[EMIT_ELABEL]));
+	put_escaping_backslashes(&e->base, xd->e_l_draw, agxbuse(xbufs[EMIT_ELABEL]));
     if (agxblen(xbufs[EMIT_TLABEL]))
 	agxset(e, xd->tl_draw, agxbuse(xbufs[EMIT_TLABEL]));
     if (agxblen(xbufs[EMIT_HLABEL]))
@@ -515,7 +515,7 @@ static void xdot_end_graph(graph_t* g)
 	agxset(g, xd->g_draw, agxbuse(xbufs[EMIT_GDRAW]));
     }
     if (GD_label(g))
-	put_escaping_backslashes(g, xd->g_l_draw, agxbuse(xbufs[EMIT_GLABEL]));
+	put_escaping_backslashes(&g->base, xd->g_l_draw, agxbuse(xbufs[EMIT_GLABEL]));
     agsafeset (g, "xdotversion", xd->version_s, "");
 
     for (i = 0; i < NUMXBUFS; i++)
