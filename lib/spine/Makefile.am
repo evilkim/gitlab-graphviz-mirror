@@ -5,7 +5,6 @@
 #pkgconfigdir = $(libdir)/pkgconfig
 
 AM_CPPFLAGS = \
-    -I$(top_srcdir) \
 	-I$(top_srcdir)/lib/cgraph \
 	-I$(top_srcdir)/lib/cdt
 
