@@ -17,10 +17,10 @@
  * Derived from Graham Wills' algorithm described in GD'97.
  */
 
-#include    "circle.h"
-#include    "adjust.h"
-#include    "pack.h"
-#include    "neatoprocs.h"
+#include    <twopigen/circle.h>
+#include    <neatogen/adjust.h>
+#include    <pack/pack.h>
+#include    <neatogen/neatoprocs.h>
 
 static void twopi_init_edge(edge_t * e)
 {

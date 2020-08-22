@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include    "circle.h"
+#include    <twopigen/circle.h>
 #include    <ctype.h>
 #include    <stdlib.h>
 #define DEF_RANKSEP 1.00
