@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <math.h>
-#include "pathutil.h"
+#include <pathplan/pathutil.h>
 
 #define ISCCW 1
 #define ISCW  2

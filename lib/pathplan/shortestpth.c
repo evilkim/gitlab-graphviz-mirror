@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "vis.h"
+#include <pathplan/vis.h>
 
 static COORD unseen = (double) INT_MAX;
 

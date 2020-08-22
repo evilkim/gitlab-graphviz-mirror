@@ -14,7 +14,7 @@
 
 #include "config.h"
 #include <math.h>
-#include "solvers.h"
+#include <pathplan/solvers.h>
 
 #ifndef HAVE_CBRT
 #define cbrt(x) ((x < 0) ? (-1*pow(-x, 1.0/3.0)) : pow (x, 1.0/3.0))

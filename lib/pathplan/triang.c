@@ -16,8 +16,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <setjmp.h>
-#include "pathutil.h"
-#include "tri.h"
+#include <pathplan/pathutil.h>
+#include <pathplan/tri.h>
 
 typedef struct lvertex_2_t {
     double x, y;

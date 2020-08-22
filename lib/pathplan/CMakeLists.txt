@@ -1,7 +1,5 @@
 add_definitions(-D_BLD_pathplan -DPATHPLAN_EXPORTS)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_library(pathplan SHARED
     # Header files
     pathgeom.h
@@ -25,6 +23,11 @@ add_library(pathplan SHARED
 
     # Link definition file for Windows
     pathplan.def
+)
+
+target_include_directories(pathplan PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Installation location of library files
