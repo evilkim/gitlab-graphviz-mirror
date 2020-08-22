@@ -8,8 +8,8 @@
 #include "config.h"
 
 #include <assert.h>
-#include "red_black_tree.h"
-#include "stdio.h"
+#include <rbtree/red_black_tree.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /***********************************************************************/
