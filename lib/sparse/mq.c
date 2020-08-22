@@ -59,10 +59,10 @@
 */
 
 #define STANDALONE
-#include "general.h"
-#include "SparseMatrix.h"
-#include "mq.h"
-#include "LinkedList.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/mq.h>
+#include <sparse/LinkedList.h>
 #include <string.h>
 
 static real get_mq(SparseMatrix A, int *assignment, int *ncluster0, real *mq_in0, real *mq_out0, real **dout0){

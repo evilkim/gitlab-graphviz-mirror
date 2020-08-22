@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "BinaryHeap.h"
+#include <sparse/BinaryHeap.h>
 
 BinaryHeap BinaryHeap_new(int (*cmp)(void*item1, void*item2)){
   BinaryHeap h;

@@ -12,14 +12,13 @@
  *************************************************************************/
 
 #define STANDALONE
-#include "general.h"
-#include "DotIO.h"
-#include "clustering.h"
+#include <sparse/general.h>
+#include <sparse/DotIO.h>
+#include <sparse/clustering.h>
 #include <math.h>
-#include "mq.h"
-/* #include "spring_electrical.h" */
-#include "color_palette.h"
-#include "colorutil.h"
+#include <sparse/mq.h>
+#include <sparse/color_palette.h>
+#include <sparse/colorutil.h>
 
 typedef struct {
     Agrec_t h;

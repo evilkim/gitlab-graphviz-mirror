@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
+#include <sparse/general.h>
 #include <errno.h>
 
 #ifdef DEBUG

@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "LinkedList.h"
-#include "memory.h"
+#include <sparse/LinkedList.h>
+#include <common/memory.h>
 #define FREE free
 
 

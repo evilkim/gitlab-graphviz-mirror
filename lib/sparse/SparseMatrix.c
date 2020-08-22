@@ -15,14 +15,14 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-#include "logic.h"
-#include "memory.h"
-#include "arith.h"
-#include "SparseMatrix.h"
-#include "BinaryHeap.h"
+#include <common/logic.h>
+#include <common/memory.h>
+#include <common/arith.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/BinaryHeap.h>
 #if PQ
-#include "LinkedList.h"
-#include "PriorityQueue.h"
+#include <sparse/LinkedList.h>
+#include <sparse/PriorityQueue.h>
 #endif
 
 static size_t size_of_matrix_type(int type){

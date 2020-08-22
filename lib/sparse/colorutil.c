@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
-#include "colorutil.h"
+#include <sparse/general.h>
+#include <sparse/colorutil.h>
 
 static void r2hex(float r, char *h){
   /* convert a number in [0,1] to 0 to 255 then to a hex */
