@@ -1,16 +1,16 @@
 /* vim:set shiftwidth=4 ts=4: */
 
-#include <spinehdr.h>
-#include <subset.h>
-#include <quad.h>
-#include "union_find.h"
-#include "assert.h"
+#include <spine/spinehdr.h>
+#include <spine/subset.h>
+#include <spine/quad.h>
+#include <spine/union_find.h>
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #ifdef MAIN
 #include <getopt.h>
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 typedef struct {
 	FILE *outfp;

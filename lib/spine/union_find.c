@@ -1,7 +1,7 @@
 /* vim:set shiftwidth=4 ts=4: */
 
-#include <spinehdr.h>
-#include <union_find.h>
+#include <spine/spinehdr.h>
+#include <spine/union_find.h>
 #include <assert.h>
 
 typedef Agnode_t node_t;
