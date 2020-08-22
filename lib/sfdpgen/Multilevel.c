@@ -11,12 +11,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "Multilevel.h"
-#include "PriorityQueue.h"
-#include "memory.h"
-#include "logic.h"
-#include "assert.h"
-#include "arith.h"
+#include <sfdpgen/Multilevel.h>
+#include <sfdpgen/PriorityQueue.h>
+#include <common/memory.h>
+#include <common/logic.h>
+#include <assert.h>
+#include <common/arith.h>
 
 
 Multilevel_control Multilevel_control_new(int scheme, int mode){

@@ -13,18 +13,18 @@
 
 #include "config.h"
 
-#include "SparseMatrix.h"
-#include "spring_electrical.h"
-#include "QuadTree.h"
-#include "Multilevel.h"
-#include "post_process.h"
-#include "overlap.h"
-#include "types.h"
-#include "memory.h"
-#include "arith.h"
-#include "logic.h"
-#include "math.h"
-#include "globals.h"
+#include <sparse/SparseMatrix.h>
+#include <sfdpgen/spring_electrical.h>
+#include <sparse/QuadTree.h>
+#include <sfdpgen/Multilevel.h>
+#include <sfdpgen/post_process.h>
+#include <neatogen/overlap.h>
+#include <common/types.h>
+#include <common/memory.h>
+#include <common/arith.h>
+#include <common/logic.h>
+#include <math.h>
+#include <common/globals.h>
 #include <string.h>
 #include <time.h>
 

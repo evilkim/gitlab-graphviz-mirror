@@ -11,12 +11,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "LinkedList.h"
-#include "PriorityQueue.h"
-#include "memory.h"
-#include "logic.h"
-#include "assert.h"
-#include "arith.h"
+#include <sparse/LinkedList.h>
+#include <sfdpgen/PriorityQueue.h>
+#include <common/memory.h>
+#include <common/logic.h>
+#include <assert.h>
+#include <common/arith.h>
 
 PriorityQueue PriorityQueue_new(int n, int ngain){
   PriorityQueue q;

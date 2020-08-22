@@ -18,16 +18,16 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "types.h"
-#include "memory.h"
-#include "globals.h"
+#include <common/types.h>
+#include <common/memory.h>
+#include <common/globals.h>
 
-#include "sparse_solve.h"
-#include "post_process.h"
-#include "overlap.h"
-#include "spring_electrical.h"
-#include "call_tri.h"
-#include "sfdpinternal.h"
+#include <sfdpgen/sparse_solve.h>
+#include <sfdpgen/post_process.h>
+#include <neatogen/overlap.h>
+#include <sfdpgen/spring_electrical.h>
+#include <neatogen/call_tri.h>
+#include <sfdpgen/sfdpinternal.h>
 
 #define node_degree(i) (ia[(i)+1] - ia[(i)])
 

@@ -14,17 +14,17 @@
 
 #include "config.h"
 #include <limits.h>
-#include <sfdp.h>
-#include <neato.h>
-#include <adjust.h>
-#include <pack.h>
+#include <sfdpgen/sfdp.h>
+#include <neatogen/neato.h>
+#include <neatogen/adjust.h>
+#include <pack/pack.h>
 #include <assert.h>
 #include <ctype.h>
-#include <spring_electrical.h>
-#include <overlap.h>
-#include <uniform_stress.h>
-#include <stress_model.h>
-#include "strcasecmp.h"
+#include <sfdpgen/spring_electrical.h>
+#include <neatogen/overlap.h>
+#include <sfdpgen/uniform_stress.h>
+#include <sfdpgen/stress_model.h>
+#include <cgraph/strcasecmp.h>
 
 static void sfdp_init_edge(edge_t * e)
 {

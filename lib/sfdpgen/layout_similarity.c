@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "general.h"
-#include "SparseMatrix.h"
-#include "call_tri.h"
+#include <common/general.h>
+#include <sparse/SparseMatrix.h>
+#include <neatogen/call_tri.h>
 
 static double boundingbox_area(int n, double *x){
   double xmax, xmin, ymax, ymin;

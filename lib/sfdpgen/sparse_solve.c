@@ -13,14 +13,14 @@
 
 #include <assert.h>
 #include <string.h>
-#include "sparse_solve.h"
-#include "sfdpinternal.h"
-#include "memory.h"
-#include "logic.h"
-#include "math.h"
-#include "arith.h"
-#include "types.h"
-#include "globals.h"
+#include <sfdpgen/sparse_solve.h>
+#include <sfdpgen/sfdpinternal.h>
+#include <common/memory.h>
+#include <common/logic.h>
+#include <math.h>
+#include <common/arith.h>
+#include <common/types.h>
+#include <common/globals.h>
 
 /* #define DEBUG_PRINT */
 

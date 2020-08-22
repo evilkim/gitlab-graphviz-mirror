@@ -11,14 +11,14 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
+#include <sparse/general.h>
 #include <math.h>
-#include "SparseMatrix.h"
-#include "spring_electrical.h"
-#include "post_process.h"
-#include "sparse_solve.h"
+#include <sparse/SparseMatrix.h>
+#include <sfdpgen/spring_electrical.h>
+#include <sfdpgen/post_process.h>
+#include <sfdpgen/sparse_solve.h>
 #include <time.h>
-#include "uniform_stress.h"
+#include <sfdpgen/uniform_stress.h>
 
 /* uniform stress solves the model:
 
