@@ -13,7 +13,7 @@
 
 
 #include <string.h>
-#include	"vmhdr.h"
+#include	<vmalloc/vmhdr.h>
 /*
  * return a copy of s using vmalloc
  */
