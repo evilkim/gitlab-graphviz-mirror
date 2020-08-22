@@ -19,9 +19,9 @@
 
 #include <math.h>
 #include <assert.h>
-#include "render.h"
-#include "pack.h"
-#include "pointset.h"
+#include <common/render.h>
+#include <pack/pack.h>
+#include <common/pointset.h>
 #include <assert.h>
 
 #define strneq(a,b,n)		(!strncmp(a,b,n))

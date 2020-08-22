@@ -12,9 +12,9 @@
  *************************************************************************/
 
 #include <assert.h>
-#include "render.h"
-#include "neatoprocs.h"
-#include "pack.h"
+#include <common/render.h>
+#include <neatogen/neatoprocs.h>
+#include <pack/pack.h>
 
 /* Test driver for libpack library.
  * Input consists of graphs in dot format.

@@ -15,8 +15,8 @@
 #include <ctype.h>
 #include <setjmp.h>
 #include <stdlib.h>
-#include "render.h"
-#include "pack.h"
+#include <common/render.h>
+#include <pack/pack.h>
 
 static jmp_buf jbuf;
 
