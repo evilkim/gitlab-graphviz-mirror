@@ -182,7 +182,7 @@
 
 %{
 
-#include "exgram.h"
+#include <expr/exgram.h>
 
 %}
 
@@ -1329,4 +1329,4 @@ const char *exop(size_t index) {
   return NULL;
 }
 
-#include "exgram.h"
+#include <expr/exgram.h>

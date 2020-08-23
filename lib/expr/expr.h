@@ -37,7 +37,7 @@ extern "C" {
 #define extern		extern __IMPORT__
 #endif
 
-#include "exparse.h"
+#include <expr/exparse.h>
 
 #undef	extern
 

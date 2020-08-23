@@ -22,7 +22,7 @@ extern "C" {
 #include "cgraph.h"
 #include <ast/ast.h>
 #include "vmalloc.h"
-#include "expr.h"
+#include <expr/expr.h>
 #include "gvpr.h"
 
     typedef enum { TV_flat, TV_ne, TV_en, 

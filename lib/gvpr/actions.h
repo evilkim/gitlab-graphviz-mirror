@@ -19,7 +19,7 @@ extern "C" {
 #define ACTIONS_H
 
 #include "cgraph.h"
-#include "expr.h"
+#include <expr/expr.h>
 
     extern void nodeInduce(Agraph_t * selected);
     extern Agobj_t *clone(Agraph_t * g, Agobj_t * obj);

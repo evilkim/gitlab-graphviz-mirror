@@ -21,7 +21,7 @@ extern "C" {
 #include <sfio.h>
 #include <parse.h>
 #include <gprstate.h>
-#include <expr.h>
+#include <expr/expr.h>
 
     typedef struct {
 	Exnode_t *guard;
