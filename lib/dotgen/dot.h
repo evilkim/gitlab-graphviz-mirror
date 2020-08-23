@@ -16,6 +16,6 @@
 #define		DOT_H
 
 #include	"render.h"
-#include	"dotprocs.h"
+#include	<dotgen/dotprocs.h>
 
 #endif				/* DOT_H */
