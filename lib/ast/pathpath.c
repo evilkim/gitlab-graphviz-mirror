@@ -30,7 +30,7 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
-#include <compat_unistd.h>
+#include <ast/compat_unistd.h>
 #endif
 
 char **opt_info_argv;

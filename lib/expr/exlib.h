@@ -25,7 +25,7 @@ extern "C" {
 #ifndef _EXLIB_H
 #define _EXLIB_H
 
-#include <ast.h>
+#include <ast/ast.h>
 
 #define sfstrseek(f,p,m) \
     ( \
@@ -129,8 +129,8 @@ typedef struct Print_s			/* compiled printf arg node	*/
 
 #include <expr.h>
 #include <ctype.h>
-#include <error.h>
-#include <sfstr.h>
+#include <ast/error.h>
+#include <ast/sfstr.h>
 
 #define id_string	(&exbuiltin[0])
 

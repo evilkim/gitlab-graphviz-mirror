@@ -20,7 +20,7 @@ extern "C" {
 
 #include "sfio.h"
 #include "cgraph.h"
-#include "ast.h"
+#include <ast/ast.h>
 #include "vmalloc.h"
 #include "expr.h"
 #include "gvpr.h"

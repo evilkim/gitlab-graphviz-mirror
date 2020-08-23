@@ -28,7 +28,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifdef _WIN32
-#include <compat_unistd.h>
+#include <ast/compat_unistd.h>
 #endif
 
 typedef struct Tree_s {
