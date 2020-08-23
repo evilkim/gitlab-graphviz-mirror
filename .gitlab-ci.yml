@@ -58,7 +58,7 @@ portable-source:
     script:
         - $ErrorActionPreference = "Stop"
         # Toolchain definitions
-        - if($env:platform -eq "x64") {
+        - if($Env:project_platform -eq "x64") {
             $TARGET_ARCH = "x64";
           }
           else {
@@ -84,7 +84,7 @@ portable-source:
             if($env:build_system -eq "cmake") {
               mkdir build;
               cd build;
-              cmake -G "$env:generator" -A $Env:platform ..;
+              cmake -G "$env:generator" -A $Env:project_platform ..;
               cmake --build . --config $env:configuration;
               cd ..;
             }
@@ -94,7 +94,7 @@ portable-source:
         # Package
         - $Env:GV_VERSION=$( cat VERSION )
         - >-
-            if($env:platform -eq "x64") {
+            if($Env:project_platform -eq "x64") {
                 $API = "win64";
             } else {
                 $API = "win32";
@@ -118,7 +118,7 @@ portable-source:
         - cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`" $TARGET_ARCH && set > %temp%\vcvars.txt";
         - >-
             Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
-              if ($_ -match "^(.*?)=(.*)$") {
+              if ($_ -match "^([A-Za-z0-9_()]*)=(.*)$") {
                 Set-Content "env:\$($matches[1])" $matches[2];
               }
             }
@@ -151,7 +151,7 @@ portable-source:
         - $ID = "windows"
         - $VERSION_ID = "10"
         - $COLLECTION = $( cat COLLECTION )
-        - $DIR = "Packages\${COLLECTION}\${ID}\${VERSION_ID}\$env:build_system\$env:configuration\$Env:platform"
+        - $DIR = "Packages\${COLLECTION}\${ID}\${VERSION_ID}\$env:build_system\$env:configuration\$Env:project_platform"
         - mkdir -p $DIR
         - >-
             if($env:build_system -eq "cmake") {
@@ -259,7 +259,7 @@ windows-cmake-Win32-release-build:
     <<: *windows_build_definition
     before_script:
         - $Env:generator = "Visual Studio 16 2019"
-        - $Env:platform = "Win32"
+        - $Env:project_platform = "Win32"
         - $Env:configuration = "Release"
         - $Env:build_system = "cmake"
 
@@ -267,7 +267,7 @@ windows-cmake-Win32-debug-build:
     <<: *windows_build_definition
     before_script:
         - $Env:generator = "Visual Studio 16 2019"
-        - $Env:platform = "Win32"
+        - $Env:project_platform = "Win32"
         - $Env:configuration = "Debug"
         - $Env:build_system = "cmake"
 
@@ -275,7 +275,7 @@ windows-cmake-x64-release-build:
     <<: *windows_build_definition
     before_script:
         - $Env:generator = "Visual Studio 16 2019"
-        - $Env:platform = "x64"
+        - $Env:project_platform = "x64"
         - $Env:configuration = "Release"
         - $Env:build_system = "cmake"
 
@@ -283,21 +283,21 @@ windows-cmake-x64-debug-build:
     <<: *windows_build_definition
     before_script:
         - $Env:generator = "Visual Studio 16 2019"
-        - $Env:platform = "x64"
+        - $Env:project_platform = "x64"
         - $Env:configuration = "Debug"
         - $Env:build_system = "cmake"
 
 windows-msbuild-Win32-release-build:
     <<: *windows_build_definition
     before_script:
-        - $Env:platform = "Win32"
+        - $Env:project_platform = "Win32"
         - $Env:configuration = "Release"
         - $Env:build_system = "msbuild"
 
 windows-msbuild-Win32-debug-build:
     <<: *windows_build_definition
     before_script:
-        - $Env:platform = "Win32"
+        - $Env:project_platform = "Win32"
         - $Env:configuration = "Debug"
         - $Env:build_system = "msbuild"
 
