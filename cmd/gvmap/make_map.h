@@ -14,8 +14,8 @@
 #ifndef MAKE_MAP_H
 #define MAKE_MAP_H
 
-#include <SparseMatrix.h>
-#include <cgraph.h>
+#include <sparse/SparseMatrix.h>
+#include <cgraph/cgraph.h>
 
 int make_map_from_rectangle_groups(int exclude_random, int include_OK_points, int n, int dim, real *x, real *sizes, 
 				   int *grouping, SparseMatrix graph, real bounding_box_margin[], int *nrandom,int *nart, int nedgep, 

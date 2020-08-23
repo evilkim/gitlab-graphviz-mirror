@@ -12,19 +12,17 @@
  *************************************************************************/
 
 #define STANDALONE
-#include "SparseMatrix.h"
-#include "general.h"
+#include <sparse/SparseMatrix.h>
+#include <sparse/general.h>
 #include <math.h>
-#include "QuadTree.h"
-#include "string.h"
-/* #include "types.h" */
-#include <cgraph.h>
+#include <sparse/QuadTree.h>
+#include <string.h>
+#include <cgraph/cgraph.h>
 #include "make_map.h"
-/* #include "ps.h" */
-#include "stress_model.h"
+#include <sfdpgen/stress_model.h>
 #include "country_graph_coloring.h"
-#include "colorutil.h"
-#include "delaunay.h"
+#include <sparse/colorutil.h>
+#include <neatogen/delaunay.h>
 
 #ifdef SINGLE
 #define REAL float
@@ -33,8 +31,8 @@
 #endif /* not SINGLE */
 /* #include "triangle.h" */
 
-#include "lab.h"
-#include "node_distinct_coloring.h"
+#include <edgepaint/lab.h>
+#include <edgepaint/node_distinct_coloring.h>
 
 void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMatrix A0, real accuracy, int seed, 
 				  float **rgb_r, float **rgb_g, float **rgb_b){
