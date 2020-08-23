@@ -1,13 +1,16 @@
 add_definitions(-DEXPORT_XDOT)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_library(xdot SHARED
     # Header files
     xdot.h
 
     # Source files
     xdot.c
+)
+
+target_include_directories(xdot PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Installation location of library files
