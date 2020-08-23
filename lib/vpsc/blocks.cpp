@@ -19,9 +19,9 @@
  * Adaptagrams repository.
  */
 
-#include "blocks.h"
-#include "block.h"
-#include "constraint.h"
+#include <vpsc/blocks.h>
+#include <vpsc/block.h>
+#include <vpsc/constraint.h>
 #ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 using std::ios;

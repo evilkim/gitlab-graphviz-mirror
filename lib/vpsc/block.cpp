@@ -17,10 +17,10 @@
  * Adaptagrams repository.
  */
 #include <cassert>
-#include "pairingheap/PairingHeap.h"
-#include "constraint.h"
-#include "block.h"
-#include "blocks.h"
+#include <vpsc/pairingheap/PairingHeap.h>
+#include <vpsc/constraint.h>
+#include <vpsc/block.h>
+#include <vpsc/blocks.h>
 #ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 using std::ios;

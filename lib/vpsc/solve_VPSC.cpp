@@ -17,10 +17,10 @@
  */
 
 #include <cassert>
-#include "constraint.h"
-#include "block.h"
-#include "blocks.h"
-#include "solve_VPSC.h"
+#include <vpsc/constraint.h>
+#include <vpsc/block.h>
+#include <vpsc/blocks.h>
+#include <vpsc/solve_VPSC.h>
 #include <math.h>
 #include <sstream>
 #ifdef RECTANGLE_OVERLAP_LOGGING

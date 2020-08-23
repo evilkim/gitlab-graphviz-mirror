@@ -17,13 +17,13 @@
 
 #include <iostream>
 #include <cassert>
-#include "generate-constraints.h"
-#include "solve_VPSC.h"
-#include "variable.h"
-#include "constraint.h"
+#include <vpsc/generate-constraints.h>
+#include <vpsc/solve_VPSC.h>
+#include <vpsc/variable.h>
+#include <vpsc/constraint.h>
 #ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
-#include "blocks.h"
+#include <vpsc/blocks.h>
 using std::ios;
 using std::ofstream;
 using std::endl;
