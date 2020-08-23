@@ -18,7 +18,7 @@ extern "C" {
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include  <nodelist.h>
+#include  <circogen/nodelist.h>
 
     typedef struct block block_t;
 

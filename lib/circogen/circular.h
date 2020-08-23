@@ -15,7 +15,7 @@
 #define CIRCULAR_H
 
 #include "render.h"
-#include "block.h"
+#include <circogen/block.h>
 
 typedef struct {
     blocklist_t bl;
@@ -124,7 +124,7 @@ typedef struct {
 
 #define DEGREE(n) (ND_order(n))
 
-#include <circo.h>
+#include <circogen/circo.h>
 
 #ifdef __cplusplus
 extern "C" {
