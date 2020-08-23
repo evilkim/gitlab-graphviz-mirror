@@ -2,7 +2,6 @@ add_definitions(-DDEMAND_LOADING=1)
 
 include_directories(
     ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
