@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 typedef struct {
     Agrec_t h;
     int mark;

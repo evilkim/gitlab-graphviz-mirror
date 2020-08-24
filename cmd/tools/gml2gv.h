@@ -2,7 +2,7 @@
 /* vim:set shiftwidth=4 ts=8: */
 
 #include <stdio.h>
-#include <cgraph.h>
+#include <cgraph/cgraph.h>
 
 #ifdef _WIN32
 #define strdup(x) _strdup(x)

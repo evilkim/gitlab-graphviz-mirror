@@ -23,11 +23,11 @@
 #include <getopt.h>
 
 #include <assert.h>
-#include "gvc.h"
-#include "render.h"
-#include "neatoprocs.h"
-#include "ingraphs.h"
-#include "pack.h"
+#include <gvc/gvc.h>
+#include <common/render.h>
+#include <neatogen/neatoprocs.h>
+#include <ingraphs/ingraphs.h>
+#include <pack/pack.h>
 
 /*visual studio*/
 #if defined(_WIN32)

@@ -25,7 +25,7 @@
 #include <getopt.h>
 
 #include <stdlib.h>
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 
 typedef struct {
     Agrec_t h;
@@ -50,7 +50,7 @@ typedef struct {
 #define NEXT(e)  (((Agedgeinfo_t*)(e->base.data))->next)
 #define NEXTBLK(g)  (((Agraphinfo_t*)(g->base.data))->next)
 
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 #define min(a,b) ((a) < (b) ? (a) :  (b))
 

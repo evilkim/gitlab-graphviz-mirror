@@ -14,7 +14,7 @@
 #define MATRIX_MARKET_H
 
 #include "mmio.h"
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 int mm_get_type(MM_typecode typecode);
 void SparseMatrix_export_matrix_market(FILE * file, SparseMatrix A,
 				       char *comment);

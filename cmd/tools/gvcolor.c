@@ -22,7 +22,7 @@
 /* if NC changes, a bunch of scanf calls below are in trouble */
 #define	NC	3		/* size of HSB color vector */
 
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 #include <stdlib.h>
 typedef struct Agnodeinfo_t {
     Agrec_t h;
@@ -33,7 +33,7 @@ typedef struct Agnodeinfo_t {
 #define ND_relrank(n) (((Agnodeinfo_t*)((n)->base.data))->relrank)
 #define ND_x(n) (((Agnodeinfo_t*)((n)->base.data))->x)
 
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

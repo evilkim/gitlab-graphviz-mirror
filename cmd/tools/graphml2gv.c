@@ -13,7 +13,7 @@
 
 
 #include    "convert.h"
-#include    "agxbuf.h"
+#include    <cgraph/agxbuf.h>
 #include    <getopt.h>
 #ifdef HAVE_EXPAT
 #include    <expat.h>

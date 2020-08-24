@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "gvplugin.h"
+#include <gvc/gvplugin.h>
 
 /*visual studio*/
 #if defined(_WIN32)

@@ -22,9 +22,9 @@
 
 #include "config.h"
 
-#include "cgraph.h"
-#include "arith.h"
-#include "timing.h"
+#include <cgraph/cgraph.h>
+#include <common/arith.h>
+#include <common/timing.h>
 #include <stdlib.h>
 
 #define NEW(t)           (t*)malloc(sizeof(t))
@@ -42,7 +42,7 @@ typedef struct {
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 #include <getopt.h>
 

@@ -26,9 +26,9 @@
 
 #include <getopt.h>
 
-#include <cgraph.h>
+#include <cgraph/cgraph.h>
 #include <ctype.h>
-#include <ingraphs.h>
+#include <ingraphs/ingraphs.h>
 
 static FILE *outFile;
 static char *CmdName;

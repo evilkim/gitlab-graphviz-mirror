@@ -14,16 +14,15 @@
 #include "config.h"
 
 #define STANDALONE
-#include "cgraph.h"
-/* #include "arith.h" */
+#include <cgraph/cgraph.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <assert.h>
 #include "mmio.h"
-#include "agxbuf.h"
-#include "SparseMatrix.h"
+#include <cgraph/agxbuf.h>
+#include <sparse/SparseMatrix.h>
 #include "matrix_market.h"
 #include <getopt.h>
 
