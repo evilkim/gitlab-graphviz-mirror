@@ -14,19 +14,19 @@
 
 //#include "glcomptext.h"
 //#include "glcomptextpng.h"
-#include "math.h"
-#include "memory.h"
+#include <math.h>
+#include <common/memory.h>
 #include "viewport.h"
 #include "viewportcamera.h"
 #include "draw.h"
 #include "smyrna_utils.h"
 
-#include "assert.h"
+#include <assert.h>
 #include "hier.h"
 #include "topfisheyeview.h"
 #include <string.h>
-#include "color.h"
-#include "colorprocs.h"
+#include <common/color.h>
+#include <common/colorprocs.h>
 
 #ifdef _WIN32
 #include <wincrypt.h>

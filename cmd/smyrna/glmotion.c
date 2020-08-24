@@ -18,7 +18,7 @@
 #include <gdk/gdkcursor.h>
 #include "draw.h"
 /* #include "topview.h" */
-#include "glutils.h"
+#include <glcomp/glutils.h>
 #include "hotkeymap.h"
 
 gboolean redraw = FALSE;

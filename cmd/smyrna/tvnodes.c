@@ -14,7 +14,7 @@
 #include "tvnodes.h"
 #include "viewport.h"
 #include "topviewfuncs.h"
-#include "memory.h"
+#include <common/memory.h>
 
 typedef struct {
     GType type;

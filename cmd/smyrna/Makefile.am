@@ -5,6 +5,7 @@ pdfdir = $(pkgdatadir)/doc/pdf
 
 AM_CPPFLAGS = \
 	-DSMYRNA_PATH=\""$(pkgdatadir)/smyrna"\" \
+        -I$(top_srcdir)/lib \
         -I$(top_srcdir)/lib/cgraph \
         -I$(top_srcdir)/lib/cdt \
         -I$(top_srcdir)/lib/glcomp \

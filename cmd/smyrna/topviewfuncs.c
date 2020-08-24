@@ -12,15 +12,15 @@
  *************************************************************************/
 
 #include "topviewfuncs.h"
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 #include "smyrna_utils.h"
-#include "colorprocs.h"
+#include <common/colorprocs.h>
 #include "draw.h"
 #include "frmobjectui.h"
-#include "xdot.h"
-#include "glutils.h"
+#include <xdot/xdot.h>
+#include <glcomp/glutils.h>
 #include "selectionfuncs.h"
-#include "memory.h"
+#include <common/memory.h>
 #include <ctype.h>
 
 static xdot *parseXdotwithattrs(void *e)

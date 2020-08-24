@@ -18,7 +18,7 @@
 #include "viewport.h"
 /* #include "topview.h" */
 #include "selectionfuncs.h"
-#include "memory.h"
+#include <common/memory.h>
 
 //Menu Items 
 

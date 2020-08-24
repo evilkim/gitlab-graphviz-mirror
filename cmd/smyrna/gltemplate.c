@@ -18,11 +18,11 @@
 #include "viewport.h"
 /* #include "topview.h" */
 #include "gltemplate.h"
-#include "glutils.h"
+#include <glcomp/glutils.h>
 #include "glexpose.h"
 #include "glmotion.h"
 
-#include "glcompset.h"
+#include <glcomp/glcompset.h>
 #include "viewportcamera.h"
 #include "gui/menucallbacks.h"
 #include "arcball.h"

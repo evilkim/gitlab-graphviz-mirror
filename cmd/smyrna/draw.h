@@ -15,11 +15,11 @@
 #define DRAW_H
 #include "smyrnadefs.h"
 #include <gtk/gtkgl.h>
-#include "xdot.h"
+#include <xdot/xdot.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "glcompfont.h"
+#include <glcomp/glcompfont.h>
 
 #ifdef __cplusplus
 extern "C" {

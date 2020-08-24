@@ -20,12 +20,12 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdk.h>
 #include "viewport.h"
-#include "memory.h"
+#include <common/memory.h>
 #include "frmobjectui.h"
 #include <assert.h>
-#include "sfstr.h"
+#include <ast/sfstr.h>
 #include "gvprpipe.h"
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 static attr_t *binarySearch(attr_list * l, char *searchKey);
 static int sel_node;

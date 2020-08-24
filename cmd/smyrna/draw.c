@@ -18,18 +18,18 @@ XDOT DRAWING FUNCTIONS, maybe need to move them somewhere else
 */
 #include "draw.h"
 /* #include "topview.h" */
-#include "colorprocs.h"
+#include <common/colorprocs.h>
 #include "smyrna_utils.h"
-#include "glutils.h"
-#include "math.h"
+#include <glcomp/glutils.h>
+#include <math.h>
 
-#include "xdot.h"
+#include <xdot/xdot.h>
 #include "viewport.h"
 #include "topfisheyeview.h"
 #include "appmouse.h"
 #include "hotkeymap.h"
 #include "polytess.h"
-#include "glcompimage.h"
+#include <glcomp/glcompimage.h>
 
 
 //delta values

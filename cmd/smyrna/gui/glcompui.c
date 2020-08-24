@@ -12,12 +12,12 @@
  *************************************************************************/
 
 #include "glcompui.h"
-#include "glcompbutton.h"
-#include "glcomppanel.h"
-#include "glcomplabel.h"
-#include "glcompimage.h"
+#include <glcomp/glcompbutton.h>
+#include <glcomp/glcomppanel.h>
+#include <glcomp/glcomplabel.h>
+#include <glcomp/glcompimage.h>
 #include "gltemplate.h"
-#include "glutils.h"
+#include <glcomp/glutils.h>
 #include "glmotion.h"
 #include "topfisheyeview.h"
 #include "toolboxcallbacks.h"

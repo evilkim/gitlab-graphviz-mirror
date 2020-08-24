@@ -14,26 +14,26 @@
 #include <windows.h>
 #include <io.h>
 #else
-#include "unistd.h"
+#include <unistd.h>
 #endif
 #include "viewport.h"
 #include "draw.h"
-#include "color.h"
+#include <common/color.h>
 #include <glade/glade.h>
 #include "gui.h"
 #include "menucallbacks.h"
-#include "string.h"
+#include <string.h>
 #include "glcompui.h"
 /* #include "topview.h" */
 #include "gltemplate.h"
-#include "colorprocs.h"
-#include "memory.h"
+#include <common/colorprocs.h>
+#include <common/memory.h>
 #include "topviewsettings.h"
 #include "md5.h"
 #include "arcball.h"
 #include "hotkeymap.h"
 #include "topviewfuncs.h"
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 
   /* Forward declarations */

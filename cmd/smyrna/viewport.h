@@ -17,8 +17,8 @@
 #define bool int
 #include "smyrnadefs.h"
 #include <gtk/gtk.h>
-#include "xdot.h"
-#include "cgraph.h"
+#include <xdot/xdot.h>
+#include <cgraph/cgraph.h>
 
 #ifdef __cplusplus
 extern "C" {

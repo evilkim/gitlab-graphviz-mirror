@@ -49,7 +49,7 @@
 
 // 8<--Snip here if you have your own math types/funcs-->8 
 
-# include "assert.h"
+# include <assert.h>
 
 //Math types derived from the KempoApi tMath library
 typedef union Tuple2f_t {

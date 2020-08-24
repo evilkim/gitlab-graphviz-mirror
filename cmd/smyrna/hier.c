@@ -13,8 +13,8 @@
 
 #include "smyrnadefs.h"
 #include "hier.h"
-#include "delaunay.h"
-#include "memory.h"
+#include <neatogen/delaunay.h>
+#include <common/memory.h>
 
 /* scale_coords:
  */

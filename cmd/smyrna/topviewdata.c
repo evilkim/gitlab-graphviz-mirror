@@ -13,10 +13,10 @@
 
 #include "topviewdata.h"
 #include "btree.h"
-#include "glcomppanel.h"
-#include "glcompbutton.h"
+#include <glcomp/glcomppanel.h>
+#include <glcomp/glcompbutton.h>
 
-#include <memory.h>
+#include <common/memory.h>
 
 static int validate_group_node(tv_node * TV_Node, char *regex_string)
 {

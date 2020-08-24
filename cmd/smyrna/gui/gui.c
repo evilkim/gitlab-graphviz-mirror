@@ -19,8 +19,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdk.h>
 #include "viewport.h"
-#include "memory.h"
-#include "strcasecmp.h"
+#include <common/memory.h>
+#include <cgraph/strcasecmp.h>
 
 
 static char guibuffer[BUFSIZ];	//general purpose buffer

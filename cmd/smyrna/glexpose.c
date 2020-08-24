@@ -13,7 +13,7 @@
 #include "glexpose.h"
 #include "draw.h"
 #include "topviewfuncs.h"
-#include "glutils.h"
+#include <glcomp/glutils.h>
 #include "topfisheyeview.h"
 #include "gui/toolboxcallbacks.h"
 #include "arcball.h"

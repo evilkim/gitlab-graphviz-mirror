@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 #include "smyrna_utils.h"
-#include "memory.h"
-#include "strcasecmp.h"
+#include <common/memory.h>
+#include <cgraph/strcasecmp.h>
 /* many of these functions are available in libcommon.
  * We cannot use those because dependencies cause a great
  * deal of libcommon to be brought in, which complicates

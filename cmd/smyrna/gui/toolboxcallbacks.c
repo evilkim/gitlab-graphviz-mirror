@@ -15,7 +15,7 @@
 #include "viewport.h"
 
 #include "gltemplate.h"
-#include "glutils.h"
+#include <glcomp/glutils.h>
 #include "glmotion.h"
 
 
