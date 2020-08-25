@@ -49,7 +49,8 @@ function find_or_fallback($programs, $fallback_path) {
 
 $build_utilities_path = "$GRAPHVIZ_ROOT\windows\dependencies\graphviz-build-utilities"
 
-find_or_fallback "awk bison flex sed swig" "$build_utilities_path"
+find_or_fallback "awk sed swig" "$build_utilities_path"
+find_or_fallback "win_bison win_flex" "$build_utilities_path\winflexbison"
 find_or_fallback "makensis" "$build_utilities_path\NSIS\Bin"
 find_or_fallback "perl" "$build_utilities_path\Perl64\Bin"
 find_or_fallback "python3" "$build_utilities_path\Python38-32"
