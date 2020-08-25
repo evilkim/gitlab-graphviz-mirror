@@ -32,10 +32,10 @@ scan.c: $(top_srcdir)/lib/cgraph/scan.l
 	@LEX@ --outfile=$@ -i $(top_srcdir)/lib/cgraph/scan.l
 
 grammar.c: y.tab.c
-	@SED@ "s/yy/aag/g" < y.tab.c > grammar.c
+	cp -f y.tab.c grammar.c
 
 grammar.h: y.tab.h
-	@SED@ "s/yy/aag/g" < y.tab.h > grammar.h
+	cp -f y.tab.h grammar.h
 
 y.tab.c y.tab.h: y.output
 
