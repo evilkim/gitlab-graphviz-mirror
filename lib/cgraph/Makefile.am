@@ -42,7 +42,7 @@ grammar.h: y.tab.h
 y.tab.c y.tab.h: y.output
 
 y.output: $(top_srcdir)/lib/cgraph/grammar.y
-	@YACC@ -dv $(top_srcdir)/lib/cgraph/grammar.y
+	@YACC@ -Wno-yacc -dv $(top_srcdir)/lib/cgraph/grammar.y
 
 cgraph.3.pdf: cgraph.3.ps
 	@PS2PDF@ $< $@
