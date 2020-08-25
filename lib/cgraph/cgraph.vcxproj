@@ -70,8 +70,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>bison -dy grammar.y -o grammar.c
-flex -oscan.c scan.l</Command>
+      <Command>win_bison -dy grammar.y -o grammar.c
+win_flex -oscan.c scan.l</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,8 +93,8 @@ flex -oscan.c scan.l</Command>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>bison -dy grammar.y -o grammar.c
-flex -oscan.c scan.l</Command>
+      <Command>win_bison -dy grammar.y -o grammar.c
+win_flex -oscan.c scan.l</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
