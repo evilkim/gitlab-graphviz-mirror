@@ -14,6 +14,7 @@
 #include "config.h"
 
 #include "render.h"
+#include <math.h>
 #include "pathplan.h"
 #include <setjmp.h>
 #include <stdlib.h>
@@ -695,9 +696,9 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
     /* remove degenerate boxes. */
     i = 0;
     for (bi = 0; bi < boxn; bi++) {
-	if (ABS(boxes[bi].LL.y - boxes[bi].UR.y) < .01)
+	if (fabs(boxes[bi].LL.y - boxes[bi].UR.y) < .01)
 	    continue;
-	if (ABS(boxes[bi].LL.x - boxes[bi].UR.x) < .01)
+	if (fabs(boxes[bi].LL.x - boxes[bi].UR.x) < .01)
 	    continue;
 	if (i != bi)
 	    boxes[i] = boxes[bi];

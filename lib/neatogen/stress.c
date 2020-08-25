@@ -1249,7 +1249,7 @@ int stress_majorization_kD_mkernel(vtx_data * graph,	/* Input graph in sparse re
 	 */
 	{
 	    double diff = old_stress - new_stress;
-	    double change = ABS(diff);
+	    double change = fabs(diff);
 	    converged = (((change / old_stress) < Epsilon)
 			 || (new_stress < Epsilon));
 	}

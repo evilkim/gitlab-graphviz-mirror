@@ -268,11 +268,11 @@ static int mkspline(Ppoint_t * inps, int inpn, tna_t * tnas, Ppoint_t ev0,
     det01 = c[0][0] * c[1][1] - c[1][0] * c[0][1];
     det0X = c[0][0] * x[1] - c[0][1] * x[0];
     detX1 = x[0] * c[1][1] - x[1] * c[0][1];
-    if (ABS(det01) >= 1e-6) {
+    if (fabs(det01) >= 1e-6) {
 	scale0 = detX1 / det01;
 	scale3 = det0X / det01;
     }
-    if (ABS(det01) < 1e-6 || scale0 <= 0.0 || scale3 <= 0.0) {
+    if (fabs(det01) < 1e-6 || scale0 <= 0.0 || scale3 <= 0.0) {
 	d01 = dist(inps[0], inps[inpn - 1]) / 3.0;
 	scale0 = d01;
 	scale3 = d01;
