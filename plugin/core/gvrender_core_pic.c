@@ -18,15 +18,15 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "color.h"
-#include "colorprocs.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <common/color.h>
+#include <common/colorprocs.h>
 
-#include "const.h"
+#include <common/const.h>
 
 /* Number of points to split splines into */
 #define BEZIERSUBDIVISION 6

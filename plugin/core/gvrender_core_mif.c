@@ -20,14 +20,14 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "macros.h"
-#include "const.h"
+#include <common/macros.h>
+#include <common/const.h>
 
-#include "gvio.h"
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvcint.h"
-#include "strcasecmp.h"
+#include <gvc/gvio.h>
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvcint.h>
+#include <cgraph/strcasecmp.h>
 
 typedef enum { FORMAT_MIF, } format_type;
 

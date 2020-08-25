@@ -15,9 +15,9 @@
 
 #include <stdlib.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
 
 extern char *xml_string(char *str);
 extern char *xml_url_string(char *str);

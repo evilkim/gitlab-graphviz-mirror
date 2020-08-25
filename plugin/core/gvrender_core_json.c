@@ -22,17 +22,17 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "macros.h"
-#include "const.h"
-#include "xdot.h"
+#include <common/macros.h>
+#include <common/const.h>
+#include <xdot/xdot.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "gvc.h"
-#include "gvio.h"
-#include "gvcint.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <gvc/gvc.h>
+#include <gvc/gvio.h>
+#include <gvc/gvcint.h>
 
 typedef enum {
 	FORMAT_JSON,

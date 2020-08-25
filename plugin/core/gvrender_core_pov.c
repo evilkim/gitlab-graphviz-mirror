@@ -25,13 +25,13 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include "macros.h"
-#include "const.h"
+#include <common/macros.h>
+#include <common/const.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
-#include "gvcint.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
+#include <gvc/gvcint.h>
 
 #define POV_VERSION \
     "#version 3.6;\n"

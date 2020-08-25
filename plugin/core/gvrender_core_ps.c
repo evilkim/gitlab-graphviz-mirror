@@ -16,15 +16,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
-#include "agxbuf.h"
-#include "utils.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
 #include "ps.h"
 
 /* for CHAR_LATIN1  */
-#include "const.h"
+#include <common/const.h>
 
 /*
  *     J$: added `pdfmark' URL embedding.  PostScript rendered from
