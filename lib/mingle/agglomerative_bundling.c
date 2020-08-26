@@ -11,6 +11,7 @@
 #include "types.h"
 #include "globals.h"
 #include "general.h"
+#include <math.h>
 #include "time.h"
 #include "SparseMatrix.h"
 #include "vector.h"
@@ -276,7 +277,7 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
 
     if (Verbose > 1) fprintf(stderr,"level %d->%d, edges %d -> %d, ink %f->%f , gain = %f, or %f\n", grid->level, cgrid->level, grid->n, 
 			 cgrid->n, grid->total_ink, grand_total_ink, grid->total_ink - grand_total_ink, grand_total_gain);	 
-    assert(ABS(grid->total_ink - cgrid->total_ink - grand_total_gain) <= 0.0001*grid->total_ink);
+    assert(fabs(grid->total_ink - cgrid->total_ink - grand_total_gain) <= 0.0001*grid->total_ink);
 
     cgrid = Agglomerative_Ink_Bundling_establish(cgrid, pick, angle_param, angle);
     grid->next = cgrid;
@@ -524,7 +525,7 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_aggressive_establis
 
     if (Verbose > 1) fprintf(stderr,"level %d->%d, edges %d -> %d, ink %f->%f , gain = %f, or %f\n", grid->level, cgrid->level, grid->n, 
 			 cgrid->n, grid->total_ink, grand_total_ink, grid->total_ink - grand_total_ink, grand_total_gain);	 
-    assert(ABS(grid->total_ink - cgrid->total_ink - grand_total_gain) <= 0.0001*grid->total_ink);
+    assert(fabs(grid->total_ink - cgrid->total_ink - grand_total_gain) <= 0.0001*grid->total_ink);
 
     cgrid = Agglomerative_Ink_Bundling_aggressive_establish(cgrid, pick, angle_param, angle);
     grid->next = cgrid;
@@ -623,7 +624,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 	if (Verbose && DEBUG) fprintf(stderr,"calling ink2...\n");
 	ink1 = ink(edges, ia[i+1]-ia[i], pick, &ink0, &meet1, &meet2, angle_param, angle);
 	if (Verbose && DEBUG) fprintf(stderr,"finish calling ink2...\n");
-	assert(ABS(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
+	assert(fabs(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
 	wgt_all = 0.;
 	if (ia[i+1]-ia[i] > 1){
 	  for (j = ia[i]; j < ia[i+1]; j++){
@@ -682,7 +683,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
       if (Verbose && DEBUG) fprintf(stderr,"calling ink3...\n");
       ink1 = ink(edges, ia[i+1]-ia[i], pick, &ink0, &meet1, &meet2, angle_param, angle);
       if (Verbose && DEBUG) fprintf(stderr,"done calling ink3...\n");
-      assert(ABS(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
+      assert(fabs(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
       xx[i*4 + 0] = meet1.x;
       xx[i*4 + 1] = meet1.y;
       xx[i*4 + 2] = meet2.x;

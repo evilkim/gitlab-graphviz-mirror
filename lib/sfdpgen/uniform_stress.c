@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include "general.h"
+#include <math.h>
 #include "SparseMatrix.h"
 #include "spring_electrical.h"
 #include "post_process.h"
@@ -70,7 +71,7 @@ UniformStressSmoother UniformStressSmoother_new(int dim, SparseMatrix A, real *x
     for (j = ia[i]; j < ia[i+1]; j++){
       k = ja[j];
       if (k != i){
-	dist = MAX(ABS(a[j]), epsilon);
+	dist = MAX(fabs(a[j]), epsilon);
 	jd[nz] = jw[nz] = k;
 	w[nz] = -1/(dist*dist);
 	w[nz] = -1.;
@@ -144,7 +145,7 @@ void uniform_stress(int dim, SparseMatrix A, real *x, int *flag){
   /* make sure x is not all at the same point */
   for (i = 1; i < n; i++){
     for (k = 0; k < dim; k++) {
-      if (ABS(x[0*dim+k] - x[i*dim+k]) > MACHINEACC){
+      if (fabs(x[0*dim+k] - x[i*dim+k]) > MACHINEACC){
 	samepoint = FALSE;
 	i = n;
 	break;

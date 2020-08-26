@@ -20,6 +20,7 @@
 #include "call_tri.h"
 #include "red_black_tree.h"
 #include "types.h"
+#include <math.h>
 #include "memory.h"
 #include "globals.h"
 #include <time.h>
@@ -43,8 +44,8 @@ static void ideal_distance_avoid_overlap(int dim, SparseMatrix A, real *x, real 
       jj = ja[j];
       if (jj == i) continue;
       dist = distance(x, dim, i, jj);
-      dx = ABS(x[i*dim] - x[jj*dim]);
-      dy = ABS(x[i*dim+1] - x[jj*dim+1]);
+      dx = fabs(x[i*dim] - x[jj*dim]);
+      dy = fabs(x[i*dim+1] - x[jj*dim+1]);
       wx = width[i*dim]+width[jj*dim];
       wy = width[i*dim+1]+width[jj*dim+1];
       if (dx < MACHINEACC*wx && dy < MACHINEACC*wy){
@@ -212,7 +213,7 @@ static SparseMatrix get_overlap_graph(int dim, int n, real *x, real *width, int 
 	fprintf(stderr," predecessor is node %d y = %f\n", ((scan_point *)newNode->key)->node, ((scan_point *)newNode->key)->x);
 #endif
 	if (neighbor != k){
-	  if (ABS(0.5*(bsta+bsto) - 0.5*(bbsta+bbsto)) < 0.5*(bsto-bsta) + 0.5*(bbsto-bbsta)){/* if the distance of the centers of the interval is less than sum of width, we have overlap */
+	  if (fabs(0.5*(bsta+bsto) - 0.5*(bbsta+bbsto)) < 0.5*(bsto-bsta) + 0.5*(bbsto-bbsta)){/* if the distance of the centers of the interval is less than sum of width, we have overlap */
 	    A = SparseMatrix_coordinate_form_add_entries(A, 1, &neighbor, &k, &one);
 #ifdef DEBUG_RBTREE
 	    fprintf(stderr,"======================================  %d %d\n",k,neighbor);

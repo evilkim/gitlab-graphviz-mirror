@@ -8,6 +8,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 #include "general.h"
+#include <math.h>
 #include "time.h"
 #include "SparseMatrix.h"
 #include "node_distinct_coloring.h"
@@ -142,7 +143,7 @@ static int splines_intersect(int dim, int u1, int v1, int u2, int v2,
 for (i = 0; i < ns1 - 1; i++){
     for (j = 0; j < ns2 - 1; j++){
       cos_a = intersection_angle(&(x1[dim*i]), &(x1[dim*(i + 1)]), &(x2[dim*j]), &(x2[dim*(j+1)]));
-      if (!check_edges_with_same_endpoint && cos_a >= -1) cos_a = ABS(cos_a);
+      if (!check_edges_with_same_endpoint && cos_a >= -1) cos_a = fabs(cos_a);
       if (cos_a > cos_critical) {
 	return 1;
       }
@@ -235,7 +236,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
       for (j = i+1; j < nz2; j++){
 	u2 = irn[j]; v2 = jcn[j];
 	cos_a = intersection_angle(&(x[dim*u1]), &(x[dim*v1]), &(x[dim*u2]), &(x[dim*v2]));
-	if (!check_edges_with_same_endpoint && cos_a >= -1) cos_a = ABS(cos_a);
+	if (!check_edges_with_same_endpoint && cos_a >= -1) cos_a = fabs(cos_a);
 	if (cos_a > cos_critical) {
 	  B = SparseMatrix_coordinate_form_add_entries(B, 1, &i, &j, &cos_a);
 	}

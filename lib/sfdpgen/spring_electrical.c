@@ -339,7 +339,7 @@ static real get_angle(real *x, int dim, int i, int j){
   for (k = 0; k < 2; k++){
     y[k] = x[j*dim+k] - x[i*dim+k];
   }
-  if (ABS(y[0]) <= ABS(y[1])*eps){
+  if (fabs(y[0]) <= fabs(y[1])*eps){
     if (y[1] > 0) return 0.5*PI;
     return 1.5*PI;
   }
