@@ -62,6 +62,7 @@ def test_compile_example(src):
       )
       p.communicate(input='graph {a -- b}')
       print('returncode: {} = 0x{:08x}'.format(p.returncode, p.returncode))
+      assert p.returncode == 0
 
 @pytest.mark.parametrize('src', ['addrings', 'attr', 'bbox', 'bipart',
   'chkedges', 'clustg', 'collapse', 'cycle', 'deghist', 'delmulti', 'depath',
