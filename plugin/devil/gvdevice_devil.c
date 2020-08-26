@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "gvplugin_device.h"
+#include <gvc/gvplugin_device.h>
 #include <IL/il.h>
 #include <IL/ilu.h>
 
