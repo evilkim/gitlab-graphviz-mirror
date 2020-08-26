@@ -14,6 +14,7 @@
 #define STANDALONE
 #include "SparseMatrix.h"
 #include "general.h"
+#include <math.h>
 #include "QuadTree.h"
 #include "string.h"
 /* #include "types.h" */
@@ -766,13 +767,13 @@ void plot_dot_polygons(char **sbuff, int *len, int *len_max, real line_width, ch
   yp = MALLOC(sizeof(float)*maxlen);
 
   if (Verbose) fprintf(stderr,"npolys = %d\n",npolys);
-  first = ABS(a[0]); ipoly = first + 1;
+  first = abs(a[0]); ipoly = first + 1;
   for (i = 0; i < npolys; i++){
     np = 0;
     for (j = ia[i]; j < ia[i+1]; j++){
       assert(ja[j] < nverts && ja[j] >= 0);
-      if (ABS(a[j]) != ipoly){/* the first poly, or a hole */
-	ipoly = ABS(a[j]);
+      if (abs(a[j]) != ipoly){/* the first poly, or a hole */
+	ipoly = abs(a[j]);
 	is_river = (a[j] < 0);
 	if (r && g && b) {
 	  rgb2hex(r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]], cstring, opacity);
@@ -810,13 +811,13 @@ void plot_processing_polygons(FILE *f, real line_width, SparseMatrix polys, real
   yp = MALLOC(sizeof(float)*maxlen);
 
   if (Verbose) fprintf(stderr,"npolys = %d\n",npolys);
-  first = ABS(a[0]); ipoly = first + 1;
+  first = abs(a[0]); ipoly = first + 1;
   for (i = 0; i < npolys; i++){
     np = 0;
     for (j = ia[i]; j < ia[i+1]; j++){
       assert(ja[j] < nverts && ja[j] >= 0);
-      if (ABS(a[j]) != ipoly){/* the first poly, or a hole */
-	ipoly = ABS(a[j]);
+      if (abs(a[j]) != ipoly){/* the first poly, or a hole */
+	ipoly = abs(a[j]);
 	is_river = (a[j] < 0);
 	if (r && g && b) {
 	  rr = r[polys_groups[i]]; gg = g[polys_groups[i]]; bb = b[polys_groups[i]];

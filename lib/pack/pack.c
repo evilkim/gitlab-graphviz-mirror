@@ -117,10 +117,10 @@ static void fillLine(pointf p, pointf q, PointSet * ps)
     int d, x, y, ax, ay, sx, sy, dx, dy;
 
     dx = x2 - x1;
-    ax = ABS(dx) << 1;
+    ax = abs(dx) << 1;
     sx = SGN(dx);
     dy = y2 - y1;
-    ay = ABS(dy) << 1;
+    ay = abs(dy) << 1;
     sy = SGN(dy);
 
 /* fprintf (stderr, "fillLine %d %d - %d %d\n", x1,y1,x2,y2); */
