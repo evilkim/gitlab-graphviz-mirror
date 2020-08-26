@@ -14,7 +14,7 @@
 
 #include "config.h"
 
-#include "gvplugin_layout.h"
+#include <gvc/gvplugin_layout.h>
 
 typedef enum { LAYOUT_DOT, } layout_type;
 
