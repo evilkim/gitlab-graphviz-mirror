@@ -72,7 +72,7 @@
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
+      <Command>win_bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
 sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
 sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
 del common\htmlparse-intermediate.c
@@ -107,7 +107,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
+      <Command>win_bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
 sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
 sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
 del common\htmlparse-intermediate.c
