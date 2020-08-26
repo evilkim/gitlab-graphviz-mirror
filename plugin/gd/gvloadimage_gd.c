@@ -21,9 +21,9 @@
 #include <cairo.h>
 #endif
 
-#include "gvplugin_loadimage.h"
-#include "gvio.h"
-#include "gd.h"
+#include <gvc/gvplugin_loadimage.h>
+#include <gvc/gvio.h>
+#include <gd.h>
 
 typedef enum {
     FORMAT_PNG_GD, FORMAT_GIF_GD, FORMAT_JPG_GD, FORMAT_GD_GD, FORMAT_GD2_GD, FORMAT_XPM_GD, FORMAT_WBMP_GD, FORMAT_XBM_GD,

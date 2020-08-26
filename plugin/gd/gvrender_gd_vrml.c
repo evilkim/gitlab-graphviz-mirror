@@ -19,24 +19,24 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include "gvplugin_render.h"
-#include "gvio.h"
-#include "gd.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvio.h>
+#include <gd.h>
 
 #ifdef HAVE_GD_PNG
 
 /* for N_GNEW() */
-#include "memory.h"
+#include <common/memory.h>
 
 /* for gvcolor_t */
-#include "color.h"
+#include <common/color.h>
 
 /* for late_double() */
-#include "agxbuf.h"
-#include "utils.h"
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
 
 /* for wind() */
-#include "pathutil.h"
+#include <pathplan/pathutil.h>
 
 extern shape_kind shapeOf(node_t *);
 extern pointf gvrender_ptf(GVJ_t *job, pointf p);
