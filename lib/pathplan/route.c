@@ -23,8 +23,6 @@
 #define EPSILON1 1E-3
 #define EPSILON2 1E-6
 
-#define ABS(a) ((a) >= 0 ? (a) : -(a))
-
 typedef struct tna_t {
     double t;
     Ppoint_t a[2];
