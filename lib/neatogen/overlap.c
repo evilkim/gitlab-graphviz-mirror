@@ -75,8 +75,6 @@ static void ideal_distance_avoid_overlap(int dim, SparseMatrix A, real *x, real 
   return;
 }
 
-#define collide(i,j) ((ABS(x[(i)*dim] - x[(j)*dim]) < width[(i)*dim]+width[(j)*dim]) || (ABS(x[(i)*dim+1] - x[(j)*dim+1]) < width[(i)*dim+1]+width[(j)*dim+1]))
-
 enum {INTV_OPEN, INTV_CLOSE};
 
 struct scan_point_struct{
