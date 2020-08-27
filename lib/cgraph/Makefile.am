@@ -29,9 +29,7 @@ libcgraph_la_LIBADD = $(top_builddir)/lib/cdt/libcdt.la
 scan.o scan.lo: scan.c grammar.h
 
 scan.c: $(top_srcdir)/lib/cgraph/scan.l
-	@LEX@ -i $(top_srcdir)/lib/cgraph/scan.l
-	cp -f lex.aag.c scan.c
-	rm lex.aag.c
+	@LEX@ --outfile=$@ -i $(top_srcdir)/lib/cgraph/scan.l
 
 grammar.c: y.tab.c
 	@SED@ "s/yy/aag/g" < y.tab.c > grammar.c
