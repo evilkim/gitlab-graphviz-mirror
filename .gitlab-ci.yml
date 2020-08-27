@@ -221,6 +221,15 @@ ubuntu18-04-build:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+ubuntu20-04-debug-build:
+    <<: *deb_build_definition
+    before_script:
+        - export CFLAGS="-DDEBUG"
+        - export CXXFLAGS="-DDEBUG"
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.04"
+
 ubuntu19-10-build:
     <<: *deb_build_definition
     tags:
