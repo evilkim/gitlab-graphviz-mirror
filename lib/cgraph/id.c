@@ -119,7 +119,7 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 
 int agallocid(Agraph_t * g, int objtype, IDTYPE request)
 {
-    return AGDISC(g, id)->alloc(AGCLOS(g, id), objtype, request);
+    return (int) AGDISC(g, id)->alloc(AGCLOS(g, id), objtype, request);
 }
 
 void agfreeid(Agraph_t * g, int objtype, IDTYPE id)
