@@ -18,6 +18,7 @@
 
 static void *idopen(Agraph_t * g, Agdisc_t* disc)
 {
+    NOTUSED(disc);
     return g;
 }
 
