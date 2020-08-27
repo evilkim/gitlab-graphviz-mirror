@@ -30,7 +30,7 @@ scan.o scan.lo: scan.c grammar.h
 
 scan.c: $(top_srcdir)/lib/cgraph/scan.l
 	@LEX@ -i $(top_srcdir)/lib/cgraph/scan.l
-	@SED@ "s/yy/aag/g" < lex.aag.c > scan.c
+	cp -f lex.aag.c scan.c
 	rm lex.aag.c
 
 grammar.c: y.tab.c
