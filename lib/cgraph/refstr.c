@@ -206,6 +206,7 @@ static int refstrprint(Dict_t * dict, void *ptr, void *user)
 
 void agrefstrdump(Agraph_t * g)
 {
+    NOTUSED(g);
     dtwalk(Refdict_default, refstrprint, 0);
 }
 #endif
