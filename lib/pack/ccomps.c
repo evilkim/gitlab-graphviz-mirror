@@ -163,9 +163,9 @@ static int markFn (Agnode_t* n, int v)
 /* setPrefix:
  */
 static char*
-setPrefix (char* pfx, int* lenp, char* buf, int buflen)
+setPrefix (char* pfx, size_t* lenp, char* buf, size_t buflen)
 {
-    int len;
+    size_t len;
     char* name;
 
     if (!pfx || !isLegal(pfx)) {
@@ -202,7 +202,7 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
     Agraph_t *out = 0;
     Agnode_t *n;
     Agraph_t **ccs;
-    int len;
+    size_t len;
     int bnd = 10;
     boolean pin = FALSE;
     stk_t stk;
@@ -294,7 +294,7 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     Agraph_t *out;
     Agnode_t *n;
     Agraph_t **ccs;
-    int len;
+    size_t len;
     int bnd = 10;
     stk_t stk;
     blk_t blk;
@@ -619,7 +619,8 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
-    int len, sz = sizeof(ccgraphinfo_t);
+    size_t len;
+    int sz = (int) sizeof(ccgraphinfo_t);
 
     if (agnnodes(g) == 0) {
 	*ncc = 0;
