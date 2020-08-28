@@ -7,10 +7,5 @@ find_package_handle_standard_args(RxSpencer DEFAULT_MSG
     RxSpencer_INCLUDE_DIR
 )
 
-mark_as_advanced(
-    RxSpencer_INCLUDE_DIR
-    RxSpencer_LIBRARY
-)
-
 set(RxSpencer_INCLUDE_DIRS ${RxSpencer_INCLUDE_DIR})
 set(RxSpencer_LIBRARIES ${RxSpencer_LIBRARY})
