@@ -489,7 +489,7 @@ static int clMarkFn (Agnode_t* n, int v)
     int ret;
     if (v < 0) return clMark(n);
     ret = clMark(n);
-    clMark(n) = v;
+    clMark(n) = (char) v;
     return ret;
 }
 
