@@ -24,7 +24,6 @@ extern "C" {
     extern int sfdcdos(Sfio_t *);
     extern int sfdcfilter(Sfio_t *, const char *);
     extern int sfdclzw(Sfio_t *);
-    extern int sfdcseekable(Sfio_t *);
     extern int sfdcslow(Sfio_t *);
     extern int sfdcsubstream(Sfio_t *, Sfio_t *, Sfoff_t, Sfoff_t);
     extern int sfdctee(Sfio_t *, Sfio_t *);
