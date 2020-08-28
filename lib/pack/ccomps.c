@@ -288,14 +288,14 @@ packerror:
  */
 Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
 {
-    int c_cnt = 0;
+    size_t c_cnt = 0;
     char buffer[SMALLBUF];
     char *name;
     Agraph_t *out;
     Agnode_t *n;
     Agraph_t **ccs;
     size_t len;
-    int bnd = 10;
+    size_t bnd = 10;
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
@@ -322,7 +322,7 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
-	sprintf(name + len, "%d", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	dfs(g, n, out, &stk);
@@ -337,7 +337,7 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     ccs = RALLOC(c_cnt, ccs, Agraph_t *);
     if (name != buffer)
 	free(name);
-    *ncc = c_cnt;
+    *ncc = (int) c_cnt;
     return ccs;
 }
 
