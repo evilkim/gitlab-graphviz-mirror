@@ -156,7 +156,7 @@ static int markFn (Agnode_t* n, int v)
     int ret;
     if (v < 0) return ND_mark(n);
     ret = ND_mark(n);
-    ND_mark(n) = v;
+    ND_mark(n) = (char) v;
     return ret;
 }
 
