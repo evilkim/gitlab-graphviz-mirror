@@ -300,7 +300,7 @@ CGRAPH_API char *agnameof(void *);
 CGRAPH_API int agrelabel(void *obj, char *name);	/* scary */
 CGRAPH_API int agrelabel_node(Agnode_t * n, char *newname);
 CGRAPH_API int agdelete(Agraph_t * g, void *obj);
-CGRAPH_API long agdelsubg(Agraph_t * g, Agraph_t * sub);	/* could be agclose */
+CGRAPH_API int agdelsubg(Agraph_t * g, Agraph_t * sub);	/* could be agclose */
 CGRAPH_API int agdelnode(Agraph_t * g, Agnode_t * arg_n);
 CGRAPH_API int agdeledge(Agraph_t * g, Agedge_t * arg_e);
 CGRAPH_API int agobjkind(void *);

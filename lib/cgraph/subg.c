@@ -90,7 +90,7 @@ Agraph_t *agparent(Agraph_t * g)
 /* this function is only responsible for deleting the entry
  * in the parent's subg dict.  the rest is done in agclose().
  */
-long agdelsubg(Agraph_t * g, Agraph_t * subg)
+int agdelsubg(Agraph_t * g, Agraph_t * subg)
 {
-    return (long) dtdelete(g->g_dict, subg);
+    return dtdelete(g->g_dict, subg) != NULL;
 }
