@@ -9,7 +9,7 @@ include_directories(
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${LTDL_INCLUDE_DIRS}
-    ${RXSPENCER_INCLUDE_DIRS}
+    ${RxSpencer_INCLUDE_DIRS}
 )
 
 add_library(gvc SHARED
@@ -57,7 +57,7 @@ target_link_libraries(gvc
     pathplan
     xdot
     ${EXPAT_LIBRARIES}
-    ${RXSPENCER_LIBRARIES}
+    ${RxSpencer_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${MATH_LIB}
 )
