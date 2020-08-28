@@ -196,14 +196,14 @@ setPrefix (char* pfx, size_t* lenp, char* buf, size_t buflen)
  */
 Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 {
-    int c_cnt = 0;
+    size_t c_cnt = 0;
     char buffer[SMALLBUF];
     char *name;
     Agraph_t *out = 0;
     Agnode_t *n;
     Agraph_t **ccs;
     size_t len;
-    int bnd = 10;
+    size_t bnd = 10;
     boolean pin = FALSE;
     stk_t stk;
     blk_t blk;
@@ -231,7 +231,7 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	if (MARKED(&stk,n) || !isPinned(n))
 	    continue;
 	if (!out) {
-	    sprintf(name + len, "%d", c_cnt);
+	    sprintf(name + len, "%zu", c_cnt);
 	    out = agsubg(g, name,1);
 	    agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	    ccs[c_cnt] = out;
@@ -245,7 +245,7 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
-	sprintf(name + len, "%d", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	dfs(g, n, out, &stk);
@@ -261,7 +261,7 @@ packerror:
     if (name != buffer)
 	free(name);
     if (error) {
-	int i;
+	size_t i;
 	*ncc = 0;
 	for (i=0; i < c_cnt; i++) {
 	    agclose (ccs[i]);
@@ -271,7 +271,7 @@ packerror:
     }
     else {
 	ccs = RALLOC(c_cnt, ccs, Agraph_t *);
-	*ncc = c_cnt;
+	*ncc = (int) c_cnt;
 	*pinned = pin;
     }
     return ccs;
