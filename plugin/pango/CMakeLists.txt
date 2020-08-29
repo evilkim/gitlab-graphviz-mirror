@@ -1,17 +1,5 @@
 if(Cairo_FOUND AND PangoCairo_FOUND)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${TOP_BINARY_DIR}/lib/common
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${Cairo_INCLUDE_DIRS}/cairo
-    ${PangoCairo_INCLUDE_DIRS}
-)
-
 add_library(gvplugin_pango SHARED
     # Header files
     gvgetfontlist.h
@@ -23,6 +11,19 @@ add_library(gvplugin_pango SHARED
     gvplugin_pango.c
   	gvrender_pango.c
   	gvtextlayout_pango.c
+)
+
+target_include_directories(gvplugin_pango PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${TOP_BINARY_DIR}/lib/common
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${Cairo_INCLUDE_DIRS}/cairo
+    ${PangoCairo_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvplugin_pango

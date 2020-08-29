@@ -16,12 +16,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "const.h"
-#include "gvplugin_render.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
+#include <common/const.h>
+#include <gvc/gvplugin_render.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
 
 #include "gvplugin_pango.h"
 
