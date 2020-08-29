@@ -672,7 +672,7 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
     ccs = RALLOC(c_cnt, ccs, Agraph_t *);
     if (name != buffer)
 	free(name);
-    *ncc = c_cnt;
+    *ncc = (int) c_cnt;
     return ccs;
 }
 
