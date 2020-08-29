@@ -35,7 +35,7 @@
 #endif
 #include <errno.h>
 
-#include "gvplugin_device.h"
+#include <gvc/gvplugin_device.h>
 
 #include <cairo.h>
 #ifdef CAIRO_HAS_GLITZ_SURFACE
