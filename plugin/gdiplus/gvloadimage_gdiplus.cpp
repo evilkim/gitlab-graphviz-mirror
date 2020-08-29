@@ -17,7 +17,7 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "gvplugin_loadimage.h"
+#include <gvc/gvplugin_loadimage.h>
 #include "gvplugin_gdiplus.h"
 
 #include <windows.h>

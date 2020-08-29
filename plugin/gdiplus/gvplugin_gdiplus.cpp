@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "gvplugin.h"
+#include <gvc/gvplugin.h>
 
 #include "gvplugin_gdiplus.h"
 

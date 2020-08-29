@@ -1,14 +1,5 @@
 if (WIN32)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-)
-
 add_library(gvplugin_gdiplus SHARED
     # Header files
     FileStream.h
@@ -21,6 +12,16 @@ add_library(gvplugin_gdiplus SHARED
 	gvplugin_gdiplus.cpp
 	gvrender_gdiplus.cpp
 	gvtextlayout_gdiplus.cpp
+)
+
+target_include_directories(gvplugin_gdiplus PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/pathplan
 )
 
 target_link_libraries(gvplugin_gdiplus

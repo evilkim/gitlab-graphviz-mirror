@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include "FileStream.h"
-#include "gvplugin_device.h"
+#include <gvc/gvplugin_device.h>
 
 #include "gvplugin_gdiplus.h"
 
