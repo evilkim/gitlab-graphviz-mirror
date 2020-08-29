@@ -21,10 +21,10 @@
 
 #include <stdio.h>
 
-#include "gvplugin_layout.h"
+#include <gvc/gvplugin_layout.h>
 
 /* FIXME - globals.h is needed for Nop */
-#include "globals.h"
+#include <common/globals.h>
 
 typedef enum { LAYOUT_NEATO,
 		LAYOUT_FDP,
