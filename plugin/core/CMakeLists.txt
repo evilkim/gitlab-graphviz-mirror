@@ -33,7 +33,6 @@ target_include_directories(gvplugin_core PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/expr
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/gvpr
     ${GRAPHVIZ_LIB_DIR}/pathplan
