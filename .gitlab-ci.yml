@@ -27,7 +27,11 @@ portable-source:
 .build_template: &rpm_build_definition
     stage: build
     script:
-        - ci/build.sh
+        - logfile=`mktemp`
+        - ci/build.sh |& tee $logfile
+        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
+        - rm $logfile
+        - cat metrics.txt
     artifacts:
         when: on_success
         expire_in: 1 week
@@ -35,13 +39,19 @@ portable-source:
             - Packages/*/*/*/*/*/*.rpm
             - Packages/*/*/*/*/*.rpm
             - Metadata/*/*/*/configure.log
+        reports:
+            metrics: metrics.txt
     except:
         - tags
 
 .build_template: &deb_build_definition
     stage: build
     script:
-        - ci/build.sh
+        - logfile=`mktemp`
+        - ci/build.sh |& tee $logfile
+        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
+        - rm $logfile
+        - cat metrics.txt
     artifacts:
         when: on_success
         expire_in: 1 week
@@ -49,6 +59,8 @@ portable-source:
             - Packages/*/*/*/*/*/*deb
             - Packages/*/*/*/*/*.gz
             - Metadata/*/*/*/configure.log
+        reports:
+            metrics: metrics.txt
     except:
         - tags
 
