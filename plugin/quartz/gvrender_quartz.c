@@ -25,9 +25,9 @@
 #include <ImageIO/ImageIO.h>
 #endif
 
-#include "gvplugin_device.h"
-#include "gvplugin_render.h"
-#include "cgraph.h"
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvplugin_render.h>
+#include <cgraph/cgraph.h>
 
 #include "gvplugin_quartz.h"
 

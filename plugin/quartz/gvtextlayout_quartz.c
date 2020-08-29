@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gvplugin_textlayout.h"
-#include "gvplugin_quartz.h"
+#include <gvc/gvplugin_textlayout.h>
+#include <gvc/gvplugin_quartz.h>
 
 #if __ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__ >= 30200
 #include <CoreText/CoreText.h>

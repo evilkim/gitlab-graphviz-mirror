@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "types.h"
-#include "gvcjob.h"
+#include <common/types.h>
+#include <gvc/gvcjob.h>
 
 #include "gvplugin_quartz.h"
 
