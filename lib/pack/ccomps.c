@@ -110,11 +110,11 @@ static Agnode_t *pop(stk_t* sp)
 }
 
 
-static int dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
+static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
 {
     Agedge_t *e;
     Agnode_t *other;
-    int cnt = 0;
+    size_t cnt = 0;
 
     push (stk, n);
     while ((n = pop(stk))) {
@@ -609,7 +609,7 @@ subGInduce(Agraph_t* g, Agraph_t * out)
 Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 {
     Agraph_t *dg;
-    long n_cnt, c_cnt, e_cnt;
+    size_t n_cnt, c_cnt, e_cnt;
     char *name;
     Agraph_t *out;
     Agraph_t *dout;
@@ -637,32 +637,32 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 
     dg = deriveGraph(g);
 
-    ccs = N_GNEW(agnnodes(dg), Agraph_t *);
+    ccs = N_GNEW((size_t) agnnodes(dg), Agraph_t *);
     initStk (&stk, &blk, base, insertFn, clMarkFn);
 
     c_cnt = 0;
     for (dn = agfstnode(dg); dn; dn = agnxtnode(dg, dn)) {
 	if (MARKED(&stk,dn))
 	    continue;
-	sprintf(name + len, "%ld", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	dout = agsubg(dg, name, 1);
 	out = agsubg(g, name, 1);
 	agbindrec(out, GRECNAME, sizeof(ccgraphinfo_t), FALSE);
 	GD_cc_subg(out) = 1;
 	n_cnt = dfs(dg, dn, dout, &stk);
 	unionNodes(dout, out);
-	e_cnt = nodeInduce(out);
+	e_cnt = (size_t) nodeInduce(out);
 	subGInduce(g, out);
 	ccs[c_cnt] = out;
 	agdelete(dg, dout);
 	if (Verbose)
-	    fprintf(stderr, "(%4ld) %7ld nodes %7ld edges\n",
+	    fprintf(stderr, "(%4zu) %7zu nodes %7zu edges\n",
 		    c_cnt, n_cnt, e_cnt);
 	c_cnt++;
     }
 
     if (Verbose)
-	fprintf(stderr, "       %7d nodes %7d edges %7ld components %s\n",
+	fprintf(stderr, "       %7d nodes %7d edges %7zu components %s\n",
 	    agnnodes(g), agnedges(g), c_cnt, agnameof(g));
 
     agclose(dg);
@@ -685,7 +685,7 @@ int isConnected(Agraph_t * g)
 {
     Agnode_t *n;
     int ret = 1;
-    int cnt = 0;
+    size_t cnt = 0;
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
@@ -704,7 +704,7 @@ int isConnected(Agraph_t * g)
 
     n = agfstnode(g);
     cnt = dfs(g, agfstnode(g), NULL, &stk);
-    if (cnt != agnnodes(g))
+    if (cnt != (size_t) agnnodes(g))
 	ret = 0;
     freeStk (&stk);
     return ret;
