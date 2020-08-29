@@ -17,7 +17,7 @@
 #include <stdint.h>
 #include <sys/stat.h>
 
-#include "gvplugin_loadimage.h"
+#include <gvc/gvplugin_loadimage.h>
 
 #ifdef HAVE_GS
 #ifdef HAVE_PANGOCAIRO
