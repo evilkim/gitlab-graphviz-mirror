@@ -15,8 +15,8 @@
 
 #include "VisioText.h"
 
-#include "gvcjob.h"
-#include "gvio.h"
+#include <gvc/gvcjob.h>
+#include <gvc/gvio.h>
 #include <cstdlib>
 #include <string.h>
 

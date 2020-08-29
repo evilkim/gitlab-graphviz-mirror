@@ -29,10 +29,10 @@
 
 #include "VisioRender.h"
 
-#include "const.h"
-#include "macros.h"
-#include "gvcjob.h"
-#include "gvio.h"
+#include <common/const.h>
+#include <common/macros.h>
+#include <gvc/gvcjob.h>
+#include <gvc/gvio.h>
 
 namespace Visio
 {

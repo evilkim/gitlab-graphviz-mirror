@@ -14,7 +14,7 @@
 #ifndef VISIOTEXT_H
 #define VISIOTEXT_H
 
-#include "types.h"
+#include <common/types.h>
 
 namespace Visio
 {

@@ -17,7 +17,7 @@
 #endif
 
 
-#include "gvplugin.h"
+#include <gvc/gvplugin.h>
 
 extern gvplugin_installed_t gvdevice_vdx_types[];
 extern gvplugin_installed_t gvrender_vdx_types[];
