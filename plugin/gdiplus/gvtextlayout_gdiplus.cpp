@@ -19,8 +19,6 @@
 #include "gvplugin_textlayout.h"
 #include "gvplugin_gdiplus.h"
 
-static int count = 0;
-
 using namespace Gdiplus;
 
 static int CALLBACK fetch_first_font(
