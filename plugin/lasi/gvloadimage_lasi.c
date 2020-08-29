@@ -23,10 +23,10 @@
 #include <io.h>
 #endif
 
-#include "gvplugin_loadimage.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "gvio.h"
+#include <gvc/gvplugin_loadimage.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <gvc/gvio.h>
 
 extern shape_desc *find_user_shape(char *name);
 

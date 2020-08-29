@@ -18,20 +18,17 @@
 #include <stdexcept>
 #include <LASi.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
-#include "gvcint.h"
-#include "agxbuf.h"
-#include "const.h"
-#include "utils.h"
-#include "ps.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
+#include <gvc/gvcint.h>
+#include <cgraph/agxbuf.h>
+#include <common/const.h>
+#include <common/utils.h>
+#include <ps.h>
 
 using namespace LASi;
 using namespace std;
-
-/* for CHAR_LATIN1  */
-// #include "const.h"
 
 /*
  *     J$: added `pdfmark' URL embedding.  PostScript rendered from
