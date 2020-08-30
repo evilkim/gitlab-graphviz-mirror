@@ -17,8 +17,8 @@
 #ifndef GLCOMPSET_H
 #define GLCOMPSET_H
 
-#include "glcompfont.h"
-#include "glcomptextpng.h"
+#include <glcomp/glcompfont.h>
+#include <glcomp/glcomptextpng.h>
 
 #ifdef __cplusplus
 extern "C" {

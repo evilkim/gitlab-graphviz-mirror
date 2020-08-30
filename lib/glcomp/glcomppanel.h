@@ -13,7 +13,7 @@
 #ifndef GLCOMPPANEL_H
 #define GLCOMPPANEL_H
 
-#include "glcompdefs.h"
+#include <glcomp/glcompdefs.h>
 
 #ifdef __cplusplus
 extern "C" {

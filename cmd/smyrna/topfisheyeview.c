@@ -12,8 +12,6 @@
  *************************************************************************/
 #include "topfisheyeview.h"
 
-//#include "glcomptext.h"
-//#include "glcomptextpng.h"
 #include <math.h>
 #include <common/memory.h>
 #include "viewport.h"
