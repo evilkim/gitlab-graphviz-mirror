@@ -15,7 +15,6 @@
 #define QUAD_TREE_H
 
 #include "LinkedList.h"
-/* #include "sfdpinternal.h" */
 #include <stdio.h>
 
 typedef struct QuadTree_struct *QuadTree;
