@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#include "stack.h"
+#include <rbtree/stack.h>
 
 /*  CONVENTIONS:  All data structures for red-black trees have the prefix */
 /*                "rb_" to prevent name conflicts. */
