@@ -6,7 +6,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/lib/common \
 	-I$(top_srcdir)/lib/gvc \
 	-I$(top_srcdir)/lib/neatogen \
-	-I$(top_srcdir)/lib/fdpgen \
 	-I$(top_srcdir)/lib/pack \
 	-I$(top_srcdir)/lib/pathplan \
 	-I$(top_srcdir)/lib/sparse \

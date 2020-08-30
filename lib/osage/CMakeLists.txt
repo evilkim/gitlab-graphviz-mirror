@@ -12,7 +12,6 @@ target_include_directories(osage PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/fdpgen
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack

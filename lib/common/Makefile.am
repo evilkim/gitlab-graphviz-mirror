@@ -8,7 +8,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib/pack \
 	-I$(top_srcdir)/lib/label \
 	-I$(top_srcdir)/lib/xdot \
-	-I$(top_srcdir)/lib/fdpgen \
 	-I$(top_srcdir)/lib/pathplan \
 	-I$(top_srcdir)/lib/cgraph \
 	-I$(top_srcdir)/lib/cdt $(GD_INCLUDES) $(EXPAT_INCLUDES) $(Z_INCLUDES)

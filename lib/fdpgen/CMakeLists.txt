@@ -21,7 +21,6 @@ add_library(fdpgen STATIC
 
 target_include_directories(fdpgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
