@@ -20,7 +20,7 @@ extern "C" {
 #ifndef _MATRIX_OPS_H_
 #define _MATRIX_OPS_H_
 
-#include "sparsegraph.h"
+#include <neatogen/sparsegraph.h>
 
     extern void cpvec(double *, int, int, double *);
     extern double dot(double *, int, int, double *);

@@ -20,7 +20,7 @@ extern "C" {
 #ifndef EDGES_H
 #define EDGES_H
 
-#include "site.h"
+#include <neatogen/site.h>
 
     typedef struct Edge {
 	double a, b, c;		/* edge on line ax + by = c */

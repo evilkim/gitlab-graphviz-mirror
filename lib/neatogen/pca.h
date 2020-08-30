@@ -20,7 +20,7 @@ extern "C" {
 #ifndef PCA_H
 #define PCA_H
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
     extern void PCA_alloc(DistType **, int, int, double **, int);
     extern boolean iterativePCA_1D(double **, int, int, double *);

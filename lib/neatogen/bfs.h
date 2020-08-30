@@ -18,7 +18,7 @@ extern "C" {
 #ifndef _BFS_H_
 #define _BFS_H_
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
 #ifdef __cplusplus
     class Queue {

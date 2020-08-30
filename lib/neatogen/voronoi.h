@@ -20,7 +20,7 @@ extern "C" {
 #ifndef VORONOI_H
 #define VORONOI_H
 
-#include "site.h"
+#include <neatogen/site.h>
 
     extern void voronoi(int, Site * (*)(void));
 

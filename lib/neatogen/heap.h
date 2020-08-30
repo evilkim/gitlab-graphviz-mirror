@@ -20,7 +20,7 @@ extern "C" {
 #ifndef HEAP_H
 #define HEAP_H
 
-#include "hedges.h"
+#include <neatogen/hedges.h>
 
     extern void PQinitialize(void);
     extern void PQcleanup(void);

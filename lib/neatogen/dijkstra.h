@@ -20,8 +20,8 @@ extern "C" {
 #ifndef _DIJKSTRA_H_
 #define _DIJKSTRA_H_
 
-#include "defs.h"
-#include "sgd.h"
+#include <neatogen/defs.h>
+#include <neatogen/sgd.h>
 
 #ifdef __cplusplus
     void dijkstra(int vertex, vtx_data * graph, int n, DistType * dist);

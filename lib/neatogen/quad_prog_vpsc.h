@@ -31,10 +31,10 @@ extern "C" {
 
 #ifdef DIGCOLA
 
-#include "defs.h"
-#include "digcola.h"
+#include <neatogen/defs.h>
+#include <neatogen/digcola.h>
 #ifdef MOSEK
-#include "mosek_quad_solve.h"
+#include <neatogen/mosek_quad_solve.h>
 #endif /* MOSEK */
 
 typedef struct CMajEnvVPSC {

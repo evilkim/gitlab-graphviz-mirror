@@ -19,8 +19,8 @@ extern "C" {
 #ifndef INFO_H
 #define INFO_H
 
-#include "voronoi.h"
-#include "poly.h"
+#include <neatogen/voronoi.h>
+#include <neatogen/poly.h>
 
     typedef struct ptitem {	/* Point list */
 	struct ptitem *next;

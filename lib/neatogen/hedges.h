@@ -20,8 +20,8 @@ extern "C" {
 #ifndef HEDGES_H
 #define HEDGES_H
 
-#include "site.h"
-#include "edges.h"
+#include <neatogen/site.h>
+#include <neatogen/edges.h>
 
     typedef struct Halfedge {
 	struct Halfedge *ELleft, *ELright;

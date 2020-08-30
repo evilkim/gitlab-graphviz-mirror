@@ -17,7 +17,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "adjust.h"
+#include <neatogen/adjust.h>
 
     extern void avoid_cycling(graph_t *, Agnode_t *, double *);
     extern int checkStart(graph_t * G, int nG, int);

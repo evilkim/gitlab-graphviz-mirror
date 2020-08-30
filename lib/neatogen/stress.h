@@ -19,7 +19,7 @@ extern "C" {
 #ifndef STRESS_H
 #define STRESS_H
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
 #define tolerance_cg 1e-3
 
