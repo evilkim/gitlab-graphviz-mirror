@@ -27,10 +27,10 @@ extern "C" {
 **	Written by Kiem-Phong Vo
 */
 
-#include	"sfio_t.h"
+#include	<sfio/sfio_t.h>
 #include	"config.h"
 
-#include	"vthread.h"
+#include	<sfio/vthread.h>
 
 #if defined(__mips) && __mips == 2 && !defined(_NO_LARGEFILE64_SOURCE)
 #define _NO_LARGEFILE64_SOURCE  1

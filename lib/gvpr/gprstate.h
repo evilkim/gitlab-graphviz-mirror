@@ -18,7 +18,7 @@ extern "C" {
 #ifndef GPRSTATE_H
 #define GPRSTATE_H
 
-#include "sfio.h"
+#include <sfio/sfio.h>
 #include "cgraph.h"
 #include <ast/ast.h>
 #include "vmalloc.h"

@@ -43,7 +43,7 @@ extern "C" {
 	Sfoff_t			lpos;	/* last seek position		*/ \
 	size_t			iosz;	/* prefer size for I/O          */
 
-#include	"sfio.h"
+#include	<sfio/sfio.h>
 
 /* mode bit to indicate that the structure hasn't been initialized */
 #define SF_INIT		0000004u

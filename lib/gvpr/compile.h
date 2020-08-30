@@ -18,7 +18,7 @@ extern "C" {
 #ifndef COMPILE_H
 #define COMPILE_H
 
-#include <sfio.h>
+#include <sfio/sfio.h>
 #include <parse.h>
 #include <gprstate.h>
 #include <expr/expr.h>
