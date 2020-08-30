@@ -43,12 +43,6 @@
 #define e_invalidid gs_error_invalidid
 #endif
 
-#ifdef _WIN32
-#define NUL_FILE "nul"
-#else
-#define NUL_FILE "/dev/null"
-#endif
-
 typedef enum {
     FORMAT_PS_CAIRO, FORMAT_EPS_CAIRO,
 } format_type;

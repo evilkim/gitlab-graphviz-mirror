@@ -26,12 +26,6 @@
 #endif
 #include <cairo/cairo-svg.h>
 
-#ifdef _WIN32
-#define NUL_FILE "nul"
-#else
-#define NUL_FILE "/dev/null"
-#endif
-
 typedef enum {
     FORMAT_SVG_CAIRO,
 } format_type;
