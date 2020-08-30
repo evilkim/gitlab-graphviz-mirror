@@ -34,7 +34,6 @@ function(add_simple_tool name)
         ${GRAPHVIZ_LIB_DIR}/cgraph
         ${GRAPHVIZ_LIB_DIR}/common
         ${GRAPHVIZ_LIB_DIR}/gvc
-        ${GRAPHVIZ_LIB_DIR}/neatogen
         ${GRAPHVIZ_LIB_DIR}/pack
         ${GRAPHVIZ_LIB_DIR}/pathplan
         ${GRAPHVIZ_LIB_DIR}/sparse
@@ -77,7 +76,6 @@ target_include_directories(dijkstra PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -115,7 +113,6 @@ target_include_directories(gml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -146,7 +143,6 @@ target_include_directories(graphml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -183,7 +179,6 @@ target_include_directories(gvcolor PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -213,7 +208,6 @@ target_include_directories(gvgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -248,7 +242,6 @@ target_include_directories(gvpack PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -284,7 +277,6 @@ target_include_directories(gxl2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -319,7 +311,6 @@ target_include_directories(mm2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
@@ -353,7 +344,6 @@ target_include_directories(sccmap PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/neatogen
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse

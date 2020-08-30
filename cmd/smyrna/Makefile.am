@@ -11,7 +11,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/lib/utilities \
         -I$(top_srcdir)/lib/xdot \
         -I$(top_srcdir)/lib/sfio \
-        -I$(top_srcdir)/lib/neatogen \
         -I$(top_srcdir)/lib/topfish \
         -I$(top_srcdir)/lib/gvpr \
         -I$(top_srcdir)/lib/common \

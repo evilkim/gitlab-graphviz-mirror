@@ -5,7 +5,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
         -I$(top_srcdir)/lib/common \
 	-I$(top_srcdir)/lib/gvc \
-	-I$(top_srcdir)/lib/neatogen \
 	-I$(top_srcdir)/lib/sparse \
 	-I$(top_srcdir)/lib/rbtree \
 	-I$(top_srcdir)/lib/pack \
