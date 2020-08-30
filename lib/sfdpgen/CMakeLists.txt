@@ -31,7 +31,6 @@ target_include_directories(sfdpgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/sparse
 )
 
 endif (with_sfdp)
