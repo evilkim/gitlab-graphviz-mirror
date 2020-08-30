@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/lib/pathplan \
         -I$(top_srcdir)/lib/cgraph \
 	-I$(top_srcdir)/lib/sparse \
-	-I$(top_srcdir)/lib/rbtree \
         -I$(top_srcdir)/lib/sfdpgen \
         -I$(top_srcdir)/lib/cdt $(IPSEPCOLA_INCLUDES) $(GTS_CFLAGS)
 
