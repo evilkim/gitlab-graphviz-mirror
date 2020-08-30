@@ -34,7 +34,6 @@ target_include_directories(sparse PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/sfdpgen
 )
 
 target_link_libraries(sparse

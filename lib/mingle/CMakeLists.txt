@@ -23,7 +23,6 @@ target_include_directories(libmingle PRIVATE
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/sfdpgen
     ${GRAPHVIZ_LIB_DIR}/sparse
     ${ANN_INCLUDE_DIR}
 )

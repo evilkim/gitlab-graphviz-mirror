@@ -100,6 +100,5 @@ target_include_directories(neatogen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/sfdpgen
     ${GRAPHVIZ_LIB_DIR}/sparse
 )
