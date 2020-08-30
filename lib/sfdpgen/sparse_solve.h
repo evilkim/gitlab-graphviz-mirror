@@ -15,7 +15,7 @@
 #ifndef SPARSE_SOLVER_H
 #define SPARSE_SOLVER_H
 
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 
 enum {SOLVE_METHOD_CG, SOLVE_METHOD_JACOBI};
 

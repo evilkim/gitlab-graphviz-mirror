@@ -14,7 +14,7 @@
 #ifndef QUAD_TREE_H
 #define QUAD_TREE_H
 
-#include "LinkedList.h"
+#include <sparse/LinkedList.h>
 #include <stdio.h>
 
 typedef struct QuadTree_struct *QuadTree;

@@ -14,8 +14,8 @@
 #ifndef BinaryHeap_H
 #define  BinaryHeap_H
 
-#include "general.h"
-#include "IntStack.h"
+#include <sparse/general.h>
+#include <sparse/IntStack.h>
 
 /* binary heap code. 
    Caution: items inserted should be kept untouched, e.g., the value of the item should be kepted unchanged while the heap is still in use! 
