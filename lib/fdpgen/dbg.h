@@ -20,9 +20,9 @@ extern "C" {
 
 #ifdef DEBUG
 
-#include <fdp.h>
+#include <fdpgen/fdp.h>
 #include <stdio.h>
-#include <cgraph.h>
+#include <cgraph/cgraph.h>
 
     extern double Scale;
     extern void outputGraph(Agraph_t *, FILE *, int);
