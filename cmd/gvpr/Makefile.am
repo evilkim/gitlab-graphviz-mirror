@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
 	-I$(top_srcdir)/lib/gvpr \
 	-I$(top_srcdir)/lib/vmalloc \
-	-I$(top_srcdir)/lib/sfio \
 	-I$(top_srcdir)/lib/cgraph \
 	-I$(top_srcdir)/lib/cdt
 
