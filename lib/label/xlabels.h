@@ -41,7 +41,7 @@ int placeLabels(object_t * objs, int n_objs,
 		xlabel_t * lbls, int n_lbls, label_params_t * params);
 
 #ifdef XLABEL_INT
-#include <index.h>
+#include <label/index.h>
 #include <logic.h>
 #include <cdt.h>
 

@@ -47,9 +47,9 @@ extern "C" {
 #define NODECARD 64
 typedef struct RTree RTree_t;
 
-#include <rectangle.h>
-#include <node.h>
-#include <split.q.h>
+#include <label/rectangle.h>
+#include <label/node.h>
+#include <label/split.q.h>
 
 #define CX(i)  (i)
 #define NX(i)  (i+NUMDIMS)
