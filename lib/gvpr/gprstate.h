@@ -21,7 +21,7 @@ extern "C" {
 #include <sfio/sfio.h>
 #include "cgraph.h"
 #include <ast/ast.h>
-#include "vmalloc.h"
+#include <vmalloc/vmalloc.h>
 #include <expr/expr.h>
 #include "gvpr.h"
 

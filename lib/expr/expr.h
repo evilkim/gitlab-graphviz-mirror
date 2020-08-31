@@ -42,7 +42,7 @@ extern "C" {
 #undef	extern
 
 #include <cdt.h>
-#include <vmalloc.h>
+#include <vmalloc/vmalloc.h>
 
 #define EX_VERSION	20000101L
 
