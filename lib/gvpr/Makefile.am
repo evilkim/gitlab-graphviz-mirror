@@ -8,7 +8,6 @@ GVPR_VERSION="2:0:0"
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
-	-I$(top_srcdir)/lib/vmalloc \
 	-I$(top_srcdir)/lib/common \
 	-I$(top_builddir)/lib/common \
 	-I$(top_srcdir)/lib/cgraph \

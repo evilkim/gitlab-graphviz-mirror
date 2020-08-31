@@ -36,7 +36,6 @@ target_include_directories(gvplugin_core PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/gvpr
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/vmalloc
     ${GRAPHVIZ_LIB_DIR}/xdot
 )
 

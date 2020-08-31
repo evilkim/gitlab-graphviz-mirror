@@ -13,5 +13,4 @@ add_library(vmalloc STATIC
 
 target_include_directories(vmalloc PRIVATE
     ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
 )

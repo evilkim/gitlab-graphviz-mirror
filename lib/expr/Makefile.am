@@ -8,7 +8,6 @@ pkgconfigdir = $(libdir)/pkgconfig
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
-        -I$(top_srcdir)/lib/vmalloc \
 	-I$(top_srcdir)/lib/cdt
 
 noinst_HEADERS = exgram.h exlib.h exop.h expr.h

@@ -10,7 +10,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib/cdt \
 	-I$(top_srcdir)/lib/gvpr \
 	-I$(top_srcdir)/lib/xdot \
-	-I$(top_srcdir)/lib/vmalloc \
 	$(LIBGVC_CFLAGS)
 
 noinst_LTLIBRARIES = libgvplugin_core_C.la
