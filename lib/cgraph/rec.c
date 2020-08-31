@@ -22,11 +22,11 @@ static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
     Agedge_t *e;
 
     obj->data = data;
-    obj->tag.mtflock = mtflock;
+    obj->tag.mtflock = mtflock != 0;
     if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
 	e = agopp((Agedge_t *) obj);
 	AGDATA(e) = data;
-	e->base.tag.mtflock = mtflock;
+	e->base.tag.mtflock = mtflock != 0;
     }
 }
 
