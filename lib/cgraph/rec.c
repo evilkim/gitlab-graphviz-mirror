@@ -175,26 +175,6 @@ static void simple_delrec(Agraph_t * g, Agobj_t * obj, void *rec_name)
     agdelrec(obj, rec_name);
 }
 
-#ifdef OLD
-void agclean(Agraph_t * g, char *graphdata, char *nodedata, char *edgedata)
-{
-    Agnode_t *n;
-    Agedge_t *e;
-
-    if (nodedata || edgedata) {
-	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	    if (edgedata)
-		for (e = agfstout(n); e; e = agnxtout(g, e)) {
-		    agdelrec(e, edgedata);
-		}
-	    if (nodedata)
-		agdelrec(n, nodedata);
-	}
-    }
-    agdelrec(g, graphdata);
-}
-#endif
-
 void aginit(Agraph_t * g, int kind, char *rec_name, int arg_rec_size, int mtf)
 {
     Agnode_t *n;
