@@ -552,7 +552,7 @@ static void startgraph(char *name, int directed, int strict)
 	static Agdesc_t	req;	/* get rid of warnings */
 
 	if (G == NILgraph) {
-    SubgraphDepth = 0;
+		SubgraphDepth = 0;
 		req.directed = directed;
 		req.strict = strict;
 		req.maingraph = TRUE;
