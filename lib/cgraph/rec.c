@@ -64,6 +64,7 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
 {
     Agrec_t *firstrec, *newrec;
 
+    NOTUSED(g);
     newrec = arg;
     firstrec = obj->data;
     if (firstrec == NIL(Agrec_t *))
@@ -107,6 +108,7 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
 /* if obj points to rec, move its data pointer. break any mtf lock(?) */
 static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
 {
+    NOTUSED(g);
     Agrec_t *rec = (Agrec_t *) arg_rec, *newrec;
     if (obj->data == rec) {
 	if (rec->next == rec)
@@ -161,6 +163,7 @@ int agdelrec(void *arg_obj, char *name)
 
 static void simple_delrec(Agraph_t * g, Agobj_t * obj, void *rec_name)
 {
+    NOTUSED(g);
     agdelrec(obj, rec_name);
 }
 
