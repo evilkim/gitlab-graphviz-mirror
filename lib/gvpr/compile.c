@@ -2118,8 +2118,6 @@ static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
  * Return -1 if conversion cannot be done, 0 otherwise.
  * If arg is > 0, conversion unnecessary; just report possibility.
  * In particular, assume x != 0 if arg == 0.
- * Use #ifdef OLD to remove graph object conversion to strings,
- * as this seemed to dangerous.
  */
 static int
 convert(Expr_t * prog, Exnode_t * x, int type,
@@ -2158,12 +2156,6 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 		if (!objp || ISEDGE(objp))
 		    ret = 0;
 		break;
-#ifdef OLD
-	    case STRING:
-		x->data.constant.value.string = nameOf(prog, objp);
-		ret = 0;
-		break;
-#endif
 	    }
 	}
     } else if (type == STRING) {
@@ -2174,16 +2166,6 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 		    tvtypeToStr (x->data.constant.value.integer);
 	    }
 	}
-#ifdef OLD
-	else {
-	    objp = INT2PTR(Agobj_t *, x->data.constant.value.integer);
-	    if (objp) {
-		x->data.constant.value.string = nameOf(prog, objp);
-		ret = 0;
-	    } else
-		cvtError(xref, "Uninitialized object");
-	}
-#endif
     } else if ((type == T_tvtyp) && (x->type == INTEGER)) {
 	if (arg)
 	    ret = 0;
