@@ -356,15 +356,13 @@ Agsym_t *agnxtattr(Agraph_t * g, int kind, Agsym_t * attr)
 
 void agraphattr_init(Agraph_t * g)
 {
-    /* Agdatadict_t *dd; */
-    /* Agrec_t                      *attr; */
     Agraph_t *context;
 
     g->desc.has_attrs = 1;
-    /* dd = */ agmakedatadict(g);
+    agmakedatadict(g);
     if (!(context = agparent(g)))
 	context = g;
-    /* attr = */ agmakeattrs(context, g);
+    agmakeattrs(context, g);
 }
 
 int agraphattr_delete(Agraph_t * g)
