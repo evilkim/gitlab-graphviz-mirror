@@ -250,18 +250,6 @@ statement_list	:	/* empty */
 				exfreenode(expr.program, $1);
 				$$ = $2;
 			}
-#ifdef UNUSED
-			else if ($1->op == ';')
-			{
-				$$ = $1;
-				$1->data.operand.last = $1->data.operand.last->data.operand.right = exnewnode(expr.program, ';', 1, $2->type, $2, NiL);
-			}
-			else
-			{
-				$$ = exnewnode(expr.program, ';', 1, $1->type, $1, NiL);
-				$$->data.operand.last = $$->data.operand.right = exnewnode(expr.program, ';', 1, $2->type, $2, NiL);
-			}
-#endif
 			else $$ = exnewnode(expr.program, ';', 1, $2->type, $1, $2);
 		}
 		;
@@ -556,13 +544,6 @@ dcl_item	:	dcl_name {checkName ($1); expr.id=$1;} array initialize
 					$4->data.operand.left = exnewnode(expr.program, DYNAMIC, 0, $1->type, NiL, NiL);
 					$4->data.operand.left->data.variable.symbol = $1;
 					$$ = $4;
-#if UNUSED
-					if (!expr.program->frame && !expr.program->errors)
-					{
-						expr.assigned++;
-						exeval(expr.program, $$, NiL);
-					}
-#endif
 				}
 				else if (!$3)
 					$1->value->data.value = exzero($1->type);
@@ -836,12 +817,6 @@ expr		:	'(' expr ')'
 		|	FUNCTION '(' args ')'
 		{
 			$$ = exnewnode(expr.program, FUNCTION, 1, T($1->type), call(0, $1, $3), $3);
-#ifdef UNUSED
-			if (!expr.program->disc->getf)
-				exerror("%s: function references not supported", $$->data.operand.left->data.variable.symbol->name);
-			else if (expr.program->disc->reff)
-				(*expr.program->disc->reff)(expr.program, $$->data.operand.left, $$->data.operand.left->data.variable.symbol, 0, NiL, EX_CALL, expr.program->disc);
-#endif
 		}
 		|	GSUB '(' args ')'
 		{
