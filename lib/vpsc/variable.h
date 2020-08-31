@@ -23,7 +23,7 @@
 #include <iostream>
 class Block;
 class Constraint;
-#include "block.h"
+#include <vpsc/block.h>
 
 typedef std::vector<Constraint*> Constraints;
 class Variable

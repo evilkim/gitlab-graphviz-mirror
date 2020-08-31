@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix edgepaint -o option
 - Correct shebang of gvmap.sh to use ksh
 - Fix gvmap.sh -? option to exit with zero exit status
+- Graphviz doesn't build on MacOS with the latest libc++ #1785
 
 ## [2.44.1] - 2020-06-29
 
