@@ -51,7 +51,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir)/libltdl;$(SolutionDir)/lib;$(SolutionDir)/windows/lib/cdt;$(SolutionDir)/;$(SolutionDir)/lib/vpsc;$(SolutionDir)/lib/vmalloc;$(SolutionDir)/lib/twopigen;$(SolutionDir)/lib/sfpdpgen;$(SolutionDir)/lib/pathplan;$(SolutionDir)/lib/pack;$(SolutionDir)/lib/filter;$(SolutionDir)/lib/dotgen;$(SolutionDir)/lib/agraph;$(SolutionDir)/lib/common;$(SolutionDir)/lib/gvc;$(SolutionDir)/lib/cdt;$(SolutionDir)/lib/cgraph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir)/libltdl;$(SolutionDir)/lib;$(SolutionDir)/windows/lib/cdt;$(SolutionDir)/;$(SolutionDir)/lib/vpsc;$(SolutionDir)/lib/vmalloc;$(SolutionDir)/lib/sfpdpgen;$(SolutionDir)/lib/pathplan;$(SolutionDir)/lib/pack;$(SolutionDir)/lib/filter;$(SolutionDir)/lib/dotgen;$(SolutionDir)/lib/agraph;$(SolutionDir)/lib/common;$(SolutionDir)/lib/gvc;$(SolutionDir)/lib/cdt;$(SolutionDir)/lib/cgraph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -85,7 +85,7 @@ copy $(SolutionDir)windows\dependencies\libraries\x86\bin\pixman-1.dll $(OutDir)
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir)/libltdl;$(SolutionDir)/lib;$(SolutionDir)/windows/lib/cdt;$(SolutionDir)/;$(SolutionDir)/lib/vpsc;$(SolutionDir)/lib/vmalloc;$(SolutionDir)/lib/twopigen;$(SolutionDir)/lib/sfpdpgen;$(SolutionDir)/lib/pathplan;$(SolutionDir)/lib/pack;$(SolutionDir)/lib/filter;$(SolutionDir)/lib/dotgen;$(SolutionDir)/lib/agraph;$(SolutionDir)/lib/common;$(SolutionDir)/lib/gvc;$(SolutionDir)/lib/cdt;$(SolutionDir)/lib/cgraph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir)/libltdl;$(SolutionDir)/lib;$(SolutionDir)/windows/lib/cdt;$(SolutionDir)/;$(SolutionDir)/lib/vpsc;$(SolutionDir)/lib/vmalloc;$(SolutionDir)/lib/sfpdpgen;$(SolutionDir)/lib/pathplan;$(SolutionDir)/lib/pack;$(SolutionDir)/lib/filter;$(SolutionDir)/lib/dotgen;$(SolutionDir)/lib/agraph;$(SolutionDir)/lib/common;$(SolutionDir)/lib/gvc;$(SolutionDir)/lib/cdt;$(SolutionDir)/lib/cgraph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
       <EnablePREfast>true</EnablePREfast>
