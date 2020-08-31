@@ -96,18 +96,7 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
     if ((rec == NIL(Agrec_t *)) && (recsize > 0)) {
 	rec = (Agrec_t *) agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
-	switch (obj->tag.objtype) {
-	case AGRAPH:
-	    objputrec(g, obj, rec);
-	    break;
-	case AGNODE:
-	    objputrec(g, obj, rec);
-	    break;
-	case AGINEDGE:
-	case AGOUTEDGE:
-	    objputrec(g, obj, rec);
-	    break;
-	}
+	objputrec(g, obj, rec);
     }
     if (mtf)
 	aggetrec(arg_obj, recname, TRUE);
