@@ -41,17 +41,9 @@ extern "C" {
     extern double vectors_inner_product(int n, double *vector1,
 					double *vector2);
     extern double max_abs(int n, double *vector);
-#ifdef UNUSED
-    extern void vectors_mult_addition(int, double *, double, double *);
-    extern void orthogvec(int, double *, double *);
-#endif
 
     /* sparse matrix extensions: */
 
-#ifdef UNUSED
-    extern void mat_mult_vec(vtx_data * L, int n, double *vec,
-			     double *result);
-#endif
     extern void right_mult_with_vector_transpose
 	(double **, int, int, double *, double *);
     extern void right_mult_with_vector_d(double **, int, int, double *,
@@ -71,11 +63,6 @@ extern "C" {
 *****************************/
 
     extern void orthog1f(int n, float *vec);
-#ifdef UNUSED
-    extern void right_mult_with_vectorf(vtx_data *, int, float *, float *);
-    extern void right_mult_with_vector_fd(float **, int, float *,
-					  double *);
-#endif
     extern void right_mult_with_vector_ff(float *, int, float *, float *);
     extern void vectors_substractionf(int, float *, float *, float *);
     extern void vectors_additionf(int n, float *vector1, float *vector2,
@@ -95,12 +82,6 @@ extern "C" {
     extern void sqrt_vec(int n, float *vec);
     extern void sqrt_vecf(int n, float *source, float *target);
     extern void invert_sqrt_vec(int n, float *vec);
-#ifdef UNUSED
-    extern void init_vec_orth1f(int n, float *vec);
-    extern void mat_mult_vecf(vtx_data * L, int n, float *vec,
-			      float *result);
-#endif
-
 #endif
 
 #ifdef __cplusplus

@@ -102,39 +102,3 @@ iterativePCA_1D(double **coords, int dim, int n, double *new_direction)
     return power_iteration(mat, dim, 1, &new_direction, &eval, TRUE);
 /* ?? When is mat freed? */
 }
-
-#ifdef UNUSED
-
-double dist(double **coords, int dim, int p1, int p2)
-{
-    int i;
-    double sum = 0;
-
-    for (i = 0; i < dim; i++) {
-	sum +=
-	    (coords[i][p1] - coords[i][p2]) * (coords[i][p1] -
-					       coords[i][p2]);
-    }
-    return sqrt(sum);
-}
-
-
-void weight_laplacian(double **X, int n, int dim, vtx_data * laplacian)
-{
-    int i, j, neighbor;
-
-    int *edges;
-    float *ewgts;
-    for (i = 0; i < n; i++) {
-	edges = laplacian[i].edges;
-	ewgts = laplacian[i].ewgts;
-	*ewgts = 0;
-	for (j = 1; j < laplacian[i].nedges; j++) {
-	    neighbor = edges[j];
-	    *ewgts -= ewgts[j] =
-		float (-1.0 / (dist(X, dim, i, neighbor) + 1e-10));
-	}
-    }
-}
-
-#endif

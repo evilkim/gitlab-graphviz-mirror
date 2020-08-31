@@ -117,15 +117,6 @@ static void heapify(PairHeap * h, int i)
     }
 }
 
-#ifdef UNUSED
-static void mkHeap(PairHeap * h, int size)
-{
-    h->data = N_GNEW(size, Pair);
-    h->maxSize = size;
-    h->heapSize = 0;
-}
-#endif
-
 static void freeHeap(PairHeap * h)
 {
     free(h->data);
