@@ -153,6 +153,9 @@ int agdelrec(void *arg_obj, char *name)
 	case AGOUTEDGE:
 	    agapply(agroot(g), obj, objdelrec, rec, FALSE);
 	    break;
+	default:
+	    assert(!"unreachable");
+	    break;
 	}
 	agstrfree(g, rec->name);
 	agfree(g, rec);
