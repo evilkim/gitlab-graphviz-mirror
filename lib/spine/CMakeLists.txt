@@ -15,7 +15,6 @@ add_library(spine STATIC
 
 target_include_directories(spine PRIVATE
     ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
 )
