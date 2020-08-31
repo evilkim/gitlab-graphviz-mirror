@@ -58,9 +58,6 @@ getRotation(block_t * sn, Agraph_t * g, double x, double y, double theta)
     int count;
 
     subg = sn->sub_graph;
-#ifdef OLD
-    parent = sn->parent;
-#endif
 
     list = sn->circle_list;
 
@@ -79,18 +76,6 @@ getRotation(block_t * sn, Agraph_t * g, double x, double y, double theta)
 
     /* Find node in block connected to block's parent */
     neighbor = CHILD(sn);
-#ifdef OLD
-    for (e = agfstedge(g, parent); e; e = agnxtedge(g, e, parent)) {
-	n = e->head;
-	if (n == parent)
-	    n = e->tail;
-
-	if ((BLOCK(n) == sn) && (PARENT(n) == parent)) {
-	    neighbor = n;
-	    break;
-	}
-    }
-#endif
     newX = ND_pos(neighbor)[0] + x;
     newY = ND_pos(neighbor)[1] + y;
     mindist2 = LEN2(newX, newY);    /* save sqrts by using sqr of dist to find min */

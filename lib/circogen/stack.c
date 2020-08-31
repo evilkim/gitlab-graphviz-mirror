@@ -67,19 +67,6 @@ int stackSize(nstack_t * s)
 int stackCheck(nstack_t * s, Agnode_t * n)
 {
     return ONSTACK(n);
-#ifdef OLD
-    stackitem_t *top = s->top;
-    Agnode_t *node;
-
-    while (top != NULL) {
-	node = top->data;
-	if (node == n)
-	    return 1;
-	top = top->next;
-    }
-
-    return 0;
-#endif
 }
 
 #ifdef DEBUG
