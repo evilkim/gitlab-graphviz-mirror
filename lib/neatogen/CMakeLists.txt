@@ -84,7 +84,6 @@ if (with_ipsepcola)
         mosek_quad_solve.h
         quad_prog_vpsc.c
     )
-    target_include_directories(${GRAPHVIZ_LIB_DIR}/vpsc)
 endif (with_ipsepcola)
 
 

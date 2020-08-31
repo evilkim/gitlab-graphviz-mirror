@@ -27,7 +27,6 @@ add_library(vpsc STATIC
 
 target_include_directories(vpsc PRIVATE
     ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 endif (with_ipsepcola)
