@@ -106,12 +106,6 @@ static char *parseInt(char *s, int *ip)
 {
     char* endp;
 
-#ifdef UNUSED
-    r = sscanf(s, "%d%n", ip, &sz);
-    if (r != 1) return 0;
-    else return (s + sz);
-#endif
-
     *ip = (int)strtol (s, &endp, 10);
     if (s == endp)
 	return 0;
@@ -130,27 +124,9 @@ static char *parseUInt(char *s, unsigned int *ip)
 	return endp;
 }
 
-#ifdef UNUSED
-static char *parsePoint(char *s, xdot_point * pp)
-{
-    int r, sz;
-    r = sscanf(s, "%lf %lf%n", &(pp->x), &(pp->y), &sz);
-    if (r != 2) return 0;
-    pp->z = 0;
-    return (s + sz);
-}
-#endif
-
 static char *parseRect(char *s, xdot_rect * rp)
 {
     char* endp;
-#ifdef UNUSED
-    int r, sz;
-    r = sscanf(s, "%lf %lf %lf %lf%n", &(rp->x), &(rp->y), &(rp->w),
-	       &(rp->h), &sz);
-    if (r != 4) return 0;
-    else return (s + sz);
-#endif
 
     rp->x = strtod (s, &endp);
     if (s == endp)
