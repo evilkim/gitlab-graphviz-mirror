@@ -47,6 +47,21 @@ extern "C" {
     AGXBUF_API void agxbinit(agxbuf * xb, unsigned int hint,
 			 unsigned char *init);
 
+/* support for extra API misuse warnings if available */
+#ifdef __GNUC__
+  #define PRINTF_LIKE(index, first) __attribute__((format(printf, index, first)))
+#else
+  #define PRINTF_LIKE(index, first) /* nothing */
+#endif
+
+/* agxbprint:
+ * Printf-style output to an agxbuf
+ */
+    AGXBUF_API int agxbprint(agxbuf * xb, const char *fmt, ...)
+       PRINTF_LIKE(2, 3);
+
+#undef PRINTF_LIKE
+
 /* agxbput_n:
  * Append string s of length n into xb
  */
