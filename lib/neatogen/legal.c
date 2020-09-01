@@ -11,6 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <math.h>
 #include "neato.h"
 #include "pathutil.h"
 #include <setjmp.h>
@@ -231,13 +232,13 @@ static int find_intersection(vertex *l,
 	if (i[2] > 0)
 	    return 0;
 	if (!intpoint
-	    (l, m, &x, &y, (i[2] < 0) ? 3 : online(m, l, ABS(i[0]))))
+	    (l, m, &x, &y, (i[2] < 0) ? 3 : online(m, l, abs(i[0]))))
 	    return 0;
     }
 
     else if (!intpoint(l, m, &x, &y, (i[0] == i[1]) ?
 		       2 * MAX(online(l, m, 0),
-			       online(l, m, 1)) : online(l, m, ABS(i[0]))))
+			       online(l, m, 1)) : online(l, m, abs(i[0]))))
 	return 0;
 
 #ifdef RECORD_INTERSECTS

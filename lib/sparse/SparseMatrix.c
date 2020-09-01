@@ -219,7 +219,7 @@ int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only){
 	if (mask[jb[j]] < ia[i]) goto RETURN;
       }
       for (j = ib[i]; j < ib[i+1]; j++){
-	if (ABS(b[j] - a[mask[jb[j]]]) > SYMMETRY_EPSILON) goto RETURN;
+	if (fabs(b[j] - a[mask[jb[j]]]) > SYMMETRY_EPSILON) goto RETURN;
       }
     }
     res = TRUE;
@@ -237,8 +237,8 @@ int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only){
 	if (mask[jb[j]] < ia[i]) goto RETURN;
       }
       for (j = ib[i]; j < ib[i+1]; j++){
-	if (ABS(b[2*j] - a[2*mask[jb[j]]]) > SYMMETRY_EPSILON) goto RETURN;
-	if (ABS(b[2*j+1] - a[2*mask[jb[j]]+1]) > SYMMETRY_EPSILON) goto RETURN;
+	if (fabs(b[2*j] - a[2*mask[jb[j]]]) > SYMMETRY_EPSILON) goto RETURN;
+	if (fabs(b[2*j+1] - a[2*mask[jb[j]]+1]) > SYMMETRY_EPSILON) goto RETURN;
       }
     }
     res = TRUE;
@@ -2285,7 +2285,7 @@ SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A){
   for (i = 0; i < A->m; i++){
     max = 0;
     for (j = A->ia[i]; j < A->ia[i+1]; j++){
-      max = MAX(ABS(a[j]), max);
+      max = MAX(fabs(a[j]), max);
     }
     if (max != 0){
       for (j = A->ia[i]; j < A->ia[i+1]; j++){
@@ -2413,7 +2413,7 @@ SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon){
     real *a = (real*) A->a;
     for (i = 0; i < A->m; i++){
       for (j = sta; j < ia[i+1]; j++){
-	if (ABS(a[j]) > epsilon){
+	if (fabs(a[j]) > epsilon){
 	  ja[nz] = ja[j];
 	  a[nz++] = a[j];
 	}
@@ -2445,7 +2445,7 @@ SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon){
     int *a = (int*) A->a;
     for (i = 0; i < A->m; i++){
       for (j = sta; j < ia[i+1]; j++){
-	if (ABS(a[j]) > epsilon){
+	if (fabs(a[j]) > epsilon){
 	  ja[nz] = ja[j];
 	  a[nz++] = a[j];
 	}
@@ -2688,14 +2688,14 @@ static int Dijkstra_internal(SparseMatrix A, int root, real *dist, int *nlist, i
 
       if (heap_id == UNVISITED){
 	ndata = MALLOC(sizeof(struct nodedata_struct));
-	ndata->dist = ABS(a[j]) + ndata_min->dist;
+	ndata->dist = fabs(a[j]) + ndata_min->dist;
 	ndata->id = jj;
 	heap_ids[jj] = BinaryHeap_insert(h, ndata);
 	//fprintf(stderr," set neighbor id=%d, dist=%f, hid = %d, a[%d]=%f, dist=%f\n",jj, ndata->dist, heap_ids[jj], jj, a[j], ndata->dist);
 
       } else {
 	ndata = BinaryHeap_get_item(h, heap_id);
-	ndata->dist = MIN(ndata->dist, ABS(a[j]) + ndata_min->dist);
+	ndata->dist = MIN(ndata->dist, fabs(a[j]) + ndata_min->dist);
 	assert(ndata->id == jj);
 	BinaryHeap_reset(h, heap_id, ndata); 
 	//fprintf(stderr," reset neighbor id=%d, dist=%f, hid = %d, a[%d]=%f, dist=%f\n",jj, ndata->dist,heap_id, jj, a[j], ndata->dist);
@@ -2760,7 +2760,7 @@ real SparseMatrix_pseudo_diameter_weighted(SparseMatrix A0, int root, int aggres
   } while (dist_max > dist0);
 
   *connectedQ = (!flag);
-  assert((dist_max - dist0)/MAX(1, MAX(ABS(dist0), ABS(dist_max))) < 1.e-10);
+  assert((dist_max - dist0)/MAX(1, MAX(fabs(dist0), fabs(dist_max))) < 1.e-10);
 
   *end1 = root;
   *end2 = list[nlist-1];
@@ -4131,7 +4131,7 @@ void SparseMatrix_page_rank(SparseMatrix A, real teleport_probablity, int weight
     for (i = 0; i < n; i++){
       for (j = ia[i]; j < ia[i+1]; j++){
 	if (ja[j] == i) continue;
-	diag[i] += ABS(a[j]);
+	diag[i] += fabs(a[j]);
       }
     }
   } else {
@@ -4176,7 +4176,7 @@ void SparseMatrix_page_rank(SparseMatrix A, real teleport_probablity, int weight
     */
 
     res = 0;
-    for (i = 0; i < n; i++) res += ABS(x[i] - y[i]);
+    for (i = 0; i < n; i++) res += fabs(x[i] - y[i]);
     if (Verbose) fprintf(stderr,"page rank iter -- %d, res = %f\n",iter, res);
     memcpy(x, y, sizeof(real)*n);
   } while (res > epsilon);

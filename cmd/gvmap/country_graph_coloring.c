@@ -13,6 +13,7 @@
 
 #define STANDALONE
 #include "country_graph_coloring.h"
+#include <math.h>
 #include "power.h"
 
 /* #include "general.h" */
@@ -29,9 +30,9 @@ static void get_local_12_norm(int n, int i, int *ia, int *ja, int *p, real *norm
   norm[0] = n; norm[1] = 0;
   for (j = ia[i]; j < ia[i+1]; j++){
     if (ja[j] == i) continue;
-    norm[0] = MIN(norm[0], ABS(p[i] - p[ja[j]]));
+    norm[0] = MIN(norm[0], abs(p[i] - p[ja[j]]));
     nz++;
-    norm[1] += ABS(p[i] - p[ja[j]]);
+    norm[1] += abs(p[i] - p[ja[j]]);
   }
   if (nz > 0) norm[1] /= nz;
 }
@@ -47,9 +48,9 @@ static void get_12_norm(int n, int *ia, int *ja, int *p, real *norm){
     tmp = n;
     for (j = ia[i]; j < ia[i+1]; j++){
       if (ja[j] == i) continue;
-      norm[0] = MIN(norm[0], ABS(p[i] - p[ja[j]]));
-      norm[1] += ABS(p[i] - p[ja[j]]);
-      tmp = MIN(tmp, ABS(p[i] - p[ja[j]]));
+      norm[0] = MIN(norm[0], abs(p[i] - p[ja[j]]));
+      norm[1] += abs(p[i] - p[ja[j]]);
+      tmp = MIN(tmp, abs(p[i] - p[ja[j]]));
       nz++;
     }
     norm[2] += tmp;
@@ -63,9 +64,9 @@ static void update_pmin_pmax_aband(int n, int u, int *ia, int *ja, int *p, int *
   pmin[u] = n; pmax[u] = -1; aband_u = n;
   for (j = ia[u]; j < ia[u+1]; j++) {
     if (ja[j] == u) continue;
-    pmin[u] = MIN(pmin[u], ABS(p[u] - p[ja[j]]));
-    pmax[u] = MIN(pmax[u], ABS(p[u] - p[ja[j]]));
-    aband_u = MIN(aband_u, ABS(p[u] - p[ja[j]]));
+    pmin[u] = MIN(pmin[u], abs(p[u] - p[ja[j]]));
+    pmax[u] = MIN(pmax[u], abs(p[u] - p[ja[j]]));
+    aband_u = MIN(aband_u, abs(p[u] - p[ja[j]]));
   }
   aband_local[u] = aband_u;
 }
@@ -83,27 +84,27 @@ static int check_swap(int n, int *ia, int *ja,
   /* if swaping u and v makes v worse & becomes/remains critical, don't do. We first quick check using the max/min neighbor indices.
      No need to check the other way around since the calling function have ensured that.
    */
-  if (ABS(p_u - pmin[v]) < aband_v && ABS(p_u - pmin[v]) <= lambda*aband) return FALSE;
-  if (ABS(p_u - pmax[v]) < aband_v && ABS(p_u - pmax[v]) <= lambda*aband) return FALSE;
+  if (abs(p_u - pmin[v]) < aband_v && abs(p_u - pmin[v]) <= lambda*aband) return FALSE;
+  if (abs(p_u - pmax[v]) < aband_v && abs(p_u - pmax[v]) <= lambda*aband) return FALSE;
 
   /* now check in details whether v should swap to u. Do not accept if this makes the antiband width of u worse */
   aband_u1 = n;
   for (j = ja[u]; j < ja[u+1]; j++){
     if (ja[j] == u) continue;
-    if (ABS(p_v - p[ja[j]]) < aband_u) {
+    if (abs(p_v - p[ja[j]]) < aband_u) {
       return FALSE;
     }
-    aband_u1 = MIN(aband_u1, ABS(p_v - p[ja[j]]));
+    aband_u1 = MIN(aband_u1, abs(p_v - p[ja[j]]));
   }
   
   /* now check in details whether u should swap to v. Do not accept if this makes antibandwidth of v worse && make/keep v in the critical group */
   aband_v1 = n;
   for (j = ja[v]; j < ja[v+1]; j++){
     if (ja[j] == v) continue;
-    if (ABS(p_u - p[ja[j]]) < aband_v && ABS(p_u - p[ja[j]]) <= lambda*aband) {
+    if (abs(p_u - p[ja[j]]) < aband_v && abs(p_u - p[ja[j]]) <= lambda*aband) {
       return FALSE;
     }
-    aband_v1 = MIN(aband_v1, ABS(p_u - p[ja[j]]));
+    aband_v1 = MIN(aband_v1, abs(p_u - p[ja[j]]));
   }
   
   /* now check if local antiband width has been improved. By that we mean u is improved, or u unchanged, but v improved. */
@@ -165,7 +166,7 @@ void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
 	if (ja[j] == i) continue;
 	pmax[i] = MAX(pmax[i], p[ja[j]]);
 	pmin[i] = MIN(pmin[i], p[ja[j]]);
-	aband_local[i] = MIN(aband_local[i], ABS(p[i] - p[ja[j]]));
+	aband_local[i] = MIN(aband_local[i], abs(p[i] - p[ja[j]]));
       }
       aband = MIN(aband, aband_local[i]);
     }

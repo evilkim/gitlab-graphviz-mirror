@@ -17,6 +17,7 @@
  */
 
 #include "dot.h"
+#include <math.h>
 
 #ifdef ORTHO
 #include <ortho.h>
@@ -605,15 +606,15 @@ static int edgecmp(edge_t** ptr0, edge_t** ptr1)
 
     t0 = ND_rank(agtail(le0)) - ND_rank(aghead(le0));
     t1 = ND_rank(agtail(le1)) - ND_rank(aghead(le1));
-    v0 = ABS((int)t0);   /* ugly, but explicit as to how we avoid equality tests on fp numbers */
-    v1 = ABS((int)t1);
+    v0 = abs((int)t0);   /* ugly, but explicit as to how we avoid equality tests on fp numbers */
+    v1 = abs((int)t1);
     if (v0 != v1)
 	return (v0 - v1);
 
     t0 = ND_coord(agtail(le0)).x - ND_coord(aghead(le0)).x;
     t1 = ND_coord(agtail(le1)).x - ND_coord(aghead(le1)).x;
-    v0 = ABS((int)t0);
-    v1 = ABS((int)t1);
+    v0 = abs((int)t0);
+    v1 = abs((int)t1);
     if (v0 != v1)
 	return (v0 - v1);
 
@@ -1674,7 +1675,7 @@ makeLineEdge(graph_t* g, edge_t* fe, pointf* points, node_t** hp)
 	e = ED_to_orig(e);
     hn = aghead(e);
     tn = agtail(e);
-    delr = ABS(ND_rank(hn)-ND_rank(tn));
+    delr = abs(ND_rank(hn)-ND_rank(tn));
     if ((delr == 1) || ((delr == 2) && (GD_has_labels(g->root) & EDGE_LABEL)))
 	return 0;
     if (agtail(fe) == agtail(e)) {
@@ -1757,7 +1758,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
     sl = 0;
     e = edges[ind];
     hackflag = FALSE;
-    if (ABS(ND_rank(agtail(e)) - ND_rank(aghead(e))) > 1) {
+    if (abs(ND_rank(agtail(e)) - ND_rank(aghead(e))) > 1) {
 	fwdedgeai = *(Agedgeinfo_t*)e->base.data;
 	fwdedgea.out = *e;
 	fwdedgea.in = *AGOUT2IN(e);

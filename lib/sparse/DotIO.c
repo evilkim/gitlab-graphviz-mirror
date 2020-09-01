@@ -15,6 +15,7 @@
 #include "general.h"
 #include "DotIO.h"
 #include "clustering.h"
+#include <math.h>
 #include "mq.h"
 /* #include "spring_electrical.h" */
 #include "color_palette.h"
@@ -566,7 +567,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
 	}
       } else {
 	for (j = ia[i]; j < ia[i+1]; j++) {
-	  color[j] = ABS(val[j]);
+	  color[j] = fabs(val[j]);
 	  if (i != ja[j]){
 	    if (first){
 	      mindist = color[j];

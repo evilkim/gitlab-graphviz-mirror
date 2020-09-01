@@ -13,6 +13,7 @@
 #include "types.h"
 #include "globals.h"
 #include "general.h"
+#include <math.h>
 #include "SparseMatrix.h"
 #include "edge_bundling.h"
 #include <time.h>
@@ -162,7 +163,7 @@ static real edge_compatibility_full(pedge e1, pedge e2){
   ca = 0;
   for (i = 0; i < dim; i++) 
     ca += (v1[i]-u1[i])*(v2[i]-u2[i]);
-  ca = ABS(ca/(len1*len2));
+  ca = fabs(ca/(len1*len2));
   assert(ca > -0.001);
 
   /* scale compatibility */
@@ -634,13 +635,6 @@ static pedge* force_directed_edge_bundling(SparseMatrix A, pedge* edges, int max
   return edges;
 }
 
-static real absfun(real x){
-  return ABS(x);
-}
-
-
-
-
 static pedge* modularity_ink_bundling(int dim, int ne, SparseMatrix B, pedge* edges, real angle_param, real angle){
   int *assignment = NULL, flag, nclusters;
   real modularity;
@@ -658,7 +652,7 @@ static pedge* modularity_ink_bundling(int dim, int ne, SparseMatrix B, pedge* ed
 
   /* B may contain negative entries */
   BB = SparseMatrix_copy(B);
-  BB = SparseMatrix_apply_fun(BB, absfun);
+  BB = SparseMatrix_apply_fun(BB, fabs);
   modularity_clustering(BB, TRUE, 0, use_value_for_clustering, &nclusters, &assignment, &modularity, &flag);
   SparseMatrix_delete(BB);
 
@@ -735,7 +729,7 @@ static SparseMatrix check_compatibility(SparseMatrix A, int ne, pedge *edges, in
       fprintf(stderr,"compatibility=%f\n",dist);
       */
 
-      if (ABS(dist) > tol){
+      if (fabs(dist) > tol){
 	B = SparseMatrix_coordinate_form_add_entries(B, 1, &i, &jj, &dist);
 	B = SparseMatrix_coordinate_form_add_entries(B, 1, &jj, &i, &dist);
       }

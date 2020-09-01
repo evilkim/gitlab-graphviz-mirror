@@ -8,6 +8,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 #include "general.h"
+#include <math.h>
 
 static real cross(real *u, real *v){
   return u[0]*v[1] - u[1]*v[0];
@@ -144,7 +145,7 @@ real intersection_angle(real *p1, real *p2, real *q1, real *q2){
   snorm = sqrt(snorm);
   b = cross(r, s);
   line_dist_close = (line_segments_distance(p1, p2, q1, q2)  <= close*MAX(rnorm, snorm));
-  if (ABS(b) <= epsilon*snorm*rnorm){/* parallel */
+  if (fabs(b) <= epsilon*snorm*rnorm){/* parallel */
     if (line_dist_close) {/* two parallel lines that are close */
       return 1;
     }
@@ -173,7 +174,7 @@ real intersection_angle(real *p1, real *p2, real *q1, real *q2){
     }
 
     /* normal case of intersect or very close */
-    return ABS(res);
+    return fabs(res);
   }
   return -2;/* no intersection, and lines are not even close */
 }

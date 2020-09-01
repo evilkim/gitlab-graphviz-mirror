@@ -20,7 +20,6 @@ extern "C" {
 
 #define NIL 0
 
-#define ABS(x) (((x) > 0) ? (x) : (-x))
 #define SLOPE(p,q) ( ( ( p.y ) - ( q.y ) ) / ( ( p.x ) - ( q.x ) ) )
 #define MAX(a,b) ( ( a ) > ( b ) ? ( a ) : ( b ) )
 

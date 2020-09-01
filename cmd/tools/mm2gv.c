@@ -305,7 +305,7 @@ static Agraph_t *makeDotGraph(SparseMatrix A, char *name, int dim,
 		}
 	    } else {
 		for (j = ia[i]; j < ia[i + 1]; j++) {
-		    if (val) color[j] = ABS(val[j]);
+		    if (val) color[j] = fabs(val[j]);
 		    else color[j] = 1;
 		    if (i != ja[j]) {
 			if (first) {
