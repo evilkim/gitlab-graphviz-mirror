@@ -82,7 +82,7 @@ static Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind
 {
     Agsym_t *sym;
     sym = agalloc(g, sizeof(Agsym_t));
-    sym->kind = kind;
+    sym->kind = (unsigned char) kind;
     sym->name = agstrdup(g, name);
     sym->defval = agstrdup(g, value);
     sym->id = id;
