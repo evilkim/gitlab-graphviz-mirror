@@ -296,6 +296,9 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 		    for (e = agfstout(root, n); e; e = agnxtout(root, e))
 			addattr(g, (Agobj_t *) e, rsym);
 		break;
+	    default:
+		assert(!"unreachable");
+		break;
 	    }
 	    rv = rsym;
 	}
