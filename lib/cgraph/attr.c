@@ -51,7 +51,7 @@ Agdatadict_t *agdatadict(Agraph_t * g, int cflag)
     return rv;
 }
 
-Dict_t *agdictof(Agraph_t * g, int kind)
+static Dict_t *agdictof(Agraph_t * g, int kind)
 {
     Agdatadict_t *dd;
     Dict_t *dict;
@@ -78,7 +78,7 @@ Dict_t *agdictof(Agraph_t * g, int kind)
     return dict;
 }
 
-Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
+static Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
 {
     Agsym_t *sym;
     sym = agalloc(g, sizeof(Agsym_t));
@@ -133,7 +133,7 @@ static Agdatadict_t *agmakedatadict(Agraph_t * g)
 }
 
 /* look up an attribute with possible viewpathing */
-Agsym_t *agdictsym(Dict_t * dict, char *name)
+static Agsym_t *agdictsym(Dict_t * dict, char *name)
 {
     Agsym_t key;
     key.name = (char *) name;
@@ -141,7 +141,7 @@ Agsym_t *agdictsym(Dict_t * dict, char *name)
 }
 
 /* look up attribute in local dictionary with no view pathing */
-Agsym_t *aglocaldictsym(Dict_t * dict, char *name)
+static Agsym_t *aglocaldictsym(Dict_t * dict, char *name)
 {
     Agsym_t *rv;
     Dict_t *view;
