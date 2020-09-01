@@ -245,9 +245,9 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
     if (sym->id >= MINATTR)
 	attr->str = (char **) AGDISC(g, mem)->resize(AGCLOS(g, mem),
 						     attr->str,
-						     sym->id *
+						     (size_t) sym->id *
 						     sizeof(char *),
-						     (sym->id +
+						     ((size_t) sym->id +
 						      1) * sizeof(char *));
     attr->str[sym->id] = agstrdup(g, sym->defval);
     /* agmethod_upd(g,obj,sym);  JCE and GN didn't like this. */
