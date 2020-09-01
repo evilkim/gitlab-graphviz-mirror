@@ -256,7 +256,6 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
 
 static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 {
-    Agdatadict_t *dd;
     Dict_t *ldict, *rdict;
     Agsym_t *lsym, *psym, *rsym, *rv;
     Agraph_t *root;
@@ -265,7 +264,7 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 
     assert(value);
     root = agroot(g);
-    dd = agdatadict(g, TRUE);	/* force initialization of string attributes */
+    agdatadict(g, TRUE);	/* force initialization of string attributes */
     ldict = agdictof(g, kind);
     lsym = aglocaldictsym(ldict, name);
     if (lsym) {			/* update old local definition */
