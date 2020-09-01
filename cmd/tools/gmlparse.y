@@ -412,20 +412,14 @@ static void
 deparseAttr (gmlattr* ap, agxbuf* xb)
 {
     if (ap->kind == LIST) {
-	agxbput (xb, ap->name);
-	agxbputc (xb, ' ');
+	agxbprint (xb, "%s ", ap->name);
 	deparseList (ap->u.lp, xb);
     }
     else if (ap->kind == STRING) {
-	agxbput (xb, ap->name);
-	agxbput (xb, " \"");
-	agxbput (xb, ap->u.value);
-	agxbput (xb, "\"");
+	agxbprint (xb, "%s \"%s\"", ap->name, ap->u.value);
     }
     else {
-	agxbput (xb, ap->name);
-	agxbputc (xb, ' ');
-	agxbput (xb, ap->u.value);
+	agxbprint (xb, "%s %s", ap->name, ap->u.value);
     }
 }
 
