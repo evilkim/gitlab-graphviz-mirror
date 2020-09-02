@@ -1,16 +1,11 @@
-find_path(RXSPENCER_INCLUDE_DIR regex.h)
-find_library(RXSPENCER_LIBRARY NAMES rxspencer)
+find_path(RxSpencer_INCLUDE_DIR regex.h)
+find_library(RxSpencer_LIBRARY NAMES rxspencer)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(RXSPENCER DEFAULT_MSG
-    RXSPENCER_LIBRARY
-    RXSPENCER_INCLUDE_DIR
+find_package_handle_standard_args(RxSpencer DEFAULT_MSG
+    RxSpencer_LIBRARY
+    RxSpencer_INCLUDE_DIR
 )
 
-mark_as_advanced(
-    RXSPENCER_INCLUDE_DIR
-    RXSPENCER_LIBRARY
-)
-
-set(RXSPENCER_INCLUDE_DIRS ${RXSPENCER_INCLUDE_DIR})
-set(RXSPENCER_LIBRARIES ${RXSPENCER_LIBRARY})
+set(RxSpencer_INCLUDE_DIRS ${RxSpencer_INCLUDE_DIR})
+set(RxSpencer_LIBRARIES ${RxSpencer_LIBRARY})
