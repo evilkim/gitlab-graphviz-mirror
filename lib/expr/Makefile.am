@@ -67,7 +67,7 @@ exparse.h: y.tab.h
 y.tab.c y.tab.h: y.output
 
 y.output: $(top_srcdir)/lib/expr/exparse.y
-	@YACC@ -dtv $(top_srcdir)/lib/expr/exparse.y
+	@YACC@ -Wno-yacc -dtv $(top_srcdir)/lib/expr/exparse.y
 
 expr.3.pdf: expr.3.ps
 	@PS2PDF@ $< $@
