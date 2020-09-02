@@ -11,6 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+%require "3.0"
+
 %{
 
 /*
