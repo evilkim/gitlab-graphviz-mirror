@@ -29,20 +29,10 @@ libcgraph_la_LIBADD = $(top_builddir)/lib/cdt/libcdt.la
 scan.o scan.lo: scan.c grammar.h
 
 scan.c: $(top_srcdir)/lib/cgraph/scan.l
-	@LEX@ -i $(top_srcdir)/lib/cgraph/scan.l
-	@SED@ "s/yy/aag/g" < @LEX_OUTPUT_ROOT@.c > scan.c
-	rm @LEX_OUTPUT_ROOT@.c
+	@LEX@ --outfile=$@ -i $(top_srcdir)/lib/cgraph/scan.l
 
-grammar.c: y.tab.c
-	@SED@ "s/yy/aag/g" < y.tab.c > grammar.c
-
-grammar.h: y.tab.h
-	@SED@ "s/yy/aag/g" < y.tab.h > grammar.h
-
-y.tab.c y.tab.h: y.output
-
-y.output: $(top_srcdir)/lib/cgraph/grammar.y
-	@YACC@ -dv $(top_srcdir)/lib/cgraph/grammar.y
+grammar.c grammar.h: $(top_srcdir)/lib/cgraph/grammar.y
+	@YACC@ -Wno-yacc -dv --output=grammar.c $(top_srcdir)/lib/cgraph/grammar.y
 
 cgraph.3.pdf: cgraph.3.ps
 	@PS2PDF@ $< $@
@@ -52,6 +42,6 @@ cgraph.3.ps: $(srcdir)/cgraph.3
 
 EXTRA_DIST = $(man_MANS) $(pdf_DATA) cmpnd.c \
 	grammar.c grammar.h scan.c \
-	y.tab.c y.tab.h y.output cgraph.vcxproj*
+	cgraph.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) grammar.[ch] scan.c y.output y.tab.[ch] cgraph.3.ps
+DISTCLEANFILES = $(pdf_DATA) grammar.[ch] scan.c cgraph.3.ps

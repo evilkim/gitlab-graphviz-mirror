@@ -13,6 +13,13 @@
 
 
 /* requires flex (i.e. not lex)  */
+
+  /* By default, Flex emits a lexer using symbols prefixed with "yy". Graphviz
+   * contains multiple Flex-generated lexers, so we alter this prefix to avoid
+   * symbol clashes.
+   */
+%option prefix="aag"
+
 %{
 #include <grammar.h>
 #include <cghdr.h>
@@ -75,12 +82,12 @@ static void addstr(char *src) {
 }
 
 static void endstr(void) {
-	yylval.str = (char*)agstrdup(Ag_G_global,Sbuf);
+	aaglval.str = (char*)agstrdup(Ag_G_global,Sbuf);
 	*Sbuf = 0;
 }
 
 static void endstr_html(void) {
-	yylval.str = (char*)agstrdup_html(Ag_G_global,Sbuf);
+	aaglval.str = (char*)agstrdup_html(Ag_G_global,Sbuf);
 	*Sbuf = 0;
 }
 
@@ -101,13 +108,13 @@ storeFileName (char* fname, int len)
 
 /* ppDirective:
  * Process a possible preprocessor line directive.
- * yytext = #.*
+ * aagtext = #.*
  */
 static void ppDirective (void)
 {
     int r, cnt, lineno;
     char buf[2];
-    char* s = yytext + 1;  /* skip initial # */
+    char* s = aagtext + 1;  /* skip initial # */
 
     if (strncmp(s, "line", 4) == 0) s += 4;
     r = sscanf(s, "%d %1[\"]%n", &lineno, buf, &cnt);
@@ -132,8 +139,8 @@ static void ppDirective (void)
 static int twoDots(void)
 {
     int i;
-    for (i = yyleng-2; i >= 0; i--) {
-	if (((unsigned char)yytext[i]) == '.')
+    for (i = aagleng-2; i >= 0; i--) {
+	if (((unsigned char)aagtext[i]) == '.')
 	    return 1;
     }
     return 0;
@@ -145,7 +152,7 @@ static int twoDots(void)
  * or something like 123.456.78, and report this to the user.
  */
 static int chkNum(void) {
-    unsigned char c = (unsigned char)yytext[yyleng-1];   /* last character */
+    unsigned char c = (unsigned char)aagtext[aagleng-1];   /* last character */
     if ((!isdigit(c) && (c != '.')) || ((c == '.') && twoDots())) {  /* c is letter */
 	char* fname;
 
@@ -155,7 +162,7 @@ static int chkNum(void) {
 	    fname = "input";
 
 	agerr(AGWARN, "syntax ambiguity - badly delimited number '%s' in line %d of "
-	  "%s splits into two tokens\n", yytext, line_num, fname);
+	  "%s splits into two tokens\n", aagtext, line_num, fname);
 
 	return 1;
     }
@@ -208,23 +215,23 @@ ID		({NAME}|{NUMBER})
 "subgraph"				return(T_subgraph);
 "->"				if (graphType == T_digraph) return(T_edgeop); else return('-');
 "--"				if (graphType == T_graph) return(T_edgeop); else return('-');
-{NAME}					{ yylval.str = (char*)agstrdup(Ag_G_global,yytext); return(T_atom); }
-{NUMBER}				{ if (chkNum()) yyless(yyleng-1); yylval.str = (char*)agstrdup(Ag_G_global,yytext); return(T_atom); }
+{NAME}					{ aaglval.str = (char*)agstrdup(Ag_G_global,aagtext); return(T_atom); }
+{NUMBER}				{ if (chkNum()) yyless(aagleng-1); aaglval.str = (char*)agstrdup(Ag_G_global,aagtext); return(T_atom); }
 ["]						BEGIN(qstring); beginstr();
 <qstring>["]			BEGIN(INITIAL); endstr(); return (T_qatom);
 <qstring>[\\]["]		addstr ("\"");
 <qstring>[\\][\\]		addstr ("\\\\");
 <qstring>[\\][\n]		line_num++; /* ignore escaped newlines */
-<qstring>([^"\\]*|[\\])		addstr(yytext);
+<qstring>([^"\\]*|[\\])		addstr(aagtext);
 [<]						BEGIN(hstring); html_nest = 1; beginstr();
-<hstring>[>]			html_nest--; if (html_nest) addstr(yytext); else {BEGIN(INITIAL); endstr_html(); return (T_qatom);}
-<hstring>[<]			html_nest++; addstr(yytext);
-<hstring>[\n]			addstr(yytext); line_num++; /* add newlines */
-<hstring>([^><\n]*)		addstr(yytext);
-.						return (yytext[0]);
+<hstring>[>]			html_nest--; if (html_nest) addstr(aagtext); else {BEGIN(INITIAL); endstr_html(); return (T_qatom);}
+<hstring>[<]			html_nest++; addstr(aagtext);
+<hstring>[\n]			addstr(aagtext); line_num++; /* add newlines */
+<hstring>([^><\n]*)		addstr(aagtext);
+.						return (aagtext[0]);
 %%
  
-void yyerror(char *str)
+void aagerror(char *str)
 {
 	unsigned char	xbuf[BUFSIZ];
 	char	buf[BUFSIZ];
@@ -238,9 +245,9 @@ void yyerror(char *str)
 	agxbput (&xb, str);
 	sprintf(buf," in line %d", line_num);
 	agxbput (&xb, buf);
-	if (*yytext) {
+	if (*aagtext) {
 		agxbput(&xb," near '");
-		agxbput (&xb, yytext);
+		agxbput (&xb, aagtext);
 		agxbputc (&xb, '\'');
 	}
 	else switch (YYSTATE) {
@@ -285,7 +292,7 @@ void aglexbad() { YY_FLUSH_BUFFER; }
 # define YY_CALL_ONLY_ARG void
 #endif
 
-int yywrap(YY_CALL_ONLY_ARG)
+int aagwrap(YY_CALL_ONLY_ARG)
 {
 	return 1;
 }
