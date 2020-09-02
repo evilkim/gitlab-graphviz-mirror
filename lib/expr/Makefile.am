@@ -51,17 +51,14 @@ exop.h: exparse.h
 	echo "};" >> exop.h
 
 exparse.c: y.tab.c 
-	@SED@ "s/yy/ex/g" <y.tab.c | \
-		@SED@ "s/YY/EX/g" | \
-		@SED@ "s/fprintf/sfprintf/g" | \
+	@SED@ "s/fprintf/sfprintf/g" <y.tab.c | \
 		@SED@ "s/FILE/Sfio_t/g" | \
 		@SED@ "s/stderr/sfstderr/g" > exparse.c
 
 exparse.h: y.tab.h
 	echo "#ifndef _EXPARSE_H" > exparse.h
 	echo "#define _EXPARSE_H" >> exparse.h
-	@SED@ "s/yy/ex/g" < y.tab.h | \
-		@SED@ "s/YY/EX/g" >> exparse.h
+	cat y.tab.h >> exparse.h
 	echo "#endif /* _EXPARSE_H */" >> exparse.h
 
 y.tab.c y.tab.h: y.output

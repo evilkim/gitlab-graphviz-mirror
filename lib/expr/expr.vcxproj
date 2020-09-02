@@ -65,8 +65,8 @@
     <Lib />
     <PreBuildEvent>
       <Command>win_bison -Wno-yacc -dy exparse.y -o exparse-intermediate.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.c | sed "s/YY/EX/g" &gt; exparse.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.h | sed "s/YY/EX/g" &gt; exparse.h
+copy exparse-intermediate.c exparse.c
+copy exparse-intermediate.h exparse.h
 del exparse-intermediate.c
 del exparse-intermediate.h</Command>
     </PreBuildEvent>
@@ -83,8 +83,8 @@ del exparse-intermediate.h</Command>
     <Lib />
     <PreBuildEvent>
       <Command>win_bison -Wno-yacc -dy exparse.y -o exparse-intermediate.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.c | sed "s/YY/EX/g" &gt; exparse.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.h | sed "s/YY/EX/g" &gt; exparse.h
+copy exparse-intermediate.c exparse.c
+copy exparse-intermediate.h exparse.h
 del exparse-intermediate.c
 del exparse-intermediate.h</Command>
     </PreBuildEvent>
