@@ -64,11 +64,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse-intermediate.c
-copy exparse-intermediate.c exparse.c
-copy exparse-intermediate.h exparse.h
-del exparse-intermediate.c
-del exparse-intermediate.h</Command>
+      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,11 +78,7 @@ del exparse-intermediate.h</Command>
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse-intermediate.c
-copy exparse-intermediate.c exparse.c
-copy exparse-intermediate.h exparse.h
-del exparse-intermediate.c
-del exparse-intermediate.h</Command>
+      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
