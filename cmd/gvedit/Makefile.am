@@ -68,7 +68,7 @@ gvedit.1.ps: $(srcdir)/gvedit.1
 EXTRA_DIST = gvedit.vcxproj* gvedit.pro.in mdi.qrc $(mans) $(pdfs)
 
 CLEANFILES = moc_csettings.cpp moc_imageviewer.cpp moc_mainwindow.cpp moc_mdichild.cpp qrc_mdi.cpp
-	
+
 DISTCLEANFILES = attrs.txt $(pdf_DATA) qMakefile gvedit.1.ps
 
 clean-local:
