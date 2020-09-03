@@ -16,9 +16,9 @@
 /*    specifically just the change to Tcl_CmdProc */
 #define USE_NON_CONST
 #include <tcl.h>
-#include "render.h"
-#include "gvc.h"
-#include "gvio.h"
+#include <common/render.h>
+#include <gvc/gvc.h>
+#include <gvc/gvio.h>
 #include "tclhandle.h"
 
 #ifndef CONST84
