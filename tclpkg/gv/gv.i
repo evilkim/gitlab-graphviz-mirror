@@ -61,7 +61,7 @@
 #endif
 
 #include "config.h"
-#include "gvc.h"
+#include <gvc/gvc.h>
 
 /** New graphs */
 /*** New empty graph */

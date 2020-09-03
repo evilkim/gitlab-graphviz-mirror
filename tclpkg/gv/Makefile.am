@@ -6,6 +6,7 @@ SUBDIRS = demo
 pdfdir = $(pkgdatadir)/doc/pdf
 
 AM_CPPFLAGS = \
+	-I$(top_srcdir)/lib \
 	-I$(top_srcdir)/lib/gvc \
 	-I$(top_srcdir)/lib/common \
 	-I$(top_srcdir)/lib/cgraph \
@@ -68,10 +69,10 @@ gvgotest: gv.i gvgotest.go gv.go runtime.h
 	( \
 	eval $(go env); \
 	mkdir -p go/src/gv; \
-	$(SED) -e 's/#include "gvc.h"/#include <graphviz\/gvc.h>/' <$(srcdir)/gv.i >go/src/gv/gv.swigcxx; \
-	$(SED) -e 's/#include <gvc.h>/#include <graphviz\/gvc.h>/' <$(srcdir)/gv_dummy_init.c >go/src/gv/gv_dummy_init.c; \
-	$(SED) -e 's/#include "gvplugin.h"/#include <graphviz\/gvplugin.h>/' <$(srcdir)/gv_builtins.c >go/src/gv/gv_builtins.c; \
-	$(SED) -e 's/#include "gvc.h"/#include <graphviz\/gvc.h>/' -e 's/DEMAND_LOADING/1/' <$(srcdir)/gv.cpp >go/src/gv/gv.cpp; \
+	$(SED) -e 's/#include <gvc\/gvc.h>/#include <graphviz\/gvc.h>/' <$(srcdir)/gv.i >go/src/gv/gv.swigcxx; \
+	$(SED) -e 's/#include <gvc\/gvc.h>/#include <graphviz\/gvc.h>/' <$(srcdir)/gv_dummy_init.c >go/src/gv/gv_dummy_init.c; \
+	$(SED) -e 's/#include <gvc\/gvplugin.h>/#include <graphviz\/gvplugin.h>/' <$(srcdir)/gv_builtins.c >go/src/gv/gv_builtins.c; \
+	$(SED) -e 's/#include <gvc\/gvc.h>/#include <graphviz\/gvc.h>/' -e 's/DEMAND_LOADING/1/' <$(srcdir)/gv.cpp >go/src/gv/gv.cpp; \
 	cat gv.go >go/src/gv/gv.go; \
 	cat $(srcdir)/gvgotest.go >go/src/gvgotest.go; \
 	cd go/src; \

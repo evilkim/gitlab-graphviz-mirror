@@ -12,10 +12,10 @@
  *************************************************************************/
 
 #include <tcl.h>
-#include "gvc.h"
-#include "gvplugin.h"
-#include "gvcjob.h"
-#include "gvcint.h"
+#include <gvc/gvc.h>
+#include <gvc/gvplugin.h>
+#include <gvc/gvcjob.h>
+#include <gvc/gvcint.h>
 
 static size_t gv_string_writer(GVJ_t *job, const char *s, size_t len)
 {
