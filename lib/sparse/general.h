@@ -28,7 +28,7 @@
 #include "globals.h"
 #include "logic.h"
 #include "arith.h"
-#include "memory.h"
+#include <common/memory.h>
 #endif  /* STANDALONE */
 
 #define real double
