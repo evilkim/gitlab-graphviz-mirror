@@ -120,10 +120,6 @@ static void sameport(node_t * u, elist * l, double arr_len)
     double x = 0, y = 0, x1, y1, x2, y2, r;
     port prt;
     int sflag, eflag;
-#ifdef OLD
-    int ht;
-    port arr_prt;
-#endif
 
     /* Compute the direction vector (x,y) of the average direction. We compute
        with direction vectors instead of angles because else we have to first
