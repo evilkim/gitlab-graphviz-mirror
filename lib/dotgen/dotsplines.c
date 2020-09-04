@@ -2324,10 +2324,6 @@ static edge_t *top_bound(edge_t * e, int side)
     int i;
 
     for (i = 0; (f = ND_out(agtail(e)).list[i]); i++) {
-#if 0				/* were we out of our minds? */
-	if (ED_tail_port(e).p.x != ED_tail_port(f).p.x)
-	    continue;
-#endif
 	if (side * (ND_order(aghead(f)) - ND_order(aghead(e))) <= 0)
 	    continue;
 	if ((ED_spl(f) == NULL)
@@ -2346,10 +2342,6 @@ static edge_t *bot_bound(edge_t * e, int side)
     int i;
 
     for (i = 0; (f = ND_in(aghead(e)).list[i]); i++) {
-#if 0				/* same here */
-	if (ED_head_port(e).p.x != ED_head_port(f).p.x)
-	    continue;
-#endif
 	if (side * (ND_order(agtail(f)) - ND_order(agtail(e))) <= 0)
 	    continue;
 	if ((ED_spl(f) == NULL)

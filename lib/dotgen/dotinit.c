@@ -85,19 +85,6 @@ dot_init_node_edge(graph_t * g)
     }
 }
 
-#if 0				/* not used */
-static void free_edge_list(elist L)
-{
-    edge_t *e;
-    int i;
-
-    for (i = 0; i < L.size; i++) {
-	e = L.list[i];
-	free(e);
-    }
-}
-#endif
-
 static void 
 dot_cleanup_node(node_t * n)
 {

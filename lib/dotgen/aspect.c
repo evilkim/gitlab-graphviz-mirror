@@ -741,15 +741,6 @@ static void reduceMaxWidth2(graph_t * g)
 	  layerWidthInfo[maxLayerIndex].nNodeGroupsInLayer,
 	  sizeof(nodeGroup_t *), compFunction2);
 
-#if 0
-    printf("\nSorted nodes in mx layer:\n---------------------------\n");
-    for (i = 0; i < layerWidthInfo[maxLayerIndex].nNodeGroupsInLayer; i++) {
-	Agnode_t *node = layerWidthInfo[maxLayerIndex].nodeGroupsInLayer[i]->nodes[0];
-	printf("%s. width=%lf, height=%lf\n",
-	       agnameof(node), node->width, node->height);
-    }
-#endif
-
     if (nextMaxWidth <= layerWidthInfo[maxLayerIndex].width / 4
 	|| nextMaxWidth >= layerWidthInfo[maxLayerIndex].width * 3 / 4)
 	nextMaxWidth = layerWidthInfo[maxLayerIndex].width / 2;

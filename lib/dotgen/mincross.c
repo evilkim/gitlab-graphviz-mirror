@@ -734,23 +734,6 @@ static int balance(graph_t * g)
 		c0 += out_cross(v, w);
 		c1 += out_cross(w, v);
 	    }
-#if 0
-	    if ((c1 < c0) || ((c0 > 0) && reverse && (c1 == c0))) {
-		exchange(v, w);
-		rv += (c0 - c1);
-		GD_rank(Root)[r].valid = FALSE;
-		GD_rank(g)[r].candidate = TRUE;
-
-		if (r > GD_minrank(g)) {
-		    GD_rank(Root)[r - 1].valid = FALSE;
-		    GD_rank(g)[r - 1].candidate = TRUE;
-		}
-		if (r < GD_maxrank(g)) {
-		    GD_rank(Root)[r + 1].valid = FALSE;
-		    GD_rank(g)[r + 1].candidate = TRUE;
-		}
-	    }
-#endif
 
 	    if (c1 <= c0) {
 		balanceNodes(g, r, v, w);

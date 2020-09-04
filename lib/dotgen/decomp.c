@@ -164,33 +164,6 @@ search_component(stk_t* stk, graph_t * g, node_t * n)
     }
 }
 
-#if 0
-static void
-osearch_component(graph_t * g, node_t * n)
-{
-    int c, i;
-    elist vec[4];
-    node_t *other;
-    edge_t *e;
-
-    add_to_component(g, n);
-    vec[0] = ND_out(n);
-    vec[1] = ND_in(n);
-    vec[2] = ND_flat_out(n);
-    vec[3] = ND_flat_in(n);
-
-    for (c = 0; c <= 3; c++) {
-	if (vec[c].list)
-	    for (i = 0; (e = vec[c].list[i]); i++) {
-		if ((other = aghead(e)) == n)
-		    other = agtail(e);
-		if ((ND_mark(other) != Cmark) && (other == UF_find(other)))
-		    osearch_component(g, other);
-	    }
-    }
-}
-#endif
-
 void decompose(graph_t * g, int pass)
 {
     graph_t *subg;
