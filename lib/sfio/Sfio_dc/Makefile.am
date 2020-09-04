@@ -7,7 +7,7 @@ noinst_HEADERS = sfdchdr.h sfdisc.h
 noinst_LTLIBRARIES = libsfiodc_C.la
 
 libsfiodc_C_la_SOURCES = sfdcdos.c sfdcfilter.c sfdclzw.c \
-	sfdcslow.c sfdcsubstream.c sfdctee.c sfdcunion.c
+	sfdcsubstream.c sfdctee.c sfdcunion.c
 
 ${top_builddir}/FEATURE/sfio:  ${top_srcdir}/lib/sfio/features/sfio
 	mkdir -p ${top_builddir}/FEATURE
