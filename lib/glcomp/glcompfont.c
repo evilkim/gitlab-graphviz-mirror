@@ -86,7 +86,7 @@ void restore_gl_vars(glCompFont * f)
 void glprintfglut(void *font, GLfloat xpos, GLfloat ypos, GLfloat zpos,
 		  char *bf)
 {
-    glRasterPos3f(xpos, ypos, zpos + 0.001);
+    glRasterPos3f(xpos, ypos, zpos + 0.001f);
     print_bitmap_string(font, bf);
 
 
