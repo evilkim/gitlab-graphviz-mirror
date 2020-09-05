@@ -26,12 +26,6 @@
 #endif
 #include <cairo/cairo-svg.h>
 
-#ifdef _WIN32
-#define NUL_FILE "nul"
-#else
-#define NUL_FILE "/dev/null"
-#endif
-
 typedef enum {
     FORMAT_SVG_CAIRO,
 } format_type;
@@ -187,7 +181,7 @@ static void gvloadimage_rsvg_cairo(GVJ_t * job, usershape_t *us, boxf b, boolean
     if (rsvgh) {
         cairo_save(cr);
 
-       	surface = cairo_svg_surface_create(NUL_FILE, us->w, us->h); 
+       	surface = cairo_svg_surface_create(NULL, us->w, us->h); 
 
 	cairo_surface_reference(surface);
 
