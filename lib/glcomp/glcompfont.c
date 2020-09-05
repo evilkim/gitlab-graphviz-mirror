@@ -425,15 +425,12 @@ void glCompDrawText(glCompFont * f,GLfloat x,GLfloat y)
 void glCompRenderText(glCompFont * f, glCompObj * parentObj)
 {
     static glCompCommon ref;
-    GLfloat x, y, z, w, h;
+    GLfloat x, y;
     if (!f->tex)
 	return;
     x = 0;
     y = 0;
-    w = f->tex->width;
-    h = f->tex->height;
     ref = parentObj->common;
-    z = ref.pos.z;
     switch (f->justify.HJustify) 
     {
     case glFontHJustifyNone:
@@ -459,7 +456,6 @@ void glCompRenderText(glCompFont * f, glCompObj * parentObj)
 	y = ref.refPos.y + (ref.height - f->tex->height) / (GLfloat) 2.0;
 	break;
     }
-	z=ref.refPos.z;
 
     glCompSetColor(&f->color);
 		glCompDrawText(f,x,y);
