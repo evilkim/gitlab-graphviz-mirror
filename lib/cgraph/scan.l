@@ -255,7 +255,7 @@ void aagerror(char *str)
 		sprintf(buf, " scanning a quoted string (missing endquote? longer than %d?)", YY_BUF_SIZE);
 		agxbput (&xb, buf);
 		if (*Sbuf) {
-			int len = strlen(Sbuf);
+			size_t len = strlen(Sbuf);
 			agxbput (&xb, "\nString starting:\"");
 			if (len > 80)
 				Sbuf[80] = '\0';
@@ -266,7 +266,7 @@ void aagerror(char *str)
 		sprintf(buf, " scanning a HTML string (missing '>'? bad nesting? longer than %d?)", YY_BUF_SIZE);
 		agxbput (&xb, buf);
 		if (*Sbuf) {
-			int len = strlen(Sbuf);
+			size_t len = strlen(Sbuf);
 			agxbput (&xb, "\nString starting:<");
 			if (len > 80)
 				Sbuf[80] = '\0';
