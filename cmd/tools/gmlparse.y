@@ -630,9 +630,7 @@ addEdgePoint (Agedge_t* ep, Dt_t* alist, agxbuf* xb)
     }
 
     if (agxblen(xb)) agxbputc (xb, ' ');
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
 }
 
 static void
