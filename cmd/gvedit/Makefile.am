@@ -46,8 +46,6 @@ gvedit_SOURCES = main.cpp csettings.cpp imageviewer.cpp mainwindow.cpp mdichild.
 
 $(MOCABLES): mocables
 
-gvedit gvedit$(EXEEXT): $(MOCABLES)
-
 .PHONY: mocables
 mocables: qMakefile
 	rm -f $(MOCABLES) # don't use distributed mocables poss from diff version of Qt
