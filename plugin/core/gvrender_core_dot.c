@@ -155,12 +155,9 @@ static void xdot_num(agxbuf *xbuf, double v)
 static void xdot_points(GVJ_t *job, char c, pointf * A, int n)
 {
     emit_state_t emit_state = job->obj->emit_state;
-    char buf[BUFSIZ];
     int i;
 
-    agxbputc(xbufs[emit_state], c);
-    sprintf(buf, " %d ", n);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%c %d ", c, n);
     for (i = 0; i < n; i++)
         xdot_point(xbufs[emit_state], A[i]);
 }
