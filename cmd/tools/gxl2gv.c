@@ -536,9 +536,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 
 	ud->listen = TRUE;
 	if (ud->compositeReadState) {
-	    agxbputc(&ud->composite_buffer, '<');
-	    agxbput(&ud->composite_buffer, (char *) name);
-	    agxbputc(&ud->composite_buffer, '>');
+	    agxbprint(&ud->composite_buffer, "<%s>", name);
 	}
     } else if (strcmp(name, "rel") == 0 || strcmp(name, "relend") == 0) {
 	fprintf(stderr, "%s element is ignored by DOT\n", name);
@@ -551,8 +549,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 	pos = get_xml_attr("xlink:href", atts);
 	if (pos > 0) {
 	    const char *href = atts[pos];
-	    agxbput(&ud->xml_attr_value, GXL_LOC);
-	    agxbput(&ud->xml_attr_value, (char *) href);
+	    agxbprint(&ud->xml_attr_value, "%s%s", GXL_LOC, href);
 	}
     } else if (strcmp(name, "seq") == 0
 	       || strcmp(name, "set") == 0
@@ -560,9 +557,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 	       || strcmp(name, "tup") == 0 || strcmp(name, "enum") == 0) {
 
 	ud->compositeReadState = TRUE;
-	agxbputc(&ud->composite_buffer, '<');
-	agxbput(&ud->composite_buffer, (char *) name);
-	agxbputc(&ud->composite_buffer, '>');
+	agxbprint(&ud->composite_buffer, "<%s>", name);
     } else {
 	/* must be some extension */
 	fprintf(stderr,
