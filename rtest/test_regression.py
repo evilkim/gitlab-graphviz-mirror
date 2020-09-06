@@ -311,6 +311,12 @@ def test_1783():
 
     assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
 
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1816 is fixed
+@pytest.mark.skipif(
+    platform.system() == 'Windows',
+    reason='gvedit is not built for Windows (#1816)'
+)
 def test_1813():
     '''
     gvedit -? should show usage
