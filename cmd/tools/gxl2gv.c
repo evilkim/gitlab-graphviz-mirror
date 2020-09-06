@@ -636,19 +636,13 @@ static void endElementHandler(void *userData, const char *name)
 	       || strcmp(name, "int") == 0 || strcmp(name, "float") == 0) {
 	ud->listen = FALSE;
 	if (ud->compositeReadState) {
-	    agxbputc(&ud->composite_buffer, '<');
-	    agxbputc(&ud->composite_buffer, '/');
-	    agxbput(&ud->composite_buffer, (char *) name);
-	    agxbputc(&ud->composite_buffer, '>');
+	    agxbprint(&ud->composite_buffer, "</%s>", name);
 	}
     } else if (strcmp(name, "seq") == 0
 	       || strcmp(name, "set") == 0
 	       || strcmp(name, "bag") == 0
 	       || strcmp(name, "tup") == 0 || strcmp(name, "enum") == 0) {
-	agxbputc(&ud->composite_buffer, '<');
-	agxbputc(&ud->composite_buffer, '/');
-	agxbput(&ud->composite_buffer, (char *) name);
-	agxbputc(&ud->composite_buffer, '>');
+	agxbprint(&ud->composite_buffer, "</%s>", name);
     }
 }
 
