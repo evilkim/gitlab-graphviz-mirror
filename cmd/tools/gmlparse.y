@@ -598,9 +598,7 @@ addNodeGraphics (Agnode_t* np, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	}
     }
 
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
     agsafeset (np, "pos", agxbuse (xb), "");
 
     if (cnt) {
