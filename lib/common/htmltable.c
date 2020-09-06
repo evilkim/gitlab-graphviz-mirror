@@ -379,7 +379,6 @@ initAnchor(GVJ_t * job, htmlenv_t * env, htmldata_t * data, boxf b,
     static int anchorId;
     int internalId = 0;
     agxbuf xb;
-    char intbuf[30];		/* hold 64-bit decimal integer */
     unsigned char buf[SMALLBUF];
 
     save->url = obj->url;
@@ -394,9 +393,7 @@ initAnchor(GVJ_t * job, htmlenv_t * env, htmldata_t * data, boxf b,
 	    env->objid = strdup(getObjId(job, obj->u.n, &xb));
 	    env->objid_set = 1;
 	}
-	agxbput(&xb, env->objid);
-	sprintf(intbuf, "_%d", anchorId++);
-	agxbput(&xb, intbuf);
+	agxbprint(&xb, "%s_%d", env->objid, anchorId++);
 	id = agxbuse(&xb);
 	internalId = 1;
     }
