@@ -310,3 +310,14 @@ def test_1783():
     assert ret != 0, 'Graphviz accepted illegal edge weight'
 
     assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
+
+def test_1813():
+    '''
+    gvedit -? should show usage
+    https://gitlab.com/graphviz/graphviz/-/issues/1813
+    '''
+
+    output = subprocess.check_output(['gvedit', '-?'],
+      universal_newlines=True)
+
+    assert 'Usage' in output, 'gvedit -? did not show usage'
