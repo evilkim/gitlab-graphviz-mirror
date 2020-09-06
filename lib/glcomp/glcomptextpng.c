@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <glcomp/glcompfont.h>
+#include <glcomp/glcomptextpng.h>
 #include <common/memory.h>
 #include <gtk/gtk.h>
 #include <png.h>
