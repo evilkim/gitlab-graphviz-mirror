@@ -321,7 +321,6 @@ static void xdot_end_edge(GVJ_t* job)
 static void xdot_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *target, char *id)
 {
     emit_state_t emit_state = job->obj->emit_state;
-    char buf[3];  /* very small integer */
     unsigned int flags = 0;
 
     agxbput(xbufs[emit_state], "H ");
@@ -331,8 +330,7 @@ static void xdot_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *targ
 	flags |= 2;
     if (target)
 	flags |= 4;
-    sprintf (buf, "%d ", flags);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%d ", flags);
     if (href)
 	xdot_str (job, "", href);
     if (tooltip)
