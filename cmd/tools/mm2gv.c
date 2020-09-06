@@ -259,14 +259,7 @@ static Agraph_t *makeDotGraph(SparseMatrix A, char *name, int dim,
     }
     agxbinit (&xb, BUFS, string);
     if (with_label) {
-	agxbput (&xb, name);
-	agxbput (&xb, ". ");
-	sprintf(buf, "%d", A->m);
-	agxbput (&xb, buf);
-	agxbput (&xb, " nodes, ");
-	sprintf(buf, "%d", A->nz);
-	agxbput (&xb, buf);
-	agxbput (&xb, " edges.");
+	agxbprint (&xb, "%s. %d nodes, %d edges.", name, A->m, A->nz);
 	agattr(g, AGRAPH, "label", agxbuse (&xb));
     }
 
