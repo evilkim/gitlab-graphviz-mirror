@@ -66,7 +66,7 @@ static char **parseArgs(int argc, char *argv[])
 	    Verbose = 1;
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
 	    else
 		errout << cmd << " : option -" << ((char) optopt) <<
