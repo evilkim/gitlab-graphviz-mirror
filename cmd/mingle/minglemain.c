@@ -304,7 +304,6 @@ genBundleColors (pedge edge, agxbuf* xb, real maxwgt)
 	int dim = edge->dim;
 	real* x = edge->x;
 	real* lens = MALLOC(sizeof(real)*edge->npoints);
-	char buf[BUFSIZ];
 
 	for (j = 0; j < edge->npoints - 1; j++){
 		len = 0;
@@ -319,11 +318,9 @@ genBundleColors (pedge edge, agxbuf* xb, real maxwgt)
 		/* interpolate between red (t = 1) to blue (t = 0) */
 		r = 255*t; g = 0; b = 255*(1-t);
 		if (j != 0) agxbputc(xb,':');
-		sprintf(buf, "#%02x%02x%02x%02x", r, g, b, 85);
-		agxbput(xb, buf);
+		agxbprint(xb, "#%02x%02x%02x%02x", r, g, b, 85);
 		if (j < edge->npoints-2) {
-			sprintf(buf,";%f",lens[j]/len_total0);
-			agxbput(xb, buf);
+			agxbprint(xb,";%f",lens[j]/len_total0);
 		}
 	}
 	free (lens);
