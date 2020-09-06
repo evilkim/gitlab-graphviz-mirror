@@ -534,9 +534,7 @@ addEdgeLabelGraphics (Agedge_t* ep, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	}
     }
 
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
     agsafeset (ep, "lp", agxbuse (xb), "");
 
     if (cnt) {
