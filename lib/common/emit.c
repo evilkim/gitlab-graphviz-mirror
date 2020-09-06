@@ -199,7 +199,6 @@ getObjId (GVJ_t* job, void* obj, agxbuf* xb)
     char* gid = GD_drawing(root)->id;
     long idnum = 0;
     char* pfx = NULL;
-    char buf[64]; /* large enough for a decimal 64-bit int */
 
     layerPagePrefix (job, xb);
 
@@ -210,8 +209,7 @@ getObjId (GVJ_t* job, void* obj, agxbuf* xb)
     }
 
     if ((obj != root) && gid) {
-	agxbput (xb, gid);
-	agxbputc (xb, '_');
+	agxbprint (xb, "%s_", gid);
     }
 
     switch (agobjkind(obj)) {
@@ -232,9 +230,7 @@ getObjId (GVJ_t* job, void* obj, agxbuf* xb)
 	break;
     }
 
-    agxbput (xb, pfx);
-    sprintf (buf, "%ld", idnum);
-    agxbput (xb, buf);
+    agxbprint (xb, "%s%ld", pfx, idnum);
 
     return agxbuse(xb);
 }
