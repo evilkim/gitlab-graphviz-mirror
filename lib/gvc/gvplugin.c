@@ -377,10 +377,7 @@ char *gvplugin_list(GVC_t * gvc, api_t api, const char *str)
             /* list only the matching type, or all types if s is an empty string */
             if (!s[0] || strcasecmp(s, q) == 0) {
                 /* list each member of the matching type as "type:path" */
-                agxbputc(&xb, ' ');
-                agxbput(&xb, pnext->typestr);
-                agxbputc(&xb, ':');
-                agxbput(&xb, pnext->package->name);
+                agxbprint(&xb, " %s:%s", pnext->typestr, pnext->package->name);
                 new = FALSE;
             }
             free(q);
@@ -397,8 +394,7 @@ char *gvplugin_list(GVC_t * gvc, api_t api, const char *str)
                 *p++ = '\0';
             if (!typestr_last || strcasecmp(typestr_last, q) != 0) {
                 /* list it as "type"  i.e. w/o ":path" */
-                agxbputc(&xb, ' ');
-                agxbput(&xb, q);
+                agxbprint(&xb, " %s", q);
                 new = FALSE;
             }
             if (!typestr_last)
