@@ -280,7 +280,6 @@ static void
 genBundleInfo (pedge edge, agxbuf* xb)
 {
 	int k, j;
-	char buf[BUFSIZ];
 	int dim = edge->dim;
 	real* x = edge->x;
 
@@ -288,13 +287,11 @@ genBundleInfo (pedge edge, agxbuf* xb)
 		if (j != 0)  agxbputc(xb, ':');
 		for (k = 0; k < dim; k++) {
 			if (k != 0)  agxbputc(xb, ',');
-			sprintf(buf, "%.03f", x[j*dim+k]);
-			agxbput(xb, buf);
+			agxbprint(xb, "%.03f", x[j*dim+k]);
 		}
 
 		if ((j < edge->npoints-1) && (edge->wgts))  {
-        	sprintf(buf, ";%.03f", edge->wgts[j]);
-			agxbput(xb, buf);
+			agxbprint(xb, ";%.03f", edge->wgts[j]);
 		}
 	}
 }
