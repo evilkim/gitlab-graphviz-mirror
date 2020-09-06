@@ -319,8 +319,7 @@ static char *get_avail_faces(int faces, agxbuf* xb)
     int i;
     for (i = 0; i < FACELIST_SZ; i++) {
 	if (faces & facelist[i].flag) {
-	    agxbput (xb, facelist[i].name);
-	    agxbputc(xb, ' ');
+	    agxbprint (xb, "%s ", facelist[i].name);
 	}
     }
     return agxbuse (xb);
