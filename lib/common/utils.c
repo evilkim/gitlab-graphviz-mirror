@@ -1365,10 +1365,7 @@ char* scanEntity (char* t, agxbuf* xb)
     res = bsearch(&key, entities, NR_OF_ENTITIES,
         sizeof(entities[0]), comp_entities);
     if (!res) return t;
-    sprintf (buf, "%d", res->value);
-    agxbputc(xb, '#');
-    agxbput(xb, buf);
-    agxbputc(xb, ';');
+    agxbprint(xb, "#%d;", res->value);
     return (endp+1);
 }
 
