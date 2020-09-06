@@ -89,8 +89,8 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(mdi);
     int ret;
 
-    QApplication app(argc, argv);
     char **files = parseArgs(argc, argv);
+    QApplication app(argc, argv);
     CMainWindow mainWin(&files);
     mainWin.show();
     ret = app.exec();
