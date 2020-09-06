@@ -590,8 +590,7 @@ static void xdot_textspan(GVJ_t * job, pointf p, textspan_t * span)
 	unsigned int mask = flag_masks[xd->version-15];
 	unsigned int bits = flags & mask;
 	if (textflags[emit_state] != bits) {
-	    sprintf (buf, "t %u ", bits);
-	    agxbput(xbufs[emit_state], buf);
+	    agxbprint(xbufs[emit_state], "t %u ", bits);
 	    textflags[emit_state] = bits;
 	}
     }
@@ -599,8 +598,7 @@ static void xdot_textspan(GVJ_t * job, pointf p, textspan_t * span)
     p.y += span->yoffset_centerline;
     agxbput(xbufs[emit_state], "T ");
     xdot_point(xbufs[emit_state], p);
-    sprintf(buf, "%d ", j);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%d ", j);
     xdot_fmt_num (buf, span->size.x);
     agxbput(xbufs[emit_state], buf);
     xdot_str (job, "", span->str);
