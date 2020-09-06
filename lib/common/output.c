@@ -275,11 +275,9 @@ void attach_attrs_and_arrows(graph_t* g, int* sp, int* ep)
 	if (dim3) {
 	    int k;
 
-	    sprintf(buf, "%.5g,%.5g,%.5g", ND_coord(n).x, YDIR(ND_coord(n).y), POINTS_PER_INCH*(ND_pos(n)[2]));
-	    agxbput (&xb, buf);
+	    agxbprint(&xb, "%.5g,%.5g,%.5g", ND_coord(n).x, YDIR(ND_coord(n).y), POINTS_PER_INCH*(ND_pos(n)[2]));
 	    for (k = 3; k < GD_odim(g); k++) {
-		sprintf(buf, ",%.5g", POINTS_PER_INCH*(ND_pos(n)[k]));
-		agxbput (&xb, buf);
+		agxbprint(&xb, ",%.5g", POINTS_PER_INCH*(ND_pos(n)[k]));
 	    }
 	    agset(n, "pos", agxbuse(&xb));
 	} else {
@@ -318,14 +316,13 @@ void attach_attrs_and_arrows(graph_t* g, int* sp, int* ep)
 		    if (i > 0)
 			agxbputc(&xb, ' ');
 		    if (poly->sides >= 3)
-			sprintf(buf, "%.5g %.5g",
+			agxbprint(&xb, "%.5g %.5g",
 				PS2INCH(poly->vertices[i].x),
 				YFDIR(PS2INCH(poly->vertices[i].y)));
 		    else
-			sprintf(buf, "%.5g %.5g",
+			agxbprint(&xb, "%.5g %.5g",
 				ND_width(n) / 2.0 * cos(i / (double) sides * M_PI * 2.0),
 				YFDIR(ND_height(n) / 2.0 * sin(i / (double) sides * M_PI * 2.0)));
-		    agxbput(&xb, buf);
 		}
 		agxset(n, N_vertices, agxbuse(&xb));
 	    }
@@ -357,8 +354,7 @@ void attach_attrs_and_arrows(graph_t* g, int* sp, int* ep)
 			if (j > 0)
 			    agxbputc(&xb, ' ');
 			ptf = ED_spl(e)->list[i].list[j];
-			sprintf(buf, "%.5g,%.5g", ptf.x, YDIR(ptf.y));
-			agxbput(&xb, buf);
+			agxbprint(&xb, "%.5g,%.5g", ptf.x, YDIR(ptf.y));
 		    }
 		}
 		agset(e, "pos", agxbuse(&xb));
