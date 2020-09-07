@@ -22,11 +22,11 @@ static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
     Agedge_t *e;
 
     obj->data = data;
-    obj->tag.mtflock = mtflock;
+    obj->tag.mtflock = mtflock != 0;
     if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
 	e = agopp((Agedge_t *) obj);
 	AGDATA(e) = data;
-	e->base.tag.mtflock = mtflock;
+	e->base.tag.mtflock = mtflock != 0;
     }
 }
 
@@ -64,6 +64,7 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
 {
     Agrec_t *firstrec, *newrec;
 
+    NOTUSED(g);
     newrec = arg;
     firstrec = obj->data;
     if (firstrec == NIL(Agrec_t *))
@@ -96,18 +97,7 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
     if ((rec == NIL(Agrec_t *)) && (recsize > 0)) {
 	rec = (Agrec_t *) agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
-	switch (obj->tag.objtype) {
-	case AGRAPH:
-	    objputrec(g, obj, rec);
-	    break;
-	case AGNODE:
-	    objputrec(g, obj, rec);
-	    break;
-	case AGINEDGE:
-	case AGOUTEDGE:
-	    objputrec(g, obj, rec);
-	    break;
-	}
+	objputrec(g, obj, rec);
     }
     if (mtf)
 	aggetrec(arg_obj, recname, TRUE);
@@ -118,6 +108,7 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
 /* if obj points to rec, move its data pointer. break any mtf lock(?) */
 static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
 {
+    NOTUSED(g);
     Agrec_t *rec = (Agrec_t *) arg_rec, *newrec;
     if (obj->data == rec) {
 	if (rec->next == rec)
@@ -162,6 +153,9 @@ int agdelrec(void *arg_obj, char *name)
 	case AGOUTEDGE:
 	    agapply(agroot(g), obj, objdelrec, rec, FALSE);
 	    break;
+	default:
+	    assert(!"unreachable");
+	    break;
 	}
 	agstrfree(g, rec->name);
 	agfree(g, rec);
@@ -172,6 +166,7 @@ int agdelrec(void *arg_obj, char *name)
 
 static void simple_delrec(Agraph_t * g, Agobj_t * obj, void *rec_name)
 {
+    NOTUSED(g);
     agdelrec(obj, rec_name);
 }
 

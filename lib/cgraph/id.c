@@ -18,6 +18,7 @@
 
 static void *idopen(Agraph_t * g, Agdisc_t* disc)
 {
+    NOTUSED(disc);
     return g;
 }
 
@@ -99,7 +100,7 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 	rv = 0;
 
     if (str && (str[0] != LOCALNAMEPREFIX)) {
-	rv = AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
+	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
 				createflag);
 	if (rv) {
 	    aginternalmapinsert(g, objtype, str, *result);
@@ -109,7 +110,7 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 
     if (createflag) {
 	/* get a new anonymous ID, and store in the internal map */
-	rv = AGDISC(g, id)->map(AGCLOS(g, id), objtype, NILstr, result,
+	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, NILstr, result,
 				createflag);
 	if (rv && str)
 	    aginternalmapinsert(g, objtype, str, *result);
@@ -119,7 +120,7 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 
 int agallocid(Agraph_t * g, int objtype, IDTYPE request)
 {
-    return AGDISC(g, id)->alloc(AGCLOS(g, id), objtype, request);
+    return (int) AGDISC(g, id)->alloc(AGCLOS(g, id), objtype, request);
 }
 
 void agfreeid(Agraph_t * g, int objtype, IDTYPE id)

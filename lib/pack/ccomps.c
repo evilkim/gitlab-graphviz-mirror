@@ -110,11 +110,11 @@ static Agnode_t *pop(stk_t* sp)
 }
 
 
-static int dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
+static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
 {
     Agedge_t *e;
     Agnode_t *other;
-    int cnt = 0;
+    size_t cnt = 0;
 
     push (stk, n);
     while ((n = pop(stk))) {
@@ -156,16 +156,16 @@ static int markFn (Agnode_t* n, int v)
     int ret;
     if (v < 0) return ND_mark(n);
     ret = ND_mark(n);
-    ND_mark(n) = v;
+    ND_mark(n) = (char) v;
     return ret;
 }
 
 /* setPrefix:
  */
 static char*
-setPrefix (char* pfx, int* lenp, char* buf, int buflen)
+setPrefix (char* pfx, size_t* lenp, char* buf, size_t buflen)
 {
-    int len;
+    size_t len;
     char* name;
 
     if (!pfx || !isLegal(pfx)) {
@@ -196,14 +196,14 @@ setPrefix (char* pfx, int* lenp, char* buf, int buflen)
  */
 Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 {
-    int c_cnt = 0;
+    size_t c_cnt = 0;
     char buffer[SMALLBUF];
     char *name;
     Agraph_t *out = 0;
     Agnode_t *n;
     Agraph_t **ccs;
-    int len;
-    int bnd = 10;
+    size_t len;
+    size_t bnd = 10;
     boolean pin = FALSE;
     stk_t stk;
     blk_t blk;
@@ -231,7 +231,7 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	if (MARKED(&stk,n) || !isPinned(n))
 	    continue;
 	if (!out) {
-	    sprintf(name + len, "%d", c_cnt);
+	    sprintf(name + len, "%zu", c_cnt);
 	    out = agsubg(g, name,1);
 	    agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	    ccs[c_cnt] = out;
@@ -245,7 +245,7 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
-	sprintf(name + len, "%d", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	dfs(g, n, out, &stk);
@@ -261,7 +261,7 @@ packerror:
     if (name != buffer)
 	free(name);
     if (error) {
-	int i;
+	size_t i;
 	*ncc = 0;
 	for (i=0; i < c_cnt; i++) {
 	    agclose (ccs[i]);
@@ -271,7 +271,7 @@ packerror:
     }
     else {
 	ccs = RALLOC(c_cnt, ccs, Agraph_t *);
-	*ncc = c_cnt;
+	*ncc = (int) c_cnt;
 	*pinned = pin;
     }
     return ccs;
@@ -288,14 +288,14 @@ packerror:
  */
 Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
 {
-    int c_cnt = 0;
+    size_t c_cnt = 0;
     char buffer[SMALLBUF];
     char *name;
     Agraph_t *out;
     Agnode_t *n;
     Agraph_t **ccs;
-    int len;
-    int bnd = 10;
+    size_t len;
+    size_t bnd = 10;
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
@@ -322,7 +322,7 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
-	sprintf(name + len, "%d", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 	dfs(g, n, out, &stk);
@@ -337,7 +337,7 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     ccs = RALLOC(c_cnt, ccs, Agraph_t *);
     if (name != buffer)
 	free(name);
-    *ncc = c_cnt;
+    *ncc = (int) c_cnt;
     return ccs;
 }
 
@@ -489,7 +489,7 @@ static int clMarkFn (Agnode_t* n, int v)
     int ret;
     if (v < 0) return clMark(n);
     ret = clMark(n);
-    clMark(n) = v;
+    clMark(n) = (char) v;
     return ret;
 }
 
@@ -609,7 +609,7 @@ subGInduce(Agraph_t* g, Agraph_t * out)
 Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 {
     Agraph_t *dg;
-    long n_cnt, c_cnt, e_cnt;
+    size_t n_cnt, c_cnt, e_cnt;
     char *name;
     Agraph_t *out;
     Agraph_t *dout;
@@ -619,7 +619,8 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
-    int len, sz = sizeof(ccgraphinfo_t);
+    size_t len;
+    int sz = (int) sizeof(ccgraphinfo_t);
 
     if (agnnodes(g) == 0) {
 	*ncc = 0;
@@ -636,32 +637,32 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 
     dg = deriveGraph(g);
 
-    ccs = N_GNEW(agnnodes(dg), Agraph_t *);
+    ccs = N_GNEW((size_t) agnnodes(dg), Agraph_t *);
     initStk (&stk, &blk, base, insertFn, clMarkFn);
 
     c_cnt = 0;
     for (dn = agfstnode(dg); dn; dn = agnxtnode(dg, dn)) {
 	if (MARKED(&stk,dn))
 	    continue;
-	sprintf(name + len, "%ld", c_cnt);
+	sprintf(name + len, "%zu", c_cnt);
 	dout = agsubg(dg, name, 1);
 	out = agsubg(g, name, 1);
 	agbindrec(out, GRECNAME, sizeof(ccgraphinfo_t), FALSE);
 	GD_cc_subg(out) = 1;
 	n_cnt = dfs(dg, dn, dout, &stk);
 	unionNodes(dout, out);
-	e_cnt = nodeInduce(out);
+	e_cnt = (size_t) nodeInduce(out);
 	subGInduce(g, out);
 	ccs[c_cnt] = out;
 	agdelete(dg, dout);
 	if (Verbose)
-	    fprintf(stderr, "(%4ld) %7ld nodes %7ld edges\n",
+	    fprintf(stderr, "(%4zu) %7zu nodes %7zu edges\n",
 		    c_cnt, n_cnt, e_cnt);
 	c_cnt++;
     }
 
     if (Verbose)
-	fprintf(stderr, "       %7d nodes %7d edges %7ld components %s\n",
+	fprintf(stderr, "       %7d nodes %7d edges %7zu components %s\n",
 	    agnnodes(g), agnedges(g), c_cnt, agnameof(g));
 
     agclose(dg);
@@ -671,7 +672,7 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
     ccs = RALLOC(c_cnt, ccs, Agraph_t *);
     if (name != buffer)
 	free(name);
-    *ncc = c_cnt;
+    *ncc = (int) c_cnt;
     return ccs;
 }
 
@@ -684,7 +685,7 @@ int isConnected(Agraph_t * g)
 {
     Agnode_t *n;
     int ret = 1;
-    int cnt = 0;
+    size_t cnt = 0;
     stk_t stk;
     blk_t blk;
     Agnode_t* base[INITBUF];
@@ -703,7 +704,7 @@ int isConnected(Agraph_t * g)
 
     n = agfstnode(g);
     cnt = dfs(g, agfstnode(g), NULL, &stk);
-    if (cnt != agnnodes(g))
+    if (cnt != (size_t) agnnodes(g))
 	ret = 0;
     freeStk (&stk);
     return ret;

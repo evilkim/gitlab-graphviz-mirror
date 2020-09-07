@@ -30,12 +30,14 @@ Dtdisc_t AgDataDictDisc = {
     NIL(Dtmake_f),
     freesym,
     NIL(Dtcompar_f),
-    NIL(Dthash_f)
+    NIL(Dthash_f),
+    NIL(Dtmemory_f),
+    NIL(Dtevent_f),
 };
 
 static char DataDictName[] = "_AG_datadict";
 static void init_all_attrs(Agraph_t * g);
-static Agdesc_t ProtoDesc = { 1, 0, 1, 0, 1, 1 };
+static Agdesc_t ProtoDesc = { 1, 0, 1, 0, 1, 1, 0, 0 };
 static Agraph_t *ProtoGraph;
 
 Agdatadict_t *agdatadict(Agraph_t * g, int cflag)
@@ -49,7 +51,7 @@ Agdatadict_t *agdatadict(Agraph_t * g, int cflag)
     return rv;
 }
 
-Dict_t *agdictof(Agraph_t * g, int kind)
+static Dict_t *agdictof(Agraph_t * g, int kind)
 {
     Agdatadict_t *dd;
     Dict_t *dict;
@@ -76,11 +78,11 @@ Dict_t *agdictof(Agraph_t * g, int kind)
     return dict;
 }
 
-Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
+static Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
 {
     Agsym_t *sym;
     sym = agalloc(g, sizeof(Agsym_t));
-    sym->kind = kind;
+    sym->kind = (unsigned char) kind;
     sym->name = agstrdup(g, name);
     sym->defval = agstrdup(g, value);
     sym->id = id;
@@ -131,7 +133,7 @@ static Agdatadict_t *agmakedatadict(Agraph_t * g)
 }
 
 /* look up an attribute with possible viewpathing */
-Agsym_t *agdictsym(Dict_t * dict, char *name)
+static Agsym_t *agdictsym(Dict_t * dict, char *name)
 {
     Agsym_t key;
     key.name = (char *) name;
@@ -139,7 +141,7 @@ Agsym_t *agdictsym(Dict_t * dict, char *name)
 }
 
 /* look up attribute in local dictionary with no view pathing */
-Agsym_t *aglocaldictsym(Dict_t * dict, char *name)
+static Agsym_t *aglocaldictsym(Dict_t * dict, char *name)
 {
     Agsym_t *rv;
     Dict_t *view;
@@ -243,9 +245,9 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
     if (sym->id >= MINATTR)
 	attr->str = (char **) AGDISC(g, mem)->resize(AGCLOS(g, mem),
 						     attr->str,
-						     sym->id *
+						     (size_t) sym->id *
 						     sizeof(char *),
-						     (sym->id +
+						     ((size_t) sym->id +
 						      1) * sizeof(char *));
     attr->str[sym->id] = agstrdup(g, sym->defval);
     /* agmethod_upd(g,obj,sym);  JCE and GN didn't like this. */
@@ -254,7 +256,6 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
 
 static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 {
-    Agdatadict_t *dd;
     Dict_t *ldict, *rdict;
     Agsym_t *lsym, *psym, *rsym, *rv;
     Agraph_t *root;
@@ -263,7 +264,7 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 
     assert(value);
     root = agroot(g);
-    dd = agdatadict(g, TRUE);	/* force initialization of string attributes */
+    agdatadict(g, TRUE);	/* force initialization of string attributes */
     ldict = agdictof(g, kind);
     lsym = aglocaldictsym(ldict, name);
     if (lsym) {			/* update old local definition */
@@ -294,6 +295,9 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 		for (n = agfstnode(root); n; n = agnxtnode(root, n))
 		    for (e = agfstout(root, n); e; e = agnxtout(root, e))
 			addattr(g, (Agobj_t *) e, rsym);
+		break;
+	    default:
+		assert(!"unreachable");
 		break;
 	    }
 	    rv = rsym;

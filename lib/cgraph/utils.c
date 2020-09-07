@@ -64,10 +64,10 @@ Dict_t *agdtopen(Agraph_t * g, Dtdisc_t * disc, Dtmethod_t * method)
     return d;
 }
 
-long agdtdelete(Agraph_t * g, Dict_t * dict, void *obj)
+int agdtdelete(Agraph_t * g, Dict_t * dict, void *obj)
 {
     Ag_dictop_G = g;
-    return (long) dtdelete(dict, obj);
+    return dtdelete(dict, obj) != NULL;
 }
 
 int agobjfinalize(void * obj)
