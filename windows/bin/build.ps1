@@ -23,11 +23,23 @@ if ($buildsystem -eq "cmake") {
     cd build
 
     cmake -G "Visual Studio 16 2019" -A $platform ..
+    if ($LastExitCode -ne 0) {
+        exit $LastExitCode
+    }
     cmake --build . --config $configuration
+    if ($LastExitCode -ne 0) {
+        exit $LastExitCode
+    }
 
     cpack -C $configuration
+    if ($LastExitCode -ne 0) {
+        exit $LastExitCode
+    }
 } else {
     MSBuild.exe -p:Configuration=$configuration -p:Platform=$platform graphviz.sln
+    if ($LastExitCode -ne 0) {
+        exit $LastExitCode
+    }
     if ($configuration -eq "Release") {
           rm Release\Graphviz\bin\*.lastcodeanalysissucceeded
           rm Release\Graphviz\bin\*.iobj
