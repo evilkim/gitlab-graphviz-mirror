@@ -53,7 +53,7 @@
 #    if HAVE_FILE_IO_READ_END
 #    define canread(f) ((f)->_IO_read_end>(f)->_IO_read_ptr)
 #    else
-#      if HAVE_R_IN_FILE
+#      if HAVE_FILE_R
 #      define canread(f) ((f)->_r>0)
 #      else
 #      define canread(f) (1)
