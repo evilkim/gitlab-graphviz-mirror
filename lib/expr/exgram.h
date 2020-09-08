@@ -31,6 +31,7 @@ extern "C" {
 #endif
 
 #include "exlib.h"
+#include <stddef.h>
 #include <string.h>
 
 #define exlex()		extoken_fn(expr.program)
@@ -83,7 +84,6 @@ exfreenode(Expr_t* p, Exnode_t* x)
 	Exref_t*	r;
 	Print_t*		pn;
 	Exref_t*		rn;
-	int			i;
 
 	switch (x->op)
 	{
@@ -164,6 +164,7 @@ exfreenode(Expr_t* p, Exnode_t* x)
 		pn = x->data.print.args;
 		while ((pr = pn))
 		{
+			size_t i;
 			for (i = 0; i < elementsof(pr->param) && pr->param[i]; i++)
 				exfreenode(p, pr->param[i]);
 			if (pr->arg)
@@ -1044,13 +1045,13 @@ excomp(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 void
 exclose(Expr_t* p, int all)
 {
-	int		i;
 	Exinput_t*	in;
 
 	if (p)
 	{
 		if (all)
 		{
+			size_t i;
 			for (i = 3; i < elementsof(p->file); i++)
 				if (p->file[i])
 					sfclose(p->file[i]);
