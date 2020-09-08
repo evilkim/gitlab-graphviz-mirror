@@ -64,11 +64,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -dy exparse.y -o exparse-intermediate.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.c | sed "s/YY/EX/g" &gt; exparse.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.h | sed "s/YY/EX/g" &gt; exparse.h
-del exparse-intermediate.c
-del exparse-intermediate.h</Command>
+      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,11 +78,7 @@ del exparse-intermediate.h</Command>
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -dy exparse.y -o exparse-intermediate.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.c | sed "s/YY/EX/g" &gt; exparse.c
-sed "s/yy/ex/g" &lt; exparse-intermediate.h | sed "s/YY/EX/g" &gt; exparse.h
-del exparse-intermediate.c
-del exparse-intermediate.h</Command>
+      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
