@@ -102,6 +102,11 @@ int main (int argc, char **argv) {
     exprstr = NULL;
     fp = NULL;
     init (argv[0]);
+
+    processstr (leftyoptions);
+    argv++, argc--;
+    processargs (argc, argv);
+
     Minit (GFXprune);
     Ginit ();
     FD_SET (Gxfd, &inputfds);
@@ -110,10 +115,6 @@ int main (int argc, char **argv) {
     Estackdepth = 2;
     Eshowbody = 1;
     Eshowcalls = 1;
-
-    processstr (leftyoptions);
-    argv++, argc--;
-    processargs (argc, argv);
 
     if (setjmp (exitljbuf))
         goto eop;
