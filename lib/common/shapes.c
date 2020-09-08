@@ -14,6 +14,7 @@
 #include <common/render.h>
 #include <common/htmltable.h>
 #include <limits.h>
+#include <stddef.h>
 
 #define RBCONST 12
 #define RBCURVE .5
@@ -3537,7 +3538,8 @@ static void record_init(node_t * n)
 {
     field_t *info;
     pointf ul, sz;
-    int flip, len;
+    int flip;
+    size_t len;
     char *textbuf;		/* temp buffer for storing labels */
     int sides = BOTTOM | RIGHT | TOP | LEFT;
 
@@ -3549,7 +3551,7 @@ static void record_init(node_t * n)
      * we need at least two bytes in textbuf, as well as accounting for the
      * error path involving "\\N" below.
      */
-    len = MAX(MAX(len, 1), (int)strlen("\\N"));
+    len = MAX(MAX(len, 1), strlen("\\N"));
     textbuf = N_NEW(len + 1, char);
     if (!(info = parse_reclbl(n, flip, TRUE, textbuf))) {
 	agerr(AGERR, "bad label format %s\n", ND_label(n)->text);
