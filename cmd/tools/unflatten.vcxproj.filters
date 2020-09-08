@@ -19,8 +19,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="debug\BuildLog.htm" />
-    <None Include="release\BuildLog.htm" />
-  </ItemGroup>
 </Project>
