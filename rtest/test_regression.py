@@ -312,6 +312,7 @@ def test_1783():
     assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
 
 # FIXME: Remove skip when
+
 # https://gitlab.com/graphviz/graphviz/-/issues/1816 is fixed
 @pytest.mark.skipif(
     platform.system() == 'Windows',
@@ -331,6 +332,11 @@ def test_1813():
 
     assert 'Usage' in output, 'gvedit -? did not show usage'
 
+# https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
+@pytest.mark.skipif(
+    os.environ.get('build_system') == 'cmake',
+    reason='The Windows "CMake" installer does not install lefty (#1753)'
+)
 def test_1818():
     '''
     lefty -? should show usage
