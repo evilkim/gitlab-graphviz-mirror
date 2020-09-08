@@ -894,7 +894,7 @@ selfTop (edge_t* edges[], int ind, int cnt, double sizex, double stepy,
            splineInfo* sinfo) 
 {
     int i, sgn, point_pair;
-    double hy, ty,  stepx, dx, dy, width, height; 
+    double hy, ty,  stepx, dx, dy, height;
     pointf tp, hp, np;
     node_t *n;
     edge_t *e;
@@ -975,10 +975,8 @@ selfTop (edge_t* edges[], int ind, int cnt, double sizex, double stepy,
         points[pointn++] = hp;
         if (ED_label(e)) {
 	    if (GD_flip(agraphof(agtail(e)))) {
-		width = ED_label(e)->dimen.y;
 		height = ED_label(e)->dimen.x;
 	    } else {
-		width = ED_label(e)->dimen.x;
 		height = ED_label(e)->dimen.y;
 	    }
 	    ED_label(e)->pos.y = ND_coord(n).y + dy + height / 2.0;
