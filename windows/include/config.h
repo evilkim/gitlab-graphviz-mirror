@@ -63,7 +63,7 @@
 #define HAVE_EXPAT_H 1
 
 /* Define if FILE structure provides _cnt */
-#define HAVE_FILE_CNT 1
+#define HAVE_FILE_CNT 0
 
 /* Define if FILE structure provides _IO_read_end */
 /* #undef HAVE_FILE_IO_READ_END */
