@@ -826,7 +826,7 @@ static void selfBottom (edge_t* edges[], int ind, int cnt,
     node_t *n;
     edge_t *e;
     int i, sgn, point_pair;
-    double hy, ty, stepx, dx, dy, width, height; 
+    double hy, ty, stepx, dx, dy, height;
     pointf points[1000];
     int pointn;
 
@@ -870,10 +870,8 @@ static void selfBottom (edge_t* edges[], int ind, int cnt,
         points[pointn++] = hp;
         if (ED_label(e)) {
 	if (GD_flip(agraphof(agtail(e)))) {
-    	    width = ED_label(e)->dimen.y;
     	    height = ED_label(e)->dimen.x;
     	} else {
-    	    width = ED_label(e)->dimen.x;
     	    height = ED_label(e)->dimen.y;
     	}
     	ED_label(e)->pos.y = ND_coord(n).y - dy - height / 2.0;
