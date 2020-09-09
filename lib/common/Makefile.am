@@ -59,22 +59,14 @@ svgcolor_lib : $(top_srcdir)/lib/common/svgcolor_names  $(top_srcdir)/awk/svgcol
 htmllex.o htmllex.lo: htmllex.c htmllex.h htmlparse.h
 htmlparse.o htmlparse.lo: htmlparse.c htmlparse.h
                                                                                 
-htmlparse.c: y.tab.c
-	cp -f y.tab.c htmlparse.c
-
-htmlparse.h: y.tab.h
-	cp -f y.tab.h htmlparse.h
-
-y.tab.c y.tab.h: y.output
-
-y.output: $(top_srcdir)/lib/common/htmlparse.y
-	@YACC@ -Wno-yacc -dv $(top_srcdir)/lib/common/htmlparse.y -o y.tab.c
+htmlparse.c htmlparse.h: $(top_srcdir)/lib/common/htmlparse.y
+	@YACC@ -Wno-yacc -dv $(top_srcdir)/lib/common/htmlparse.y -o htmlparse.c
 
 DISTCLEANFILES = brewer_lib color_lib colortbl.h ps_font_equiv.h \
-	y.output y.tab.[ch] htmlparse.[ch]
+	htmlparse.[ch]
 
 EXTRA_DIST = README.imap chars.tcl ps_font_equiv.h \
 	htmlparse.c htmlparse.h \
-	y.tab.c y.tab.h y.output entities.html entities.tcl \
+	entities.html entities.tcl \
 	brewer_colors brewer_lib svgcolor_names svgcolor_lib \
 	color_names color_lib colortbl.h mksvgfonts.pl
