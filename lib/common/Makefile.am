@@ -68,7 +68,7 @@ htmlparse.h: y.tab.h
 y.tab.c y.tab.h: y.output
 
 y.output: $(top_srcdir)/lib/common/htmlparse.y
-	@YACC@ -dv $(top_srcdir)/lib/common/htmlparse.y
+	@YACC@ -Wno-yacc -dv $(top_srcdir)/lib/common/htmlparse.y
 
 DISTCLEANFILES = brewer_lib color_lib colortbl.h ps_font_equiv.h \
 	y.output y.tab.[ch] htmlparse.[ch]
