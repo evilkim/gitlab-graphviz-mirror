@@ -25,7 +25,7 @@
 #include <common/htmltable.h>
 #include <common/htmllex.h>
 
-extern int yyparse(void);
+extern int htmlparse(void);
 
 typedef struct sfont_t {
     textfont_t *cfont;	
@@ -534,7 +534,7 @@ string : T_string
 
 table : opt_space T_table { 
           if (nonSpace(agxbuse(HTMLstate.str))) {
-            yyerror ("Syntax error: non-space string used before <TABLE>");
+            htmlerror ("Syntax error: non-space string used before <TABLE>");
             cleanup(); YYABORT;
           }
           $2->u.p.prev = HTMLstate.tblstack;
@@ -545,7 +545,7 @@ table : opt_space T_table {
         }
         rows T_end_table opt_space {
           if (nonSpace(agxbuse(HTMLstate.str))) {
-            yyerror ("Syntax error: non-space string used after </TABLE>");
+            htmlerror ("Syntax error: non-space string used after </TABLE>");
             cleanup(); YYABORT;
           }
           $$ = HTMLstate.tblstack;
@@ -628,7 +628,7 @@ parseHTML (char* txt, int* warn, htmlenv_t *env)
     l = NULL;
   }
   else {
-    yyparse();
+    htmlparse();
     *warn = clearHTMLlexer ();
     l = HTMLstate.lbl;
   }

@@ -73,8 +73,8 @@
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse-intermediate.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
+copy common\htmlparse-intermediate.c common\htmlparse.c
+copy common\htmlparse-intermediate.h common\htmlparse.h
 del common\htmlparse-intermediate.c
 del common\htmlparse-intermediate.h
 awk -f $(SolutionDir)awk\svgcolor.awk common\svgcolor_names &gt; common\svgcolor_lib
@@ -108,8 +108,8 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse-intermediate.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
+copy common\htmlparse-intermediate.c common\htmlparse.c
+copy common\htmlparse-intermediate.h common\htmlparse.h
 del common\htmlparse-intermediate.c
 del common\htmlparse-intermediate.h
 awk -f $(SolutionDir)awk\svgcolor.awk common\svgcolor_names &gt; common\svgcolor_lib

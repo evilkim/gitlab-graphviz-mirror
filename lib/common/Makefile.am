@@ -60,10 +60,10 @@ htmllex.o htmllex.lo: htmllex.c htmllex.h htmlparse.h
 htmlparse.o htmlparse.lo: htmlparse.c htmlparse.h
                                                                                 
 htmlparse.c: y.tab.c
-	@SED@ "s/yy/html/g" < y.tab.c > htmlparse.c
+	cp -f y.tab.c htmlparse.c
 
 htmlparse.h: y.tab.h
-	@SED@ "s/yy/html/g" < y.tab.h > htmlparse.h
+	cp -f y.tab.h htmlparse.h
 
 y.tab.c y.tab.h: y.output
 
