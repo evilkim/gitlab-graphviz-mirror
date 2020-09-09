@@ -44,16 +44,16 @@
 #  endif
 #endif
 
-#if HAVE_FILE_CNT
+#if defined(HAVE_FILE_CNT) && HAVE_FILE_CNT
 #define canread(f) ((f)->_cnt>0)
 #else
-#  if HAVE_FILE_NEXT
+#  if defined(HAVE_FILE_NEXT) && HAVE_FILE_NEXT
 #  define canread(f) ((f)->_next<(f)->_endb)
 #  else
-#    if HAVE_FILE_IO_READ_END
+#    if defined(HAVE_FILE_IO_READ_END) && HAVE_FILE_IO_READ_END
 #    define canread(f) ((f)->_IO_read_end>(f)->_IO_read_ptr)
 #    else
-#      if HAVE_FILE_R
+#      if defined(HAVE_FILE_R) && HAVE_FILE_R
 #      define canread(f) ((f)->_r>0)
 #      else
 #      define canread(f) (1)
