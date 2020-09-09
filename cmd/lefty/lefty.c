@@ -213,6 +213,8 @@ int APIENTRY WinMain (
 ) {
     Tobj co;
     Psrc_t src;
+    int argc;
+    LPWSTR *argv;
 
     hinstance = hInstance;
     hprevinstance = hPrevInstance;
@@ -231,8 +233,11 @@ int APIENTRY WinMain (
     Eshowcalls = 1;
 
     processstr (leftyoptions);
-    __argv++, __argc--;
-    processargs (__argc, __argv);
+    argv = CommandLineToArgvW(lpCmdLine, &argc);
+    if (argv == NULL)
+      return EXIT_FAILURE;
+    processargs(argc, argv);
+    LocalFree(argv);
 
     if (setjmp (exitljbuf))
         goto eop;
