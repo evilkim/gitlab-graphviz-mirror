@@ -64,7 +64,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
+      <Command>win_bison -dy -Wno-yacc exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,7 +78,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -Wno-yacc -dy exparse.y -o exparse.c</Command>
+      <Command>win_bison -dy -Wno-yacc exparse.y -o exparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
