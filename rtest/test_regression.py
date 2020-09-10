@@ -323,7 +323,10 @@ def test_1813():
     https://gitlab.com/graphviz/graphviz/-/issues/1813
     '''
 
+    environ_copy = os.environ.copy()
+    environ_copy.pop('DISPLAY', None)
     output = subprocess.check_output(['gvedit', '-?'],
+      env=environ_copy,
       universal_newlines=True)
 
     assert 'Usage' in output, 'gvedit -? did not show usage'
