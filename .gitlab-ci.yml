@@ -69,6 +69,7 @@ portable-source:
     needs: []
     script:
         - $ErrorActionPreference = "Stop"
+        - $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
         # Toolchain definitions
         - if($Env:project_platform -eq "x64") {
             $TARGET_ARCH = "x64";
@@ -82,7 +83,12 @@ portable-source:
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
         - Set-ExecutionPolicy Bypass -Force -Scope Process
-        - windows/bin/setup-and-build.ps1 -buildsystem $env:build_system -platform $Env:project_platform -configuration $env:configuration
+        - $logfile = New-TemporaryFile
+        - windows/bin/setup-and-build.ps1 -buildsystem $env:build_system -platform $Env:project_platform -configuration $env:configuration 2>&1 | tee $logfile
+        - $warnings_count = Invoke-Expression "grep -c ' warning ' $logfile"
+        - echo "$CI_JOB_NAME-warnings $warnings_count" > metrics.txt
+        - rm $logfile
+        - cat metrics.txt
         - python3 gen_version.py > VERSION
         - python3 gen_version.py --collection > COLLECTION
         # Package
@@ -143,6 +149,8 @@ portable-source:
         paths:
         - Packages/*/*/*/*/*/*/*.exe
         - Packages/*/*/*/*/*/*/*.zip
+        reports:
+            metrics: metrics.txt
     tags:
         - windows
 
