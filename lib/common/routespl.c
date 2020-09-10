@@ -13,9 +13,9 @@
 
 #include "config.h"
 
-#include "render.h"
+#include <common/render.h>
 #include <math.h>
-#include "pathplan.h"
+#include <pathplan/pathplan.h>
 #include <setjmp.h>
 #include <stdlib.h>
 

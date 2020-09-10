@@ -18,7 +18,7 @@
  * expression library support
  */
 
-#include "exlib.h"
+#include <expr/exlib.h>
 
 /*
  * return 0 value for type

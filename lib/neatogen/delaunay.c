@@ -17,10 +17,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "cgraph.h"     /* for agerr() and friends */
-#include "delaunay.h"
-#include "memory.h"
-#include "logic.h"
+#include <cgraph/cgraph.h>     /* for agerr() and friends */
+#include <neatogen/delaunay.h>
+#include <common/memory.h>
+#include <common/logic.h>
 
 #if HAVE_GTS
 #include <gts.h>
@@ -540,9 +540,9 @@ freeSurface (surface_t* s)
 }
 #elif HAVE_TRIANGLE
 #define TRILIBRARY
-#include "triangle.c"
-#include "assert.h"
-#include "general.h"
+#include <triangle.c>
+#include <assert.h>
+#include <sparse/general.h>
 
 int*
 get_triangles (double *x, int n, int* tris)

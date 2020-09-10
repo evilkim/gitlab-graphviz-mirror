@@ -12,14 +12,14 @@
 
 #include "config.h"
 
-#include "index.h"
+#include <label/index.h>
 #include <stdio.h>
 #include <assert.h>
 #include <limits.h>
-#include "logic.h"
-#include "arith.h"
-#include "rectangle.h"
-#include <cgraph.h>
+#include <common/logic.h>
+#include <common/arith.h>
+#include <label/rectangle.h>
+#include <cgraph/cgraph.h>
 
 #define Undefined(x) ((x)->boundary[0] > (x)->boundary[NUMDIMS])
 

@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include <cghdr.h>
+#include <cgraph/cghdr.h>
 
 static Agraph_t *agfindsubg_by_id(Agraph_t * g, IDTYPE id)
 {

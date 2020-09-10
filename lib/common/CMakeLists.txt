@@ -15,24 +15,6 @@ add_custom_command(
 
 add_definitions(-DGVC_EXPORTS -D_BLD_gvc=1)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/label
-    ${GRAPHVIZ_LIB_DIR}/pack
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/fdpgen
-    ${GRAPHVIZ_LIB_DIR}/xdot
-)
-
-if (WIN32)
-    include_directories(${WINDOWS_DEPENDENCY_DIR}/include)
-endif()
-
 # Generate colortbl.h from sources
 add_custom_command(
     OUTPUT svgcolor_lib
@@ -57,10 +39,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/generate_color_lib.cmake
 )
 add_custom_command(
-    OUTPUT colortbl.h
+    OUTPUT common/colortbl.h
     DEPENDS color_lib
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/common"
     COMMAND ${AWK_EXECUTABLE} -f ${TOP_SOURCE_DIR}/awk/colortbl.awk
-            ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/colortbl.h
+            ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
 )
 
 # Generate ps_font_equiv.h from sources
@@ -84,7 +67,7 @@ add_library(common STATIC
     arith.h
     color.h
     colorprocs.h
-    colortbl.h
+    ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
     const.h
     entities.h
     geom.h
@@ -134,6 +117,24 @@ add_library(common STATIC
     # Generated files
     ${BISON_HTMLparse_OUTPUTS}
 )
+
+target_include_directories(common PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/label
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/fdpgen
+    ${GRAPHVIZ_LIB_DIR}/xdot
+)
+
+if (WIN32)
+    target_include_directories(common PRIVATE ${WINDOWS_DEPENDENCY_DIR}/include)
+endif()
 
 # From https://gitlab.com/graphviz/graphviz/-/issues/1613 @mdwies 20093010
 if(APPLE)

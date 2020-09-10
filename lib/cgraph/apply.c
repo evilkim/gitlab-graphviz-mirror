@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include	<cghdr.h>
+#include	<cgraph/cghdr.h>
 
 /* The following functions take a graph and a template (node/edge/graph)
  * and return the object representing the template within the local graph.

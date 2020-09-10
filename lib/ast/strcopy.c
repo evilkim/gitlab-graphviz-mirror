@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "ast.h"
+#include <ast/ast.h>
 
 /*
  * copy t into s, return a pointer to the end of s ('\0')

@@ -11,14 +11,14 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "render.h"
-#include "agxbuf.h"
-#include "htmltable.h"
-#include "entities.h"
-#include "logic.h"
+#include <common/render.h>
+#include <cgraph/agxbuf.h>
+#include <common/htmltable.h>
+#include <common/entities.h>
+#include <common/logic.h>
 #include <math.h>
-#include "gvc.h"
-#include "strcasecmp.h"
+#include <gvc/gvc.h>
+#include <cgraph/strcasecmp.h>
 
 #ifdef _WIN32
 #define R_OK 4

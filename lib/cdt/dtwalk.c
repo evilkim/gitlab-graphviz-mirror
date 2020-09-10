@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /*	Walk a dictionary and all dictionaries viewed through it.
 **	userf:	user function

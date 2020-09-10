@@ -32,13 +32,13 @@
  */
 
 #include <assert.h>
-#include "render.h"
-#include "htmltable.h"
-#include "agxbuf.h"
-#include "pointset.h"
-#include "intset.h"
-#include "cdt.h"
-#include "strcasecmp.h"
+#include <common/render.h>
+#include <common/htmltable.h>
+#include <cgraph/agxbuf.h>
+#include <common/pointset.h>
+#include <common/intset.h>
+#include <cdt/cdt.h>
+#include <cgraph/strcasecmp.h>
 
 #define DEFAULT_BORDER    1
 #define DEFAULT_CELLPADDING  2

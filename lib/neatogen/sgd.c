@@ -1,8 +1,8 @@
-#include "neato.h"
-#include "sgd.h"
-#include "dijkstra.h"
-#include "randomkit.h"
-#include "neatoprocs.h"
+#include <neatogen/neato.h>
+#include <neatogen/sgd.h>
+#include <neatogen/dijkstra.h>
+#include <neatogen/randomkit.h>
+#include <neatogen/neatoprocs.h>
 #include <math.h>
 #include <stdlib.h>
 

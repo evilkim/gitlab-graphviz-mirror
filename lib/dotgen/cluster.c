@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 static node_t*
 map_interclust_node(node_t * n)

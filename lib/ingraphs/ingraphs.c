@@ -27,7 +27,7 @@ typedef struct {
 
 extern void agsetfile(char *);
 
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 /* nextFile:
  * Set next available file.

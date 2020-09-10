@@ -19,8 +19,8 @@
 #include <set>
 #include <cassert>
 #include <cstdlib>
-#include "generate-constraints.h"
-#include "constraint.h"
+#include <vpsc/generate-constraints.h>
+#include <vpsc/constraint.h>
 
 using std::set;
 using std::vector;

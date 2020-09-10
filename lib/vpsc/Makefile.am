@@ -1,6 +1,8 @@
 # $Id$ $Revision$
 ## Process this file with automake to produce Makefile.in
 
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+
 if WITH_IPSEPCOLA
 noinst_LTLIBRARIES = libvpsc_C.la
 endif

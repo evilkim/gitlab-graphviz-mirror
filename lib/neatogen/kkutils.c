@@ -12,9 +12,9 @@
  *************************************************************************/
 
 
-#include "bfs.h"
-#include "dijkstra.h"
-#include "kkutils.h"
+#include <neatogen/bfs.h>
+#include <neatogen/dijkstra.h>
+#include <neatogen/kkutils.h>
 #include <stdlib.h>
 #include <math.h>
 

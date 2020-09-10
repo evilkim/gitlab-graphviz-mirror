@@ -11,9 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "agxbuf.h"
-#include "render.h"
-#include "htmltable.h"
+#include <cgraph/agxbuf.h>
+#include <common/render.h>
+#include <common/htmltable.h>
 #include <limits.h>
 
 static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash);

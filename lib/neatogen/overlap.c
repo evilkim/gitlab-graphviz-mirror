@@ -12,17 +12,17 @@
  *************************************************************************/
 
 #include "config.h"
-#include "overlap.h"
+#include <neatogen/overlap.h>
 
 #if ((defined(HAVE_GTS) || defined(HAVE_TRIANGLE)) && defined(SFDP))
 
-#include "SparseMatrix.h"
-#include "call_tri.h"
-#include "red_black_tree.h"
-#include "types.h"
+#include <sparse/SparseMatrix.h>
+#include <neatogen/call_tri.h>
+#include <rbtree/red_black_tree.h>
+#include <common/types.h>
 #include <math.h>
-#include "memory.h"
-#include "globals.h"
+#include <common/memory.h>
+#include <common/globals.h>
 #include <time.h>
 
 static void ideal_distance_avoid_overlap(int dim, SparseMatrix A, real *x, real *width, real *ideal_distance, real *tmax, real *tmin){
@@ -680,8 +680,8 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
 }
 
 #else
-#include "types.h"
-#include "SparseMatrix.h"
+#include <common/types.h>
+#include <sparse/SparseMatrix.h>
 void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntry, real initial_scaling,
 		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int do_shrinking, int *flag)
 {

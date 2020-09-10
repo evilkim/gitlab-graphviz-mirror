@@ -23,9 +23,9 @@
 /* use PRIVATE interface */
 #define FDP_PRIVATE 1
 
-#include <fdp.h>
-#include <comp.h>
-#include <pack.h>
+#include <fdpgen/fdp.h>
+#include <fdpgen/comp.h>
+#include <pack/pack.h>
 #include <assert.h>
 
 #define MARK(n) (marks[ND_id(n)])

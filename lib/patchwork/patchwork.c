@@ -13,9 +13,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <patchwork.h>
-#include <tree_map.h>
-#include "render.h"
+#include <patchwork/patchwork.h>
+#include <patchwork/tree_map.h>
+#include <common/render.h>
 
 typedef struct treenode_t treenode_t;
 struct treenode_t {

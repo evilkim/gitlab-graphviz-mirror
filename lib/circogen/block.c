@@ -14,8 +14,8 @@
 
 #include <assert.h>
 
-#include "circular.h"
-#include "block.h"
+#include <circogen/circular.h>
+#include <circogen/block.h>
 
 void initBlocklist(blocklist_t * bl)
 {

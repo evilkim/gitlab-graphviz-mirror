@@ -12,9 +12,9 @@
  *************************************************************************/
 
 
-#include    "circular.h"
-#include    "blocktree.h"
-#include    "circpos.h"
+#include    <circogen/circular.h>
+#include    <circogen/blocktree.h>
+#include    <circogen/circpos.h>
 #include	<string.h>
 
 #define		MINDIST			1.0

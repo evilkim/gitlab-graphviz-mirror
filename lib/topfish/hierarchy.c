@@ -24,9 +24,9 @@
 #include <math.h>
 #include <time.h>
 #include <assert.h>
-#include "memory.h"
-#include "arith.h"
-#include "hierarchy.h"
+#include <common/memory.h>
+#include <common/arith.h>
+#include <topfish/hierarchy.h>
 
 static int cur_level = 0;
 

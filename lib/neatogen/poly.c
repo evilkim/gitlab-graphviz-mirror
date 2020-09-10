@@ -14,13 +14,13 @@
 /* poly.c
  */
 
-#include "neato.h"
+#include <neatogen/neato.h>
 #include <assert.h>
 #include <string.h>
 #include <math.h>
-#include "poly.h"
-#include "geom.h"
-#include "mem.h"
+#include <neatogen/poly.h>
+#include <common/geom.h>
+#include <neatogen/mem.h>
 
 #define BOX 1
 #define ISBOX(p) ((p)->kind & BOX)

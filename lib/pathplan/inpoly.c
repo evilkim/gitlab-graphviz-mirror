@@ -19,8 +19,8 @@
  */
 
 #include <stdlib.h>
-#include "vispath.h"
-#include "pathutil.h"
+#include <pathplan/vispath.h>
+#include <pathplan/pathutil.h>
 
 int in_poly(Ppoly_t poly, Ppoint_t q)
 {

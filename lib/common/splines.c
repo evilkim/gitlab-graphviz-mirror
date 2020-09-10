@@ -17,7 +17,7 @@
  */
 
 #include <math.h>
-#include "render.h"
+#include <common/render.h>
 
 #ifdef DEBUG
 static int debugleveln(edge_t* e, int i)

@@ -21,13 +21,13 @@
 
 #include <string.h>
 
-#include "const.h"
-#include "gvplugin_loadimage.h"
-#include "gvcint.h"
-#include "gvcproc.h"
+#include <common/const.h>
+#include <gvc/gvplugin_loadimage.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
 
 /* for agerr() */
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 
 static int gvloadimage_select(GVJ_t * job, char *str)
 {

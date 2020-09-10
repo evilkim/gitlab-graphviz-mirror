@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /*	Change discipline.
 **	dt :	dictionary

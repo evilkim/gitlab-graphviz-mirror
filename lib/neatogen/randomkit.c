@@ -71,7 +71,7 @@
 #include <limits.h>
 #include <math.h>
 
-#include "randomkit.h"
+#include <neatogen/randomkit.h>
 
 #ifndef RK_DEV_URANDOM
 #define RK_DEV_URANDOM "/dev/urandom"

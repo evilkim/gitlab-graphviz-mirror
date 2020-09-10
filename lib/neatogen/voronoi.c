@@ -11,12 +11,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "mem.h"
-#include "geometry.h"
-#include "edges.h"
-#include "hedges.h"
-#include "heap.h"
-#include "voronoi.h"
+#include <neatogen/mem.h>
+#include <neatogen/geometry.h>
+#include <neatogen/edges.h>
+#include <neatogen/hedges.h>
+#include <neatogen/heap.h>
+#include <neatogen/voronoi.h>
 
 
 void voronoi(int triangulate, Site * (*nextsite) (void))

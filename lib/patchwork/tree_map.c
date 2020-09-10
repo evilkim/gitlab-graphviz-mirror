@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "render.h"
-#include "tree_map.h"
+#include <common/render.h>
+#include <patchwork/tree_map.h>
 
 static void squarify(int n, real *area, rectangle *recs, int nadded, real maxarea, real minarea, real totalarea,
 		     real asp, rectangle fillrec){

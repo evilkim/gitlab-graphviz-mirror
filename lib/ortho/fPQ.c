@@ -14,10 +14,10 @@
 /* Priority Queue Code for shortest path in graph */
 
 #include "config.h"
-#include <memory.h>
+#include <common/memory.h>
 #include <assert.h>
 
-#include "fPQ.h"
+#include <ortho/fPQ.h>
 
 static snode**  pq;
 static int     PQcnt;

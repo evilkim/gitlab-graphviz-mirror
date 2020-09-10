@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include    "patchwork.h"
-#include    "adjust.h"
-#include    "pack.h"
-#include    "neatoprocs.h"
+#include    <patchwork/patchwork.h>
+#include    <neatogen/adjust.h>
+#include    <pack/pack.h>
+#include    <neatogen/neatoprocs.h>
 
 /* the following code shamelessly copied from lib/fdpgen/layout.c
 and should be extracted and made into a common function */

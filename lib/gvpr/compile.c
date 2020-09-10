@@ -22,12 +22,12 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include "compile.h"
+#include <gvpr/compile.h>
 #include <assert.h>
-#include "cgraph.h"
-#include <error.h>
-#include <actions.h>
-#include "sfstr.h"
+#include <cgraph/cgraph.h>
+#include <ast/error.h>
+#include <gvpr/actions.h>
+#include <ast/sfstr.h>
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -36,10 +36,10 @@
 #define MIN(a,b)        ((a)<(b)?(a):(b))
 #define MAX(a,b)        ((a)>(b)?(a):(b))
 
-#include <gdefs.h>
+#include <gvpr/gdefs.h>
 
-#include "ctype.h"
-#include "trie.c"
+#include <ctype.h>
+#include <gvpr/trie.c>
 
 #define BITS_PER_BYTE 8
 #ifdef HAVE_INTPTR_T

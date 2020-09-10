@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "spinehdr.h"
-#include "quad.h"
-#include "subset.h"
+#include <spine/spinehdr.h>
+#include <spine/quad.h>
+#include <spine/subset.h>
 
 static int cmpdeg(const void *v0, const void *v1)
 {

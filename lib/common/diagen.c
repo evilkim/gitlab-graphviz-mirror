@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "render.h"
+#include <common/render.h>
 
 #include <stdarg.h>
 #ifdef HAVE_UNISTD_H

@@ -24,8 +24,8 @@
 
 #include <vector>
 #include <list>
-#include "dsexceptions.h"
-#include "PairingHeap.h"
+#include <vpsc/pairingheap/dsexceptions.h>
+#include <vpsc/pairingheap/PairingHeap.h>
 
 #ifndef PAIRING_HEAP_CPP
 #define PAIRING_HEAP_CPP

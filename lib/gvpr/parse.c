@@ -17,10 +17,10 @@
  *
  */
 
-#include <ast.h>
-#include <sfstr.h>
-#include <error.h>
-#include <parse.h>
+#include <ast/ast.h>
+#include <ast/sfstr.h>
+#include <ast/error.h>
+#include <gvpr/parse.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>

@@ -16,7 +16,7 @@
  * Break cycles in a directed graph by depth-first search.
  */
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 void reverse_edge(edge_t * e)
 {

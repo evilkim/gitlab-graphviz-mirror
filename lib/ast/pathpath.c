@@ -25,7 +25,7 @@
  * if path==0 then the space is malloc'd
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 #include <string.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

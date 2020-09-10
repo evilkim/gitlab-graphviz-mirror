@@ -11,12 +11,12 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
-#include "geom.h"
-#include "arith.h"
-#include "math.h"
-#include "LinkedList.h"
-#include "QuadTree.h"
+#include <sparse/general.h>
+#include <common/geom.h>
+#include <common/arith.h>
+#include <math.h>
+#include <sparse/LinkedList.h>
+#include <sparse/QuadTree.h>
 
 extern real distance_cropped(real *x, int dim, int i, int j);
 

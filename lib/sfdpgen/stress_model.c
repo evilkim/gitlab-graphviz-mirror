@@ -1,8 +1,8 @@
-#include "general.h"
-#include "SparseMatrix.h"
-#include "spring_electrical.h"
-#include "post_process.h"
-#include "stress_model.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <sfdpgen/spring_electrical.h>
+#include <sfdpgen/post_process.h>
+#include <sfdpgen/stress_model.h>
 
 static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_weighted, int maxit_sm, real tol, int *flag){
   int m;
@@ -58,8 +58,8 @@ static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_we
 
 
 #ifdef GVIEWER
-#include "gviewer.h"
-#include "get_ps.h"
+#include <gviewer.h>
+#include <get_ps.h>
 struct stress_model_data {
   int dim;
   SparseMatrix D;

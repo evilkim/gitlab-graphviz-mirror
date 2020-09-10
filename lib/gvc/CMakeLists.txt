@@ -1,17 +1,5 @@
 add_definitions(-D_BLD_gvc=1 -DGVC_EXPORTS -DGVLIBDIR="${LIBRARY_INSTALL_DIR}/graphviz")
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${TOP_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/ast
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${LTDL_INCLUDE_DIRS}
-    ${RxSpencer_INCLUDE_DIRS}
-)
-
 add_library(gvc SHARED
     # Header files
     gvc.h
@@ -46,6 +34,19 @@ add_library(gvc SHARED
 
     # Link definition file for Windows
     gvc.def
+)
+
+target_include_directories(gvc PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${TOP_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/ast
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${LTDL_INCLUDE_DIRS}
+    ${RxSpencer_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvc

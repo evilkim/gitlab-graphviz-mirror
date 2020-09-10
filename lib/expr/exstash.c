@@ -18,7 +18,7 @@
  * expression library
  */
 
-#include <exlib.h>
+#include <expr/exlib.h>
 
 /*
  * 0 terminate string and optionally vmstrdup() return value

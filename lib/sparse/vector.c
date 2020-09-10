@@ -10,8 +10,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
-#include "vector.h"
+#include <sparse/general.h>
+#include <sparse/vector.h>
 
 
 /*---------------- base vector class ----------- */

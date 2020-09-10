@@ -24,12 +24,12 @@
 #include <stdlib.h>
 
 #include "builddate.h"
-#include "types.h"
-#include "gvplugin.h"
-#include "gvcjob.h"
-#include "gvcint.h"
-#include "gvcproc.h"
-#include "gvc.h"
+#include <common/types.h>
+#include <gvc/gvplugin.h>
+#include <gvc/gvcjob.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
+#include <gvc/gvc.h>
 
 /* from common/utils.c */
 extern void *zmalloc(size_t);

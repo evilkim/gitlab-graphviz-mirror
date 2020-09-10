@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include	"stack.h"
-#include	"circular.h"
+#include	<circogen/stack.h>
+#include	<circogen/circular.h>
 #include	<assert.h>
 
 nstack_t *mkStack()

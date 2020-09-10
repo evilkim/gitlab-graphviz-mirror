@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /*	Restore dictionary from given tree or list of elements.
 **	There are two cases. If called from within, list is nil.

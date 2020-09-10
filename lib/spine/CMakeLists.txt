@@ -1,9 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-)
-
 add_library(spine STATIC
     # Header files
     quad.h
@@ -17,4 +11,11 @@ add_library(spine STATIC
     spine.c
     subset.c
     union_find.c
+)
+
+target_include_directories(spine PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
 )

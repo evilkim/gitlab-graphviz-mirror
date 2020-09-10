@@ -25,7 +25,7 @@
  * Tim Dwyer, 2006
  **********************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef IPSEPCOLA
 #include <math.h>
 #include <stdlib.h>
@@ -33,11 +33,11 @@
 #include <stdio.h>
 #include <float.h>
 #include <assert.h>
-#include "matrix_ops.h"
-#include "kkutils.h"
-#include <csolve_VPSC.h>
-#include "quad_prog_vpsc.h"
-#include "quad_prog_solver.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/kkutils.h>
+#include <vpsc/csolve_VPSC.h>
+#include <neatogen/quad_prog_vpsc.h>
+#include <neatogen/quad_prog_solver.h>
 
 /* #define CONMAJ_LOGGING 1 */
 #define quad_prog_tol 1e-4

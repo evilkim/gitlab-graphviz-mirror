@@ -9,9 +9,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "color_palette.h"
-#include "string.h"
-#include "macros.h"
+#include <sparse/color_palette.h>
+#include <string.h>
+#include <common/macros.h>
 
 int knownColorScheme (char* name)
 {

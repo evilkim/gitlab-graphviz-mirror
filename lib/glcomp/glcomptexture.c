@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcomptexture.h"
-#include "glpangofont.h"
+#include <glcomp/glcomptexture.h>
+#include <glcomp/glpangofont.h>
 
-#include "memory.h"
+#include <common/memory.h>
 
 #if 0
 void glCompSetRemoveTexLabel(glCompSet * s, glCompFont * t)

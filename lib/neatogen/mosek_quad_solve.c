@@ -26,9 +26,9 @@
 #ifdef MOSEK
 #include <stdio.h>
 #include <assert.h>
-#include "defs.h"
-#include "mosek_quad_solve.h"
-#include "quad_prog_vpsc.h"
+#include <neatogen/defs.h>
+#include <neatogen/mosek_quad_solve.h>
+#include <neatogen/quad_prog_vpsc.h>
 
 /* #define DUMP_CONSTRAINTS */
 /* #define EQUAL_WIDTH_LEVELS */

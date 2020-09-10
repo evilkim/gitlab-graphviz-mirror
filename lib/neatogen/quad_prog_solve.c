@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef DIGCOLA
 #include <math.h>
 #include <stdlib.h>
@@ -19,9 +19,9 @@
 #include <stdio.h>
 #include <float.h>
 #include <assert.h>
-#include "matrix_ops.h"
-#include "kkutils.h"
-#include "quad_prog_solver.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/kkutils.h>
+#include <neatogen/quad_prog_solver.h>
 
 #define quad_prog_tol 1e-2
 

@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "neato.h"
-#include "mem.h"
-#include "info.h"
-#include "edges.h"
+#include <neatogen/neato.h>
+#include <neatogen/mem.h>
+#include <neatogen/info.h>
+#include <neatogen/edges.h>
 #include <math.h>
 
 

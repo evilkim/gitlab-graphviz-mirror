@@ -10,10 +10,10 @@
 
 #include "config.h"
 
-#include "general.h"
-#include "SparseMatrix.h"
-#include "nearest_neighbor_graph_ann.h"
-#include "nearest_neighbor_graph.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <mingle/nearest_neighbor_graph_ann.h>
+#include <mingle/nearest_neighbor_graph.h>
 
 SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, int dim, double *x, double eps){
   /* Gives a nearest neighbor graph of a list of dim-dimendional points. The result is a sparse matrix

@@ -21,8 +21,8 @@
 ******************************************/
 
 
-#include "bfs.h"
-#include "dijkstra.h"
+#include <neatogen/bfs.h>
+#include <neatogen/dijkstra.h>
 #include <limits.h>
 #include <stdlib.h>
 /* #include <math.h> */

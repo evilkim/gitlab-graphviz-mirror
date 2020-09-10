@@ -17,7 +17,7 @@
  * expression library
  */
 
-#include <exlib.h>
+#include <expr/exlib.h>
 
 /*
  * library error handler

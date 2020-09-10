@@ -16,9 +16,9 @@
  * Written by Emden R. Gansner
  */
 
-#include    "osage.h"
-#include    "neatoprocs.h"
-#include    "pack.h"
+#include    <osage/osage.h>
+#include    <neatogen/neatoprocs.h>
+#include    <pack/pack.h>
 
 #define CL_CHUNK 10
 #define DFLT_SZ  18

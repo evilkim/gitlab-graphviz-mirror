@@ -39,9 +39,9 @@
 #include <unistd.h>
 #endif
 #include <ctype.h>
-#include <dbg.h>
-#include <grid.h>
-#include <neato.h>
+#include <fdpgen/dbg.h>
+#include <fdpgen/grid.h>
+#include <neatogen/neato.h>
 
 #ifndef HAVE_SRAND48
 #define srand48 srand
@@ -50,8 +50,8 @@
 extern double drand48(void);
 #endif
 
-#include "tlayout.h"
-#include "globals.h"
+#include <fdpgen/tlayout.h>
+#include <common/globals.h>
 
 #define D_useGrid   (fdp_parms->useGrid)
 #define D_useNew    (fdp_parms->useNew)

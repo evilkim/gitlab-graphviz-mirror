@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "general.h"
-#include "IntStack.h"
+#include <sparse/general.h>
+#include <sparse/IntStack.h>
 
 IntStack IntStack_new(void){
   IntStack s;

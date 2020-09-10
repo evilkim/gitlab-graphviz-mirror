@@ -13,8 +13,8 @@
 
 #include <stdio.h>		/* need sprintf() */
 #include <ctype.h>
-#include "cghdr.h"
-#include "strcasecmp.h"
+#include <cgraph/cghdr.h>
+#include <cgraph/strcasecmp.h>
 
 #define EMPTY(s)		((s == 0) || (s)[0] == '\0')
 #define MAX(a,b)     ((a)>(b)?(a):(b))

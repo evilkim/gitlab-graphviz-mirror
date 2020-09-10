@@ -17,7 +17,7 @@
  * expression library
  */
 
-#include "exlib.h"
+#include <expr/exlib.h>
 
 /*
  * return the expression for name or sym coerced to type

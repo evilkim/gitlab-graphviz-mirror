@@ -34,23 +34,23 @@
  * Tim Dwyer, 2006
  **********************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef IPSEPCOLA
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
 #include <float.h>
-#include "stress.h"
-#include "dijkstra.h"
-#include "bfs.h"
-#include "matrix_ops.h"
-#include "kkutils.h"
-#include "conjgrad.h"
-#include <csolve_VPSC.h>
-#include "quad_prog_vpsc.h"
-#include "quad_prog_solver.h"
-#include "matrix_ops.h"
+#include <neatogen/stress.h>
+#include <neatogen/dijkstra.h>
+#include <neatogen/bfs.h>
+#include <neatogen/matrix_ops.h>
+#include <neatogen/kkutils.h>
+#include <neatogen/conjgrad.h>
+#include <vpsc/csolve_VPSC.h>
+#include <neatogen/quad_prog_vpsc.h>
+#include <neatogen/quad_prog_solver.h>
+#include <neatogen/matrix_ops.h>
 
 #define localConstrMajorIterations 1000
 

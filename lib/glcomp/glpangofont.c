@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glpangofont.h"
+#include <glcomp/glpangofont.h>
 
 #define DEFAULT_FONT_FAMILY "Arial"
 #define DEFAULT_FONT_SIZE 32

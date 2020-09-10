@@ -11,9 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include <digcola.h>
+#include <neatogen/digcola.h>
 #ifdef DIGCOLA
-#include "kkutils.h"
+#include <neatogen/kkutils.h>
 
 static int *given_levels = NULL;
 /*

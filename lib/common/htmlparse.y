@@ -13,9 +13,9 @@
 
 %{
 
-#include "render.h"
-#include "htmltable.h"
-#include "htmllex.h"
+#include <common/render.h>
+#include <common/htmltable.h>
+#include <common/htmllex.h>
 
 extern int yyparse(void);
 

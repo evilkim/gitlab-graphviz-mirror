@@ -1,4 +1,14 @@
-include_directories(
+add_library(twopigen STATIC
+    # Header files
+    circle.h
+
+    # Source files
+    circle.c
+    twopiinit.c
+)
+
+target_include_directories(twopigen PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
@@ -8,13 +18,4 @@ include_directories(
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sparse
-)
-
-add_library(twopigen STATIC
-    # Header files
-    circle.h
-
-    # Source files
-    circle.c
-    twopiinit.c
 )

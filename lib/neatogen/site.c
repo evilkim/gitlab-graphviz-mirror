@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "mem.h"
-#include "site.h"
+#include <neatogen/mem.h>
+#include <neatogen/site.h>
 #include <math.h>
 
 

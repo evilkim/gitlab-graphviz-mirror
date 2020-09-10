@@ -16,7 +16,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "render.h"
+#include <common/render.h>
 #define asub(i,j) a[(i)*n + (j)]
 
 

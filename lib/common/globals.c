@@ -14,9 +14,9 @@
 #include "config.h"
 
 #define EXTERN
-#include "types.h"
-#include "globals.h"
-#include "fdp.h"
+#include <common/types.h>
+#include <common/globals.h>
+#include <fdpgen/fdp.h>
 
 /* Default layout values, possibly set via command line; -1 indicates unset */
 static fdpParms_t fdpParms = {

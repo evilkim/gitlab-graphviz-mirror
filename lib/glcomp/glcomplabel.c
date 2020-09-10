@@ -11,11 +11,11 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcomplabel.h"
-#include "glcompfont.h"
-#include "glcompset.h"
-#include "glutils.h"
-#include "memory.h"
+#include <glcomp/glcomplabel.h>
+#include <glcomp/glcompfont.h>
+#include <glcomp/glcompset.h>
+#include <glcomp/glutils.h>
+#include <common/memory.h>
 
 glCompLabel *glCompLabelNew(glCompObj * par, GLfloat x, GLfloat y,
 			    char *text)

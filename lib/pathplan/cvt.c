@@ -13,7 +13,7 @@
 
 
 #include <stdio.h>
-#include "vis.h"
+#include <pathplan/vis.h>
 
 typedef Ppoint_t ilcoord_t;
 

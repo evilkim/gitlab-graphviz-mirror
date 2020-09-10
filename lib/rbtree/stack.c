@@ -7,7 +7,7 @@
 
 #include "config.h"
 
-#include "stack.h"
+#include <rbtree/stack.h>
 #include <stdlib.h>
 
 intptr_t StackNotEmpty(stk_stack * theStack) {

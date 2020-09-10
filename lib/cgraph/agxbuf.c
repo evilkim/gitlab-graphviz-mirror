@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <agxbuf.h>
+#include <cgraph/agxbuf.h>
 
 #define N_GNEW(n,t)	 (t*)calloc((n),sizeof(t))
 

@@ -1,7 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 add_library(rbtree STATIC
     # Header files
     red_black_tree.h
@@ -11,4 +7,9 @@ add_library(rbtree STATIC
     misc.c
     red_black_tree.c
     stack.c
+)
+
+include_directories(rbtree PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )

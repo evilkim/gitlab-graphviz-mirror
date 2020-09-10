@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #ifdef DIGCOLA
-#include "matrix_ops.h"
-#include "conjgrad.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/conjgrad.h>
 
 static void construct_b(vtx_data * graph, int n, double *b)
 {

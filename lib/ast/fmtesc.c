@@ -18,7 +18,7 @@
  * return string with expanded escape chars
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 #include <string.h>
 #include <ctype.h>
 

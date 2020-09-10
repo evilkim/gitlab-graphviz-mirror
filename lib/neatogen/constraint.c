@@ -14,8 +14,8 @@
 
 #include "config.h"
 
-#include "neato.h"
-#include "adjust.h"
+#include <neatogen/neato.h>
+#include <neatogen/adjust.h>
 
 /* For precision, scale up before algorithms, then scale down */
 #define SCALE 10   

@@ -8,6 +8,8 @@ XDOT_VERSION="4:0:0"
 pdfdir = $(pkgdatadir)/doc/pdf
 pkginclude_HEADERS = xdot.h
 
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+
 noinst_LTLIBRARIES = libxdot_C.la
 lib_LTLIBRARIES = libxdot.la
 pkgconfig_DATA = libxdot.pc

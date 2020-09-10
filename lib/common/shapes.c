@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "render.h"
-#include "htmltable.h"
+#include <common/render.h>
+#include <common/htmltable.h>
 #include <limits.h>
 
 #define RBCONST 12

@@ -11,13 +11,13 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glcompbutton.h"
-#include "glcomplabel.h"
-#include "glcompimage.h"
-#include "glcompfont.h"
-#include "glutils.h"
-#include "glcompset.h"
-#include "memory.h"
+#include <glcomp/glcompbutton.h>
+#include <glcomp/glcomplabel.h>
+#include <glcomp/glcompimage.h>
+#include <glcomp/glcompfont.h>
+#include <glcomp/glutils.h>
+#include <glcomp/glcompset.h>
+#include <common/memory.h>
 #include <string.h>
 #include <GL/glut.h>
 

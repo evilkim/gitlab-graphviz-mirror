@@ -12,8 +12,8 @@
  *************************************************************************/
 
 
-#include "render.h"
-#include "xlabels.h"
+#include <common/render.h>
+#include <label/xlabels.h>
 
 static int Rankdir;
 static boolean Flip;

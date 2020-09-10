@@ -16,7 +16,7 @@
  * Network Simplex Algorithm for Ranking Nodes of a DAG
  */
 
-#include "render.h"
+#include <common/render.h>
 #include <setjmp.h>
 
 static int init_graph(graph_t *);

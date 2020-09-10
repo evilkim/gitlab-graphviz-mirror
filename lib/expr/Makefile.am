@@ -7,8 +7,7 @@ pdfdir = $(pkgdatadir)/doc/pdf
 pkgconfigdir = $(libdir)/pkgconfig
 
 AM_CPPFLAGS = \
-        -I. \
-        -I$(top_srcdir) \
+	-I$(top_srcdir)/lib \
         -I$(top_srcdir)/lib/vmalloc \
 	-I$(top_srcdir)/lib/sfio \
 	-I$(top_srcdir)/lib/ast \

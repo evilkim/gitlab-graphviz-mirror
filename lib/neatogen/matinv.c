@@ -35,7 +35,7 @@
  */
 
 #include <stdlib.h>
-#include "render.h"
+#include <common/render.h>
 extern int lu_decompose(double **a, int n);
 extern void lu_solve(double *x, double *b, int n);
 

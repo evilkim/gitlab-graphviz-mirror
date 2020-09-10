@@ -20,16 +20,16 @@
 #endif
 #include <ctype.h>
 
-#include "neato.h"
-#include "pack.h"
-#include "stress.h"
+#include <neatogen/neato.h>
+#include <pack/pack.h>
+#include <neatogen/stress.h>
 #ifdef DIGCOLA
-#include "digcola.h"
+#include <neatogen/digcola.h>
 #endif
-#include "kkutils.h"
-#include "pointset.h"
-#include "sgd.h"
-#include "strcasecmp.h"
+#include <neatogen/kkutils.h>
+#include <common/pointset.h>
+#include <neatogen/sgd.h>
+#include <cgraph/strcasecmp.h>
 
 #ifndef HAVE_SRAND48
 #define srand48 srand

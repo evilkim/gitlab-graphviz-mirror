@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "gvconfig.h"
+#include <gvc/gvconfig.h>
 
 #include	<string.h>
 #include    <regex.h>
@@ -49,14 +49,14 @@ static int glob (GVC_t * gvc, char*, int, int (*errfunc)(const char *, int), glo
 #include <mach-o/dyld.h>
 #endif
 
-#include        "memory.h"
-#include        "const.h"
-#include        "types.h"
+#include        <common/memory.h>
+#include        <common/const.h>
+#include        <common/types.h>
 
-#include	"gvplugin.h"
-#include	"gvcjob.h"
-#include	"gvcint.h"
-#include        "gvcproc.h"
+#include	<gvc/gvplugin.h>
+#include	<gvc/gvcjob.h>
+#include	<gvc/gvcint.h>
+#include        <gvc/gvcproc.h>
 
 /* FIXME */
 extern Dt_t * textfont_dict_open(GVC_t *gvc);

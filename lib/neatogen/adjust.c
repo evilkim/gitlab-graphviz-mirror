@@ -16,25 +16,25 @@
  * order to reduce/remove node overlaps.
  */
 
-#include "neato.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "ctype.h"
-#include "voronoi.h"
-#include "info.h"
-#include "edges.h"
-#include "site.h"
-#include "heap.h"
-#include "hedges.h"
-#include "digcola.h"
+#include <neatogen/neato.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <ctype.h>
+#include <neatogen/voronoi.h>
+#include <neatogen/info.h>
+#include <neatogen/edges.h>
+#include <neatogen/site.h>
+#include <neatogen/heap.h>
+#include <neatogen/hedges.h>
+#include <neatogen/digcola.h>
 #if ((defined(HAVE_GTS) || defined(HAVE_TRIANGLE)) && defined(SFDP))
-#include "overlap.h"
+#include <neatogen/overlap.h>
 #endif
 #ifdef IPSEPCOLA
-#include "csolve_VPSC.h"
-#include "quad_prog_vpsc.h"
+#include <vpsc/csolve_VPSC.h>
+#include <neatogen/quad_prog_vpsc.h>
 #endif
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 #define SEPFACT         0.8  /* default esep/sep */
 

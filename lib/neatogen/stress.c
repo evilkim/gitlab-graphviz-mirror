@@ -12,15 +12,15 @@
  *************************************************************************/
 
 
-#include "neato.h"
-#include "dijkstra.h"
-#include "bfs.h"
-#include "pca.h"
-#include "matrix_ops.h"
-#include "conjgrad.h"
-#include "embed_graph.h"
-#include "kkutils.h"
-#include "stress.h"
+#include <neatogen/neato.h>
+#include <neatogen/dijkstra.h>
+#include <neatogen/bfs.h>
+#include <neatogen/pca.h>
+#include <neatogen/matrix_ops.h>
+#include <neatogen/conjgrad.h>
+#include <neatogen/embed_graph.h>
+#include <neatogen/kkutils.h>
+#include <neatogen/stress.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>

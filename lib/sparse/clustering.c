@@ -12,9 +12,9 @@
  *************************************************************************/
 
 #define STANDALONE
-#include "general.h"
-#include "SparseMatrix.h"
-#include "clustering.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/clustering.h>
 
 
 

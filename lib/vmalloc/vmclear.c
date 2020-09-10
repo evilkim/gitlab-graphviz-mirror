@@ -8,8 +8,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "vmhdr.h"
-#include "vmalloc.h"
+#include <vmalloc/vmhdr.h>
+#include <vmalloc/vmalloc.h>
 #include <stdlib.h>
 
 /** Clear out all allocated space.

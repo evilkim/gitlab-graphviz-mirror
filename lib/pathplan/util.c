@@ -14,7 +14,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include "pathutil.h"
+#include <pathplan/pathutil.h>
 
 #define ALLOC(size,ptr,type) (ptr? (type*)realloc(ptr,(size)*sizeof(type)):(type*)malloc((size)*sizeof(type)))
 

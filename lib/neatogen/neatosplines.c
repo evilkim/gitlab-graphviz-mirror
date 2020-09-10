@@ -14,17 +14,17 @@
 
 #include "config.h"
 
-#include "neato.h"
-#include "adjust.h"
-#include "pathplan.h"
-#include "vispath.h"
-#include "multispline.h"
+#include <neatogen/neato.h>
+#include <neatogen/adjust.h>
+#include <pathplan/pathplan.h>
+#include <pathplan/vispath.h>
+#include <neatogen/multispline.h>
 #ifndef HAVE_DRAND48
 extern double drand48(void);
 #endif
 
 #ifdef ORTHO
-#include <ortho.h>
+#include <ortho/ortho.h>
 #endif
 
 extern int in_poly(Ppoly_t argpoly, Ppoint_t q);

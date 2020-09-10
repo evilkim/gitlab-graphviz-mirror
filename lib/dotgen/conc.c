@@ -16,7 +16,7 @@
  *	build edge_t concentrators for parallel edges with a common endpoint
  */
 
-#include	"dot.h"
+#include	<dotgen/dot.h>
 #include	<setjmp.h>
 
 #define		UP		0

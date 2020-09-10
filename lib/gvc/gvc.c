@@ -13,13 +13,13 @@
 
 #include "config.h"
 
-#include "gvc.h"
-#include "const.h"
-#include "gvcjob.h"
-#include "gvcint.h"
-#include "gvcproc.h"
-#include "gvconfig.h"
-#include "gvio.h"
+#include <gvc/gvc.h>
+#include <common/const.h>
+#include <gvc/gvcjob.h>
+#include <gvc/gvcint.h>
+#include <gvc/gvcproc.h>
+#include <gvc/gvconfig.h>
+#include <gvc/gvio.h>
 #include <stdlib.h>
 
 GVC_t *gvContext(void)

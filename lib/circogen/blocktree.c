@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "blocktree.h"
+#include <circogen/blocktree.h>
 
 static void addNode(block_t * bp, Agnode_t * n)
 {

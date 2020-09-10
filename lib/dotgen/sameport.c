@@ -17,7 +17,7 @@
  */
 
 #include <math.h>
-#include	"dot.h"
+#include	<dotgen/dot.h>
 
 
 #define MAXSAME 5		/* max no of same{head,tail} groups on a node */

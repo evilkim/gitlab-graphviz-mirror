@@ -17,7 +17,7 @@
 #include <getopt.h>
 #include <assert.h>
 
-#include "inkpot.h"
+#include <inkpot/inkpot.h>
 
 char *Info[] = {
     "inkpot",                   /* Program */

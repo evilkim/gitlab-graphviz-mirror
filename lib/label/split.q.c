@@ -10,11 +10,11 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "index.h"
+#include <label/index.h>
 #include <stdio.h>
 #include <assert.h>
-#include "split.q.h"
-#include "logic.h"
+#include <label/split.q.h>
+#include <common/logic.h>
 
 /* Forward declarations */
 static void MethodZero(RTree_t * rtp);

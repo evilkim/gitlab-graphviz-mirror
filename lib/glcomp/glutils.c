@@ -11,10 +11,10 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "glutils.h"
-#include "stdlib.h"
-#include "string.h"
-#include "glcompdefs.h"
+#include <glcomp/glutils.h>
+#include <stdlib.h>
+#include <string.h>
+#include <glcomp/glcompdefs.h>
 /* #include "glexpose.h" */
 
 /* at given depth value, tranforms 2d Window location to 3d gl coords*/

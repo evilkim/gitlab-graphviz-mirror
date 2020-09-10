@@ -6,8 +6,10 @@ PATHPLAN_VERSION="4:0:0"
 pdfdir = $(pkgdatadir)/doc/pdf
 pkgconfigdir = $(libdir)/pkgconfig
 
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+
 if WITH_WIN32
-AM_CPPFLAGS = -O0
+AM_CPPFLAGS += -O0
 endif
 
 pkginclude_HEADERS = pathgeom.h pathplan.h

@@ -17,13 +17,13 @@
 
 
 #include <iostream>
-#include <variable.h>
-#include <constraint.h>
-#include <generate-constraints.h>
-#include <solve_VPSC.h>
+#include <vpsc/variable.h>
+#include <vpsc/constraint.h>
+#include <vpsc/generate-constraints.h>
+#include <vpsc/solve_VPSC.h>
 #include <cstdlib>
 #include <cassert>
-#include "csolve_VPSC.h"
+#include <vpsc/csolve_VPSC.h>
 extern "C" {
 Variable* newVariable(int id, double desiredPos, double weight) {
 	return new Variable(id,desiredPos,weight);

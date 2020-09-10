@@ -15,10 +15,6 @@
 #define ATT_GRAPHPVT_H 1
 #define _BLD_cgraph 1
 
-#ifndef EXTERN
-#define EXTERN extern
-#endif
-
 #ifdef _WIN32
 #   ifdef EXPORT_CGHDR
 #       define CGHDR_API __declspec(dllexport)
@@ -75,7 +71,7 @@ CGHDR_API int agapply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	    int preorder);
 
 	/* global variables */
-EXTERN Agraph_t *Ag_G_global;
+extern Agraph_t *Ag_G_global;
 extern char *AgDataRecName;
 
 	/* set ordering disciplines */

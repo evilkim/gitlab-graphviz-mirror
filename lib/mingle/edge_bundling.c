@@ -10,22 +10,22 @@
 
 #include "config.h"
 
-#include "types.h"
-#include "globals.h"
-#include "general.h"
+#include <common/types.h>
+#include <common/globals.h>
+#include <sparse/general.h>
 #include <math.h>
-#include "SparseMatrix.h"
-#include "edge_bundling.h"
+#include <sparse/SparseMatrix.h>
+#include <mingle/edge_bundling.h>
 #include <time.h>
-#include "clustering.h"
-#include "ink.h"
-#include "agglomerative_bundling.h"
+#include <sparse/clustering.h>
+#include <mingle/ink.h>
+#include <mingle/agglomerative_bundling.h>
 #include <string.h>
 
 #define SMALL 1.e-10
 
 #ifdef OPENGL
-#include "gl.h"
+#include <gl.h>
 extern pedge *edges_global;
 extern int *clusters_global;
 #endif

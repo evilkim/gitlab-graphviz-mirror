@@ -25,10 +25,10 @@
  * Drawings", GD '02, LNCS 2528, pp. 12-22.
  */
 
-#include    "circular.h"
-#include    "adjust.h"
-#include    "pack.h"
-#include    "neatoprocs.h"
+#include    <circogen/circular.h>
+#include    <neatogen/adjust.h>
+#include    <pack/pack.h>
+#include    <neatogen/neatoprocs.h>
 #include    <string.h>
 
 static void circular_init_edge(edge_t * e)

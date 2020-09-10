@@ -10,9 +10,9 @@
  *
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
-#include "glCompTrackBar.h"
-#include "glcomptext.h"
-#include "memory.h"
+#include <glcomp/glCompTrackBar.h>
+#include <glcomp/glcomptext.h>
+#include <common/memory.h>
 
 glCompTrackBar *glCompTrackBarNew(GLfloat x, GLfloat y, GLfloat w,
 				  GLfloat h, glCompOrientation orientation)

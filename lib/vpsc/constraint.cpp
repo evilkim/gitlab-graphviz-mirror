@@ -16,7 +16,7 @@
  * Adaptagrams repository.
  */
 
-#include "constraint.h"
+#include <vpsc/constraint.h>
 #include <cassert>
 Constraint::Constraint(Variable *left, Variable *right, double gap, bool equality)
 : left(left),

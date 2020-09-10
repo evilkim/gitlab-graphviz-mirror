@@ -1,9 +1,5 @@
 if (with_ipsepcola)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 add_library(vpsc STATIC
     # Header files
     block.h
@@ -27,6 +23,11 @@ add_library(vpsc STATIC
     remove_rectangle_overlap.cpp
     solve_VPSC.cpp
     variable.cpp
+)
+
+target_include_directories(vpsc PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 endif (with_ipsepcola)

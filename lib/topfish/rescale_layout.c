@@ -29,11 +29,10 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "matrix_ops.h"
-/* #include "hierarchy.h" */
-#include "delaunay.h"
-#include "memory.h"
-#include "arith.h"
+#include <neatogen/matrix_ops.h>
+#include <neatogen/delaunay.h>
+#include <common/memory.h>
+#include <common/arith.h>
 
 static double *compute_densities(v_data * graph, int n, double *x,
 				 double *y)

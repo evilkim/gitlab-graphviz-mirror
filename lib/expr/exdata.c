@@ -19,7 +19,7 @@
 
 static const char id[] = "\n@(#)$Id: libexpr (AT&T Research) 2011-06-30 $\0\n";
 
-#include <exlib.h>
+#include <expr/exlib.h>
 
 const char*	exversion = id + 10;
 

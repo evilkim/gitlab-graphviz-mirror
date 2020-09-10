@@ -11,8 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "render.h"
-#include "agxbuf.h"
+#include <common/render.h>
+#include <cgraph/agxbuf.h>
 #include <stdarg.h>
 #include <string.h>
 

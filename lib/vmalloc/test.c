@@ -11,13 +11,13 @@
 #include <string.h>
 
 /* include vmalloc and some of its internals directly so we can call them */
-#include "vmhdr.h"
-#include "vmalloc.h"
-#include "vmbest.c"
-#include "vmclear.c"
-#include "vmclose.c"
-#include "vmopen.c"
-#include "vmstrdup.c"
+#include <vmalloc/vmhdr.h>
+#include <vmalloc/vmalloc.h>
+#include <vmalloc/vmbest.c>
+#include <vmalloc/vmclear.c>
+#include <vmalloc/vmclose.c>
+#include <vmalloc/vmopen.c>
+#include <vmalloc/vmstrdup.c>
 
 /* trivial lifecycle of a vmalloc */
 static void test_basic_lifecycle(void) {

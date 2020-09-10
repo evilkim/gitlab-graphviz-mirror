@@ -17,8 +17,8 @@
 #include <setjmp.h>
 #include <stdlib.h>
 #include <math.h>
-#include "pathutil.h"
-#include "solvers.h"
+#include <pathplan/pathutil.h>
+#include <pathplan/solvers.h>
 
 #define EPSILON1 1E-3
 #define EPSILON2 1E-6

@@ -12,11 +12,11 @@
 
 #include <stdlib.h>
 
-#include "index.h"
+#include <label/index.h>
 #include <stdio.h>
 #include <assert.h>
-#include "logic.h"
-#include "memory.h"
+#include <common/logic.h>
+#include <common/memory.h>
 
 LeafList_t *RTreeNewLeafList(Leaf_t * lp)
 {

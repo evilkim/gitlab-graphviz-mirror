@@ -17,7 +17,7 @@
  * create temporary edges.
  */
 
-#include "dot.h"
+#include <dotgen/dot.h>
 
 
 int nonconstraint_edge(edge_t * e)

@@ -17,8 +17,8 @@
  *
  */
 
-#include <queue.h>
-#include <ast.h>
+#include <gvpr/queue.h>
+#include <ast/ast.h>
 
 typedef struct {
     Dtlink_t link;

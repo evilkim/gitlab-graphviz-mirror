@@ -22,7 +22,7 @@
  * path returned in path buffer
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else

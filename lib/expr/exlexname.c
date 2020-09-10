@@ -17,8 +17,8 @@
  * return lex name for op[subop]
  */
 
-#include "exlib.h"
-#include "exop.h"
+#include <expr/exlib.h>
+#include <expr/exop.h>
 
 #define TOTNAME		3
 #define MAXNAME		16

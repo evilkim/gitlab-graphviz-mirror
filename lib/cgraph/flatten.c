@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "cghdr.h"
+#include <cgraph/cghdr.h>
 
 static void agflatten_elist(Dict_t * d, Dtlink_t ** lptr, int flag)
 {

@@ -27,13 +27,13 @@
 #define DEBUG
 #include <stddef.h>
 #include <setjmp.h>
-#include <maze.h>
-#include "fPQ.h"
-#include "memory.h"
-#include "geomprocs.h"
-#include "globals.h"
-#include "render.h"
-#include "pointset.h"
+#include <ortho/maze.h>
+#include <ortho/fPQ.h>
+#include <common/memory.h>
+#include <common/geomprocs.h>
+#include <common/globals.h>
+#include <common/render.h>
+#include <common/pointset.h>
 typedef struct {
     int d;
     Agedge_t* e;
@@ -513,7 +513,7 @@ addNodeEdges (sgraph* sg, cell* cp, snode* np)
 
 #ifdef DEBUG
 
-#include <intset.h>
+#include <common/intset.h>
 static char* bendToStr (bend b)
 {
   char* s = NULL;
@@ -1371,8 +1371,7 @@ orthofinish:
 }
 
 #ifdef DEBUG
-#include <arith.h>
-/* #include <values.h> */
+#include <common/arith.h>
 #define TRANS 10
 
 static char* prolog2 =

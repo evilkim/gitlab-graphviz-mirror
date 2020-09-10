@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /* Hashing a string into an unsigned integer.
 ** The basic method is to continuingly accumulate bytes and multiply

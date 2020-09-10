@@ -13,7 +13,7 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#include "variable.h"
+#include <vpsc/variable.h>
 std::ostream& operator <<(std::ostream &os, const Variable &v) {
 	os << "(" << v.id << "=" << v.position() << ")";
 	return os;

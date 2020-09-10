@@ -1,5 +1,4 @@
-#include	"dthdr.h"
-static char*     Version = "\n@(#)$Id$\0\n";
+#include	<cdt/dthdr.h>
 
 /* 	Make a new dictionary
 **
@@ -8,7 +7,7 @@ static char*     Version = "\n@(#)$Id$\0\n";
 
 Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 {
-	Dt_t*		dt = (Dt_t*)Version;	/* shut-up unuse warning */
+	Dt_t*		dt;
 	int		e;
 	Dtdata_t*	data;
 

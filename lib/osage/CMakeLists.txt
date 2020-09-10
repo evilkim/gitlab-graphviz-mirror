@@ -1,4 +1,13 @@
-include_directories(
+add_library(osage STATIC
+    # Header files
+    osage.h
+
+    # Source files
+    osageinit.c
+)
+
+target_include_directories(osage PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
@@ -10,12 +19,4 @@ include_directories(
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${GRAPHVIZ_LIB_DIR}/sfdpgen
     ${GRAPHVIZ_LIB_DIR}/sparse
-)
-
-add_library(osage STATIC
-    # Header files
-    osage.h
-
-    # Source files
-    osageinit.c
 )

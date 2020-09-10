@@ -15,10 +15,10 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "inkpot.h"
-#include "inkpot_lib_define.h"
-#include "inkpot_value.h"
-#include "inkpot_lib_value.h"
+#include <inkpot/inkpot.h>
+#include <inkpot/inkpot_lib_define.h>
+#include <inkpot/inkpot_value.h>
+#include <inkpot/inkpot_lib_value.h>
 
 inkpot_status_t inkpot_value_set ( inkpot_values_t *values, inkpot_value_t *value )
 {

@@ -1,4 +1,4 @@
-#include	"dthdr.h"
+#include	<cdt/dthdr.h>
 
 /*	Ordered set/multiset
 **	dt:	dictionary being searched

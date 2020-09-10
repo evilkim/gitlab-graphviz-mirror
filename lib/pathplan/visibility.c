@@ -12,7 +12,7 @@
  *************************************************************************/
 
 
-#include "vis.h"
+#include <pathplan/vis.h>
 
 	/* TRANSPARENT means router sees past colinear obstacles */
 #ifdef TRANSPARENT

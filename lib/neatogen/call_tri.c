@@ -13,10 +13,10 @@
 
 #include "config.h"
 
-#include "SparseMatrix.h"
-#include "logic.h"
-#include "memory.h"
-#include "delaunay.h"
+#include <sparse/SparseMatrix.h>
+#include <common/logic.h>
+#include <common/memory.h>
+#include <neatogen/delaunay.h>
 
 SparseMatrix call_tri(int n, int dim, real * x)
 {

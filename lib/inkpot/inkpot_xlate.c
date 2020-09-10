@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "inkpot_xlate.h"
+#include <inkpot/inkpot_xlate.h>
 
 void hsva2rgba(double hsva[4], double rgba[4])
 {

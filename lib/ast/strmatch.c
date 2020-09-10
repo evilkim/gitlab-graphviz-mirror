@@ -51,9 +51,9 @@
  *	  element size
  */
 
-#include "ast.h"
+#include <ast/ast.h>
 #include <ctype.h>
-#include "hashkey.h"
+#include <ast/hashkey.h>
 #include <string.h>
 
 #if _hdr_wchar && _lib_wctype && _lib_iswctype
@@ -120,7 +120,7 @@ static int iswblank(wint_t wc)
 #endif
 
 #if _DEBUG_MATCH
-#include "error.h"
+#include <ast/error.h>
 #endif
 
 #define MAXGROUP	10
