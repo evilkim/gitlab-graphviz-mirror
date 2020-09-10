@@ -115,7 +115,6 @@
     <ClCompile Include="sfio_f\_sfvalue.c" />
     <ClCompile Include="sfllen.c" />
     <ClCompile Include="sfmode.c" />
-    <ClCompile Include="sfmutex.c" />
     <ClCompile Include="sfnew.c" />
     <ClCompile Include="sfnotify.c" />
     <ClCompile Include="sfnputc.c" />

@@ -128,9 +128,6 @@
     <ClCompile Include="sfmode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfmutex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfnew.c">
       <Filter>Source Files</Filter>
     </ClCompile>

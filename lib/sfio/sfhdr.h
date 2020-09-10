@@ -172,9 +172,6 @@ extern "C" {
 #define SF_SEQUENTIAL	00000020	/* sequential access                    */
 #define SF_JUSTSEEK	00000040	/* just did a sfseek                    */
 
-/* this bit signals sfmutex() not to create a mutex for a private stream */
-#define SF_PRIVATE	00000200	/* private stream to Sfio               */
-
 /* on closing, don't be a hero about reread/rewrite on interrupts */
 #define SF_ENDING	00000400
 

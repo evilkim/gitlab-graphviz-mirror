@@ -38,7 +38,6 @@ int sfvsscanf(const char *s, const char *form, va_list args)
     /* make a fake stream */
     SFCLEAR(&f, NIL(Vtmutex_t *));
     f.flags = SF_STRING | SF_READ;
-    f.bits = SF_PRIVATE;
     f.mode = SF_READ;
     f.size = strlen(s);
     f.data = f.next = f.endw = (uchar *) s;
