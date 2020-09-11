@@ -34,11 +34,7 @@
 #define drand48 rand
 #endif
 
-#ifdef OLD
-#include <tm.h>
-#else
 #define TIME_LEN 80             /* max. characters to store time */
-#endif
 
 static Extype_t	eval(Expr_t*, Exnode_t*, void*);
 
@@ -206,9 +202,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	int			from;
 	int			to = 0;
 	time_t			tm;
-#ifndef OLD
     struct tm *stm;
-#endif
 
 
 	dp->flags |= SFFMT_VALUE;
@@ -354,16 +348,12 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	case 'T':
 		if ((tm = *((Sflong_t*)vp)) == -1)
 			tm = time(NiL);
-#ifndef OLD
         if (!txt)
             txt = "%?%K";
         s = fmtbuf(TIME_LEN);
         stm = localtime(&tm);
         strftime(s, TIME_LEN, txt, stm);
         *((char **) vp) = s;
-#else
-		*((char**)vp) = fmttime(txt ? txt : "%?%K", tm);
-#endif
 		dp->fmt = 's';
 		dp->size = -1;
 		break;
@@ -971,13 +961,11 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				i = eval(ex, x->data.variable.index, env);
 			else
 				i.integer = EX_SCALAR;
-#ifndef OLD
 			if (x->data.variable.dyna) {
 				Extype_t locv;
 				locv = getdyn(ex, x->data.variable.dyna, env, &assoc);
 				x->data.variable.dyna->data.variable.dyna->data.constant.value = locv;
 			}
-#endif
 			r = (*ex->disc->getf)(ex, x, x->data.variable.symbol, x->data.variable.reference, env, (int)i.integer, ex->disc);
 		}
 		v = r;
@@ -1013,13 +1001,11 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				i = eval(ex, x->data.variable.index, env);
 			else
 				i.integer = EX_SCALAR;
-#ifndef OLD
 			if (x->data.variable.dyna) {
 				Extype_t locv;
 				locv = getdyn(ex, x->data.variable.dyna, env, &assoc);
 				x->data.variable.dyna->data.variable.dyna->data.constant.value = locv;
 			}
-#endif
 			if ((*ex->disc->setf)(ex, x, x->data.variable.symbol, x->data.variable.reference, env, (int)i.integer, v, ex->disc) < 0)
 				exerror("%s: cannot set value", x->data.variable.symbol->name);
 		}
@@ -1269,13 +1255,11 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			i = eval(ex, expr->data.variable.index, env);
 		else
 			i.integer = EX_SCALAR;
-#ifndef OLD
 		if (expr->data.variable.dyna) {
 			Extype_t locv;
 			locv = getdyn(ex, expr->data.variable.dyna, env, &assoc);
 			expr->data.variable.dyna->data.variable.dyna->data.constant.  value = locv;
 		}
-#endif
 		return (*ex->disc->getf)(ex, expr, expr->data.variable.symbol, expr->data.variable.reference, env, (int)i.integer, ex->disc);
 	case INC:
 		n = 1;
@@ -1286,12 +1270,6 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 	case PRINTF:
 		v.integer = print(ex, expr, env, NiL);
 		return v;
-#ifdef UNUSED
-	case QUERY:
-		print(ex, expr, env, sfstderr);
-		v.integer = !astquery(2, "");
-		return v;
-#endif
 	case RETURN:
 		ex->loopret = eval(ex, x, env);
 		ex->loopcount = 32767;
@@ -1318,13 +1296,11 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 					v = eval(ex, x->data.variable.index, env);
 				else
 					v.integer = EX_SCALAR;
-#ifndef OLD
 				if (x->data.variable.dyna) {
 					Extype_t locv;
 					locv = getdyn(ex, x->data.variable.dyna, env, &assoc);
 					x->data.variable.dyna->data.variable.dyna->data.  constant.value = locv;
 				}
-#endif
 				v = (*ex->disc->getf)(ex, x, x->data.variable.symbol, x->data.variable.reference, env, (int)v.integer, ex->disc);
 			}
 			switch (x->type)

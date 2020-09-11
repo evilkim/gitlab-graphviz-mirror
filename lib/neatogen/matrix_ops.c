@@ -404,19 +404,6 @@ vectors_addition(int n, double *vector1, double *vector2, double *result)
     }
 }
 
-#ifdef UNUSED
-/* inline */
-void
-vectors_mult_addition(int n, double *vector1, double alpha,
-		      double *vector2)
-{
-    int i;
-    for (i = 0; i < n; i++) {
-	vector1[i] = vector1[i] + alpha * vector2[i];
-    }
-}
-#endif
-
 /* inline */
 void
 vectors_scalar_mult(int n, double *vector, double alpha, double *result)
@@ -458,45 +445,6 @@ double max_abs(int n, double *vector)
 
     return max_val;
 }
-
-#ifdef UNUSED
-/* inline */
-void orthogvec(int n, double *vec1,	/* vector to be orthogonalized */
-	       double *vec2	/* normalized vector to be orthogonalized against */
-    )
-{
-    double alpha;
-    if (vec2 == NULL) {
-	return;
-    }
-
-    alpha = -vectors_inner_product(n, vec1, vec2);
-
-    vectors_mult_addition(n, vec1, alpha, vec2);
-}
-
- /* sparse matrix extensions: */
-
-/* inline */
-void mat_mult_vec(vtx_data * L, int n, double *vec, double *result)
-{
-    /* compute result= -L*vec */
-    int i, j;
-    double sum;
-    int *edges;
-    float *ewgts;
-
-    for (i = 0; i < n; i++) {
-	sum = 0;
-	edges = L[i].edges;
-	ewgts = L[i].ewgts;
-	for (j = 0; j < L[i].nedges; j++) {
-	    sum -= ewgts[j] * vec[edges[j]];
-	}
-	result[i] = sum;
-    }
-}
-#endif
 
 /* inline */
 void
@@ -558,36 +506,6 @@ void orthog1f(int n, float *vec)
 	*pntr++ -= sum;
     }
 }
-
-#ifdef UNUSED
-/* inline */
-void right_mult_with_vectorf
-    (vtx_data * matrix, int n, float *vector, float *result) {
-    int i, j;
-
-    float res;
-    for (i = 0; i < n; i++) {
-	res = 0;
-	for (j = 0; j < matrix[i].nedges; j++)
-	    res += matrix[i].ewgts[j] * vector[matrix[i].edges[j]];
-	result[i] = res;
-    }
-}
-
-/* inline */
-void right_mult_with_vector_fd
-    (float **matrix, int n, float *vector, double *result) {
-    int i, j;
-
-    float res;
-    for (i = 0; i < n; i++) {
-	res = 0;
-	for (j = 0; j < n; j++)
-	    res += matrix[i][j] * vector[j];
-	result[i] = res;
-    }
-}
-#endif
 
 /* inline */
 void right_mult_with_vector_ff
@@ -762,42 +680,5 @@ void invert_sqrt_vec(int n, float *vec)
 	}
     }
 }
-
-#ifdef UNUSED
-/* inline */
-void init_vec_orth1f(int n, float *vec)
-{
-    /* randomly generate a vector orthogonal to 1 (i.e., with mean 0) */
-    int i;
-
-    for (i = 0; i < n; i++)
-	vec[i] = (float) (rand() % RANGE);
-
-    orthog1f(n, vec);
-}
-
-
- /* sparse matrix extensions: */
-
-/* inline */
-void mat_mult_vecf(vtx_data * L, int n, float *vec, float *result)
-{
-    /* compute result= -L*vec */
-    int i, j;
-    float sum;
-    int *edges;
-    float *ewgts;
-
-    for (i = 0; i < n; i++) {
-	sum = 0;
-	edges = L[i].edges;
-	ewgts = L[i].ewgts;
-	for (j = 0; j < L[i].nedges; j++) {
-	    sum -= ewgts[j] * vec[edges[j]];
-	}
-	result[i] = sum;
-    }
-}
-#endif
 
 #endif

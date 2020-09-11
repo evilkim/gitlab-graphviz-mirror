@@ -60,12 +60,6 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
     f = b;
     escaped = spaced = !!(flags & FMT_ALWAYS);
     while (s < e) {
-#ifdef UNUSED
-	if ((c = mbsize(s)) > 1) {
-	    while (c-- && s < e)
-		*b++ = *s++;
-	} else {
-#endif
 	    c = *s++;
 	    if (!(flags & FMT_ESCAPED)
 		&& (iscntrl(c) || !isprint(c) || c == '\\')) {
@@ -130,9 +124,6 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		)
 		spaced = 1;
 	    *b++ = c;
-#ifdef UNUSED
-	}
-#endif
     }
     if (qb) {
 	if (!escaped)

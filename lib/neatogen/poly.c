@@ -72,46 +72,6 @@ static void bbox(Point * verts, int cnt, Point * o, Point * c)
     c->y = ymax;
 }
 
-#ifdef OLD
-static void inflate(Point * prev, Point * cur, Point * next, double margin)
-{
-    double theta = atan2(prev->y - cur->y, prev->x - cur->x);
-    double phi = atan2(next->y - cur->y, next->x - cur->x);
-    double beta = (theta + phi) / 2.0;
-    double gamma = (M_PI + phi - theta) / 2.0;
-    double denom;
-
-    denom = cos(gamma);
-    cur->x -= margin * (cos(beta)) / denom;
-    cur->y -= margin * (sin(beta)) / denom;
-}
-
-static void inflatePts(Point * verts, int cnt, double margin)
-{
-    int i;
-    Point first;
-    Point savepoint;
-    Point prevpoint;
-    Point *prev = &prevpoint;
-    Point *cur;
-    Point *next;
-
-    first = verts[0];
-    prevpoint = verts[cnt - 1];
-    cur = &verts[0];
-    next = &verts[1];
-    for (i = 0; i < cnt - 1; i++) {
-	savepoint = *cur;
-	inflate(prev, cur, next, margin);
-	cur++;
-	next++;
-	prevpoint = savepoint;
-    }
-
-    next = &first;
-    inflate(prev, cur, next, margin);
-}
-#else
 static void inflatePts(Point * verts, int cnt, float xmargin, float ymargin)
 {
     int i;
@@ -124,7 +84,6 @@ static void inflatePts(Point * verts, int cnt, float xmargin, float ymargin)
 	cur++;
     }
 }
-#endif
 
 static int isBox(Point * verts, int cnt)
 {
@@ -336,13 +295,8 @@ int makePoly(Poly * pp, Agnode_t * n, float xmargin, float ymargin)
 	    return 1;
 	}
 
-#ifdef OLD
-    if (margin != 0.0)
-	inflatePts(verts, sides, margin);
-#else
     if ((xmargin != 1.0) || (ymargin != 1.0))
 	inflatePts(verts, sides, xmargin, ymargin);
-#endif
 
     pp->verts = verts;
     pp->nverts = sides;

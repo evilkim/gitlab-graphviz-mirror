@@ -72,59 +72,6 @@ void appendNodelist(nodelist_t * list, nodelistitem_t * one, Agnode_t * n)
     }
 }
 
-#ifdef OLD
-/* addNodelist:
- * Adds node to end of list if not already present.
- */
-void addNodelist(nodelist_t * list, Agnode_t * n)
-{
-    nodelistitem_t *temp;
-    nodelistitem_t *item = 0;
-
-    for (temp = list->first; temp; temp = temp->next) {
-	if (n == temp->curr) {
-	    item = temp;
-	    break;
-	}
-    }
-
-    if (item)
-	return;
-
-    item = init_nodelistitem(n);
-    if (list->last) {
-	list->last->next = item;
-	item->prev = list->last;
-    } else
-	list->first = item;
-    list->last = item;
-    list->sz++;
-}
-
-void removeNodelist(nodelist_t * list, Agnode_t * n)
-{
-    nodelistitem_t *temp;
-
-    for (temp = list->first; temp; temp = temp->next) {
-	if (n == temp->curr) {
-	    list->sz--;
-	    if (temp->prev == NULL) {	/* the first node */
-		list->first = temp->next;
-	    } else {
-		temp->prev->next = temp->next;
-	    }
-	    if (temp == list->last) {	/* the last node */
-		list->last = temp->prev;
-	    } else {
-		temp->next->prev = temp->prev;
-	    }
-	    free(temp);
-	    return;
-	}
-    }
-}
-#endif
-
 /* reverseNodelist;
  * Destructively reverse a list.
  */
@@ -255,53 +202,7 @@ insertNodelist(nodelist_t * list, Agnode_t * cn, Agnode_t * neighbor,
 int sizeNodelist(nodelist_t * list)
 {
     return list->sz;
-#ifdef OLD
-    int i = 0;
-    nodelistitem_t *temp = NULL;
-
-    temp = list->first;
-    while (temp) {
-	i++;
-	temp = temp->next;
-    }
-    return i;
-#endif
 }
-
-#ifdef OLD
-/* node_exists:
- * Return true if node is in list.
- */
-int node_exists(nodelist_t * list, Agnode_t * n)
-{
-    nodelistitem_t *temp;
-
-    for (temp = list->first; temp; temp = temp->next) {
-	if (temp->curr == n) {
-	    return 1;
-	}
-    }
-    return 0;
-}
-
-/* nodename_exists:
- * Return true if node with given name is in list.
- * Assumes n == np->name for some node np;
- */
-int nodename_exists(nodelist_t * list, char *n)
-{
-    nodelistitem_t *temp;
-
-    temp = list->first;
-
-    for (temp = list->first; temp; temp = temp->next) {
-	if (temp->curr->name == n) {
-	    return 1;
-	}
-    }
-    return 0;
-}
-#endif
 
 /* node_position:
  * Returns index of node n in list, starting at 0.
@@ -310,19 +211,6 @@ int nodename_exists(nodelist_t * list, char *n)
 int node_position(nodelist_t * list, Agnode_t * n)
 {
     return POSITION(n);
-#ifdef OLD
-    nodelistitem_t *temp;
-    int i = 0;
-    char *name = agnameof(n);
-
-    for (temp = list->first; temp; temp = temp->next) {
-	if (streq(agnameof(temp->curr),name)) {
-	    return i;
-	}
-	i++;
-    }
-    return -1;
-#endif
 }
 
 /* concatNodelist:

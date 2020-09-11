@@ -197,16 +197,6 @@ validate(graph_t * g)
 }
 #endif
 
-#ifdef OLD
-static node_t *newNode(graph_t * g)
-{
-    static int id = 0;
-    char buf[100];
-
-    sprintf(buf, "n%d", id++);
-    return agnode(g, buf);
-}
-#endif
 
 /* mkNConstraintG:
  * Similar to mkConstraintG, except it doesn't enforce orthogonal
@@ -305,9 +295,6 @@ static graph_t *mkConstraintG(graph_t * g, Dt_t * list,
     edge_t *e;
     int lcnt, cnt;
     int oldval = -INT_MAX;
-#ifdef OLD
-    double root_val;
-#endif
     node_t *lastn = NULL;
     graph_t *cg = agopen("cg", Agstrictdirected, NIL(Agdisc_t *));
     agbindrec(cg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);  // graph custom data
@@ -338,9 +325,6 @@ static graph_t *mkConstraintG(graph_t * g, Dt_t * list,
 		lastn = n;
 	    } else {
 		root = n;
-#ifdef OLD
-		root_val = p->val;
-#endif
 		lastn = GD_nlist(cg) = n;
 	    }
 	    alloc_elist(lcnt, ND_in(n));
@@ -402,41 +386,6 @@ static graph_t *mkConstraintG(graph_t * g, Dt_t * list,
      */
     mapGraphs(vg, cg, dist);
     agclose(vg);
-
-    /* add dummy constraints for absolute values and initial positions */
-#ifdef OLD
-    for (n = agfstnode(cg); n; n = agnxtnode(cg, n)) {
-	node_t *vn;		/* slack node for absolute value */
-	node_t *an;		/* node representing original position */
-
-	p = (nitem *) ND_alg(n);
-	if ((n == root) || (!p))
-	    continue;
-	vn = newNode(cg);
-	ND_next(lastn) = vn;
-	lastn = vn;
-	alloc_elist(0, ND_out(vn));
-	alloc_elist(2, ND_in(vn));
-	an = newNode(cg);
-	ND_next(lastn) = an;
-	lastn = an;
-	alloc_elist(1, ND_in(an));
-	alloc_elist(1, ND_out(an));
-
-	e = agedge(cg, root, an, 1);
-	ED_minlen(e) = p->val - root_val;
-	elist_append(e, ND_out(root));
-	elist_append(e, ND_in(an));
-
-	e = agedge(cg, an, vn, 1);
-	elist_append(e, ND_out(an));
-	elist_append(e, ND_in(vn));
-
-	e = agedge(cg, n, vn, 1);
-	elist_append(e, ND_out(n));
-	elist_append(e, ND_in(vn));
-    }
-#endif  /* OLD */
 
     return cg;
 }

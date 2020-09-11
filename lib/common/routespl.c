@@ -19,13 +19,6 @@
 #include <setjmp.h>
 #include <stdlib.h>
 
-#ifdef UNUSED
-static box *bs = NULL;
-static int bn;
-static int maxbn = 0;
-#define BINC 300
-#endif
-
 #define PINC 300
 
 #ifdef NOTNOW
@@ -316,9 +309,6 @@ void routesplinesterm()
 {
     if (--routeinit > 0) return;
     free(ps);
-#ifdef UNUSED
-    free(bs), bs = NULL /*, maxbn = bn = 0 */ ;
-#endif
     if (Verbose)
 	fprintf(stderr,
 		"routesplines: %d edges, %d boxes %.2f sec\n",

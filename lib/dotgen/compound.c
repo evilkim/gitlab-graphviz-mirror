@@ -478,16 +478,6 @@ static void makeCompoundEdge(graph_t * g, edge_t * e, Dt_t* clustMap)
     free(bez);
     ED_spl(e)->list = nbez;
 }
-#if 0
-static void dump(Dt_t* map)
-{
-  clust_t* p;  
-  fprintf (stderr, "# in map: %d\n", dtsize(map));
-  for (p=(clust_t*)dtfirst(map);p; p = (clust_t*)dtnext(map,p)) {
-    fprintf (stderr, "  %s\n", p->name);
- }
-}
-#endif
 
 /* dot_compoundEdges:
  */
