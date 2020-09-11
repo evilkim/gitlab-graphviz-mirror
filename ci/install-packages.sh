@@ -27,6 +27,7 @@ else
         ${DIR}/os/${ARCH}/graphviz-plugins-x-${GV_VERSION}*.rpm \
         ${DIR}/os/${ARCH}/graphviz-x-${GV_VERSION}*.rpm \
         ${DIR}/os/${ARCH}/graphviz-gd-${GV_VERSION}*.rpm \
+        ${DIR}/os/${ARCH}/graphviz-qt-${GV_VERSION}*.rpm \
         ${DIR}/os/${ARCH}/graphviz-plugins-gd-${GV_VERSION}*.rpm \
         ${DIR}/os/${ARCH}/graphviz-nox-${GV_VERSION}*.rpm
 fi

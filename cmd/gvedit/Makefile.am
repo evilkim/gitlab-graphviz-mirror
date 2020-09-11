@@ -46,11 +46,8 @@ gvedit_SOURCES = main.cpp csettings.cpp imageviewer.cpp mainwindow.cpp mdichild.
 
 $(MOCABLES): mocables
 
-gvedit gvedit$(EXEEXT): $(MOCABLES)
-
 .PHONY: mocables
 mocables: qMakefile
-	rm -f $(MOCABLES) # don't use distributed mocables poss from diff version of Qt
 	$(MAKE) -f qMakefile prefix=${prefix} exec_prefix=${exec_prefix} mocables compiler_rcc_make_all
 
 qMakefile: gvedit.pro
@@ -68,7 +65,7 @@ gvedit.1.ps: $(srcdir)/gvedit.1
 EXTRA_DIST = gvedit.vcxproj* gvedit.pro.in mdi.qrc $(mans) $(pdfs)
 
 CLEANFILES = moc_csettings.cpp moc_imageviewer.cpp moc_mainwindow.cpp moc_mdichild.cpp qrc_mdi.cpp
-	
+
 DISTCLEANFILES = attrs.txt $(pdf_DATA) qMakefile gvedit.1.ps
 
 clean-local:

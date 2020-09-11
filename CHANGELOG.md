@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - segfault on reading 0x10 #1724
 - Null-dereference READ (144736912) #1676
 - "Warning! PATH too long installer unable to modify PATH!" using CMake Windows installer and PATH length > 1024 [#1770]
+- gvedit -? gives "option - unrecognized - ignored" instead of showing usage #1813
 
 ## [2.44.1] - 2020-06-29
 
