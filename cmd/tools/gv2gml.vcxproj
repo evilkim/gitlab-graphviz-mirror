@@ -94,10 +94,6 @@
   <ItemGroup>
     <ClCompile Include="gv2gml.c" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="debug\BuildLog.htm" />
-    <None Include="release\BuildLog.htm" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

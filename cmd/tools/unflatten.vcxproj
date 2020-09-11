@@ -96,14 +96,6 @@
   <ItemGroup>
     <ClCompile Include="unflatten.c" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="debug\BuildLog.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="release\BuildLog.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

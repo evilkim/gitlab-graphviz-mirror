@@ -44,16 +44,16 @@
 #  endif
 #endif
 
-#if HAVE_FILE_CNT
+#if defined(HAVE_FILE_CNT) && HAVE_FILE_CNT
 #define canread(f) ((f)->_cnt>0)
 #else
-#  if HAVE_FILE_NEXT
+#  if defined(HAVE_FILE_NEXT) && HAVE_FILE_NEXT
 #  define canread(f) ((f)->_next<(f)->_endb)
 #  else
-#    if HAVE_FILE_IO_READ_END
+#    if defined(HAVE_FILE_IO_READ_END) && HAVE_FILE_IO_READ_END
 #    define canread(f) ((f)->_IO_read_end>(f)->_IO_read_ptr)
 #    else
-#      if HAVE_R_IN_FILE
+#      if defined(HAVE_FILE_R) && HAVE_FILE_R
 #      define canread(f) ((f)->_r>0)
 #      else
 #      define canread(f) (1)
@@ -102,6 +102,11 @@ int main (int argc, char **argv) {
     exprstr = NULL;
     fp = NULL;
     init (argv[0]);
+
+    processstr (leftyoptions);
+    argv++, argc--;
+    processargs (argc, argv);
+
     Minit (GFXprune);
     Ginit ();
     FD_SET (Gxfd, &inputfds);
@@ -110,10 +115,6 @@ int main (int argc, char **argv) {
     Estackdepth = 2;
     Eshowbody = 1;
     Eshowcalls = 1;
-
-    processstr (leftyoptions);
-    argv++, argc--;
-    processargs (argc, argv);
 
     if (setjmp (exitljbuf))
         goto eop;
@@ -212,6 +213,8 @@ int APIENTRY WinMain (
 ) {
     Tobj co;
     Psrc_t src;
+    int argc;
+    LPWSTR *argv;
 
     hinstance = hInstance;
     hprevinstance = hPrevInstance;
@@ -230,8 +233,11 @@ int APIENTRY WinMain (
     Eshowcalls = 1;
 
     processstr (leftyoptions);
-    __argv++, __argc--;
-    processargs (__argc, __argv);
+    argv = CommandLineToArgvW(lpCmdLine, &argc);
+    if (argv == NULL)
+      return EXIT_FAILURE;
+    processargs(argc, argv);
+    LocalFree(argv);
 
     if (setjmp (exitljbuf))
         goto eop;
