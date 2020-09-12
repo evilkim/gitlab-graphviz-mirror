@@ -52,7 +52,6 @@ extern "C" {
 #ifdef _SFBINARY_H
 #undef  HAVE_SYS_ST
 #undef  HAVE_STAT_H
-#undef  _lib_poll
 #undef  _stream_peek
 #undef  _socket_peek
 #undef  HAVE_VFORK_H
@@ -102,23 +101,6 @@ extern "C" {
 #define POOLMTXRETURN(p,v)	{ return(v); }
 
 /* functions for polling readiness of streams */
-#ifdef HAVE_SELECT
-#undef _lib_poll
-#else
-#if _lib_poll_fd_1 || _lib_poll_fd_2
-#define _lib_poll	1
-#endif
-#endif /*HAVE_SELECT*/
-
-#ifdef _lib_poll
-#include	<poll.h>
-
-#if _lib_poll_fd_1
-#define SFPOLL(pfd,n,tm)	poll((pfd),(ulong)(n),(tm))
-#else
-#define SFPOLL(pfd,n,tm)	poll((ulong)(n),(pfd),(tm))
-#endif
-#endif /*_lib_poll*/
 
 #if _stream_peek
 #include	<stropts.h>
@@ -785,14 +767,6 @@ extern "C" {
 #if defined(HAVE_VFORK) && !defined(HAVE_VFORK_H) && !defined(_HAVE_SYS_VFORK_H)
     extern pid_t vfork(void);
 #endif /*HAVE_VFORK*/
-
-#ifdef _lib_poll
-#if _lib_poll_fd_1
-    extern int poll(struct pollfd *, ulong, int);
-#else
-    extern int poll(ulong, struct pollfd *, int);
-#endif
-#endif /*_lib_poll*/
 
 #endif /*_SFHDR_H*/
 #ifdef __cplusplus

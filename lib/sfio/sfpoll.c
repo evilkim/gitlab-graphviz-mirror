@@ -117,44 +117,6 @@ int sfpoll(Sfio_t ** fa, int n, int tm)
 	}
     }
 
-#if _lib_poll
-    if (c > 0) {
-	struct pollfd *fds;
-
-	/* construct the poll array */
-	if (!(fds = (struct pollfd *) malloc(c * sizeof(struct pollfd))))
-	    return -1;
-	for (r = 0; r < c; r++) {
-	    fds[r].fd = fa[check[r]]->file;
-	    fds[r].events =
-		(fa[check[r]]->mode & SF_READ) ? POLLIN : POLLOUT;
-	    fds[r].revents = 0;
-	}
-
-	for (;;) {		/* this loop takes care of interrupts */
-	    if ((r = SFPOLL(fds, c, tm)) == 0)
-		break;
-	    else if (r < 0) {
-		if (errno == EINTR || errno == EAGAIN) {
-		    errno = 0;
-		    continue;
-		} else
-		    break;
-	    }
-
-	    for (r = 0; r < c; ++r) {
-		f = fa[check[r]];
-		if (((f->mode & SF_READ) && (fds[r].revents & POLLIN)) ||
-		    ((f->mode & SF_WRITE) && (fds[r].revents & POLLOUT)))
-		    status[check[r]] = 1;
-	    }
-	    break;
-	}
-
-	free((void *) fds);
-    }
-#endif /*_lib_poll*/
-
 #ifdef HAVE_SELECT
     if (c > 0) {
 	fd_set rd, wr;

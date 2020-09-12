@@ -96,25 +96,6 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	       /* let select be interrupted instead of recv which autoresumes */
 	       (t & SOCKET_PEEK)) {
 	    r = -2;
-#if _lib_poll
-	    if (r == -2) {
-		struct pollfd po;
-		po.fd = fd;
-		po.events = POLLIN;
-		po.revents = 0;
-
-		if ((r = SFPOLL(&po, 1, tm)) < 0) {
-		    if (errno == EINTR)
-			return -1;
-		    else if (errno == EAGAIN) {
-			errno = 0;
-			continue;
-		    } else
-			r = -2;
-		} else
-		    r = (po.revents & POLLIN) ? 1 : -1;
-	    }
-#endif /*_lib_poll*/
 #ifdef HAVE_SELECT
 	    if (r == -2) {
 		fd_set rd;
@@ -142,7 +123,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	    }
 #endif /*HAVE_SELECT*/
 	    if (r == -2) {
-#if !_lib_poll && !defined(HAVE_SELECT)	/* both poll and select cann't be used */
+#if !defined(HAVE_SELECT)	/* select can't be used */
 #ifdef FIONREAD			/* quick and dirty check for availability */
 		long nsec = tm < 0 ? 0 : (tm + 999) / 1000;
 		while (nsec > 0 && r < 0) {
