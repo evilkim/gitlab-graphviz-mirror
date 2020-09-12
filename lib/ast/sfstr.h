@@ -43,8 +43,6 @@ extern "C" {
 #define sfstrbase(f)	((char*)(f)->data)
 #define sfstrsize(f)	((f)->size)
 
-#define sfstrrsrv(f,n)	(sfreserve(f,(long)(n),1)?(sfwrite(f,(char*)(f)->next,0),(char*)(f)->next):(char*)0)
-
 #define sfstruse(f)	(sfputc(f,0), (char*)((f)->next = (f)->data) )
 
 #if _BLD_ast && defined(__EXPORT__)
