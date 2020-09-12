@@ -42,9 +42,11 @@ static glCompTex *glCompSetAddNewTexture(glCompSet * s, int width,
 	glEnable(GL_DEPTH_TEST);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, &t->id);	//get next id
-	if (t->id < 0)		/*for some opengl based error , texture couldnt be created */
+	if (glGetError() != GL_NO_ERROR) {		/*for some opengl based error , texture couldnt be created */
+	    /* drain the OpenGL error queue */
+	    while (glGetError() != GL_NO_ERROR);
 	    Er = 1;
-	else {
+	} else {
 	    glBindTexture(GL_TEXTURE_2D, t->id);
 	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

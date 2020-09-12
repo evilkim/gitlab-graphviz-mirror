@@ -31,6 +31,9 @@ int GetFixedOGLPos(int x, int y, float kts, GLfloat * X, GLfloat * Y,
     GLfloat winX, winY;
     GLdouble posX, posY, posZ;
 
+    /* unused */
+    (void)kts;
+
     glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
     glBegin(GL_POINTS);
     glVertex3f((GLfloat) - 100.00, (GLfloat) - 100.00, (GLfloat) 1.00);
