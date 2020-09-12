@@ -154,11 +154,6 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 	if (fstat((int) f->file, &st) < 0)
 	    f->here = -1;
 	else {
-#if defined(HAVE_SYS_STAT_H) && _stat_blksize	/* preferred io block size */
-	    if ((blksize = (ssize_t) st.st_blksize) > 0)
-		while ((blksize + (ssize_t) st.st_blksize) <= SF_PAGE)
-		    blksize += (ssize_t) st.st_blksize;
-#endif
 	    if (S_ISREG(st.st_mode) || S_ISDIR(st.st_mode))
 		f->here = SFSK(f, (Sfoff_t) 0, SEEK_CUR, f->disc);
 	    else
