@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - gvedit -? gives "option - unrecognized - ignored" instead of showing usage #1813
 - lefty is not built for Windows (fixed for MSBuild builds only) #1818
 - a failure to detect OpenGL glGenTextures() errors has been corrected
+- sfio does compile time benchmarknig #1422
+- iffe "lib" check always succeeds when compiler optimises #1521
 
 ## [2.44.1] - 2020-06-29
 

@@ -14,11 +14,6 @@ This directory hierarchy has the source of Sfio, the Safe/Fast I/O library.
 
 SOFTWARE CONSTRUCTION:
 
-The build procedure is based on the iffe language for automatic
-configuration. An iffe interpreter and its manual pages are included in
-this code distribution. See the files in ./features for examples of iffe
-probes to generate configuration parameters.
-
 Two sets of libraries will be built:
 	libsfio.a and libstdio.a: for uni-threaded applications, and
 	libsfio-mt.a and libstdio-mt.a: for multi-threaded applications.
