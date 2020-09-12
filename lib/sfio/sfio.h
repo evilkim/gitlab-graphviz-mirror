@@ -296,7 +296,6 @@ extern "C" {
 
     extern Sfio_t *sfnew(Sfio_t *, void *, size_t, int, int);
     extern Sfio_t *sfopen(Sfio_t *, const char *, const char *);
-    extern Sfio_t *sfpopen(Sfio_t *, const char *, const char *);
     extern Sfio_t *sfstack(Sfio_t *, Sfio_t *);
     extern Sfio_t *sfswap(Sfio_t *, Sfio_t *);
     extern Sfio_t *sftmp(size_t);
