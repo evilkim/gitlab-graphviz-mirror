@@ -11,6 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <inttypes.h>
 #include	<sfio/sfhdr.h>
 
 /*	The main engine for reading formatted data
@@ -650,13 +651,9 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 	    if (value) {
 		n_assign += 1;
 
-		if (fmt == 'p')
-#if _more_void_int
-		    *((void **) value) = (void *) ((ulong) argv.lu);
-#else
-		    *((void **) value) = (void *) ((uint) argv.lu);
-#endif
-		else if (sizeof(long) > sizeof(int) &&
+		if (fmt == 'p') {
+		    *((void **) value) = (void *)(uintptr_t)argv.lu;
+		} else if (sizeof(long) > sizeof(int) &&
 			 FMTCMP(size, long, Sflong_t)) {
 		    if (fmt == 'd' || fmt == 'i')
 			*((long *) value) = (long) argv.ll;

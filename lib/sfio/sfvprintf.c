@@ -11,6 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <inttypes.h>
 #include	<sfio/sfhdr.h>
 
 /*	The engine for formatting data
@@ -576,13 +577,13 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 	    flags =
 		(flags & ~(SFFMT_SIGN | SFFMT_BLANK | SFFMT_ZERO)) |
 		SFFMT_ALTER;
-#if _more_void_int
-	    lv = (Sflong_t) ((Sfulong_t) argv.vp);
-	    goto long_cvt;
-#else
-	    v = (int) ((uint) argv.vp);
-	    goto int_cvt;
-#endif
+	    if (sizeof(void*) > sizeof(int)) {
+		lv = (Sflong_t)(intptr_t)argv.vp;
+		goto long_cvt;
+	    } else {
+		v = (int)(intptr_t)argv.vp;
+		goto int_cvt;
+	    }
 	case 'o':
 	    base = 8;
 	    n_s = 7;
@@ -617,11 +618,12 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		n_s = base == 10 ? -1 : 0;
 
 	  int_arg:
-#if _more_long_int || _more_void_int
-	    if (FMTCMP(size, Sflong_t, Sflong_t)) {
+	    if ((sizeof(long) > sizeof(int) || sizeof(void*) > sizeof(int))
+	        && FMTCMP(size, Sflong_t, Sflong_t)) {
 		lv = argv.ll;
 		goto long_cvt;
-	    } else if (FMTCMP(size, long, Sflong_t)) {
+	    } else if ((sizeof(long) > sizeof(int) || sizeof(void*) > sizeof(int))
+	               && FMTCMP(size, long, Sflong_t)) {
 		if (fmt == 'd')
 		    lv = (Sflong_t) argv.l;
 		else
@@ -651,7 +653,6 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		    } while ((lv = ((Sfulong_t) lv) / base));
 		}
 	    } else
-#endif
 	    if (sizeof(short) < sizeof(int)
 		    && FMTCMP(size, short, Sflong_t)) {
 		if (ft && ft->extf && (ft->flags & SFFMT_VALUE)) {
