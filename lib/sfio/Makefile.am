@@ -23,4 +23,4 @@ libsfio_C_la_SOURCES = sfclose.c sfclrlock.c sfcvt.c sfdisc.c \
 libsfio_C_la_DEPENDENCIES = \
 	Sfio_f/libsfiof_C.la
 
-EXTRA_DIST = README features sfio.vcxproj*
+EXTRA_DIST = README sfio.vcxproj*
