@@ -794,10 +794,6 @@ extern "C" {
 #endif
 #endif /*_lib_poll*/
 
-#if _proto_open && defined(__cplusplus)
-    extern int open(const char *, int, ...);
-#endif
-
 #endif /*_SFHDR_H*/
 #ifdef __cplusplus
 }
