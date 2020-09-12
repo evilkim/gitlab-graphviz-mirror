@@ -12,10 +12,14 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
-#ifndef FIONREAD
 #ifdef HAVE_SYS_IOCTL_H
 #include	<sys/ioctl.h>
 #endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_STROPTS_H
+#include <stropts.h>
 #endif
 
 /*	Read/Peek a record from an unseekable device
@@ -47,16 +51,16 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	return read(fd, buf, n);
 
     t = (action > 0 || rc >= 0) ? (STREAM_PEEK | SOCKET_PEEK) : 0;
-#if !_stream_peek
+#ifndef I_PEEK
     t &= ~STREAM_PEEK;
 #endif
-#if !_socket_peek
+#ifndef MSG_PEEK
     t &= ~SOCKET_PEEK;
 #endif
 
     for (ntry = 0; ntry < 2; ++ntry) {
 	r = -1;
-#if _stream_peek
+#ifdef I_PEEK
 	if ((t & STREAM_PEEK) && (ntry == 1 || tm < 0)) {
 	    struct strpeek pbuf;
 	    pbuf.flags = 0;
@@ -84,7 +88,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 		    break;
 	    }
 	}
-#endif				/* stream_peek */
+#endif
 
 	if (ntry == 1)
 	    break;
@@ -160,7 +164,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	    break;
 	}
 
-#if _socket_peek
+#ifdef MSG_PEEK
 	if (t & SOCKET_PEEK) {
 	    while ((r = recv(fd, (char *) buf, n, MSG_PEEK)) < 0) {
 		if (errno == EINTR)

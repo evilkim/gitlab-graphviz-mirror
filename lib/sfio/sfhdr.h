@@ -100,16 +100,6 @@ extern "C" {
 #define POOLMTXSTART(p)
 #define POOLMTXRETURN(p,v)	{ return(v); }
 
-/* functions for polling readiness of streams */
-
-#if _stream_peek
-#include	<stropts.h>
-#endif
-
-#if _socket_peek
-#include	<sys/socket.h>
-#endif
-
 /* to test for executable access mode of a file */
 #ifndef X_OK
 #define X_OK	01
