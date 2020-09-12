@@ -27,7 +27,6 @@ extern "C" {
 **	Written by Kiem-Phong Vo
 */
 
-#include	"FEATURE/sfio"
 #include	"sfio_t.h"
 #include	"config.h"
 
