@@ -221,6 +221,8 @@ static void init(int argc, char *argv[], pack_info* pinfo)
 	    setUInt(&pinfo->margin, optarg);
 	    break;
 	case 'o':
+	    if (outfp != NULL)
+		fclose(outfp);
 	    outfp = openFile(optarg, "w");
 	    break;
 	case 'u':
