@@ -120,6 +120,26 @@ def test_1314():
     # the execution did not fail as expected
     pytest.fail('dot incorrectly exited with success')
 
+def test_1411():
+    '''
+    parsing strings containing newlines should not disrupt line number tracking
+    https://gitlab.com/graphviz/graphviz/-/issues/1411
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1411.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # process it with Graphviz (should fail)
+    p = subprocess.Popen(['dot', '-Tsvg', '-o', os.devnull, input],
+      stderr=subprocess.PIPE, universal_newlines=True)
+    _, output = p.communicate()
+
+    assert p.returncode != 0, 'Graphviz accepted broken input'
+
+    assert 'syntax error in line 17 near \'\\\'' in output, \
+      'error message did not identify correct location'
+
 def test_1436():
     '''
     test a segfault from https://gitlab.com/graphviz/graphviz/-/issues/1436 has
