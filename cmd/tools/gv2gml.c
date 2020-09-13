@@ -704,6 +704,8 @@ static void initargs(int argc, char **argv)
     while ((c = getopt(argc, argv, ":o:")) != -1) {
 	switch (c) {
 	case 'o':
+	    if (outFile != NULL)
+		fclose(outFile);
 	    outFile = openFile(optarg, "w");
 	    break;
 	case ':':
