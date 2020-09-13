@@ -723,6 +723,8 @@ static void initargs(int argc, char **argv)
 	    Verbose = 1;
 	    break;
 	case 'o':
+	    if (outFile != NULL)
+		fclose(outFile);
 	    outFile = openFile(optarg, "w");
 	    break;
 	case ':':
