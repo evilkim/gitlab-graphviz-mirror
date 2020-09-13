@@ -34,3 +34,7 @@ install(
     FILES dot.1 osage.1 patchwork.1
     DESTINATION ${MAN_INSTALL_DIR}
 )
+
+install(
+      SCRIPT ${TOP_SOURCE_DIR}/cmake/configure_plugins.cmake
+)
