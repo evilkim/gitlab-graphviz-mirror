@@ -348,6 +348,8 @@ static void scanArgs(int argc, char **argv)
 	    wantDegenerateComp = 1;
 	    break;
 	case 'o':
+	    if (outfp != NULL)
+		fclose(outfp);
 	    outfp = openFile(optarg, "w");
 	    break;
 	case 'v':
