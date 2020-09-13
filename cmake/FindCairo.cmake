@@ -37,6 +37,12 @@ else()
     find_package(PkgConfig)
     pkg_check_modules(Cairo cairo)
 
+    # prior to CMake 3.12, PkgConfig does not set *_LINK_LIBRARIES, so do it
+    # manually
+    if (${CMAKE_VERSION} VERSION_LESS 3.12)
+        find_library(Cairo_LINK_LIBRARIES cairo PATHS ENV LIBRARY_PATH)
+    endif()
+
     find_package_handle_standard_args(Cairo DEFAULT_MSG
         Cairo_INCLUDE_DIRS
         Cairo_LIBRARIES
