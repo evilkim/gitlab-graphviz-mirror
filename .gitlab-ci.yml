@@ -251,14 +251,9 @@ ubuntu20-04-build:
     image: "graphviz/graphviz:ubuntu-20.04"
 
 ubuntu18-04-cmake-build:
-    stage: build
-    script:
-        - mkdir build
-        - cd build
-        - cmake ..
-        - cmake --build .
-    except:
-        - tags
+    <<: *deb_build_definition
+    before_script:
+        - export build_system="cmake"
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
