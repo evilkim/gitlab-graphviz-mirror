@@ -348,11 +348,6 @@ target_link_libraries(mm2gv
     sparse
 )
 
-# Link to math library
-if (UNIX)
-    target_link_libraries(mm2gv m)
-endif (UNIX)
-
 tool_defaults(mm2gv)
 
 # =================================== sccmap ===================================
