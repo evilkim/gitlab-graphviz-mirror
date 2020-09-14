@@ -19,6 +19,7 @@
 
 #include <expr/exlib.h>
 #include <expr/exop.h>
+#include <stddef.h>
 
 #define TOTNAME		3
 #define MAXNAME		16
@@ -32,14 +33,14 @@ exlexname(int op, int subop)
 	static char	buf[TOTNAME][MAXNAME];
 
 	if (op > MINTOKEN && op < MAXTOKEN)
-		return (char*)exop[op - MINTOKEN];
+		return (char*)exop((size_t)op - MINTOKEN);
 	if (++n > TOTNAME)
 		n = 0;
 	b = buf[n];
 	if (op == '=')
 	{
 		if (subop > MINTOKEN && subop < MAXTOKEN)
-			sfsprintf(b, MAXNAME, "%s=", exop[subop - MINTOKEN]);
+			sfsprintf(b, MAXNAME, "%s=", exop((size_t)subop - MINTOKEN));
 		else if (subop > ' ' && subop <= '~')
 			sfsprintf(b, MAXNAME, "%c=", subop);
 		else sfsprintf(b, MAXNAME, "(%d)=", subop);

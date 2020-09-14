@@ -13,7 +13,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib/ast \
 	-I$(top_srcdir)/lib/cdt
 
-noinst_HEADERS = exgram.h exlib.h expr.h
+noinst_HEADERS = exgram.h exlib.h exop.h expr.h
 noinst_LTLIBRARIES = libexpr_C.la
 
 ### expr.h includes ast.h and vmalloc.h which we don't install
@@ -43,12 +43,6 @@ libexpr_C_la_LIBADD = \
 $(libexpr_C_la_OBJECTS) $(libexpr_la_OBJECTS): \
 	exparse.h exparse.c exgram.h exop.h
 
-exop.h: exparse.h
-	echo "static const char* exop[] = {" > exop.h
-	echo "	\"MINTOKEN\"," >> exop.h
-	$(SED) -e '1,/^[   ]*#[    ]*define[   ][  ]*MINTOKEN/d' -e '/MAXTOKEN/,$$d' -e '/^[ 	]*#[ 	]*define[ 	][ 	]*[A-Z]/!d' -e 's/^[ 	]*#[ 	]*define[ 	]*\([A-Z0-9_]*\).*/	"\1",/' < exparse.h >> exop.h
-	echo "};" >> exop.h
-
 exparse.c: y.tab.c 
 	@SED@ "s/fprintf/sfprintf/g" <y.tab.c | \
 		@SED@ "s/FILE/Sfio_t/g" | \
@@ -73,7 +67,7 @@ expr.3.ps: $(srcdir)/expr.3
 
 EXTRA_DIST = $(man_MANS) $(pdf_DATA) \
 	Makefile.nmake Makefile.orig \
-	exparse.c exparse.h exop.h \
+	exparse.c exparse.h \
 	y.tab.c y.tab.h y.output expr.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) exparse.[ch] exop.h y.tab.[ch] y.output expr.3.ps
+DISTCLEANFILES = $(pdf_DATA) exparse.[ch] y.tab.[ch] y.output expr.3.ps

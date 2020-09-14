@@ -25,11 +25,11 @@
 
 #include <expr/exlib.h>
 #include <expr/exop.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <time.h>
 #ifdef _WIN32
-#include <stdlib.h>
 #define srand48 srand
 #define drand48 rand
 #endif
@@ -51,14 +51,14 @@ lexname(int op, int subop)
 	static char	buf[TOTNAME][MAXNAME];
 
 	if (op > MINTOKEN && op < MAXTOKEN)
-		return (char*)exop[op - MINTOKEN];
+		return (char*)exop((size_t)op - MINTOKEN);
 	if (++n >= TOTNAME)
 		n = 0;
 	b = buf[n];
 	if (op == '=')
 	{
 		if (subop > MINTOKEN && subop < MAXTOKEN)
-			sfsprintf(b, MAXNAME, "%s=", exop[subop - MINTOKEN]);
+			sfsprintf(b, MAXNAME, "%s=", exop((size_t)subop - MINTOKEN));
 		else if (subop > ' ' && subop <= '~')
 			sfsprintf(b, MAXNAME, "%c=", subop);
 		else
