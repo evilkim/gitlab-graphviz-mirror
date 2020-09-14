@@ -430,7 +430,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   int tfirstr = 0, tlastr = 0, tfirstl = 0, tlastl = 0;
   int i1, i2, t, tn;
   pointf tpt;
-  int tritop = 0, tribot = 0, is_swapped;
+  int tribot = 0, is_swapped;
   int tmptriseg;
 
   s = seg[segnum];
@@ -501,7 +501,6 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   else				/* v0 already present */
     {       /* Get the topmost intersecting trapezoid */
       tfirst = locate_endpoint(&s.v0, &s.v1, s.root0, seg, qs);
-      tritop = 1;
     }
 
 

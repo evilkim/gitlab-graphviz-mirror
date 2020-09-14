@@ -253,7 +253,7 @@ extoken_fn(Expr_t* ex)
 
 #else
 
-#define trace(p,a,b,c)
+#define trace(p,a,b,c) do { } while (0)
 
 #endif
 

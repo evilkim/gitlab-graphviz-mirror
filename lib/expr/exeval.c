@@ -318,21 +318,21 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			{
 				for (; *s; s++)
 					if (isupper(*s))
-						*s = tolower(*s);
+						*s = (char)tolower(*s);
 					else if (islower(*s))
-						*s = toupper(*s);
+						*s = (char)toupper(*s);
 			}
 			else if (streq(txt, "lower"))
 			{
 				for (; *s; s++)
 					if (isupper(*s))
-						*s = tolower(*s);
+						*s = (char)tolower(*s);
 			}
 			else if (streq(txt, "upper"))
 			{
 				for (; *s; s++)
 					if (islower(*s))
-						*s = toupper(*s);
+						*s = (char)toupper(*s);
 			}
 			else if (streq(txt, "variable"))
 			{
