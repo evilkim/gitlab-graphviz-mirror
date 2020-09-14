@@ -51,13 +51,13 @@ target_include_directories(gvc PRIVATE
 
 target_link_libraries(gvc PRIVATE
     $<TARGET_OBJECTS:common_obj>
+    $<TARGET_OBJECTS:pack_obj>
 )
 
 target_link_libraries(gvc PUBLIC
     cdt
     cgraph
     label
-    pack
     pathplan
     xdot
     ${EXPAT_LIBRARIES}
