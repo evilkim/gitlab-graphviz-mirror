@@ -49,7 +49,7 @@ add_custom_command(
                                >> ${CMAKE_CURRENT_BINARY_DIR}/ps_font_equiv.h
 )
 
-add_library(common STATIC
+add_library(common_obj OBJECT
     # Header files
     arith.h
     color.h
@@ -105,7 +105,7 @@ add_library(common STATIC
     ${BISON_HTMLparse_OUTPUTS}
 )
 
-target_include_directories(common PRIVATE
+target_include_directories(common_obj PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -120,13 +120,17 @@ target_include_directories(common PRIVATE
 )
 
 if (WIN32)
-    target_include_directories(common PRIVATE ${WINDOWS_DEPENDENCY_DIR}/include)
+    target_include_directories(common_obj PRIVATE ${WINDOWS_DEPENDENCY_DIR}/include)
 endif()
 
 # From https://gitlab.com/graphviz/graphviz/-/issues/1613 @mdwies 20093010
 if(APPLE)
-    target_compile_options(common PRIVATE "-fno-common")
+    target_compile_options(common_obj PRIVATE "-fno-common")
 endif(APPLE)
+
+add_library(common STATIC
+    $<TARGET_OBJECTS:common_obj>
+)
 
 # Specify headers to be installed
 install(

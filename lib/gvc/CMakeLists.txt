@@ -49,10 +49,13 @@ target_include_directories(gvc PRIVATE
     ${RxSpencer_INCLUDE_DIRS}
 )
 
-target_link_libraries(gvc
+target_link_libraries(gvc PRIVATE
+    $<TARGET_OBJECTS:common_obj>
+)
+
+target_link_libraries(gvc PUBLIC
     cdt
     cgraph
-    common
     label
     pack
     pathplan
@@ -64,11 +67,11 @@ target_link_libraries(gvc
 )
 
 if (NOT WIN32)
-    target_link_libraries(gvc ${LTDL_LIBRARIES})
+    target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
 endif()
 
 if (${with_ortho})
-    target_link_libraries(gvc ortho)
+    target_link_libraries(gvc PUBLIC ortho)
 endif()
 
 # Installation location of library files
