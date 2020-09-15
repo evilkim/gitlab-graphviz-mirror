@@ -415,12 +415,17 @@ endif
 man = gv.3sharp gv.3go gv.3guile gv.3io gv.3java gv.3lua gv.3ocaml \
 	gv.3perl gv.3php gv.3python gv.3r gv.3ruby gv.3tcl
 
+if HAVE_PS2PDF
 pdf = gv.3sharp.pdf gv.3go.pdf gv.3guile.pdf gv.3io.pdf gv.3java.pdf gv.3lua.pdf \
       gv.3ocaml.pdf gv.3perl.pdf gv.3php.pdf gv.3python.pdf gv.3r.pdf gv.3ruby.pdf gv.3tcl.pdf
+else
+pdf = ERROR_NO_PS2PDF
+endif
 
 $(man): gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
 	$(TCLSH) $(srcdir)/gv_doc_writer.tcl "$(srcdir)"
 
+if HAVE_PS2PDF
 gv.3sharp.pdf: gv.3sharp.ps
 	@PS2PDF@ $< $@
 
@@ -498,7 +503,7 @@ gv.3tcl.pdf: gv.3tcl.ps
 
 gv.3tcl.ps: gv.3tcl
 	@GROFF@ -Tps -man $< >$@
-
+endif
 install-data-hook:
 if WITH_JAVA
 	(cd $(DESTDIR)$(pkgjavadir); $(LN_S) -f org/graphviz/libgv_java.$(JSHEXT) ../../libgv.$(JSHEXT); javac -classpath $(DESTDIR)$(libjavadir) gv.java;)

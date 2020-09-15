@@ -35,6 +35,12 @@ man_MANS += smyrna.1
 pdf_DATA += smyrna.1.pdf
 endif
 
+if HAVE_PS2PDF
+pdf = smyrna.1.pdf
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 noinst_HEADERS = arcball.h draw.h glexpose.h \
 	glmotion.h gltemplate.h gui/appmouse.h gui/callbacks.h \
 	hotkeymap.h materials.h md5.h polytess.h selectionfuncs.h \
@@ -80,13 +86,15 @@ smyrna_static_LDADD = $(top_builddir)/lib/cgraph/libcgraph_C.la \
 		$(top_builddir)/lib/neatogen/libneatogen_C.la \
 		$(GTK_LIBS) $(GLUT_LIBS) $(GTKGLEXT_LIBS) $(GLADE_LIBS) $(X_LIBS) $(EXPAT_LIBS) $(GTS_LIBS) $(MATH_LIBS)
 
+if HAVE_PS2PDF
 smyrna.1.pdf: smyrna.1.ps
 	@PS2PDF@ $< $@
 
 smyrna.1.ps: $(srcdir)/smyrna.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = smyrna.vcxproj* $(man_MANS) $(pdf_DATA) smyrna.1
+EXTRA_DIST = smyrna.vcxproj* $(man_MANS) $(pdf) smyrna.1
 
 DISTCLEANFILES = $(pdf_DATA) smyrna.1.ps
 

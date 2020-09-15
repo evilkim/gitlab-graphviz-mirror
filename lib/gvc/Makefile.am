@@ -31,6 +31,11 @@ pkgconfig_DATA = libgvc.pc
 man_MANS = gvc.3
 pdf_DATA = gvc.3.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
 
 libgvc_C_la_SOURCES = gvrender.c gvlayout.c gvdevice.c gvloadimage.c \
 	gvcontext.c gvjobs.c gvevent.c gvplugin.c gvconfig.c \
@@ -68,12 +73,14 @@ if WITH_WIN32
 libgvc_la_LDFLAGS += -export-symbols $(top_srcdir)/lib/gvc.def
 endif
 
+if HAVE_PS2PDF
 gvc.3.pdf: gvc.3.ps
 	@PS2PDF@ $< $@
 
 gvc.3.ps: $(srcdir)/gvc.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) gvc.def
+EXTRA_DIST = $(man_MANS) $(pdf) gvc.def
 
 DISTCLEANFILES = $(pdf_DATA) gvc.3.ps

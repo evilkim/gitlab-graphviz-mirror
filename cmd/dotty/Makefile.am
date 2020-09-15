@@ -17,6 +17,12 @@ endif
 man_MANS = dotty.1
 pdf_DATA = dotty.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 if WITH_WIN32
 dotty_SOURCES = mswin32/dotty.c
 dotty_LDADD = -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32
@@ -26,13 +32,15 @@ dotty: $(top_srcdir)/cmd/dotty/dotty.sh
 	chmod +x dotty
 endif
 
+if HAVE_PS2PDF
 dotty.1.pdf: dotty.1.ps
 	@PS2PDF@ $< $@
 
 dotty.1.ps: $(srcdir)/dotty.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf_DATA) \
+EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf) \
 	dotty.bsh dotty.ksh dotty.sh \
 	notes mswin32 dotty.vcxproj*
 

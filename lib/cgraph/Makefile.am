@@ -16,6 +16,12 @@ pkgconfig_DATA = libcgraph.pc
 man_MANS = cgraph.3
 pdf_DATA = cgraph.3.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 libcgraph_C_la_SOURCES = agerror.c agxbuf.c apply.c attr.c edge.c \
 	flatten.c graph.c grammar.y id.c imap.c io.c mem.c node.c \
 	obj.c pend.c rec.c refstr.c scan.l subg.c utils.c write.c
@@ -32,13 +38,15 @@ scan.c: $(top_srcdir)/lib/cgraph/scan.l
 grammar.c grammar.h: $(top_srcdir)/lib/cgraph/grammar.y
 	@YACC@ -Wno-yacc -dv --output=grammar.c $(top_srcdir)/lib/cgraph/grammar.y
 
+if HAVE_PS2PDF
 cgraph.3.pdf: cgraph.3.ps
 	@PS2PDF@ $< $@
 
 cgraph.3.ps: $(srcdir)/cgraph.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) cmpnd.c \
+EXTRA_DIST = $(man_MANS) $(pdf) cmpnd.c \
 	grammar.c grammar.h scan.c \
 	cgraph.vcxproj*
 

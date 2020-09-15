@@ -27,11 +27,19 @@ endif
 man_MANS = vimdot.1
 pdf_DATA = vimdot.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
+if HAVE_PS2PDF
 vimdot.1.pdf: vimdot.1.ps
 	@PS2PDF@ $< $@
 
 vimdot.1.ps: $(srcdir)/vimdot.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
 libgvplugin_xlib_C_la_SOURCES = \
 	gvplugin_xlib.c \
@@ -53,6 +61,6 @@ vimdot: $(top_srcdir)/plugin/xlib/vimdot.sh
 	cp $(top_srcdir)/plugin/xlib/vimdot.sh vimdot
 	chmod +x vimdot
 
-EXTRA_DIST = vimdot.sh vimdot.1 vimdot.1.pdf
+EXTRA_DIST = vimdot.sh vimdot.1 $(pdf)
 
 DISTCLEANFILES = vimdot vimdot.1.pdf vimdot.1.ps

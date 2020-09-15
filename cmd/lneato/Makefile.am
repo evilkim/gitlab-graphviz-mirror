@@ -14,6 +14,12 @@ endif
 man_MANS = lneato.1
 pdf_DATA = lneato.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 AM_CFLAGS = -DLNEATO
 if WITH_WIN32
 lneato_SOURCES = ${top_srcdir}/cmd/dotty/mswin32/dotty.c
@@ -24,13 +30,15 @@ lneato: ${top_srcdir}/cmd/lneato/lneato.sh
 	chmod +x lneato
 endif
 
+if HAVE_PS2PDF
 lneato.1.pdf: lneato.1.ps
 	@PS2PDF@ $< $@
 
 lneato.1.ps: $(srcdir)/lneato.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) lneato.bsh lneato.ksh lneato.sh \
+EXTRA_DIST = $(man_MANS) $(pdf) lneato.bsh lneato.ksh lneato.sh \
 	mswin32 lneato.vcxproj*
 
 DISTCLEANFILES = lneato $(pdf_DATA) lneato.1.ps

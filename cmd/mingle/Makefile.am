@@ -20,6 +20,12 @@ endif
 man_MANS = mingle.1
 pdf_DATA = mingle.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 mingle_SOURCES = minglemain.c
 mingle_CPPFLAGS = $(AM_CPPFLAGS)
 mingle_LDADD = \
@@ -34,12 +40,14 @@ mingle_LDADD = \
 	$(top_builddir)/lib/cdt/libcdt.la \
 	$(ANN_LIBS) -lstdc++ -lm 
 
+if HAVE_PS2PDF
 mingle.1.pdf: mingle.1.ps
 	@PS2PDF@ $< $@
 
 mingle.1.ps: $(srcdir)/mingle.1
 	@GROFF@ -e -Tps -man -t $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) mingle.vcxproj*
+EXTRA_DIST = $(man_MANS) $(pdf) mingle.vcxproj*
 
 DISTCLEANFILES = $(pdf_DATA) mingle.1.ps
