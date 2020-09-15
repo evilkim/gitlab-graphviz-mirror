@@ -6,7 +6,7 @@ import os
 import re
 import tempfile
 
-# The terminology used in rtest.sh is a little inconsistent. At the
+# The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
 # (crashes) and the number of "changes" (which is the number of tests
 # where the output file did not match the reference file). However,
