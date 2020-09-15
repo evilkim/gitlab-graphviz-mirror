@@ -72,11 +72,7 @@
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>win_bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
-del common\htmlparse-intermediate.c
-del common\htmlparse-intermediate.h
+      <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c
 awk -f $(SolutionDir)awk\svgcolor.awk common\svgcolor_names &gt; common\svgcolor_lib
 awk -f $(SolutionDir)awk\brewer.awk common\brewer_colors &gt; common\brewer_lib
 type common\brewer_lib common\svgcolor_lib common\color_names | sort /L C &gt; color_lib
@@ -107,11 +103,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>win_bison -dy common\htmlparse.y -o common\htmlparse-intermediate.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.c &gt; common\htmlparse.c
-sed "s/yy/html/g" &lt; common\htmlparse-intermediate.h &gt; common\htmlparse.h
-del common\htmlparse-intermediate.c
-del common\htmlparse-intermediate.h
+      <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c
 awk -f $(SolutionDir)awk\svgcolor.awk common\svgcolor_names &gt; common\svgcolor_lib
 awk -f $(SolutionDir)awk\brewer.awk common\brewer_colors &gt; common\brewer_lib
 type common\brewer_lib common\svgcolor_lib common\color_names | sort /L C &gt; color_lib
