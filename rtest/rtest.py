@@ -242,10 +242,9 @@ def doTest(TEST):
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1786 is
     # fixed
-    if platform.system() == 'Windows' and \
-       os.environ.get('build_system') == 'cmake' and \
+    if os.environ.get('build_system') == 'cmake' and \
        SUBTEST['FMT'] == 'png:gd':
-      print('Skipping test {0}:{1} : format {2} because Windows CMake builds '
+      print('Skipping test {0}:{1} : format {2} because CMake builds '
             'does not support format png:gd (#1786)'
             .format(TESTNAME, i, SUBTEST['FMT']),
             file=sys.stderr)
