@@ -276,7 +276,7 @@ gmlparse.h: y.tab.h
 y.tab.c y.tab.h : y.output
 
 y.output: $(top_srcdir)/cmd/tools/gmlparse.y
-	@YACC@ -Wno-yacc -dv $(top_srcdir)/cmd/tools/gmlparse.y
+	@YACC@ -Wno-yacc -dv $(top_srcdir)/cmd/tools/gmlparse.y -o y.tab.c
  
 gmlparse.o gmlparse.lo gmlscan.o gmlscan.lo : gmlscan.c gmlparse.h
 
