@@ -267,16 +267,8 @@ gv2gml_LDADD = \
 
 gml2gv_SOURCES = gml2gv.c gmlparse.y gmlscan.l
 
-gmlparse.c: y.tab.c
-	cp -f y.tab.c gmlparse.c
-
-gmlparse.h: y.tab.h
-	cp -f y.tab.h gmlparse.h
-
-y.tab.c y.tab.h : y.output
-
-y.output: $(top_srcdir)/cmd/tools/gmlparse.y
-	@YACC@ -Wno-yacc -dv $(top_srcdir)/cmd/tools/gmlparse.y -o y.tab.c
+gmlparse.c gmlparse.h: $(top_srcdir)/cmd/tools/gmlparse.y
+	@YACC@ -Wno-yacc -dv $(top_srcdir)/cmd/tools/gmlparse.y -o gmlparse.c
  
 gmlparse.o gmlparse.lo gmlscan.o gmlscan.lo : gmlscan.c gmlparse.h
 
@@ -342,7 +334,7 @@ EXTRA_DIST = $(man_MANS) $(pdf) bcomps.vcxproj* \
 	acyclic.vcxproj* bcomps.vcxproj* ccomps.vcxproj* dijkstra.vcxproj* gc.vcxproj* \
     gvcolor.vcxproj* gvgen.vcxproj* gvpack.vcxproj* gxl2gv.vcxproj* \
 	mm2gv.vcxproj* nop.vcxproj* sccmap.vcxproj* tred.vcxproj* unflatten.vcxproj* \
-	gmlscan.c gmlparse.c gmlparse.h y.output y.tab.c y.tab.h gml2gv.vcxproj* \
+	gmlscan.c gmlparse.c gmlparse.h gml2gv.vcxproj* \
 	graphml2gv.vcxproj* gv2gml.vcxproj*
 
 # FIXME - these are missing
@@ -350,7 +342,7 @@ EXTRA_DIST = $(man_MANS) $(pdf) bcomps.vcxproj* \
 		
 CLEANFILES = stamp.h 
 
-DISTCLEANFILES = $(pdf_DATA) gmlparse.[ch] gmlscan.c y.output y.tab.[ch] \
+DISTCLEANFILES = $(pdf_DATA) gmlparse.[ch] gmlscan.c \
 	gxl2gv.1.ps sccmap.1.ps ccomps.1.ps tred.1.ps unflatten.1.ps acyclic.1.ps \
 	nop.1.ps gvcolor.1.ps bcomps.1.ps gc.1.ps gvpack.1.ps mm2gv.1.ps gml2gv.1.ps \
 	graphml2gv.1.ps dijkstra.1.ps gvgen.1.ps

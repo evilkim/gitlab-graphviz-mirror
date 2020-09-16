@@ -73,11 +73,7 @@
     </Link>
     <PreBuildEvent>
       <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
-win_bison -dy -Wno-yacc gmlparse.y -o gmlparse-intermediate.c
-copy gmlparse-intermediate.h gmlparse.h
-copy gmlparse-intermediate.c gmlparse.c
-del gmlparse-intermediate.h
-del gmlparse-intermediate.c</Command>
+win_bison -dy -Wno-yacc gmlparse.y -o gmlparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,11 +96,7 @@ del gmlparse-intermediate.c</Command>
     </Link>
     <PreBuildEvent>
       <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
-win_bison -dy -Wno-yacc gmlparse.y -o gmlparse-intermediate.c
-copy gmlparse-intermediate.h gmlparse.h
-copy gmlparse-intermediate.c gmlparse.c
-del gmlparse-intermediate.h
-del gmlparse-intermediate.c</Command>
+win_bison -dy -Wno-yacc gmlparse.y -o gmlparse.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
