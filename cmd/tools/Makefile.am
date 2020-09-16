@@ -268,10 +268,10 @@ gv2gml_LDADD = \
 gml2gv_SOURCES = gml2gv.c gmlparse.y gmlscan.l
 
 gmlparse.c: y.tab.c
-	@SED@ "s/yy/gml/g" < y.tab.c > gmlparse.c
+	cp -f y.tab.c gmlparse.c
 
 gmlparse.h: y.tab.h
-	@SED@ "s/yy/gml/g" < y.tab.h > gmlparse.h
+	cp -f y.tab.h gmlparse.h
 
 y.tab.c y.tab.h : y.output
 
