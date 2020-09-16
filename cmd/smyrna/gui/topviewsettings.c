@@ -14,9 +14,9 @@
 #include "topviewfuncs.h"
 #include "topviewsettings.h"
 #include "gui.h"
-#include "colorprocs.h"
+#include <common/colorprocs.h>
 #include "viewport.h"
-#include "memory.h"
+#include <common/memory.h>
 
 void color_change_request(GtkWidget * widget, gpointer user_data)
 {

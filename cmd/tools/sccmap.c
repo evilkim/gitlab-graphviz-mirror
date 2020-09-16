@@ -29,8 +29,8 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include "cgraph.h"
-#include "ingraphs.h"
+#include <cgraph/cgraph.h>
+#include <ingraphs/ingraphs.h>
 
 #include <getopt.h>
 

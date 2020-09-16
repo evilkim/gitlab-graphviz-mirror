@@ -22,7 +22,7 @@ class MdiChild;
 
 #include "config.h"
 
-#include "gvc.h"
+#include <gvc/gvc.h>
 
 class CFrmSettings : public QDialog
 {

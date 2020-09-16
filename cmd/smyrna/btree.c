@@ -13,12 +13,12 @@
 
 #include "btree.h"
 #ifdef _WIN32
-#include "regex_win32.h"
+#include <regex_win32.h>
 #else
-#include "regex.h"
+#include <regex.h>
 #endif
 
-#include <memory.h>
+#include <common/memory.h>
 
 btree_node *new_node(char *attribute, char *regex, float min, float max)
 {

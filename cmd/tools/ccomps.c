@@ -21,7 +21,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 
 #define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
 #define NEW(t)           (t*)malloc(sizeof(t))
@@ -50,7 +50,7 @@ typedef struct {
 #include <unistd.h>
 #endif
 #include <string.h>
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
   /* internals of libgraph */
 #define TAG_NODE            1

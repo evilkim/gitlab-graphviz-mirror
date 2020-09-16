@@ -13,8 +13,8 @@
 
 #include "config.h"
 
-#include "cgraph.h"
-#include "ingraphs.h"
+#include <cgraph/cgraph.h>
+#include <ingraphs/ingraphs.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_UNISTD_H

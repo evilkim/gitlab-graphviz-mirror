@@ -16,8 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "cgraph.h"
-#include "ingraphs.h"
+#include <cgraph/cgraph.h>
+#include <ingraphs/ingraphs.h>
 #include <getopt.h>
 
 #ifndef HUGE

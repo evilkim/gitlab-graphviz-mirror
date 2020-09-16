@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include "power.h"
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 
 void power_method(void (*matvec)(void *, int, int, real*, real **, int, int*),
 		  void *A, int n, int K, int random_seed, int maxit, real tol, real **eigv, real **eigs){

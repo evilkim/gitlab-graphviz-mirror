@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "gvplugin.h"
+#include <gvc/gvplugin.h>
 
 #if defined(GVDLL) && !defined(ENABLE_LTDL)
 #define extern	__declspec(dllimport)

@@ -28,7 +28,7 @@
 #include "support.h"
 #include "menucallbacks.h"
 #include "gltemplate.h"
-#include "memory.h"
+#include <common/memory.h>
 #include "gvprpipe.h"
 #include "frmobjectui.h"
 #ifdef ENABLE_NLS

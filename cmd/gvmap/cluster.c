@@ -16,20 +16,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define STANDALONE
-#include "general.h"
-#include "QuadTree.h"
+#include <sparse/general.h>
+#include <sparse/QuadTree.h>
 #include <time.h>
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 #include <getopt.h>
-#include "string.h"
+#include <string.h>
 #include "make_map.h"
-#include "spring_electrical.h"
-#include "post_process.h"
-#include "overlap.h"
-#include "clustering.h"
-#include "ingraphs.h"
-#include "DotIO.h"
-#include "colorutil.h"
+#include <sfdpgen/spring_electrical.h>
+#include <sfdpgen/post_process.h>
+#include <neatogen/overlap.h>
+#include <sparse/clustering.h>
+#include <ingraphs/ingraphs.h>
+#include <sparse/DotIO.h>
+#include <sparse/colorutil.h>
 
 #ifdef _WIN32 /*dependencies*/
     #pragma comment( lib, "cgraph.lib" )

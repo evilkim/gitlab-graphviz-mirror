@@ -15,7 +15,7 @@
 #include "smyrnadefs.h"
 #include "gui.h"
 #include "tvnodes.h"
-#include "glcompset.h"
+#include <glcomp/glcompset.h>
 
 
 

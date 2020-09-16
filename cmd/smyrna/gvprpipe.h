@@ -14,7 +14,7 @@
 #ifndef GVPRPIPE_H
 #define GVPRPIPE_H
 
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 
 #ifdef __cplusplus
 extern "C" {

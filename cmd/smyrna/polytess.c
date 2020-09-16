@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include "polytess.h"
-#include "xdot.h"
+#include <xdot/xdot.h>
 tessPoly TP;
 #if 0
 GLdouble star[5][3] = { 0.6f,  -0.1f, 0.0f,

@@ -10,15 +10,15 @@
 
 #include "config.h"
 
-#include <cgraph.h>
-#include <agxbuf.h>
-#include <ingraphs.h>
-#include <pointset.h>
+#include <cgraph/cgraph.h>
+#include <cgraph/agxbuf.h>
+#include <ingraphs/ingraphs.h>
+#include <common/pointset.h>
 #include <getopt.h>
 
-#include "DotIO.h"
-#include "edge_bundling.h"
-#include "nearest_neighbor_graph.h"
+#include <sparse/DotIO.h>
+#include <mingle/edge_bundling.h>
+#include <mingle/nearest_neighbor_graph.h>
 
 typedef enum {
 	FMT_GV,

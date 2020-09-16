@@ -24,14 +24,14 @@
 
 #include "config.h"
 
-#include "gvc.h"
-#include "cgraph.h"
+#include <gvc/gvc.h>
+#include <cgraph/cgraph.h>
 #include <stdlib.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 #include <getopt.h>
 

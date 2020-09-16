@@ -23,8 +23,8 @@
 #include "mainwindow.h"
 
 #include <getopt.h>
-#include "gvc.h"
-#include "globals.h"
+#include <gvc/gvc.h>
+#include <common/globals.h>
 
 
 #ifdef _WIN32

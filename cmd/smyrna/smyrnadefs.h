@@ -24,16 +24,16 @@
 #define _BB
 #endif
 
-#include "xdot.h"
+#include <xdot/xdot.h>
 #include <gtk/gtk.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
-#include "cgraph.h"
-#include "glcompset.h"
+#include <cgraph/cgraph.h>
+#include <glcomp/glcompset.h>
 #include "hier.h"
 #include "md5.h"
-#include "glutils.h"
+#include <glcomp/glutils.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -14,7 +14,7 @@
 #define VIEWPORTCAMERA_H
 
 #include "smyrnadefs.h"
-#include "glcompset.h"
+#include <glcomp/glcompset.h>
 
 #ifdef __cplusplus
 extern "C" {

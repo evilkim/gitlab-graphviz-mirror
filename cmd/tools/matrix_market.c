@@ -11,11 +11,11 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 #include "mmio.h"
 #include "matrix_market.h"
-#include "memory.h"
-#include "assert.h"
+#include <common/memory.h>
+#include <assert.h>
 #define MALLOC gmalloc
 #define REALLOC grealloc
 

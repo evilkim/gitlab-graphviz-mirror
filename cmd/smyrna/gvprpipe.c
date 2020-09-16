@@ -13,7 +13,7 @@
 
 #include "smyrnadefs.h"
 #include "gvprpipe.h"
-#include "const.h"
+#include <common/const.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -26,7 +26,7 @@
 #include <viewport.h>
 //#include <gltemplate.h> 
 
-#include <gvpr.h>
+#include <gvpr/gvpr.h>
 extern GladeXML *xml;		//global libglade vars
 
 /*    typedef struct {

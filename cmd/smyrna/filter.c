@@ -12,7 +12,7 @@
  *************************************************************************/
 
 #include "filter.h"
-#include "memory.h"
+#include <common/memory.h>
 
 int clear_filter(tv_filter * f)
 {

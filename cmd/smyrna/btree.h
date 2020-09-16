@@ -16,7 +16,7 @@
 
 #include "tvnodes.h"
 #ifdef _WIN32
-#include "regex_win32.h"
+#include <regex_win32.h>
 #endif
 
 #ifdef __cplusplus

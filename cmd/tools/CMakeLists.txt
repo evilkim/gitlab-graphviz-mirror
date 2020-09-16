@@ -1,19 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/ingraphs
-    ${GRAPHVIZ_LIB_DIR}/neatogen
-    ${GRAPHVIZ_LIB_DIR}/pack
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/sparse
-    ${EXPAT_INCLUDE_DIRS}
-)
-
 # This function sets some default values that every tools shares:
 # - linking to getopt if REQUIRED
 # - installation of executable
@@ -41,6 +25,23 @@ endfunction(tool_defaults)
 function(add_simple_tool name)
     add_executable(${name} ${name}.c)
 
+    target_include_directories(${name} PRIVATE
+        ${GRAPHVIZ_LIB_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${TOP_SOURCE_DIR}/windows/getopt
+        ${GRAPHVIZ_LIB_DIR}/cdt
+        ${GRAPHVIZ_LIB_DIR}/cgraph
+        ${GRAPHVIZ_LIB_DIR}/common
+        ${GRAPHVIZ_LIB_DIR}/gvc
+        ${GRAPHVIZ_LIB_DIR}/ingraphs
+        ${GRAPHVIZ_LIB_DIR}/neatogen
+        ${GRAPHVIZ_LIB_DIR}/pack
+        ${GRAPHVIZ_LIB_DIR}/pathplan
+        ${GRAPHVIZ_LIB_DIR}/sparse
+        ${EXPAT_INCLUDE_DIRS}
+    )
+
     target_link_libraries(${name}
         cgraph
         ingraphs
@@ -66,6 +67,23 @@ add_simple_tool(unflatten)
 add_executable(dijkstra
     # Source files
     dijkstra.c
+)
+
+target_include_directories(dijkstra PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(dijkstra
@@ -113,6 +131,23 @@ add_executable(gml2gv
     ${FLEX_Gmlscan_OUTPUTS}
 )
 
+target_include_directories(gml2gv PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
+)
+
 target_link_libraries(gml2gv
     cgraph
     ingraphs
@@ -126,6 +161,23 @@ if(EXPAT_FOUND)
 add_executable(graphml2gv
     # Source files
     graphml2gv.c
+)
+
+target_include_directories(graphml2gv PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(graphml2gv
@@ -149,6 +201,23 @@ add_executable(gvcolor
     gvcolor.c
 )
 
+target_include_directories(gvcolor PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
+)
+
 target_link_libraries(gvcolor
     cgraph
     ingraphs
@@ -161,6 +230,23 @@ add_executable(gvgen
     # Source files
     graph_generator.c
     gvgen.c
+)
+
+target_include_directories(gvgen PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvgen cgraph)
@@ -180,6 +266,23 @@ add_definitions(-DDEMAND_LOADING=0)
 add_executable(gvpack
     # Source files
     gvpack.c
+)
+
+target_include_directories(gvpack PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvpack
@@ -207,6 +310,23 @@ add_executable(gxl2gv
     gxl2gv.c
 )
 
+target_include_directories(gxl2gv PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
+)
+
 target_link_libraries(gxl2gv
     cdt
     cgraph
@@ -224,6 +344,23 @@ add_executable(mm2gv
     matrix_market.c
     mm2gv.c
     mmio.c
+)
+
+target_include_directories(mm2gv PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(mm2gv
@@ -247,6 +384,23 @@ if(EXPAT_FOUND)
 add_executable(sccmap
     # Source files
     sccmap.c
+)
+
+target_include_directories(sccmap PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${TOP_SOURCE_DIR}/windows/getopt
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/ingraphs
+    ${GRAPHVIZ_LIB_DIR}/neatogen
+    ${GRAPHVIZ_LIB_DIR}/pack
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sparse
+    ${EXPAT_INCLUDE_DIRS}
 )
 
 target_link_libraries(sccmap

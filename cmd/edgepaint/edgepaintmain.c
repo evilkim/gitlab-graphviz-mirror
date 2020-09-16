@@ -10,18 +10,18 @@
 
 #include "config.h"
 
-#include <cgraph.h>
-#include <agxbuf.h>
-#include <ingraphs.h>
-#include <pointset.h>
+#include <cgraph/cgraph.h>
+#include <cgraph/agxbuf.h>
+#include <ingraphs/ingraphs.h>
+#include <common/pointset.h>
 #include <getopt.h>
 
-#include "general.h"
-#include "SparseMatrix.h"
-#include "DotIO.h"
-#include "node_distinct_coloring.h"
-#include "edge_distinct_coloring.h"
-#include "color_palette.h"
+#include <sparse/general.h>
+#include <sparse/SparseMatrix.h>
+#include <sparse/DotIO.h>
+#include <edgepaint/node_distinct_coloring.h>
+#include <edgepaint/edge_distinct_coloring.h>
+#include <sparse/color_palette.h>
 
 typedef enum {
 	FMT_GV,

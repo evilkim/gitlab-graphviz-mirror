@@ -14,7 +14,7 @@
 #ifndef COUNTRY_GRAPH_CLUSTERING_H
 #define COUNTRY_GRAPH_CLUSTERING_H
 
-#include <SparseMatrix.h>
+#include <sparse/SparseMatrix.h>
 
 enum {DO_SWAPPING = 1, DO_SWAPPING_CHEAP};
 

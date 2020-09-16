@@ -17,15 +17,15 @@
 
 #include "config.h"
 
-#include "gvc.h"
-#include "gvio.h"
+#include <gvc/gvc.h>
+#include <gvc/gvio.h>
 
 #ifdef WIN32_DLL
 __declspec(dllimport) boolean MemTest;
 __declspec(dllimport) int GvExitOnUsage;
 /*gvc.lib cgraph.lib*/
 #else   /* not WIN32_DLL */
-#include "globals.h"
+#include <common/globals.h>
 #endif
 
 #include <stdlib.h>

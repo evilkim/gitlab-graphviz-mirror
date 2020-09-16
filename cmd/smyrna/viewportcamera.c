@@ -13,11 +13,11 @@
 
 #include "viewportcamera.h"
 #include "gui.h"
-#include "math.h"
-#include "memory.h"
-#include "glcompbutton.h"
-#include "glcomplabel.h"
-#include "glcomppanel.h"
+#include <math.h>
+#include <common/memory.h>
+#include <glcomp/glcompbutton.h>
+#include <glcomp/glcomplabel.h>
+#include <glcomp/glcomppanel.h>
 
 
 static viewport_camera *new_viewport_camera(ViewInfo * view)

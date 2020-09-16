@@ -14,7 +14,7 @@
 #ifndef POWER_H
 #define POWER_H
 
-#include <general.h>
+#include <sparse/general.h>
 
 /* if you have a standard dense/sparse matrix, set matvec to matvec_dense/matvec_sparse*/
 void power_method(void (*matvec)(void *M, int m, int n, real *u, real **v, int transposed, int *flag),

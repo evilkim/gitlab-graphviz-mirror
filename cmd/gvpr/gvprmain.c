@@ -24,15 +24,15 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
-#include "compat_unistd.h"
+#include <ast/compat_unistd.h>
 #endif
 
 
 
-#include "gvpr.h"
+#include <gvpr/gvpr.h>
 
 #ifdef DEBUG
-#include "sfio.h"
+#include <sfio/sfio.h>
 static ssize_t outfn (void* sp, const char *buf, size_t nbyte, void* dp)
 {
     write (1, "<stdout> ", 8);

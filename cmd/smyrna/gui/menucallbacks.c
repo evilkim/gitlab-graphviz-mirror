@@ -19,9 +19,9 @@
 #include "gvprpipe.h"
 #include "topviewsettings.h"
 #include "gltemplate.h"
-#include "memory.h"
-#include <const.h>
-#include <agxbuf.h>
+#include <common/memory.h>
+#include <common/const.h>
+#include <cgraph/agxbuf.h>
 #include <assert.h>
 #include <ctype.h>
 #include  "frmobjectui.h"

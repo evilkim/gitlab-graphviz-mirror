@@ -16,12 +16,8 @@
 #include <math.h>
 #include "power.h"
 
-/* #include "general.h" */
-/* #include "SparseMatrix.h" */
-/* #include "country_graph_coloring.h" */
-/* #include "power.h" */
-#include "PriorityQueue.h"
-#include "time.h"
+#include <sfdpgen/PriorityQueue.h>
+#include <time.h>
 
 /* int Verbose = FALSE; */
 

@@ -22,7 +22,7 @@
 #include <getopt.h>
 
 #include "convert.h"
-#include "ingraphs.h"
+#include <ingraphs/ingraphs.h>
 
 typedef enum { Unset, ToGV, ToGXL } mode;
 

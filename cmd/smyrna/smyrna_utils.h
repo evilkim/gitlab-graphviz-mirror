@@ -14,7 +14,7 @@
 #define SMYRNA_UTILS_H
 
 #include "smyrnadefs.h"
-#include "cgraph.h"
+#include <cgraph/cgraph.h>
 
 extern char *xml_string(char *s);
 extern int l_int(void *obj, Agsym_t * attr, int def);
