@@ -73,7 +73,7 @@
     </Link>
     <PreBuildEvent>
       <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
-win_bison -dy gmlparse.y -o gmlparse-intermediate.c
+win_bison -dy -Wno-yacc gmlparse.y -o gmlparse-intermediate.c
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.h &gt; gmlparse.h
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.c &gt; gmlparse.c
 del gmlparse-intermediate.h
@@ -100,7 +100,7 @@ del gmlparse-intermediate.c</Command>
     </Link>
     <PreBuildEvent>
       <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
-win_bison -dy gmlparse.y -o gmlparse-intermediate.c
+win_bison -dy -Wno-yacc gmlparse.y -o gmlparse-intermediate.c
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.h &gt; gmlparse.h
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.c &gt; gmlparse.c
 del gmlparse-intermediate.h
