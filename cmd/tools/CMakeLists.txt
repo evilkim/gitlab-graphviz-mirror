@@ -106,19 +106,9 @@ configure_file(
     "${CMAKE_CURRENT_BINARY_DIR}/modify_gml2gv_gmlparse.cmake"
     @ONLY
 )
-configure_file(
-    "${TOP_SOURCE_DIR}/cmake/modify_gml2gv_gmlscan.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/modify_gml2gv_gmlscan.cmake"
-    @ONLY
-)
 add_custom_command(
     OUTPUT ${BISON_Gmlparse_OUTPUTS}
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/modify_gml2gv_gmlparse.cmake
-    APPEND
-)
-add_custom_command(
-    OUTPUT ${FLEX_Gmlscan_OUTPUTS}
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/modify_gml2gv_gmlscan.cmake
     APPEND
 )
 

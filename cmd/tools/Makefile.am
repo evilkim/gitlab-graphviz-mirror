@@ -281,9 +281,7 @@ y.output: $(top_srcdir)/cmd/tools/gmlparse.y
 gmlparse.o gmlparse.lo gmlscan.o gmlscan.lo : gmlscan.c gmlparse.h
 
 gmlscan.c: $(top_srcdir)/cmd/tools/gmlscan.l
-	@LEX@ -i $(top_srcdir)/cmd/tools/gmlscan.l
-	@SED@ "s/yy/gml/g" < @LEX_OUTPUT_ROOT@.c > gmlscan.c
-	rm @LEX_OUTPUT_ROOT@.c
+	@LEX@ --outfile=$@ -i $(top_srcdir)/cmd/tools/gmlscan.l
 
 gml2gv_LDADD = \
 	$(top_builddir)/lib/cgraph/libcgraph.la \

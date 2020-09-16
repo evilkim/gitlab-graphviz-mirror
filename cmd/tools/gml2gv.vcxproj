@@ -72,9 +72,7 @@
       <AdditionalDependencies>getopt.lib;cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>win_flex  -o gmlscan-intermediate.c -i gmlscan.l
-sed "s/yy/gml/g" &lt; gmlscan-intermediate.c &gt; gmlscan.c
-del gmlscan-intermediate.c
+      <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
 win_bison -dy gmlparse.y -o gmlparse-intermediate.c
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.h &gt; gmlparse.h
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.c &gt; gmlparse.c
@@ -101,9 +99,7 @@ del gmlparse-intermediate.c</Command>
       <AdditionalDependencies>getopt.lib;cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>win_flex  -o gmlscan-intermediate.c -i gmlscan.l
-sed "s/yy/gml/g" &lt; gmlscan-intermediate.c &gt; gmlscan.c
-del gmlscan-intermediate.c
+      <Command>win_flex --outfile=gmlscan.c -i gmlscan.l
 win_bison -dy gmlparse.y -o gmlparse-intermediate.c
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.h &gt; gmlparse.h
 sed "s/yy/gml/g" &lt; gmlparse-intermediate.c &gt; gmlparse.c
