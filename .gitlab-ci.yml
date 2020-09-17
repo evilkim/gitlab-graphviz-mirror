@@ -150,6 +150,7 @@ portable-source:
         - Packages/*/*/*/*/*/*/*.zip
         reports:
             metrics: metrics.txt
+            junit: ./report.xml
     tags:
         - windows
 
