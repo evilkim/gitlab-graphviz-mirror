@@ -11,7 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-
+#include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,6 +65,47 @@ int agxbmore(agxbuf * xb, size_t ssz)
     xb->ptr = xb->buf + cnt;
     xb->eptr = xb->buf + nsize;
     return 0;
+}
+
+int agxbprint(agxbuf * xb, const char *fmt, ...) {
+  va_list ap;
+  size_t size;
+  int result;
+
+  va_start(ap, fmt);
+
+  /* determine how many bytes we need to print */
+  {
+    va_list ap2;
+    int rc;
+    va_copy(ap2, ap);
+    rc = vsnprintf(NULL, 0, fmt, ap2);
+    va_end(ap2);
+    if (rc < 0) {
+      va_end(ap);
+      return rc;
+    }
+    size = (size_t)rc + 1; /* account for NUL terminator */
+  }
+
+  /* do we need to expand the buffer? */
+  {
+    size_t unused_space = (size_t)(xb->eptr - xb->ptr);
+    if (unused_space < size) {
+      size_t extra = size - unused_space;
+      (void)agxbmore(xb, extra);
+    }
+  }
+
+  /* we can now safely print into the buffer */
+  result = vsnprintf((char*)xb->ptr, size, fmt, ap);
+  assert(result == (int)(size - 1) || result < 0);
+  if (result > 0) {
+    xb->ptr += (size_t)result;
+  }
+
+  va_end(ap);
+  return result;
 }
 
 /* agxbput_n:

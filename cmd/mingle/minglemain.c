@@ -242,7 +242,6 @@ static void
 genBundleSpline (pedge edge, agxbuf* xb)
 {
 	int k, j, mm, kk;
-	char buf[BUFSIZ];
 	int dim = edge->dim;
 	real* x = edge->x;
 	real tt1[3]={0.15,0.5,0.85};
@@ -263,8 +262,7 @@ genBundleSpline (pedge edge, agxbuf* xb)
 				t = tt[kk-1];
 				for (k = 0; k < dim; k++) {
 					if (k != 0) agxbputc(xb,',');
-					sprintf(buf, "%.03f", (x[(j-1)*dim+k]*(1-t)+x[j*dim+k]*(t)));
-					agxbput(xb, buf);
+					agxbprint(xb, "%.03f", (x[(j-1)*dim+k]*(1-t)+x[j*dim+k]*(t)));
 				}
 				agxbputc(xb,' ');
 			}
@@ -272,8 +270,7 @@ genBundleSpline (pedge edge, agxbuf* xb)
 		if ((j == 0) || (j == edge->npoints - 1)) {
 			for (k = 0; k < dim; k++) {
 				if (k != 0) agxbputc(xb,',');
-				sprintf(buf, "%.03f", x[j*dim+k]);
-				agxbput(xb, buf);
+				agxbprint(xb, "%.03f", x[j*dim+k]);
 			}
 		}
     }
@@ -283,7 +280,6 @@ static void
 genBundleInfo (pedge edge, agxbuf* xb)
 {
 	int k, j;
-	char buf[BUFSIZ];
 	int dim = edge->dim;
 	real* x = edge->x;
 
@@ -291,13 +287,11 @@ genBundleInfo (pedge edge, agxbuf* xb)
 		if (j != 0)  agxbputc(xb, ':');
 		for (k = 0; k < dim; k++) {
 			if (k != 0)  agxbputc(xb, ',');
-			sprintf(buf, "%.03f", x[j*dim+k]);
-			agxbput(xb, buf);
+			agxbprint(xb, "%.03f", x[j*dim+k]);
 		}
 
 		if ((j < edge->npoints-1) && (edge->wgts))  {
-        	sprintf(buf, ";%.03f", edge->wgts[j]);
-			agxbput(xb, buf);
+			agxbprint(xb, ";%.03f", edge->wgts[j]);
 		}
 	}
 }
@@ -310,7 +304,6 @@ genBundleColors (pedge edge, agxbuf* xb, real maxwgt)
 	int dim = edge->dim;
 	real* x = edge->x;
 	real* lens = MALLOC(sizeof(real)*edge->npoints);
-	char buf[BUFSIZ];
 
 	for (j = 0; j < edge->npoints - 1; j++){
 		len = 0;
@@ -325,11 +318,9 @@ genBundleColors (pedge edge, agxbuf* xb, real maxwgt)
 		/* interpolate between red (t = 1) to blue (t = 0) */
 		r = 255*t; g = 0; b = 255*(1-t);
 		if (j != 0) agxbputc(xb,':');
-		sprintf(buf, "#%02x%02x%02x%02x", r, g, b, 85);
-		agxbput(xb, buf);
+		agxbprint(xb, "#%02x%02x%02x%02x", r, g, b, 85);
 		if (j < edge->npoints-2) {
-			sprintf(buf,";%f",lens[j]/len_total0);
-			agxbput(xb, buf);
+			agxbprint(xb,";%f",lens[j]/len_total0);
 		}
 	}
 	free (lens);

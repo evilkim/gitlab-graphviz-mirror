@@ -957,13 +957,8 @@ static node_t *clustNode(node_t * n, graph_t * cg, agxbuf * xb,
 {
     node_t *cn;
     static int idx = 0;
-    char num[100];
 
-    agxbput(xb, "__");
-    sprintf(num, "%d", idx++);
-    agxbput(xb, num);
-    agxbputc(xb, ':');
-    agxbput(xb, agnameof(cg));
+    agxbprint(xb, "__%d:%s", idx++, agnameof(cg));
 
     cn = agnode(agroot(cg), agxbuse(xb), 1);
     agbindrec(cn, "Agnodeinfo_t", sizeof(Agnodeinfo_t), TRUE);
@@ -1370,10 +1365,7 @@ char* scanEntity (char* t, agxbuf* xb)
     res = bsearch(&key, entities, NR_OF_ENTITIES,
         sizeof(entities[0]), comp_entities);
     if (!res) return t;
-    sprintf (buf, "%d", res->value);
-    agxbputc(xb, '#');
-    agxbput(xb, buf);
-    agxbputc(xb, ';');
+    agxbprint(xb, "#%d;", res->value);
     return (endp+1);
 }
 

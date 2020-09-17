@@ -412,20 +412,14 @@ static void
 deparseAttr (gmlattr* ap, agxbuf* xb)
 {
     if (ap->kind == LIST) {
-	agxbput (xb, ap->name);
-	agxbputc (xb, ' ');
+	agxbprint (xb, "%s ", ap->name);
 	deparseList (ap->u.lp, xb);
     }
     else if (ap->kind == STRING) {
-	agxbput (xb, ap->name);
-	agxbput (xb, " \"");
-	agxbput (xb, ap->u.value);
-	agxbput (xb, "\"");
+	agxbprint (xb, "%s \"%s\"", ap->name, ap->u.value);
     }
     else {
-	agxbput (xb, ap->name);
-	agxbputc (xb, ' ');
-	agxbput (xb, ap->u.value);
+	agxbprint (xb, "%s %s", ap->name, ap->u.value);
     }
 }
 
@@ -540,9 +534,7 @@ addEdgeLabelGraphics (Agedge_t* ep, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	}
     }
 
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
     agsafeset (ep, "lp", agxbuse (xb), "");
 
     if (cnt) {
@@ -606,9 +598,7 @@ addNodeGraphics (Agnode_t* np, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	}
     }
 
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
     agsafeset (np, "pos", agxbuse (xb), "");
 
     if (cnt) {
@@ -640,9 +630,7 @@ addEdgePoint (Agedge_t* ep, Dt_t* alist, agxbuf* xb)
     }
 
     if (agxblen(xb)) agxbputc (xb, ' ');
-    agxbput (xb, x);
-    agxbputc (xb, ',');
-    agxbput (xb, y);
+    agxbprint (xb, "%s,%s", x, y);
 }
 
 static void

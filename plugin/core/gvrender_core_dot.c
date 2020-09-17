@@ -84,12 +84,7 @@ static xdot_state_t* xd;
 
 static void xdot_str_xbuf (agxbuf* xb, char* pfx, char* s)
 {
-    char buf[BUFSIZ];
-
-    sprintf (buf, "%s%d -", pfx, (int)strlen(s));
-    agxbput(xb, buf);
-    agxbput(xb, s);
-    agxbputc(xb, ' ');
+    agxbprint (xb, "%s%d -%s ", pfx, (int)strlen(s), s);
 }
 
 static void xdot_str (GVJ_t *job, char* pfx, char* s)
@@ -160,12 +155,9 @@ static void xdot_num(agxbuf *xbuf, double v)
 static void xdot_points(GVJ_t *job, char c, pointf * A, int n)
 {
     emit_state_t emit_state = job->obj->emit_state;
-    char buf[BUFSIZ];
     int i;
 
-    agxbputc(xbufs[emit_state], c);
-    sprintf(buf, " %d ", n);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%c %d ", c, n);
     for (i = 0; i < n; i++)
         xdot_point(xbufs[emit_state], A[i]);
 }
@@ -208,8 +200,7 @@ static void xdot_style (GVJ_t *job)
 	agxbput (&xbuf, "setlinewidth(");
 	sprintf (buf, "%.3f", job->obj->penwidth);
 	xdot_trim_zeros (buf, 0);
-	agxbput(&xbuf, buf);
-	agxbputc (&xbuf, ')');
+	agxbprint(&xbuf, "%s)", buf);
         xdot_str (job, "S ", agxbuse(&xbuf));
     }
 
@@ -330,7 +321,6 @@ static void xdot_end_edge(GVJ_t* job)
 static void xdot_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *target, char *id)
 {
     emit_state_t emit_state = job->obj->emit_state;
-    char buf[3];  /* very small integer */
     unsigned int flags = 0;
 
     agxbput(xbufs[emit_state], "H ");
@@ -340,8 +330,7 @@ static void xdot_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *targ
 	flags |= 2;
     if (target)
 	flags |= 4;
-    sprintf (buf, "%d ", flags);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%d ", flags);
     if (href)
 	xdot_str (job, "", href);
     if (tooltip)
@@ -601,8 +590,7 @@ static void xdot_textspan(GVJ_t * job, pointf p, textspan_t * span)
 	unsigned int mask = flag_masks[xd->version-15];
 	unsigned int bits = flags & mask;
 	if (textflags[emit_state] != bits) {
-	    sprintf (buf, "t %u ", bits);
-	    agxbput(xbufs[emit_state], buf);
+	    agxbprint(xbufs[emit_state], "t %u ", bits);
 	    textflags[emit_state] = bits;
 	}
     }
@@ -610,8 +598,7 @@ static void xdot_textspan(GVJ_t * job, pointf p, textspan_t * span)
     p.y += span->yoffset_centerline;
     agxbput(xbufs[emit_state], "T ");
     xdot_point(xbufs[emit_state], p);
-    sprintf(buf, "%d ", j);
-    agxbput(xbufs[emit_state], buf);
+    agxbprint(xbufs[emit_state], "%d ", j);
     xdot_fmt_num (buf, span->size.x);
     agxbput(xbufs[emit_state], buf);
     xdot_str (job, "", span->str);

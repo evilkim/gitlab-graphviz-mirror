@@ -355,14 +355,11 @@ static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash)
 		if (isEdge) {
 		    agxbput(&buf, t_str);
 		    if (has_tp) {
-			agxbputc(&buf, ':');
-			agxbput(&buf, tp_str);
+			agxbprint(&buf, ":%s", tp_str);
 		    }
-		    agxbput(&buf, e_str);
-		    agxbput(&buf, h_str);
+		    agxbprint(&buf, "%s%s", e_str, h_str);
 		    if (has_hp) {
-			agxbputc(&buf, ':');
-			agxbput(&buf, hp_str);
+			agxbprint(&buf, ":%s", hp_str);
 		    }
 		}
 		break;
@@ -382,8 +379,7 @@ static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash)
 		}
 		/* Fall through */
 	    default:  /* leave other escape sequences unmodified, e.g. \n \l \r */
-		agxbputc(&buf, '\\');
-		agxbputc(&buf, c);
+		agxbprint(&buf, "\\%c", c);
 		break;
 	    }
 	} else {

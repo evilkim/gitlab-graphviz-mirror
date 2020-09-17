@@ -234,48 +234,37 @@ ID		({NAME}|{NUMBER})
 void aagerror(char *str)
 {
 	unsigned char	xbuf[BUFSIZ];
-	char	buf[BUFSIZ];
 	agxbuf  xb;
 
 	agxbinit(&xb, BUFSIZ, xbuf);
 	if (InputFile) {
-		agxbput (&xb, InputFile);
-		agxbput (&xb, ": ");
+		agxbprint (&xb, "%s: ", InputFile);
 	}
-	agxbput (&xb, str);
-	sprintf(buf," in line %d", line_num);
-	agxbput (&xb, buf);
+	agxbprint (&xb, "%s in line %d", str, line_num);
 	if (*aagtext) {
-		agxbput(&xb," near '");
-		agxbput (&xb, aagtext);
-		agxbputc (&xb, '\'');
+		agxbprint(&xb, " near '%s'", aagtext);
 	}
 	else switch (YYSTATE) {
 	case qstring :
-		sprintf(buf, " scanning a quoted string (missing endquote? longer than %d?)", YY_BUF_SIZE);
-		agxbput (&xb, buf);
+		agxbprint(&xb, " scanning a quoted string (missing endquote? longer than %d?)", YY_BUF_SIZE);
 		if (*Sbuf) {
-			int len = strlen(Sbuf);
-			agxbput (&xb, "\nString starting:\"");
+			size_t len = strlen(Sbuf);
 			if (len > 80)
 				Sbuf[80] = '\0';
-			agxbput (&xb, Sbuf);
+			agxbprint (&xb, "\nString starting:\"%s", Sbuf);
 		}
 		break;
 	case hstring :
-		sprintf(buf, " scanning a HTML string (missing '>'? bad nesting? longer than %d?)", YY_BUF_SIZE);
-		agxbput (&xb, buf);
+		agxbprint(&xb, " scanning a HTML string (missing '>'? bad nesting? longer than %d?)", YY_BUF_SIZE);
 		if (*Sbuf) {
-			int len = strlen(Sbuf);
-			agxbput (&xb, "\nString starting:<");
+			size_t len = strlen(Sbuf);
 			if (len > 80)
 				Sbuf[80] = '\0';
-			agxbput (&xb, Sbuf);
+			agxbprint (&xb, "\nString starting:<%s", Sbuf);
 		}
 		break;
 	case comment :
-		sprintf(buf, " scanning a /*...*/ comment (missing '*/? longer than %d?)", YY_BUF_SIZE);
-		agxbput (&xb, buf);
+		agxbprint(&xb, " scanning a /*...*/ comment (missing '*/? longer than %d?)", YY_BUF_SIZE);
 		break;
 	}
 	agxbputc (&xb, '\n');
