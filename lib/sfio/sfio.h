@@ -186,12 +186,6 @@ extern "C" {
 #define SFFMT_JFLAG	04000000	/* 'j' flag, intmax_t                  */
 #define SFFMT_SET	07777770	/* flags settable on calling extf      */
 
-/* for sfmutex() call */
-#define SFMTX_LOCK	0	/* up mutex count                       */
-#define SFMTX_TRYLOCK	1	/* try to up mutex count                */
-#define SFMTX_UNLOCK	2	/* down mutex count                     */
-#define SFMTX_CLRLOCK	3	/* clear mutex count                    */
-
 /* various constants */
 #ifndef NULL
 #define NULL		0
@@ -337,9 +331,6 @@ extern "C" {
     extern int sfvsscanf(const char *, const char *, va_list);
     extern int sfvscanf(Sfio_t *, const char *, va_list);
     extern int sfresize(Sfio_t *, Sfoff_t);
-
-/* mutex locking for thread-safety */
-    extern int sfmutex(Sfio_t *, int);
 
 /* io functions with discipline continuation */
     extern ssize_t sfrd(Sfio_t *, void *, size_t, Sfdisc_t *);
