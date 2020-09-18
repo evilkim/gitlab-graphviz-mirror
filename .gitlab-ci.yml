@@ -254,6 +254,7 @@ ubuntu18-04-cmake-build:
     <<: *deb_build_definition
     before_script:
         - export build_system="cmake"
+        - echo experimental > COLLECTION
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
