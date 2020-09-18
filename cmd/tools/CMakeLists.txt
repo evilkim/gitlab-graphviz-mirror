@@ -270,11 +270,6 @@ target_link_libraries(gvpack
     ingraphs
 )
 
-# Link to math library
-if (UNIX)
-    target_link_libraries(gvpack m)
-endif (UNIX)
-
 tool_defaults(gvpack)
 
 # =================================== gxl2gv ===================================
