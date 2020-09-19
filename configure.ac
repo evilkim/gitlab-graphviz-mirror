@@ -514,23 +514,6 @@ AC_SUBST([LIBLTDL])
 AC_SUBST([LIBLTDL_LDFLAGS])
 LIBS="$save_LIBS"
 
-
-# Checks for libraries.
-#AC_CHECK_LIB([ICE], [main])
-#AC_CHECK_LIB([SM], [main])
-#AC_CHECK_LIB([Xaw], [main])
-#AC_CHECK_LIB([Xpm], [main])
-#AC_CHECK_LIB([art_lgpl_2], [main])
-#AC_CHECK_LIB([cairo], [main])
-#AC_CHECK_LIB([dl], [main])
-#AC_CHECK_LIB([fl], [main])
-#AC_CHECK_LIB([intl], [main])
-#AC_CHECK_LIB([m], [main])
-#AC_CHECK_LIB([perl], [main])
-#AC_CHECK_LIB([popt], [main])
-#AC_CHECK_LIB([xml2], [main])
-#AC_CHECK_LIB([z], [main])
-
 dnl -----------------------------------
 dnl ElectricFence support for debugging
 
