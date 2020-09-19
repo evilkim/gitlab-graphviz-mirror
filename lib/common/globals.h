@@ -23,12 +23,6 @@ extern "C" {
 #endif
 
 #ifndef __CYGWIN__
-#if defined(_BLD_dotneato) && defined(_DLL)
-#   define external __EXPORT__
-#endif
-#if !defined(_BLD_dotneato) && defined(__IMPORT__)
-#   define external __IMPORT__
-#endif
 #if defined(GVDLL)
 #if !defined(_BLD_gvc)
 #define extern	__declspec(dllimport)
@@ -45,9 +39,6 @@ extern "C" {
 #endif
 /*end visual studio*/
 
-#ifndef external
-#   define external   extern
-#endif
 #ifndef EXTERN
 #define EXTERN extern
 #endif
@@ -123,7 +114,6 @@ extern "C" {
 
     extern struct fdpParms_s* fdp_parms;
 
-#undef external
 #undef EXTERN
 #ifdef extern
 #undef extern
