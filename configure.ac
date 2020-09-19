@@ -515,16 +515,6 @@ AC_SUBST([LIBLTDL_LDFLAGS])
 LIBS="$save_LIBS"
 
 dnl -----------------------------------
-dnl ElectricFence support for debugging
-
-AC_ARG_WITH(efence,
-   [AS_HELP_STRING([--with-efence=no],[use efence for debugging memory use])],
-   [],[with_efence=no])
-if test "x$with_efence" = "xyes"; then
-	LIBS="$LIBS -lefence"
-fi
-
-dnl -----------------------------------
 dnl Checks for X header files.
 
 AC_PATH_XTRA
