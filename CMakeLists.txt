@@ -195,8 +195,6 @@ add_subdirectory(lib)
 add_subdirectory(plugin)
 add_subdirectory(cmd)
 
-enable_testing()
-add_subdirectory(tests)
 MATH(EXPR GRAPHVIZ_PLUGIN_VERSION "${GRAPHVIZ_PLUGIN_VERSION}+1")
 set(GVPLUGIN_VERSION "${GRAPHVIZ_PLUGIN_VERSION}")
 set(VERSION "${GRAPHVIZ_VERSION_STRING}")
