@@ -12,7 +12,7 @@ libsfio_C_la_SOURCES = sfclose.c sfclrlock.c sfcvt.c sfdisc.c \
 	sfdlen.c sfexcept.c sfexit.c sfextern.c sffilbuf.c \
 	sfflsbuf.c sfgetd.c sfgetl.c sfgetm.c sfgetr.c sfgetu.c \
 	sfllen.c sfmode.c sfnew.c sfnotify.c \
-	sfnputc.c sfopen.c sfpkrd.c sfpoll.c sfpool.c sfpopen.c \
+	sfnputc.c sfopen.c sfpkrd.c sfpoll.c sfpool.c \
 	sfprintf.c sfprints.c sfpurge.c sfputd.c sfputl.c sfputm.c \
 	sfputr.c sfputu.c sfraise.c sfrd.c sfread.c sfreserve.c \
 	sfresize.c sfscanf.c sfseek.c sfset.c sfsetbuf.c sfsetfd.c \
@@ -23,12 +23,4 @@ libsfio_C_la_SOURCES = sfclose.c sfclrlock.c sfcvt.c sfdisc.c \
 libsfio_C_la_DEPENDENCIES = \
 	Sfio_f/libsfiof_C.la
 
-$(top_builddir)/FEATURE/sfio: $(top_srcdir)/lib/sfio/features/sfio
-	mkdir -p $(top_builddir)/FEATURE
-	$(top_srcdir)/iffe - set cc $(CC) $(CCMODE) $(CXFLAGS) : run $(top_srcdir)/lib/sfio/features/sfio >$@
-
-$(libsfio_la_OBJECTS): $(top_builddir)/FEATURE/sfio
-
-DISTCLEANFILES = $(top_builddir)/FEATURE/sfio
-
-EXTRA_DIST = README features sfio.vcxproj*
+EXTRA_DIST = README sfio.vcxproj*

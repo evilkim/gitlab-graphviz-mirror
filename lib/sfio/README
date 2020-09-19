@@ -3,7 +3,6 @@ DIRECTORY HIERARCHY:
 This directory hierarchy has the source of Sfio, the Safe/Fast I/O library.
 
 . :		source code for Sfio.
-./features:	source code for generating configuration parameters.
 ./Sfio_f:	function versions of sfio macros.
 ./Stdio_s:	the source level <stdio> compatibility package.
 ./Stdio_b:	the binary level <stdio> compatibility package.
@@ -13,11 +12,6 @@ This directory hierarchy has the source of Sfio, the Safe/Fast I/O library.
 		for the compatibility packages.
 
 SOFTWARE CONSTRUCTION:
-
-The build procedure is based on the iffe language for automatic
-configuration. An iffe interpreter and its manual pages are included in
-this code distribution. See the files in ./features for examples of iffe
-probes to generate configuration parameters.
 
 Two sets of libraries will be built:
 	libsfio.a and libstdio.a: for uni-threaded applications, and

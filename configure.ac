@@ -445,9 +445,9 @@ dnl Checks for header files
 
 # AC_HEADER_STDC
 AC_CHECK_HEADERS( \
-	fcntl.h search.h termios.h \
+	fcntl.h search.h stropts.h termios.h \
 	unistd.h strings.h stat.h vfork.h \
-	sys/time.h sys/types.h sys/select.h \
+	sys/time.h sys/types.h sys/select.h sys/socket.h \
 	sys/stat.h sys/mman.h sys/vfork.h \
 	sys/ioctl.h sys/inotify.h crt_externs.h)
 

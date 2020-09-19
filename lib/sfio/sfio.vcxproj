@@ -122,7 +122,6 @@
     <ClCompile Include="sfpkrd.c" />
     <ClCompile Include="sfpoll.c" />
     <ClCompile Include="sfpool.c" />
-    <ClCompile Include="sfpopen.c" />
     <ClCompile Include="sfprintf.c" />
     <ClCompile Include="sfprints.c" />
     <ClCompile Include="sfpurge.c" />

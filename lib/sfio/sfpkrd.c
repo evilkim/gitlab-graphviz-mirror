@@ -12,10 +12,14 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
-#ifndef FIONREAD
 #ifdef HAVE_SYS_IOCTL_H
 #include	<sys/ioctl.h>
 #endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_STROPTS_H
+#include <stropts.h>
 #endif
 
 /*	Read/Peek a record from an unseekable device
@@ -47,16 +51,16 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	return read(fd, buf, n);
 
     t = (action > 0 || rc >= 0) ? (STREAM_PEEK | SOCKET_PEEK) : 0;
-#if !_stream_peek
+#ifndef I_PEEK
     t &= ~STREAM_PEEK;
 #endif
-#if !_socket_peek
+#ifndef MSG_PEEK
     t &= ~SOCKET_PEEK;
 #endif
 
     for (ntry = 0; ntry < 2; ++ntry) {
 	r = -1;
-#if _stream_peek
+#ifdef I_PEEK
 	if ((t & STREAM_PEEK) && (ntry == 1 || tm < 0)) {
 	    struct strpeek pbuf;
 	    pbuf.flags = 0;
@@ -84,7 +88,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 		    break;
 	    }
 	}
-#endif				/* stream_peek */
+#endif
 
 	if (ntry == 1)
 	    break;
@@ -96,25 +100,6 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	       /* let select be interrupted instead of recv which autoresumes */
 	       (t & SOCKET_PEEK)) {
 	    r = -2;
-#if _lib_poll
-	    if (r == -2) {
-		struct pollfd po;
-		po.fd = fd;
-		po.events = POLLIN;
-		po.revents = 0;
-
-		if ((r = SFPOLL(&po, 1, tm)) < 0) {
-		    if (errno == EINTR)
-			return -1;
-		    else if (errno == EAGAIN) {
-			errno = 0;
-			continue;
-		    } else
-			r = -2;
-		} else
-		    r = (po.revents & POLLIN) ? 1 : -1;
-	    }
-#endif /*_lib_poll*/
 #ifdef HAVE_SELECT
 	    if (r == -2) {
 		fd_set rd;
@@ -142,7 +127,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	    }
 #endif /*HAVE_SELECT*/
 	    if (r == -2) {
-#if !_lib_poll && !defined(HAVE_SELECT)	/* both poll and select cann't be used */
+#if !defined(HAVE_SELECT)	/* select can't be used */
 #ifdef FIONREAD			/* quick and dirty check for availability */
 		long nsec = tm < 0 ? 0 : (tm + 999) / 1000;
 		while (nsec > 0 && r < 0) {
@@ -179,7 +164,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	    break;
 	}
 
-#if _socket_peek
+#ifdef MSG_PEEK
 	if (t & SOCKET_PEEK) {
 	    while ((r = recv(fd, (char *) buf, n, MSG_PEEK)) < 0) {
 		if (errno == EINTR)
