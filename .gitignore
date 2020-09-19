@@ -175,8 +175,6 @@ lib/common/ps_font_equiv.h
 lib/common/svgcolor_lib
 lib/expr/exparse.c
 lib/expr/exparse.h
-lib/graph/parser.c
-lib/graph/parser.h
 lib/gvpr/gdefs.h
 lib/gvpr/mkdefs
 lib/vpsc/pairingheap/.dirstamp
