@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cgraph's agheap() API has been removed
 - Autotools build system support for eFence has been removed
 - Building Graphviz with ICC defaults to -O2 instead of -O0
+- Build system work arounds for GCC 3 have been removed
 
 ### Fixed
 - gvpr: line numbers in gvpr errors/warnings are incorrect #1594

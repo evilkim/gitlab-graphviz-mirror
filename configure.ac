@@ -381,17 +381,6 @@ else
 	        CFLAGS="${CFLAGS} -Wstrict-prototypes -Wpointer-arith -Wall -ffast-math"
 		    ;;
 	    * )
-	    # -Wno-unused-parameter only needed for bug in gcc3
-	    # this test from: http://cvs.auriga.wearlab.de/cgi-bin/cvsweb.cgi/dillo/configure.in?rev=1.90;content-type=text%2Fplain;cvsroot=dillo
-			if test "`$CC -v 2>&1 | $EGREP 'version 3'`" != ""; then
-		        CFLAGS="${CFLAGS} -Wno-unused-parameter"
-				# bug 1199
-				case "${host_cpu}" in
-				sparc* )
-		        	CFLAGS="${CFLAGS} -DUSE_MAXFLOAT"
-					;;
-				esac
-		    fi
 	        CFLAGS="${CFLAGS} -Wno-unknown-pragmas -Wstrict-prototypes -Wpointer-arith -Wall -ffast-math"
 	        ;;
 	    esac
