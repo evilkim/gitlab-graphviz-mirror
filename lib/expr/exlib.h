@@ -132,7 +132,6 @@ typedef struct Print_s			/* compiled printf arg node	*/
 #include <error.h>
 #include <sfstr.h>
 
-#define cast		excast
 #define id_string	(&exbuiltin[0])
 
 #define exunlex(p,c)	((p)->linep--,(p)->input->peek=(c))
