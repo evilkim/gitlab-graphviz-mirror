@@ -181,7 +181,6 @@ extern const char*	exversion;
 extern Exstate_t	expr;
 
 extern int		exparse(void);	/* yacc should do this		*/
-extern Sflong_t		strToL(char *, char **);
 
 #endif
 

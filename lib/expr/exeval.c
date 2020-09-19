@@ -1874,34 +1874,6 @@ exeval(Expr_t* ex, Exnode_t* expr, void* env)
 	return v;
 }
 
-#if 0
-/* strToL:
- * Convert a string representation of an integer
- * to an integer. The string can specify its own form
- * using 0x, etc.
- * If p != NULL, it points to the first character in
- * s where numeric parsing fails, or the last character.
- * The value is returned, with 0 returned for "".
- */
-Sflong_t strToL(char *s, char **p)
-{
-    Sflong_t v;
-    int i;
-    int n;
-
-    v = 0;
-    if (p) {
-	n = sfsscanf(s, "%I*i%n", sizeof(v), &v, &i);
-	if (n > 0)
-	    *p = s + i;
-	else
-	    *p = s;
-    } else
-	sfsscanf(s, "%I*i", sizeof(v), &v);
-    return v;
-}
-#endif
-
 /* exstring:
  * Generate copy of input string using
  * string memory.
