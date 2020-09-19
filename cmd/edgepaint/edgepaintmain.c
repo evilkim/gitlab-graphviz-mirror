@@ -175,6 +175,8 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
       Verbose = TRUE;
       break;
     case 'o':
+      if (outfile != NULL)
+        fclose(outfile);
       outfile = openFile(optarg, "w", CmdName);
       break;
     default:

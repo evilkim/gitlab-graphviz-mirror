@@ -466,12 +466,16 @@ static void processargs (int argc, char *argv[]) {
 	}
         else if (strcmp (argv[0], "-?") == 0)
             usage(0);
-        else if (strcmp (argv[0], "-") == 0)
+        else if (strcmp (argv[0], "-") == 0) {
+            if (fp != NULL && fp != stdin)
+                fclose(fp);
             fp = stdin;
-        else if (argv[0][0] == '-') {
+        } else if (argv[0][0] == '-') {
             fprintf (stderr, "option %s unrecognized - ignored\n", argv[0]);
         }
         else {
+            if (fp != NULL && fp != stdin)
+                fclose(fp);
             if ((fp = fopen (argv[0], "r")) == NULL) {
                 fprintf (stderr, "cannot open input file: %s\n", argv[0]);
                 exit(2);

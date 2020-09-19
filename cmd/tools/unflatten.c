@@ -187,6 +187,8 @@ static char **scanargs(int argc, char **argv)
 		ChainLimit = ival;
 	    break;
 	case 'o':
+	    if (outFile != NULL)
+		fclose(outFile);
 	    outFile = openFile(optarg, "w");
 	    break;
 	case '?':
