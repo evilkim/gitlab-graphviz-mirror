@@ -134,7 +134,7 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	    exit (0);
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
 	    else
 		fprintf(stderr,
