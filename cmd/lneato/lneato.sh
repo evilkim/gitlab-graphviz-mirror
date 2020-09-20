@@ -45,6 +45,10 @@ do
 				exit 1
 			fi
 			;;
+		-\?)
+			$usage
+			exit 0
+			;;
 		-?*)
 			$usage
 			exit 1
