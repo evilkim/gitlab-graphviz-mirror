@@ -164,6 +164,10 @@ int main(int argc, char **argv)
     FILE *f;
 #endif
 
+    if (argc == 2 && strcmp(argv[1], "-?") == 0) {
+        fprintf(stderr, "Usage: diffimg image1 image2 [outimage]\n");
+        exit(0);
+    }
     if (argc < 3) {
         fprintf(stderr, "Usage: diffimg image1 image2 [outimage]\n");
         exit(EX_USAGE);
