@@ -45,6 +45,10 @@ while [ "x$1" != 'x' ]; do
         FILES=`echo $FILES \"$1\"`
         shift
         ;;
+    -\?)
+        $usage
+        exit 0
+        ;;
     -*)
         $usage
         exit 1
