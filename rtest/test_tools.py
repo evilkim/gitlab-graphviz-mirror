@@ -1,3 +1,4 @@
+import os
 import pytest
 import subprocess
 
@@ -32,6 +33,12 @@ import subprocess
     'unflatten',
 ])
 def test_tools(tool):
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1829 is fixed
+    if tool == 'smyrna' and os.getenv('build_system') == 'msbuild':
+      pytest.skip('smyrna fails to start because of missing DLLs in Windows MSBuild builds (#1829)')
+
     subprocess.check_call(
         [tool, '-?'],
         stdin=subprocess.DEVNULL,
