@@ -134,8 +134,8 @@ endif
 endif
 
 if WITH_LASI
-dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS) -lstdc++
-dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
+dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS)
+dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS)
 endif
 
 # add a non-existent C++ source to force the C++ compiler to be used for

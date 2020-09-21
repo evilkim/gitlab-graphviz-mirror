@@ -2817,7 +2817,7 @@ else
     use_ipsepcola="Yes"
     AC_DEFINE_UNQUOTED(IPSEPCOLA,1,[Define if you want IPSEPCOLA])
     IPSEPCOLA_INCLUDES='-I$(top_srcdir)/lib/vpsc'
-    IPSEPCOLA_LIBS='$(top_builddir)/lib/vpsc/libvpsc_C.la -lstdc++'
+    IPSEPCOLA_LIBS='$(top_builddir)/lib/vpsc/libvpsc_C.la'
     AC_SUBST([IPSEPCOLA_INCLUDES])
     AC_SUBST([IPSEPCOLA_LIBS])
   fi

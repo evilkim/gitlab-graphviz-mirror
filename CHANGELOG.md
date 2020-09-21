@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - sfio does compile time benchmarknig #1422
 - iffe "lib" check always succeeds when compiler optimises #1521
 - syntax error near text who is not present #1411
+- Explicitly links with libstdc++; should allow libc++ if appropriate #163
 
 ## [2.44.1] - 2020-06-29
 
