@@ -105,6 +105,10 @@ endif
 
 libtcldot_builtin_la_LIBADD += $(EXPAT_LIBS) $(SOCKET_LIBS) $(IPSEPCOLA_LIBS) $(MATH_LIBS)
 
+# add a non-existent C++ source to force the C++ compiler to be used for
+# linking, so the C++ standard library is included for our C++ dependencies
+nodist_EXTRA_libtcldot_builtin_la_SOURCES = fake.cxx
+
 if WITH_TCL
 all-local: pkgIndex.tcl
 

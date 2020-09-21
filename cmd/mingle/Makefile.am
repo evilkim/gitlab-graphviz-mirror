@@ -40,6 +40,10 @@ mingle_LDADD = \
 	$(top_builddir)/lib/cdt/libcdt.la \
 	$(ANN_LIBS) -lstdc++ -lm 
 
+# add a non-existent C++ source to force the C++ compiler to be used for
+# linking, so the C++ standard library is included for our C++ dependencies
+nodist_EXTRA_mingle_SOURCES = fake.cxx
+
 if HAVE_PS2PDF
 mingle.1.pdf: mingle.1.ps
 	@PS2PDF@ $< $@

@@ -138,6 +138,11 @@ dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LAS
 dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
 endif
 
+# add a non-existent C++ source to force the C++ compiler to be used for
+# linking, so the C++ standard library is included for our C++ dependencies
+nodist_EXTRA_dot_static_SOURCES = fake.cxx
+nodist_EXTRA_dot_builtins_SOURCES = fake.cxx
+
 EXTRA_DIST = dot.1 osage.1 patchwork.1 $(pdf) dot.vcxproj*
 
 DISTCLEANFILES = dot.1.pdf osage.1.pdf dot.1.ps osage.1.ps patchwork.1.pdf patchwork.1.ps
