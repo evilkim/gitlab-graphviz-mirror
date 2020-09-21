@@ -125,10 +125,6 @@ dot_builtins_LDADD += $(top_builddir)/plugin/gd/libgvplugin_gd.la $(GDLIB_LIBS)
 endif
 
 if WITH_PANGOCAIRO
-if WITH_WEBP
-dot_static_LDADD += $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
-dot_builtins_LDADD += $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
-endif
 dot_static_LDADD += $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
 dot_builtins_LDADD += $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS)
 if WITH_WEBP
@@ -141,12 +137,6 @@ if WITH_LASI
 dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS) -lstdc++
 dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
 endif
-
-if WITH_LASI
-dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS) -lstdc++
-dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
-endif
-
 
 EXTRA_DIST = dot.1 osage.1 patchwork.1 $(pdf) dot.vcxproj*
 
