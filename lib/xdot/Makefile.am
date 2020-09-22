@@ -17,17 +17,25 @@ pkgconfig_DATA = libxdot.pc
 man_MANS = xdot.3
 pdf_DATA = xdot.3.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 libxdot_C_la_SOURCES = xdot.c
 libxdot_la_LDFLAGS = -version-info $(XDOT_VERSION) -no-undefined
 libxdot_la_SOURCES = $(libxdot_C_la_SOURCES)
 
+if HAVE_PS2PDF
 xdot.3.pdf: xdot.3.ps
 	@PS2PDF@ $< $@
 
 xdot.3.ps: $(srcdir)/xdot.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) xdot.vcxproj*
+EXTRA_DIST = $(man_MANS) $(pdf) xdot.vcxproj*
 
 DISTCLEANFILES = $(pdf_DATA) xdot.3.ps
 

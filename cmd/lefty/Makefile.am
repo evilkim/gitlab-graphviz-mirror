@@ -56,6 +56,12 @@ endif
 man_MANS = lefty.1
 pdf_DATA = lefty.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 lefty_DATA = lefty.psp
 
 lefty_SOURCES = code.c common.c display.c exec.c g.c gfxview.c internal.c \
@@ -88,12 +94,14 @@ lefty_LDADD = $(top_builddir)/cmd/lefty/dot2l/libdot2l.la \
 	-lXt -lXmu -lXext -lX11 @SOCKET_LIBS@ @MATH_LIBS@
 endif
 
+if HAVE_PS2PDF
 lefty.1.pdf: lefty.1.ps
 	@PS2PDF@ $< $@
 
 lefty.1.ps: $(srcdir)/lefty.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf_DATA) lefty.vcxproj* colors.txt aix_mods cs2l/*
+EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf) lefty.vcxproj* colors.txt aix_mods cs2l/*
 
 DISTCLEANFILES = $(pdf_DATA) lefty.1.ps

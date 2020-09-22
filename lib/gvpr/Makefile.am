@@ -28,6 +28,12 @@ pkgconfig_DATA = libgvpr.pc
 man_MANS = gvpr.3
 pdf_DATA = gvpr.3.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 libgvpr_C_la_SOURCES = actions.c compile.c gvpr.c gprstate.c parse.c queue.c 
 $(libgvpr_C_la_OBJECTS): gdefs.h
 libgvpr_C_la_DEPENDENCIES = \
@@ -35,11 +41,13 @@ libgvpr_C_la_DEPENDENCIES = \
 	$(top_builddir)/lib/common/libcommon_C.la \
 	$(top_builddir)/lib/ingraphs/libingraphs_C.la
 
+if HAVE_PS2PDF
 gvpr.3.pdf: gvpr.3.ps
 	@PS2PDF@ $< $@
 
 gvpr.3.ps: $(srcdir)/gvpr.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
 libgvpr_la_LDFLAGS = -version-info $(GVPR_VERSION) -no-undefined
 libgvpr_la_SOURCES = $(libgvpr_C_la_SOURCES)
@@ -61,6 +69,6 @@ mkdefs$(EXEEXT):
 gdefs.h: $(top_srcdir)/lib/gvpr/gprdata mkdefs$(EXEEXT)
 	./mkdefs$(EXEEXT) gdefs.h < $(top_srcdir)/lib/gvpr/gprdata
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) gprdata mkdefs.c gdefs.h trie.c gvprlib.vcxproj*
+EXTRA_DIST = $(man_MANS) $(pdf) gprdata mkdefs.c gdefs.h trie.c gvprlib.vcxproj*
 
 DISTCLEANFILES = $(pdf_DATA) gdefs.h mkdefs$(EXEEXT) gvpr.3.ps

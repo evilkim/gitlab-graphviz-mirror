@@ -17,6 +17,12 @@ man_MANS = cdt.3
 pdf_DATA = cdt.3.pdf
 pkgconfig_DATA = libcdt.pc
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 libcdt_C_la_SOURCES = dtclose.c dtdisc.c dtextract.c dtflatten.c \
 	dthash.c dtlist.c dtmethod.c dtopen.c dtrenew.c dtrestore.c dtsize.c \
 	dtstat.c dtstrhash.c dttree.c dtview.c dtwalk.c
@@ -24,12 +30,14 @@ libcdt_C_la_SOURCES = dtclose.c dtdisc.c dtextract.c dtflatten.c \
 libcdt_la_LDFLAGS = -version-info $(CDT_VERSION) -no-undefined
 libcdt_la_SOURCES = $(libcdt_C_la_SOURCES)
 
+if HAVE_PS2PDF
 cdt.3.pdf: cdt.3.ps
 	@PS2PDF@ $< $@
 
 cdt.3.ps: $(srcdir)/cdt.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) cdt.vcxproj*
+EXTRA_DIST = $(man_MANS) $(pdf) cdt.vcxproj*
 
 DISTCLEANFILES = $(pdf_DATA) cdt.3.ps

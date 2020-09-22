@@ -18,6 +18,12 @@ bin_PROGRAMS = edgepaint
 man_MANS = edgepaint.1
 pdf_DATA = edgepaint.1.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 edgepaint_SOURCES = edgepaintmain.c
 edgepaint_CPPFLAGS = $(AM_CPPFLAGS)
 edgepaint_LDADD = \
@@ -33,12 +39,14 @@ edgepaint_LDADD = \
 	$(top_builddir)/lib/cdt/libcdt.la \
 	$(ANN_LIBS) -lstdc++ -lm
 
+if HAVE_PS2PDF
 edgepaint.1.pdf: edgepaint.1.ps
 	@PS2PDF@ $< $@
 
 edgepaint.1.ps: $(srcdir)/edgepaint.1
 	@GROFF@ -e -Tps -man -t $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) edgepaint.vcxproj*
+EXTRA_DIST = $(man_MANS) $(pdf) edgepaint.vcxproj*
 
 DISTCLEANFILES = $(pdf_DATA) edgepaint.1.ps

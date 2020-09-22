@@ -22,6 +22,12 @@ man_MANS = expr.3
 pdf_DATA = expr.3.pdf
 #pkgconfig_DATA = libexpr.pc
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 #### -no-undefined breaks Mac OS/X builds.
 #### libast has "extern char **environ" which remains
 ####      undefined until linked with main()
@@ -59,13 +65,15 @@ y.tab.c y.tab.h: y.output
 y.output: $(top_srcdir)/lib/expr/exparse.y
 	@YACC@ -Wno-yacc -dtv $(top_srcdir)/lib/expr/exparse.y -o y.tab.c
 
+if HAVE_PS2PDF
 expr.3.pdf: expr.3.ps
 	@PS2PDF@ $< $@
 
 expr.3.ps: $(srcdir)/expr.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) \
+EXTRA_DIST = $(man_MANS) $(pdf) \
 	Makefile.nmake Makefile.orig \
 	exparse.c exparse.h \
 	y.tab.c y.tab.h y.output expr.vcxproj*

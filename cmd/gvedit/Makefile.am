@@ -7,13 +7,17 @@ pdfdir = $(pkgdatadir)/doc/pdf
 gveditdir = $(pkgdatadir)/gvedit
 
 mans = gvedit.1
+if HAVE_PS2PDF
 pdfs = gvedit.1.pdf
+else
+pdfs = ERROR_NO_PS2PDF
+endif
 
 if WITH_QT
 bin_PROGRAMS = gvedit
 gvedit_DATA = attrs.txt
 man_MANS = $(mans)
-pdf_DATA = $(pdfs)
+pdf_DATA = gvedit.1.pdf
 endif
 
 AM_CPPFLAGS = \
@@ -57,11 +61,13 @@ qMakefile: gvedit.pro
 attrs.txt: $(top_srcdir)/doc/infosrc/attrs
 	cp $(top_srcdir)/doc/infosrc/attrs attrs.txt
 
+if HAVE_PS2PDF
 gvedit.1.pdf: gvedit.1.ps
 	@PS2PDF@ $< $@
 
 gvedit.1.ps: $(srcdir)/gvedit.1
 	@GROFF@ -Tps -man $< >$@
+endif
 
 EXTRA_DIST = gvedit.vcxproj* gvedit.pro.in mdi.qrc $(mans) $(pdfs)
 

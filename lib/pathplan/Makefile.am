@@ -21,6 +21,12 @@ pkgconfig_DATA = libpathplan.pc
 man_MANS = pathplan.3
 pdf_DATA = pathplan.3.pdf
 
+if HAVE_PS2PDF
+pdf = $(pdf_DATA)
+else
+pdf = ERROR_NO_PS2PDF
+endif
+
 libpathplan_C_la_SOURCES = cvt.c inpoly.c route.c shortest.c \
 	shortestpth.c solvers.c triang.c util.c visibility.c
 
@@ -28,12 +34,14 @@ libpathplan_la_LDFLAGS = -version-info $(PATHPLAN_VERSION) -no-undefined
 libpathplan_la_SOURCES = $(libpathplan_C_la_SOURCES)
 libpathplan_la_LIBADD = @MATH_LIBS@
 
+if HAVE_PS2PDF
 pathplan.3.pdf: pathplan.3.ps
 	@PS2PDF@ $< $@
 
 pathplan.3.ps: $(srcdir)/pathplan.3
 	@GROFF@ -Tps -man $< >$@
+endif
 
-EXTRA_DIST = $(man_MANS) $(pdf_DATA) path.lefty Pathplan.vcxproj* pathplan.def
+EXTRA_DIST = $(man_MANS) $(pdf) path.lefty Pathplan.vcxproj* pathplan.def
 
 DISTCLEANFILES = $(pdf_DATA) pathplan.3.ps
