@@ -41,9 +41,6 @@
 /* Define to 1 if you have the `cbrt' function. */
 //#define HAVE_CBRT 1
 
-/* Define to 1 if you have the <crt_externs.h> header file. */
-/* #undef HAVE_CRT_EXTERNS_H */
-
 /* Define to 1 if you have the `deflateBound' function. */
 /* #undef HAVE_DEFLATEBOUND */
 
@@ -271,9 +268,6 @@
 
 /* Define to 1 if the system has the type `_Bool'. */
 #define HAVE__BOOL 1
-
-/* Define to 1 if you have the `_NSGetEnviron' function. */
-/* #undef HAVE__NSGETENVIRON */
 
 /* Define as const if the declaration of iconv() needs const. */
 #define ICONV_CONST const

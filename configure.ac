@@ -437,7 +437,7 @@ AC_CHECK_HEADERS( \
 	unistd.h strings.h stat.h vfork.h \
 	sys/time.h sys/types.h sys/select.h sys/socket.h \
 	sys/stat.h sys/mman.h sys/vfork.h \
-	sys/ioctl.h sys/inotify.h crt_externs.h)
+	sys/ioctl.h sys/inotify.h)
 
 # Internationalization macros
 # AM_GNU_GETTEXT
@@ -459,7 +459,7 @@ LIBS=$save_LIBS
 
 # Checks for library functions
 AC_CHECK_FUNCS([lrand48 drand48 srand48 setmode setenv getenv \
-	cbrt vsnprintf _NSGetEnviron mallopt mallinfo mstats getpagesize \
+	cbrt vsnprintf mallopt mallinfo mstats getpagesize \
   ftruncate lseek64 stat64 vfork unlink waitpid select])
 
 AC_REPLACE_FUNCS([strcasestr])
