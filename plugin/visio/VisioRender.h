@@ -17,7 +17,7 @@
 #include <map>
 #include <vector>
 
-#include "types.h"
+#include <common/types.h>
 
 #include "VisioGraphic.h"
 #include "VisioText.h"

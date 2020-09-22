@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "gvplugin_render.h"
+#include <gvc/gvplugin_render.h>
 
 /* from config.h - would conflict with ming.h definitions */
 #undef PACKAGE

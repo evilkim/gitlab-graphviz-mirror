@@ -15,8 +15,8 @@
 
 #include <stdlib.h>
 
-#include "gvplugin_loadimage.h"
-#include "gvio.h"
+#include <gvc/gvplugin_loadimage.h>
+#include <gvc/gvio.h>
 
 #include <cairo.h>
 

@@ -1,16 +1,17 @@
-include_directories(
+add_library(gvplugin_neato_layout SHARED
+    # Source files
+	gvplugin_neato_layout.c
+	gvlayout_neato_layout.c
+)
+
+target_include_directories(gvplugin_neato_layout PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pathplan
-)
-
-add_library(gvplugin_neato_layout SHARED
-    # Source files
-	gvplugin_neato_layout.c
-	gvlayout_neato_layout.c
 )
 
 target_link_libraries(gvplugin_neato_layout

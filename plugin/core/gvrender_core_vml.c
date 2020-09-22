@@ -18,14 +18,14 @@
 #include <string.h>
 #include <inttypes.h>
 
-#include "macros.h"
-#include "const.h"
+#include <common/macros.h>
+#include <common/const.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvio.h"
-#include "memory.h"
-#include "strcasecmp.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
+#include <common/memory.h>
+#include <cgraph/strcasecmp.h>
 
 typedef enum { FORMAT_VML, FORMAT_VMLZ, } format_type;
 

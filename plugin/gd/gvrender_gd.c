@@ -19,10 +19,10 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include "gvplugin_render.h"
-#include "gvplugin_device.h"
-#include "gvcint.h"	/* for gvc->g for agget */
-#include "gd.h"
+#include <gvc/gvplugin_render.h>
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvcint.h>	/* for gvc->g for agget */
+#include <gd.h>
 
 #ifndef INT32_MAX
 #define INT32_MAX              (2147483647)

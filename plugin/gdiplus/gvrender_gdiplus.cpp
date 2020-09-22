@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gvplugin_device.h"
-#include "gvplugin_render.h"
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvplugin_render.h>
 #include "gvplugin_gdiplus.h"
 
 #include <memory>

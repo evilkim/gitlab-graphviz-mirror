@@ -18,7 +18,7 @@
 #include <unistd.h>
 #endif
 
-#include "gvplugin_device.h"
+#include <gvc/gvplugin_device.h>
 
 #ifdef HAVE_GTK
 #include <gtk/gtk.h>

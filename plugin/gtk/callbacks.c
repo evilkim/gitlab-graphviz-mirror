@@ -15,7 +15,7 @@
 
 #include <gtk/gtk.h>
 
-#include "gvplugin_device.h"
+#include <gvc/gvplugin_device.h>
 
 #include "callbacks.h"
 #include "interface.h"

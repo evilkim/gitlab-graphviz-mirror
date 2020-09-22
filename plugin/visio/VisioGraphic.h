@@ -14,7 +14,7 @@
 #ifndef VISIOGRAPHIC_H
 #define VISIOGRAPHIC_H
 
-#include "types.h"
+#include <common/types.h>
 
 namespace Visio
 {

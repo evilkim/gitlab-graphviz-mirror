@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gvplugin_loadimage.h"
-#include "gvio.h"
+#include <gvc/gvplugin_loadimage.h>
+#include <gvc/gvio.h>
 
 #ifdef HAVE_WEBP
 #ifdef HAVE_PANGOCAIRO

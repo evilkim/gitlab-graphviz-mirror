@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gvplugin_textlayout.h"
+#include <gvc/gvplugin_textlayout.h>
 #include "gvplugin_gdiplus.h"
 
 using namespace Gdiplus;

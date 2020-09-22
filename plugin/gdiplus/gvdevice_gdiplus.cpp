@@ -14,8 +14,8 @@
 #include "config.h"
 
 
-#include "gvplugin_device.h"
-#include "gvplugin_render.h"
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvplugin_render.h>
 #include "gvplugin_gdiplus.h"
 
 extern "C" size_t gvwrite(GVJ_t *job, const unsigned char *s, unsigned int len);

@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "strcasecmp.h"
+#include <cgraph/strcasecmp.h>
 
 /* FIXME - the following declaration should be removed
  * when configure is coordinated with flags passed to the
@@ -51,8 +51,8 @@ char* strcasestr (const char *str, const char *pat)
 
 #endif
 
-#include "agxbuf.h"
-#include "gvplugin_textlayout.h"
+#include <cgraph/agxbuf.h>
+#include <gvc/gvplugin_textlayout.h>
 #include <pango/pangocairo.h>
 #include "gvgetfontlist.h"
 

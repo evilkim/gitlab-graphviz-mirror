@@ -1,15 +1,5 @@
 if (GD_FOUND)
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GD_INCLUDE_DIRS}
-)
-
 add_library(gvplugin_gd SHARED
     # Source files
     gvdevice_gd.c
@@ -18,6 +8,17 @@ add_library(gvplugin_gd SHARED
 	gvrender_gd.c
 	gvrender_gd_vrml.c
 	gvtextlayout_gd.c
+)
+
+target_include_directories(gvplugin_gd PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GD_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvplugin_gd

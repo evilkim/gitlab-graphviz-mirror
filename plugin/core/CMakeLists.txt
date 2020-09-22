@@ -1,20 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/ast
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/expr
-    ${GRAPHVIZ_LIB_DIR}/gvc
-    ${GRAPHVIZ_LIB_DIR}/gvpr
-    ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${GRAPHVIZ_LIB_DIR}/sfio
-    ${GRAPHVIZ_LIB_DIR}/vmalloc
-    ${GRAPHVIZ_LIB_DIR}/xdot
-)
-
 # Generate ps.h from ps.txt
 add_custom_command(
     OUTPUT ps.h
@@ -41,6 +24,23 @@ add_library(gvplugin_core SHARED
 	gvrender_core_svg.c
 	gvrender_core_tk.c
 	gvrender_core_vml.c
+)
+
+target_include_directories(gvplugin_core PRIVATE
+    ${GRAPHVIZ_LIB_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${GRAPHVIZ_LIB_DIR}/ast
+    ${GRAPHVIZ_LIB_DIR}/cdt
+    ${GRAPHVIZ_LIB_DIR}/cgraph
+    ${GRAPHVIZ_LIB_DIR}/common
+    ${GRAPHVIZ_LIB_DIR}/expr
+    ${GRAPHVIZ_LIB_DIR}/gvc
+    ${GRAPHVIZ_LIB_DIR}/gvpr
+    ${GRAPHVIZ_LIB_DIR}/pathplan
+    ${GRAPHVIZ_LIB_DIR}/sfio
+    ${GRAPHVIZ_LIB_DIR}/vmalloc
+    ${GRAPHVIZ_LIB_DIR}/xdot
 )
 
 target_link_libraries(gvplugin_core

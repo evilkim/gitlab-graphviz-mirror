@@ -13,8 +13,8 @@
 
 #include "config.h"
 
-#include "gvplugin_device.h"
-#include "gvio.h"
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
 #ifdef HAVE_PANGOCAIRO
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

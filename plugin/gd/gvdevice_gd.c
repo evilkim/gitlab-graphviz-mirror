@@ -13,10 +13,10 @@
 
 #include "config.h"
 
-#include "gvplugin_device.h"
-#include "gvio.h"
+#include <gvc/gvplugin_device.h>
+#include <gvc/gvio.h>
 
-#include "gd.h"
+#include <gd.h>
 
 int gvdevice_gd_putBuf (gdIOCtx *context, const void *buffer, int len)
 {

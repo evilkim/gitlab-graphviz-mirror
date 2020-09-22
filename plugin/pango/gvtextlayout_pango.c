@@ -15,10 +15,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "gvplugin_render.h"
-#include "agxbuf.h"
-#include "utils.h"
-#include "gvplugin_textlayout.h"
+#include <gvc/gvplugin_render.h>
+#include <cgraph/agxbuf.h>
+#include <common/utils.h>
+#include <gvc/gvplugin_textlayout.h>
 
 #include <pango/pangocairo.h>
 #include "gvgetfontlist.h"

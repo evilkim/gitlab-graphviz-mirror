@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-#include "gvplugin.h"
+#include <gvc/gvplugin.h>
 
 extern gvplugin_installed_t gvrender_pango_types[];
 extern gvplugin_installed_t gvtextlayout_pango_types[];
