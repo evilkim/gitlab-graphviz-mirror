@@ -82,8 +82,8 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
 	    (strchr(s, '/') ||
 	     (((s = cmd) || (opt_info_argv && (s = *opt_info_argv))) &&
 	      strchr(s, '/') && !strchr(s, '\n') && !access(s, F_OK)) ||
-	     (environ && (s = *environ) && *s++ == '_' &&
-	      *s++ == '=' && strchr(s, '/') && !strneq(s, "/bin/", 5) &&
+	     ((s = getenv("_")) &&
+	      strchr(s, '/') && !strneq(s, "/bin/", 5) &&
 	      !strneq(s, "/usr/bin/", 9)) ||
 	     (*x && !access(x, F_OK) && (s = getenv("PWD")) && *s == '/')
 	    )
