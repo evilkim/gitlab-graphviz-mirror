@@ -345,6 +345,3 @@
 
 /* Define to `int' if <sys/types.h> does not define. */
 typedef int ssize_t;
-
-/* Define to `int' if <sys/types.h> doesn't define. */
-#define uid_t int
