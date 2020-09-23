@@ -7,5 +7,5 @@ noinst_LTLIBRARIES = libsfiof_C.la
 
 libsfiof_C_la_SOURCES = \
 	_sffileno.c _sfgetc.c _sfputc.c \
-	_sfputm.c _sfputu.c _sfslen.c _sfstacked.c \
+	_sfputu.c _sfslen.c _sfstacked.c \
 	_sfulen.c _sfvalue.c

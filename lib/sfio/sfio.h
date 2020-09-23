@@ -340,7 +340,6 @@ extern "C" {
     extern int sfulen(Sfulong_t);
 
     extern int sfputu(Sfio_t *, Sfulong_t);
-    extern int sfputm(Sfio_t *, Sfulong_t, Sfulong_t);
     extern int sfputc(Sfio_t *, int);
 
     extern Sfdouble_t sfgetd(Sfio_t *);
@@ -350,7 +349,6 @@ extern "C" {
     extern int sfgetc(Sfio_t *);
 
     extern int _sfputu(Sfio_t *, Sfulong_t);
-    extern int _sfputm(Sfio_t *, Sfulong_t, Sfulong_t);
     extern int _sfflsbuf(Sfio_t *, int);
 
     extern int _sffilbuf(Sfio_t *, int);
@@ -383,7 +381,6 @@ extern "C" {
 #define _SF_(f)		((Sfio_t*)(f))
 #endif
 #define __sf_putu(f,v)		(_sfputu(_SF_(f),(Sfulong_t)(v)))
-#define __sf_putm(f,v,m)	(_sfputm(_SF_(f),(Sfulong_t)(v),(Sfulong_t)(m)))
 #define __sf_putc(f,c)	(_SF_(f)->next >= _SF_(f)->endw ? \
 			 _sfflsbuf(_SF_(f),(int)((unsigned char)(c))) : \
 			 (int)(*_SF_(f)->next++ = (unsigned char)(c)) )
@@ -397,7 +394,6 @@ extern "C" {
 #define __sf_slen()	(_Sfi)
 
 #define sfputu(f,v)				( __sf_putu((f),(v))		)
-#define sfputm(f,v,m)				( __sf_putm((f),(v),(m))	)
 #define sfputc(f,c)				( __sf_putc((f),(c))		)
 #define sfgetc(f)				( __sf_getc(f)			)
 #define sfulen(v)				( __sf_ulen(v)			)
