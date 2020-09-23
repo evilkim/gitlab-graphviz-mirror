@@ -41,9 +41,6 @@
     <ClCompile Include="sfio_f\_sfslen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfio_f\_sfvalue.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfclose.c">
       <Filter>Source Files</Filter>
     </ClCompile>

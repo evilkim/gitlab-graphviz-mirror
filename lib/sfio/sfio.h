@@ -351,7 +351,6 @@ extern "C" {
 /* miscellaneous function analogues of fast in-line functions */
     extern Sfoff_t sfsize(Sfio_t *);
     extern int sffileno(Sfio_t *);
-    extern ssize_t sfvalue(Sfio_t *);
     extern ssize_t sfslen(void);
 
 #undef extern
@@ -378,13 +377,11 @@ extern "C" {
 #define __sf_getc(f)	(_SF_(f)->next >= _SF_(f)->endr ? _sffilbuf(_SF_(f),0) : \
 			 (int)(*_SF_(f)->next++) )
 #define __sf_fileno(f)	((f) ? _SF_(f)->file : -1)
-#define __sf_value(f)	((f) ? (_SF_(f)->val) : 0)
 #define __sf_slen()	(_Sfi)
 
 #define sfputc(f,c)				( __sf_putc((f),(c))		)
 #define sfgetc(f)				( __sf_getc(f)			)
 #define sffileno(f)				( __sf_fileno(f)		)
-#define sfvalue(f)				( __sf_value(f)			)
 #define sfslen()				( __sf_slen()			)
 #endif				/* _SFIO_H */
 #ifdef __cplusplus
