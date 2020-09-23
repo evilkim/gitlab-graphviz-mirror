@@ -365,7 +365,6 @@ extern "C" {
 
 /* miscellaneous function analogues of fast in-line functions */
     extern Sfoff_t sfsize(Sfio_t *);
-    extern int sfeof(Sfio_t *);
     extern int sferror(Sfio_t *);
     extern int sffileno(Sfio_t *);
     extern int sfstacked(Sfio_t *);
@@ -403,7 +402,6 @@ extern "C" {
 #define __sf_ulen(v)	((Sfulong_t)(v) < SF_U1 ? 1 : (Sfulong_t)(v) < SF_U2 ? 2 : \
 			 (Sfulong_t)(v) < SF_U3 ? 3 : (Sfulong_t)(v) < SF_U4 ? 4 : 5)
 #define __sf_fileno(f)	((f) ? _SF_(f)->file : -1)
-#define __sf_eof(f)	((f) ? (_SF_(f)->flags&SF_EOF) : 0)
 #define __sf_error(f)	((f) ? (_SF_(f)->flags&SF_ERROR) : 0)
 #define __sf_stacked(f)	((f) ? (_SF_(f)->push != (Sfio_t*)0) : 0)
 #define __sf_value(f)	((f) ? (_SF_(f)->val) : 0)
@@ -418,7 +416,6 @@ extern "C" {
 #define sfllen(v)				( __sf_llen(v)			)
 #define sfulen(v)				( __sf_ulen(v)			)
 #define sffileno(f)				( __sf_fileno(f)		)
-#define sfeof(f)				( __sf_eof(f)			)
 #define sferror(f)				( __sf_error(f)			)
 #define sfstacked(f)				( __sf_stacked(f)		)
 #define sfvalue(f)				( __sf_value(f)			)
