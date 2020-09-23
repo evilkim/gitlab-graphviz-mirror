@@ -96,7 +96,6 @@
     <ClCompile Include="sfgetm.c" />
     <ClCompile Include="sfgetr.c" />
     <ClCompile Include="sfgetu.c" />
-    <ClCompile Include="sfio_f\_sferror.c" />
     <ClCompile Include="sfio_f\_sffileno.c" />
     <ClCompile Include="sfio_f\_sfgetc.c" />
     <ClCompile Include="sfio_f\_sfllen.c" />
