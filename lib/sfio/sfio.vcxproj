@@ -98,7 +98,6 @@
     <ClCompile Include="sfgetu.c" />
     <ClCompile Include="sfio_f\_sffileno.c" />
     <ClCompile Include="sfio_f\_sfgetc.c" />
-    <ClCompile Include="sfio_f\_sfllen.c" />
     <ClCompile Include="sfio_f\_sfputc.c" />
     <ClCompile Include="sfio_f\_sfputd.c" />
     <ClCompile Include="sfio_f\_sfputl.c" />
@@ -108,7 +107,6 @@
     <ClCompile Include="sfio_f\_sfstacked.c" />
     <ClCompile Include="sfio_f\_sfulen.c" />
     <ClCompile Include="sfio_f\_sfvalue.c" />
-    <ClCompile Include="sfllen.c" />
     <ClCompile Include="sfmode.c" />
     <ClCompile Include="sfnew.c" />
     <ClCompile Include="sfnotify.c" />

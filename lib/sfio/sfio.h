@@ -337,7 +337,6 @@ extern "C" {
     extern ssize_t sfpkrd(int, void *, size_t, int, long, int);
 
 /* portable handling of primitive types */
-    extern int sfllen(Sflong_t);
     extern int sfulen(Sfulong_t);
 
     extern int sfputd(Sfio_t *, Sfdouble_t);
@@ -360,7 +359,6 @@ extern "C" {
 
     extern int _sffilbuf(Sfio_t *, int);
 
-    extern int _sfllen(Sflong_t);
     extern int _sfulen(Sfulong_t);
 
 /* miscellaneous function analogues of fast in-line functions */
@@ -397,7 +395,6 @@ extern "C" {
 			 (int)(*_SF_(f)->next++ = (unsigned char)(c)) )
 #define __sf_getc(f)	(_SF_(f)->next >= _SF_(f)->endr ? _sffilbuf(_SF_(f),0) : \
 			 (int)(*_SF_(f)->next++) )
-#define __sf_llen(v)	(_sfllen((Sflong_t)(v)) )
 #define __sf_ulen(v)	((Sfulong_t)(v) < SF_U1 ? 1 : (Sfulong_t)(v) < SF_U2 ? 2 : \
 			 (Sfulong_t)(v) < SF_U3 ? 3 : (Sfulong_t)(v) < SF_U4 ? 4 : 5)
 #define __sf_fileno(f)	((f) ? _SF_(f)->file : -1)
@@ -411,7 +408,6 @@ extern "C" {
 #define sfputm(f,v,m)				( __sf_putm((f),(v),(m))	)
 #define sfputc(f,c)				( __sf_putc((f),(c))		)
 #define sfgetc(f)				( __sf_getc(f)			)
-#define sfllen(v)				( __sf_llen(v)			)
 #define sfulen(v)				( __sf_ulen(v)			)
 #define sffileno(f)				( __sf_fileno(f)		)
 #define sfstacked(f)				( __sf_stacked(f)		)

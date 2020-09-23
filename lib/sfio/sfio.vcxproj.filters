@@ -35,9 +35,6 @@
     <ClCompile Include="sfio_f\_sfgetc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfio_f\_sfllen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sfputc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,9 +102,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfgetu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfllen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfmode.c">
