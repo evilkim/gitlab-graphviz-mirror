@@ -100,7 +100,6 @@
     <ClCompile Include="sfio_f\_sfgetc.c" />
     <ClCompile Include="sfio_f\_sfputc.c" />
     <ClCompile Include="sfio_f\_sfslen.c" />
-    <ClCompile Include="sfio_f\_sfstacked.c" />
     <ClCompile Include="sfio_f\_sfulen.c" />
     <ClCompile Include="sfio_f\_sfvalue.c" />
     <ClCompile Include="sfmode.c" />
