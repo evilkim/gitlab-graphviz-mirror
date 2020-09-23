@@ -339,7 +339,6 @@ extern "C" {
 /* portable handling of primitive types */
     extern int sfulen(Sfulong_t);
 
-    extern int sfputd(Sfio_t *, Sfdouble_t);
     extern int sfputl(Sfio_t *, Sflong_t);
     extern int sfputu(Sfio_t *, Sfulong_t);
     extern int sfputm(Sfio_t *, Sfulong_t, Sfulong_t);
@@ -351,7 +350,6 @@ extern "C" {
     extern Sfulong_t sfgetm(Sfio_t *, Sfulong_t);
     extern int sfgetc(Sfio_t *);
 
-    extern int _sfputd(Sfio_t *, Sfdouble_t);
     extern int _sfputl(Sfio_t *, Sflong_t);
     extern int _sfputu(Sfio_t *, Sfulong_t);
     extern int _sfputm(Sfio_t *, Sfulong_t, Sfulong_t);
@@ -386,7 +384,6 @@ extern "C" {
 #else
 #define _SF_(f)		((Sfio_t*)(f))
 #endif
-#define __sf_putd(f,v)		(_sfputd(_SF_(f),(Sfdouble_t)(v)))
 #define __sf_putl(f,v)		(_sfputl(_SF_(f),(Sflong_t)(v)))
 #define __sf_putu(f,v)		(_sfputu(_SF_(f),(Sfulong_t)(v)))
 #define __sf_putm(f,v,m)	(_sfputm(_SF_(f),(Sfulong_t)(v),(Sfulong_t)(m)))
@@ -402,7 +399,6 @@ extern "C" {
 #define __sf_value(f)	((f) ? (_SF_(f)->val) : 0)
 #define __sf_slen()	(_Sfi)
 
-#define sfputd(f,v)				( __sf_putd((f),(v))		)
 #define sfputl(f,v)				( __sf_putl((f),(v))		)
 #define sfputu(f,v)				( __sf_putu((f),(v))		)
 #define sfputm(f,v,m)				( __sf_putm((f),(v),(m))	)

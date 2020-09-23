@@ -13,7 +13,7 @@ libsfio_C_la_SOURCES = sfclose.c sfclrlock.c sfcvt.c sfdisc.c \
 	sfflsbuf.c sfgetd.c sfgetl.c sfgetm.c sfgetr.c sfgetu.c \
 	sfmode.c sfnew.c sfnotify.c \
 	sfnputc.c sfopen.c sfpkrd.c sfpoll.c sfpool.c \
-	sfprintf.c sfprints.c sfpurge.c sfputd.c sfputl.c sfputm.c \
+	sfprintf.c sfprints.c sfpurge.c sfputl.c sfputm.c \
 	sfputr.c sfputu.c sfraise.c sfrd.c sfread.c sfreserve.c \
 	sfresize.c sfscanf.c sfseek.c sfset.c sfsetbuf.c sfsetfd.c \
 	sfsize.c sfsk.c sfstack.c sfstrtod.c sfswap.c sfsync.c \

@@ -38,9 +38,6 @@
     <ClCompile Include="sfio_f\_sfputc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfio_f\_sfputd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sfputl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,9 +132,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfpurge.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfputd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfputl.c">
