@@ -21,11 +21,6 @@ target_link_libraries(dot
     gvc
 )
 
-# Link to math library
-if (UNIX)
-    target_link_libraries(dot m)
-endif (UNIX)
-
 # Installation location of executables
 install(
     TARGETS dot

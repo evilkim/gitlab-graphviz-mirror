@@ -11,6 +11,10 @@ set(CPACK_RESOURCE_FILE_README          "${TOP_SOURCE_DIR}/README.md"   )
 
 set(CPACK_GENERATOR ZIP)
 
+if (UNIX)
+    LIST(APPEND CPACK_GENERATOR DEB)
+endif()
+
 find_package(NSIS)
 if(NSIS_FOUND)
     set(CPACK_NSIS_MUI_ICON                 "${TOP_SOURCE_DIR}/windows/build/Graphviz.ico"  )

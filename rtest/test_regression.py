@@ -335,8 +335,9 @@ def test_1783():
 
 # https://gitlab.com/graphviz/graphviz/-/issues/1816 is fixed
 @pytest.mark.skipif(
+    os.environ.get('build_system') == 'cmake' or
     platform.system() == 'Windows',
-    reason='gvedit is not built for Windows (#1816)'
+    reason='gvedit is not built for Windows or using CMake (#1816)'
 )
 def test_1813():
     '''

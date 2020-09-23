@@ -85,6 +85,10 @@ find_package(LTDL)
 find_package(PangoCairo)
 find_package(ZLIB)
 
+if (UNIX)
+    find_library(MATH_LIB m)
+endif ()
+
 if (WIN32)
     # Find Windows specific dependencies
     find_package(RxSpencer REQUIRED)

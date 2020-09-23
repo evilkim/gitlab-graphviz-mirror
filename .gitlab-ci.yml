@@ -159,7 +159,6 @@ portable-source:
     script:
         - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
-        - export build_system="autotools"
         - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:
@@ -251,14 +250,10 @@ ubuntu20-04-build:
     image: "graphviz/graphviz:ubuntu-20.04"
 
 ubuntu18-04-cmake-build:
-    stage: build
-    script:
-        - mkdir build
-        - cd build
-        - cmake ..
-        - cmake --build .
-    except:
-        - tags
+    <<: *deb_build_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
@@ -323,6 +318,8 @@ meta-data:
 
 ubuntu18-04-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -332,8 +329,24 @@ ubuntu18-04-test:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+ubuntu18-04-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu18-04-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-18.04"
+
 ubuntu19-10-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -345,6 +358,8 @@ ubuntu19-10-test:
 
 ubuntu20-04-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -356,6 +371,8 @@ ubuntu20-04-test:
 
 centos6-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -367,6 +384,8 @@ centos6-test:
 
 centos7-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -378,6 +397,8 @@ centos7-test:
 
 centos8-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -389,6 +410,8 @@ centos8-test:
 
 fedora29-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -400,6 +423,8 @@ fedora29-test:
 
 fedora30-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -411,6 +436,8 @@ fedora30-test:
 
 fedora31-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -422,6 +449,8 @@ fedora31-test:
 
 fedora32-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true
@@ -433,6 +462,8 @@ fedora32-test:
 
 fedora33-test:
     <<: *test_definition
+    before_script:
+        - export build_system="autotools"
     needs:
         - job: portable-source
           artifacts: true

@@ -17,8 +17,17 @@ COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
 mkdir -p ${META_DATA_DIR}
 if [ "${ID_LIKE}" = "debian" ]; then
-    tar xfz graphviz-${GV_VERSION}.tar.gz
-    (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
+    if [ "${build_system}" = "cmake" ]; then
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
+        cpack
+        cd ..
+    else
+        tar xfz graphviz-${GV_VERSION}.tar.gz
+        (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
+    fi
 else
     rm -rf ${HOME}/rpmbuild
     rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
@@ -29,8 +38,12 @@ mkdir -p ${DIR}/os/${ARCH}
 mkdir -p ${DIR}/debug/${ARCH}
 mkdir -p ${DIR}/source
 if [ "${ID_LIKE}" = "debian" ]; then
-    mv *.deb ${DIR}/os/${ARCH}/
-    mv *.ddeb ${DIR}/debug/${ARCH}/
+    if [ "${build_system}" = "cmake" ]; then
+        mv build/*.deb ${DIR}/os/${ARCH}/
+    else
+        mv *.deb ${DIR}/os/${ARCH}/
+        mv *.ddeb ${DIR}/debug/${ARCH}/
+    fi
 else
     mv ${HOME}/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
     mv ${HOME}/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/

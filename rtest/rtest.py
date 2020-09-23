@@ -145,10 +145,9 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
     )
   elif F == 'png':
     # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1788 is fixed
-    if platform.system() == 'Windows' and \
-       os.environ.get('build_system') == 'cmake':
+    if os.environ.get('build_system') == 'cmake':
       print('Warning: Skipping PNG image comparison for test {0}:{1} : format: '
-            '{2} because Windows CMake builds does not contain the diffimg '
+            '{2} because CMake builds does not contain the diffimg '
             'utility (#1788)'
             .format(testname, subtest_index, fmt),
             file=sys.stderr)
@@ -243,10 +242,9 @@ def doTest(TEST):
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1786 is
     # fixed
-    if platform.system() == 'Windows' and \
-       os.environ.get('build_system') == 'cmake' and \
+    if os.environ.get('build_system') == 'cmake' and \
        SUBTEST['FMT'] == 'png:gd':
-      print('Skipping test {0}:{1} : format {2} because Windows CMake builds '
+      print('Skipping test {0}:{1} : format {2} because CMake builds '
             'does not support format png:gd (#1786)'
             .format(TESTNAME, i, SUBTEST['FMT']),
             file=sys.stderr)
@@ -395,8 +393,7 @@ if not GENERATE:
     print('Could not find a value for DIFFIMG', file=sys.stderr)
     # FIXME: Remove workaround for missing diffimg when
     # https://gitlab.com/graphviz/graphviz/-/issues/1788 is fixed
-    if platform.system() != 'Windows' or \
-       os.environ.get('build_system') != 'cmake':
+    if os.environ.get('build_system') != 'cmake':
       sys.exit(1)
 #    sys.exit(1)
 

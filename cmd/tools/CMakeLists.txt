@@ -270,11 +270,6 @@ target_link_libraries(gvpack
     ingraphs
 )
 
-# Link to math library
-if (UNIX)
-    target_link_libraries(gvpack m)
-endif (UNIX)
-
 tool_defaults(gvpack)
 
 # =================================== gxl2gv ===================================
@@ -341,17 +336,12 @@ target_include_directories(mm2gv PRIVATE
 )
 
 target_link_libraries(mm2gv
+    sparse
     cgraph
     common
     gvc
     pathplan
-    sparse
 )
-
-# Link to math library
-if (UNIX)
-    target_link_libraries(mm2gv m)
-endif (UNIX)
 
 tool_defaults(mm2gv)
 
