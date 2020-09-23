@@ -29,9 +29,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sfio_f\_sfdlen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sfeof.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,9 +81,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfdisc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfdlen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfexcept.c">
