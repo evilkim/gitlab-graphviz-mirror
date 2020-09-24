@@ -81,7 +81,7 @@ char *smyrnaPath(char *suffix)
     return buf;
 }
 
-static char *useString = "Usage: smyrns [-v?] <file>\n\
+static char *useString = "Usage: smyrna [-v?] <file>\n\
   -f<WxH:bits@rate>         - full-screen mode\n\
   -e         - draw edges as splines if available\n\
   -v         - verbose\n\
