@@ -5,7 +5,7 @@ MLEVEL="0"
 LMODE="async"
 FLAGS=
 
-usage='echo "usage: dotty [-V] [-lm (sync|async)] [-el (0|1)] <filename>"'
+usage='echo usage: dotty [-V] [-lm (sync|async)] [-el (0|1)] <filename>'
 
 if [ "x$DOTTYOPTIONS" != "x" ]; then
     set -- $DOTTYOPTIONS $*
