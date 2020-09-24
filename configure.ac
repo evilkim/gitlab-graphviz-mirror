@@ -209,7 +209,7 @@ DEFAULT_DPI=96
 AC_DEFINE_UNQUOTED(DEFAULT_DPI,$DEFAULT_DPI,Default DPI.)
 AC_DEFINE_UNQUOTED(BROWSER,"$BROWSER",[Command to open a browser on a URL])
 
-AM_INIT_AUTOMAKE([no-define subdir-objects])
+AM_INIT_AUTOMAKE([no-define subdir-objects tar-ustar])
 
 # Suppress verbose compile lines
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])

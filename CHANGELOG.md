@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Building Graphviz with ICC defaults to -O2 instead of -O0
 - Build system work arounds for GCC 3 have been removed
 - Incomplete support for running the test suite under CMake has been removed
+- Portable source tarballs now use the “ustar” POSIX format
 
 ### Fixed
 - gvpr: line numbers in gvpr errors/warnings are incorrect #1594
@@ -39,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iffe "lib" check always succeeds when compiler optimises #1521
 - syntax error near text who is not present #1411
 - Explicitly links with libstdc++; should allow libc++ if appropriate #163
+- A macOS file that was erroneously excluded from portable source tarballs has
+  been restored
 
 ## [2.44.1] - 2020-06-29
 
