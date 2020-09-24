@@ -115,9 +115,9 @@ static void init(int argc, char *argv[], opts_t* opts)
 	int c;
 	char* cmd = argv[0];
 	real s;
-    int i;
+	int i;
 
-    opterr = 0;
+	opterr = 0;
 	opts->outer_iter = 4;
 	opts->method = METHOD_INK_AGGLOMERATE;
 	opts->compatibility_method = COMPATIBILITY_FULL;
@@ -131,37 +131,37 @@ static void init(int argc, char *argv[], opts_t* opts)
 	while ((c = getopt(argc, argv, ":a:c:i:k:K:m:o:p:r:T:v:")) != -1) {
 		switch (c) {
 		case 'a':
-            if ((sscanf(optarg,"%lf",&s) > 0) && (s >= 0))
+			if ((sscanf(optarg,"%lf",&s) > 0) && (s >= 0))
 				opts->angle =  M_PI*s/180;
 			else 
 				fprintf (stderr, "-a arg %s must be positive real - ignored\n", optarg); 
 			break;
 		case 'c':
-            if ((sscanf(optarg,"%d",&i) > 0) && (0 <= i) && (i <= COMPATIBILITY_FULL))
+			if ((sscanf(optarg,"%d",&i) > 0) && (0 <= i) && (i <= COMPATIBILITY_FULL))
 				opts->compatibility_method =  i;
 			else 
 				fprintf (stderr, "-c arg %s must be an integer in [0,%d] - ignored\n", optarg, COMPATIBILITY_FULL); 
 			break;
 		case 'i':
-            if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
+			if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
 				opts->outer_iter =  i;
 			else 
 				fprintf (stderr, "-i arg %s must be a non-negative integer - ignored\n", optarg); 
 			break;
 		case 'k':
-            if ((sscanf(optarg,"%d",&i) > 0) && (i >= 2))
+			if ((sscanf(optarg,"%d",&i) > 0) && (i >= 2))
 				opts->nneighbors =  i;
 			else 
 				fprintf (stderr, "-k arg %s must be an integer >= 2 - ignored\n", optarg); 
 			break;
 		case 'K':
-            if ((sscanf(optarg,"%lf",&s) > 0) && (s > 0))
+			if ((sscanf(optarg,"%lf",&s) > 0) && (s > 0))
 				opts->K =  s;
 			else 
 				fprintf (stderr, "-K arg %s must be positive real - ignored\n", optarg); 
 			break;
 		case 'm':
-            if ((sscanf(optarg,"%d",&i) > 0) && (0 <= i) && (i <= METHOD_INK))
+			if ((sscanf(optarg,"%d",&i) > 0) && (0 <= i) && (i <= METHOD_INK))
 				opts->method =  i;
 			else 
 				fprintf (stderr, "-k arg %s must be an integer >= 2 - ignored\n", optarg); 
@@ -170,13 +170,13 @@ static void init(int argc, char *argv[], opts_t* opts)
 			outfile = openFile(optarg, "w", cmd);
 			break;
 		case 'p':
-            if ((sscanf(optarg,"%lf",&s) > 0))
+			if ((sscanf(optarg,"%lf",&s) > 0))
 				opts->angle_param =  s;
 			else 
 				fprintf (stderr, "-p arg %s must be real - ignored\n", optarg); 
 			break;
 		case 'r':
-            if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
+			if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
 				opts->max_recursion =  i;
 			else 
 				fprintf (stderr, "-r arg %s must be a non-negative integer - ignored\n", optarg); 
@@ -191,7 +191,7 @@ static void init(int argc, char *argv[], opts_t* opts)
 			break;
 		case 'v':
 			Verbose = 1;
-            if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
+			if ((sscanf(optarg,"%d",&i) > 0) && (i >= 0))
 				Verbose =  (unsigned char)i;
 			else 
 				optind--;
