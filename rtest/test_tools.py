@@ -1,5 +1,6 @@
 import os
 import pytest
+import re
 import subprocess
 
 @pytest.mark.parametrize('tool', [
@@ -73,7 +74,11 @@ def test_tools(tool):
       if tool in tools_not_built_with_cmake:
         pytest.skip(tool + ' is not built with CMake (#1753 & #1836)')
 
-    subprocess.check_call(
+    output = subprocess.check_output(
         [tool, '-?'],
         stdin=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
+        universal_newlines=True,
     )
+    assert re.match('usage', output, flags=re.IGNORECASE) is not None, \
+      tool +' -? did not show usage'
