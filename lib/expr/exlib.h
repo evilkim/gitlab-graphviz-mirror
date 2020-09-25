@@ -132,7 +132,6 @@ typedef struct Print_s			/* compiled printf arg node	*/
 #include <error.h>
 #include <sfstr.h>
 
-#define cast		excast
 #define id_string	(&exbuiltin[0])
 
 #define exunlex(p,c)	((p)->linep--,(p)->input->peek=(c))
@@ -182,11 +181,6 @@ extern const char*	exversion;
 extern Exstate_t	expr;
 
 extern int		exparse(void);	/* yacc should do this		*/
-#if defined(_WIN32)
-#define strtoll _strtoi64
-#define strtoull _strtoui64
-#endif
-extern Sflong_t		strToL(char *, char **);
 
 #endif
 
