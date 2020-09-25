@@ -114,7 +114,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
   *color_scheme = "lab";
   *lightness = NULL;
 
-  while ((c = getopt(argc, argv, ":vc:a:s:r:l:o:")) != -1) {
+  while ((c = getopt(argc, argv, ":vc:a:s:r:l:o:?")) != -1) {
     switch (c) {
     case 's':
       *check_edges_with_same_endpoint = 1;
@@ -179,8 +179,14 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
         fclose(outfile);
       outfile = openFile(optarg, "w", CmdName);
       break;
-    default:
+    case '?':
+// FIXME: Remove the Windows specific condition when
+// https://gitlab.com/graphviz/graphviz/-/issues/1820 is resolved.
+#ifdef _WIN32
       if (optopt == '?')
+#else
+      if (optopt == '\0')
+#endif
 	usage(cmd, 0);
       else
 	fprintf(stderr, "option -%c unrecognized - ignored\n",
