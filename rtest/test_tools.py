@@ -46,6 +46,11 @@ def test_tools(tool):
     if tool == 'smyrna' and os_id == 'centos':
       pytest.skip('smyrna is not built for Centos (#1834)')
 
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
+    if tool == 'mingle' and os_id in ['ubuntu', 'centos']:
+      pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
+
     subprocess.check_call(
         [tool, '-?'],
         stdin=subprocess.DEVNULL,
