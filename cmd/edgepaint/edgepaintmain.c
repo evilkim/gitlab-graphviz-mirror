@@ -114,7 +114,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
   *color_scheme = "lab";
   *lightness = NULL;
 
-  while ((c = getopt(argc, argv, ":vc:a:s:r:l:o")) != -1) {
+  while ((c = getopt(argc, argv, ":vc:a:s:r:l:o:")) != -1) {
     switch (c) {
     case 's':
       *check_edges_with_same_endpoint = 1;
