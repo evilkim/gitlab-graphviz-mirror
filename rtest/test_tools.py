@@ -117,6 +117,11 @@ def test_tools(tool):
       pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
 
     # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1839 is fixed
+    if tool == 'dot_builtins' and os_id in ['centos', 'fedora']:
+      pytest.skip('dot_builtins is not installed for ' + os_id + ' (#1839)')
+
+    # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1753 and
     # https://gitlab.com/graphviz/graphviz/-/issues/1836 is fixed
     if os.getenv('build_system') == 'cmake':
