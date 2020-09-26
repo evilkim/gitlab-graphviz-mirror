@@ -1,4 +1,5 @@
 import os
+import platform
 import pytest
 import re
 import subprocess
@@ -73,6 +74,13 @@ def test_tools(tool):
     if os.getenv('build_system') == 'cmake':
       if tool in tools_not_built_with_cmake:
         pytest.skip(tool + ' is not built with CMake (#1753 & #1836)')
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1838 is fixed
+    if tool == 'gvpack' and platform.system() != 'Windows':
+        if os.getenv('build_system') == 'cmake':
+            pytest.skip('gvpack does not find libgvplugin_neato_layout.so.6'
+                        'when built with CMake (#1838)')
 
     output = subprocess.check_output(
         [tool, '-?'],
