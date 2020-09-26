@@ -81,6 +81,24 @@ def test_tools(tool):
         'vimdot',
     ]
 
+    tools_not_built_with_msbuild = [
+        'circo',
+        'cluster',
+        'dot2gxl',
+        'dot_builtins',
+        'fdp',
+        'gv2gxl',
+        'gvedit',
+        'gvmap.sh',
+        'gxl2dot',
+        'neato',
+        'osage',
+        'patchwork',
+        'sfdp',
+        'twopi',
+        'vimdot',
+    ]
+
     os_id = os.getenv('OS_ID')
 
     # FIXME: Remove skip when
@@ -104,6 +122,12 @@ def test_tools(tool):
     if os.getenv('build_system') == 'cmake':
       if tool in tools_not_built_with_cmake:
         pytest.skip(tool + ' is not built with CMake (#1753 & #1836)')
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1837 is fixed
+    if os.getenv('build_system') == 'msbuild':
+      if tool in tools_not_built_with_msbuild:
+        pytest.skip(tool + ' is not built with MSBuild (#1837)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1838 is fixed
