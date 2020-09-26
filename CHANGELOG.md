@@ -43,6 +43,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Explicitly links with libstdc++; should allow libc++ if appropriate #163
 - A macOS file that was erroneously excluded from portable source tarballs has
   been restored
+- Add option -? for usage to diffimg
+- Add option -? for usage to dotty
+- Add option -? for usage to lneato
+- Add option -? for usage to vimdot
+- Fix smyrna -? to actually print usage instead of error
+- Fix edgepaint -? to actually print usage instead of error
+- Remove '"' from usage text in non-Windows version of dotty
+- Correct misspelled 'smyrna' in usage
+- Fix edgepaint -o option
+- Correct shebang of gvmap.sh to use ksh
+- Fix gvmap.sh -? option to exit with zero exit status
 
 ## [2.44.1] - 2020-06-29
 
