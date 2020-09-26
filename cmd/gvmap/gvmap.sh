@@ -66,7 +66,7 @@ do
   \? )
     if [[ "$OPTARG" == '?' ]]
     then
-      getopts -a gvmap "$OPTSTR" x '-?'
+      (getopts -a gvmap "$OPTSTR" x '-?')
       exit 0
     else
       print -u 2 "gvmap: unknown flag $OPTARG - ignored"
