@@ -32,7 +32,7 @@ libcdt_la_SOURCES = $(libcdt_C_la_SOURCES)
 
 if HAVE_PS2PDF
 cdt.3.pdf: cdt.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 cdt.3.ps: $(srcdir)/cdt.3
 	@GROFF@ -Tps -man $< >$@

@@ -29,7 +29,7 @@ libxdot_la_SOURCES = $(libxdot_C_la_SOURCES)
 
 if HAVE_PS2PDF
 xdot.3.pdf: xdot.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 xdot.3.ps: $(srcdir)/xdot.3
 	@GROFF@ -Tps -man $< >$@

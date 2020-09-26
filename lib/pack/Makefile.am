@@ -33,7 +33,7 @@ libpack_C_la_SOURCES = ccomps.c pack.c
 
 if HAVE_PS2PDF
 pack.3.pdf: pack.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 pack.3.ps: $(srcdir)/pack.3
 	@GROFF@ -Tps -man $< >$@

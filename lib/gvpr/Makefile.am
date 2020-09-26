@@ -43,7 +43,7 @@ libgvpr_C_la_DEPENDENCIES = \
 
 if HAVE_PS2PDF
 gvpr.3.pdf: gvpr.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvpr.3.ps: $(srcdir)/gvpr.3
 	@GROFF@ -Tps -man $< >$@

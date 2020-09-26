@@ -96,7 +96,7 @@ endif
 
 if HAVE_PS2PDF
 lefty.1.pdf: lefty.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 lefty.1.ps: $(srcdir)/lefty.1
 	@GROFF@ -Tps -man $< >$@

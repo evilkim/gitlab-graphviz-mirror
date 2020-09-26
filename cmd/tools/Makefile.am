@@ -69,7 +69,7 @@ gxl2gv_LDADD = \
 
 if HAVE_PS2PDF
 gxl2gv.1.pdf: gxl2gv.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gxl2gv.1.ps: $(srcdir)/gxl2gv.1
 	@GROFF@ -Tps -man $< >$@
@@ -83,7 +83,7 @@ sccmap_LDADD = \
 
 if HAVE_PS2PDF
 sccmap.1.pdf: sccmap.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 sccmap.1.ps: $(srcdir)/sccmap.1
 	@GROFF@ -Tps -man $< >$@
@@ -97,7 +97,7 @@ ccomps_LDADD = \
 
 if HAVE_PS2PDF
 ccomps.1.pdf: ccomps.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 ccomps.1.ps: $(srcdir)/ccomps.1
 	@GROFF@ -Tps -man $< >$@
@@ -119,7 +119,7 @@ tred_LDADD = \
 
 if HAVE_PS2PDF
 tred.1.pdf: tred.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 tred.1.ps: $(srcdir)/tred.1
 	@GROFF@ -Tps -man $< >$@
@@ -133,7 +133,7 @@ unflatten_LDADD = \
 
 if HAVE_PS2PDF
 unflatten.1.pdf: unflatten.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 unflatten.1.ps: $(srcdir)/unflatten.1
 	@GROFF@ -Tps -man $< >$@
@@ -147,7 +147,7 @@ acyclic_LDADD = \
 
 if HAVE_PS2PDF
 acyclic.1.pdf: acyclic.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 acyclic.1.ps: $(srcdir)/acyclic.1
 	@GROFF@ -Tps -man $< >$@
@@ -161,7 +161,7 @@ nop_LDADD = \
 
 if HAVE_PS2PDF
 nop.1.pdf: nop.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 nop.1.ps: $(srcdir)/nop.1
 	@GROFF@ -Tps -man $< >$@
@@ -175,7 +175,7 @@ gvcolor_LDADD = \
 
 if HAVE_PS2PDF
 gvcolor.1.pdf: gvcolor.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvcolor.1.ps: $(srcdir)/gvcolor.1
 	@GROFF@ -Tps -man $< >$@
@@ -189,7 +189,7 @@ bcomps_LDADD = \
 
 if HAVE_PS2PDF
 bcomps.1.pdf: bcomps.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 bcomps.1.ps: $(srcdir)/bcomps.1
 	@GROFF@ -Tps -man $< >$@
@@ -203,7 +203,7 @@ gc_LDADD = \
 
 if HAVE_PS2PDF
 gc.1.pdf: gc.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gc.1.ps: $(srcdir)/gc.1
 	@GROFF@ -Tps -man $< >$@
@@ -240,7 +240,7 @@ endif
 
 if HAVE_PS2PDF
 gvpack.1.pdf: gvpack.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvpack.1.ps: $(srcdir)/gvpack.1
 	@GROFF@ -Tps -man $< >$@
@@ -257,7 +257,7 @@ mm2gv_LDADD = \
 
 if HAVE_PS2PDF
 mm2gv.1.pdf: mm2gv.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 mm2gv.1.ps: mm2gv.1
 	@GROFF@ -Tps -man -e -t $< >$@
@@ -285,7 +285,7 @@ gml2gv_LDADD = \
 
 if HAVE_PS2PDF
 gml2gv.1.pdf: gml2gv.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gml2gv.1.ps: gml2gv.1
 	@GROFF@ -Tps -man $< >$@
@@ -300,7 +300,7 @@ graphml2gv_LDADD = \
 
 if HAVE_PS2PDF
 graphml2gv.1.pdf: graphml2gv.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 graphml2gv.1.ps: $(srcdir)/graphml2gv.1
 	@GROFF@ -Tps -man $< >$@
@@ -315,7 +315,7 @@ dijkstra_LDADD = \
 
 if HAVE_PS2PDF
 dijkstra.1.pdf: dijkstra.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 dijkstra.1.ps: $(srcdir)/dijkstra.1
 	@GROFF@ -Tps -man $< >$@
@@ -328,7 +328,7 @@ gvgen_LDADD = \
 
 if HAVE_PS2PDF
 gvgen.1.pdf: gvgen.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvgen.1.ps: $(srcdir)/gvgen.1
 	@GROFF@ -Tps -man $< >$@

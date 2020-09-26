@@ -26,7 +26,7 @@ diffimg_LDADD = @GDLIB_LIBS@ @MATH_LIBS@
 
 if HAVE_PS2PDF
 diffimg.1.pdf: diffimg.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 diffimg.1.ps: $(srcdir)/diffimg.1
 	@GROFF@ -Tps -man $< >$@

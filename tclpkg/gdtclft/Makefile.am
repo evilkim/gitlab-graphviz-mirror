@@ -53,7 +53,7 @@ endif
 
 if HAVE_PS2PDF
 gdtclft.3tcl.pdf: gdtclft.3tcl.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gdtclft.3tcl.ps: $(srcdir)/gdtclft.3tcl
 	@GROFF@ -Tps -man $< >$@
