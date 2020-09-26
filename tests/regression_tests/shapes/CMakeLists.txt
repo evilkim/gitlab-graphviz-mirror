@@ -1,5 +1,0 @@
-add_test(
-    NAME shapes
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMAND ${PYTHON_EXECUTABLE} shapes.py
-)
