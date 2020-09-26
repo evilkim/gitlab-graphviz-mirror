@@ -1170,8 +1170,6 @@ static void init_mincross(graph_t * g)
     ReMincross = FALSE;
     Root = g;
     /* alloc +1 for the null terminator usage in do_ordering() */
-    /* also, the +1 avoids attempts to alloc 0 sizes, something
-       that efence complains about */
     size = agnedges(dot_root(g)) + 1;
     TE_list = N_NEW(size, edge_t *);
     TI_list = N_NEW(size, int);
