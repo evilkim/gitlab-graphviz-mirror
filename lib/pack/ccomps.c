@@ -78,15 +78,14 @@ static int push(stk_t* sp, Agnode_t * np)
 	if (sp->curblk->next == NULL) {
 	    blk_t *bp = malloc(sizeof(blk_t));
 	    if (bp == 0) {
-		agerr(AGERR, "gc: Out of memory\n");
-		longjmp(jbuf, 1);
+		return -1;
 	    }
 	    bp->prev = sp->curblk;
 	    bp->next = NULL;
 	    bp->data = calloc(BIGBUF, sizeof(Agnode_t *));
 	    if (bp->data == 0) {
-		agerr(AGERR, "gc: Out of memory\n");
-		longjmp(jbuf, 1);
+		free(bp);
+		return -1;
 	    }
 	    bp->endp = bp->data + BIGBUF;
 	    sp->curblk->next = bp;
