@@ -13,6 +13,7 @@
 
 
 #include <ctype.h>
+#include <limits.h>
 #include <setjmp.h>
 #include <stdlib.h>
 #include <common/render.h>
@@ -238,7 +239,10 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	    c_cnt++;
 	    pin = TRUE;
 	}
-	dfs (g, n, out, &stk);
+	if (dfs (g, n, out, &stk) == SIZE_MAX) {
+	    error = 1;
+	    goto packerror;
+	}
     }
 
     /* Remaining nodes */
@@ -248,7 +252,10 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-	dfs(g, n, out, &stk);
+	if (dfs(g, n, out, &stk) == SIZE_MAX) {
+	    error = 1;
+	    goto packerror;
+	}
 	if (c_cnt == bnd) {
 	    bnd *= 2;
 	    ccs = RALLOC(bnd, ccs, Agraph_t *);
@@ -325,7 +332,14 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
 	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-	dfs(g, n, out, &stk);
+	if (dfs(g, n, out, &stk) == SIZE_MAX) {
+	    freeStk (&stk);
+	    free (ccs);
+	    if (name != buffer)
+	        free(name);
+	    *ncc = 0;
+	    return NULL;
+	}
 	if (c_cnt == bnd) {
 	    bnd *= 2;
 	    ccs = RALLOC(bnd, ccs, Agraph_t *);
@@ -650,6 +664,17 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 	agbindrec(out, GRECNAME, sizeof(ccgraphinfo_t), FALSE);
 	GD_cc_subg(out) = 1;
 	n_cnt = dfs(dg, dn, dout, &stk);
+	if (n_cnt == SIZE_MAX) {
+	    agclose(dg);
+	    agclean (g, AGRAPH, GRECNAME);
+	    agclean (g, AGNODE, NRECNAME);
+	    freeStk (&stk);
+	    free(ccs);
+	    if (name != buffer)
+	        free(name);
+	    *ncc = 0;
+	    return NULL;
+	}
 	unionNodes(dout, out);
 	e_cnt = (size_t) nodeInduce(out);
 	subGInduce(g, out);
@@ -704,9 +729,12 @@ int isConnected(Agraph_t * g)
 
     n = agfstnode(g);
     cnt = dfs(g, agfstnode(g), NULL, &stk);
+    freeStk (&stk);
+    if (cnt == SIZE_MAX) { /* dfs failed */
+	return -1;
+    }
     if (cnt != (size_t) agnnodes(g))
 	ret = 0;
-    freeStk (&stk);
     return ret;
 }
 
