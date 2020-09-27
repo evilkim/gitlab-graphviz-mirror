@@ -119,7 +119,9 @@ static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
     Agnode_t *other;
     size_t cnt = 0;
 
-    push (stk, n);
+    if (push (stk, n) != 0) {
+	return SIZE_MAX;
+    }
     while ((n = pop(stk))) {
 	cnt++;
 	if (stk->actionfn) stk->actionfn(n, state);
@@ -127,7 +129,9 @@ static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
 	    if ((other = agtail(e)) == n)
 		other = aghead(e);
             if (!MARKED(stk,other))
-                push(stk, other);
+                if (push(stk, other) != 0) {
+                    return SIZE_MAX;
+                }
         }
     }
     return cnt;
