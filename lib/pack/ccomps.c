@@ -14,12 +14,9 @@
 
 #include <ctype.h>
 #include <limits.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <common/render.h>
 #include <pack/pack.h>
-
-static jmp_buf jbuf;
 
 #define MARKED(stk,n) ((stk)->markfn(n,-1))
 #define MARK(stk,n)   ((stk)->markfn(n,1))
@@ -228,10 +225,6 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
 
-    if (setjmp(jbuf)) {
-	error = 1;
-	goto packerror;
-    }
     /* Component with pinned nodes */
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n) || !isPinned(n))
@@ -323,14 +316,6 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
 
-    if (setjmp(jbuf)) {
-	freeStk (&stk);
-	free (ccs);
-	if (name != buffer)
-	    free(name);
-	*ncc = 0;
-	return NULL;
-    }
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
@@ -726,11 +711,6 @@ int isConnected(Agraph_t * g)
     initStk (&stk, &blk, base, NULL, markFn);
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
-
-    if (setjmp(jbuf)) {
-	freeStk (&stk);
-	return -1;
-    }
 
     n = agfstnode(g);
     cnt = dfs(g, agfstnode(g), NULL, &stk);
