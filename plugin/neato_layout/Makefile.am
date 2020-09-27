@@ -40,6 +40,10 @@ libgvplugin_neato_layout_la_LIBADD = $(libgvplugin_neato_layout_C_la_LIBADD) \
 	$(top_builddir)/lib/pathplan/libpathplan.la \
 	$(GTS_LIBS) $(IPSEPCOLA_LIBS) $(MATH_LIBS)
 
+# add a non-existent C++ source to force the C++ compiler to be used for
+# linking, so the C++ standard library is included for our C++ dependencies
+nodist_EXTRA_libgvplugin_neato_layout_la_SOURCES = fake.cxx
+
 if WITH_SFDP
 libgvplugin_neato_layout_C_la_LIBADD += $(top_builddir)/lib/sfdpgen/libsfdpgen_C.la
 endif

@@ -125,10 +125,6 @@ dot_builtins_LDADD += $(top_builddir)/plugin/gd/libgvplugin_gd.la $(GDLIB_LIBS)
 endif
 
 if WITH_PANGOCAIRO
-if WITH_WEBP
-dot_static_LDADD += $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
-dot_builtins_LDADD += $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
-endif
 dot_static_LDADD += $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
 dot_builtins_LDADD += $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS)
 if WITH_WEBP
@@ -138,15 +134,14 @@ endif
 endif
 
 if WITH_LASI
-dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS) -lstdc++
-dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
+dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS)
+dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS)
 endif
 
-if WITH_LASI
-dot_static_LDADD += $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a $(LASI_LIBS) -lstdc++
-dot_builtins_LDADD += $(top_builddir)/plugin/lasi/libgvplugin_lasi.la $(LASI_LIBS) -lstdc++
-endif
-
+# add a non-existent C++ source to force the C++ compiler to be used for
+# linking, so the C++ standard library is included for our C++ dependencies
+nodist_EXTRA_dot_static_SOURCES = fake.cxx
+nodist_EXTRA_dot_builtins_SOURCES = fake.cxx
 
 EXTRA_DIST = dot.1 osage.1 patchwork.1 $(pdf) dot.vcxproj*
 
