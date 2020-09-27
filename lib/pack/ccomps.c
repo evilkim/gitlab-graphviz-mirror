@@ -72,7 +72,7 @@ static void freeStk (stk_t* sp)
     }
 }
 
-static void push(stk_t* sp, Agnode_t * np)
+static int push(stk_t* sp, Agnode_t * np)
 {
     if (sp->curp == sp->curblk->endp) {
 	if (sp->curblk->next == NULL) {
@@ -96,6 +96,8 @@ static void push(stk_t* sp, Agnode_t * np)
     }
     MARK(sp,np);
     *sp->curp++ = np;
+
+    return 0;
 }
 
 static Agnode_t *pop(stk_t* sp)
