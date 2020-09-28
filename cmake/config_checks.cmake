@@ -18,6 +18,7 @@ check_include_file( unistd.h            HAVE_UNISTD_H           )
 check_include_file( vfork.h             HAVE_VFORK_H            )
 check_include_file( X11/Intrinsic.h     HAVE_X11_INTRINSIC_H    )
 check_include_file( X11/Xaw/Text.h      HAVE_X11_XAW_TEXT_H     )
+check_include_file( getopt.h            HAVE_GETOPT_H           )
 
 # Function checks
 include(CheckFunctionExists)

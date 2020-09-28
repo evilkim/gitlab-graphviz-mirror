@@ -153,11 +153,6 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.h "#define BUILDDATE \"${GRAPHV
 
 message(STATUS "Graphviz version: ${GRAPHVIZ_VERSION_FULL}")
 
-# =================== Generate config.h with proper defines ====================
-# This check for getopt is used later in the build, so it is done here.
-include(CheckIncludeFile)
-check_include_file(getopt.h HAVE_GETOPT_H)
-
 include(config_checks)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
