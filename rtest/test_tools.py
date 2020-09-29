@@ -141,9 +141,14 @@ def test_tools(tool):
             pytest.skip('gvpack does not find libgvplugin_neato_layout.so.6'
                         'when built with CMake (#1838)')
 
+    # Ensure that X fails to open display
+    environ_copy = os.environ.copy()
+    environ_copy.pop('DISPLAY', None)
+
     # Test usage
     output = subprocess.check_output(
         [tool, '-?'],
+        env=environ_copy,
         stdin=subprocess.DEVNULL,
         stderr=subprocess.STDOUT,
         universal_newlines=True,
