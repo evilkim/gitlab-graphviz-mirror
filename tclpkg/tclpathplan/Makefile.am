@@ -6,7 +6,7 @@ SUBDIRS = demo
 pkgtcldir = $(pkglibdir)/tcl
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir) \
+	-I$(top_srcdir)/lib \
 	-I$(top_srcdir)/tclpkg/tclhandle \
 	-I$(top_srcdir)/lib/pathplan @TCL_INCLUDES@
 

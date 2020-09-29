@@ -35,9 +35,9 @@
 #include <inttypes.h>
 #include <assert.h>
 #include <math.h>
-#include <pathutil.h>
-#include <vispath.h>
-#include <tri.h>
+#include <pathplan/pathutil.h>
+#include <pathplan/vispath.h>
+#include <pathplan/tri.h>
 #include <tcl.h>
 #include "tclhandle.h"
 

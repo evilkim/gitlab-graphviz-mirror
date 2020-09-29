@@ -13,7 +13,7 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include "gvc.h"
+#include <gvc/gvc.h>
 
 extern "C" {
 extern void gv_string_writer_init(GVC_t *gvc);
