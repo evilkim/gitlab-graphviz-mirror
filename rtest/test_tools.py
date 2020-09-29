@@ -141,6 +141,7 @@ def test_tools(tool):
             pytest.skip('gvpack does not find libgvplugin_neato_layout.so.6'
                         'when built with CMake (#1838)')
 
+    # Test usage
     output = subprocess.check_output(
         [tool, '-?'],
         stdin=subprocess.DEVNULL,
