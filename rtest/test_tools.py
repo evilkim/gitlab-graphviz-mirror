@@ -155,3 +155,11 @@ def test_tools(tool):
     )
     assert re.match('usage', output, flags=re.IGNORECASE) is not None, \
       tool +' -? did not show usage'
+
+    # Test unsupported option
+    returncode = subprocess.call(
+        [tool, '-$'],
+        env=environ_copy,
+    )
+
+    assert returncode != 0, tool + ' accepted unsupported option -$'
