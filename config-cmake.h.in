@@ -1,5 +1,4 @@
 // Include headers
-#cmakedefine HAVE_CRT_EXTERNS_H
 #cmakedefine HAVE_FCNTL_H
 #cmakedefine HAVE_MALLOC_H
 #cmakedefine HAVE_SEARCH_H
@@ -20,7 +19,6 @@
 #cmakedefine HAVE_X11_XAW_TEXT_H
 
 // Functions
-#cmakedefine HAVE__NSGETENVIRON
 #cmakedefine HAVE_DRAND48
 #cmakedefine HAVE_CBRT
 #cmakedefine HAVE_GETPAGESIZE
