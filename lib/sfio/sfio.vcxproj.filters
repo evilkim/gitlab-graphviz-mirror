@@ -29,52 +29,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sfio_f\_sfclrerr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfdlen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfeof.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sferror.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sffileno.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfio_f\_sfgetc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfio_f\_sfllen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sfputc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfio_f\_sfputd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfputl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfputm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfputu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfio_f\_sfslen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfstacked.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfulen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfio_f\_sfvalue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfclose.c">
@@ -87,9 +51,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfdisc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfdlen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfexcept.c">
@@ -120,9 +81,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfgetu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfllen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfmode.c">
@@ -158,19 +116,7 @@
     <ClCompile Include="sfpurge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfputd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfputl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfputm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfputr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfputu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfraise.c">
