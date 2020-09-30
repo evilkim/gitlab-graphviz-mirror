@@ -16,6 +16,11 @@ GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
 mkdir -p ${META_DATA_DIR}
+DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}
+ARCH=$( uname -m )
+mkdir -p ${DIR}/os/${ARCH}
+mkdir -p ${DIR}/debug/${ARCH}
+mkdir -p ${DIR}/source
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     cd build
@@ -32,11 +37,6 @@ else
         rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
     fi
 fi
-DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}
-ARCH=$( uname -m )
-mkdir -p ${DIR}/os/${ARCH}
-mkdir -p ${DIR}/debug/${ARCH}
-mkdir -p ${DIR}/source
 if [ "${build_system}" = "cmake" ]; then
     if [ "${ID_LIKE}" = "debian" ]; then
         mv build/*.deb ${DIR}/os/${ARCH}/
