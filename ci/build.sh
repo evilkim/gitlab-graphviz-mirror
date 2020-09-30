@@ -47,6 +47,8 @@ else
         ./configure --prefix=$( pwd )/build
         make
         make install
+        tar cfz graphviz-${GV_VERSION}-${ARCH}.tar.gz --options gzip:compression-level=9 build
+        mv graphviz-${GV_VERSION}-${ARCH}.tar.gz ${DIR}/os/${ARCH}/
     else
         rm -rf ${HOME}/rpmbuild
         rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
