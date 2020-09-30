@@ -28,24 +28,18 @@ if [ "${build_system}" = "cmake" ]; then
     cmake --build .
     cpack
     cd ..
-else
-    if [ "${ID_LIKE}" = "debian" ]; then
-        tar xfz graphviz-${GV_VERSION}.tar.gz
-        (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
-    else
-        rm -rf ${HOME}/rpmbuild
-        rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
-    fi
-fi
-if [ "${build_system}" = "cmake" ]; then
     if [ "${ID_LIKE}" = "debian" ]; then
         mv build/*.deb ${DIR}/os/${ARCH}/
     fi
 else
     if [ "${ID_LIKE}" = "debian" ]; then
+        tar xfz graphviz-${GV_VERSION}.tar.gz
+        (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
         mv *.deb ${DIR}/os/${ARCH}/
         mv *.ddeb ${DIR}/debug/${ARCH}/
     else
+        rm -rf ${HOME}/rpmbuild
+        rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
         mv ${HOME}/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
         mv ${HOME}/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/
         mv ${HOME}/rpmbuild/RPMS/*/*.rpm ${DIR}/os/${ARCH}/
