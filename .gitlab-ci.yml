@@ -290,6 +290,18 @@ ubuntu18-04-cmake-build:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+macos-cmake-build:
+    <<: *macos_build_definition
+    before_script:
+        - brew install cmake
+        - brew install bison
+        - export PATH="/usr/local/opt/bison/bin:$PATH"
+        - export build_system="cmake"
+        - python3 gen_version.py > VERSION
+        - echo experimental > COLLECTION
+    tags:
+        - macos
+
 windows-cmake-Win32-release-build:
     <<: *windows_build_definition
     before_script:
