@@ -17,7 +17,6 @@ ARCH=$( uname -m )
 if [ "${ID_LIKE}" = "debian" ]; then
     if [ "${build_system}" = "cmake" ]; then
         apt install ./${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.deb
-        dot -c
     else
         apt install ./${DIR}/os/${ARCH}/libgraphviz4_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/libgraphviz-dev_${GV_VERSION}-1_amd64.deb

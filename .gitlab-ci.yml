@@ -129,7 +129,6 @@ portable-source:
               # The following is per https://gitlab.com/graphviz/graphviz/-/merge_requests/1345
               $env:Path = $env:CI_PROJECT_DIR + "\" + $env:configuration + "\Graphviz\bin" + ";" + $env:Path;
             }
-        - dot -c
         - python3 -m pytest --junitxml=report.xml tests rtest
         # Create artifacts to archive
         - $ID = "windows"
