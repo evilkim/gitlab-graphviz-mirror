@@ -64,6 +64,25 @@ portable-source:
     except:
         - tags
 
+.build_template: &macos_build_definition
+    stage: build
+    script:
+        - logfile=`mktemp`
+        - ci/build.sh 2>&1 | tee $logfile
+        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
+        - rm $logfile
+        - cat metrics.txt
+    artifacts:
+        when: on_success
+        expire_in: 1 week
+        paths:
+            - Packages/*/*/*/*/*/*.zip
+            - Metadata/*/*/*/configure.log
+        reports:
+            metrics: metrics.txt
+    except:
+        - tags
+
 .build_template: &windows_build_definition
     stage: build
     needs: []
