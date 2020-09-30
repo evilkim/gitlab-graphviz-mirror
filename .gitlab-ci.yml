@@ -269,6 +269,18 @@ ubuntu20-04-build:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
+macos-autotools-build:
+    <<: *macos_build_definition
+    before_script:
+        - brew install autogen
+        - brew install bison
+        - export PATH="/usr/local/opt/bison/bin:$PATH"
+        - export build_system="autotools"
+        - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
+        - echo experimental > COLLECTION
+    tags:
+        - macos
+
 ubuntu18-04-cmake-build:
     <<: *deb_build_definition
     before_script:
