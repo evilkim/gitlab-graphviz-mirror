@@ -7,6 +7,9 @@ set -o pipefail
 if test -f /etc/os-release; then
     cat /etc/os-release
     . /etc/os-release
+elif [ "$( uname -s )" = "Darwin" ]; then
+    ID=$( uname -s )
+    VERSION_ID=$( uname -r )
 else
     cat /etc/redhat-release
     ID=$( cat /etc/redhat-release | cut -d' ' -f1 | tr 'A-Z' 'a-z' )
@@ -30,6 +33,8 @@ if [ "${build_system}" = "cmake" ]; then
     cd ..
     if [ "${ID_LIKE}" = "debian" ]; then
         mv build/*.deb ${DIR}/os/${ARCH}/
+    elif [ "${ID}" = "Darwin" ]; then
+        mv build/*.zip ${DIR}/os/${ARCH}/
     fi
 else
     if [ "${ID_LIKE}" = "debian" ]; then
@@ -37,6 +42,11 @@ else
         (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
         mv *.deb ${DIR}/os/${ARCH}/
         mv *.ddeb ${DIR}/debug/${ARCH}/
+    elif [ "${ID}" = "Darwin" ]; then
+        ./autogen.sh
+        ./configure --prefix=$( pwd )/build
+        make
+        make install
     else
         rm -rf ${HOME}/rpmbuild
         rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
