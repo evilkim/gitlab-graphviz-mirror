@@ -10,7 +10,7 @@ noinst_LTLIBRARIES = libsfio_C.la
 
 libsfio_C_la_SOURCES = sfclose.c sfcvt.c sfdisc.c \
 	sfexcept.c sfexit.c sfextern.c sffilbuf.c \
-	sfflsbuf.c sfgetm.c sfgetu.c \
+	sfflsbuf.c sfgetu.c \
 	sfmode.c sfnew.c sfnotify.c \
 	sfnputc.c sfopen.c sfpkrd.c sfpoll.c sfpool.c \
 	sfprintf.c sfprints.c sfpurge.c \

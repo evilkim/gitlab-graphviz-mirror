@@ -332,7 +332,6 @@ extern "C" {
     extern int sfputc(Sfio_t *, int);
 
     extern Sfulong_t sfgetu(Sfio_t *);
-    extern Sfulong_t sfgetm(Sfio_t *, Sfulong_t);
     extern int sfgetc(Sfio_t *);
 
     extern int _sfflsbuf(Sfio_t *, int);
@@ -348,9 +347,7 @@ extern "C" {
 
 /* coding long integers in a portable and compact fashion */
 #define SF_UBITS	7
-#define SF_BBITS	8
 #define SF_MORE		(1 << SF_UBITS)
-#define SF_BYTE		(1 << SF_BBITS)
 #define SF_U1		SF_MORE
 #define SF_U2		(SF_U1*SF_U1)
 #define SF_U3		(SF_U2*SF_U1)
