@@ -435,7 +435,6 @@ extern "C" {
 
 /* get the real value of a byte in a coded long or ulong */
 #define SFUVALUE(v)	(((ulong)(v))&(SF_MORE-1))
-#define SFSVALUE(v)	((( long)(v))&(SF_SIGN-1))
 #define SFBVALUE(v)	(((ulong)(v))&(SF_BYTE-1))
 
 /* grain size for buffer increment */
