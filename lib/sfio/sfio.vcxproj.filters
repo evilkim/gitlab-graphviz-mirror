@@ -68,9 +68,6 @@
     <ClCompile Include="sfgetm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfgetr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfgetu.c">
       <Filter>Source Files</Filter>
     </ClCompile>

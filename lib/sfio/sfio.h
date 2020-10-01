@@ -230,7 +230,7 @@ extern "C" {
 #define SF_BUFCONST	0400000	/* unused flag - for compatibility only */
 #endif
 
-/* for sfgetr/sfreserve to hold a record */
+/* for sfreserve to hold a record */
 #define SF_LOCKR	0000010	/* lock record, stop access to stream   */
 #define SF_LASTR	0000020	/* get the last incomplete record       */
 
@@ -315,7 +315,6 @@ extern "C" {
     extern Sfoff_t sftell(Sfio_t *);
     extern Sfoff_t sfseek(Sfio_t *, Sfoff_t, int);
     extern ssize_t sfputr(Sfio_t *, const char *, int);
-    extern char *sfgetr(Sfio_t *, int, int);
     extern ssize_t sfnputc(Sfio_t *, int, size_t);
     extern int sfungetc(Sfio_t *, int);
     extern int sfprintf(Sfio_t *, const char *, ...);
