@@ -111,7 +111,6 @@
     <ClCompile Include="sfraise.c" />
     <ClCompile Include="sfrd.c" />
     <ClCompile Include="sfread.c" />
-    <ClCompile Include="sfreserve.c" />
     <ClCompile Include="sfresize.c" />
     <ClCompile Include="sfscanf.c" />
     <ClCompile Include="sfseek.c" />

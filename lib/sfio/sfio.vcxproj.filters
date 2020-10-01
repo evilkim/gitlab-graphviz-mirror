@@ -116,9 +116,6 @@
     <ClCompile Include="sfread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfreserve.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfresize.c">
       <Filter>Source Files</Filter>
     </ClCompile>

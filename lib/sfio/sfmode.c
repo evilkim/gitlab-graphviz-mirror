@@ -133,7 +133,7 @@ int _sfsetpool(Sfio_t * f)
     POOLMTXRETURN(p, rv);
 }
 
-/* create an auxiliary buffer for sfreserve/sfputr */
+/* create an auxiliary buffer for sfputr */
 Sfrsrv_t *_sfrsrv(Sfio_t * f, ssize_t size)
 {
     Sfrsrv_t *rsrv, *rs;
