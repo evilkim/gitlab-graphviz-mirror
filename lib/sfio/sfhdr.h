@@ -433,9 +433,6 @@ extern "C" {
 	Vtmutex_t *sf_mutex;
     } Sfextern_t;
 
-/* get the real value of a byte in a coded long or ulong */
-#define SFUVALUE(v)	(((ulong)(v))&(SF_MORE-1))
-
 /* grain size for buffer increment */
 #define SF_GRAIN	1024
 #define SF_PAGE		((ssize_t)(SF_GRAIN*sizeof(int)*2))

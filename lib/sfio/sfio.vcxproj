@@ -90,7 +90,6 @@
     <ClCompile Include="sfextern.c" />
     <ClCompile Include="sffilbuf.c" />
     <ClCompile Include="sfflsbuf.c" />
-    <ClCompile Include="sfgetu.c" />
     <ClCompile Include="sfio_f\_sffileno.c" />
     <ClCompile Include="sfio_f\_sfgetc.c" />
     <ClCompile Include="sfio_f\_sfputc.c" />

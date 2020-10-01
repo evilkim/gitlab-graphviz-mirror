@@ -331,7 +331,6 @@ extern "C" {
 
     extern int sfputc(Sfio_t *, int);
 
-    extern Sfulong_t sfgetu(Sfio_t *);
     extern int sfgetc(Sfio_t *);
 
     extern int _sfflsbuf(Sfio_t *, int);
@@ -345,13 +344,6 @@ extern "C" {
 
 #undef extern
 
-/* coding long integers in a portable and compact fashion */
-#define SF_UBITS	7
-#define SF_MORE		(1 << SF_UBITS)
-#define SF_U1		SF_MORE
-#define SF_U2		(SF_U1*SF_U1)
-#define SF_U3		(SF_U2*SF_U1)
-#define SF_U4		(SF_U3*SF_U1)
 #if defined(__cplusplus)
 #define _SF_(f)		(f)
 #else
