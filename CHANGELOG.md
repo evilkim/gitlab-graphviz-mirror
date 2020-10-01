@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Cgraph's agxbuf API gained a new function agxbdisown(), for dissociating
   backing memory from the managed buffer
+- Build system support for the Elbrus 2000 CPU, thanks to Michael Shigorin
 
 ### Changed
 - Cgraph's agheap() API has been removed
