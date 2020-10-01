@@ -44,9 +44,6 @@
     <ClCompile Include="sfclose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfclrlock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfcvt.c">
       <Filter>Source Files</Filter>
     </ClCompile>

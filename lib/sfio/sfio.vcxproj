@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfclose.c" />
-    <ClCompile Include="sfclrlock.c" />
     <ClCompile Include="sfcvt.c" />
     <ClCompile Include="sfdisc.c" />
     <ClCompile Include="sfexcept.c" />
