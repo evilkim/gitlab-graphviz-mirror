@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build system work arounds for GCC 3 have been removed
 - Incomplete support for running the test suite under CMake has been removed
 - Portable source tarballs now use the “ustar” POSIX format
+- Minimum version of Flex required to build Graphviz is now 2.5.2
+- Minimum version of Bison required to build Graphviz is now 3.0
 
 ### Fixed
 - gvpr: line numbers in gvpr errors/warnings are incorrect #1594
