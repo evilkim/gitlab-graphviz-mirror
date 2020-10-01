@@ -90,7 +90,6 @@
     <ClCompile Include="sfextern.c" />
     <ClCompile Include="sffilbuf.c" />
     <ClCompile Include="sfflsbuf.c" />
-    <ClCompile Include="sfgetd.c" />
     <ClCompile Include="sfgetl.c" />
     <ClCompile Include="sfgetm.c" />
     <ClCompile Include="sfgetr.c" />

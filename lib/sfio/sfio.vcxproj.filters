@@ -65,9 +65,6 @@
     <ClCompile Include="sfflsbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfgetd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfgetl.c">
       <Filter>Source Files</Filter>
     </ClCompile>

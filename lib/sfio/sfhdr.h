@@ -438,9 +438,6 @@ extern "C" {
 #define SFSVALUE(v)	((( long)(v))&(SF_SIGN-1))
 #define SFBVALUE(v)	(((ulong)(v))&(SF_BYTE-1))
 
-/* amount of precision to get in each iteration during coding of doubles */
-#define SF_PRECIS	(SF_UBITS-1)
-
 /* grain size for buffer increment */
 #define SF_GRAIN	1024
 #define SF_PAGE		((ssize_t)(SF_GRAIN*sizeof(int)*2))

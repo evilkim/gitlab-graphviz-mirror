@@ -337,7 +337,6 @@ extern "C" {
 
     extern int sfputc(Sfio_t *, int);
 
-    extern Sfdouble_t sfgetd(Sfio_t *);
     extern Sflong_t sfgetl(Sfio_t *);
     extern Sfulong_t sfgetu(Sfio_t *);
     extern Sfulong_t sfgetm(Sfio_t *, Sfulong_t);
