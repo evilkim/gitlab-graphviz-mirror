@@ -160,11 +160,11 @@ static void rebuild_vlists(graph_t * g)
     for (r = GD_minrank(g); r <= GD_maxrank(g); r++) {
 	lead = GD_rankleader(g)[r];
 	if (lead == NULL) {
-		agerr(AGERR, "rebuiltd_vlists: lead is null for rank %d\n", r);
+		agerr(AGERR, "rebuild_vlists: lead is null for rank %d\n", r);
 		longjmp(jbuf, 1);
 	}
 	else if (GD_rank(dot_root(g))[r].v[ND_order(lead)] != lead) {
-	    agerr(AGERR, "rebuiltd_vlists: rank lead %s not in order %d of rank %d\n", 
+	    agerr(AGERR, "rebuild_vlists: rank lead %s not in order %d of rank %d\n", 
 		agnameof(lead), ND_order(lead), r);
 	    longjmp(jbuf, 1);
 	}
