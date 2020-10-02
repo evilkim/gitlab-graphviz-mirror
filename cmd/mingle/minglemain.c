@@ -207,8 +207,10 @@ static void init(int argc, char *argv[], opts_t* opts)
 		case '?':
 			if (optopt == '?')
 				usage(0);
-			else
-				fprintf(stderr, "%s: option -%c unrecognized - ignored\n", cmd, optopt);
+			else {
+				fprintf(stderr, "%s: option -%c unrecognized\n", cmd, optopt);
+				usage(1);
+			}
 			break;
 		default:
 			break;
