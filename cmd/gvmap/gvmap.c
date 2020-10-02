@@ -392,8 +392,8 @@ init(int argc, char **argv, params_t* pm)
       if (optopt == '?')
         usage(cmd, 0);
       else {
-        fprintf(stderr, " option -%c unrecognized - ignored\n", optopt);
-        usage(cmd, 0);
+        fprintf(stderr, " option -%c unrecognized\n", optopt);
+        usage(cmd, 1);
       }
       break;
     }
