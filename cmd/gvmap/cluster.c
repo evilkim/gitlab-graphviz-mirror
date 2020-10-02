@@ -123,9 +123,9 @@ static void init(int argc, char *argv[], opts_t* opts) {
       if (optopt == '?')
 	usage(cmd, 0);
       else {
-	fprintf(stderr, " option -%c unrecognized - ignored\n",
+	fprintf(stderr, " option -%c unrecognized\n",
 		optopt);
-	usage(cmd, 0);
+	usage(cmd, 1);
       }
       break;
     }
