@@ -43,6 +43,10 @@ function processoptions {
             FILES=$(print $FILES "'"$1"'")
             shift
             ;;
+        -\?)
+            usage
+            exit 0
+            ;;
         -*)
             usage
             exit 1

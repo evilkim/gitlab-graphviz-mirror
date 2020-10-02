@@ -10,6 +10,7 @@ else
     ID=$( cat /etc/redhat-release | cut -d' ' -f1 | tr 'A-Z' 'a-z' )
     VERSION_ID=$( cat /etc/redhat-release | cut -d' ' -f3  | cut -d'.' -f1 )
 fi
+printf '%s\n' "${ID}" >OS_ID
 GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env ksh
 
 # Script for gvmap pipeline
 # Use -A to add flags for gvmap; e.g., -Ae results in gvmap -e
@@ -66,7 +66,7 @@ do
   \? )
     if [[ "$OPTARG" == '?' ]]
     then
-      getopts -a gvmap "$OPTSTR" x '-?'
+      (getopts -a gvmap "$OPTSTR" x '-?')
       exit 0
     else
       print -u 2 "gvmap: unknown flag $OPTARG - ignored"

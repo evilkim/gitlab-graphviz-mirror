@@ -1,6 +1,11 @@
 #!/bin/sh
 # Written by: John Ellson <ellson@research.att.com>
 
+if [ "$1" = "-?" ]; then
+    echo "Usage: vimdot [file]" >&2
+    exit 0
+fi
+
 error() { echo "$0: $*" >&2; exit 1; }
 
 # Try $EDITOR first, else try vim or vi

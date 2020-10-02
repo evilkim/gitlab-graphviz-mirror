@@ -150,6 +150,7 @@ portable-source:
         - Packages/*/*/*/*/*/*/*.zip
         reports:
             metrics: metrics.txt
+            junit: ./report.xml
     tags:
         - windows
 
@@ -158,6 +159,7 @@ portable-source:
     script:
         - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
+        - export OS_ID=$( cat OS_ID )
         - python3 -m pytest --junitxml=report.xml tests rtest
     artifacts:
         reports:

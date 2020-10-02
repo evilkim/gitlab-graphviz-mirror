@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <shellapi.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -32,6 +33,8 @@ int PASCAL WinMain (HANDLE hInstance, HANDLE hPrevInstance,
     char cmd[256];
     char *path;
     char *s;
+    int argc;
+    LPWSTR *argv;
 
     shellpath = getenv ("PATH");
     if (!shellpath || !(path = buildpath ("lefty"))) {
@@ -42,6 +45,11 @@ int PASCAL WinMain (HANDLE hInstance, HANDLE hPrevInstance,
         shellpath = &cmd[0];
         if (!(path = buildpath ("lefty")))
             exit (1);
+    }
+    argv = CommandLineToArgvW(lpCmdLine, &argc);
+    if (argc == 1 && strcmp(argv[0], "-?") == 0) {
+        fprintf(stderr, "usage: lneato [-V] [-lm (sync|async)] [-el (0|1)] <filename>\n");
+        exit(0);
     }
     if (lpCmdLine[0] == 0)
         sprintf (cmd, "%s -e \"load('dotty.lefty');dotty.protogt.lserver='neato';dotty.simple(null);\"", path);
