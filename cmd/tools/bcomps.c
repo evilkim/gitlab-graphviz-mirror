@@ -360,9 +360,11 @@ static void init(int argc, char *argv[])
 	case '?':
 	    if (optopt == '?')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"bcomps: option -%c unrecognized - ignored\n", optopt);
+			"bcomps: option -%c unrecognized\n", optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }
