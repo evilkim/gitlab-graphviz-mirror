@@ -182,9 +182,11 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
     case '?':
       if (optopt == '\0')
 	usage(cmd, 0);
-      else
-	fprintf(stderr, "option -%c unrecognized - ignored\n",
+      else {
+	fprintf(stderr, "option -%c unrecognized\n",
 		optopt);
+	usage(cmd, 1);
+      }
       break;
     }
   }
