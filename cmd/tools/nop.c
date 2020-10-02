@@ -50,9 +50,11 @@ static void init(int argc, char *argv[])
 	case '?':
 	    if (optopt == '?')
 		usage(0);
-	    else
-		fprintf(stderr, "nop: option -%c unrecognized - ignored\n",
+	    else {
+		fprintf(stderr, "nop: option -%c unrecognized\n",
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }
