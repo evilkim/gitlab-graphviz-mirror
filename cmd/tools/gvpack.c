@@ -245,9 +245,11 @@ static void init(int argc, char *argv[], pack_info* pinfo)
 	case '?':
 	    if (optopt == '?')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"gvpack: option -%c unrecognized - ignored\n", optopt);
+			"gvpack: option -%c unrecognized\n", optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }
