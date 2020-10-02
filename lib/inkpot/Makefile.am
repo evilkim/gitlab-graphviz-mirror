@@ -77,13 +77,13 @@ $(top_builddir)/lib/inkpot/inkpot_lib_brewer.dat: inkpot_lib_brewer.tcl data/bre
 
 if HAVE_PS2PDF
 inkpot.1.pdf: inkpot.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 inkpot.1.ps: inkpot.1
 	@GROFF@ -Tps -man $< >$@
 
 inkpot.3.pdf: inkpot.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 inkpot.3.ps: inkpot.3
 	@GROFF@ -Tps -man $< >$@

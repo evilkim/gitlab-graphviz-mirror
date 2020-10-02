@@ -45,7 +45,7 @@ nodist_EXTRA_edgepaint_SOURCES = fake.cxx
 
 if HAVE_PS2PDF
 edgepaint.1.pdf: edgepaint.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 edgepaint.1.ps: $(srcdir)/edgepaint.1
 	@GROFF@ -e -Tps -man -t $< >$@

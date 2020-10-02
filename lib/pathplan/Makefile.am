@@ -36,7 +36,7 @@ libpathplan_la_LIBADD = @MATH_LIBS@
 
 if HAVE_PS2PDF
 pathplan.3.pdf: pathplan.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 pathplan.3.ps: $(srcdir)/pathplan.3
 	@GROFF@ -Tps -man $< >$@

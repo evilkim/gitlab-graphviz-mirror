@@ -67,7 +67,7 @@ y.output: $(top_srcdir)/lib/expr/exparse.y
 
 if HAVE_PS2PDF
 expr.3.pdf: expr.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 expr.3.ps: $(srcdir)/expr.3
 	@GROFF@ -Tps -man $< >$@

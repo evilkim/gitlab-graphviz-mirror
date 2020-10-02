@@ -40,7 +40,7 @@ gvpr_LDADD = $(top_builddir)/lib/gvpr/libgvpr.la \
 
 if HAVE_PS2PDF
 gvpr.1.pdf: gvpr.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvpr.1.ps: $(srcdir)/gvpr.1
 	@GROFF@ -Tps -man -t $< >$@

@@ -63,7 +63,7 @@ attrs.txt: $(top_srcdir)/doc/infosrc/attrs
 
 if HAVE_PS2PDF
 gvedit.1.pdf: gvedit.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvedit.1.ps: $(srcdir)/gvedit.1
 	@GROFF@ -Tps -man $< >$@

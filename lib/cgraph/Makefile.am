@@ -40,7 +40,7 @@ grammar.c grammar.h: $(top_srcdir)/lib/cgraph/grammar.y
 
 if HAVE_PS2PDF
 cgraph.3.pdf: cgraph.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 cgraph.3.ps: $(srcdir)/cgraph.3
 	@GROFF@ -Tps -man $< >$@

@@ -284,8 +284,7 @@ AC_CHECK_PROGS(SORT,gsort sort,false)
 
 AC_CHECK_PROG(EGREP,egrep,egrep,false)
 AC_CHECK_PROG(GROFF,groff,groff,false)
-AC_CHECK_PROG(PS2PDF,ps2pdf,ps2pdf,false)
-AC_CHECK_PROG(PS2PDF,pstopdf,pstopdf,false)
+AC_CHECK_PROGS(PS2PDF,ps2pdf pstopdf,false)
 AM_CONDITIONAL(HAVE_PS2PDF,[test "x$PS2PDF" != xfalse])
 
 PKG_PROG_PKG_CONFIG

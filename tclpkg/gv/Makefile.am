@@ -427,79 +427,79 @@ $(man): gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
 
 if HAVE_PS2PDF
 gv.3sharp.pdf: gv.3sharp.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3sharp.ps: gv.3sharp
 	@GROFF@ -Tps -man $< >$@
 
 gv.3go.pdf: gv.3go.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3go.ps: gv.3go
 	@GROFF@ -Tps -man $< >$@
 
 gv.3guile.pdf: gv.3guile.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3guile.ps: gv.3guile
 	@GROFF@ -Tps -man $< >$@
 
 gv.3io.pdf: gv.3io.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3io.ps: gv.3io
 	@GROFF@ -Tps -man $< >$@
 
 gv.3java.pdf: gv.3java.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3java.ps: gv.3java
 	@GROFF@ -Tps -man $< >$@
 
 gv.3lua.pdf: gv.3lua.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3lua.ps: gv.3lua
 	@GROFF@ -Tps -man $< >$@
 
 gv.3ocaml.pdf: gv.3ocaml.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3ocaml.ps: gv.3ocaml
 	@GROFF@ -Tps -man $< >$@
 
 gv.3perl.pdf: gv.3perl.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3perl.ps: gv.3perl
 	@GROFF@ -Tps -man $< >$@
 
 gv.3php.pdf: gv.3php.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3php.ps: gv.3php
 	@GROFF@ -Tps -man $< >$@
 
 gv.3python.pdf: gv.3python.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3python.ps: gv.3python
 	@GROFF@ -Tps -man $< >$@
 
 gv.3r.pdf: gv.3r.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3r.ps: gv.3r
 	@GROFF@ -Tps -man $< >$@
 
 gv.3ruby.pdf: gv.3ruby.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3ruby.ps: gv.3ruby
 	@GROFF@ -Tps -man $< >$@
 
 gv.3tcl.pdf: gv.3tcl.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gv.3tcl.ps: gv.3tcl
 	@GROFF@ -Tps -man $< >$@

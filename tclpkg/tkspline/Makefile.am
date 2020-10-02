@@ -45,7 +45,7 @@ endif
 
 if HAVE_PS2PDF
 tkspline.3tk.pdf: tkspline.3tk.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 tkspline.3tk.ps: $(srcdir)/tkspline.3tk
 	@GROFF@ -Tps -man $< >$@

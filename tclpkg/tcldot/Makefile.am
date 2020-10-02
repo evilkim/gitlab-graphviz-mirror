@@ -118,7 +118,7 @@ endif
 
 if HAVE_PS2PDF
 tcldot.3tcl.pdf: tcldot.3tcl.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 tcldot.3tcl.ps: $(srcdir)/tcldot.3tcl
 	@GROFF@ -Tps -man $< >$@

@@ -75,7 +75,7 @@ endif
 
 if HAVE_PS2PDF
 gvc.3.pdf: gvc.3.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 gvc.3.ps: $(srcdir)/gvc.3
 	@GROFF@ -Tps -man $< >$@

@@ -46,7 +46,7 @@ nodist_EXTRA_mingle_SOURCES = fake.cxx
 
 if HAVE_PS2PDF
 mingle.1.pdf: mingle.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 mingle.1.ps: $(srcdir)/mingle.1
 	@GROFF@ -e -Tps -man -t $< >$@

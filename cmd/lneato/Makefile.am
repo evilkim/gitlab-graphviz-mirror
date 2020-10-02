@@ -32,7 +32,7 @@ endif
 
 if HAVE_PS2PDF
 lneato.1.pdf: lneato.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 lneato.1.ps: $(srcdir)/lneato.1
 	@GROFF@ -Tps -man $< >$@

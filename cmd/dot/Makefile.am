@@ -75,19 +75,19 @@ uninstall-hook:
 
 if HAVE_PS2PDF
 dot.1.pdf: dot.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 dot.1.ps: $(srcdir)/dot.1
 	@GROFF@ -Tps -man $< >$@
 
 osage.1.pdf: osage.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 osage.1.ps: $(srcdir)/osage.1
 	@GROFF@ -Tps -man $< >$@
 
 patchwork.1.pdf: patchwork.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 patchwork.1.ps: $(srcdir)/patchwork.1
 	@GROFF@ -Tps -man $< >$@

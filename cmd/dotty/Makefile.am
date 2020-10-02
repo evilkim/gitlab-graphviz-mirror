@@ -34,7 +34,7 @@ endif
 
 if HAVE_PS2PDF
 dotty.1.pdf: dotty.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 dotty.1.ps: $(srcdir)/dotty.1
 	@GROFF@ -Tps -man $< >$@

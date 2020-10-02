@@ -35,7 +35,7 @@ endif
 
 if HAVE_PS2PDF
 vimdot.1.pdf: vimdot.1.ps
-	@PS2PDF@ $< $@
+	@PS2PDF@ $<
 
 vimdot.1.ps: $(srcdir)/vimdot.1
 	@GROFF@ -Tps -man $< >$@
