@@ -207,9 +207,11 @@ static void init(int argc, char *argv[])
 	case '?':
 	    if (optopt == '?')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"ccomps: option -%c unrecognized - ignored\n", optopt);
+			"ccomps: option -%c unrecognized\n", optopt);
+                usage(1);
+	    }
 	    break;
 	}
     }
