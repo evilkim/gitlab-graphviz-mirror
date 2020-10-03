@@ -29,12 +29,18 @@ noinst_LTLIBRARIES = libgvc_C.la
 lib_LTLIBRARIES = libgvc.la
 pkgconfig_DATA = libgvc.pc
 man_MANS = gvc.3
+if ENABLE_MAN_PDFS
 pdf_DATA = gvc.3.pdf
+endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 libgvc_C_la_SOURCES = gvrender.c gvlayout.c gvdevice.c gvloadimage.c \
@@ -73,6 +79,7 @@ if WITH_WIN32
 libgvc_la_LDFLAGS += -export-symbols $(top_srcdir)/lib/gvc.def
 endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 gvc.3.pdf: gvc.3.ps
 	@PS2PDF@ $<
@@ -80,7 +87,8 @@ gvc.3.pdf: gvc.3.ps
 gvc.3.ps: $(srcdir)/gvc.3
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) gvc.def
 
-DISTCLEANFILES = $(pdf_DATA) gvc.3.ps
+DISTCLEANFILES = $(pdf) gvc.3.ps

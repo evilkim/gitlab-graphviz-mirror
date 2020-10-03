@@ -8,12 +8,16 @@ AM_CPPFLAGS = @GDLIB_CFLAGS@
 pdfdir = $(pkgdatadir)/doc/pdf
 
 man_MANS = diffimg.1
+if ENABLE_MAN_PDFS
 pdf_DATA = diffimg.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 if WITH_LIBGD
@@ -24,12 +28,14 @@ diffimg_SOURCES = diffimg.c
 
 diffimg_LDADD = @GDLIB_LIBS@ @MATH_LIBS@
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 diffimg.1.pdf: diffimg.1.ps
 	@PS2PDF@ $<
 
 diffimg.1.ps: $(srcdir)/diffimg.1
 	@GROFF@ -Tps -man $< >$@
+endif
 endif
 
 GRAPH = "digraph G { hello -> world }"
@@ -43,4 +49,4 @@ test: diffimg
 
 CLEANFILES = *.png
 EXTRA_DIST = diffimg.vcxproj* diffimg.1 $(pdf)
-DISTCLEANFILES = diffimg.1.pdf diffimg.1.ps
+DISTCLEANFILES = $(pdf) diffimg.1.ps

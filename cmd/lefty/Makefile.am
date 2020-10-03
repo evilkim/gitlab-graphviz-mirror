@@ -54,12 +54,16 @@ bin_PROGRAMS = lefty
 endif
 
 man_MANS = lefty.1
+if ENABLE_MAN_PDFS
 pdf_DATA = lefty.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 lefty_DATA = lefty.psp
@@ -94,6 +98,7 @@ lefty_LDADD = $(top_builddir)/cmd/lefty/dot2l/libdot2l.la \
 	-lXt -lXmu -lXext -lX11 @SOCKET_LIBS@ @MATH_LIBS@
 endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 lefty.1.pdf: lefty.1.ps
 	@PS2PDF@ $<
@@ -101,7 +106,8 @@ lefty.1.pdf: lefty.1.ps
 lefty.1.ps: $(srcdir)/lefty.1
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf) lefty.vcxproj* colors.txt aix_mods cs2l/*
 
-DISTCLEANFILES = $(pdf_DATA) lefty.1.ps
+DISTCLEANFILES = $(pdf) lefty.1.ps

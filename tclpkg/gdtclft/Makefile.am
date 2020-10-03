@@ -15,17 +15,23 @@ LIBS = @LIBS@ -lc
 AM_CFLAGS = @TCL_CFLAGS@
 
 man = gdtclft.3tcl
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = gdtclft.3tcl.pdf
 else
 pdf = ERROR_NOPS2PDF
+endif
+else
+pdf =
 endif
 
 if WITH_LIBGD
 if WITH_TCL
 pkgtcl_LTLIBRARIES = libgdtclft.la
 man_MANS = $(man)
+if ENABLE_MAN_PDFS
 pdf_DATA = gdtclft.3tcl.pdf
+endif
 noinst_LTLIBRARIES = libgdtclft_C.la
 endif
 endif
@@ -51,12 +57,14 @@ test:
 endif
 endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 gdtclft.3tcl.pdf: gdtclft.3tcl.ps
 	@PS2PDF@ $<
 
 gdtclft.3tcl.ps: $(srcdir)/gdtclft.3tcl
 	@GROFF@ -Tps -man $< >$@
+endif
 endif
 
 EXTRA_DIST = $(man) $(pdf)

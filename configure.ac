@@ -284,6 +284,12 @@ AC_CHECK_PROG(GROFF,groff,groff,false)
 AC_CHECK_PROGS(PS2PDF,ps2pdf pstopdf,false)
 AM_CONDITIONAL(HAVE_PS2PDF,[test "x$PS2PDF" != xfalse])
 
+AC_ARG_ENABLE([man-pdfs],
+  AS_HELP_STRING([--enable-man-pdfs],[Generate PDFs of man pages (default: auto)]),
+  [enable_man_pdfs=$enableval],
+  [enable_man_pdfs=$HAVE_PS2PDF])
+AM_CONDITIONAL(ENABLE_MAN_PDFS,[test "x$enable_man_pdfs" = "xyes"])
+
 PKG_PROG_PKG_CONFIG
 
 AC_ARG_WITH(tclsh,

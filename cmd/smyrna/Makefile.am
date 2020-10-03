@@ -26,13 +26,19 @@ if ENABLE_STATIC
 bin_PROGRAMS += smyrna_static
 endif
 man_MANS += smyrna.1
+if ENABLE_MAN_PDFS
 pdf_DATA += smyrna.1.pdf
 endif
+endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = smyrna.1.pdf
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 noinst_HEADERS = arcball.h draw.h glexpose.h \
@@ -80,6 +86,7 @@ smyrna_static_LDADD = $(top_builddir)/lib/cgraph/libcgraph_C.la \
 		$(top_builddir)/lib/neatogen/libneatogen_C.la \
 		$(GTK_LIBS) $(GLUT_LIBS) $(GTKGLEXT_LIBS) $(GLADE_LIBS) $(X_LIBS) $(EXPAT_LIBS) $(GTS_LIBS) $(MATH_LIBS)
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 smyrna.1.pdf: smyrna.1.ps
 	@PS2PDF@ $<
@@ -87,8 +94,9 @@ smyrna.1.pdf: smyrna.1.ps
 smyrna.1.ps: $(srcdir)/smyrna.1
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = smyrna.vcxproj* $(man_MANS) $(pdf) smyrna.1
 
-DISTCLEANFILES = $(pdf_DATA) smyrna.1.ps
+DISTCLEANFILES = $(pdf) smyrna.1.ps
 

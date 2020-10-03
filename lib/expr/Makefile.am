@@ -16,13 +16,16 @@ noinst_LTLIBRARIES = libexpr_C.la
 ### expr.h includes ast.h and vmalloc.h which we don't install
 #lib_LTLIBRARIES = libexpr.la
 man_MANS = expr.3
+if ENABLE_MAN_PDFS
 pdf_DATA = expr.3.pdf
-#pkgconfig_DATA = libexpr.pc
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 #### -no-undefined breaks Mac OS/X builds.
@@ -62,6 +65,7 @@ y.tab.c y.tab.h: y.output
 y.output: $(top_srcdir)/lib/expr/exparse.y
 	@YACC@ -Wno-yacc -dtv $(top_srcdir)/lib/expr/exparse.y -o y.tab.c
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 expr.3.pdf: expr.3.ps
 	@PS2PDF@ $<
@@ -69,10 +73,11 @@ expr.3.pdf: expr.3.ps
 expr.3.ps: $(srcdir)/expr.3
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) \
 	Makefile.nmake Makefile.orig \
 	exparse.c exparse.h \
 	y.tab.c y.tab.h y.output expr.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) exparse.[ch] y.tab.[ch] y.output expr.3.ps
+DISTCLEANFILES = $(pdf) exparse.[ch] y.tab.[ch] y.output expr.3.ps

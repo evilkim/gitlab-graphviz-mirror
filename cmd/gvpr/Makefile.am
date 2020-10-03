@@ -18,12 +18,16 @@ bin_PROGRAMS = gvpr
 endif
 
 man_MANS = gvpr.1
+if ENABLE_MAN_PDFS
 pdf_DATA = gvpr.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 gvpr_SOURCES = gvprmain.c
@@ -32,12 +36,14 @@ gvpr_LDADD = $(top_builddir)/lib/gvpr/libgvpr.la \
 	$(top_builddir)/lib/cgraph/libcgraph.la \
 	$(top_builddir)/lib/cdt/libcdt.la
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 gvpr.1.pdf: gvpr.1.ps
 	@PS2PDF@ $<
 
 gvpr.1.ps: $(srcdir)/gvpr.1
 	@GROFF@ -Tps -man -t $< >$@
+endif
 endif
 gvpr_static_SOURCES = gvprmain.c
 gvpr_static_CPPFLAGS = $(AM_CPPFLAGS)
@@ -54,4 +60,4 @@ gvpr_static_LDADD = \
 
 EXTRA_DIST = $(man_MANS) $(pdf) lib gvpr.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) gvpr.1.ps
+DISTCLEANFILES = $(pdf) gvpr.1.ps

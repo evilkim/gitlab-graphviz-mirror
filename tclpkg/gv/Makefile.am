@@ -293,77 +293,93 @@ if WITH_SWIG
 if WITH_SHARP
 pkgsharp_DATA = $(SHARP_data)
 man_MANS += gv.3sharp
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3sharp.pdf
+endif
 pkgsharp_LTLIBRARIES = libgv_sharp.la
 DEVTSTS += test_sharp
 endif
 if WITH_D
 pkgd_DATA = $(D_data)
 #man_MANS += gv.3d
-#pdf_DATA += gv.3d.pdf
 pkgd_LTLIBRARIES = libgv_d.la
 #DEVTSTS += test_d
 endif
 if WITH_GO
 pkggo_DATA = $(GO_data)
 man_MANS += gv.3go
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3go.pdf
+endif
 pkggo_LTLIBRARIES = libgv_go.la
 DEVTSTS += test_go
 endif
 if WITH_GUILE
 pkgguile_DATA = $(GUILE_data)
 man_MANS += gv.3guile
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3guile.pdf
+endif
 pkgguile_LTLIBRARIES = libgv_guile.la
 DEVTSTS += test_guile
 endif
 if WITH_IO
 pkgio_DATA = $(IO_data)
 man_MANS += gv.3io
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3io.pdf
+endif
 pkgio_LTLIBRARIES = libgv_io.la
 DEVTSTS += test_io
 endif
 if WITH_JAVA
 pkgjava_DATA = $(JAVA_data)
 man_MANS += gv.3java
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3java.pdf
+endif
 pkgjava_LTLIBRARIES = libgv_java.la
 DEVTSTS += test_java
 endif
 if WITH_JAVASCRIPT
 pkgd_DATA = $(JAVASCRIPT_data)
 #man_MANS += gv.3javascript
-#pdf_DATA += gv.3javascript.pdf
 pkgjavascript_LTLIBRARIES = libgv_javascript.la
 #DEVTSTS += test_javascript
 endif
 if WITH_LUA
 pkglua_DATA = $(LUA_data)
 man_MANS += gv.3lua
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3lua.pdf
+endif
 pkglua_LTLIBRARIES = libgv_lua.la
 DEVTSTS += test_lua
 endif
 if WITH_OCAML
 pkgocaml_DATA = $(OCAML_data)
 man_MANS += gv.3ocaml
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3ocaml.pdf
+endif
 pkgocaml_LTLIBRARIES = libgv_ocaml.la
 DEVTSTS += test_ocaml
 endif
 if WITH_PERL
 pkgperl_DATA = $(PERL_data)
 man_MANS += gv.3perl
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3perl.pdf
+endif
 pkgperl_LTLIBRARIES = libgv_perl.la
 DEVTSTS += test_perl
 endif
 if WITH_PHP
 pkgphp_DATA = $(PHP_data)
 man_MANS += gv.3php
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3php.pdf
+endif
 pkgphp_LTLIBRARIES = libgv_php.la
 DEVTSTS += test_php
 endif
@@ -383,25 +399,33 @@ pkgpython3_LTLIBRARIES = libgv_python3.la
 DEVTSTS += test_python3
 endif
 man_MANS += gv.3python
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3python.pdf
+endif
 if WITH_R
 pkgR_DATA = $(R_data)
 man_MANS += gv.3r
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3r.pdf
+endif
 pkgR_LTLIBRARIES = libgv_R.la
 DEVTSTS += test_R
 endif
 if WITH_RUBY
 pkgruby_DATA = $(RUBY_data)
 man_MANS += gv.3ruby
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3ruby.pdf
+endif
 pkgruby_LTLIBRARIES = libgv_ruby.la
 DEVTSTS += test_ruby
 endif
 if WITH_TCL
 pkgtcl_DATA = $(TCL_data)
 man_MANS += gv.3tcl
+if ENABLE_MAN_PDFS
 pdf_DATA += gv.3tcl.pdf
+endif
 pkgtcl_LTLIBRARIES = libgv_tcl.la
 DEVTSTS += test_tcl
 
@@ -415,16 +439,21 @@ endif
 man = gv.3sharp gv.3go gv.3guile gv.3io gv.3java gv.3lua gv.3ocaml \
 	gv.3perl gv.3php gv.3python gv.3r gv.3ruby gv.3tcl
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = gv.3sharp.pdf gv.3go.pdf gv.3guile.pdf gv.3io.pdf gv.3java.pdf gv.3lua.pdf \
       gv.3ocaml.pdf gv.3perl.pdf gv.3php.pdf gv.3python.pdf gv.3r.pdf gv.3ruby.pdf gv.3tcl.pdf
 else
 pdf = ERROR_NO_PS2PDF
 endif
+else
+pdf =
+endif
 
 $(man): gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
 	$(TCLSH) $(srcdir)/gv_doc_writer.tcl "$(srcdir)"
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 gv.3sharp.pdf: gv.3sharp.ps
 	@PS2PDF@ $<
@@ -503,6 +532,7 @@ gv.3tcl.pdf: gv.3tcl.ps
 
 gv.3tcl.ps: gv.3tcl
 	@GROFF@ -Tps -man $< >$@
+endif
 endif
 install-data-hook:
 if WITH_JAVA

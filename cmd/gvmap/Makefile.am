@@ -15,12 +15,16 @@ dist_bin_SCRIPTS = gvmap.sh
 endif
 
 man_MANS = gvmap.1 cluster.1 gvmap.sh.1
+if ENABLE_MAN_PDFS
 pdf_DATA = gvmap.1.pdf cluster.1.pdf gvmap.sh.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 noinst_HEADERS = make_map.h power.h country_graph_coloring.h
@@ -59,6 +63,7 @@ cluster_LDADD = \
 
 gvmap.sh :
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 gvmap.1.pdf: gvmap.1.ps
 	@PS2PDF@ $<
@@ -78,7 +83,8 @@ gvmap.sh.1.pdf: gvmap.sh.1.ps
 gvmap.sh.1.ps: $(srcdir)/gvmap.sh.1
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) gvmap.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) gvmap.1.ps cluster.1.ps gvmap.sh.1.ps
+DISTCLEANFILES = $(pdf) gvmap.1.ps cluster.1.ps gvmap.sh.1.ps

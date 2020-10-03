@@ -4,13 +4,19 @@
 pdfdir = $(pkgdatadir)/doc/pdf
 
 linkedman = neato.1 twopi.1 fdp.1 circo.1
+if ENABLE_MAN_PDFS
 linkedpdf = neato.1.pdf twopi.1.pdf fdp.1.pdf circo.1.pdf
+else
+linkedpdf =
+endif
 linkedprogram = neato$(EXEEXT) twopi$(EXEEXT) fdp$(EXEEXT) circo$(EXEEXT) \
     osage$(EXEEXT) patchwork$(EXEEXT)
 
 if WITH_SFDP
 linkedman += sfdp.1
+if ENABLE_MAN_PDFS
 linkedpdf += sfdp.1.pdf
+endif
 linkedprogram += sfdp$(EXEEXT)
 endif
 
@@ -43,12 +49,18 @@ endif
 endif
 
 man_MANS = dot.1 osage.1 patchwork.1
+if ENABLE_MAN_PDFS
 pdf_DATA = dot.1.pdf osage.1.pdf patchwork.1.pdf
+endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 dot_SOURCES = dot.c no_builtins.c
@@ -73,6 +85,7 @@ uninstall-hook:
 	(cd $(DESTDIR)$(bindir); for i in $(linkedprogram); do rm -f $$i; done;)
 	(cd $(DESTDIR)$(libdir); rm -f config;)
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 dot.1.pdf: dot.1.ps
 	@PS2PDF@ $<
@@ -91,6 +104,7 @@ patchwork.1.pdf: patchwork.1.ps
 
 patchwork.1.ps: $(srcdir)/patchwork.1
 	@GROFF@ -Tps -man $< >$@
+endif
 endif
 
 dot_static_SOURCES = dot.c dot_builtins.c
@@ -145,4 +159,4 @@ nodist_EXTRA_dot_builtins_SOURCES = fake.cxx
 
 EXTRA_DIST = dot.1 osage.1 patchwork.1 $(pdf) dot.vcxproj*
 
-DISTCLEANFILES = dot.1.pdf osage.1.pdf dot.1.ps osage.1.ps patchwork.1.pdf patchwork.1.ps
+DISTCLEANFILES = $(pdf) dot.1.ps osage.1.ps patchwork.1.ps
