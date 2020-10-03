@@ -634,9 +634,11 @@ static void doOpts(int argc, char *argv[], opts_t * op)
 		case '?':
 			if (optopt == '?')
 				usage(cmd, 0);
-			else
-				fprintf(stderr, "%s: option -%c unrecognized - ignored\n",
+			else {
+				fprintf(stderr, "%s: option -%c unrecognized\n",
 						cmd, optopt);
+				usage(cmd, 1);
+			}
 			break;
 		default:
 			break;
