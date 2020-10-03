@@ -233,9 +233,6 @@ if test "x${prefix}" != "x/usr"; then
 	export PKG_CONFIG_PATH
 fi
 
-# Set of all available languages
-# ALL_LINGUAS=""
-
 dnl -----------------------------------
 # Static/Shared binaries
 
