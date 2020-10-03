@@ -1558,10 +1558,9 @@ char* latin1ToUTF8 (char* s)
 {
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned int  v;
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     /* Values are either a byte (<= 256) or come from htmlEntity, whose
      * values are all less than 0x07FF, so we need at most 3 bytes.
