@@ -1597,11 +1597,10 @@ utf8ToLatin1 (char* s)
 {
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned char c;
     unsigned char outc;
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     while ((c = *(unsigned char*)s++)) {
 	if (c < 0x7F)
