@@ -313,9 +313,11 @@ static void scanArgs(int argc, char **argv)
 		case '?':
 			if (optopt == '?')
 				usage(0);
-			else
-				fprintf(stderr, "%s: option -%c unrecognized - ignored\n",
+			else {
+				fprintf(stderr, "%s: option -%c unrecognized\n",
 						CmdName, optopt);
+				usage(1);
+			}
 			break;
 		}
 	}
