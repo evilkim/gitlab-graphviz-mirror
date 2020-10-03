@@ -423,10 +423,12 @@ static void init(int argc, char **argv, parms_t * p)
  	case '?':
 	    if (optopt == '?')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"%s: option -%c unrecognized - ignored\n", cmd,
+			"%s: option -%c unrecognized\n", cmd,
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }
