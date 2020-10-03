@@ -13,7 +13,6 @@
 
 #include "menucallbacks.h"
 #include "viewport.h"
-/* #include "topview.h" */
 #include "tvnodes.h"
 
 #include "gvprpipe.h"
@@ -154,19 +153,6 @@ void mShowToolBoxSlot(GtkWidget * widget, gpointer user_data)
 
 }
 
-#if 0
-void mShowHostSelectionSlot(GtkWidget * widget, gpointer user_data)
-{
-
-    gtk_widget_hide(glade_xml_get_widget(xml, "frmHostSelection"));
-    gtk_widget_show(glade_xml_get_widget(xml, "frmHostSelection"));
-    gtk_window_set_keep_above((GtkWindow *)
-			      glade_xml_get_widget(xml,
-						   "frmHostSelection"), 1);
-
-}
-#endif
-
 void mShowConsoleSlot(GtkWidget * widget, gpointer user_data)
 {
     static int state = 0;  // off by default
@@ -184,14 +170,6 @@ void mShowConsoleSlot(GtkWidget * widget, gpointer user_data)
 	state = 1;
     }
 }
-
-#if 0
-void mHideConsoleSlot(GtkWidget * widget, gpointer user_data)
-{
-    gtk_widget_hide(glade_xml_get_widget(xml, "vbox13"));
-
-}
-#endif
 
 //Graph
 void mNodeListSlot(GtkWidget * widget, gpointer user_data)
@@ -341,107 +319,6 @@ void change_cursor(GdkCursorType C)
     gdk_cursor_destroy(cursor);
 }
 
-#if OLD
-static const char *endQuote(const char *args, agxbuf * xb, char endc)
-{
-    int more = 1;
-    char c;
-
-    while (more) {
-	c = *args++;
-	if (c == endc)
-	    more = 0;
-	else if (c == '\0') {
-	    more = 0;
-	    args--;
-	} else if (c == '\\') {
-	    c = *args++;
-	    if (c == '\0')
-		args--;
-	    else
-		agxbputc(xb, c);
-	} else
-	    agxbputc(xb, c);
-    }
-    return args;
-}
-
-static const char *skipWS(const char *args)
-{
-    char c;
-
-    while ((c = *args)) {
-	if (isspace(c))
-	    args++;
-	else
-	    break;
-    }
-    return args;
-}
-
-static const char *getTok(const char *args, agxbuf * xb)
-{
-    char c;
-    int more = 1;
-
-    args = skipWS(args);
-    if (*args == '\0')
-	return 0;
-
-    while (more) {
-	c = *args++;
-	if (isspace(c))
-	    more = 0;
-	else if (c == '\0') {
-	    more = 0;
-	    args--;
-	} else if ((c == '"') || (c == '\'')) {
-	    args = endQuote(args, xb, c);
-	} else if (c == '\\') {
-	    c = *args++;
-	    if (c == '\0')
-		args--;
-	    else
-		agxbputc(xb, c);
-	} else
-	    agxbputc(xb, c);
-    }
-    return args;
-}
-
-static char **splitArgs(const char *args, int *argcp)
-{
-    char **argv;
-    int argc;
-    int asize;
-    agxbuf xbuf;
-    unsigned char buf[SMALLBUF];
-
-    if (*args == '\0') {
-	*argcp = 0;
-	return 0;
-    }
-
-    argc = 0;
-    asize = 0;
-    argv = 0;
-    agxbinit(&xbuf, SMALLBUF, buf);
-    while ((args = getTok(args, &xbuf))) {
-	if (asize <= argc) {
-	    asize += 10;
-	    argv = ALLOC(asize, argv, char *);
-	}
-	argv[argc++] = agxbdisown(&xbuf);
-    }
-
-    agxbfree(&xbuf);
-    *argcp = argc;
-    return argv;
-}
-#endif
-
-
-
 void mTestgvpr(GtkWidget * widget, gpointer user_data)
 {
     char *bf2;
@@ -451,10 +328,6 @@ void mTestgvpr(GtkWidget * widget, gpointer user_data)
     const char *args;
     int i, j, argc, cloneGraph;
     char **argv;
-#if OLD
-    char **inargv;
-    int inargc;
-#endif
 
     args =
 	gtk_entry_get_text((GtkEntry *)
@@ -470,15 +343,9 @@ void mTestgvpr(GtkWidget * widget, gpointer user_data)
     if ((*args == '\0') && (*bf2 == '\0'))
 	return;
 
-#if OLD
-    inargv = splitArgs(args, &inargc);
-
-    argc = inargc + 1;
-#else
     argc = 1;
     if (*args != '\0')
 	argc += 2;
-#endif
     if (*bf2 != '\0')
 	argc++;
     if (gtk_toggle_button_get_active
@@ -492,16 +359,10 @@ void mTestgvpr(GtkWidget * widget, gpointer user_data)
     argv[j++] = "smyrna";
     if (cloneGraph)
 	argv[j++] = strdup("-C");
-#if OLD
-    for (i = 0; i < inargc; i++)
-	argv[j++] = inargv[i];
-    free(inargv);
-#else
     if (*args != '\0') {
 	argv[j++] = strdup("-a");
 	argv[j++] = strdup(args);
     }
-#endif
     if (*bf2 != '\0') {
 	argv[j++] = strdup(bf2);
 	g_free(bf2);
