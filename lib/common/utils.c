@@ -1473,7 +1473,6 @@ char* htmlEntityUTF8 (char* s, graph_t* g)
     static boolean warned;
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned char c;
     unsigned int v;
 
@@ -1485,7 +1484,7 @@ char* htmlEntityUTF8 (char* s, graph_t* g)
 	warned = 0;
     }
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     while ((c = *(unsigned char*)s++)) {
         if (c < 0xC0)
