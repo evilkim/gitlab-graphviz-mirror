@@ -68,9 +68,11 @@ static char **parseArgs(int argc, char *argv[])
 	case '?':
 	    if (optopt == '\0')
 		usage(0);
-	    else
+	    else {
 		errout << cmd << " : option -" << ((char) optopt) <<
-		    " unrecognized - ignored\n" << flush;
+		    " unrecognized\n" << flush;
+		usage(1);
+	    }
 	    break;
 	}
     }
