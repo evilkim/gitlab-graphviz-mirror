@@ -610,7 +610,7 @@ static void doOpts(int argc, char *argv[], opts_t * op)
 	op->sparse_ratio = 0.5;
 
 	opterr = 0;
-	while ((c = getopt(argc, argv, "o:r:v::")) != -1) {
+	while ((c = getopt(argc, argv, "o:r:v::?")) != -1) {
 		switch (c) {
 		case 'o':
 			op->outfp = openFile(cmd, optarg, "w");
@@ -632,7 +632,7 @@ static void doOpts(int argc, char *argv[], opts_t * op)
 			}
 			break;
 		case '?':
-			if (optopt == '?')
+			if (optopt == '\0')
 				usage(cmd, 0);
 			else {
 				fprintf(stderr, "%s: option -%c unrecognized\n",
