@@ -71,8 +71,7 @@ set(GVPLUGIN_CONFIG_FILE config${GRAPHVIZ_PLUGIN_VERSION})
 
 # ============================ Library dependencies ============================
 if (WIN32)
-    list(APPEND CMAKE_LIBRARY_PATH ${WINDOWS_DEPENDENCY_DIR}/lib)
-    list(APPEND CMAKE_INCLUDE_PATH ${WINDOWS_DEPENDENCY_DIR}/include ${WINDOWS_DEPENDENCY_DIR}/bin)
+    list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_DIR})
 else()
     list(APPEND CMAKE_INCLUDE_PATH /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu)
 endif()
@@ -94,9 +93,9 @@ if (WIN32)
     find_package(RxSpencer REQUIRED)
 
     # Find DLLs on Windows
-    find_file(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
+    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
     if (CMAKE_CL_64)
-        find_file(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
+        find_program(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
     endif()
 endif()
 
