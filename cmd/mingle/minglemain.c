@@ -128,7 +128,7 @@ static void init(int argc, char *argv[], opts_t* opts)
 	opts->angle_param = -1;
 	opts->angle = 40.0/180.0*M_PI;
 
-	while ((c = getopt(argc, argv, ":a:c:i:k:K:m:o:p:r:T:v:")) != -1) {
+	while ((c = getopt(argc, argv, ":a:c:i:k:K:m:o:p:r:T:v:?")) != -1) {
 		switch (c) {
 		case 'a':
 			if ((sscanf(optarg,"%lf",&s) > 0) && (s >= 0))
@@ -205,7 +205,7 @@ static void init(int argc, char *argv[], opts_t* opts)
 			}
 			break;
 		case '?':
-			if (optopt == '?')
+			if (optopt == '\0')
 				usage(0);
 			else {
 				fprintf(stderr, "%s: option -%c unrecognized\n", cmd, optopt);
