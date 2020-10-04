@@ -38,11 +38,6 @@ extern int emit_once(char *str);
 extern shape_desc *find_user_shape(char *name);
 extern boolean mapbool(char *s);
 
-/* storage for temporary hacks until client API is FP */
-static pointf *AF;
-static int sizeAF;
-/* end hack */
-
 int gvrender_select(GVJ_t * job, const char *str)
 {
     GVC_t *gvc = job->gvc;
