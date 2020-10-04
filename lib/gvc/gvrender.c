@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <assert.h>
 #include <string.h>
 #include <common/memory.h>
 #include <common/const.h>
@@ -31,6 +32,7 @@
 #include <common/geomprocs.h>
 #include <gvc/gvcproc.h>
 #include <cgraph/strcasecmp.h>
+#include <stdlib.h>
 
 extern int emit_once(char *str);
 extern shape_desc *find_user_shape(char *name);
@@ -583,12 +585,12 @@ void gvrender_polygon(GVJ_t * job, pointf * af, int n, int filled)
 	    if (job->flags & GVRENDER_DOES_TRANSFORM)
 		gvre->polygon(job, af, n, filled);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->polygon(job, AF, n, filled);
+		free(AF);
 	    }
 	    if (noPoly)
 		job->obj->pencolor = save_pencolor;
