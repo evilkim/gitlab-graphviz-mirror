@@ -99,7 +99,7 @@ static void init(int argc, char *argv[], opts_t* opts) {
   Verbose = 0;
 
   opts->clustering_method =  CLUSTERING_MODULARITY;
-  while ((c = getopt(argc, argv, ":vC:c:o:")) != -1) {
+  while ((c = getopt(argc, argv, ":vC:c:o:?")) != -1) {
     switch (c) {
     case 'c':
       if ((sscanf(optarg,"%d", &v) == 0) || (v < 0)) {
@@ -120,7 +120,7 @@ static void init(int argc, char *argv[], opts_t* opts) {
       Verbose = 1;
       break;
     case '?':
-      if (optopt == '?')
+      if (optopt == '\0')
 	usage(cmd, 0);
       else {
 	fprintf(stderr, " option -%c unrecognized\n",
