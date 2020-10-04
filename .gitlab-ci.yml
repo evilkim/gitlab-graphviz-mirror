@@ -519,6 +519,20 @@ ubuntu18-04-cmake-test:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+fedora31-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "fedora31-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:fedora31"
+
 deployment:
     stage: deploy
     script:
