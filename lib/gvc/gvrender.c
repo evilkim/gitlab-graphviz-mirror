@@ -646,12 +646,12 @@ void gvrender_polyline(GVJ_t * job, pointf * af, int n)
 	    if (job->flags & GVRENDER_DOES_TRANSFORM)
 		gvre->polyline(job, af, n);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->polyline(job, AF, n);
+		free(AF);
 	    }
 	}
     }
