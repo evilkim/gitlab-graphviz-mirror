@@ -194,10 +194,6 @@ static void dia_style(GVJ_t * job, context_t * cp)
 	gvputs(job, "      <dia:attribute name=\"line_style\">\n");
 	gvprintf(job, "        <dia:real val=\"%d\"/>\n", 1);
 	gvputs(job, "      </dia:attribute>\n");
-#if 0
-    } else if (cp->pen == P_DOTTED) {
-	gvprintf(job, "stroke-dasharray:%s;", sdotarray);
-#endif
     }
 }
 
@@ -235,18 +231,6 @@ static void dia_end_job(GVJ_t *job)
 static void dia_begin_graph(GVJ_t * job)
 {
     gvprintf(job, "<dia:diagram xmlns:dia=\"http://www.lysator.liu.se/~alla/dia/\">\n");
-#if 0
-    Rootgraph = g;
-    PB.LL.x = PB.LL.y = 0;
-    PB.UR.x = (bb.UR.x - bb.LL.x + 2 * GD_drawing(g)->margin.x) * SCALE;
-    PB.UR.y = (bb.UR.y - bb.LL.y + 2 * GD_drawing(g)->margin.y) * SCALE;
-    Offset.x = GD_drawing(g)->margin.x * SCALE;
-    Offset.y = GD_drawing(g)->margin.y * SCALE;
-    if (onetime) {
-	init_dia();
-	onetime = FALSE;
-    }
-#endif
     gvputs(job, "  <dia:diagramdata>\n");
 
     gvputs(job, "    <dia:attribute name=\"background\">\n");
@@ -396,39 +380,6 @@ static void dia_set_fillcolor(char *name)
 
 static void dia_set_style(char **s)
 {
-#if 0
-    char *line, *p;
-    context_t *cp;
-
-    cp = &(cstk[SP]);
-    while ((p = line = *s++)) {
-	if (streq(line, "solid"))
-	    cp->pen = P_SOLID;
-	else if (streq(line, "dashed"))
-	    cp->pen = P_DASHED;
-	else if (streq(line, "dotted"))
-	    cp->pen = P_DOTTED;
-	else if (streq(line, "invis"))
-	    cp->pen = P_NONE;
-	else if (streq(line, "bold"))
-	    cp->penwidth = WIDTH_BOLD;
-	else if (streq(line, "setlinewidth")) {
-	    while (*p)
-		p++;
-	    p++;
-	    cp->penwidth = atol(p);
-	} else if (streq(line, "filled"))
-	    cp->fill = P_SOLID;
-	else if (streq(line, "unfilled"))
-	    cp->fill = P_NONE;
-	else {
-	    agwarn("dia_set_style: unsupported style %s - ignoring\n",
-		  line);
-	}
-	cp->style_was_set = TRUE;
-    }
-    /* if (cp->style_was_set) dia_style(cp); */
-#endif
 }
 
 static void dia_textspan(GVJ_t * job, pointf p, textspan_t * span)
@@ -474,33 +425,10 @@ static void dia_textspan(GVJ_t * job, pointf p, textspan_t * span)
                     break;
         }
         stretch = pA->stretch;
-#if 0
-        gvprintf(job, " font-family=\"%s", family);
-        if (pA->svg_font_family) gvprintf(job, ",%s", pA->svg_font_family);
-        gvputs(job, "\"");
-        if (weight) gvprintf(job, " font-weight=\"%s\"", weight);
-        if (stretch) gvprintf(job, " font-stretch=\"%s\"", stretch);
-        if (style) gvprintf(job, " font-style=\"%s\"", style);
-#endif
     }
     else
 	family = span->fontname;
     size = span->fontsize;
-
-#if 0
-    switch (obj->pencolor.type) {
-    case COLOR_STRING:
-        if (strcasecmp(obj->pencolor.u.string, "black"))
-            gvprintf(job, " fill=\"%s\"", obj->pencolor.u.string);
-        break;
-    case RGBA_BYTE:
-        gvprintf(job, " fill=\"#%02x%02x%02x\"",
-                obj->pencolor.u.rgba[0], obj->pencolor.u.rgba[1], obj->pencolor.u.rgba[2]);
-        break;
-    default:
-        assert(0);              /* internal error */
-    }
-#endif
 
     gvprintf(job,
 	"    <dia:object type=\"Standard - Text\" version=\"0\" id=\"%s\">\n",
@@ -522,13 +450,8 @@ static void dia_textspan(GVJ_t * job, pointf p, textspan_t * span)
     gvprintf(job, "            <dia:point val=\"%g,%g\"/>\n", p.x, p.y);
     gvputs(job, "          </dia:attribute>\n");
     gvputs(job, "          <dia:attribute name=\"color\">\n");
-#if 0
-    gvprintf(job, "            <dia:color val=\"%s\"/>\n",
-	       dia_resolve_color(cp->pencolor));
-#else
     gvprintf(job, "            <dia:color val=\"%s\"/>\n",
 	       "black");
-#endif
     gvputs(job, "          </dia:attribute>\n");
     gvputs(job, "          <dia:attribute name=\"alignment\">\n");
     gvprintf(job, "            <dia:enum val=\"%d\"/>\n", anchor);
@@ -538,101 +461,17 @@ static void dia_textspan(GVJ_t * job, pointf p, textspan_t * span)
     gvputs(job, "      <dia:attribute name=\"obj_pos\">\n");
     gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", p.x, p.y);
     gvputs(job, "      </dia:attribute>\n");
-#if 0
-    gvputs(job, "      <dia:attribute name=\"obj_bb\">\n");
-    gvprintf(job, "        <dia:rectangle val=\"%g,%g;%g,%g\"/>\n",
-	       p.x - (Scale * (span->size.x) / 2.), p.y - 0.4,
-	       p.x + (Scale * (span->size.x) / 2.), p.y + 0.4);
-    gvputs(job, "      </dia:attribute>\n");
-#endif
     gvputs(job, "    </dia:object>\n");
 }
 
 static void dia_ellipse(GVJ_t * job, pointf *A, int filled)
 {
-#if 0
-    pointf cp, rp;
-    int nodeId;
-
-    switch (Obj) {
-    case NODE:
-	nodeId = Curnode->id;
-	break;
-    default:
-	nodeId = -1;
-	break;
-    }
-
-    if (cstk[SP].pen == P_NONE) {
-	/* its invisible, don't draw */
-	return;
-    }
-    cp = dia_pt(p);
-
-    if (Rot) {
-	int t;
-	t = rx;
-	rx = ry;
-	ry = t;
-    }
-    rp.x = Scale * rx;
-    rp.y = Scale * ry;
-
-    gvprintf(job,
-	"    <dia:object type=\"Standard - Ellipse\" version=\"0\" id=\"%d\">\n",
-	 nodeId);
-    gvputs(job, "      <dia:attribute name=\"elem_corner\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", cp.x - rp.x,
-	       cp.y - rp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"elem_width\">\n");
-    gvprintf(job, "        <dia:real val=\"%g\"/>\n", rp.x + rp.x);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"elem_height\">\n");
-    gvprintf(job, "        <dia:real val=\"%g\"/>\n", rp.y + rp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_pos\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", cp.x - rp.x,
-	       cp.y - rp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_bb\">\n");
-    gvprintf(job, "        <dia:rectangle val=\"%g,%g;%g,%g\"/>\n",
-	       cp.x - rp.x - .11, cp.y - rp.y - .11, cp.x + rp.x + .11,
-	       cp.y + rp.y + .11);
-    gvputs(job, "      </dia:attribute>\n");
-    dia_style(job, &cstk[SP]);
-    dia_stylefill(job, &cstk[SP], filled);
-    gvputs(job, "    </dia:object>\n");
-#endif
 }
 
 
 int ellipse_connection(pointf cp, pointf p)
 {
     int conn = 0;
-#if 0
-    if (cp.x == p.x) {
-	if (cp.y > p.y)
-	    conn = 1;
-	else
-	    conn = 6;
-    } else if (cp.y == p.y) {
-	if (cp.x > p.x)
-	    conn = 3;
-	else
-	    conn = 4;
-    } else if (cp.x < p.x) {
-	if (cp.y < p.y)
-	    conn = 7;
-	else
-	    conn = 2;
-    } else if (cp.x > p.x) {
-	if (cp.y < p.y)
-	    conn = 5;
-	else
-	    conn = 0;
-    }
-#endif
     return conn;
 }
 
@@ -640,68 +479,6 @@ int ellipse_connection(pointf cp, pointf p)
 int box_connection(node_t * n, pointf p)
 {
     int conn = 0;
-#if 0
-    int i = 0, j, sides, conn = 0, peripheries, z;
-    double xsize, ysize, mindist2 = 0.0, dist2;
-    polygon_t *poly;
-    pointf P, *vertices;
-    static point *A;
-    static int A_size;
-
-    poly = (polygon_t *) ND_shape_info(n);
-    vertices = poly->vertices;
-    sides = poly->sides;
-    peripheries = poly->peripheries;
-
-    if (A_size < sides) {
-	A_size = sides + 5;
-	A = malloc(A_size*sizeof(pointf));
-    }
-
-    xsize = ((ND_lw(n) + ND_rw(n)) / POINTS(ND_width(n))) * 16.0;
-    ysize = ((ND_ht(n)) / POINTS(ND_height(n))) * 16.0;
-
-    for (j = 0; j < peripheries; j++) {
-	for (i = 0; i < sides; i++) {
-	    P = vertices[i + j * sides];
-/* simple rounding produces random results around .5 
- * this trick should clip off the random part. 
- * (note xsize/ysize prescaled by 16.0 above) */
-	    A[i].x = ROUND(P.x * xsize) / 16;
-	    A[i].y = ROUND(P.y * ysize) / 16;
-	    if (sides > 2) {
-		A[i].x += ND_coord_i(n).x;
-		A[i].y += ND_coord_i(n).y;
-	    }
-	}
-    }
-
-    z = 0;
-    while (z < i) {
-	dist2 = DIST2(p, dia_pt(A[z]));
-	if (z == 0) {
-	    mindist2 = dist2;
-	    conn = 0;
-	}
-	if (dist2 < mindist2) {
-	    mindist2 = dist2;
-	    conn = 2 * z;
-	}
-	z++;
-    }
-
-    z = 0;
-    while (z < i) {
-	P.x = (dia_pt(A[z]).x + dia_pt(A[z + 1]).x) / 2;
-	P.y = (dia_pt(A[z]).y + dia_pt(A[z + 1]).y) / 2;
-	dist2 = DIST2(p, P);
-	if (dist2 < mindist2) {
-	    mindist2 = dist2;
-	    conn = 2 * z + 1;
-	}
-	z++;
-    }
-#endif
     return conn;
 }
 
@@ -709,234 +486,16 @@ int box_connection(node_t * n, pointf p)
 static void
 dia_bezier(GVJ_t *job, pointf * A, int n, int arrow_at_start, int arrow_at_end, int filled)
 {
-#if 0
-    int i, conn_h, conn_t;
-    pointf p, firstp = { 0, 0 }, llp = {
-    0, 0}, urp = {
-    0, 0};
-    node_t *head, *tail;
-    char *shape_t;
-    pointf cp_h, cp_t;
-
-    if (cstk[SP].pen == P_NONE) {
-	/* its invisible, don't draw */
-	return;
-    }
-
-    gvprintf(job,
-	"    <dia:object type=\"Standard - BezierLine\" version=\"0\" id=\"%s\">\n",
-	 "00");
-    gvputs(job, "       <dia:attribute name=\"bez_points\">\n");
-    for (i = 0; i < n; i++) {
-	p = dia_pt(A[i]);
-	if (!i)
-	    llp = urp = firstp = p;
-	if (p.x < llp.x || p.y < llp.y)
-	    llp = p;
-	if (p.x > urp.x || p.y > urp.y)
-	    urp = p;
-	gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", p.x, p.y);
-    }
-    gvputs(job, "      </dia:attribute>\n");
-    dia_style(job, &cstk[SP]);
-    gvputs(job, "      <dia:attribute name=\"obj_pos\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", firstp.x, firstp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_bb\">\n");
-    gvprintf(job, "        <dia:rectangle val=\"%g,%g;%g,%g\"/>\n",
-	       llp.x - .11, llp.y - .11, urp.x + .11, urp.y + .11);
-    gvputs(job, "      </dia:attribute>\n");
-    if (!Curedge) return;
-
-    conn_h = conn_t = -1;
-
-    head = Curedge->head;
-    tail = Curedge->tail;
-
-    shape_t = ND_shape(tail)->name;
-
-    /* arrowheads */
-    if (arrow_at_start) {
-	gvputs(job, "      <dia:attribute name=\"start_arrow\">\n");
-	gvputs(job, "          <dia:enum val=\"3\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-	gvputs(job, "      <dia:attribute name=\"start_arrow_length\">\n");
-	gvputs(job, "      	<dia:real val=\"0.8\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-	dia_fputs
-	    ("		 <dia:attribute name=\"start_arrow_width\">\n");
-	gvputs(job, "			<dia:real val=\"0.8\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-    }
-    if (arrow_at_end) {
-	gvputs(job, "      <dia:attribute name=\"end_arrow\">\n");
-	gvputs(job, "          <dia:enum val=\"3\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-	gvputs(job, "      <dia:attribute name=\"end_arrow_length\">\n");
-	gvputs(job, "      	<dia:real val=\"0.8\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-	dia_fputs
-	    ("		 <dia:attribute name=\"end_arrow_width\">\n");
-	gvputs(job, "			<dia:real val=\"0.8\"/>\n");
-	gvputs(job, "      </dia:attribute>\n");
-    }
-
-    gvputs(job, "      <dia:attribute name=\"conn_endpoints\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", dia_pt(A[0]).x,
-	       dia_pt(A[0]).y);
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", dia_pt(A[n - 1]).x,
-	       dia_pt(A[n - 1]).y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:connections>\n");
-
-    if ((strcmp(shape_t, "ellipse") == 0)
-	|| (strcmp(shape_t, "circle") == 0)
-	|| (strcmp(shape_t, "doublecircle") == 0)) {
-	cp_h = dia_pt(ND_coord_i(head));
-	if (AG_IS_DIRECTED(Rootgraph))
-	    conn_h = ellipse_connection(cp_h, dia_pt(A[n - 1]));
-	else
-	    conn_h = ellipse_connection(cp_h, dia_pt(A[0]));
-    } else {
-	if (AG_IS_DIRECTED(Rootgraph))
-	    conn_h = box_connection(head, dia_pt(A[n - 1]));
-	else
-	    conn_h = box_connection(head, dia_pt(A[0]));
-    }
-
-    if ((strcmp(shape_t, "ellipse") == 0)
-	|| (strcmp(shape_t, "circle") == 0)
-	|| (strcmp(shape_t, "doublecircle") == 0)) {
-	cp_t = dia_pt(ND_coord_i(tail));
-	if (AG_IS_DIRECTED(Rootgraph))
-	    conn_t = ellipse_connection(cp_t, dia_pt(A[0]));
-	else
-	    conn_t = ellipse_connection(cp_t, dia_pt(A[n - 1]));
-    } else {
-	if (AG_IS_DIRECTED(Rootgraph))
-	    conn_t = box_connection(tail, dia_pt(A[0]));
-	else
-	    conn_t = box_connection(tail, dia_pt(A[n - 1]));
-    }
-
-    if (arrow_at_start) {
-	gvprintf(job,
-	    "        <dia:connection handle=\"0\" to=\"%d\" connection=\"%d\"/>\n",
-	     head->id, conn_h);
-	gvprintf(job,
-	    "        <dia:connection handle=\"%d\" to=\"%d\" connection=\"%d\"/>\n",
-	     (n - 1), tail->id, conn_t);
-    } else {
-	gvprintf(job,
-	    "        <dia:connection handle=\"0\" to=\"%d\" connection=\"%d\"/>\n",
-	     tail->id, conn_t);
-	gvprintf(job,
-	    "        <dia:connection handle=\"%d\" to=\"%d\" connection=\"%d\"/>\n",
-	     (n - 1), head->id, conn_h);
-    }
-
-    gvputs(job, "      </dia:connections>\n");
-    gvputs(job, "    </dia:object>\n");
-#endif
 }
 
 
 
 static void dia_polygon(GVJ_t * job, pointf * A, int n, int filled)
 {
-#if 0
-    int i;
-    pointf p, firstp = { 0, 0 }, llp = {
-    0, 0}, urp = {
-    0, 0};
-
-    if (cstk[SP].pen == P_NONE) {
-	/* its invisible, don't draw */
-	return;
-    }
-
-    switch (Obj) {
-    case NODE:
-	gvprintf(job,
-	    "    <dia:object type=\"Standard - Polygon\" version=\"0\" id=\"%d\">\n",
-	     Curnode->id);
-	break;
-    case EDGE:
-	return;
-	break;
-    case CLST:
-	gvprintf(job,
-	    "    <dia:object type=\"Standard - Polygon\" version=\"0\" id=\"%s\">\n",
-	     Curgraph->name);
-	break;
-    default:
-	gvprintf(job,
-	    "    <dia:object type=\"Standard - Polygon\" version=\"0\" id=\"%s\">\n",
-	     "polygon");
-	break;
-    }
-    gvputs(job, "       <dia:attribute name=\"poly_points\">\n");
-    for (i = 0; i < n; i++) {
-	p = dia_pt(A[i]);
-	if (!i)
-	    llp = urp = firstp = p;
-	if (p.x < llp.x || p.y < llp.y)
-	    llp = p;
-	if (p.x > urp.x || p.y > urp.y)
-	    urp = p;
-	gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", p.x, p.y);
-    }
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_pos\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", firstp.x, firstp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_bb\">\n");
-    gvprintf(job, "        <dia:rectangle val=\"%g,%g;%g,%g\"/>\n",
-	       llp.x - .11, llp.y - .11, urp.x + .11, urp.y + .11);
-    gvputs(job, "      </dia:attribute>\n");
-    dia_style(job, &cstk[SP]);
-    dia_stylefill(job, &cstk[SP], filled);
-    gvputs(job, "    </dia:object>\n");
-#endif
 }
 
 static void dia_polyline(GVJ_t * job, pointf * A, int n)
 {
-#if 0
-    int i;
-    pointf p, firstp = { 0, 0 }, llp = {
-    0, 0}, urp = {
-    0, 0};
-
-    if (cstk[SP].pen == P_NONE) {
-	/* its invisible, don't draw */
-	return;
-    }
-    gvprintf(job,
-	"    <dia:object type=\"Standard - PolyLine\" version=\"0\" id=\"%s\">\n",
-	 "0");
-    gvputs(job, "      <dia:attribute name=\"poly_points\">\n");
-    for (i = 0; i < n; i++) {
-	p = dia_pt(A[i]);
-	if (!i)
-	    llp = urp = firstp = p;
-	if (p.x < llp.x || p.y < llp.y)
-	    llp = p;
-	if (p.x > urp.x || p.y > urp.y)
-	    urp = p;
-	gvprintf(job, "<dia:point val=\"%g,%g\"/>\n", p.x, p.y);
-    }
-    gvputs(job, "      </dia:attribute>\n");
-    dia_style(job, &cstk[SP]);
-    gvputs(job, "      <dia:attribute name=\"obj_pos\">\n");
-    gvprintf(job, "        <dia:point val=\"%g,%g\"/>\n", firstp.x, firstp.y);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "      <dia:attribute name=\"obj_bb\">\n");
-    gvprintf(job, "        <dia:rectangle val=\"%g,%g;%g,%g\"/>\n",
-	       llp.x - .11, llp.y - .11, urp.x + .11, urp.y + .11);
-    gvputs(job, "      </dia:attribute>\n");
-    gvputs(job, "    </dia:object>\n");
-#endif
 }
 
 gvrender_engine_t dia_engine = {
