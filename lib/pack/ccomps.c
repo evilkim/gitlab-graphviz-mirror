@@ -13,12 +13,10 @@
 
 
 #include <ctype.h>
-#include <setjmp.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <common/render.h>
 #include <pack/pack.h>
-
-static jmp_buf jbuf;
 
 #define MARKED(stk,n) ((stk)->markfn(n,-1))
 #define MARK(stk,n)   ((stk)->markfn(n,1))
@@ -71,21 +69,20 @@ static void freeStk (stk_t* sp)
     }
 }
 
-static void push(stk_t* sp, Agnode_t * np)
+static int push(stk_t* sp, Agnode_t * np)
 {
     if (sp->curp == sp->curblk->endp) {
 	if (sp->curblk->next == NULL) {
 	    blk_t *bp = malloc(sizeof(blk_t));
 	    if (bp == 0) {
-		agerr(AGERR, "gc: Out of memory\n");
-		longjmp(jbuf, 1);
+		return -1;
 	    }
 	    bp->prev = sp->curblk;
 	    bp->next = NULL;
 	    bp->data = calloc(BIGBUF, sizeof(Agnode_t *));
 	    if (bp->data == 0) {
-		agerr(AGERR, "gc: Out of memory\n");
-		longjmp(jbuf, 1);
+		free(bp);
+		return -1;
 	    }
 	    bp->endp = bp->data + BIGBUF;
 	    sp->curblk->next = bp;
@@ -95,6 +92,8 @@ static void push(stk_t* sp, Agnode_t * np)
     }
     MARK(sp,np);
     *sp->curp++ = np;
+
+    return 0;
 }
 
 static Agnode_t *pop(stk_t* sp)
@@ -116,7 +115,9 @@ static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
     Agnode_t *other;
     size_t cnt = 0;
 
-    push (stk, n);
+    if (push (stk, n) != 0) {
+	return SIZE_MAX;
+    }
     while ((n = pop(stk))) {
 	cnt++;
 	if (stk->actionfn) stk->actionfn(n, state);
@@ -124,7 +125,9 @@ static size_t dfs(Agraph_t * g, Agnode_t * n, void *state, stk_t* stk)
 	    if ((other = agtail(e)) == n)
 		other = aghead(e);
             if (!MARKED(stk,other))
-                push(stk, other);
+                if (push(stk, other) != 0) {
+                    return SIZE_MAX;
+                }
         }
     }
     return cnt;
@@ -222,10 +225,6 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
 
-    if (setjmp(jbuf)) {
-	error = 1;
-	goto packerror;
-    }
     /* Component with pinned nodes */
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n) || !isPinned(n))
@@ -238,7 +237,10 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	    c_cnt++;
 	    pin = TRUE;
 	}
-	dfs (g, n, out, &stk);
+	if (dfs (g, n, out, &stk) == SIZE_MAX) {
+	    error = 1;
+	    goto packerror;
+	}
     }
 
     /* Remaining nodes */
@@ -248,7 +250,10 @@ Agraph_t **pccomps(Agraph_t * g, int *ncc, char *pfx, boolean * pinned)
 	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-	dfs(g, n, out, &stk);
+	if (dfs(g, n, out, &stk) == SIZE_MAX) {
+	    error = 1;
+	    goto packerror;
+	}
 	if (c_cnt == bnd) {
 	    bnd *= 2;
 	    ccs = RALLOC(bnd, ccs, Agraph_t *);
@@ -311,21 +316,20 @@ Agraph_t **ccomps(Agraph_t * g, int *ncc, char *pfx)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
 
-    if (setjmp(jbuf)) {
-	freeStk (&stk);
-	free (ccs);
-	if (name != buffer)
-	    free(name);
-	*ncc = 0;
-	return NULL;
-    }
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (MARKED(&stk,n))
 	    continue;
 	sprintf(name + len, "%zu", c_cnt);
 	out = agsubg(g, name,1);
 	agbindrec(out, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-	dfs(g, n, out, &stk);
+	if (dfs(g, n, out, &stk) == SIZE_MAX) {
+	    freeStk (&stk);
+	    free (ccs);
+	    if (name != buffer)
+	        free(name);
+	    *ncc = 0;
+	    return NULL;
+	}
 	if (c_cnt == bnd) {
 	    bnd *= 2;
 	    ccs = RALLOC(bnd, ccs, Agraph_t *);
@@ -650,6 +654,17 @@ Agraph_t **cccomps(Agraph_t * g, int *ncc, char *pfx)
 	agbindrec(out, GRECNAME, sizeof(ccgraphinfo_t), FALSE);
 	GD_cc_subg(out) = 1;
 	n_cnt = dfs(dg, dn, dout, &stk);
+	if (n_cnt == SIZE_MAX) {
+	    agclose(dg);
+	    agclean (g, AGRAPH, GRECNAME);
+	    agclean (g, AGNODE, NRECNAME);
+	    freeStk (&stk);
+	    free(ccs);
+	    if (name != buffer)
+	        free(name);
+	    *ncc = 0;
+	    return NULL;
+	}
 	unionNodes(dout, out);
 	e_cnt = (size_t) nodeInduce(out);
 	subGInduce(g, out);
@@ -697,16 +712,14 @@ int isConnected(Agraph_t * g)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	UNMARK(&stk,n);
 
-    if (setjmp(jbuf)) {
-	freeStk (&stk);
-	return -1;
-    }
-
     n = agfstnode(g);
     cnt = dfs(g, agfstnode(g), NULL, &stk);
+    freeStk (&stk);
+    if (cnt == SIZE_MAX) { /* dfs failed */
+	return -1;
+    }
     if (cnt != (size_t) agnnodes(g))
 	ret = 0;
-    freeStk (&stk);
     return ret;
 }
 
