@@ -136,7 +136,7 @@ static void init(int argc, char *argv[])
 
     Cmd = argv[0];
     opterr = 0;
-    while ((c = getopt(argc, argv, ":zo:xCX:nesv")) != -1) {
+    while ((c = getopt(argc, argv, ":zo:xCX:nesv?")) != -1) {
 	switch (c) {
 	case 'o':
 	    outfile = optarg;
@@ -205,7 +205,7 @@ static void init(int argc, char *argv[])
 		"ccomps: option -%c missing argument - ignored\n", optopt);
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
 	    else {
 		fprintf(stderr,
