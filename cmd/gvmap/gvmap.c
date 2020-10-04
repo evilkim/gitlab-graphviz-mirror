@@ -254,7 +254,7 @@ init(int argc, char **argv, params_t* pm)
   pm->bbox_margin[0] =  pm->bbox_margin[1] = 0;
 
   opterr = 0;
-  while ((c = getopt(argc, argv, ":evODQko:m:s:r:p:c:C:l:b:g:t:a:h:z:d:")) != -1) {
+  while ((c = getopt(argc, argv, ":evODQko:m:s:r:p:c:C:l:b:g:t:a:h:z:d:?")) != -1) {
     switch (c) {
     case 'm':
       if ((sscanf(optarg,"%lf",&s) > 0) && (s != 0)){
@@ -389,7 +389,7 @@ init(int argc, char **argv, params_t* pm)
       fprintf(stderr, "gvpack: option -%c missing argument - ignored\n", optopt);
       break;
     case '?':
-      if (optopt == '?')
+      if (optopt == '\0')
         usage(cmd, 0);
       else {
         fprintf(stderr, " option -%c unrecognized\n", optopt);
