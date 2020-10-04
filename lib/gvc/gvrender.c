@@ -625,13 +625,13 @@ void gvrender_beziercurve(GVJ_t * job, pointf * af, int n,
 		gvre->beziercurve(job, af, n, arrow_at_start, arrow_at_end,
 				  filled);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->beziercurve(job, AF, n, arrow_at_start, arrow_at_end,
 				  filled);
+		free(AF);
 	    }
 	}
     }
