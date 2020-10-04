@@ -203,16 +203,6 @@ centos8-build:
         - linux
     image: "graphviz/graphviz:centos8"
 
-          #fedora27-build:
-          #<<: *rpm_build_definition
-          #tags:
-          #- graphviz,fedora27
-
-          #fedora28-build:
-          #<<: *rpm_build_definition
-          #tags:
-          #- graphviz,fedora28
-
 fedora29-build:
     <<: *rpm_build_definition
     tags:
