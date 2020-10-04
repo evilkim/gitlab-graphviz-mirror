@@ -52,7 +52,7 @@
     <ClCompile>
       <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE" %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)gui;$(SolutionDir)windows\include;$(SolutionDir)windows\getopt;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir);$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvpr;$(SolutionDir)lib\xdot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)gui;$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir);$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvpr;$(SolutionDir)lib\xdot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;HAVE_TRIANGLE;HAVE_GTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -65,7 +65,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>getopt.lib;ast.lib;atk-1.0.lib;cairo.lib;cdt.lib;cgraph.lib;expr.lib;fontconfig.lib;freetype.lib;gdk_pixbuf-2.0.lib;gdkglext-win32-1.0.lib;gdk-win32-2.0.lib;glade-2.0.lib;gladeui-1.lib;glcomp.lib;glib-2.0.lib;glu32.lib;gmodule-2.0.lib;gobject-2.0.lib;gtkglext-win32-1.0.lib;gtk-win32-2.0.lib;gvprlib.lib;ingraphs.lib;jpeg.lib;neatogen.lib;opengl32.lib;pango-1.0.lib;pangocairo-1.0.lib;sfio.lib;topfish.lib;vmalloc.lib;xdot.lib;xml2.lib;zlib.lib;gvc.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)windows\getopt;$(SolutionDir)windows\dependencies\libraries\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\lib;$(SolutionDir)windows\dependencies\libraries\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <DataExecutionPrevention />
@@ -89,12 +89,14 @@ copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libgdk_pixbuf-2.0-0.dl
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libglade-2.0-0.dll $(OutDir)libglade-2.0-0.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libatk-1.0-0.dll $(OutDir)libatk-1.0-0.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libgtk-win32-2.0-0.dll $(OutDir)libgtk-win32-2.0-0.dll
-copy $(SolutionDir)windows\dependencies\libraries\x86\bin\freeglut.dll $(OutDir)freeglut.dll</Command>
+copy $(SolutionDir)windows\dependencies\libraries\x86\bin\freeglut.dll $(OutDir)freeglut.dll
+copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bin\getopt.dll $(OutDir)getopt.dll</Command>
+
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)gui;$(SolutionDir)windows\include;$(SolutionDir)windows\getopt;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir);$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvpr;$(SolutionDir)lib\xdot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)gui;$(SolutionDir)windows\include;$(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\include;$(SolutionDir)windows\dependencies\libraries\x86\include;$(SolutionDir)windows\dependencies\libraries\x86\include\cairo;$(SolutionDir);$(SolutionDir)lib;$(SolutionDir)lib\cdt;$(SolutionDir)lib\cgraph;$(SolutionDir)lib\common;$(SolutionDir)lib\gvpr;$(SolutionDir)lib\xdot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;HAVE_TRIANGLE;HAVE_GTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
@@ -103,7 +105,7 @@ copy $(SolutionDir)windows\dependencies\libraries\x86\bin\freeglut.dll $(OutDir)
     </ClCompile>
     <Link>
       <AdditionalDependencies>getopt.lib;ast.lib;atk-1.0.lib;cairo.lib;cdt.lib;cgraph.lib;expr.lib;fontconfig.lib;freetype.lib;gdk_pixbuf-2.0.lib;gdkglext-win32-1.0.lib;gdk-win32-2.0.lib;glade-2.0.lib;gladeui-1.lib;glcomp.lib;glib-2.0.lib;glu32.lib;gmodule-2.0.lib;gobject-2.0.lib;gtkglext-win32-1.0.lib;gtk-win32-2.0.lib;gvprlib.lib;ingraphs.lib;jpeg.lib;neatogen.lib;opengl32.lib;pango-1.0.lib;pangocairo-1.0.lib;sfio.lib;topfish.lib;vmalloc.lib;xdot.lib;xml2.lib;zlib.lib;gvc.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)windows\getopt;$(SolutionDir)windows\dependencies\libraries\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\lib;$(SolutionDir)windows\dependencies\libraries\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -129,7 +131,8 @@ copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libgdk_pixbuf-2.0-0.dl
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libglade-2.0-0.dll $(OutDir)libglade-2.0-0.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libatk-1.0-0.dll $(OutDir)libatk-1.0-0.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\libgtk-win32-2.0-0.dll $(OutDir)libgtk-win32-2.0-0.dll
-copy $(SolutionDir)windows\dependencies\libraries\x86\bin\freeglut.dll $(OutDir)freeglut.dll</Command>
+copy $(SolutionDir)windows\dependencies\libraries\x86\bin\freeglut.dll $(OutDir)freeglut.dll
+copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bin\getopt.dll $(OutDir)getopt.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
