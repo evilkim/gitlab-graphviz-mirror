@@ -4,7 +4,7 @@
 # - installation of manpage
 function(tool_defaults name)
     if(NOT HAVE_GETOPT_H)
-        target_link_libraries(${name} getopt)
+        target_link_libraries(${name} ${Getopt_LINK_LIBRARIES})
     endif(NOT HAVE_GETOPT_H)
 
     install(
@@ -29,7 +29,6 @@ function(add_simple_tool name)
         ${GRAPHVIZ_LIB_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
-        ${TOP_SOURCE_DIR}/windows/getopt
         ${GRAPHVIZ_LIB_DIR}/cdt
         ${GRAPHVIZ_LIB_DIR}/cgraph
         ${GRAPHVIZ_LIB_DIR}/common
@@ -37,6 +36,7 @@ function(add_simple_tool name)
         ${GRAPHVIZ_LIB_DIR}/pack
         ${GRAPHVIZ_LIB_DIR}/pathplan
         ${EXPAT_INCLUDE_DIRS}
+        ${Getopt_INCLUDE_DIRS}
     )
 
     target_link_libraries(${name}
@@ -70,7 +70,6 @@ target_include_directories(dijkstra PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -78,6 +77,7 @@ target_include_directories(dijkstra PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(dijkstra
@@ -106,7 +106,6 @@ target_include_directories(gml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -114,6 +113,7 @@ target_include_directories(gml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(gml2gv
@@ -135,7 +135,6 @@ target_include_directories(graphml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -143,6 +142,7 @@ target_include_directories(graphml2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(graphml2gv
@@ -170,7 +170,6 @@ target_include_directories(gvcolor PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -178,6 +177,7 @@ target_include_directories(gvcolor PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvcolor
@@ -198,7 +198,6 @@ target_include_directories(gvgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -206,6 +205,7 @@ target_include_directories(gvgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvgen cgraph)
@@ -231,7 +231,6 @@ target_include_directories(gvpack PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -239,6 +238,7 @@ target_include_directories(gvpack PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvpack
@@ -265,7 +265,6 @@ target_include_directories(gxl2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -273,6 +272,7 @@ target_include_directories(gxl2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(gxl2gv
@@ -298,7 +298,6 @@ target_include_directories(mm2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -306,6 +305,7 @@ target_include_directories(mm2gv PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(mm2gv
@@ -330,7 +330,6 @@ target_include_directories(sccmap PRIVATE
     ${GRAPHVIZ_LIB_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${TOP_SOURCE_DIR}/windows/getopt
     ${GRAPHVIZ_LIB_DIR}/cdt
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
@@ -338,6 +337,7 @@ target_include_directories(sccmap PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${EXPAT_INCLUDE_DIRS}
+    ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(sccmap
@@ -358,3 +358,10 @@ if (WIN32 AND EXPAT_FOUND)
         DESTINATION ${BINARY_INSTALL_DIR}
     )
 endif(WIN32 AND EXPAT_FOUND)
+
+if (WIN32)
+    install(
+        FILES ${Getopt_RUNTIME_LIBRARIES}
+        DESTINATION ${BINARY_INSTALL_DIR}
+    )
+endif()

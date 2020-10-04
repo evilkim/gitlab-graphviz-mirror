@@ -158,6 +158,9 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.h "#define BUILDDATE \"${GRAPHV
 message(STATUS "Graphviz version: ${GRAPHVIZ_VERSION_FULL}")
 
 include(config_checks)
+if (NOT HAVE_GETOPT_H)
+    find_package(Getopt REQUIRED)
+endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ==================== Custom target for `make uninstall` ======================
@@ -188,7 +191,6 @@ include(package_info)
 include(CPack)
 
 # ======================= Specify subdirectories to build ======================
-add_subdirectory(windows)
 add_subdirectory(lib)
 add_subdirectory(plugin)
 add_subdirectory(cmd)
