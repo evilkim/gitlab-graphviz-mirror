@@ -12,7 +12,9 @@ set(CPACK_RESOURCE_FILE_README          "${TOP_SOURCE_DIR}/README.md"   )
 set(CPACK_GENERATOR ZIP)
 
 if (UNIX)
-    LIST(APPEND CPACK_GENERATOR DEB)
+    if (NOT APPLE)
+        LIST(APPEND CPACK_GENERATOR DEB)
+    endif()
 endif()
 
 find_package(NSIS)

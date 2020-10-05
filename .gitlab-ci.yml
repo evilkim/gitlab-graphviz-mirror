@@ -64,6 +64,26 @@ portable-source:
     except:
         - tags
 
+.build_template: &macos_build_definition
+    stage: build
+    script:
+        - logfile=`mktemp`
+        - ci/build.sh 2>&1 | tee $logfile
+        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
+        - rm $logfile
+        - cat metrics.txt
+    artifacts:
+        when: on_success
+        expire_in: 1 week
+        paths:
+            - Packages/*/*/*/*/*/*.zip
+            - Packages/*/*/*/*/*/*.tar.gz
+            - Metadata/*/*/*/configure.log
+        reports:
+            metrics: metrics.txt
+    except:
+        - tags
+
 .build_template: &windows_build_definition
     stage: build
     needs: []
@@ -250,6 +270,18 @@ ubuntu20-04-build:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
+macos-autotools-build:
+    <<: *macos_build_definition
+    before_script:
+        - brew install autogen
+        - brew install bison
+        - export PATH="/usr/local/opt/bison/bin:$PATH"
+        - export build_system="autotools"
+        - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
+        - echo experimental > COLLECTION
+    tags:
+        - macos
+
 ubuntu18-04-cmake-build:
     <<: *deb_build_definition
     before_script:
@@ -258,6 +290,18 @@ ubuntu18-04-cmake-build:
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
+
+macos-cmake-build:
+    <<: *macos_build_definition
+    before_script:
+        - brew install cmake
+        - brew install bison
+        - export PATH="/usr/local/opt/bison/bin:$PATH"
+        - export build_system="cmake"
+        - python3 gen_version.py > VERSION
+        - echo experimental > COLLECTION
+    tags:
+        - macos
 
 windows-cmake-Win32-release-build:
     <<: *windows_build_definition
