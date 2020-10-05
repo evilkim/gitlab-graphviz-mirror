@@ -20,7 +20,7 @@ extern "C" {
 #ifndef KKUTILS_H_
 #define KKUTILS_H_
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
 #ifdef __cplusplus
 

@@ -7,13 +7,7 @@ pdfdir = $(pkgdatadir)/doc/pdf
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
-	-I$(top_srcdir)/lib/expr \
-	-I$(top_builddir)/lib/expr \
 	-I$(top_srcdir)/lib/gvpr \
-	-I$(top_srcdir)/lib/vmalloc \
-	-I$(top_srcdir)/lib/sfio \
-	-I$(top_srcdir)/lib/ast \
-	-I$(top_srcdir)/lib/ingraphs \
 	-I$(top_srcdir)/lib/cgraph \
 	-I$(top_srcdir)/lib/cdt
 

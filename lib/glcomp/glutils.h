@@ -19,7 +19,7 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "glcompdefs.h"
+#include <glcomp/glcompdefs.h>
 
 #ifdef __cplusplus
 extern "C" {

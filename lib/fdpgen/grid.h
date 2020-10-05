@@ -20,8 +20,8 @@ extern "C" {
 
 #include "config.h"
 
-#include <render.h>
-#include <cdt.h>
+#include <common/render.h>
+#include <cdt/cdt.h>
 
     typedef struct _grid Grid;
 

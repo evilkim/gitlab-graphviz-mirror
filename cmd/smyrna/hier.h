@@ -13,7 +13,7 @@
 #ifndef HIER_H
 #define HIER_H
 
-#include "hierarchy.h"
+#include <topfish/hierarchy.h>
 
 #ifdef __cplusplus
 extern "C" {

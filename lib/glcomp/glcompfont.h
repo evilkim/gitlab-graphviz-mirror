@@ -16,13 +16,13 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef _WIN32
-#include "glpangofont.h"
+#include <glcomp/glpangofont.h>
 typedef float GLfloat;
 #else
 #include <unistd.h>
 #include <GL/gl.h>
 #endif
-#include "glcompdefs.h"
+#include <glcomp/glcompdefs.h>
 #include <GL/glut.h>
 
 #ifdef __cplusplus

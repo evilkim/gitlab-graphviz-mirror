@@ -13,7 +13,7 @@
 #ifndef _HIERARCHY_H_
 #define _HIERARCHY_H_
 
-#include "sparsegraph.h"
+#include <neatogen/sparsegraph.h>
 
 typedef struct {
     int nedges;       // degree, including self-loop

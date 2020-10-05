@@ -20,7 +20,7 @@ extern "C" {
 #ifndef CLOSEST_H
 #define CLOSEST_H
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
     extern void closest_pairs2graph(double *, int, int, vtx_data **);
 

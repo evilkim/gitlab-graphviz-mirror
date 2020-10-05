@@ -11,7 +11,7 @@
 #ifndef INK_H
 #define INK_H
 
-#include <edge_bundling.h>
+#include <mingle/edge_bundling.h>
 
 typedef struct {
   double x, y;

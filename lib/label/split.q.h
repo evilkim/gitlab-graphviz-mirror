@@ -20,8 +20,8 @@ extern "C" {
 /*-----------------------------------------------------------------------------
 | Definitions and global variables.
 -----------------------------------------------------------------------------*/
-#include <rectangle.h>
-#include <index.h>
+#include <label/rectangle.h>
+#include <label/index.h>
 
 #ifndef METHODS
 #define METHODS 1

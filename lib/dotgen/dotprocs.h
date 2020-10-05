@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#include "aspect.h"
+#include <dotgen/aspect.h>
 
     extern void acyclic(Agraph_t *);
     extern void allocate_ranks(Agraph_t *);

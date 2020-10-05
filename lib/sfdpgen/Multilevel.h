@@ -14,7 +14,7 @@
 #ifndef MULTILEVEL_H
 #define MULTILEVEL_H
 
-#include "SparseMatrix.h"
+#include <sparse/SparseMatrix.h>
 
 typedef struct Multilevel_struct *Multilevel;
 

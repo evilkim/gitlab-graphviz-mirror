@@ -35,7 +35,7 @@
 
 #include	"render.h"
 #include	"pathplan.h"
-#include	"neatoprocs.h"
-#include	"adjust.h"
+#include	<neatogen/neatoprocs.h>
+#include	<neatogen/adjust.h>
 
 #endif				/* NEATO_H */

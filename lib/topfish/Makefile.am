@@ -3,7 +3,6 @@
 #
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
-	-I$(top_srcdir)/lib/neatogen \
 	-I$(top_srcdir)/lib/common
 
 if WITH_SMYRNA

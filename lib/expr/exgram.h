@@ -30,7 +30,7 @@ extern "C" {
 #define _EXPARSE_H
 #endif
 
-#include "exlib.h"
+#include <expr/exlib.h>
 #include <stddef.h>
 #include <string.h>
 

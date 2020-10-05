@@ -13,7 +13,7 @@
 #ifndef GLCOMPBUTTON_H
 #define GLCOMPBUTTON_H
 
-#include "glcompdefs.h"
+#include <glcomp/glcompdefs.h>
 
 #ifdef __cplusplus
 extern "C" {

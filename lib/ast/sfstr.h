@@ -22,7 +22,7 @@ extern "C" {
 #ifndef _SFSTR_H
 #define _SFSTR_H
 
-#include <sfio.h>
+#include <sfio/sfio.h>
 
 #define sfstropen()	sfnew((Sfio_t*)0,(char*)0,-1,-1,SF_WRITE|SF_STRING)
 #define sfstrclose(f)	sfclose(f)

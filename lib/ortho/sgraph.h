@@ -14,7 +14,7 @@
 #ifndef SEARCH_G_H
 #define SEARCH_G_H
 
-#include "structures.h"
+#include <ortho/structures.h>
 
 typedef struct snode snode;
 typedef struct sedge sedge;

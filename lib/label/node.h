@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-#include <index.h>
+#include <label/index.h>
 
 typedef struct Branch {
     Rect_t rect;

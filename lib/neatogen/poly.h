@@ -18,7 +18,7 @@ extern "C" {
 #ifndef POLY_H
 #define POLY_H
 
-#include "geometry.h"
+#include <neatogen/geometry.h>
 
     typedef struct {
 	Point origin;

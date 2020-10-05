@@ -18,7 +18,7 @@ extern "C" {
 #ifndef DIGCOLA_H
 #define DIGCOLA_H
 
-#include <defs.h>
+#include <neatogen/defs.h>
 #ifdef DIGCOLA
 extern int compute_y_coords(vtx_data*, int, double*, int);
 extern int compute_hierarchy(vtx_data*, int, double, double, 

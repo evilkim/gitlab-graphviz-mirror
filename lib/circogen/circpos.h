@@ -19,7 +19,7 @@ extern "C" {
 #define CIRCPOS_H
 
 #include <render.h>
-#include <circular.h>
+#include <circogen/circular.h>
 
     extern void circPos(Agraph_t * g, block_t * sn, circ_state *);
 

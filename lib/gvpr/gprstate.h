@@ -18,11 +18,11 @@ extern "C" {
 #ifndef GPRSTATE_H
 #define GPRSTATE_H
 
-#include "sfio.h"
+#include <sfio/sfio.h>
 #include "cgraph.h"
-#include "ast.h"
-#include "vmalloc.h"
-#include "expr.h"
+#include <ast/ast.h>
+#include <vmalloc/vmalloc.h>
+#include <expr/expr.h>
 #include "gvpr.h"
 
     typedef enum { TV_flat, TV_ne, TV_en, 

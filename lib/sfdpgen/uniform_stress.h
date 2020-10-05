@@ -14,7 +14,7 @@
 #ifndef UNIFORMSTRESS_H
 #define UNIFORMSTRESS_H
 
-#include <post_process.h> 
+#include <sfdpgen/post_process.h> 
 
 typedef StressMajorizationSmoother UniformStressSmoother;
 

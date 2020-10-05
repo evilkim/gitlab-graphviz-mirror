@@ -10,7 +10,7 @@
 #ifndef EDGE_BUNDLING_H
 #define EDGE_BUNDLING_H
 
-#include <SparseMatrix.h>
+#include <sparse/SparseMatrix.h>
 
 struct pedge_struct {
   real wgt; /* weight, telling how many original edges this edge represent. If this edge consists of multiple sections of different weights then this is a lower bound. This only applied for agglomerative bundling */

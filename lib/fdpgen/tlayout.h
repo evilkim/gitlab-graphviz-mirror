@@ -18,8 +18,8 @@ extern "C" {
 #ifndef TLAYOUT_H
 #define TLAYOUT_H
 
-#include "fdp.h"
-#include "xlayout.h"
+#include <fdpgen/fdp.h>
+#include <fdpgen/xlayout.h>
 
 typedef enum {
   seed_unset, seed_val, seed_time, seed_regular

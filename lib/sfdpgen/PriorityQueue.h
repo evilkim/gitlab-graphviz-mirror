@@ -1,6 +1,6 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
-#include "LinkedList.h"
+#include <sparse/LinkedList.h>
 struct PriorityQueue_struct {
   /* a simple priority queue structure: entries are all integers, gains are all integers in [0, gainmax], total n elements */
   int count;/* how many entries are in?*/

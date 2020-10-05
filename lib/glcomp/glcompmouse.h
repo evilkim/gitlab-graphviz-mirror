@@ -13,7 +13,7 @@
 #ifndef GLCOMPMOUSE_H
 #define GLCOMPMOUSE_H
 
-#include "glcompdefs.h"
+#include <glcomp/glcompdefs.h>
 
 #ifdef __cplusplus
 extern "C" {

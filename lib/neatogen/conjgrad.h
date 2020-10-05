@@ -20,7 +20,7 @@ extern "C" {
 #ifndef _CG_H_
 #define _CG_H_
 
-#include "defs.h"
+#include <neatogen/defs.h>
 
 /*************************
  * C.G. method - SPARSE  *

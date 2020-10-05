@@ -18,8 +18,8 @@ extern "C" {
 #ifndef CLUSTEREDGES_H
 #define CLUSTEREDGES_H
 
-#include <render.h>
-#include <adjust.h>
+#include <common/render.h>
+#include <neatogen/adjust.h>
 
     extern int compoundEdges(graph_t * g, expand_t* pm, int splines);
 

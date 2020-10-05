@@ -14,7 +14,7 @@
 #ifndef POST_PROCESS_H
 #define POST_PROCESS_H
 
-#include "spring_electrical.h"
+#include <sfdpgen/spring_electrical.h>
 
 enum {SM_SCHEME_NORMAL, SM_SCHEME_NORMAL_ELABEL, SM_SCHEME_UNIFORM_STRESS, SM_SCHEME_MAXENT, SM_SCHEME_STRESS_APPROX, SM_SCHEME_STRESS};
 

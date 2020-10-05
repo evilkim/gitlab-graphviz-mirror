@@ -16,7 +16,7 @@
 
 #include "types.h"
 #include "cgraph.h"
-#include "rawgraph.h"
+#include <ortho/rawgraph.h>
 
 typedef struct {
     double p1, p2;

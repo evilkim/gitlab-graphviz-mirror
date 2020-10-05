@@ -14,7 +14,7 @@
 #ifndef DELAUNAY_H
 #define DELAUNAY_H
 
-#include "sparsegraph.h"
+#include <neatogen/sparsegraph.h>
 
 typedef struct {
     int  nedges; /* no. of edges in triangulation */

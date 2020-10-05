@@ -24,7 +24,7 @@ extern "C" {
 */
 
 #include <stdlib.h>
-#include	"vmalloc.h"
+#include	<vmalloc/vmalloc.h>
 
 void *bestalloc(Vmalloc_t * vm, size_t size);
 int bestfree(Vmalloc_t * vm, void * data);

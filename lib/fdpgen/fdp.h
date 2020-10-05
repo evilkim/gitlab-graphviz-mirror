@@ -14,7 +14,7 @@
 #ifndef FDP_H
 #define FDP_H
 
-#include <render.h>
+#include <common/render.h>
 
 #ifdef FDP_PRIVATE
 

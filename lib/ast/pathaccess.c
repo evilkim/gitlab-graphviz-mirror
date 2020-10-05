@@ -26,7 +26,7 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
-#include <compat_unistd.h>
+#include <ast/compat_unistd.h>
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>

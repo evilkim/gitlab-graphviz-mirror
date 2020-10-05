@@ -20,7 +20,7 @@ extern "C" {
 #ifndef SITE_H
 #define SITE_H
 
-#include "geometry.h"
+#include <neatogen/geometry.h>
 
     /* Sites are also used as vertices on line segments */
     typedef struct Site {

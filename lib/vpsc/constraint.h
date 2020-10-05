@@ -23,7 +23,7 @@
 #define SEEN_REMOVEOVERLAP_CONSTRAINT_H
 
 #include <iostream>
-#include "variable.h"
+#include <vpsc/variable.h>
 
 class Constraint
 {
@@ -42,7 +42,7 @@ public:
 	bool equality;
 };
 #include <float.h>
-#include "block.h"
+#include <vpsc/block.h>
 static inline bool compareConstraints(Constraint *const &l, Constraint *const &r) {
 	double const sl = 
 		l->left->block->timeStamp > l->timeStamp

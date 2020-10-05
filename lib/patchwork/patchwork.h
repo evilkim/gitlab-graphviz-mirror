@@ -15,7 +15,7 @@
 #define PATCHWORK_H
 
 #include "render.h"
-#include "fdp.h"
+#include <fdpgen/fdp.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -14,7 +14,7 @@
 #ifndef OVERLAP_H
 #define OVERLAP_H
 
-#include "post_process.h"
+#include <sfdpgen/post_process.h>
 
 typedef  StressMajorizationSmoother OverlapSmoother;
 
