@@ -282,6 +282,15 @@ ubuntu18-04-cmake-build:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+centos7-cmake-build:
+    <<: *rpm_build_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    image: "graphviz/graphviz:centos7"
+
 fedora31-cmake-build:
     <<: *rpm_build_definition
     before_script:
