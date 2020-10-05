@@ -528,6 +528,22 @@ ubuntu18-04-cmake-test:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+centos7-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+        # Graphviz libs are installed in /usr/lib, but Centos 7 doesn't look there by default
+        - export LD_LIBRARY_PATH=/usr/lib
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "centos7-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:centos7"
+
 fedora31-cmake-test:
     <<: *test_definition
     before_script:
