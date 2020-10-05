@@ -366,20 +366,6 @@ ubuntu18-04-test:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
-ubuntu18-04-cmake-test:
-    <<: *test_definition
-    before_script:
-        - export build_system="cmake"
-        - echo experimental > COLLECTION
-    needs:
-        - job: portable-source
-          artifacts: true
-        - job: "ubuntu18-04-cmake-build"
-          artifacts: true
-    tags:
-        - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
-
 ubuntu19-10-test:
     <<: *test_definition
     before_script:
@@ -509,6 +495,20 @@ fedora33-test:
     tags:
         - linux
     image: "graphviz/graphviz:fedora33"
+
+ubuntu18-04-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu18-04-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-18.04"
 
 deployment:
     stage: deploy
