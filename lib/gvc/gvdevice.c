@@ -46,6 +46,7 @@ static unsigned int dfallocated;
 static uint64_t crc;
 #endif /* HAVE_LIBZ */
 
+#include <assert.h>
 #include <common/const.h>
 #include <common/memory.h>
 #include <gvc/gvplugin_device.h>
@@ -76,8 +77,10 @@ static size_t gvwrite_no_z (GVJ_t * job, const char *s, size_t len)
 	job->output_data[job->output_data_position] = '\0'; /* keep null termnated */
 	return len;
     }
-    else
-	return fwrite(s, sizeof(char), len, job->output_file);
+    else {
+        assert(job->output_file != NULL);
+        return fwrite(s, sizeof(char), len, job->output_file);
+    }
     return 0;
 }
 

@@ -131,12 +131,12 @@ int main(int argc, char **argv)
 	    }
 	    gvLayoutJobs(Gvc, G);  /* take layout engine from command line */
 	    gvRenderJobs(Gvc, G);
-            gvFinalize(Gvc);
 	    r = agreseterrors();
 	    rc = MAX(rc,r);
 	    prev = G;
 	}
     }
+    gvFinalize(Gvc);
     r = gvFreeContext(Gvc);
     return (MAX(rc,r));
 }
