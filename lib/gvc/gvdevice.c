@@ -562,7 +562,8 @@ void gvprintdouble(GVJ_t * job, double num)
     // Prevents values like -0
     if (num > -0.00000001 && num < 0.00000001)
     {
-        num = 0;
+        gvwrite(job, "0", 1);
+        return;
     }
 
     char buf[50];
