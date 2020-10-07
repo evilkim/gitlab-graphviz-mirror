@@ -273,8 +273,8 @@ ubuntu20-04-build:
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
-        - brew install autogen
-        - brew install bison
+        - brew install autogen || brew upgrade autogen
+        - brew install bison || brew upgrade bison
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="autotools"
         - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
@@ -294,8 +294,8 @@ ubuntu18-04-cmake-build:
 macos-cmake-build:
     <<: *macos_build_definition
     before_script:
-        - brew install cmake
-        - brew install bison
+        - brew install cmake || brew upgrade cmake
+        - brew install bison || brew upgrade bison
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="cmake"
         - python3 gen_version.py > VERSION
