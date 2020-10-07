@@ -273,6 +273,7 @@ ubuntu20-04-build:
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
+        - brew update
         - brew install autogen || brew upgrade autogen
         - brew install bison || brew upgrade bison
         - export PATH="/usr/local/opt/bison/bin:$PATH"
@@ -294,6 +295,7 @@ ubuntu18-04-cmake-build:
 macos-cmake-build:
     <<: *macos_build_definition
     before_script:
+        - brew update
         - brew install cmake || brew upgrade cmake
         - brew install bison || brew upgrade bison
         - export PATH="/usr/local/opt/bison/bin:$PATH"
