@@ -230,10 +230,6 @@ extern "C" {
 #define SF_BUFCONST	0400000	/* unused flag - for compatibility only */
 #endif
 
-/* for sfgetr/sfreserve to hold a record */
-#define SF_LOCKR	0000010	/* lock record, stop access to stream   */
-#define SF_LASTR	0000020	/* get the last incomplete record       */
-
 /* exception events: SF_NEW(0), SF_READ(1), SF_WRITE(2) and the below 	*/
 #define SF_SEEK		3	/* seek error                           */
 
@@ -300,9 +296,7 @@ extern "C" {
     extern Sfio_t *sfswap(Sfio_t *, Sfio_t *);
     extern int sfpurge(Sfio_t *);
     extern int sfpoll(Sfio_t **, int, int);
-    extern void *sfreserve(Sfio_t *, ssize_t, int);
     extern int sfsync(Sfio_t *);
-    extern int sfclrlock(Sfio_t *);
     extern void *sfsetbuf(Sfio_t *, void *, size_t);
     extern Sfdisc_t *sfdisc(Sfio_t *, Sfdisc_t *);
     extern int sfraise(Sfio_t *, int, void *);
@@ -316,7 +310,6 @@ extern "C" {
     extern Sfoff_t sftell(Sfio_t *);
     extern Sfoff_t sfseek(Sfio_t *, Sfoff_t, int);
     extern ssize_t sfputr(Sfio_t *, const char *, int);
-    extern char *sfgetr(Sfio_t *, int, int);
     extern ssize_t sfnputc(Sfio_t *, int, size_t);
     extern int sfungetc(Sfio_t *, int);
     extern int sfprintf(Sfio_t *, const char *, ...);
@@ -338,10 +331,6 @@ extern "C" {
 
     extern int sfputc(Sfio_t *, int);
 
-    extern Sfdouble_t sfgetd(Sfio_t *);
-    extern Sflong_t sfgetl(Sfio_t *);
-    extern Sfulong_t sfgetu(Sfio_t *);
-    extern Sfulong_t sfgetm(Sfio_t *, Sfulong_t);
     extern int sfgetc(Sfio_t *);
 
     extern int _sfflsbuf(Sfio_t *, int);
@@ -355,17 +344,6 @@ extern "C" {
 
 #undef extern
 
-/* coding long integers in a portable and compact fashion */
-#define SF_SBITS	6
-#define SF_UBITS	7
-#define SF_BBITS	8
-#define SF_SIGN		(1 << SF_SBITS)
-#define SF_MORE		(1 << SF_UBITS)
-#define SF_BYTE		(1 << SF_BBITS)
-#define SF_U1		SF_MORE
-#define SF_U2		(SF_U1*SF_U1)
-#define SF_U3		(SF_U2*SF_U1)
-#define SF_U4		(SF_U3*SF_U1)
 #if defined(__cplusplus)
 #define _SF_(f)		(f)
 #else

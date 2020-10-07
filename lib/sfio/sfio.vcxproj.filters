@@ -44,9 +44,6 @@
     <ClCompile Include="sfclose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfclrlock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfcvt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,21 +63,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfflsbuf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfgetd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfgetl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfgetm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfgetr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfgetu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfmode.c">
@@ -126,9 +108,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfread.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfreserve.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfresize.c">

@@ -146,13 +146,7 @@ extern "C" {
 /* on closing, don't be a hero about reread/rewrite on interrupts */
 #define SF_ENDING	00000400
 
-/* private flags that must be cleared in sfclrlock */
 #define SF_DCDOWN	00001000	/* recurse down the discipline stack    */
-#define SF_MVSIZE	00002000
-#define SFMVSET(f)	(((f)->size *= SF_NMAP), ((f)->bits |= SF_MVSIZE) )
-#define SFMVUNSET(f)	(!((f)->bits&SF_MVSIZE) ? 0 : \
-				(((f)->bits &= (unsigned short)~SF_MVSIZE), ((f)->size /= SF_NMAP)) )
-#define SFCLRBITS(f)	(SFMVUNSET(f), ((f)->bits &= (unsigned short)~(SF_DCDOWN|SF_MVSIZE)) )
 
 /* bits for the mode field, SF_INIT defined in sfio_t.h */
 #define SF_RC		00000010u	/* peeking for a record                 */
@@ -439,14 +433,6 @@ extern "C" {
 	Vtmutex_t *sf_mutex;
     } Sfextern_t;
 
-/* get the real value of a byte in a coded long or ulong */
-#define SFUVALUE(v)	(((ulong)(v))&(SF_MORE-1))
-#define SFSVALUE(v)	((( long)(v))&(SF_SIGN-1))
-#define SFBVALUE(v)	(((ulong)(v))&(SF_BYTE-1))
-
-/* amount of precision to get in each iteration during coding of doubles */
-#define SF_PRECIS	(SF_UBITS-1)
-
 /* grain size for buffer increment */
 #define SF_GRAIN	1024
 #define SF_PAGE		((ssize_t)(SF_GRAIN*sizeof(int)*2))
@@ -456,9 +442,6 @@ extern "C" {
 */
 #define SFDIRECT(f,n)	(((ssize_t)(n) >= (f)->size) || \
 			 ((n) >= SF_GRAIN && (ssize_t)(n) >= (f)->size/16 ) )
-
-/* number of pages to memory map at a time */
-#define SF_NMAP		8
 
 /* the bottomless bit bucket */
 #define DEVNULL		"/dev/null"
