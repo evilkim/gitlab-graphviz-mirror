@@ -136,10 +136,12 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	case '?':
 	    if (optopt == '\0')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"smyrna: option -%c unrecognized - ignored\n",
+			"smyrna: option -%c unrecognized\n",
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }

@@ -292,7 +292,7 @@ static void scanArgs(int argc, char **argv)
 
 	CmdName = argv[0];
 	opterr = 0;
-	while ((c = getopt(argc, argv, ":o:sdvS")) != EOF) {
+	while ((c = getopt(argc, argv, ":o:sdvS?")) != EOF) {
 		switch (c) {
 		case 's':
 			StatsOnly = 1;
@@ -311,11 +311,13 @@ static void scanArgs(int argc, char **argv)
 			Silent = 1;
 			break;
 		case '?':
-			if (optopt == '?')
+			if (optopt == '\0')
 				usage(0);
-			else
-				fprintf(stderr, "%s: option -%c unrecognized - ignored\n",
+			else {
+				fprintf(stderr, "%s: option -%c unrecognized\n",
 						CmdName, optopt);
+				usage(1);
+			}
 			break;
 		}
 	}

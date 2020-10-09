@@ -391,7 +391,7 @@ static void init(int argc, char **argv, parms_t * p)
 
     cmd = argv[0];
     opterr = 0;
-    while ((c = getopt(argc, argv, ":o:uvclU:")) != -1) {
+    while ((c = getopt(argc, argv, ":o:uvclU:?")) != -1) {
 	switch (c) {
 	case 'o':
 	    p->outf = openF(optarg, "w");
@@ -421,12 +421,14 @@ static void init(int argc, char **argv, parms_t * p)
 	    fprintf(stderr, "%s: option -%c missing argument - ignored\n", cmd, optopt);
 	    break;
  	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"%s: option -%c unrecognized - ignored\n", cmd,
+			"%s: option -%c unrecognized\n", cmd,
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }

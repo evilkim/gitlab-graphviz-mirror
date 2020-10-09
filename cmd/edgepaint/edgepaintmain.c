@@ -180,17 +180,13 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
       outfile = openFile(optarg, "w", CmdName);
       break;
     case '?':
-// FIXME: Remove the Windows specific condition when
-// https://gitlab.com/graphviz/graphviz/-/issues/1820 is resolved.
-#ifdef _WIN32
-      if (optopt == '?')
-#else
       if (optopt == '\0')
-#endif
 	usage(cmd, 0);
-      else
-	fprintf(stderr, "option -%c unrecognized - ignored\n",
+      else {
+	fprintf(stderr, "option -%c unrecognized\n",
 		optopt);
+	usage(cmd, 1);
+      }
       break;
     }
   }

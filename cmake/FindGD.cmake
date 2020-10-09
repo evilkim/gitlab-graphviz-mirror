@@ -1,6 +1,6 @@
 find_path(GD_INCLUDE_DIR gd.h)
 find_library(GD_LIBRARY NAMES gd libgd)
-find_file(GD_RUNTIME_LIBRARY libgd.dll)
+find_program(GD_RUNTIME_LIBRARY libgd.dll)
 
 include(FindPackageHandleStandardArgs)
 if (WIN32)

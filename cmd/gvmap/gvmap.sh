@@ -69,7 +69,8 @@ do
       (getopts -a gvmap "$OPTSTR" x '-?')
       exit 0
     else
-      print -u 2 "gvmap: unknown flag $OPTARG - ignored"
+      print -u 2 "gvmap: unknown flag $OPTARG"
+      getopts -a gvmap "$OPTSTR" x '-?'
     fi
     ;;
   esac

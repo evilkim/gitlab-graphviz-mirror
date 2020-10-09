@@ -471,7 +471,8 @@ static void processargs (int argc, char *argv[]) {
                 fclose(fp);
             fp = stdin;
         } else if (argv[0][0] == '-') {
-            fprintf (stderr, "option %s unrecognized - ignored\n", argv[0]);
+            fprintf (stderr, "option %s unrecognized\n", argv[0]);
+            usage(1);
         }
         else {
             if (fp != NULL && fp != stdin)

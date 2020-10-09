@@ -335,7 +335,7 @@ static void init(int argc, char *argv[])
     int c;
 
     opterr = 0;
-    while ((c = getopt(argc, argv, ":o:xstv")) != -1) {
+    while ((c = getopt(argc, argv, ":o:xstv?")) != -1) {
 	switch (c) {
 	case 'o':
 	    outfile = optarg;
@@ -358,11 +358,13 @@ static void init(int argc, char *argv[])
 	    fprintf(stderr, "bcomps: option -%c missing argument - ignored\n", optopt);
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"bcomps: option -%c unrecognized - ignored\n", optopt);
+			"bcomps: option -%c unrecognized\n", optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }

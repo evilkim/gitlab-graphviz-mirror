@@ -10,13 +10,13 @@ if (WIN32)
     find_library(PANGO_LIBRARY NAMES pango-1.0)
     find_library(PangoCairo_LIBRARY NAMES pangocairo-1.0)
 
-    find_file(GLIB_RUNTIME_LIBRARY NAMES glib-2.dll)
-    find_file(GOBJECT_RUNTIME_LIBRARY NAMES gobject-2.dll)
-    find_file(HARFBUZZ_RUNTIME_LIBRARY NAMES libharfbuzz-0.dll)
-    find_file(PANGO_RUNTIME_LIBRARY NAMES pango-1.dll)
-    find_file(PangoCairo_RUNTIME_LIBRARY NAMES pangocairo-1.dll)
-    find_file(PANGOFT_RUNTIME_LIBRARY NAMES pangoft2-1.dll)
-    find_file(PANGOWIN_RUNTIME_LIBRARY NAMES pangowin32-1.dll)
+    find_program(GLIB_RUNTIME_LIBRARY NAMES glib-2.dll)
+    find_program(GOBJECT_RUNTIME_LIBRARY NAMES gobject-2.dll)
+    find_program(HARFBUZZ_RUNTIME_LIBRARY NAMES libharfbuzz-0.dll)
+    find_program(PANGO_RUNTIME_LIBRARY NAMES pango-1.dll)
+    find_program(PangoCairo_RUNTIME_LIBRARY NAMES pangocairo-1.dll)
+    find_program(PANGOFT_RUNTIME_LIBRARY NAMES pangoft2-1.dll)
+    find_program(PANGOWIN_RUNTIME_LIBRARY NAMES pangowin32-1.dll)
 
     find_package_handle_standard_args(PangoCairo DEFAULT_MSG
         GLIB_INCLUDE_DIR

@@ -195,7 +195,7 @@ static void init(int argc, char *argv[], pack_info* pinfo)
     pinfo->sz = 0;
 
     opterr = 0;
-    while ((c = getopt(argc, argv, ":na:gvum:s:o:G:")) != -1) {
+    while ((c = getopt(argc, argv, ":na:gvum:s:o:G:?")) != -1) {
 	switch (c) {
 	case 'a':
 	    len = strlen(optarg) + 2;
@@ -243,11 +243,13 @@ static void init(int argc, char *argv[], pack_info* pinfo)
 	    fprintf(stderr, "gvpack: option -%c missing argument - ignored\n", optopt);
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
-	    else
+	    else {
 		fprintf(stderr,
-			"gvpack: option -%c unrecognized - ignored\n", optopt);
+			"gvpack: option -%c unrecognized\n", optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }

@@ -42,17 +42,19 @@ static void init(int argc, char *argv[])
     int c;
 
     opterr = 0;
-    while ((c = getopt(argc, argv, "p")) != -1) {
+    while ((c = getopt(argc, argv, "p?")) != -1) {
 	switch (c) {
 	case 'p':
 	    chkOnly = 1;
 	    break;
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
-	    else
-		fprintf(stderr, "nop: option -%c unrecognized - ignored\n",
+	    else {
+		fprintf(stderr, "nop: option -%c unrecognized\n",
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }

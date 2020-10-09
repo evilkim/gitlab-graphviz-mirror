@@ -59,10 +59,13 @@ set(TOP_SOURCE_DIR          "${CMAKE_CURRENT_SOURCE_DIR}")
 set(TOP_BINARY_DIR          "${CMAKE_CURRENT_BINARY_DIR}")
 set(GRAPHVIZ_LIB_DIR        "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 set(WINDOWS_DEPENDENCY_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/windows/dependencies/libraries")
+set(WINDOWS_DEPENDENCY_VCPKG_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/windows/dependencies/libraries/vcpkg/installed")
 if (CMAKE_CL_64)
     set(WINDOWS_DEPENDENCY_DIR "${WINDOWS_DEPENDENCY_DIR}/x64")
+    set(WINDOWS_DEPENDENCY_VCPKG_DIR "${WINDOWS_DEPENDENCY_VCPKG_DIR}/x64-windows")
 else()
     set(WINDOWS_DEPENDENCY_DIR "${WINDOWS_DEPENDENCY_DIR}/x86")
+    set(WINDOWS_DEPENDENCY_VCPKG_DIR "${WINDOWS_DEPENDENCY_VCPKG_DIR}/x86-windows")
 endif()
 
 set(GRAPHVIZ_PLUGIN_VERSION 6)
@@ -71,8 +74,8 @@ set(GVPLUGIN_CONFIG_FILE config${GRAPHVIZ_PLUGIN_VERSION})
 
 # ============================ Library dependencies ============================
 if (WIN32)
-    list(APPEND CMAKE_LIBRARY_PATH ${WINDOWS_DEPENDENCY_DIR}/lib)
-    list(APPEND CMAKE_INCLUDE_PATH ${WINDOWS_DEPENDENCY_DIR}/include ${WINDOWS_DEPENDENCY_DIR}/bin)
+    list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_VCPKG_DIR})
 else()
     list(APPEND CMAKE_INCLUDE_PATH /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu)
 endif()
@@ -94,9 +97,9 @@ if (WIN32)
     find_package(RxSpencer REQUIRED)
 
     # Find DLLs on Windows
-    find_file(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
+    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
     if (CMAKE_CL_64)
-        find_file(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
+        find_program(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
     endif()
 endif()
 
@@ -154,12 +157,10 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.h "#define BUILDDATE \"${GRAPHV
 
 message(STATUS "Graphviz version: ${GRAPHVIZ_VERSION_FULL}")
 
-# =================== Generate config.h with proper defines ====================
-# This check for getopt is used later in the build, so it is done here.
-include(CheckIncludeFile)
-check_include_file(getopt.h HAVE_GETOPT_H)
-
 include(config_checks)
+if (NOT HAVE_GETOPT_H)
+    find_package(Getopt REQUIRED)
+endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ==================== Custom target for `make uninstall` ======================
@@ -190,7 +191,6 @@ include(package_info)
 include(CPack)
 
 # ======================= Specify subdirectories to build ======================
-add_subdirectory(windows)
 add_subdirectory(lib)
 add_subdirectory(plugin)
 add_subdirectory(cmd)

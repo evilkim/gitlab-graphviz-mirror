@@ -1,6 +1,6 @@
 find_path(ANN_INCLUDE_DIR ANN/ANN.h)
 find_library(ANN_LIBRARY NAMES ANN ann libann)
-find_file(ANN_RUNTIME_LIBRARY ANN.dll)
+find_program(ANN_RUNTIME_LIBRARY ANN.dll)
 
 include(FindPackageHandleStandardArgs)
 if (WIN32)

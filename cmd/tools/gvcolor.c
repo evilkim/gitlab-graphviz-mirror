@@ -88,14 +88,16 @@ static void init(int argc, char *argv[])
     int c;
 
     opterr = 0;
-    while ((c = getopt(argc, argv, ":")) != -1) {
+    while ((c = getopt(argc, argv, ":?")) != -1) {
 	switch (c) {
 	case '?':
-	    if (optopt == '?')
+	    if (optopt == '\0')
 		usage(0);
-	    else
-		fprintf(stderr, "gvcolor: option -%c unrecognized - ignored\n",
+	    else {
+		fprintf(stderr, "gvcolor: option -%c unrecognized\n",
 			optopt);
+		usage(1);
+	    }
 	    break;
 	}
     }
