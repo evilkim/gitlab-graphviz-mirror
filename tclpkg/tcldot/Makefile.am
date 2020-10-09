@@ -28,10 +28,14 @@ LIBS = -lc
 AM_CFLAGS = $(TCL_CFLAGS)
 
 man = tcldot.3tcl
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 pdf = tcldot.3tcl.pdf
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 html = tcldot.html
 
@@ -40,7 +44,9 @@ noinst_HEADERS = tcldot.h
 pkgtcl_LTLIBRARIES = libtcldot.la libtcldot_builtin.la
 
 man_MANS = $(man)
+if ENABLE_MAN_PDFS
 pdf_DATA = tcldot.3tcl.pdf
+endif
 html_DATA = $(html)
 endif
 
@@ -116,12 +122,14 @@ pkgIndex.tcl: libtcldot.la
 	sh $(top_srcdir)/tclpkg/mkpkgindex.sh libtcldot.la Tcldot $(VERSION)
 endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 tcldot.3tcl.pdf: tcldot.3tcl.ps
 	@PS2PDF@ $<
 
 tcldot.3tcl.ps: $(srcdir)/tcldot.3tcl
 	@GROFF@ -Tps -man $< >$@
+endif
 endif
 
 EXTRA_DIST = $(man) $(pdf) $(html) README README.Tkspline

@@ -11,7 +11,7 @@ portable-source:
     image: "graphviz/graphviz:ubuntu-18.04"
     script:
         - ./autogen.sh
-        - ./configure
+        - ./configure --enable-man-pdfs
         - make dist
     artifacts:
         when: on_success

@@ -14,12 +14,16 @@ bin_PROGRAMS = mingle
 endif
 
 man_MANS = mingle.1
+if ENABLE_MAN_PDFS
 pdf_DATA = mingle.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 mingle_SOURCES = minglemain.c
@@ -40,6 +44,7 @@ mingle_LDADD = \
 # linking, so the C++ standard library is included for our C++ dependencies
 nodist_EXTRA_mingle_SOURCES = fake.cxx
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 mingle.1.pdf: mingle.1.ps
 	@PS2PDF@ $<
@@ -47,7 +52,8 @@ mingle.1.pdf: mingle.1.ps
 mingle.1.ps: $(srcdir)/mingle.1
 	@GROFF@ -e -Tps -man -t $< >$@
 endif
+endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) mingle.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) mingle.1.ps
+DISTCLEANFILES = $(pdf) mingle.1.ps

@@ -15,12 +15,16 @@ lefty_DATA = dotty.lefty dotty_draw.lefty dotty_edit.lefty \
 endif
 
 man_MANS = dotty.1
+if ENABLE_MAN_PDFS
 pdf_DATA = dotty.1.pdf
 
 if HAVE_PS2PDF
 pdf = $(pdf_DATA)
 else
 pdf = ERROR_NO_PS2PDF
+endif
+else
+pdf =
 endif
 
 if WITH_WIN32
@@ -32,6 +36,7 @@ dotty: $(top_srcdir)/cmd/dotty/dotty.sh
 	chmod +x dotty
 endif
 
+if ENABLE_MAN_PDFS
 if HAVE_PS2PDF
 dotty.1.pdf: dotty.1.ps
 	@PS2PDF@ $<
@@ -39,9 +44,10 @@ dotty.1.pdf: dotty.1.ps
 dotty.1.ps: $(srcdir)/dotty.1
 	@GROFF@ -Tps -man $< >$@
 endif
+endif
 
 EXTRA_DIST = $(lefty_DATA) $(man_MANS) $(pdf) \
 	dotty.bsh dotty.ksh dotty.sh \
 	notes mswin32 dotty.vcxproj*
 
-DISTCLEANFILES = $(pdf_DATA) dotty dotty.1.ps
+DISTCLEANFILES = $(pdf) dotty dotty.1.ps
