@@ -369,3 +369,16 @@ def test_1818():
       universal_newlines=True)
 
     assert 'Usage' in output, 'lefty -? did not show usage'
+
+def test_1845():
+    '''
+    rendering sequential graphs to PS should not segfault
+    https://gitlab.com/graphviz/graphviz/-/issues/1845
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1845.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # generate a multipage PS file from this input
+    subprocess.check_call(['dot', '-Tps', '-o', os.devnull, input])
