@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <assert.h>
 #include <string.h>
 #include <common/memory.h>
 #include <common/const.h>
@@ -31,15 +32,11 @@
 #include <common/geomprocs.h>
 #include <gvc/gvcproc.h>
 #include <cgraph/strcasecmp.h>
+#include <stdlib.h>
 
 extern int emit_once(char *str);
 extern shape_desc *find_user_shape(char *name);
 extern boolean mapbool(char *s);
-
-/* storage for temporary hacks until client API is FP */
-static pointf *AF;
-static int sizeAF;
-/* end hack */
 
 int gvrender_select(GVJ_t * job, const char *str)
 {
@@ -583,12 +580,12 @@ void gvrender_polygon(GVJ_t * job, pointf * af, int n, int filled)
 	    if (job->flags & GVRENDER_DOES_TRANSFORM)
 		gvre->polygon(job, af, n, filled);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->polygon(job, AF, n, filled);
+		free(AF);
 	    }
 	    if (noPoly)
 		job->obj->pencolor = save_pencolor;
@@ -623,13 +620,13 @@ void gvrender_beziercurve(GVJ_t * job, pointf * af, int n,
 		gvre->beziercurve(job, af, n, arrow_at_start, arrow_at_end,
 				  filled);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->beziercurve(job, AF, n, arrow_at_start, arrow_at_end,
 				  filled);
+		free(AF);
 	    }
 	}
     }
@@ -644,12 +641,12 @@ void gvrender_polyline(GVJ_t * job, pointf * af, int n)
 	    if (job->flags & GVRENDER_DOES_TRANSFORM)
 		gvre->polyline(job, af, n);
 	    else {
-		if (sizeAF < n) {
-		    sizeAF = n + 10;
-		    AF = grealloc(AF, sizeAF * sizeof(pointf));
-		}
+		pointf *AF;
+		assert(n >= 0);
+		AF = gcalloc((size_t)n, sizeof(pointf));
 		gvrender_ptf_A(job, af, AF, n);
 		gvre->polyline(job, AF, n);
+		free(AF);
 	    }
 	}
     }
