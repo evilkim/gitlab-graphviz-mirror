@@ -99,7 +99,6 @@
     <ClCompile Include="sfnputc.c" />
     <ClCompile Include="sfopen.c" />
     <ClCompile Include="sfpkrd.c" />
-    <ClCompile Include="sfpool.c" />
     <ClCompile Include="sfprintf.c" />
     <ClCompile Include="sfprints.c" />
     <ClCompile Include="sfpurge.c" />

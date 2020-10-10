@@ -80,9 +80,6 @@
     <ClCompile Include="sfpkrd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfpool.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfprintf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
