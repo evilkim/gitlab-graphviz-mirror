@@ -245,7 +245,6 @@ extern "C" {
 #define SF_DPOLL	7	/* see if stream is ready for I/O       */
 #define SF_DBUFFER	8	/* buffer not empty during push or pop  */
 #define SF_SYNC		9	/* announcing start/end synchronization */
-#define SF_PURGE	10	/* a sfpurge() call was issued          */
 #define SF_FINAL	11	/* closing is done except stream free   */
 #define SF_READY	12	/* a polled stream is ready             */
 #define SF_LOCKED	13	/* stream is in a locked state          */
@@ -294,7 +293,6 @@ extern "C" {
     extern Sfio_t *sfopen(Sfio_t *, const char *, const char *);
     extern Sfio_t *sfstack(Sfio_t *, Sfio_t *);
     extern Sfio_t *sfswap(Sfio_t *, Sfio_t *);
-    extern int sfpurge(Sfio_t *);
     extern int sfsync(Sfio_t *);
     extern void *sfsetbuf(Sfio_t *, void *, size_t);
     extern Sfdisc_t *sfdisc(Sfio_t *, Sfdisc_t *);
