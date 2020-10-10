@@ -1473,7 +1473,6 @@ char* htmlEntityUTF8 (char* s, graph_t* g)
     static boolean warned;
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned char c;
     unsigned int v;
 
@@ -1485,7 +1484,7 @@ char* htmlEntityUTF8 (char* s, graph_t* g)
 	warned = 0;
     }
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     while ((c = *(unsigned char*)s++)) {
         if (c < 0xC0)
@@ -1559,10 +1558,9 @@ char* latin1ToUTF8 (char* s)
 {
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned int  v;
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     /* Values are either a byte (<= 256) or come from htmlEntity, whose
      * values are all less than 0x07FF, so we need at most 3 bytes.
@@ -1599,11 +1597,10 @@ utf8ToLatin1 (char* s)
 {
     char*  ns;
     agxbuf xb;
-    unsigned char buf[BUFSIZ];
     unsigned char c;
     unsigned char outc;
 
-    agxbinit(&xb, BUFSIZ, buf);
+    agxbinit(&xb, 0, NULL);
 
     while ((c = *(unsigned char*)s++)) {
 	if (c < 0x7F)
