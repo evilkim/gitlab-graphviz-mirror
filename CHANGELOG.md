@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Graphviz doesn't build on MacOS with the latest libc++ #1785
 - make fails if ps2pdf is not installed (using autotools) #1763
 - multiple graphs to file output causes a segfault #1845
+- lefty PTY functionality relies on file descriptor implementation details #1823
 
 ## [2.44.1] - 2020-06-29
 

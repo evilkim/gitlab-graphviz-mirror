@@ -359,8 +359,8 @@ static void ptyopen (char *cmd, FILE **ifp, FILE **ofp, int *pidp) {
     case -1:
         panic2 (POS, "ptyopen", "cannot fork");
     case 0:
-        close (fd[0]), close (0), dup (fd[1]);
-        close (1), dup (fd[1]), close (fd[1]);
+        close (fd[0]), dup2 (fd[1], 0);
+        dup2 (fd[1], 1), close (fd[1]);
         execl (shell, shbname, "-c", cmd, NULL);
         panic2 (POS, "ptyopen", "child cannot exec: %s\n", cmd);
     default:
@@ -426,8 +426,8 @@ static void pipeopen (char *cmd, FILE **ifp, FILE **ofp, int *pidp) {
                 execl (shell, shbname, "-c", cmd2, NULL);
                 panic2 (POS, "pipeopen", "child cannot exec: %s\n", cmd2);
             }
-        close (1), dup (p1[1]), close (p1[1]);
-        close (0), dup (p2[0]), close (p2[0]);
+        dup2 (p1[1], 1), close (p1[1]);
+        dup2 (p2[0], 0), close (p2[0]);
         execl (shell, shbname, "-c", cmd, NULL);
         panic2 (POS, "pipeopen", "child cannot exec: %s\n", cmd);
     default:
