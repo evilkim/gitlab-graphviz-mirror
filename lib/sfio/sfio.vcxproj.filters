@@ -110,9 +110,6 @@
     <ClCompile Include="sfsetfd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfsize.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfsk.c">
       <Filter>Source Files</Filter>
     </ClCompile>

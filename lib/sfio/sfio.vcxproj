@@ -109,7 +109,6 @@
     <ClCompile Include="sfseek.c" />
     <ClCompile Include="sfsetbuf.c" />
     <ClCompile Include="sfsetfd.c" />
-    <ClCompile Include="sfsize.c" />
     <ClCompile Include="sfsk.c" />
     <ClCompile Include="sfstack.c" />
     <ClCompile Include="sfstrtod.c" />
