@@ -83,9 +83,6 @@
     <ClCompile Include="sfprintf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfprints.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfpurge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
