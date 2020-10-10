@@ -300,7 +300,6 @@ extern "C" {
     extern void *sfsetbuf(Sfio_t *, void *, size_t);
     extern Sfdisc_t *sfdisc(Sfio_t *, Sfdisc_t *);
     extern int sfraise(Sfio_t *, int, void *);
-    extern int sfnotify(void (*)(Sfio_t *, int, int));
     extern int sfset(Sfio_t *, int, int);
     extern int sfsetfd(Sfio_t *, int);
     extern Sfio_t *sfpool(Sfio_t *, Sfio_t *, int);

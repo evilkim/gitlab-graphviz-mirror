@@ -71,9 +71,6 @@
     <ClCompile Include="sfnew.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfnotify.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfnputc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
