@@ -82,53 +82,6 @@ cleanup1(graph_t * g)
     GD_comp(g).size = 0;
 }
 
-/*static void
-cleanup1(graph_t * g)
-{
-    node_t *n;
-    edge_t *e, *f;
-    int c;
-
-    for (c = 0; c < GD_comp(g).size; c++) {
-        GD_nlist(g) = GD_comp(g).list[c];
-        for (n = GD_nlist(g); n; n = ND_next(n)) {
-            renewlist(&ND_in(n));
-            renewlist(&ND_out(n));
-            ND_mark(n) = FALSE;
-        }
-    }
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-        for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
-            f = ED_to_virt(e);
-            * Null out any other references to f to make sure we don't
-             * handle it a second time. For example, parallel multiedges
-             * share a virtual edge.
-             *
-            if (f && (e == ED_to_orig(f))) {
-                edge_t *e1, *f1;
-                node_t *n1;
-                for (n1 = agfstnode(g); n1; n1 = agnxtnode(g, n1)) {
-                    for (e1 = agfstout(g, n1); e1; e1 = agnxtout(g, e1)) {
-                        if (e != e1) {
-                            f1 = ED_to_virt(e1);
-                            if (f1 && (f == f1)) {
-                                ED_to_virt(e1) = NULL;
-                            }
-                        }
-                    }
-                }
-                free(f->base.data);
-                free(f);
-            }
-            ED_to_virt(e) = NULL;
-        }
-    }
-    free(GD_comp(g).list);
-    GD_comp(g).list = NULL;
-    GD_comp(g).size = 0;
-}
-*/
-
 /* When there are edge labels, extra ranks are reserved here for the virtual
  * nodes of the labels.  This is done by doubling the input edge lengths.
  * The input rank separation is adjusted to compensate.
