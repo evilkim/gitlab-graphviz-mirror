@@ -134,12 +134,7 @@ static int _greater_than_equal_to (pointf *v0, pointf *v1)
 
 static int _less_than (pointf *v0, pointf *v1)
 {
-  if (v0->y < v1->y - C_EPS)
-    return TRUE;
-  else if (v0->y > v1->y + C_EPS)
-    return FALSE;
-  else
-    return (v0->x < v1->x);
+  return !_greater_than_equal_to(v0, v1);
 }
 
 /* Initilialise the query structure (Q) and the trapezoid table (T)
