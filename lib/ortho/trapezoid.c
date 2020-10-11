@@ -24,6 +24,7 @@
 #include <common/geom.h>
 #include <common/logic.h>
 #include <common/memory.h>
+#include <common/types.h>
 #include <ortho/trap.h>
 
 /* Node types */
@@ -353,13 +354,14 @@ static void
 merge_trapezoids (int segnum, int tfirst, int tlast, int side, trap_t* tr,
     qnode_t* qs)
 {
-  int t, tnext, cond;
-  int ptnext;
+  int t;
 
   /* First merge polys on the LHS */
   t = tfirst;
   while (t > 0 && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
     {
+      int tnext, ptnext;
+      boolean cond;
       if (side == S_LEFT)
 	cond = ((tnext = tr[t].d0) > 0 && tr[tnext].rseg == segnum) ||
 		((tnext = tr[t].d1) > 0 && tr[tnext].rseg == segnum);
