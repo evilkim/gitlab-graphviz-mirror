@@ -17,6 +17,7 @@
 #include <ortho/trap.h>
 #include <common/memory.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #ifndef DEBUG
@@ -725,26 +726,32 @@ partition (cell* cells, int ncells, int* nrects, boxf bb)
     boxf* vert_decomp = N_NEW(ntraps, boxf);
     int nt;
 
-    /* fprintf (stderr, "cells = %d segs = %d traps = %d\n", ncells, nsegs, ntraps);  */
+    if (DEBUG) {
+	fprintf (stderr, "cells = %d segs = %d traps = %d\n", ncells, nsegs, ntraps);
+    }
     genSegments (cells, ncells, bb, segs, 0);
-#if 0
-fprintf (stderr, "%d\n\n", ncells+1);
-for (i = 1; i<= nsegs; i++) {
-  if (i%4 == 1) fprintf(stderr, "4\n");
-  fprintf (stderr, "%f %f\n", segs[i].v0.x, segs[i].v0.y);
-  if (i%4 == 0) fprintf(stderr, "\n");
-}
-#endif
+    if (DEBUG) {
+	fprintf (stderr, "%d\n\n", ncells+1);
+	for (i = 1; i<= nsegs; i++) {
+	    if (i%4 == 1) fprintf(stderr, "4\n");
+	    fprintf (stderr, "%f %f\n", segs[i].v0.x, segs[i].v0.y);
+	    if (i%4 == 0) fprintf(stderr, "\n");
+	}
+    }
     srand48(173);
     generateRandomOrdering (nsegs, permute);
     nt = construct_trapezoids(nsegs, segs, permute, ntraps, trs);
-    /* fprintf (stderr, "hor traps = %d\n", nt); */
+    if (DEBUG) {
+	fprintf (stderr, "hor traps = %d\n", nt);
+    }
     hd_size = monotonate_trapezoids (nsegs, segs, trs, 0, hor_decomp);
 
     genSegments (cells, ncells, bb, segs, 1);
     generateRandomOrdering (nsegs, permute);
     nt = construct_trapezoids(nsegs, segs, permute, ntraps, trs);
-    /* fprintf (stderr, "ver traps = %d\n", nt); */
+    if (DEBUG) {
+	fprintf (stderr, "ver traps = %d\n", nt);
+    }
     vd_size = monotonate_trapezoids (nsegs, segs, trs, 1, vert_decomp);
 
     rs = N_NEW (hd_size*vd_size, boxf);
