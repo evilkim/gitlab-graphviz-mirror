@@ -322,7 +322,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
   trap_t *t = &tr[trnum];
   int mnew;
   int v0, v1;
-  int retval;
   int do_switch = FALSE;
 
   if ((trnum <= 0) || visited[trnum])
@@ -379,7 +378,7 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	}
       else
 	{
-	  retval = SP_NOSPLIT;	/* Just traverse all neighbours */
+	  /* Just traverse all neighbours */
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u0, trnum, flip, TR_FROM_DN);
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->d0, trnum, flip, TR_FROM_UP);
@@ -409,7 +408,7 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	}
       else
 	{
-	  retval = SP_NOSPLIT;	/* Just traverse all neighbours */
+	  /* Just traverse all neighbours */
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u0, trnum, flip, TR_FROM_DN);
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
 	  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->d0, trnum, flip, TR_FROM_UP);
@@ -423,7 +422,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	{
 	  v0 = tr[t->d1].lseg;
 	  v1 = tr[t->u0].rseg;
-	  retval = SP_2UP_2DN;
 	  if (((dir == TR_FROM_DN) && (t->d1 == from)) ||
 	      ((dir == TR_FROM_UP) && (t->u1 == from)))
 	    {
@@ -450,7 +448,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	      v0 = tr[t->u0].rseg;
 	      v1 = seg[t->lseg].next;
 
-	      retval = SP_2UP_LEFT;
 	      if ((dir == TR_FROM_UP) && (t->u0 == from))
 		{
 		  do_switch = TRUE;
@@ -473,7 +470,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    {
 	      v0 = t->rseg;
 	      v1 = tr[t->u0].rseg;	
-	      retval = SP_2UP_RIGHT;
 	      if ((dir == TR_FROM_UP) && (t->u1 == from))
 		{
 		  do_switch = TRUE;
@@ -502,7 +498,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    {
 	      v0 = tr[t->d1].lseg;
 	      v1 = t->lseg;
-	      retval = SP_2DN_LEFT;
 	      if (!((dir == TR_FROM_DN) && (t->d0 == from)))
 		{
 		  do_switch = TRUE;
@@ -526,7 +521,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	      v0 = tr[t->d1].lseg;
 	      v1 = seg[t->rseg].next;
 
-	      retval = SP_2DN_RIGHT;	    
 	      if ((dir == TR_FROM_DN) && (t->d1 == from))
 		{
 		  do_switch = TRUE;
@@ -553,7 +547,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    {
 	      v0 = t->rseg;
 	      v1 = t->lseg;
-	      retval = SP_SIMPLE_LRDN;
 	      if (dir == TR_FROM_UP)
 		{
 		  do_switch = TRUE;
@@ -578,7 +571,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	      v0 = seg[t->rseg].next;
 	      v1 = seg[t->lseg].next;
 
-	      retval = SP_SIMPLE_LRUP;
 	      if (dir == TR_FROM_UP)
 		{
 		  do_switch = TRUE;
@@ -599,7 +591,6 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    }
 	  else			/* no split possible */
 	    {
-	      retval = SP_NOSPLIT;
 	      size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u0, trnum, flip, TR_FROM_DN);
 	      size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->d0, trnum, flip, TR_FROM_UP);
 	      size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
