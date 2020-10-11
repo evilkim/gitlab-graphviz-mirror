@@ -358,19 +358,19 @@ merge_trapezoids (int segnum, int tfirst, int tlast, int side, trap_t* tr,
 
   /* First merge polys on the LHS */
   t = tfirst;
-  while ((t > 0) && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
+  while (t > 0 && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
     {
       if (side == S_LEFT)
-	cond = ((((tnext = tr[t].d0) > 0) && (tr[tnext].rseg == segnum)) ||
-		(((tnext = tr[t].d1) > 0) && (tr[tnext].rseg == segnum)));
+	cond = ((tnext = tr[t].d0) > 0 && tr[tnext].rseg == segnum) ||
+		((tnext = tr[t].d1) > 0 && tr[tnext].rseg == segnum);
       else
-	cond = ((((tnext = tr[t].d0) > 0) && (tr[tnext].lseg == segnum)) ||
-		(((tnext = tr[t].d1) > 0) && (tr[tnext].lseg == segnum)));
+	cond = ((tnext = tr[t].d0) > 0 && tr[tnext].lseg == segnum) ||
+		((tnext = tr[t].d1) > 0 && tr[tnext].lseg == segnum);
 
       if (cond)
 	{
-	  if ((tr[t].lseg == tr[tnext].lseg) &&
-	      (tr[t].rseg == tr[tnext].rseg)) /* good neighbours */
+	  if (tr[t].lseg == tr[tnext].lseg &&
+	      tr[t].rseg == tr[tnext].rseg) /* good neighbours */
 	    {			              /* merge them */
 	      /* Use the upper node as the new node i.e. t */
 
