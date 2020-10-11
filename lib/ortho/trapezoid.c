@@ -1049,7 +1049,7 @@ construct_trapezoids(int nseg, segment_t* seg, int* permute, int ntraps,
     TRSIZE = ntraps;
     qs = N_NEW (2*ntraps, qnode_t);
     q_idx = tr_idx = 1;
-    memset((void *)tr, 0, ntraps*sizeof(trap_t));
+    memset(tr, 0, ntraps*sizeof(trap_t));
 
   /* Add the first segment and get the query structure and trapezoid */
   /* list initialised */
