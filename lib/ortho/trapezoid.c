@@ -444,8 +444,8 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
     }
   else is_swapped = FALSE;
 
-  if ((is_swapped) ? !inserted(segnum, seg, LASTPT) :
-       !inserted(segnum, seg, FIRSTPT))     /* insert v0 in the tree */
+  if (!inserted(segnum, seg, is_swapped ? LASTPT : FIRSTPT))
+    /* insert v0 in the tree */
     {
       int tmp_d;
 
@@ -501,8 +501,8 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
     }
 
 
-  if ((is_swapped) ? !inserted(segnum, seg, FIRSTPT) :
-       !inserted(segnum, seg, LASTPT))     /* insert v1 in the tree */
+  if (!inserted(segnum, seg, is_swapped ? FIRSTPT : LASTPT))
+    /* insert v1 in the tree */
     {
       int tmp_d;
 
