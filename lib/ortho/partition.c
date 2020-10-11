@@ -324,13 +324,15 @@ static int
 traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* tr,
     int mcur, int trnum, int from, int flip, int dir)
 {
-  trap_t *t = &tr[trnum];
+  trap_t *t;
   int mnew;
   int v0, v1;
   int do_switch = FALSE;
 
   if ((trnum <= 0) || visited[trnum])
     return size;
+
+  t = &tr[trnum];
 
   visited[trnum] = TRUE;
   
