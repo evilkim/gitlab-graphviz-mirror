@@ -460,14 +460,14 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       tr[tl].u0 = tu;
       tr[tl].u1 = 0;
 
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
       /* Now update the query structure and obtain the sinks for the */
@@ -518,14 +518,14 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       tr[tl].u0 = tu;
       tr[tl].u1 = 0;
 
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
       /* Now update the query structure and obtain the sinks for the */
@@ -565,7 +565,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
   t = tfirst;			/* topmost trapezoid */
 
-  while ((t > 0) &&
+  while (t > 0 &&
 	 _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
 				/* traverse from top to bot */
     {
@@ -601,7 +601,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
       /* error */
 
-      if ((tr[t].d0 <= 0) && (tr[t].d1 <= 0)) /* case cannot arise */
+      if (tr[t].d0 <= 0 && tr[t].d1 <= 0) /* case cannot arise */
 	{
 	  fprintf(stderr, "add_segment: error\n");
 	  break;
@@ -611,9 +611,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       /* two resulting trapezoids t and tn as the upper neighbours of */
       /* the sole lower trapezoid */
 
-      else if ((tr[t].d0 > 0) && (tr[t].d1 <= 0))
+      else if (tr[t].d0 > 0 && tr[t].d1 <= 0)
 	{			/* Only one trapezoid below */
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -652,10 +652,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
@@ -683,7 +683,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	      else
 		tmptriseg = seg[segnum].next;
 
-	      if ((tmptriseg > 0) && is_left_of(tmptriseg, seg, &s.v0))
+	      if (tmptriseg > 0 && is_left_of(tmptriseg, seg, &s.v0))
 		{
 				/* L-R downward cusp */
 		  tr[tr[t].d0].u0 = t;
@@ -698,7 +698,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    }
 	  else
 	    {
-	      if ((tr[tr[t].d0].u0 > 0) && (tr[tr[t].d0].u1 > 0))
+	      if (tr[tr[t].d0].u0 > 0 && tr[tr[t].d0].u1 > 0)
 		{
 		  if (tr[tr[t].d0].u0 == t) /* passes through LHS */
 		    {
@@ -719,9 +719,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	}
 
 
-      else if ((tr[t].d0 <= 0) && (tr[t].d1 > 0))
+      else if (tr[t].d0 <= 0 && tr[t].d1 > 0)
 	{			/* Only one trapezoid below */
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -760,10 +760,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
@@ -793,7 +793,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 		tmptriseg = seg[segnum].next;
 
 	      /* if ((tmpseg > 0) && is_left_of(tmpseg, seg, &s.v0)) */
-	      if ((tmptriseg > 0) && is_left_of(tmptriseg, seg, &s.v0))
+	      if (tmptriseg > 0 && is_left_of(tmptriseg, seg, &s.v0))
 		{
 		  /* L-R downward cusp */
 		  tr[tr[t].d1].u0 = t;
@@ -808,7 +808,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    }
 	  else
 	    {
-	      if ((tr[tr[t].d1].u0 > 0) && (tr[tr[t].d1].u1 > 0))
+	      if (tr[tr[t].d1].u0 > 0 && tr[tr[t].d1].u1 > 0)
 		{
 		  if (tr[tr[t].d1].u0 == t) /* passes through LHS */
 		    {
@@ -861,7 +861,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	  /* check continuity from the top so that the lower-neighbour */
 	  /* values are properly filled for the upper trapezoid */
 
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -901,10 +901,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
