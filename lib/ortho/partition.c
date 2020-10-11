@@ -19,6 +19,10 @@
 #include <math.h>
 #include <stdlib.h>
 
+#ifndef DEBUG
+  #define DEBUG 0
+#endif
+
 #define NPOINTS 4   /* only rectangles */
 #define TRSIZE(ss) (5*(ss)+1)
 
@@ -303,7 +307,7 @@ make_new_monotone_poly (int mcur, int v0, int v1)
   vp0->nextfree++;
   vp1->nextfree++;
 
-#ifdef DEBUG
+#if DEBUG > 0
   fprintf(stderr, "make_poly: mcur = %d, (v0, v1) = (%d, %d)\n", 
 	  mcur, v0, v1);
   fprintf(stderr, "next posns = (p, q) = (%d, %d)\n", p, q);
