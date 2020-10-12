@@ -40,8 +40,8 @@ static void writeattr (int, Tobj, char *);
 static void quotestring (char *, Tobj);
 
 Tobj D2Lparsegraphlabel (Tobj lo, Tobj ro) {
-    volatile long lm;
-    volatile Tobj to;
+    long lm;
+    Tobj to;
 
     lm = Mpushmark (lo);
     Mpushmark (ro);
