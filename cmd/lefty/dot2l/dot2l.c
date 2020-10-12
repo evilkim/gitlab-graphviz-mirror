@@ -30,8 +30,6 @@ static Tobj allgraphs, alledges, allnodes;
 static Tobj gdict, edict, ndict, N;
 static long newgid, neweid, newnid, gmark = -1, errflag;
 
-static jmp_buf ljbuf;
-
 static int filllabeltable (Tobj, int);
 static int filllabelrect (Tobj);
 
