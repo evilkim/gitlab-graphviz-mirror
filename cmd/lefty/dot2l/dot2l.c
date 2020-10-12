@@ -150,7 +150,7 @@ static int filllabeltable (Tobj to, int flag) {
                 else if (*(lsp + 1) == ' ')
                     ishardspace = TRUE, lsp++;
  	    }
-            /* falling through ... */
+            /* fall through */
         default:
             if ((mode & HASTABLE) && *lsp != ' ')
                 return -1;
