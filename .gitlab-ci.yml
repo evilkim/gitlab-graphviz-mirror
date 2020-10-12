@@ -203,12 +203,6 @@ centos8-build:
         - linux
     image: "graphviz/graphviz:centos8"
 
-fedora29-build:
-    <<: *rpm_build_definition
-    tags:
-        - linux
-    image: "graphviz/graphviz:fedora29"
-
 fedora30-build:
     <<: *rpm_build_definition
     tags:
@@ -448,19 +442,6 @@ centos8-test:
     tags:
         - linux
     image: "graphviz/graphviz:centos8"
-
-fedora29-test:
-    <<: *test_definition
-    before_script:
-        - export build_system="autotools"
-    needs:
-        - job: portable-source
-          artifacts: true
-        - job: "fedora29-build"
-          artifacts: true
-    tags:
-        - linux
-    image: "graphviz/graphviz:fedora29"
 
 fedora30-test:
     <<: *test_definition
