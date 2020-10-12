@@ -3,12 +3,17 @@ FROM centos:7
 # Development tools
 RUN yum -y groupinstall 'Development Tools'
 
+RUN yum install -y \
+# Install epel-release rpm (Needed for cmake3. Must be a separate step)
+https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-12.noarch.rpm \
+&& yum clean all && rm -rf /var/cache/yum
+
 # Centos build utilities
 RUN yum -y install \
 libtool-ltdl-devel \
 libedit-devel \
 ksh \
-cmake \
+cmake3 \
 # Option glut
 freeglut-devel \
 # Option gts
@@ -70,5 +75,10 @@ tk-devel \
 python-pytest \
 && rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-py-1.4.32-2.el7.noarch.rpm \
 && rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-pytest-2.9.2-4.el7.noarch.rpm \
+&& alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \
+--slave /usr/local/bin/ctest ctest /usr/bin/ctest3 \
+--slave /usr/local/bin/cpack cpack /usr/bin/cpack3 \
+--slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake3 \
+--family cmake \
 # Clean up
 && yum clean all && rm -rf /var/cache/yum
