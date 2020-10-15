@@ -24,15 +24,19 @@ if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/graphviz_${GV_VERSION}-1_amd64.deb
     fi
 else
-    rpm --install --force \
-        ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-libs-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-devel-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-plugins-core-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-plugins-x-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-x-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-gd-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-qt-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-plugins-gd-${GV_VERSION}*.rpm \
-        ${DIR}/os/${ARCH}/graphviz-nox-${GV_VERSION}*.rpm
+    if [ "${build_system}" = "cmake" ]; then
+        rpm --install --force ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.rpm
+    else
+        rpm --install --force \
+            ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-libs-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-devel-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-plugins-core-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-plugins-x-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-x-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-gd-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-qt-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-plugins-gd-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-nox-${GV_VERSION}*.rpm
+    fi
 fi
