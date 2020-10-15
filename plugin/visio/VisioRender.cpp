@@ -68,10 +68,6 @@ namespace Visio
 	{
 	}
 
-	Render::~Render()
-	{
-	}
-
 	void Render::BeginGraph(GVJ_t* job)
 	{
 		gvputs(job, "<VisioDocument xmlns='http://schemas.microsoft.com/visio/2003/core'>\n");

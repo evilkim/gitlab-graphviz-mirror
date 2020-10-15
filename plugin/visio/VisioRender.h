@@ -34,7 +34,6 @@ namespace Visio
 	{
 	public:
 		Render();
-		~Render();
 		
 		/* render hierarchy */
 		void BeginGraph(GVJ_t* job);
