@@ -473,7 +473,6 @@ extern "C" {
 #define SFSETBUF(f,s,n)	(SETLOCAL(f),sfsetbuf(f,s,n))
 #define SFWRITE(f,s,n)	(SETLOCAL(f),sfwrite(f,s,n))
 #define SFREAD(f,s,n)	(SETLOCAL(f),sfread(f,s,n))
-#define SFSEEK(f,p,t)	(SETLOCAL(f),sfseek(f,p,t))
 #define SFNPUTC(f,c,n)	(SETLOCAL(f),sfnputc(f,c,n))
 #define SFRAISE(f,e,d)	(SETLOCAL(f),sfraise(f,e,d))
 

@@ -4,12 +4,6 @@ This directory hierarchy has the source of Sfio, the Safe/Fast I/O library.
 
 . :		source code for Sfio.
 ./Sfio_f:	function versions of sfio macros.
-./Stdio_s:	the source level <stdio> compatibility package.
-./Stdio_b:	the binary level <stdio> compatibility package.
-./Sfio_dc:	a collection of functions to create useful disciplines.
-./Sfio_t:	a set of regression tests for the Sfio library.
-./Stdio_t:	a set of regression tests for certain Stdio behaviors and
-		for the compatibility packages.
 
 SOFTWARE CONSTRUCTION:
 

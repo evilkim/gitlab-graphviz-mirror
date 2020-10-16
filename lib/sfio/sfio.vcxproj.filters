@@ -71,9 +71,6 @@
     <ClCompile Include="sfnew.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfnotify.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfnputc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,19 +80,7 @@
     <ClCompile Include="sfpkrd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfpoll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfpool.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfprintf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfprints.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfpurge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfputr.c">
@@ -119,16 +104,10 @@
     <ClCompile Include="sfseek.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfset.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfsetbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfsetfd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sfsize.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sfsk.c">

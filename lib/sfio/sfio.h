@@ -245,7 +245,6 @@ extern "C" {
 #define SF_DPOLL	7	/* see if stream is ready for I/O       */
 #define SF_DBUFFER	8	/* buffer not empty during push or pop  */
 #define SF_SYNC		9	/* announcing start/end synchronization */
-#define SF_PURGE	10	/* a sfpurge() call was issued          */
 #define SF_FINAL	11	/* closing is done except stream free   */
 #define SF_READY	12	/* a polled stream is ready             */
 #define SF_LOCKED	13	/* stream is in a locked state          */
@@ -294,16 +293,11 @@ extern "C" {
     extern Sfio_t *sfopen(Sfio_t *, const char *, const char *);
     extern Sfio_t *sfstack(Sfio_t *, Sfio_t *);
     extern Sfio_t *sfswap(Sfio_t *, Sfio_t *);
-    extern int sfpurge(Sfio_t *);
-    extern int sfpoll(Sfio_t **, int, int);
     extern int sfsync(Sfio_t *);
     extern void *sfsetbuf(Sfio_t *, void *, size_t);
     extern Sfdisc_t *sfdisc(Sfio_t *, Sfdisc_t *);
     extern int sfraise(Sfio_t *, int, void *);
-    extern int sfnotify(void (*)(Sfio_t *, int, int));
-    extern int sfset(Sfio_t *, int, int);
     extern int sfsetfd(Sfio_t *, int);
-    extern Sfio_t *sfpool(Sfio_t *, Sfio_t *, int);
     extern ssize_t sfread(Sfio_t *, void *, size_t);
     extern ssize_t sfwrite(Sfio_t *, const void *, size_t);
     extern int sfclose(Sfio_t *);
@@ -313,7 +307,6 @@ extern "C" {
     extern ssize_t sfnputc(Sfio_t *, int, size_t);
     extern int sfungetc(Sfio_t *, int);
     extern int sfprintf(Sfio_t *, const char *, ...);
-    extern char *sfprints(const char *, ...);
     extern int sfsprintf(char *, int, const char *, ...);
     extern int sfvsprintf(char *, int, const char *, va_list);
     extern int sfvprintf(Sfio_t *, const char *, va_list);
@@ -338,7 +331,6 @@ extern "C" {
     extern int _sffilbuf(Sfio_t *, int);
 
 /* miscellaneous function analogues of fast in-line functions */
-    extern Sfoff_t sfsize(Sfio_t *);
     extern int sffileno(Sfio_t *);
     extern ssize_t sfslen(void);
 

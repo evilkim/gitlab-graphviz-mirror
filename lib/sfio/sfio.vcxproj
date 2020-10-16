@@ -96,15 +96,10 @@
     <ClCompile Include="sfio_f\_sfslen.c" />
     <ClCompile Include="sfmode.c" />
     <ClCompile Include="sfnew.c" />
-    <ClCompile Include="sfnotify.c" />
     <ClCompile Include="sfnputc.c" />
     <ClCompile Include="sfopen.c" />
     <ClCompile Include="sfpkrd.c" />
-    <ClCompile Include="sfpoll.c" />
-    <ClCompile Include="sfpool.c" />
     <ClCompile Include="sfprintf.c" />
-    <ClCompile Include="sfprints.c" />
-    <ClCompile Include="sfpurge.c" />
     <ClCompile Include="sfputr.c" />
     <ClCompile Include="sfraise.c" />
     <ClCompile Include="sfrd.c" />
@@ -112,10 +107,8 @@
     <ClCompile Include="sfresize.c" />
     <ClCompile Include="sfscanf.c" />
     <ClCompile Include="sfseek.c" />
-    <ClCompile Include="sfset.c" />
     <ClCompile Include="sfsetbuf.c" />
     <ClCompile Include="sfsetfd.c" />
-    <ClCompile Include="sfsize.c" />
     <ClCompile Include="sfsk.c" />
     <ClCompile Include="sfstack.c" />
     <ClCompile Include="sfstrtod.c" />
