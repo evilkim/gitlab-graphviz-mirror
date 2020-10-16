@@ -597,7 +597,7 @@ FILE *SFopenFile (char *name, char *mode, char *prompt, char *failed) {
     SFchdir (SFstartDir);
     if ((fp = fopen (name, mode)) == NULL) {
         char *buf;
-        char *errormsg = strerror (errno);
+        const char *errormsg = strerror (errno);
         if (errormsg) {
             buf = XtMalloc (
                 strlen (failed) + strlen (errormsg) + strlen (prompt) + 2
