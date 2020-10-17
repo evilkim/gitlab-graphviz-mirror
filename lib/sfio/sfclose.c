@@ -65,7 +65,6 @@ int sfclose(Sfio_t * f)
 	if (f->pool == &_Sfpool) {
 	    int n;
 
-	    POOLMTXLOCK(&_Sfpool);
 	    for (n = 0; n < _Sfpool.n_sf; ++n) {
 		if (_Sfpool.sf[n] != f)
 		    continue;
