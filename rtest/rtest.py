@@ -104,9 +104,7 @@ def readTest():
 # Compare old and new output and report if different.
 #  Args: testname index fmt
 def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
-  global OUTHTML
   global DIFF_CNT
-  global VERBOSE
   FILE1 = os.path.join(OUTDIR, OUTFILE)
   FILE2 = os.path.join(REFDIR, OUTFILE)
   F = fmt.split(':')[0]
@@ -201,10 +199,8 @@ def genOutname(name, alg, fmt):
   return OUTFILE
 
 def doTest(TEST):
-  global GENERATE
   global TOT_CNT
   global CRASH_CNT
-  global DIFF_CNT
   global TESTTYPES
   TESTNAME = TEST['TESTNAME']
   SUBTESTS = TEST['SUBTESTS']
