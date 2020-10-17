@@ -24,9 +24,6 @@
     <ClInclude Include="sfio_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfio_f\_sffileno.c">

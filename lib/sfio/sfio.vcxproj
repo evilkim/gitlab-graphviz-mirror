@@ -79,7 +79,6 @@
     <ClInclude Include="sfhdr.h" />
     <ClInclude Include="sfio.h" />
     <ClInclude Include="sfio_t.h" />
-    <ClInclude Include="vthread.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfclose.c" />
