@@ -61,15 +61,6 @@ extern "C" {
 #define EPERM			1
 #endif
 
-    extern Vthread_t *vtopen(Vthread_t *, int);
-    extern int vtclose(Vthread_t *);
-    extern int vtset(Vthread_t *, int, void *);
-    extern int vtrun(Vthread_t *, void *(*)(void *), void *);
-    extern int vtkill(Vthread_t *);
-    extern int vtwait(Vthread_t *);
-
-/*    extern int vtonce(Vtonce_t *, void (*)()); */
-
     extern Vtmutex_t *vtmtxopen(Vtmutex_t *, int);
     extern int vtmtxclose(Vtmutex_t *);
     extern int vtmtxlock(Vtmutex_t *);
@@ -97,15 +88,6 @@ extern "C" {
     };
 
 #define VTONCE_INITDATA		{0}
-
-#define vtopen(vt,flgs)		((Vthread_t*)0)
-#define vtclose(vt)		(-1)
-#define vtkill(vt)		(-1)
-#define vtwait(vt)		(-1)
-#define vtrun(vt,fn,arg)	(-1)
-
-#define vtset(vt,t,v)		(-1)
-#define vtonce(on,fu)		(-1)
 
 #define vtmtxopen(mtx,flgs)	(void)((Vtmutex_t*)0)
 #define vtmtxclose(mtx)		(void)(-1)
