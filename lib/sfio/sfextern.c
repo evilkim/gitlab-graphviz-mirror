@@ -17,9 +17,6 @@
 **	Written by Kiem-Phong Vo
 */
 
-/* code to initialize mutexes */
-static Vtmutex_t Sfmutex;
-
 /* global variables used internally to the package */
 Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
     {NIL(Sfpool_t *), 0, 0, 0, NIL(Sfio_t **)},	/* _Sfpool      */
@@ -36,7 +33,6 @@ Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
     NIL(void (*)(void)),	/* _Sfcleanup   */
     0,				/* _Sfexiting   */
     0,				/* _Sfdone      */
-    &Sfmutex			/* _Sfmutex     */
 };
 
 /* accessible to application code for a few fast macro functions */

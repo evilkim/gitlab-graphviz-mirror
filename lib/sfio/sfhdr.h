@@ -411,7 +411,6 @@ extern "C" {
 #define _Sfcleanup	(_Sfextern.sf_cleanup)
 #define _Sfexiting	(_Sfextern.sf_exiting)
 #define _Sfdone		(_Sfextern.sf_done)
-#define _Sfmutex	(_Sfextern.sf_mutex)
     typedef struct _sfextern_s {
 	ssize_t sf_page;
 	struct _sfpool_s sf_pool;
@@ -423,7 +422,6 @@ extern "C" {
 	void (*sf_cleanup) (void);
 	int sf_exiting;
 	int sf_done;
-	Vtmutex_t *sf_mutex;
     } Sfextern_t;
 
 /* grain size for buffer increment */
