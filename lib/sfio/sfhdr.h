@@ -88,8 +88,6 @@ extern "C" {
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
 
-#define POOLMTXRETURN(p,v)	{ return(v); }
-
 /* to test for executable access mode of a file */
 #ifndef X_OK
 #define X_OK	01

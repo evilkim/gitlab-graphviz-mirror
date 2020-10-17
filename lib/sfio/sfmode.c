@@ -126,7 +126,7 @@ int _sfsetpool(Sfio_t * f)
     rv = 0;
 
   done:
-    POOLMTXRETURN(p, rv);
+    return rv;
 }
 
 /* create an auxiliary buffer for sfputr */
