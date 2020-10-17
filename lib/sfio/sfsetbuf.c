@@ -63,8 +63,6 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
     int oflags, init, local;
     Stat_t st;
 
-    SFONCE();
-
     SFMTXSTART(f, NIL(void *));
 
     GETLOCAL(f, local);

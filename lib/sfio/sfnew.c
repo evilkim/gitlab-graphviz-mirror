@@ -33,8 +33,6 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
     Sfio_t *f;
     int sflags;
 
-    SFONCE();			/* initialize mutexes */
-
     if (!(flags & SF_RDWR))
 	return NIL(Sfio_t *);
 

@@ -300,8 +300,6 @@ int _sfmode(Sfio_t * f, int wanted, int local)
     Sfoff_t addr;
     int rv = 0;
 
-    SFONCE();			/* initialize mutexes */
-
     if ((!local && SFFROZEN(f))
 	|| (!(f->flags & SF_STRING) && f->file < 0)) {
 	if (local || !f->disc || !f->disc->exceptf) {
