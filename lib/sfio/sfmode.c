@@ -60,7 +60,6 @@ static void _sfcleanup(void)
 		continue;
 
 	    SFLOCK(f, 0);
-	    SFMTXLOCK(f);
 
 	    /* let application know that we are leaving */
 	    (void) SFRAISE(f, SF_ATEXIT, NIL(void *));

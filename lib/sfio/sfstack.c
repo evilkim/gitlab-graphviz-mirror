@@ -19,10 +19,6 @@
 **	Written by Kiem-Phong Vo.
 */
 
-#define STKMTXLOCK(f1,f2) \
-	{ if(f1) SFMTXLOCK(f1); \
-	  if(f2) SFMTXLOCK(f2); \
-	}
 #define STKMTXRETURN(f1,f2,rv) \
 	{ if(f1) SFMTXUNLOCK(f1); \
 	  if(f2) SFMTXUNLOCK(f2); \
@@ -38,8 +34,6 @@ Sfio_t *sfstack(Sfio_t * f1, Sfio_t * f2)
     int n;
     Sfio_t *rf;
     Sfrsrv_t *rsrv;
-
-    STKMTXLOCK(f1, f2);
 
     if (f1 && (f1->mode & SF_RDWR) != f1->mode && _sfmode(f1, 0, 0) < 0)
 	STKMTXRETURN(f1, f2, NIL(Sfio_t *));
