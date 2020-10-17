@@ -61,13 +61,6 @@ extern "C" {
 #define EPERM			1
 #endif
 
-    extern Vtmutex_t *vtmtxopen(Vtmutex_t *, int);
-    extern int vtmtxclose(Vtmutex_t *);
-    extern int vtmtxlock(Vtmutex_t *);
-    extern int vtmtxtrylock(Vtmutex_t *);
-    extern int vtmtxunlock(Vtmutex_t *);
-    extern int vtmtxclrlock(Vtmutex_t *);
-
     extern void *vtstatus(Vthread_t *);
     extern int vterror(Vthread_t *);
     extern int vtmtxerror(Vtmutex_t *);
@@ -88,13 +81,6 @@ extern "C" {
     };
 
 #define VTONCE_INITDATA		{0}
-
-#define vtmtxopen(mtx,flgs)	(void)((Vtmutex_t*)0)
-#define vtmtxclose(mtx)		(void)(-1)
-#define vtmtxlock(mtx)		(void)(-1)
-#define vtmtxtrylock(mtx)	(-1)
-#define vtmtxunlock(mtx)	(void)(-1)
-#define vtmtxclrlock(mtx)	(void)(-1)
 
 #define vtstatus(vt)		((void*)0)
 #define vterror(vt)		(0)

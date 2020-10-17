@@ -121,9 +121,7 @@ int sfclose(Sfio_t * f)
 
     /* destroy the mutex */
     if (f->mutex) {
-	vtmtxclrlock(f->mutex);
 	if (f != sfstdin && f != sfstdout && f != sfstderr) {
-	    vtmtxclose(f->mutex);
 	    f->mutex = NIL(Vtmutex_t *);
 	}
     }
