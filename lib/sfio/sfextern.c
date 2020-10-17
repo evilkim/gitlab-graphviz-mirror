@@ -55,11 +55,3 @@ Sfio_t _Sfstderr = SFNEW(NIL(char *), -1, 2,
 Sfio_t *sfstdin = &_Sfstdin;
 Sfio_t *sfstdout = &_Sfstdout;
 Sfio_t *sfstderr = &_Sfstderr;
-
-extern ssize_t _Sfi;
-extern Sfio_t _Sfstdin;
-extern Sfio_t _Sfstdout;
-extern Sfio_t _Sfstderr;
-extern Sfio_t *sfstdin;
-extern Sfio_t *sfstdout;
-extern Sfio_t *sfstderr;
