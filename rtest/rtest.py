@@ -39,7 +39,7 @@ TMPINFILE = 'tmp{}.gv'.format(os.getpid())
 TMPFILE1 = 'tmpnew{}'.format(os.getpid())
 TMPFILE2 = 'tmpref{}'.format(os.getpid())
 
-# Read single line, storing it in LINE and update count.
+# Read single line, storing it in LINE.
 # Returns the line on success, else returns None
 def readLine():
   LINE = f3.readline()
