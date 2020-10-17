@@ -116,9 +116,6 @@
     <ClCompile Include="sfstack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfstrtod.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>

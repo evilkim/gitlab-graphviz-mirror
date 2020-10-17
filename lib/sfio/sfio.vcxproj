@@ -111,7 +111,6 @@
     <ClCompile Include="sfsetfd.c" />
     <ClCompile Include="sfsk.c" />
     <ClCompile Include="sfstack.c" />
-    <ClCompile Include="sfstrtod.c" />
     <ClCompile Include="sfswap.c" />
     <ClCompile Include="sfsync.c" />
     <ClCompile Include="sftable.c" />

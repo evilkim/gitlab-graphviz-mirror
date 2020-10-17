@@ -681,7 +681,6 @@ extern "C" {
     extern int _sfsetpool(Sfio_t *);
     extern char *_sfcvt(void *, int, int *, int *, int);
     extern char **_sfgetpath(char *);
-    extern Sfdouble_t _sfstrtod(const char *, char **);
 
 #ifndef errno
     extern int errno;
