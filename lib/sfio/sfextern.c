@@ -19,11 +19,6 @@
 
 /* code to initialize mutexes */
 static Vtmutex_t Sfmutex;
-static Vtonce_t Sfonce = VTONCE_INITDATA;
-static void _sfoncef(void)
-{
-    _Sfdone = 1;
-}
 
 /* global variables used internally to the package */
 Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
@@ -41,8 +36,6 @@ Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
     NIL(void (*)(void)),	/* _Sfcleanup   */
     0,				/* _Sfexiting   */
     0,				/* _Sfdone      */
-    &Sfonce,			/* _Sfonce      */
-    _sfoncef,			/* _Sfoncef     */
     &Sfmutex			/* _Sfmutex     */
 };
 
