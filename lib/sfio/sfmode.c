@@ -97,8 +97,6 @@ int _sfsetpool(Sfio_t * f)
     if (!(p = f->pool))
 	p = f->pool = &_Sfpool;
 
-    POOLMTXSTART(p);
-
     rv = -1;
 
     if (p->n_sf >= p->s_sf) {
