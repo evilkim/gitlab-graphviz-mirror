@@ -114,7 +114,6 @@
     <ClCompile Include="sfswap.c" />
     <ClCompile Include="sfsync.c" />
     <ClCompile Include="sftable.c" />
-    <ClCompile Include="sftell.c" />
     <ClCompile Include="sftmp.c" />
     <ClCompile Include="sfungetc.c" />
     <ClCompile Include="sfvprintf.c" />

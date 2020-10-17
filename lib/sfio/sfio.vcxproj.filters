@@ -125,9 +125,6 @@
     <ClCompile Include="sftable.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sftell.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sftmp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
