@@ -663,14 +663,6 @@ extern "C" {
     extern int errno;
 #endif
 
-/* for portable encoding of double values */
-#if !__STDC__
-#ifndef _WIN32
-    extern double frexp(double, int *);
-    extern double ldexp(double, int);
-#endif
-#endif
-
 #ifdef _WIN32
 #undef SF_ERROR
 #include <io.h>
