@@ -88,11 +88,6 @@ extern "C" {
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
 
-/* to test for executable access mode of a file */
-#ifndef X_OK
-#define X_OK	01
-#endif
-
 /* alternative process forking */
 #if defined(HAVE_VFORK) && !defined(fork) && !defined(sparc) && !defined(__sparc)
 #ifdef HAVE_VFORK_H
