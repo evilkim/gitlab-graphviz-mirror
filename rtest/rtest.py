@@ -293,7 +293,7 @@ def doTest(TEST):
       CRASH_CNT += 1
       print('Test {0}:{1} : == Layout failed =='.format(TESTNAME, i), file=sys.stderr)
       print('  ' + ' '.join(testcmd), file=sys.stderr)
-    elif GENERATE == 1:
+    elif GENERATE:
       continue
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
       doDiff(OUTFILE, OUTDIR, REFDIR, TESTNAME, i, SUBTEST['FMT'])
@@ -401,9 +401,9 @@ while True:
   if TEST is None:
      break
   doTest(TEST)
-if NOOP == 1:
+if NOOP:
   print('No. tests: ' + str(TOT_CNT), file=sys.stderr)
-elif GENERATE == 1:
+elif GENERATE:
   print('No. tests: ' + str(TOT_CNT) + ' Layout failures: ' + str(CRASH_CNT), file=sys.stderr)
 else:
   print('No. tests: ' +
