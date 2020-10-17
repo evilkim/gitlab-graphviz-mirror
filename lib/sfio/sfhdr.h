@@ -693,8 +693,6 @@ extern "C" {
 
     extern time_t time(time_t *);
     extern int waitpid(int, int *, int);
-    typedef int (*Onexit_f)(void);
-    extern Onexit_f onexit(Onexit_f);
 
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);
