@@ -693,9 +693,6 @@ extern "C" {
 
     extern time_t time(time_t *);
     extern int waitpid(int, int *, int);
-#ifndef _WIN32
-    extern void _exit(int);
-#endif
     typedef int (*Onexit_f)(void);
     extern Onexit_f onexit(Onexit_f);
 
