@@ -74,7 +74,6 @@ int sfclose(Sfio_t * f)
 		    _Sfpool.sf[n] = _Sfpool.sf[n + 1];
 		break;
 	    }
-	    POOLMTXUNLOCK(&_Sfpool);
 	} else {
 	    f->mode &= ~SF_LOCK;
 	    /**/ ASSERT(_Sfpmove);

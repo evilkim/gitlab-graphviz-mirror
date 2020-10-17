@@ -88,7 +88,6 @@ extern "C" {
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
 
-#define POOLMTXUNLOCK(p)
 #define POOLMTXSTART(p)
 #define POOLMTXRETURN(p,v)	{ return(v); }
 
