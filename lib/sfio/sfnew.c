@@ -77,7 +77,7 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
 	if (!f) {
 	    if (!(f = (Sfio_t *) malloc(sizeof(Sfio_t))))
 		return NIL(Sfio_t *);
-	    SFCLEAR(f, NIL(Vtmutex_t *));
+	    SFCLEAR(f);
 	}
     }
 

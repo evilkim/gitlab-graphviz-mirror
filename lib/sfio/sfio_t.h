@@ -81,7 +81,7 @@ extern "C" {
 	}
 
 /* function to clear an Sfio_t structure */
-#define SFCLEAR(f,mtx) \
+#define SFCLEAR(f) \
 	( (f)->next = (unsigned char*)0,		/* next		*/ \
 	  (f)->endw = (unsigned char*)0,		/* endw		*/ \
 	  (f)->endr = (unsigned char*)0,		/* endr		*/ \
