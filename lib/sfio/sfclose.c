@@ -119,13 +119,6 @@ int sfclose(Sfio_t * f)
     if (f->proc)
 	rv = _sfpclose(f);
 
-    /* destroy the mutex */
-    if (f->mutex) {
-	if (f != sfstdin && f != sfstdout && f != sfstderr) {
-	    f->mutex = NIL(Vtmutex_t *);
-	}
-    }
-
     if (!local) {
 	if (f->disc && (ex = SFRAISE(f, SF_FINAL, NIL(void *))) != 0) {
 	    rv = ex;

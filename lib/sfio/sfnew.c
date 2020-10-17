@@ -39,9 +39,6 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
     sflags = 0;
     if ((f = oldf)) {
 	if (flags & SF_EOF) {
-	    if (f != sfstdin && f != sfstdout && f != sfstderr)
-		f->mutex = NIL(Vtmutex_t *);
-	    SFCLEAR(f, f->mutex);
 	    oldf = NIL(Sfio_t *);
 	} else if (f->mode & SF_AVAIL) {	/* only allow SF_STATIC to be already closed */
 	    if (!(f->flags & SF_STATIC))
@@ -72,7 +69,6 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
 	    if (f) {
 		if (f->mode & SF_AVAIL) {
 		    sflags = f->flags;
-		    SFCLEAR(f, f->mutex);
 		} else
 		    f = NIL(Sfio_t *);
 	    }

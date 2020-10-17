@@ -38,7 +38,6 @@ Sfio_t *sfstack(Sfio_t * f1, Sfio_t * f2)
     int n;
     Sfio_t *rf;
     Sfrsrv_t *rsrv;
-    Vtmutex_t *mtx;
 
     STKMTXLOCK(f1, f2);
 
@@ -79,9 +78,6 @@ Sfio_t *sfstack(Sfio_t * f1, Sfio_t * f2)
     rsrv = f1->rsrv;
     f1->rsrv = f2->rsrv;
     f2->rsrv = rsrv;
-    mtx = f1->mutex;
-    f1->mutex = f2->mutex;
-    f2->mutex = mtx;
 
     SFLOCK(f1, 0);
     SFLOCK(f2, 0);
