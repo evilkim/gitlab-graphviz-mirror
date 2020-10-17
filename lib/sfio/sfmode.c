@@ -77,7 +77,6 @@ static void _sfcleanup(void)
 		(void) SFSETBUF(f, NIL(void *), 0);
 	    f->mode |= pool;
 
-	    SFMTXUNLOCK(f);
 	    SFOPEN(f, 0);
 	}
     }

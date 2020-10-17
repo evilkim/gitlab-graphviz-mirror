@@ -85,7 +85,6 @@ extern "C" {
 #undef SF_MTSAFE		/* no need to worry about thread-safety */
 #define SF_MTSAFE		0
 
-#define SFMTXUNLOCK(f)		(void)(0)
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
 
