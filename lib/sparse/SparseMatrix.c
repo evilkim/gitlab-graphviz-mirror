@@ -2445,7 +2445,7 @@ SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon){
     int *a = (int*) A->a;
     for (i = 0; i < A->m; i++){
       for (j = sta; j < ia[i+1]; j++){
-	if (fabs(a[j]) > epsilon){
+	if (abs(a[j]) > epsilon){
 	  ja[nz] = ja[j];
 	  a[nz++] = a[j];
 	}
