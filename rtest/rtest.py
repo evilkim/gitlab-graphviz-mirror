@@ -63,9 +63,6 @@ def skipLines():
 # Stop at a blank line
 def readSubtests():
   SUBTESTS = []
-  ALG = []
-  FMT = []
-  FLAGS = []
   while True:
     LINE = readLine()
     if LINE == '':
