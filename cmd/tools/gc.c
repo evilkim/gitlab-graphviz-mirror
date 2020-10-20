@@ -123,7 +123,7 @@ static void init(int argc, char *argv[])
 	    gtype = UNDIRECTED;
 	    break;
 	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr, "gc: option -%c unrecognized\n",
