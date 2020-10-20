@@ -421,7 +421,7 @@ static void init(int argc, char **argv, parms_t * p)
 	    fprintf(stderr, "%s: option -%c missing argument - ignored\n", cmd, optopt);
 	    break;
  	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr,
