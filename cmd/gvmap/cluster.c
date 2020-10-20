@@ -120,7 +120,7 @@ static void init(int argc, char *argv[], opts_t* opts) {
       Verbose = 1;
       break;
     case '?':
-      if (optopt == '\0')
+      if (optopt == '\0' || optopt == '?')
 	usage(cmd, 0);
       else {
 	fprintf(stderr, " option -%c unrecognized\n",
