@@ -478,6 +478,20 @@ fedora33-test:
         - linux
     image: "graphviz/graphviz:fedora33"
 
+macos-autotools-test:
+    <<: *test_definition
+    before_script:
+        - pip3 install pytest
+        - export build_system="autotools"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "macos-autotools-build"
+          artifacts: true
+    tags:
+        - macos
+
 ubuntu18-04-cmake-test:
     <<: *test_definition
     before_script:
