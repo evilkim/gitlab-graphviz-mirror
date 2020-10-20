@@ -99,6 +99,16 @@ def test_tools(tool):
         'vimdot',
     ]
 
+    tools_not_built_with_autotools_on_macos = [
+        'dotty',
+        'gvedit',
+        'lefty',
+        'lneato',
+        'mingle',
+        'smyrna',
+        'vimdot',
+    ]
+
     os_id = os.getenv('OS_ID')
 
     # FIXME: Remove skip when
@@ -133,6 +143,13 @@ def test_tools(tool):
     if os.getenv('build_system') == 'msbuild':
       if tool in tools_not_built_with_msbuild:
         pytest.skip(tool + ' is not built with MSBuild (#1837)')
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1854 is fixed
+    if os.getenv('build_system') == 'autotools':
+      if platform.system() == 'Darwin':
+        if tool in tools_not_built_with_autotools_on_macos:
+          pytest.skip(tool + ' is not built with autotools on macOS (#1854)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1838 is fixed
