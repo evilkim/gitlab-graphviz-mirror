@@ -536,6 +536,20 @@ fedora31-cmake-test:
         - linux
     image: "graphviz/graphviz:fedora31"
 
+macos-cmake-test:
+    <<: *test_definition
+    before_script:
+        - pip3 install pytest
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "macos-cmake-build"
+          artifacts: true
+    tags:
+        - macos
+
 deployment:
     stage: deploy
     script:
