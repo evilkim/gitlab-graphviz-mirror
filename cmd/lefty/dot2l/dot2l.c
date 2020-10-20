@@ -30,10 +30,8 @@ static Tobj allgraphs, alledges, allnodes;
 static Tobj gdict, edict, ndict, N;
 static long newgid, neweid, newnid, gmark = -1, errflag;
 
-static jmp_buf ljbuf;
-
-static void filllabeltable (Tobj, int);
-static void filllabelrect (Tobj);
+static int filllabeltable (Tobj, int);
+static int filllabelrect (Tobj);
 
 static char *lsp, *rsp;
 
@@ -42,8 +40,8 @@ static void writeattr (int, Tobj, char *);
 static void quotestring (char *, Tobj);
 
 Tobj D2Lparsegraphlabel (Tobj lo, Tobj ro) {
-    volatile long lm;
-    volatile Tobj to;
+    long lm;
+    Tobj to;
 
     lm = Mpushmark (lo);
     Mpushmark (ro);
@@ -55,11 +53,10 @@ Tobj D2Lparsegraphlabel (Tobj lo, Tobj ro) {
     else
         rsp = NULL;
 
-    if (setjmp (ljbuf)) {
+    if (filllabeltable (to, TRUE) != 0) {
         to = NULL;
         fprintf (stderr, "error in label >>%s<<\n", lsp);
-    } else
-        filllabeltable (to, TRUE);
+    }
     Mpopmark (lm);
     return to;
 }
@@ -74,7 +71,7 @@ Tobj D2Lparsegraphlabel (Tobj lo, Tobj ro) {
     (c) == '{' || (c) == '}' || (c) == '|' || (c) == '<' || (c) == '>' \
 )
 
-static void filllabeltable (Tobj to, int flag) {
+static int filllabeltable (Tobj to, int flag) {
     Tobj cto, fo;
     char *tsp, *psp, *hstsp, *hspsp;
     char text[10240], port[256];
@@ -91,30 +88,31 @@ static void filllabeltable (Tobj to, int flag) {
         switch (*lsp) {
         case '<':
             if (mode & (HASTABLE | HASPORT))
-                longjmp (ljbuf, 1); /* DOESN'T RETURN */
+                return -1;
             mode &= ~INTEXT;
             mode |= (HASPORT | INPORT);
             lsp++;
             break;
         case '>':
             if (!(mode & INPORT))
-                longjmp (ljbuf, 1); /* DOESN'T RETURN */
+                return -1;
             mode &= ~INPORT;
             lsp++;
             break;
         case '{':
             lsp++;
             if (mode != 0 || !*lsp)
-                longjmp (ljbuf, 1); /* DOESN'T RETURN */
+                return -1;
             Tinss (cto, "fields", (fo = Ttable (2)));
             mode = HASTABLE;
-            filllabeltable (fo, FALSE);
+            if (filllabeltable (fo, FALSE) != 0)
+                return -1;
             break;
         case '}':
         case '|':
         case '\000':
             if ((!*lsp && !flag) || (mode & INPORT))
-                longjmp (ljbuf, 1); /* DOESN'T RETURN */
+                return -1;
             if (mode & HASPORT) {
                 if (psp > &port[0] + 1 && psp - 1 != hspsp && *(psp - 1) == ' ')
                     psp--;
@@ -132,11 +130,12 @@ static void filllabeltable (Tobj to, int flag) {
                 hstsp = tsp = &text[0];
             }
             if (mode & (HASTEXT | HASPORT))
-                filllabelrect (cto);
+                if (filllabelrect (cto) != 0)
+                    return -1;
             if (*lsp) {
                 if (*lsp == '}') {
                     lsp++;
-                    return;
+                    return 0;
                 }
                 Tinsi (to, cti++, (cto = Ttable (2)));
                 mode = 0;
@@ -151,10 +150,10 @@ static void filllabeltable (Tobj to, int flag) {
                 else if (*(lsp + 1) == ' ')
                     ishardspace = TRUE, lsp++;
  	    }
-            /* falling through ... */
+            /* fall through */
         default:
             if ((mode & HASTABLE) && *lsp != ' ')
-                longjmp (ljbuf, 1); /* DOESN'T RETURN */
+                return -1;
             if (!(mode & (INTEXT | INPORT)) && (ishardspace || *lsp != ' '))
                 mode |= (INTEXT | HASTEXT);
             if (mode & INTEXT) {
@@ -176,17 +175,17 @@ static void filllabeltable (Tobj to, int flag) {
             break;
         }
     }
-    return;
+    return 0;
 }
 
-static void filllabelrect (Tobj to) {
+static int filllabelrect (Tobj to) {
     Tobj ro, p0o, p1o;
     char *s2, *s3;
     char c, c2;
     int i;
 
     if (!rsp)
-        return;
+        return 0;
     for (s2 = rsp; *s2 && *s2 != ' '; s2++)
         ;
     c = *s2, *s2 = 0;
@@ -198,7 +197,7 @@ static void filllabelrect (Tobj to) {
             ;
         c2 = *s3, *s3 = 0;
         if (s3 == rsp)
-            longjmp (ljbuf, 1); /* DOESN'T RETURN */
+            return -1;
         switch (i) {
         case 0: Tinss (p0o, "x", Tinteger ((long) atoi (rsp))); break;
         case 1: Tinss (p0o, "y", Tinteger ((long) atoi (rsp))); break;
@@ -212,6 +211,7 @@ static void filllabelrect (Tobj to) {
     }
     *s2 = c;
     rsp = s2 + 1;
+    return 0;
 }
 
 static Tobj nameo, attro, edgeso, hporto, tporto, heado, tailo, protogo;
