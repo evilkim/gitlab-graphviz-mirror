@@ -15,17 +15,17 @@ GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}
 ARCH=$( uname -m )
-if [ "${ID_LIKE}" = "debian" ]; then
-    if [ "${build_system}" = "cmake" ]; then
+if [ "${build_system}" = "cmake" ]; then
+    if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.deb
     else
+        rpm --install --force ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.rpm
+    fi
+else
+    if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/libgraphviz4_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/libgraphviz-dev_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/graphviz_${GV_VERSION}-1_amd64.deb
-    fi
-else
-    if [ "${build_system}" = "cmake" ]; then
-        rpm --install --force ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.rpm
     else
         rpm --install --force \
             ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}*.rpm \
