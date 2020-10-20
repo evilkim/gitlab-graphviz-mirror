@@ -60,7 +60,6 @@ def test_tools(tool):
         'dotty',
         'edgepaint',
         'fdp',
-        'gc',
         'gv2gml',
         'gv2gxl',
         'gvedit',
