@@ -345,7 +345,8 @@ of the layout programs.
 </TD><TD>G</TD><TD><A HREF=#k:bool>bool</A>
 </TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>neato only</TD> </TR>
  <TR><TD><A NAME=a:nslimit HREF=#d:nslimit>nslimit</A>
-<BR><A NAME=a:nslimit1 HREF=#d:nslimit1>nslimit1</A>
+</TD><TD>G</TD><TD>double</TD><TD ALIGN="CENTER"></TD><TD></TD><TD>dot only</TD> </TR>
+ <TR><TD><A NAME=a:nslimit1 HREF=#d:nslimit1>nslimit1</A>
 </TD><TD>G</TD><TD>double</TD><TD ALIGN="CENTER"></TD><TD></TD><TD>dot only</TD> </TR>
  <TR><TD><A NAME=a:ordering HREF=#d:ordering>ordering</A>
 </TD><TD>GN</TD><TD>string</TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
@@ -1417,11 +1418,17 @@ of the layout programs.
   To avoid this translation, set <TT>notranslate</TT> to true.
 
 <DT><A NAME=d:nslimit HREF=#a:nslimit><STRONG>nslimit</STRONG></A>
-,<DT><A NAME=d:nslimit1 HREF=#a:nslimit1><STRONG>nslimit1</STRONG></A>
 <DD>  Used to set number of iterations in
   network simplex applications. <B>nslimit</B> is used in
-  computing node x coordinates, <B>nslimit1</B> for ranking nodes.
-  If defined, # iterations =  <B>nslimit(1)</B> * # nodes;
+  computing node x coordinates.
+  If defined, # iterations =  <B>nslimit</B> * # nodes;
+  otherwise,  # iterations = MAXINT.
+
+<DT><A NAME=d:nslimit1 HREF=#a:nslimit1><STRONG>nslimit1</STRONG></A>
+<DD>  Used to set number of iterations in
+  network simplex applications. 
+  <B>nslimit1</B> is used for ranking nodes.
+  If defined, # iterations =  <B>nslimit1</B> * # nodes;
   otherwise,  # iterations = MAXINT.
 
 <DT><A NAME=d:ordering HREF=#a:ordering><STRONG>ordering</STRONG></A>
