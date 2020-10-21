@@ -68,6 +68,18 @@ if [ "${ID}" = "Darwin" ]; then
        /usr/local/bin/twopi \
        /usr/local/bin/unflatten \
        /usr/local/bin/vimdot
+elif [ "${ID}" = "centos" -o "${ID}" = "fedora" ]; then
+    # Both doxgen and asciidoc depend on graphviz and needs to be
+    # removed to allow Graphviz to be removed
+    if rpm -q doxygen; then
+        rpm --erase doxygen
+    fi
+    if rpm -q asciidoc; then
+        rpm --erase asciidoc
+    fi
+    if rpm -q graphviz; then
+        rpm --erase graphviz
+    fi
 fi
 if [ "${build_system}" = "cmake" ]; then
     if [ "${ID_LIKE}" = "debian" ]; then
