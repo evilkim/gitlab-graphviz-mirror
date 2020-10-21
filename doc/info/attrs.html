@@ -20,14 +20,14 @@ Note that attribute names are case-sensitive.
 This is usually true for attribute values as well, unless noted.
 <P>
 All Graphviz attributes are specified by name-value pairs. Thus, to
-set the fillcolor of a node <TT>abc</TT>, one would use
+set the fillcolor of a node <CODE>abc</CODE>, one would use
 <TABLE>
-<TR><TD><TT>abc [fillcolor = red]</TT></TR>
+<TR><TD><CODE>abc [fillcolor = red]</CODE></TR>
 </TABLE>
-Similarly, to set the arrowhead style of an edge <TT>abc -> def</TT>,
+Similarly, to set the arrowhead style of an edge <CODE>abc -> def</CODE>,
 one would use
 <TABLE>
-<TR><TD><TT>abc -> def [arrowhead = diamond]</TT></TR>
+<TR><TD><CODE>abc -> def [arrowhead = diamond]</CODE></TR>
 </TABLE>
 Further details concerning the setting of attributes can be found
 in the description of the
@@ -45,13 +45,13 @@ with an undirected graph since the head and tail of an edge are meaningless.
 As a convention, the first time an undirected edge appears, the
 <A HREF="lang.html">DOT</A>
 parser will assign the left node as the tail node and the right node as
-the head. For example, the edge <TT>A -- B</TT> will have tail <TT>A</TT>
-and head <TT>B</TT>. It is the user's responsibility to handle such
+the head. For example, the edge <CODE>A -- B</CODE> will have tail <CODE>A</CODE>
+and head <CODE>B</CODE>. It is the user's responsibility to handle such
 edges consistently. If the edge appears later, in the format
 <TABLE>
-<TR><TD><TT>B -- A [taillabel = "tail"]</TT></TR>
+<TR><TD><CODE>B -- A [taillabel = "tail"]</CODE></TR>
 </TABLE>
-the drawing will attach the tail label to node <TT>A</TT>.
+the drawing will attach the tail label to node <CODE>A</CODE>.
 To avoid possible confusion when such attributes are required, the user
 is encouraged to use a directed graph.
 If it is important to make the graph appear undirected, this can be
@@ -2142,10 +2142,10 @@ will be in 3D.
 The following list gives the legal strings corresponding to values of
 the given types.
 The syntax for describing legal type strings is a mixture of literal strings,
-stdio encodings (e.g., <TT>%f</TT> for a double), and regular expressions.
-For regular expressions, <TT>(...)*</TT> indicates 0 or more copies of the expression
-enclosed in the parentheses,  <TT>(...)+</TT> indicates 1 or more, and
-<TT>(...)?</TT> denotes 0 or 1 copy.
+stdio encodings (e.g., <CODE>%f</CODE> for a double), and regular expressions.
+For regular expressions, <CODE>(...)*</CODE> indicates 0 or more copies of the expression
+enclosed in the parentheses,  <CODE>(...)+</CODE> indicates 1 or more, and
+<CODE>(...)?</CODE> denotes 0 or 1 copy.
 <DL>
 <DT ID="k:addDouble"><STRONG>addDouble</STRONG>
 <DD><P>A double with an optional prefix '+'.
