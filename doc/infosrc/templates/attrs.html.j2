@@ -91,9 +91,7 @@ of the layout programs.
     {%- endif -%}
     {%- if kind in ['double', 'int', 'string'] -%}
       {{ kind }}
-    {%- elif kind == 'bool' -%}
-      <A HREF="#k:bool">bool</A>
-    {% else -%}
+    {%- else -%}
       <A HREF="#k:{{kind}}">{{kind}}</A>
     {% endif -%}
   {%- endfor -%}
