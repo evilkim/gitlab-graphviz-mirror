@@ -847,11 +847,17 @@ corresponding to 0 degrees. <B>NOTE:</B> Since the attribute is evaluated first 
 By default, the final layout is translated so that the lower-left corner of the bounding box is
 at the origin. This can be annoying if some nodes are pinned or if the user runs <TT>neato -n</TT>. 
 To avoid this translation, set <TT>notranslate</TT> to true.
-:nslimit/nslimit1:G:double;  dot
+:nslimit:G:double;  dot
 Used to set number of iterations in
 network simplex applications. <B>nslimit</B> is used in
-computing node x coordinates, <B>nslimit1</B> for ranking nodes.
-If defined, # iterations =  <B>nslimit(1)</B> * # nodes;
+computing node x coordinates.
+If defined, # iterations =  <B>nslimit</B> * # nodes;
+otherwise,  # iterations = MAXINT.
+:nslimit1:G:double;  dot
+Used to set number of iterations in
+network simplex applications. 
+<B>nslimit1</B> is used for ranking nodes.
+If defined, # iterations =  <B>nslimit1</B> * # nodes;
 otherwise,  # iterations = MAXINT.
 :ordering:GN:string:""; dot
 If the value of the attribute is "out", then
