@@ -7,8 +7,7 @@
 <TITLE>Node, Edge and Graph Attributes</TITLE>
 </HEAD>
 <BODY BGCOLOR=white>
-<A NAME="top"></A>
-<H1 align=CENTER>Node, Edge and Graph Attributes</H1>
+<H1 align=CENTER ID="top">Node, Edge and Graph Attributes</H1>
 <HR>
 The table below describes the attributes used by various Graphviz tools.
 The table gives the name of the attribute, the graph components (node,
@@ -32,20 +31,19 @@ one would use
 </TABLE>
 Further details concerning the setting of attributes can be found
 in the description of the
-<A HREF=lang.html>DOT language.</A>
+<A HREF="lang.html">DOT language.</A>
 <P>
 At present, most device-independent units are either inches or
-<A NAME="points"></A>
-<A HREF="http://en.wikipedia.org/wiki/Point_(typography)">points</A>,
+<A ID="points" HREF="http://en.wikipedia.org/wiki/Point_(typography)">points</A>,
 which we take as 72 points per inch.
-<P>
-<A NAME=h:undir_note><STRONG>Note:</STRONG></A> Some attributes, such as
-<A HREF=#d:dir>dir</A> or <A HREF=#d:arrowtail>arrowtail</A>, are
+<P ID="h:undir_note">
+<STRONG>Note:</STRONG> Some attributes, such as
+<A HREF="#d:dir">dir</A> or <A HREF="#d:arrowtail">arrowtail</A>, are
 ambiguous when used in
-<A HREF=lang.html>DOT</A>
+<A HREF="lang.html">DOT</A>
 with an undirected graph since the head and tail of an edge are meaningless.
 As a convention, the first time an undirected edge appears, the
-<A HREF=lang.html>DOT</A>
+<A HREF="lang.html">DOT</A>
 parser will assign the left node as the tail node and the right node as
 the head. For example, the edge <TT>A -- B</TT> will have tail <TT>A</TT>
 and head <TT>B</TT>. It is the user's responsibility to handle such
@@ -57,12 +55,12 @@ the drawing will attach the tail label to node <TT>A</TT>.
 To avoid possible confusion when such attributes are required, the user
 is encouraged to use a directed graph.
 If it is important to make the graph appear undirected, this can be
-done using the <A HREF=#d:dir>dir</A>, <A HREF=#d:arrowtail>arrowtail</A>
-or <A HREF=#d:arrowhead>arrowhead</A> attributes.
-<P>
+done using the <A HREF="#d:dir">dir</A>, <A HREF="#d:arrowtail">arrowtail</A>
+or <A HREF="#d:arrowhead">arrowhead</A> attributes.
+<P ID="k:bool">
 The tools accept standard C representations for <EM>int</EM> and
 <EM>double</EM> types.
-For the <A NAME=k:bool><EM>bool</EM></A> type, TRUE values are
+For the <EM>bool</EM></A> type, TRUE values are
 represented by "true" or "yes" (case-insensitive)
 and any non-zero integer, and FALSE values by "false" or "no" (case-insensitive)
 and zero.
@@ -70,8 +68,8 @@ In addition, there are a variety of specialized types such as
 <EM>arrowType</EM>, <EM>color</EM>,
 <EM>point</EM> and <EM>rankdir</EM>. Legal values for these types are given
 at the end.
-<P>
-In the <A NAME=h:uses><STRONG>Used By</STRONG></A> field, the
+<P ID="h:uses">
+In the <STRONG>Used By</STRONG> field, the
 characters E, N, G, S and C
 represent edges, nodes, the root graph, subgraphs
 and cluster subgraphs, respectively.
@@ -83,9 +81,9 @@ of the layout programs.
 <HR ALIGN=CENTER WIDTH="70%" SIZE=3>
 
 <TABLE ALIGN=CENTER>
-<TR><TH>Name</TH><TH><A HREF=#h:uses>Used By</A></TH><TH>Type</TH><TH ALIGN=CENTER>Default</TH><TH>Minimum</TH><TH>Notes</TH></TR>
+<TR><TH>Name</TH><TH><A HREF="#h:uses">Used By</A></TH><TH>Type</TH><TH ALIGN=CENTER>Default</TH><TH>Minimum</TH><TH>Notes</TH></TR>
 {% for attr in attrs %}
- <TR><TD><A NAME={{ attr.a_anchor }} HREF=#{{ attr.d_anchor }}>{{ attr.name }}</A>
+ <TR><TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A>
 </TD><TD>{{ attr.uses }}</TD><TD>
   {%- for kind in attr.kinds -%}
     {%- if not loop.first -%}
@@ -94,9 +92,9 @@ of the layout programs.
     {%- if kind in ['double', 'int', 'string'] -%}
       {{ kind }}
     {%- elif kind == 'bool' -%}
-      <A HREF=#k:bool>bool</A>
+      <A HREF="#k:bool">bool</A>
     {% else -%}
-      <A HREF=#k:{{kind}}>{{kind}}</A>
+      <A HREF="#k:{{kind}}">{{kind}}</A>
     {% endif -%}
   {%- endfor -%}
   </TD><TD ALIGN="CENTER">
@@ -136,7 +134,7 @@ of the layout programs.
 <H1>Attribute Descriptions</H1>
 <DL>
 {% for attr in attrs %}
-<DT><A NAME={{attr.d_anchor}} HREF=#{{attr.a_anchor}}><STRONG>{{ attr.name }}</STRONG></A>
+<DT><A ID="{{attr.d_anchor}}" HREF="#{{attr.a_anchor}}"><STRONG>{{ attr.name }}</STRONG></A>
 <DD>{{ attr.html_description }}
 {% endfor %}
 </DL>
@@ -151,7 +149,7 @@ enclosed in the parentheses,  <TT>(...)+</TT> indicates 1 or more, and
 <TT>(...)?</TT> denotes 0 or 1 copy.
 <DL>
 {% for t in types %}
-<DT><A NAME=k:{{t.name}}><STRONG>{{t.name}}</STRONG></A>
+<DT ID="k:{{t.name}}"><STRONG>{{t.name}}</STRONG>
 <DD>{{t.html_description}}
 {% endfor %}
 </DL>
