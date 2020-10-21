@@ -62,7 +62,7 @@ with open(sys.argv[1]) as attrs_in:
 
         else:
             # This is an HTML line, possibly a continuation of a previous HTML line.
-            attr.html_description += '  ' + line
+            attr.html_description += line
 
 
 attrs.sort(key=lambda attr: attr.name)
@@ -117,10 +117,6 @@ with open(sys.argv[2]) as types_in:
         else:
             # This is an HTML line, possibly a continuation of a previous HTML line.
             t = types[-1]
-            # This is purely so the diffs look the same porting from ksh, could
-            # delete this later.
-            if t.html_description != '':
-                t.html_description += '  '
             t.html_description += line
 
 types.sort(key=lambda t: t.name)
