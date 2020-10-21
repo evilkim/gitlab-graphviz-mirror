@@ -85,14 +85,8 @@ of the layout programs.
 <TABLE ALIGN=CENTER>
 <TR><TH>Name</TH><TH><A HREF=#h:uses>Used By</A></TH><TH>Type</TH><TH ALIGN=CENTER>Default</TH><TH>Minimum</TH><TH>Notes</TH></TR>
 {% for attr in attrs %}
- <TR><TD>
-  {%- for term in attr.terms -%}
-    {%- if not loop.first -%}
-    <BR>
-    {%- endif -%}
-    <A NAME={{ term.a_anchor }} HREF=#{{ term.d_anchor }}>{{ term.name }}</A>
-  {% endfor -%}
-  </TD><TD>{{ attr.uses }}</TD><TD>
+ <TR><TD><A NAME={{ attr.a_anchor }} HREF=#{{ attr.d_anchor }}>{{ attr.name }}</A>
+</TD><TD>{{ attr.uses }}</TD><TD>
   {%- for kind in attr.kinds -%}
     {%- if not loop.first -%}
     <BR>
@@ -142,10 +136,7 @@ of the layout programs.
 <H1>Attribute Descriptions</H1>
 <DL>
 {% for attr in attrs %}
-  {% for term in attr.terms %}
-    {% if not loop.first %},{% endif %}
-<DT><A NAME={{term.d_anchor}} HREF=#{{term.a_anchor}}><STRONG>{{ term.name }}</STRONG></A>
-  {% endfor %}
+<DT><A NAME={{attr.d_anchor}} HREF=#{{attr.a_anchor}}><STRONG>{{ attr.name }}</STRONG></A>
 <DD>{{ attr.html_description }}
 {% endfor %}
 </DL>
