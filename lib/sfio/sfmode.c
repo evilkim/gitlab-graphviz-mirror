@@ -112,7 +112,7 @@ int _sfsetpool(Sfio_t * f)
 	    memcpy((void *) array, (void *) p->sf,
 		   p->n_sf * sizeof(Sfio_t *));
 	    if (p->sf != p->array)
-		free((void *) p->sf);
+		free(p->sf);
 
 	    p->sf = array;
 	    p->s_sf = n;
@@ -253,7 +253,7 @@ static int _sfpmode(Sfio_t * f, int type)
     if (type == SF_WRITE) {	/* save unread data */
 	p->ndata = f->endb - f->next;
 	if (p->ndata > p->size) {
-	    free((char *) p->rdata);
+	    free(p->rdata);
 	    if ((p->rdata = malloc(p->ndata)))
 		p->size = p->ndata;
 	    else {

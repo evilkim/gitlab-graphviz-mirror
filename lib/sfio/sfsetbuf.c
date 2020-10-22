@@ -269,7 +269,7 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
     f->flags = (unsigned short)((f->flags & ~SF_MALLOC) | sf_malloc);
 
     if (obuf && obuf != f->data && osize > 0 && (oflags & SF_MALLOC)) {
-	free((void *) obuf);
+	free(obuf);
 	obuf = NIL(uchar *);
     }
 

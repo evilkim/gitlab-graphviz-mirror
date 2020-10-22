@@ -43,7 +43,7 @@ Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 			if(!disc->memoryf)
 				goto err_open;
 
-			free((void*)dt);
+			free(dt);
 			if(!(dt = (*disc->memoryf)(0, 0, sizeof(Dt_t), disc)) )
 				return NIL(Dt_t*);
 			dt->searchf = NIL(Dtsearch_f);
@@ -59,7 +59,7 @@ Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 	/* allocate sharable data */
 	if(!(data = (Dtdata_t*)(dt->memoryf)(dt,NIL(void*),sizeof(Dtdata_t),disc)) )
 	{ err_open:
-		free((void*)dt);
+		free(dt);
 		return NIL(Dt_t*);
 	}
 

@@ -55,7 +55,7 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
 	    if (f->data
 		&& ((flags & SF_STRING) || size != (size_t) SF_UNBOUND)) {
 		if (sflags & SF_MALLOC)
-		    free((void *) f->data);
+		    free(f->data);
 		f->data = NIL(uchar *);
 	    }
 	    if (!f->data)

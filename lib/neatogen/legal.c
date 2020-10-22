@@ -352,7 +352,7 @@ find_ints(vertex vertex_list[],
 		    tempa->last->next = tempa->next;
 		    tempa->next->last = tempa->last;
 		}
-		free((char *) tempa);
+		free(tempa);
 		all.number--;
 		templ->active = 0;
 		break;		/* end of case 1        */

@@ -501,7 +501,7 @@ vgpanecmd(ClientData clientData, Tcl_Interp * interp, int argc,
 	    Pobsclose(vgp->vc);
 	free(vgp->poly);	/* ### */
 	Tcl_DeleteCommand(interp, argv[0]);
-	free((char *) tclhandleFree(vgpaneTable, argv[0]));
+	free(tclhandleFree(vgpaneTable, argv[0]));
 	return TCL_OK;
 
     } else if ((c == 'f') && (strncmp(argv[1], "find", length) == 0)) {

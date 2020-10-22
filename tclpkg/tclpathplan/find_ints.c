@@ -93,7 +93,7 @@ void find_ints(struct vertex vertex_list[],
 		    tempa->last->next = tempa->next;
 		    tempa->next->last = tempa->last;
 		}
-		free((char *) tempa);
+		free(tempa);
 		all.number--;
 		templ->active = NIL;
 		break;		/* end of case 1        */
