@@ -115,9 +115,7 @@ of the layout programs.
     not dot
   {%- else -%}
     {%- for flag in attr.flags | reverse -%}
-      {%- if flag == 'ps' -%}
-        postscript
-      {%- elif flag == 'bitmap' -%}
+      {%- if flag == 'bitmap' -%}
         bitmap output
       {%- else -%}
         {{ flag }}

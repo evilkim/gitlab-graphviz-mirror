@@ -57,7 +57,7 @@ is limited to this factor of its potential motion. By being less than
 #  Set by attribute, overwritten, unused
 #:Nodesep:G:double:1.0;
 #  Set by attribute, overwritten, unused
-:URL:ENGC:escString:<none>;   map,ps,svg
+:URL:ENGC:escString:<none>;   map,postscript,svg
 Hyperlinks incorporated into device-dependent output.
 At present, used in ps2, cmap, i*map and svg formats.
 For all these formats, URLs can be attached to nodes, edges and
@@ -481,9 +481,9 @@ In this case, if both the width or the height are set explicitly,
 the maximum of the two values is used.
 If neither is set explicitly, the minimum of the two default values
 is used.
-:href:GCNE:escString:"";  map,ps,svg
+:href:GCNE:escString:"";  map,postscript,svg
 Synonym for <A HREF=#d:URL>URL</A>.
-:id:GCNE:escString:"";  map,ps,svg
+:id:GCNE:escString:"";  map,postscript,svg
 Allows the graph author to provide an id for graph objects which is to be included in the output.
 Normal "&#92;N", "&#92;E", "&#92;G" substitutions are applied.
 If provided, it is the responsibility of the provider to keep
