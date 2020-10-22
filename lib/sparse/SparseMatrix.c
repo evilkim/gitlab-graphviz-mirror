@@ -2988,7 +2988,7 @@ SparseMatrix SparseMatrix_get_augmented(SparseMatrix A){
     assert(A->size != 0 && nz > 0);
     val = MALLOC(A->size*2*((size_t)nz));
     memcpy(val, A->a, A->size*((size_t)nz));
-    memcpy((void*)(((char*) val) + ((size_t)nz)*A->size), A->a, A->size*((size_t)nz));
+    memcpy(((char*) val) + ((size_t)nz)*A->size, A->a, A->size*((size_t)nz));
   }
 
   nz = 0;
