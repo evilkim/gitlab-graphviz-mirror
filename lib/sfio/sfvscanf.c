@@ -728,10 +728,8 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
     }
 
   pop_fmt:
-    if (fp) {
-	free(fp);
-	fp = NIL(Fmtpos_t *);
-    }
+    free(fp);
+    fp = NIL(Fmtpos_t *);
     while ((fm = fmstk)) {	/* pop the format stack and continue */
 	if (fm->eventf) {
 	    if (!form || !form[0])
@@ -755,8 +753,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
     }
 
   done:
-    if (fp)
-	free(fp);
+    free(fp);
     while ((fm = fmstk)) {
 	if (fm->eventf)
 	    (*fm->eventf) (f, SF_FINAL, NIL(void *), fm->ft);

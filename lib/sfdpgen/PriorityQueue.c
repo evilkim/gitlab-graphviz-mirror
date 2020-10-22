@@ -47,9 +47,7 @@ void PriorityQueue_delete(PriorityQueue q){
       free(q->buckets);
     }
 
-    if (q->where){
-      free(q->where);
-    }
+    free(q->where);
 
     free(q->gain);
     free(q);

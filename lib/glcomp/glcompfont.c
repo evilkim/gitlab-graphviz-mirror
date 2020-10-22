@@ -184,8 +184,7 @@ static glCompFont *glut_font_init(void)
 #endif
 void glDeleteFont(glCompFont * f)
 {
-    if (f->fontdesc)
-	free(f->fontdesc);
+    free(f->fontdesc);
     if (f->tex)
 	glCompDeleteTexture(f->tex);
     free(f);

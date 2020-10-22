@@ -291,8 +291,7 @@ void copy_font(glCompText * targetfont, const glCompText * sourcefont)
     targetfont->tIncX = sourcefont->tIncX;
     targetfont->tIncY = sourcefont->tIncY;
     targetfont->texId = sourcefont->texId;
-    if (targetfont->fontdesc)
-	free(targetfont->fontdesc);
+    free(targetfont->fontdesc);
     if (sourcefont->fontdesc != (char *) 0)
 	targetfont->fontdesc = strdup(sourcefont->fontdesc);
     else
@@ -402,8 +401,7 @@ void free_font_set(fontset_t * fontset)
     if (fontset->font_directory)
 	rmdir(fontset->font_directory);
 #endif
-    if (fontset->font_directory)
-	free(fontset->font_directory);
+    free(fontset->font_directory);
     free(fontset);
 }
 

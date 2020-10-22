@@ -248,10 +248,8 @@ static void gvevent_enter_obj(GVJ_t * job)
     node_t *n;
     Agsym_t *a;
 
-    if (job->active_tooltip) {
-	free(job->active_tooltip);
-	job->active_tooltip = NULL;
-    }
+    free(job->active_tooltip);
+    job->active_tooltip = NULL;
     obj = job->current_obj;
     if (obj) {
         switch (agobjkind(obj)) {
@@ -347,10 +345,8 @@ static void gvevent_select_current_obj(GVJ_t * job)
         }
     }
 
-    if (job->selected_href) {
-	free(job->selected_href);
-        job->selected_href = NULL;
-    }
+    free(job->selected_href);
+    job->selected_href = NULL;
 
     obj = job->selected_obj = job->current_obj;
     if (obj) {

@@ -382,7 +382,7 @@ init(int argc, char **argv, params_t* pm)
       }
       break;
     case 'l':
-      if (pm->plot_label) free (pm->plot_label);
+      free (pm->plot_label);
       pm->plot_label = strdup (optarg);
       break;
     case ':':

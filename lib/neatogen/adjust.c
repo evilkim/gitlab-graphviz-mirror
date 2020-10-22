@@ -764,7 +764,7 @@ SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
     free(I);
     free(J);
     free(val);
-    if (valD) free (valD);
+    free (valD);
 
     return A;
 }

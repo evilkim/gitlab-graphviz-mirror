@@ -197,7 +197,7 @@ void free_textspan(textspan_t * tl, int cnt)
 
     if (!tl) return;
     for (i = 0; i < cnt; i++) { 
-	if ((i == 0) && tlp->str)
+	if (i == 0)
 	    free(tlp->str);
 	if (tlp->layout && tlp->free_layout)
 	    tlp->free_layout (tlp->layout);

@@ -1480,8 +1480,7 @@ void neato_layout(Agraph_t * g)
 		pinfo.fixed = bp;
 		pinfo.doSplines = 1;
 		packGraphs(n_cc, cc, g, &pinfo);
-		if (bp)
-		    free(bp);
+		free(bp);
 	    }
 	    else {
 		neatoLayout(g, g, layoutMode, model, &am);

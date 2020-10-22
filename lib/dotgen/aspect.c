@@ -187,8 +187,7 @@ static void computeLayerWidths(graph_t * g)
 		}
 		free(layerWidthInfo[i].nodeGroupsInLayer);
 	    }
-	    if (layerWidthInfo[i].removed)
-		free(layerWidthInfo[i].removed);
+	    free(layerWidthInfo[i].removed);
 	}
 
 	free(layerWidthInfo);

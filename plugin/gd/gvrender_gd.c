@@ -271,8 +271,7 @@ static void gdgen_missingfont(char *err, char *fontreq)
 	agerr(AGERR, "%s : %s in %s\n", err, fontreq, p);
 #endif
 #endif
-	if (lastmissing)
-	    free(lastmissing);
+	free(lastmissing);
 	lastmissing = strdup(fontreq);
 	n_errors++;
 #if 0

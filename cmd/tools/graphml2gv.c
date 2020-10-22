@@ -586,8 +586,7 @@ static void endElementHandler(void *userData, const char *name)
 	    setGraphAttr(G, name, value, ud);
 	    break;
 	}
-	if (dynbuf)
-	    free(dynbuf);
+	free(dynbuf);
 	ud->globalAttrType = TAG_NONE;
     } 
 }

@@ -91,7 +91,7 @@ static void mkHeap(heap * h, int size)
 
 static void freeHeap(heap * h)
 {
-    if (h->data) free(h->data);
+    free(h->data);
 }
 
 static void

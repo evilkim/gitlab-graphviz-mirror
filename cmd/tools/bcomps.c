@@ -95,8 +95,7 @@ static char *blockName(char *gname, int d)
 
     sz = strlen(gname) + 128;
     if (sz > bufsz) {
-	if (buf)
-	    free(buf);
+	free(buf);
 	buf = malloc(sz);
     }
 

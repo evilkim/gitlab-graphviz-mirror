@@ -95,10 +95,8 @@ int gvFreeContext(GVC_t * gvc)
 	free(package);
     }
     gvjobs_delete(gvc);
-    if (gvc->config_path)
-	free(gvc->config_path);
-    if (gvc->input_filenames)
-	free(gvc->input_filenames);
+    free(gvc->config_path);
+    free(gvc->input_filenames);
     textfont_dict_close(gvc);
     for (i = 0; i != num_apis; ++i) {
 	for (api = gvc->apis[i]; api != NULL; api = api_next) {

@@ -813,16 +813,14 @@ void free_html_text(htmltxt_t * t)
     for (i = 0; i < t->nspans; i++) {
 	ti = tl->items;
 	for (j = 0; j < tl->nitems; j++) {
-	    if (ti->str)
-		free(ti->str);
+	    free(ti->str);
 	    if (ti->layout && ti->free_layout)
 		ti->free_layout(ti->layout);
 	    ti++;
 	}
 	tl++;
     }
-    if (t->spans)
-	free(t->spans);
+    free(t->spans);
     free(t);
 }
 

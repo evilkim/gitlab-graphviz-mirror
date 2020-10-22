@@ -108,10 +108,8 @@ int sfclose(Sfio_t * f)
     f->endb = f->endr = f->endw = f->next = f->data;
 
     /* zap any associated auxiliary buffer */
-    if (f->rsrv) {
-	free(f->rsrv);
-	f->rsrv = NIL(Sfrsrv_t *);
-    }
+    free(f->rsrv);
+    f->rsrv = NIL(Sfrsrv_t *);
 
     /* delete any associated sfpopen-data */
     if (f->proc)
@@ -133,7 +131,6 @@ int sfclose(Sfio_t * f)
     }
 
   done:
-    if (data)
-	free(data);
+    free(data);
     return rv;
 }

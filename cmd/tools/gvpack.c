@@ -558,7 +558,7 @@ static char *xName(Dt_t * names, char *oldname)
 	p->cnt++;
 	len = strlen(oldname) + 100; /* 100 for "_gv" and decimal no. */
 	if (namelen < len) {
-	    if (name) free (name);
+	    free (name);
 	    name = N_NEW(len, char);
 	    namelen = len;
 	}

@@ -3789,7 +3789,7 @@ static void record_gencode(GVJ_t * job, node_t * n)
 
     gen_fields(job, n, f);
 
-    if (clrs[0]) free (clrs[0]);
+    free (clrs[0]);
 
     if (doMap) {
 	if (job->flags & EMIT_CLUSTERS_LAST)

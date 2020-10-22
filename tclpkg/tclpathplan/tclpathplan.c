@@ -238,8 +238,7 @@ static char *buildBindings(char *s1, char *s2)
 	    }
 	}
     } else {
-	if (s1)
-	    free(s1);
+	free(s1);
 	l = strlen(s2);
 	if (l) {
 	    s3 = malloc(l + 2);

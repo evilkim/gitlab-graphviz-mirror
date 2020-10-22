@@ -615,8 +615,7 @@ globfree (glob_t* pglob)
     int i;
     for (i = 0; i < pglob->gl_pathc; i++)
       free (pglob->gl_pathv[i]);
-    if (pglob->gl_pathv)
-		free (pglob->gl_pathv);
+    free (pglob->gl_pathv);
 }
 #endif
 #endif

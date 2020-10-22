@@ -164,9 +164,7 @@ layout (Agraph_t* g, int depth)
 
 	/* pack rectangles */
     pts = putRects (total, gs, &pinfo);
-    if (pinfo.vals) {
-	free (pinfo.vals);
-    }
+    free (pinfo.vals);
 
     rootbb.LL = pointfof(INT_MAX, INT_MAX);
     rootbb.UR = pointfof(-INT_MAX, -INT_MAX);

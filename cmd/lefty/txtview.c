@@ -531,18 +531,15 @@ static void fillnode (txtnode_t *pnode, txtnode_t *cnode) {
 static void unfillnode (txtnode_t *cnode) {
     int i;
 
-    if (cnode->path)
-        free (cnode->path), cnode->path = NULL;
+    free (cnode->path), cnode->path = NULL;
     switch (cnode->mode) {
     case TXT_SEEN:
-        if (cnode->u.s.text)
-            free (cnode->u.s.text);
+        free (cnode->u.s.text);
         if (cnode->u.s.wi)
             Gdestroywidget (cnode->u.s.wi);
         break;
     case TXT_ABSTRACT:
-        if (cnode->u.a.text)
-            free (cnode->u.a.text);
+        free (cnode->u.a.text);
         if (cnode->u.a.wi)
             Gdestroywidget (cnode->u.a.wi);
         break;
@@ -550,18 +547,15 @@ static void unfillnode (txtnode_t *cnode) {
         if (cnode->ttype == T_TABLE) {
             for (i = 0; i < cnode->u.f.t.n; i++)
                 unfillnode (&cnode->u.f.t.list[i]);
-            if (cnode->u.f.t.list)
-                free (cnode->u.f.t.list);
-            if (cnode->u.f.t.ftext)
-                free (cnode->u.f.t.ftext);
+            free (cnode->u.f.t.list);
+            free (cnode->u.f.t.ftext);
             if (cnode->u.f.t.fwi) {
                 Gdestroywidget (cnode->u.f.t.fwi);
                 Gdestroywidget (cnode->u.f.t.mwi);
                 Gdestroywidget (cnode->u.f.t.lwi);
             }
         } else {
-            if (cnode->u.f.s.text)
-                free (cnode->u.f.s.text);
+            free (cnode->u.f.s.text);
             if (cnode->u.f.s.wi)
                 Gdestroywidget (cnode->u.f.s.wi);
         }

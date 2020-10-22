@@ -413,8 +413,7 @@ void make_plane(glCompPoint a, glCompPoint b, glCompPoint c, plane * P)
 void replacestr(char *source, char **target)
 {
 
-    if (*target)
-	free(*target);
+    free(*target);
     *target = strdup(source);
 }
 
