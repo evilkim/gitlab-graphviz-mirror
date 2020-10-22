@@ -89,11 +89,7 @@ of the layout programs.
     {%- if not loop.first -%}
     <BR>
     {%- endif -%}
-    {%- if kind in ['double', 'int', 'string'] -%}
-      {{ kind }}
-    {%- else -%}
-      <A HREF="#k:{{kind}}">{{kind}}</A>
-    {% endif -%}
+    <A HREF="#k:{{kind}}">{{kind}}</A>
   {%- endfor -%}
   </TD><TD ALIGN="CENTER">
   {%- for default in attr.defaults -%}
