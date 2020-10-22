@@ -143,6 +143,8 @@ if dirType is "back" or "both";
 For undirected edges <CODE>T -- H;</CODE>, one of the nodes, usually
 the righthand one, is treated as the head for the purpose of
 interpreting "forward" and "back".
+:double
+Double-precision floating point number.
 :doubleList
 A colon-separated list of doubles: "<I>%f</I>(:<I>%f</I>)*"
  where each <I>%f</I> is a double.
@@ -171,6 +173,8 @@ respectively.
 <P>
 Obviously, one can use "&#92;&#92;" to get a single backslash. A backslash appearing before any
 character not listed above is ignored.
+:int
+Integer number.
 :lblString
 an <A HREF=#k:escString>escString</A>
 or an <A HREF=shapes.html#html>HTML label</A>.
@@ -472,6 +476,8 @@ If the value is just <TT>"random"</TT>, a time-based seed is chosen.
 Note that input positions, specified by a node's
 <A HREF=#d:pos>pos</A>
 attribute, are only used when the style is <TT>"random"</TT>.
+:string
+Text; a sequence of characters.
 :viewPort
 "%lf,%lf,%lf,%lf,%lf" or  "%lf,%lf,%lf,'%s'"
 <P>
