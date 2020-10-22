@@ -77,9 +77,9 @@ Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
     f2flags = f2->flags;
 
     /* swap image and pool entries */
-    memcpy((void *) (&tmp), (void *) f1, sizeof(Sfio_t));
-    memcpy((void *) f1, (void *) f2, sizeof(Sfio_t));
-    memcpy((void *) f2, (void *) (&tmp), sizeof(Sfio_t));
+    tmp = *f1;
+    *f1 = *f2;
+    *f2 = tmp;
     if (f2pool >= 0)
 	f1->pool->sf[f2pool] = f1;
     if (f1pool >= 0)
