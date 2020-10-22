@@ -20,7 +20,7 @@ class Attribute:
     name: str
     # use string : this is a string formed of G,N,C,E
     used_by: str
-    kinds: List[str]
+    types: List[str]
     flags: List[str]
     html_description: str
     defaults: List[str]
@@ -41,14 +41,14 @@ with open(sys.argv[1]) as attrs_in:
 
         if line.startswith(':'):
             # This is a header line. Grab out the values.
-            #    :name:used_by:kind[:dflt[:minv]];  [notes]
+            #    :name:used_by:types[:dflt[:minv]];  [notes]
             headers, _, flags = line.rpartition(';')
             parts = headers.split(':')
 
             attr = Attribute(
                 name=parts[1],
                 used_by=parts[2],
-                kinds=parts[3].split('/'),
+                types=parts[3].split('/'),
                 flags=[flag for flag in flags.strip().split(',') if flag],
                 # Set an empty string html description, ready to append to.
                 html_description='',
