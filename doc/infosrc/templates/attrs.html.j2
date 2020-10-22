@@ -81,31 +81,43 @@ of the layout programs.
 <HR ALIGN=CENTER WIDTH="70%" SIZE=3>
 
 <TABLE ALIGN=CENTER>
-<TR><TH>Name</TH><TH><A HREF="#h:uses">Used By</A></TH><TH>Type</TH><TH ALIGN=CENTER>Default</TH><TH>Minimum</TH><TH>Notes</TH></TR>
+<TR>
+  <TH>Name</TH>
+  <TH><A HREF="#h:uses">Used By</A></TH>
+  <TH>Type</TH>
+  <TH ALIGN=CENTER>Default</TH>
+  <TH>Minimum</TH>
+  <TH>Notes</TH>
+</TR>
 {% for attr in attrs %}
- <TR><TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A>
-</TD><TD>{{ attr.uses }}</TD><TD>
+<TR>
+  <TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A></TD>
+  <TD>{{ attr.uses }}</TD>
+  <TD>
   {%- for kind in attr.kinds -%}
     {%- if not loop.first -%}
     <BR>
     {%- endif -%}
     <A HREF="#k:{{kind}}">{{kind}}</A>
   {%- endfor -%}
-  </TD><TD ALIGN="CENTER">
+  </TD>
+  <TD ALIGN="CENTER">
   {%- for default in attr.defaults -%}
     {%- if not loop.first -%}
     <BR>
     {%- endif -%}
     {{ default }}
   {%- endfor -%}
-  </TD><TD>
+  </TD>
+  <TD>
   {%- for minimum in attr.minimums -%}
     {%- if not loop.first -%}
     <BR>
     {%- endif -%}
     {{- minimum -}}
   {%- endfor -%}
-  </TD><TD>
+  </TD>
+  <TD>
   {%- if attr.flags == [] -%}
   {%- elif attr.flags == ['notdot'] -%}
     not dot
@@ -115,7 +127,8 @@ of the layout programs.
       {%- if not loop.last %}, {% endif -%}
     {%- endfor %} only
   {%- endif -%}
-  </TD> </TR>
+  </TD>
+</TR>
 {% endfor %}
 </TABLE>
 <HR>

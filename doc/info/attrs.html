@@ -81,353 +81,1398 @@ of the layout programs.
 <HR ALIGN=CENTER WIDTH="70%" SIZE=3>
 
 <TABLE ALIGN=CENTER>
-<TR><TH>Name</TH><TH><A HREF="#h:uses">Used By</A></TH><TH>Type</TH><TH ALIGN=CENTER>Default</TH><TH>Minimum</TH><TH>Notes</TH></TR>
- <TR><TD><A ID="a:Damping" HREF="#d:Damping">Damping</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.99</TD><TD>0.0</TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:K" HREF="#d:K">K</A>
-</TD><TD>GC</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.3</TD><TD>0</TD><TD>sfdp, fdp only</TD> </TR>
- <TR><TD><A ID="a:URL" HREF="#d:URL">URL</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, postscript, map only</TD> </TR>
- <TR><TD><A ID="a:_background" HREF="#d:_background">_background</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:area" HREF="#d:area">area</A>
-</TD><TD>NC</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>&gt;0</TD><TD>patchwork only</TD> </TR>
- <TR><TD><A ID="a:arrowhead" HREF="#d:arrowhead">arrowhead</A>
-</TD><TD>E</TD><TD><A HREF="#k:arrowType">arrowType</A></TD><TD ALIGN="CENTER">normal</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:arrowsize" HREF="#d:arrowsize">arrowsize</A>
-</TD><TD>E</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>0.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:arrowtail" HREF="#d:arrowtail">arrowtail</A>
-</TD><TD>E</TD><TD><A HREF="#k:arrowType">arrowType</A></TD><TD ALIGN="CENTER">normal</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:bb" HREF="#d:bb">bb</A>
-</TD><TD>G</TD><TD><A HREF="#k:rect">rect</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:bgcolor" HREF="#d:bgcolor">bgcolor</A>
-</TD><TD>GC</TD><TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:center" HREF="#d:center">center</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:charset" HREF="#d:charset">charset</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;UTF-8&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:class" HREF="#d:class">class</A>
-</TD><TD>ENCG</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg only</TD> </TR>
- <TR><TD><A ID="a:clusterrank" HREF="#d:clusterrank">clusterrank</A>
-</TD><TD>G</TD><TD><A HREF="#k:clusterMode">clusterMode</A></TD><TD ALIGN="CENTER">local</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:color" HREF="#d:color">color</A>
-</TD><TD>ENC</TD><TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD><TD ALIGN="CENTER">black</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:colorscheme" HREF="#d:colorscheme">colorscheme</A>
-</TD><TD>ENCG</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:comment" HREF="#d:comment">comment</A>
-</TD><TD>ENG</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:compound" HREF="#d:compound">compound</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:concentrate" HREF="#d:concentrate">concentrate</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:constraint" HREF="#d:constraint">constraint</A>
-</TD><TD>E</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:decorate" HREF="#d:decorate">decorate</A>
-</TD><TD>E</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:defaultdist" HREF="#d:defaultdist">defaultdist</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1+(avg. len)*sqrt(|V|)</TD><TD>epsilon</TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:dim" HREF="#d:dim">dim</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">2</TD><TD>2</TD><TD>sfdp, fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:dimen" HREF="#d:dimen">dimen</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">2</TD><TD>2</TD><TD>sfdp, fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:dir" HREF="#d:dir">dir</A>
-</TD><TD>E</TD><TD><A HREF="#k:dirType">dirType</A></TD><TD ALIGN="CENTER">forward(directed)<BR>none(undirected)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:diredgeconstraints" HREF="#d:diredgeconstraints">diredgeconstraints</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:distortion" HREF="#d:distortion">distortion</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD>-100.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:dpi" HREF="#d:dpi">dpi</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">96.0<BR>0.0</TD><TD></TD><TD>svg, bitmap output only</TD> </TR>
- <TR><TD><A ID="a:edgeURL" HREF="#d:edgeURL">edgeURL</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:edgehref" HREF="#d:edgehref">edgehref</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:edgetarget" HREF="#d:edgetarget">edgetarget</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:edgetooltip" HREF="#d:edgetooltip">edgetooltip</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, cmap only</TD> </TR>
- <TR><TD><A ID="a:epsilon" HREF="#d:epsilon">epsilon</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">.0001 * # nodes(mode == KK)<BR>.0001(mode == major)<BR>.01(mode == sgd)</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:esep" HREF="#d:esep">esep</A>
-</TD><TD>G</TD><TD><A HREF="#k:addDouble">addDouble</A><BR><A HREF="#k:addPoint">addPoint</A></TD><TD ALIGN="CENTER">+3</TD><TD></TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:fillcolor" HREF="#d:fillcolor">fillcolor</A>
-</TD><TD>NEC</TD><TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD><TD ALIGN="CENTER">lightgrey(nodes)<BR>black(clusters)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:fixedsize" HREF="#d:fixedsize">fixedsize</A>
-</TD><TD>N</TD><TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:fontcolor" HREF="#d:fontcolor">fontcolor</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:color">color</A></TD><TD ALIGN="CENTER">black</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:fontname" HREF="#d:fontname">fontname</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;Times-Roman&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:fontnames" HREF="#d:fontnames">fontnames</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg only</TD> </TR>
- <TR><TD><A ID="a:fontpath" HREF="#d:fontpath">fontpath</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">system-dependent</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:fontsize" HREF="#d:fontsize">fontsize</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">14.0</TD><TD>1.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:forcelabels" HREF="#d:forcelabels">forcelabels</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:gradientangle" HREF="#d:gradientangle">gradientangle</A>
-</TD><TD>NCG</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:group" HREF="#d:group">group</A>
-</TD><TD>N</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:headURL" HREF="#d:headURL">headURL</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:head_lp" HREF="#d:head_lp">head_lp</A>
-</TD><TD>E</TD><TD><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:headclip" HREF="#d:headclip">headclip</A>
-</TD><TD>E</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:headhref" HREF="#d:headhref">headhref</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:headlabel" HREF="#d:headlabel">headlabel</A>
-</TD><TD>E</TD><TD><A HREF="#k:lblString">lblString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:headport" HREF="#d:headport">headport</A>
-</TD><TD>E</TD><TD><A HREF="#k:portPos">portPos</A></TD><TD ALIGN="CENTER">center</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:headtarget" HREF="#d:headtarget">headtarget</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:headtooltip" HREF="#d:headtooltip">headtooltip</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, cmap only</TD> </TR>
- <TR><TD><A ID="a:height" HREF="#d:height">height</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.5</TD><TD>0.02</TD><TD></TD> </TR>
- <TR><TD><A ID="a:href" HREF="#d:href">href</A>
-</TD><TD>GCNE</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, postscript, map only</TD> </TR>
- <TR><TD><A ID="a:id" HREF="#d:id">id</A>
-</TD><TD>GCNE</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, postscript, map only</TD> </TR>
- <TR><TD><A ID="a:image" HREF="#d:image">image</A>
-</TD><TD>N</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:imagepath" HREF="#d:imagepath">imagepath</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:imagepos" HREF="#d:imagepos">imagepos</A>
-</TD><TD>N</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;mc&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:imagescale" HREF="#d:imagescale">imagescale</A>
-</TD><TD>N</TD><TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:inputscale" HREF="#d:inputscale">inputscale</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:label" HREF="#d:label">label</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:lblString">lblString</A></TD><TD ALIGN="CENTER">&#34;\&amp;#92;N&#34; (nodes)<BR>&#34;&#34; (otherwise)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelURL" HREF="#d:labelURL">labelURL</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:label_scheme" HREF="#d:label_scheme">label_scheme</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">0</TD><TD>0</TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:labelangle" HREF="#d:labelangle">labelangle</A>
-</TD><TD>E</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">-25.0</TD><TD>-180.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:labeldistance" HREF="#d:labeldistance">labeldistance</A>
-</TD><TD>E</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>0.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelfloat" HREF="#d:labelfloat">labelfloat</A>
-</TD><TD>E</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelfontcolor" HREF="#d:labelfontcolor">labelfontcolor</A>
-</TD><TD>E</TD><TD><A HREF="#k:color">color</A></TD><TD ALIGN="CENTER">black</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelfontname" HREF="#d:labelfontname">labelfontname</A>
-</TD><TD>E</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;Times-Roman&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelfontsize" HREF="#d:labelfontsize">labelfontsize</A>
-</TD><TD>E</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">14.0</TD><TD>1.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelhref" HREF="#d:labelhref">labelhref</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:labeljust" HREF="#d:labeljust">labeljust</A>
-</TD><TD>GC</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;c&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labelloc" HREF="#d:labelloc">labelloc</A>
-</TD><TD>NGC</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;t&#34;(clusters)<BR>&#34;b&#34;(root graphs)<BR>&#34;c&#34;(nodes)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:labeltarget" HREF="#d:labeltarget">labeltarget</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:labeltooltip" HREF="#d:labeltooltip">labeltooltip</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, cmap only</TD> </TR>
- <TR><TD><A ID="a:landscape" HREF="#d:landscape">landscape</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:layer" HREF="#d:layer">layer</A>
-</TD><TD>ENC</TD><TD><A HREF="#k:layerRange">layerRange</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:layerlistsep" HREF="#d:layerlistsep">layerlistsep</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;,&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:layers" HREF="#d:layers">layers</A>
-</TD><TD>G</TD><TD><A HREF="#k:layerList">layerList</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:layerselect" HREF="#d:layerselect">layerselect</A>
-</TD><TD>G</TD><TD><A HREF="#k:layerRange">layerRange</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:layersep" HREF="#d:layersep">layersep</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34; </TD><TD>&amp;#92;t&#34;</TD><TD></TD> </TR>
- <TR><TD><A ID="a:layout" HREF="#d:layout">layout</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:len" HREF="#d:len">len</A>
-</TD><TD>E</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0(neato)<BR>0.3(fdp)</TD><TD></TD><TD>fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:levels" HREF="#d:levels">levels</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">MAXINT</TD><TD>0.0</TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:levelsgap" HREF="#d:levelsgap">levelsgap</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:lhead" HREF="#d:lhead">lhead</A>
-</TD><TD>E</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:lheight" HREF="#d:lheight">lheight</A>
-</TD><TD>GC</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:lp" HREF="#d:lp">lp</A>
-</TD><TD>EGC</TD><TD><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:ltail" HREF="#d:ltail">ltail</A>
-</TD><TD>E</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:lwidth" HREF="#d:lwidth">lwidth</A>
-</TD><TD>GC</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:margin" HREF="#d:margin">margin</A>
-</TD><TD>NCG</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER">&lt;device-dependent&gt;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:maxiter" HREF="#d:maxiter">maxiter</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">100 * # nodes(mode == KK)<BR>200(mode == major)<BR>30(mode == sgd)<BR>600(fdp)</TD><TD></TD><TD>fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:mclimit" HREF="#d:mclimit">mclimit</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:mindist" HREF="#d:mindist">mindist</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>0.0</TD><TD>circo only</TD> </TR>
- <TR><TD><A ID="a:minlen" HREF="#d:minlen">minlen</A>
-</TD><TD>E</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">1</TD><TD>0</TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:mode" HREF="#d:mode">mode</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">major</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:model" HREF="#d:model">model</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">shortpath</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:mosek" HREF="#d:mosek">mosek</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:newrank" HREF="#d:newrank">newrank</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:nodesep" HREF="#d:nodesep">nodesep</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.25</TD><TD>0.02</TD><TD></TD> </TR>
- <TR><TD><A ID="a:nojustify" HREF="#d:nojustify">nojustify</A>
-</TD><TD>GCNE</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:normalize" HREF="#d:normalize">normalize</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:notranslate" HREF="#d:notranslate">notranslate</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>neato only</TD> </TR>
- <TR><TD><A ID="a:nslimit" HREF="#d:nslimit">nslimit</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:nslimit1" HREF="#d:nslimit1">nslimit1</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:ordering" HREF="#d:ordering">ordering</A>
-</TD><TD>GN</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:orientation" HREF="#d:orientation">orientation</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD>360.0</TD><TD></TD> </TR>
- <TR><TD><A ID="aa:orientation" HREF="#dd:orientation">orientation</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:outputorder" HREF="#d:outputorder">outputorder</A>
-</TD><TD>G</TD><TD><A HREF="#k:outputMode">outputMode</A></TD><TD ALIGN="CENTER">breadthfirst</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:overlap" HREF="#d:overlap">overlap</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:overlap_scaling" HREF="#d:overlap_scaling">overlap_scaling</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">-4</TD><TD>-1.0e10</TD><TD>prism only</TD> </TR>
- <TR><TD><A ID="a:overlap_shrink" HREF="#d:overlap_shrink">overlap_shrink</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD>prism only</TD> </TR>
- <TR><TD><A ID="a:pack" HREF="#d:pack">pack</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:packmode" HREF="#d:packmode">packmode</A>
-</TD><TD>G</TD><TD><A HREF="#k:packMode">packMode</A></TD><TD ALIGN="CENTER">node</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:pad" HREF="#d:pad">pad</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER">0.0555 (4 points)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:page" HREF="#d:page">page</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:pagedir" HREF="#d:pagedir">pagedir</A>
-</TD><TD>G</TD><TD><A HREF="#k:pagedir">pagedir</A></TD><TD ALIGN="CENTER">BL</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:pencolor" HREF="#d:pencolor">pencolor</A>
-</TD><TD>C</TD><TD><A HREF="#k:color">color</A></TD><TD ALIGN="CENTER">black</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:penwidth" HREF="#d:penwidth">penwidth</A>
-</TD><TD>CNE</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>0.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:peripheries" HREF="#d:peripheries">peripheries</A>
-</TD><TD>NC</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">shape default(nodes)<BR>1(clusters)</TD><TD>0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:pin" HREF="#d:pin">pin</A>
-</TD><TD>N</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD>fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:pos" HREF="#d:pos">pos</A>
-</TD><TD>EN</TD><TD><A HREF="#k:point">point</A><BR><A HREF="#k:splineType">splineType</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:quadtree" HREF="#d:quadtree">quadtree</A>
-</TD><TD>G</TD><TD><A HREF="#k:quadType">quadType</A><BR><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">normal</TD><TD></TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:quantum" HREF="#d:quantum">quantum</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD>0.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:rank" HREF="#d:rank">rank</A>
-</TD><TD>S</TD><TD><A HREF="#k:rankType">rankType</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:rankdir" HREF="#d:rankdir">rankdir</A>
-</TD><TD>G</TD><TD><A HREF="#k:rankdir">rankdir</A></TD><TD ALIGN="CENTER">TB</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:ranksep" HREF="#d:ranksep">ranksep</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:doubleList">doubleList</A></TD><TD ALIGN="CENTER">0.5(dot)<BR>1.0(twopi)</TD><TD>0.02</TD><TD>twopi, dot only</TD> </TR>
- <TR><TD><A ID="a:ratio" HREF="#d:ratio">ratio</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:rects" HREF="#d:rects">rects</A>
-</TD><TD>N</TD><TD><A HREF="#k:rect">rect</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:regular" HREF="#d:regular">regular</A>
-</TD><TD>N</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">false</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:remincross" HREF="#d:remincross">remincross</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:repulsiveforce" HREF="#d:repulsiveforce">repulsiveforce</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1.0</TD><TD>0.0</TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:resolution" HREF="#d:resolution">resolution</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">96.0<BR>0.0</TD><TD></TD><TD>svg, bitmap output only</TD> </TR>
- <TR><TD><A ID="a:root" HREF="#d:root">root</A>
-</TD><TD>GN</TD><TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">&lt;none&gt;(graphs)<BR>false(nodes)</TD><TD></TD><TD>circo, twopi only</TD> </TR>
- <TR><TD><A ID="a:rotate" HREF="#d:rotate">rotate</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">0</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:rotation" HREF="#d:rotation">rotation</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0</TD><TD></TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:samehead" HREF="#d:samehead">samehead</A>
-</TD><TD>E</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:sametail" HREF="#d:sametail">sametail</A>
-</TD><TD>E</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:samplepoints" HREF="#d:samplepoints">samplepoints</A>
-</TD><TD>N</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">8(output)<BR>20(overlap and image maps)</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:scale" HREF="#d:scale">scale</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:searchsize" HREF="#d:searchsize">searchsize</A>
-</TD><TD>G</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">30</TD><TD></TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:sep" HREF="#d:sep">sep</A>
-</TD><TD>G</TD><TD><A HREF="#k:addDouble">addDouble</A><BR><A HREF="#k:addPoint">addPoint</A></TD><TD ALIGN="CENTER">+4</TD><TD></TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:shape" HREF="#d:shape">shape</A>
-</TD><TD>N</TD><TD><A HREF="#k:shape">shape</A></TD><TD ALIGN="CENTER">ellipse</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:shapefile" HREF="#d:shapefile">shapefile</A>
-</TD><TD>N</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:showboxes" HREF="#d:showboxes">showboxes</A>
-</TD><TD>ENG</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">0</TD><TD>0</TD><TD>dot only</TD> </TR>
- <TR><TD><A ID="a:sides" HREF="#d:sides">sides</A>
-</TD><TD>N</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">4</TD><TD>0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:size" HREF="#d:size">size</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:skew" HREF="#d:skew">skew</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD>-100.0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:smoothing" HREF="#d:smoothing">smoothing</A>
-</TD><TD>G</TD><TD><A HREF="#k:smoothType">smoothType</A></TD><TD ALIGN="CENTER">&#34;none&#34;</TD><TD></TD><TD>sfdp only</TD> </TR>
- <TR><TD><A ID="a:sortv" HREF="#d:sortv">sortv</A>
-</TD><TD>GCN</TD><TD><A HREF="#k:int">int</A></TD><TD ALIGN="CENTER">0</TD><TD>0</TD><TD></TD> </TR>
- <TR><TD><A ID="a:splines" HREF="#d:splines">splines</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:start" HREF="#d:start">start</A>
-</TD><TD>G</TD><TD><A HREF="#k:startType">startType</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>fdp, neato only</TD> </TR>
- <TR><TD><A ID="a:style" HREF="#d:style">style</A>
-</TD><TD>ENCG</TD><TD><A HREF="#k:style">style</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:stylesheet" HREF="#d:stylesheet">stylesheet</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg only</TD> </TR>
- <TR><TD><A ID="a:tailURL" HREF="#d:tailURL">tailURL</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:tail_lp" HREF="#d:tail_lp">tail_lp</A>
-</TD><TD>E</TD><TD><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:tailclip" HREF="#d:tailclip">tailclip</A>
-</TD><TD>E</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER">true</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:tailhref" HREF="#d:tailhref">tailhref</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:taillabel" HREF="#d:taillabel">taillabel</A>
-</TD><TD>E</TD><TD><A HREF="#k:lblString">lblString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:tailport" HREF="#d:tailport">tailport</A>
-</TD><TD>E</TD><TD><A HREF="#k:portPos">portPos</A></TD><TD ALIGN="CENTER">center</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:tailtarget" HREF="#d:tailtarget">tailtarget</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:tailtooltip" HREF="#d:tailtooltip">tailtooltip</A>
-</TD><TD>E</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, cmap only</TD> </TR>
- <TR><TD><A ID="a:target" HREF="#d:target">target</A>
-</TD><TD>ENGC</TD><TD><A HREF="#k:escString">escString</A><BR><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER">&lt;none&gt;</TD><TD></TD><TD>svg, map only</TD> </TR>
- <TR><TD><A ID="a:tooltip" HREF="#d:tooltip">tooltip</A>
-</TD><TD>NEC</TD><TD><A HREF="#k:escString">escString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD>svg, cmap only</TD> </TR>
- <TR><TD><A ID="a:truecolor" HREF="#d:truecolor">truecolor</A>
-</TD><TD>G</TD><TD><A HREF="#k:bool">bool</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>bitmap output only</TD> </TR>
- <TR><TD><A ID="a:vertices" HREF="#d:vertices">vertices</A>
-</TD><TD>N</TD><TD><A HREF="#k:pointList">pointList</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:viewport" HREF="#d:viewport">viewport</A>
-</TD><TD>G</TD><TD><A HREF="#k:viewPort">viewPort</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:voro_margin" HREF="#d:voro_margin">voro_margin</A>
-</TD><TD>G</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.05</TD><TD>0.0</TD><TD>not dot</TD> </TR>
- <TR><TD><A ID="a:weight" HREF="#d:weight">weight</A>
-</TD><TD>E</TD><TD><A HREF="#k:int">int</A><BR><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">1</TD><TD>0(dot,twopi)<BR>1(neato,fdp)</TD><TD></TD> </TR>
- <TR><TD><A ID="a:width" HREF="#d:width">width</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.75</TD><TD>0.01</TD><TD></TD> </TR>
- <TR><TD><A ID="a:xdotversion" HREF="#d:xdotversion">xdotversion</A>
-</TD><TD>G</TD><TD><A HREF="#k:string">string</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>xdot only</TD> </TR>
- <TR><TD><A ID="a:xlabel" HREF="#d:xlabel">xlabel</A>
-</TD><TD>EN</TD><TD><A HREF="#k:lblString">lblString</A></TD><TD ALIGN="CENTER">&#34;&#34;</TD><TD></TD><TD></TD> </TR>
- <TR><TD><A ID="a:xlp" HREF="#d:xlp">xlp</A>
-</TD><TD>NE</TD><TD><A HREF="#k:point">point</A></TD><TD ALIGN="CENTER"></TD><TD></TD><TD>write only</TD> </TR>
- <TR><TD><A ID="a:z" HREF="#d:z">z</A>
-</TD><TD>N</TD><TD><A HREF="#k:double">double</A></TD><TD ALIGN="CENTER">0.0</TD><TD>-MAXFLOAT<BR>-1000</TD><TD></TD> </TR>
+<TR>
+  <TH>Name</TH>
+  <TH><A HREF="#h:uses">Used By</A></TH>
+  <TH>Type</TH>
+  <TH ALIGN=CENTER>Default</TH>
+  <TH>Minimum</TH>
+  <TH>Notes</TH>
+</TR>
+<TR>
+  <TD><A ID="a:Damping" HREF="#d:Damping">Damping</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.99</TD>
+  <TD>0.0</TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:K" HREF="#d:K">K</A></TD>
+  <TD>GC</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.3</TD>
+  <TD>0</TD>
+  <TD>sfdp, fdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:URL" HREF="#d:URL">URL</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, postscript, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:_background" HREF="#d:_background">_background</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:area" HREF="#d:area">area</A></TD>
+  <TD>NC</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>&gt;0</TD>
+  <TD>patchwork only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:arrowhead" HREF="#d:arrowhead">arrowhead</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:arrowType">arrowType</A></TD>
+  <TD ALIGN="CENTER">normal</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:arrowsize" HREF="#d:arrowsize">arrowsize</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>0.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:arrowtail" HREF="#d:arrowtail">arrowtail</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:arrowType">arrowType</A></TD>
+  <TD ALIGN="CENTER">normal</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:bb" HREF="#d:bb">bb</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:rect">rect</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:bgcolor" HREF="#d:bgcolor">bgcolor</A></TD>
+  <TD>GC</TD>
+  <TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:center" HREF="#d:center">center</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:charset" HREF="#d:charset">charset</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;UTF-8&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:class" HREF="#d:class">class</A></TD>
+  <TD>ENCG</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:clusterrank" HREF="#d:clusterrank">clusterrank</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:clusterMode">clusterMode</A></TD>
+  <TD ALIGN="CENTER">local</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:color" HREF="#d:color">color</A></TD>
+  <TD>ENC</TD>
+  <TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD>
+  <TD ALIGN="CENTER">black</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:colorscheme" HREF="#d:colorscheme">colorscheme</A></TD>
+  <TD>ENCG</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:comment" HREF="#d:comment">comment</A></TD>
+  <TD>ENG</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:compound" HREF="#d:compound">compound</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:concentrate" HREF="#d:concentrate">concentrate</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:constraint" HREF="#d:constraint">constraint</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:decorate" HREF="#d:decorate">decorate</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:defaultdist" HREF="#d:defaultdist">defaultdist</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1+(avg. len)*sqrt(|V|)</TD>
+  <TD>epsilon</TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:dim" HREF="#d:dim">dim</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">2</TD>
+  <TD>2</TD>
+  <TD>sfdp, fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:dimen" HREF="#d:dimen">dimen</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">2</TD>
+  <TD>2</TD>
+  <TD>sfdp, fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:dir" HREF="#d:dir">dir</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:dirType">dirType</A></TD>
+  <TD ALIGN="CENTER">forward(directed)<BR>none(undirected)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:diredgeconstraints" HREF="#d:diredgeconstraints">diredgeconstraints</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:distortion" HREF="#d:distortion">distortion</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD>-100.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:dpi" HREF="#d:dpi">dpi</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">96.0<BR>0.0</TD>
+  <TD></TD>
+  <TD>svg, bitmap output only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:edgeURL" HREF="#d:edgeURL">edgeURL</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:edgehref" HREF="#d:edgehref">edgehref</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:edgetarget" HREF="#d:edgetarget">edgetarget</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:edgetooltip" HREF="#d:edgetooltip">edgetooltip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, cmap only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:epsilon" HREF="#d:epsilon">epsilon</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">.0001 * # nodes(mode == KK)<BR>.0001(mode == major)<BR>.01(mode == sgd)</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:esep" HREF="#d:esep">esep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:addDouble">addDouble</A><BR><A HREF="#k:addPoint">addPoint</A></TD>
+  <TD ALIGN="CENTER">+3</TD>
+  <TD></TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:fillcolor" HREF="#d:fillcolor">fillcolor</A></TD>
+  <TD>NEC</TD>
+  <TD><A HREF="#k:color">color</A><BR><A HREF="#k:colorList">colorList</A></TD>
+  <TD ALIGN="CENTER">lightgrey(nodes)<BR>black(clusters)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:fixedsize" HREF="#d:fixedsize">fixedsize</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:fontcolor" HREF="#d:fontcolor">fontcolor</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:color">color</A></TD>
+  <TD ALIGN="CENTER">black</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:fontname" HREF="#d:fontname">fontname</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;Times-Roman&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:fontnames" HREF="#d:fontnames">fontnames</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:fontpath" HREF="#d:fontpath">fontpath</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">system-dependent</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:fontsize" HREF="#d:fontsize">fontsize</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">14.0</TD>
+  <TD>1.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:forcelabels" HREF="#d:forcelabels">forcelabels</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:gradientangle" HREF="#d:gradientangle">gradientangle</A></TD>
+  <TD>NCG</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:group" HREF="#d:group">group</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:headURL" HREF="#d:headURL">headURL</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:head_lp" HREF="#d:head_lp">head_lp</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:headclip" HREF="#d:headclip">headclip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:headhref" HREF="#d:headhref">headhref</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:headlabel" HREF="#d:headlabel">headlabel</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:lblString">lblString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:headport" HREF="#d:headport">headport</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:portPos">portPos</A></TD>
+  <TD ALIGN="CENTER">center</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:headtarget" HREF="#d:headtarget">headtarget</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:headtooltip" HREF="#d:headtooltip">headtooltip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, cmap only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:height" HREF="#d:height">height</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.5</TD>
+  <TD>0.02</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:href" HREF="#d:href">href</A></TD>
+  <TD>GCNE</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, postscript, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:id" HREF="#d:id">id</A></TD>
+  <TD>GCNE</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, postscript, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:image" HREF="#d:image">image</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:imagepath" HREF="#d:imagepath">imagepath</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:imagepos" HREF="#d:imagepos">imagepos</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;mc&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:imagescale" HREF="#d:imagescale">imagescale</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:inputscale" HREF="#d:inputscale">inputscale</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:label" HREF="#d:label">label</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:lblString">lblString</A></TD>
+  <TD ALIGN="CENTER">&#34;\&amp;#92;N&#34; (nodes)<BR>&#34;&#34; (otherwise)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelURL" HREF="#d:labelURL">labelURL</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:label_scheme" HREF="#d:label_scheme">label_scheme</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">0</TD>
+  <TD>0</TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelangle" HREF="#d:labelangle">labelangle</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">-25.0</TD>
+  <TD>-180.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labeldistance" HREF="#d:labeldistance">labeldistance</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>0.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelfloat" HREF="#d:labelfloat">labelfloat</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelfontcolor" HREF="#d:labelfontcolor">labelfontcolor</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:color">color</A></TD>
+  <TD ALIGN="CENTER">black</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelfontname" HREF="#d:labelfontname">labelfontname</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;Times-Roman&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelfontsize" HREF="#d:labelfontsize">labelfontsize</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">14.0</TD>
+  <TD>1.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelhref" HREF="#d:labelhref">labelhref</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:labeljust" HREF="#d:labeljust">labeljust</A></TD>
+  <TD>GC</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;c&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labelloc" HREF="#d:labelloc">labelloc</A></TD>
+  <TD>NGC</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;t&#34;(clusters)<BR>&#34;b&#34;(root graphs)<BR>&#34;c&#34;(nodes)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:labeltarget" HREF="#d:labeltarget">labeltarget</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:labeltooltip" HREF="#d:labeltooltip">labeltooltip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, cmap only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:landscape" HREF="#d:landscape">landscape</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layer" HREF="#d:layer">layer</A></TD>
+  <TD>ENC</TD>
+  <TD><A HREF="#k:layerRange">layerRange</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layerlistsep" HREF="#d:layerlistsep">layerlistsep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;,&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layers" HREF="#d:layers">layers</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:layerList">layerList</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layerselect" HREF="#d:layerselect">layerselect</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:layerRange">layerRange</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layersep" HREF="#d:layersep">layersep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34; </TD>
+  <TD>&amp;#92;t&#34;</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:layout" HREF="#d:layout">layout</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:len" HREF="#d:len">len</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0(neato)<BR>0.3(fdp)</TD>
+  <TD></TD>
+  <TD>fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:levels" HREF="#d:levels">levels</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">MAXINT</TD>
+  <TD>0.0</TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:levelsgap" HREF="#d:levelsgap">levelsgap</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:lhead" HREF="#d:lhead">lhead</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:lheight" HREF="#d:lheight">lheight</A></TD>
+  <TD>GC</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:lp" HREF="#d:lp">lp</A></TD>
+  <TD>EGC</TD>
+  <TD><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:ltail" HREF="#d:ltail">ltail</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:lwidth" HREF="#d:lwidth">lwidth</A></TD>
+  <TD>GC</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:margin" HREF="#d:margin">margin</A></TD>
+  <TD>NCG</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER">&lt;device-dependent&gt;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:maxiter" HREF="#d:maxiter">maxiter</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">100 * # nodes(mode == KK)<BR>200(mode == major)<BR>30(mode == sgd)<BR>600(fdp)</TD>
+  <TD></TD>
+  <TD>fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:mclimit" HREF="#d:mclimit">mclimit</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:mindist" HREF="#d:mindist">mindist</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>0.0</TD>
+  <TD>circo only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:minlen" HREF="#d:minlen">minlen</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">1</TD>
+  <TD>0</TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:mode" HREF="#d:mode">mode</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">major</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:model" HREF="#d:model">model</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">shortpath</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:mosek" HREF="#d:mosek">mosek</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:newrank" HREF="#d:newrank">newrank</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:nodesep" HREF="#d:nodesep">nodesep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.25</TD>
+  <TD>0.02</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:nojustify" HREF="#d:nojustify">nojustify</A></TD>
+  <TD>GCNE</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:normalize" HREF="#d:normalize">normalize</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:notranslate" HREF="#d:notranslate">notranslate</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:nslimit" HREF="#d:nslimit">nslimit</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:nslimit1" HREF="#d:nslimit1">nslimit1</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:ordering" HREF="#d:ordering">ordering</A></TD>
+  <TD>GN</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:orientation" HREF="#d:orientation">orientation</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD>360.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="aa:orientation" HREF="#dd:orientation">orientation</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:outputorder" HREF="#d:outputorder">outputorder</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:outputMode">outputMode</A></TD>
+  <TD ALIGN="CENTER">breadthfirst</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:overlap" HREF="#d:overlap">overlap</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:overlap_scaling" HREF="#d:overlap_scaling">overlap_scaling</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">-4</TD>
+  <TD>-1.0e10</TD>
+  <TD>prism only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:overlap_shrink" HREF="#d:overlap_shrink">overlap_shrink</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD>prism only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:pack" HREF="#d:pack">pack</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:packmode" HREF="#d:packmode">packmode</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:packMode">packMode</A></TD>
+  <TD ALIGN="CENTER">node</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:pad" HREF="#d:pad">pad</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER">0.0555 (4 points)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:page" HREF="#d:page">page</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:pagedir" HREF="#d:pagedir">pagedir</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:pagedir">pagedir</A></TD>
+  <TD ALIGN="CENTER">BL</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:pencolor" HREF="#d:pencolor">pencolor</A></TD>
+  <TD>C</TD>
+  <TD><A HREF="#k:color">color</A></TD>
+  <TD ALIGN="CENTER">black</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:penwidth" HREF="#d:penwidth">penwidth</A></TD>
+  <TD>CNE</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>0.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:peripheries" HREF="#d:peripheries">peripheries</A></TD>
+  <TD>NC</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">shape default(nodes)<BR>1(clusters)</TD>
+  <TD>0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:pin" HREF="#d:pin">pin</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD>fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:pos" HREF="#d:pos">pos</A></TD>
+  <TD>EN</TD>
+  <TD><A HREF="#k:point">point</A><BR><A HREF="#k:splineType">splineType</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:quadtree" HREF="#d:quadtree">quadtree</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:quadType">quadType</A><BR><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">normal</TD>
+  <TD></TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:quantum" HREF="#d:quantum">quantum</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD>0.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:rank" HREF="#d:rank">rank</A></TD>
+  <TD>S</TD>
+  <TD><A HREF="#k:rankType">rankType</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:rankdir" HREF="#d:rankdir">rankdir</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:rankdir">rankdir</A></TD>
+  <TD ALIGN="CENTER">TB</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:ranksep" HREF="#d:ranksep">ranksep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:doubleList">doubleList</A></TD>
+  <TD ALIGN="CENTER">0.5(dot)<BR>1.0(twopi)</TD>
+  <TD>0.02</TD>
+  <TD>twopi, dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:ratio" HREF="#d:ratio">ratio</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:rects" HREF="#d:rects">rects</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:rect">rect</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:regular" HREF="#d:regular">regular</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">false</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:remincross" HREF="#d:remincross">remincross</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:repulsiveforce" HREF="#d:repulsiveforce">repulsiveforce</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1.0</TD>
+  <TD>0.0</TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:resolution" HREF="#d:resolution">resolution</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">96.0<BR>0.0</TD>
+  <TD></TD>
+  <TD>svg, bitmap output only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:root" HREF="#d:root">root</A></TD>
+  <TD>GN</TD>
+  <TD><A HREF="#k:string">string</A><BR><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;(graphs)<BR>false(nodes)</TD>
+  <TD></TD>
+  <TD>circo, twopi only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:rotate" HREF="#d:rotate">rotate</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">0</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:rotation" HREF="#d:rotation">rotation</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0</TD>
+  <TD></TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:samehead" HREF="#d:samehead">samehead</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:sametail" HREF="#d:sametail">sametail</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:samplepoints" HREF="#d:samplepoints">samplepoints</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">8(output)<BR>20(overlap and image maps)</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:scale" HREF="#d:scale">scale</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:searchsize" HREF="#d:searchsize">searchsize</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">30</TD>
+  <TD></TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:sep" HREF="#d:sep">sep</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:addDouble">addDouble</A><BR><A HREF="#k:addPoint">addPoint</A></TD>
+  <TD ALIGN="CENTER">+4</TD>
+  <TD></TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:shape" HREF="#d:shape">shape</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:shape">shape</A></TD>
+  <TD ALIGN="CENTER">ellipse</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:shapefile" HREF="#d:shapefile">shapefile</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:showboxes" HREF="#d:showboxes">showboxes</A></TD>
+  <TD>ENG</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">0</TD>
+  <TD>0</TD>
+  <TD>dot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:sides" HREF="#d:sides">sides</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">4</TD>
+  <TD>0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:size" HREF="#d:size">size</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:skew" HREF="#d:skew">skew</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD>-100.0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:smoothing" HREF="#d:smoothing">smoothing</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:smoothType">smoothType</A></TD>
+  <TD ALIGN="CENTER">&#34;none&#34;</TD>
+  <TD></TD>
+  <TD>sfdp only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:sortv" HREF="#d:sortv">sortv</A></TD>
+  <TD>GCN</TD>
+  <TD><A HREF="#k:int">int</A></TD>
+  <TD ALIGN="CENTER">0</TD>
+  <TD>0</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:splines" HREF="#d:splines">splines</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:start" HREF="#d:start">start</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:startType">startType</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>fdp, neato only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:style" HREF="#d:style">style</A></TD>
+  <TD>ENCG</TD>
+  <TD><A HREF="#k:style">style</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:stylesheet" HREF="#d:stylesheet">stylesheet</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailURL" HREF="#d:tailURL">tailURL</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:tail_lp" HREF="#d:tail_lp">tail_lp</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailclip" HREF="#d:tailclip">tailclip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER">true</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailhref" HREF="#d:tailhref">tailhref</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:taillabel" HREF="#d:taillabel">taillabel</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:lblString">lblString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailport" HREF="#d:tailport">tailport</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:portPos">portPos</A></TD>
+  <TD ALIGN="CENTER">center</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailtarget" HREF="#d:tailtarget">tailtarget</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:tailtooltip" HREF="#d:tailtooltip">tailtooltip</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, cmap only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:target" HREF="#d:target">target</A></TD>
+  <TD>ENGC</TD>
+  <TD><A HREF="#k:escString">escString</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">&lt;none&gt;</TD>
+  <TD></TD>
+  <TD>svg, map only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:tooltip" HREF="#d:tooltip">tooltip</A></TD>
+  <TD>NEC</TD>
+  <TD><A HREF="#k:escString">escString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD>svg, cmap only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:truecolor" HREF="#d:truecolor">truecolor</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:bool">bool</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>bitmap output only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:vertices" HREF="#d:vertices">vertices</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:pointList">pointList</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:viewport" HREF="#d:viewport">viewport</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:viewPort">viewPort</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:voro_margin" HREF="#d:voro_margin">voro_margin</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.05</TD>
+  <TD>0.0</TD>
+  <TD>not dot</TD>
+</TR>
+<TR>
+  <TD><A ID="a:weight" HREF="#d:weight">weight</A></TD>
+  <TD>E</TD>
+  <TD><A HREF="#k:int">int</A><BR><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">1</TD>
+  <TD>0(dot,twopi)<BR>1(neato,fdp)</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:width" HREF="#d:width">width</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.75</TD>
+  <TD>0.01</TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:xdotversion" HREF="#d:xdotversion">xdotversion</A></TD>
+  <TD>G</TD>
+  <TD><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>xdot only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:xlabel" HREF="#d:xlabel">xlabel</A></TD>
+  <TD>EN</TD>
+  <TD><A HREF="#k:lblString">lblString</A></TD>
+  <TD ALIGN="CENTER">&#34;&#34;</TD>
+  <TD></TD>
+  <TD></TD>
+</TR>
+<TR>
+  <TD><A ID="a:xlp" HREF="#d:xlp">xlp</A></TD>
+  <TD>NE</TD>
+  <TD><A HREF="#k:point">point</A></TD>
+  <TD ALIGN="CENTER"></TD>
+  <TD></TD>
+  <TD>write only</TD>
+</TR>
+<TR>
+  <TD><A ID="a:z" HREF="#d:z">z</A></TD>
+  <TD>N</TD>
+  <TD><A HREF="#k:double">double</A></TD>
+  <TD ALIGN="CENTER">0.0</TD>
+  <TD>-MAXFLOAT<BR>-1000</TD>
+  <TD></TD>
+</TR>
 </TABLE>
 <HR>
 <H1>Attribute Descriptions</H1>
