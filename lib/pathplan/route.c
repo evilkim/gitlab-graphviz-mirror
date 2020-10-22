@@ -524,7 +524,7 @@ static void growops(int newopn)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
+	if (!(ops = realloc(ops, POINTSIZE * newopn))) {
 	    prerror("cannot realloc ops");
 	    longjmp(jbuf,1);
 	}

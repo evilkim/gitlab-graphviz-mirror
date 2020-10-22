@@ -522,11 +522,11 @@ static void growpnls(int newpnln)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(pnls = realloc((void *) pnls, POINTNLINKSIZE * newpnln))) {
+	if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot realloc pnls");
 	    longjmp(jbuf,1);
 	}
-	if (!(pnlps = realloc((void *) pnlps, POINTNLINKPSIZE * newpnln))) {
+	if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot realloc pnlps");
 	    longjmp(jbuf,1);
 	}
@@ -544,7 +544,7 @@ static void growtris(int newtrin)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(tris = realloc((void *) tris, TRIANGLESIZE * newtrin))) {
+	if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
 	    prerror("cannot realloc tris");
 	    longjmp(jbuf,1);
 	}
@@ -563,7 +563,7 @@ static void growdq(int newdqn)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(dq.pnlps = realloc((void *) dq.pnlps, POINTNLINKPSIZE * newdqn))) {
+	if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot realloc dq.pnls");
 	    longjmp(jbuf,1);
 	}
