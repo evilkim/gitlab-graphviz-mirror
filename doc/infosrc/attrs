@@ -2,15 +2,15 @@
 # Each item consist of a header line, followed by a description in HTML.
 #
 # The header line has the format
-#    :name:uses:kind[:dflt[:minv]];  [notes]
+#    :name:used_by:types[:dflt[:minv]];  [notes]
 # where
 #  name has the format name1[/namei]*[ notes]
 #    the note can be used as a comment
 #
-#  uses is a string consisting of G,C,N,E, indicating that the attribute
+#  used_by is a string consisting of G,C,N,E, indicating that the attribute
 #    applies to graphs, clusters, nodes and edges, respectively.
 #
-#  kind has the format type[/typei]*
+#  types has the format type[/typei]*
 #    type can be int, bool, string, double, or a special <typename>.
 #    In the last case, we assume there is an entry for <typename> in
 #    the types file.

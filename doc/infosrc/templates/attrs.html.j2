@@ -94,11 +94,11 @@ of the layout programs.
   <TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A></TD>
   <TD>{{ attr.used_by }}</TD>
   <TD>
-  {%- for kind in attr.kinds -%}
+  {%- for type in attr.types -%}
     {%- if not loop.first -%}
     <BR>
     {%- endif -%}
-    <A HREF="#k:{{kind}}">{{kind}}</A>
+    <A HREF="#k:{{type}}">{{type}}</A>
   {%- endfor -%}
   </TD>
   <TD ALIGN="CENTER">
