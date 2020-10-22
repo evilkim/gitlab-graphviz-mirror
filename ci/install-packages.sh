@@ -18,6 +18,57 @@ GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}
 ARCH=$( uname -m )
+
+# Remove possible old version of Graphviz so that we can detect if
+# individual Graphviz tools are missing in the current release
+if [ "${ID}" = "Darwin" ]; then
+    # FIXME: Remove this when the macOS runner starts up clean.
+    # See https://gitlab.com/gitlab-com/macos-buildcloud-runners-beta/-/issues/3#note_434697680
+    rm -f \
+       /usr/local/bin/acyclic \
+       /usr/local/bin/bcomps \
+       /usr/local/bin/ccomps \
+       /usr/local/bin/circo \
+       /usr/local/bin/cluster \
+       /usr/local/bin/diffimg \
+       /usr/local/bin/dijkstra \
+       /usr/local/bin/dot \
+       /usr/local/bin/dot2gxl \
+       /usr/local/bin/dot_builtins \
+       /usr/local/bin/dotty \
+       /usr/local/bin/edgepaint \
+       /usr/local/bin/fdp \
+       /usr/local/bin/gc \
+       /usr/local/bin/gml2gv \
+       /usr/local/bin/graphml2gv \
+       /usr/local/bin/gv2gml \
+       /usr/local/bin/gv2gxl \
+       /usr/local/bin/gvcolor \
+       /usr/local/bin/gvedit \
+       /usr/local/bin/gvgen \
+       /usr/local/bin/gvmap \
+       /usr/local/bin/gvmap.sh \
+       /usr/local/bin/gvpack \
+       /usr/local/bin/gvpr \
+       /usr/local/bin/gxl2dot \
+       /usr/local/bin/gxl2gv \
+       /usr/local/bin/lefty \
+       /usr/local/bin/lneato \
+       /usr/local/bin/mingle \
+       /usr/local/bin/mm2gv \
+       /usr/local/bin/neato \
+       /usr/local/bin/nop \
+       /usr/local/bin/osage \
+       /usr/local/bin/patchwork \
+       /usr/local/bin/prune \
+       /usr/local/bin/sccmap \
+       /usr/local/bin/sfdp \
+       /usr/local/bin/smyrna \
+       /usr/local/bin/tred \
+       /usr/local/bin/twopi \
+       /usr/local/bin/unflatten \
+       /usr/local/bin/vimdot
+fi
 if [ "${build_system}" = "cmake" ]; then
     if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.deb
