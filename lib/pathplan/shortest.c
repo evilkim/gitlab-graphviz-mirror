@@ -513,11 +513,11 @@ static void growpnls(int newpnln)
     if (newpnln <= pnln)
 	return;
     if (!pnls) {
-	if (!(pnls = (pointnlink_t *) malloc(POINTNLINKSIZE * newpnln))) {
+	if (!(pnls = malloc(POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot malloc pnls");
 	    longjmp(jbuf,1);
 	}
-	if (!(pnlps = (pointnlink_t **) malloc(POINTNLINKPSIZE * newpnln))) {
+	if (!(pnlps = malloc(POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot malloc pnlps");
 	    longjmp(jbuf,1);
 	}
@@ -542,7 +542,7 @@ static void growtris(int newtrin)
     if (newtrin <= trin)
 	return;
     if (!tris) {
-	if (!(tris = (triangle_t *) malloc(TRIANGLESIZE * newtrin))) {
+	if (!(tris = malloc(TRIANGLESIZE * newtrin))) {
 	    prerror("cannot malloc tris");
 	    longjmp(jbuf,1);
 	}
@@ -562,8 +562,7 @@ static void growdq(int newdqn)
 	return;
     if (!dq.pnlps) {
 	if (!
-	    (dq.pnlps =
-	     (pointnlink_t **) malloc(POINTNLINKPSIZE * newdqn))) {
+	    (dq.pnlps = malloc(POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot malloc dq.pnls");
 	    longjmp(jbuf,1);
 	}
@@ -583,7 +582,7 @@ static void growops(int newopn)
     if (newopn <= opn)
 	return;
     if (!ops) {
-	if (!(ops = (Ppoint_t *) malloc(POINTSIZE * newopn))) {
+	if (!(ops = malloc(POINTSIZE * newopn))) {
 	    prerror("cannot malloc ops");
 	    longjmp(jbuf,1);
 	}

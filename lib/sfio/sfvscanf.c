@@ -439,7 +439,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		    continue;
 		fmstk->ft = ft = argv.ft;
 	    } else {		/* stack a new environment */
-		if (!(fm = (Fmt_t *) malloc(sizeof(Fmt_t))))
+		if (!(fm = malloc(sizeof(Fmt_t))))
 		    goto done;
 
 		if (argv.ft->form) {

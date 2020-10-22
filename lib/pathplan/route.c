@@ -519,7 +519,7 @@ static void growops(int newopn)
     if (newopn <= opn)
 	return;
     if (!ops) {
-	if (!(ops = (Ppoint_t *) malloc(POINTSIZE * newopn))) {
+	if (!(ops = malloc(POINTSIZE * newopn))) {
 	    prerror("cannot malloc ops");
 	    longjmp(jbuf,1);
 	}

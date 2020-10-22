@@ -906,10 +906,10 @@ typedef struct _tag_vec
 
 static vec* vec_new(void)
 {
-    vec* pvec = (vec*)malloc(sizeof(vec));
+    vec* pvec = malloc(sizeof(vec));
     pvec->_capelems = 10;
     pvec->_elems = 0;
-    pvec->_mem = (void**)malloc(pvec->_capelems * sizeof(void*));
+    pvec->_mem = malloc(pvec->_capelems * sizeof(void*));
     return pvec;
 }
 
@@ -964,10 +964,10 @@ static boolean vec_contains(vec* pvec, void* item)
 
 static vec* vec_copy(vec* pvec)
 {
-    vec* nvec = (vec*)malloc(sizeof(vec));
+    vec* nvec = malloc(sizeof(vec));
     nvec->_capelems = pvec->_capelems;
     nvec->_elems = pvec->_elems;
-    nvec->_mem = (void**)malloc(pvec->_capelems * sizeof(void*));
+    nvec->_mem = malloc(pvec->_capelems * sizeof(void*));
 	memcpy(nvec->_mem, pvec->_mem, pvec->_elems * sizeof(void*));
     return nvec;
 }

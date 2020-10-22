@@ -49,7 +49,7 @@ char *aglasterr()
     fflush(agerrout);
     endpos = ftell(agerrout);
     len = endpos - aglast;
-    buf = (char*)malloc(len + 1);
+    buf = malloc(len + 1);
     fseek(agerrout, aglast, SEEK_SET);
     fread(buf, sizeof(char), len, agerrout);
     buf[len] = '\0';
@@ -70,7 +70,7 @@ userout (agerrlevel_t level, const char *fmt, va_list args)
     int n;
 
     if (!buf) {
-	buf = (char*)malloc(bufsz);
+	buf = malloc(bufsz);
 	if (!buf) {
 	    fputs("userout: could not allocate memory\n", stderr );
 	    return;

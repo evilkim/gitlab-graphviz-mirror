@@ -25,13 +25,13 @@ generic_list_t *new_generic_list(uint64_t size)
 {
     generic_list_t *list;
 
-    list = (generic_list_t *) malloc(sizeof(generic_list_t));
+    list = malloc(sizeof(generic_list_t));
     if (list == NULL) {
 	perror("[new_generic_list()] Error allocating memory:");
 	return NULL;
     }
     if (size != 0) {
-	list->data = (gl_data *) malloc(size * sizeof(gl_data));
+	list->data = malloc(size * sizeof(gl_data));
 	if (list->data == NULL) {
 	    perror("[new_generic_list()] Error allocating memory:");
 	    free(list);

@@ -70,7 +70,7 @@ static record *newRec(record * curr)
 {
     record *newr;
 
-    newr = (record *) malloc(sizeof(record));
+    newr = malloc(sizeof(record));
     if (!newr) {
 	fprintf(stderr, "mkdefs: out of memory, line %d\n", lineno);
 	exit(1);

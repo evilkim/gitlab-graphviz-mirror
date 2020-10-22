@@ -154,8 +154,8 @@ mult_dense_mat(double **A, float **B, int dim1, int dim2, int dim3,
 	storage = (float *) realloc(C[0], dim1 * dim3 * sizeof(A[0]));
 	*CC = C = (float **) realloc(C, dim1 * sizeof(A));
     } else {
-	storage = (float *) malloc(dim1 * dim3 * sizeof(A[0]));
-	*CC = C = (float **) malloc(dim1 * sizeof(A));
+	storage = malloc(dim1 * dim3 * sizeof(A[0]));
+	*CC = C = malloc(dim1 * sizeof(A));
     }
 
     for (i = 0; i < dim1; i++) {
@@ -190,8 +190,8 @@ mult_dense_mat_d(double **A, float **B, int dim1, int dim2, int dim3,
 	storage = (double *) realloc(C[0], dim1 * dim3 * sizeof(double));
 	*CC = C = (double **) realloc(C, dim1 * sizeof(double *));
     } else {
-	storage = (double *) malloc(dim1 * dim3 * sizeof(double));
-	*CC = C = (double **) malloc(dim1 * sizeof(double *));
+	storage = malloc(dim1 * dim3 * sizeof(double));
+	*CC = C = malloc(dim1 * sizeof(double *));
     }
 
     for (i = 0; i < dim1; i++) {
@@ -229,8 +229,8 @@ mult_sparse_dense_mat_transpose(vtx_data * A, double **B, int dim1,
 	storage = (float *) realloc(C[0], dim1 * dim2 * sizeof(A[0]));
 	*CC = C = (float **) realloc(C, dim1 * sizeof(A));
     } else {
-	storage = (float *) malloc(dim1 * dim2 * sizeof(A[0]));
-	*CC = C = (float **) malloc(dim1 * sizeof(A));
+	storage = malloc(dim1 * dim2 * sizeof(A[0]));
+	*CC = C = malloc(dim1 * sizeof(A));
     }
 
     for (i = 0; i < dim1; i++) {

@@ -24,7 +24,7 @@
 #include <cgraph/cgraph.h>
 
 #define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
-#define NEW(t)           (t*)malloc(sizeof(t))
+#define NEW(t)           malloc(sizeof(t))
 
 typedef struct {
     Agrec_t h;
@@ -113,7 +113,7 @@ static void split(char *name)
     if (sfx) {
 	suffix = sfx + 1;
 	size = sfx - name;
-	path = (char *) malloc(size + 1);
+	path = malloc(size + 1);
 	strncpy(path, name, size);
 	*(path + size) = '\0';
     } else {
@@ -353,7 +353,7 @@ static char *getName(void)
 	name = outfile;
     else {
 	if (!buf)
-	    buf = (char *) malloc(strlen(outfile) + 20);	/* enough to handle '_number' */
+	    buf = malloc(strlen(outfile) + 20);	/* enough to handle '_number' */
 	if (suffix)
 	    sprintf(buf, "%s_%d.%s", path, sufcnt, suffix);
 	else
@@ -398,7 +398,7 @@ static char *getBuf(int n)
     if (n > len) {
 	sz = n + 100;
 	if (len == 0)
-	    buf = (char *) malloc(sz);
+	    buf = malloc(sz);
 	else
 	    buf = (char *) realloc(buf, sz);
 	len = sz;

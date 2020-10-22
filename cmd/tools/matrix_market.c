@@ -117,7 +117,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 	type = mm_get_type(matcode);
 	switch (type) {
 	case MATRIX_TYPE_REAL:
-	    val = (real *) malloc(nz * sizeof(real));
+	    val = malloc(nz * sizeof(real));
 	    for (i = 0; i < nz; i++) {
 		fscanf(f, "%d %d %lg\n", &I[i], &J[i], &val[i]);
 		I[i]--;		/* adjust from 1-based to 0-based */
@@ -153,7 +153,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 	    vp = (void *) val;
 	    break;
 	case MATRIX_TYPE_INTEGER:
-	    vali = (int *) malloc(nz * sizeof(int));
+	    vali = malloc(nz * sizeof(int));
 	    for (i = 0; i < nz; i++) {
 		fscanf(f, "%d %d %d\n", &I[i], &J[i], &vali[i]);
 		I[i]--;		/* adjust from 1-based to 0-based */
@@ -209,7 +209,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 	    }
 	    break;
 	case MATRIX_TYPE_COMPLEX:
-	    val = (real *) malloc(2 * nz * sizeof(real));
+	    val = malloc(2 * nz * sizeof(real));
 	    v = val;
 	    for (i = 0; i < nz; i++) {
 		fscanf(f, "%d %d %lg %lg\n", &I[i], &J[i], &v[0], &v[1]);

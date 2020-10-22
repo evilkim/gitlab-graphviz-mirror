@@ -245,7 +245,7 @@ typedef struct {
     int faces;
 } availfont_t;
 
-#define NEW(t)          (t*)malloc(sizeof(t))
+#define NEW(t)          malloc(sizeof(t))
 #define N_NEW(n,t)      (t*)calloc((n),sizeof(t))
 
 static PostscriptAlias postscript_alias[] = {

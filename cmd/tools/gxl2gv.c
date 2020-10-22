@@ -48,7 +48,7 @@ struct slist {
     char buf[1];
 };
 
-#define NEW(t)      (t*)malloc(sizeof(t))
+#define NEW(t)      malloc(sizeof(t))
 #define N_NEW(n,t)  (t*)calloc((n),sizeof(t))
 /* Round x up to next multiple of y, which is a power of 2 */
 #define ROUND2(x,y) (((x) + ((y)-1)) & ~((y)-1))

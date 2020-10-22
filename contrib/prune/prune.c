@@ -263,7 +263,7 @@ generic_list_t *addattr(generic_list_t * l, char *a)
     char *p;
     strattr_t *sp;
 
-    sp = (strattr_t *) malloc(sizeof(strattr_t));
+    sp = malloc(sizeof(strattr_t));
     if (sp == NULL) {
 	perror("[addattr()->malloc()]");
 	exit(EXIT_FAILURE);

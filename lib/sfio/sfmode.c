@@ -105,7 +105,7 @@ int _sfsetpool(Sfio_t * f)
 	    p->sf = p->array;
 	} else {		/* allocate a larger array */
 	    n = (p->sf != p->array ? p->s_sf : (p->s_sf / 4 + 1) * 4) + 4;
-	    if (!(array = (Sfio_t **) malloc(n * sizeof(Sfio_t *))))
+	    if (!(array = malloc(n * sizeof(Sfio_t *))))
 		goto done;
 
 	    /* move old array to new one */
@@ -137,7 +137,7 @@ Sfrsrv_t *_sfrsrv(Sfio_t * f, ssize_t size)
     /* make buffer if nothing yet */
     size = ((size + SF_GRAIN - 1) / SF_GRAIN) * SF_GRAIN;
     if (!(rsrv = f->rsrv) || size > rsrv->size) {
-	if (!(rs = (Sfrsrv_t *) malloc(size + sizeof(Sfrsrv_t))))
+	if (!(rs = malloc(size + sizeof(Sfrsrv_t))))
 	    size = -1;
 	else {
 	    if (rsrv) {
@@ -177,7 +177,7 @@ int _sfpopen(Sfio_t * f, int fd, int pid, int stdio)
     if (f->proc)
 	return 0;
 
-    if (!(p = f->proc = (Sfproc_t *) malloc(sizeof(Sfproc_t))))
+    if (!(p = f->proc = malloc(sizeof(Sfproc_t))))
 	return -1;
 
     p->pid = pid;
@@ -256,7 +256,7 @@ static int _sfpmode(Sfio_t * f, int type)
 	if (p->ndata > p->size) {
 	    if (p->rdata)
 		free((char *) p->rdata);
-	    if ((p->rdata = (uchar *) malloc(p->ndata)))
+	    if ((p->rdata = malloc(p->ndata)))
 		p->size = p->ndata;
 	    else {
 		p->size = 0;

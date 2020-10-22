@@ -72,7 +72,7 @@ int sfungetc(Sfio_t * f, int c)
 	uchar *data;
 	if (f->size < 0)
 	    f->size = 0;
-	if (!(data = (uchar *) malloc(f->size + 16))) {
+	if (!(data = malloc(f->size + 16))) {
 	    c = -1;
 	    goto done;
 	}

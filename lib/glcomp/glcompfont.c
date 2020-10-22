@@ -194,7 +194,7 @@ void glDeleteFont(glCompFont * f)
 
 glCompFont *glNewFont (glCompSet * s, char *text, glCompColor * c,glCompFontType type, char *fontdesc, int fs,int is2D)
 {
-    glCompFont *font = (glCompFont*) malloc(sizeof(glCompFont));
+    glCompFont *font = malloc(sizeof(glCompFont));
     font->reference = 0;
     font->color.R = c->R;
     font->color.G = c->G;

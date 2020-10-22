@@ -30,9 +30,9 @@ char **_sfgetpath(char *path)
 	while (*p && *p != ':')	/* skip dir name */
 	    ++p;
     }
-    if (n == 0 || !(dirs = (char **) malloc((n + 1) * sizeof(char *))))
+    if (n == 0 || !(dirs = malloc((n + 1) * sizeof(char *))))
 	return NIL(char **);
-    if (!(p = (char *) malloc(strlen(path) + 1))) {
+    if (!(p = malloc(strlen(path) + 1))) {
 	free(dirs);
 	return NIL(char **);
     }

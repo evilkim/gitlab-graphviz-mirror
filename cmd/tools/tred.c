@@ -27,7 +27,7 @@
 #include <common/timing.h>
 #include <stdlib.h>
 
-#define NEW(t)           (t*)malloc(sizeof(t))
+#define NEW(t)           malloc(sizeof(t))
 #define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
 
 typedef struct {
@@ -289,7 +289,7 @@ static void process(Agraph_t * g, estack_t* sp)
     size_t infosize;
 
     infosize = (agnnodes(g)+1)*sizeof(nodeinfo_t);
-    ninfo = (nodeinfo_t*)malloc(infosize);
+    ninfo = malloc(infosize);
 
     if (Verbose)
 	fprintf(stderr, "Processing graph %s\n", agnameof(g));

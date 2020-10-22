@@ -236,7 +236,7 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 	}
 	if (!buf) {		/* do allocation */
 	    while (!buf && size > 0) {
-		if ((buf = (void *) malloc(size)))
+		if ((buf = malloc(size)))
 		    break;
 		else
 		    size /= 2;

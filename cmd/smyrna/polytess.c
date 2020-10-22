@@ -96,7 +96,7 @@ static void CALLBACK combineCallback(GLdouble coords[3], GLdouble *vertex_data[4
 {
     GLdouble *vertex;
     int i;
-    vertex = (GLdouble *) malloc(6 * sizeof(GLdouble));
+    vertex = malloc(6 * sizeof(GLdouble));
     vertex[0] = coords[0];
     vertex[1] = coords[1];
     vertex[2] = coords[2];
@@ -148,11 +148,11 @@ static int Render_Contour2(GLUtesselator *tobj,sdot_op* p)
     int x=0;
     /* int y=0; */
 
-    d=(GLdouble**) malloc(sizeof(GLdouble)* p->op.u.polygon.cnt);
+    d= malloc(sizeof(GLdouble)* p->op.u.polygon.cnt);
     for (x=0;x < p->op.u.polygon.cnt; x++)
     {
 	/* GLdouble temp; */
-	d[x]=(GLdouble*)(malloc(sizeof(GLdouble)*3));
+	d[x]=malloc(sizeof(GLdouble)*3);
 	d[x][0]=p->op.u.polygon.pts[x].x;
 	d[x][1]=p->op.u.polygon.pts[x].y;
 	d[x][2]=p->op.u.polygon.pts[x].z+view->Topview->global_z;

@@ -97,7 +97,7 @@ static char *blockName(char *gname, int d)
     if (sz > bufsz) {
 	if (buf)
 	    free(buf);
-	buf = (char *) malloc(sz);
+	buf = malloc(sz);
     }
 
     if (*gname == '%') /* anonymous graph */
@@ -124,7 +124,7 @@ static char *getName(int ng, int nb)
     else {
 	if (!buf) {
 	    sz = strlen(outfile) + 100;	/* enough to handle '_<g>_<b>' */
-	    buf = (char *) malloc(sz);
+	    buf = malloc(sz);
 	}
 	if (suffix) {
 	    if (nb < 0)
@@ -322,7 +322,7 @@ static void split(char *name)
     if (sfx) {
 	size = sfx - name;
 	suffix = sfx + 1;
-	path = (char *) malloc(size + 1);
+	path = malloc(size + 1);
 	strncpy(path, name, size);
 	*(path + size) = '\0';
     } else {

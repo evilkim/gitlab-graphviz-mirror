@@ -15,7 +15,7 @@ Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 		return NIL(Dt_t*);
 
 	/* allocate space for dictionary */
-	if(!(dt = (Dt_t*) malloc(sizeof(Dt_t))))
+	if(!(dt = malloc(sizeof(Dt_t))))
 		return NIL(Dt_t*);
 
 	/* initialize all absolutely private data */

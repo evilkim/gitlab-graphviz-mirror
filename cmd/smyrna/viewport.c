@@ -749,7 +749,7 @@ int add_new_graph_to_viewport(void)
 {
     //returns graph index , otherwise -1
     Agraph_t *graph;
-    graph = (Agraph_t *) malloc(sizeof(Agraph_t));
+    graph = malloc(sizeof(Agraph_t));
     if (graph) {
 	view->graphCount = view->graphCount + 1;
 	view->g[view->graphCount - 1] = graph;
