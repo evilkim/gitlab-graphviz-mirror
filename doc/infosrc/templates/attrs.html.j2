@@ -115,11 +115,7 @@ of the layout programs.
     not dot
   {%- else -%}
     {%- for flag in attr.flags | reverse -%}
-      {%- if flag == 'bitmap' -%}
-        bitmap output
-      {%- else -%}
-        {{ flag }}
-      {%- endif -%}
+      {{ flag }}
       {%- if not loop.last %}, {% endif -%}
     {%- endfor %} only
   {%- endif -%}

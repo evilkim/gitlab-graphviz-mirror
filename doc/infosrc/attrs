@@ -282,7 +282,7 @@ case, only these constraints are involved, so a faster solver can be used.
 Distortion factor for <A HREF=#d:shape><B>shape</B></A>=polygon.
 Positive values cause top part to
 be larger than bottom; negative values do the opposite.
-:dpi:G:double:96.0/0.0;  bitmap,svg
+:dpi:G:double:96.0/0.0;  bitmap output,svg
 This specifies the expected number of pixels per inch on a display device.
 For bitmap output, this guarantees that text rendering will be
 done more accurately, both in size and in placement. For SVG output,
@@ -1178,7 +1178,7 @@ minimization a second time.
 The power of the repulsive force used in an extended Fruchterman-Reingold 
 force directed model. Values larger than 1 tend to reduce 
 the warping effect at the expense of less clustering.
-:resolution:G:double:96.0/0.0;  bitmap,svg
+:resolution:G:double:96.0/0.0;  bitmap output,svg
 This is a synonym for the <A HREF=#d:dpi>dpi</A> attribute.
 :root:GN:string/bool:<none>(graphs)/false(nodes);  twopi,circo
 This specifies nodes to be used as the center of the
@@ -1408,7 +1408,7 @@ tooltips will be generated, the user should set a <TT>tooltip</TT>
 attribute explicitly.
 #toplabel:N:string:"";
 #  Additional label near top of nodes of shape M*.
-:truecolor:G:bool:;  bitmap
+:truecolor:G:bool:;  bitmap output
 If set explicitly to true or false, the value determines whether or not
 internal bitmap rendering relies on a truecolor color model or uses
 a color palette.
