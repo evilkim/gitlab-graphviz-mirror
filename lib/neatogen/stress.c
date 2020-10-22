@@ -543,7 +543,7 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
 	} else {
 	    for (j = 1; j < lap[i].nedges; j++) {
 		edges[j] = distances[i].edges[j - 1];
-		ewgts[j] = -1.0 / (float) dist_list[j];
+		ewgts[j] = -1.0f / (float) dist_list[j];
 		degree -= ewgts[j];
 	    }
 	}
@@ -1166,12 +1166,11 @@ int stress_majorization_kD_mkernel(vtx_data * graph,	/* Input graph in sparse re
 
 	    /* put into 'dist_accumulator' all squared distances between 'i' and 'i'+1,...,'n'-1 */
 	    for (k = 0; k < dim; k++) {
-		set_vector_valf(len, coords[k][i], tmp_coords);
-		vectors_mult_additionf(len, tmp_coords, -1,
-				       coords[k] + i + 1);
-		square_vec(len, tmp_coords);
-		vectors_additionf(len, tmp_coords, dist_accumulator,
-				  dist_accumulator);
+		size_t x;
+		for (x = 0; x < (size_t)len; ++x) {
+		    float tmp = coords[k][i] + -1.0f * (coords[k] + i + 1)[x];
+		    dist_accumulator[x] += tmp * tmp;
+		}
 	    }
 
 	    /* convert to 1/d_{ij} */
