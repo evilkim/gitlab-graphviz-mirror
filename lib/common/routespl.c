@@ -938,7 +938,7 @@ static void vec_push_back(vec* pvec, void* data)
 {
     if (pvec->_elems == pvec->_capelems) {
 		pvec->_capelems += 10;
-		pvec->_mem = (void**)realloc(pvec->_mem, pvec->_capelems * sizeof(void*));
+		pvec->_mem = realloc(pvec->_mem, pvec->_capelems * sizeof(void*));
 	}
     pvec->_mem[pvec->_elems++] = data;  
 }

@@ -324,8 +324,7 @@ static void add_column(grid * g, char *name, int editable, GType g_type)
 {
     if (*name == '\0')
 	return;
-    g->columns =
-	(gridCol **) realloc(g->columns,
+    g->columns = realloc(g->columns,
 			     sizeof(gridCol *) * (g->count + 1));
     g->columns[g->count] = NEW(gridCol);
     g->columns[g->count]->editable = editable;

@@ -63,8 +63,7 @@ generic_list_t *add_to_generic_list(generic_list_t * list, gl_data element)
 	} else {
 	    new_size = list->size * 2;
 	}
-	new_data =
-	    (gl_data *) realloc(list->data, new_size * sizeof(gl_data));
+	new_data = realloc(list->data, new_size * sizeof(gl_data));
 	if (new_data == NULL) {
 	    perror("[add_to_generic_list()] Error allocating memory:");
 	    return NULL;

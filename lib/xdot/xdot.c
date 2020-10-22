@@ -435,7 +435,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
     else {
 	ops = (char*)(x->ops);
 	bufsz = initcnt + XDBSIZE;
-	ops = (char *) realloc(ops, bufsz * sz);
+	ops = realloc(ops, bufsz * sz);
 	memset(ops + (initcnt*sz), '\0', (bufsz - initcnt)*sz);
     }
 
@@ -443,7 +443,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 	if (x->cnt == bufsz) {
 	    oldsz = bufsz;
 	    bufsz *= 2;
-	    ops = (char *) realloc(ops, bufsz * sz);
+	    ops = realloc(ops, bufsz * sz);
 	    memset(ops + (oldsz*sz), '\0', (bufsz - oldsz)*sz);
 	}
 	*(xdot_op *) (ops + (x->cnt * sz)) = op;
@@ -452,7 +452,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
     if (error)
 	x->flags |= XDOT_PARSE_ERROR;
     if (x->cnt) {
-	x->ops = (xdot_op *) realloc(ops, x->cnt * sz);
+	x->ops = realloc(ops, x->cnt * sz);
     }
     else {
 	free (ops);

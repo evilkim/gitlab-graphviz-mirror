@@ -72,7 +72,7 @@ int _sfexcept(Sfio_t * f, int type, ssize_t io, Sfdisc_t * disc)
 		io = SF_GRAIN;
 	    size = ((size + io + SF_GRAIN - 1) / SF_GRAIN) * SF_GRAIN;
 	    if (f->size > 0)
-		data = (uchar *) realloc((char *) f->data, size);
+		data = realloc((char *) f->data, size);
 	    else
 		data = malloc(size);
 	    if (!data)

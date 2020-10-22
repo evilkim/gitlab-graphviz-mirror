@@ -522,14 +522,11 @@ static void growpnls(int newpnln)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(pnls = (pointnlink_t *) realloc((void *) pnls,
-					      POINTNLINKSIZE * newpnln))) {
+	if (!(pnls = realloc((void *) pnls, POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot realloc pnls");
 	    longjmp(jbuf,1);
 	}
-	if (!(pnlps = (pointnlink_t **) realloc((void *) pnlps,
-						POINTNLINKPSIZE *
-						newpnln))) {
+	if (!(pnlps = realloc((void *) pnlps, POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot realloc pnlps");
 	    longjmp(jbuf,1);
 	}
@@ -547,8 +544,7 @@ static void growtris(int newtrin)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(tris = (triangle_t *) realloc((void *) tris,
-					    TRIANGLESIZE * newtrin))) {
+	if (!(tris = realloc((void *) tris, TRIANGLESIZE * newtrin))) {
 	    prerror("cannot realloc tris");
 	    longjmp(jbuf,1);
 	}
@@ -567,9 +563,7 @@ static void growdq(int newdqn)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(dq.pnlps = (pointnlink_t **) realloc((void *) dq.pnlps,
-						   POINTNLINKPSIZE *
-						   newdqn))) {
+	if (!(dq.pnlps = realloc((void *) dq.pnlps, POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot realloc dq.pnls");
 	    longjmp(jbuf,1);
 	}
@@ -587,8 +581,7 @@ static void growops(int newopn)
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(ops = (Ppoint_t *) realloc((void *) ops,
-					 POINTSIZE * newopn))) {
+	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
 	    prerror("cannot realloc ops");
 	    longjmp(jbuf,1);
 	}

@@ -400,7 +400,7 @@ static char *getBuf(int n)
 	if (len == 0)
 	    buf = malloc(sz);
 	else
-	    buf = (char *) realloc(buf, sz);
+	    buf = realloc(buf, sz);
 	len = sz;
     }
     return buf;
