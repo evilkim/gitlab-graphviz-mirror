@@ -92,7 +92,7 @@ of the layout programs.
 {% for attr in attrs %}
 <TR>
   <TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A></TD>
-  <TD>{{ attr.uses }}</TD>
+  <TD>{{ attr.used_by }}</TD>
   <TD>
   {%- for kind in attr.kinds -%}
     {%- if not loop.first -%}
