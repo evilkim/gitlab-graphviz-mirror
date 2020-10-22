@@ -19,7 +19,7 @@ import templates
 class Attribute:
     name: str
     # use string : this is a string formed of G,N,C,E
-    uses: str
+    used_by: str
     kinds: List[str]
     flags: List[str]
     html_description: str
@@ -41,13 +41,13 @@ with open(sys.argv[1]) as attrs_in:
 
         if line.startswith(':'):
             # This is a header line. Grab out the values.
-            #    :name:uses:kind[:dflt[:minv]];  [notes]
+            #    :name:used_by:kind[:dflt[:minv]];  [notes]
             headers, _, flags = line.rpartition(';')
             parts = headers.split(':')
 
             attr = Attribute(
                 name=parts[1],
-                uses=parts[2],
+                used_by=parts[2],
                 kinds=parts[3].split('/'),
                 flags=[flag for flag in flags.strip().split(',') if flag],
                 # Set an empty string html description, ready to append to.
