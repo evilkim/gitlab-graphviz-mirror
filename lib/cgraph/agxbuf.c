@@ -18,7 +18,7 @@
 #include <string.h>
 #include <cgraph/agxbuf.h>
 
-#define N_GNEW(n,t)	 (t*)calloc((n),sizeof(t))
+#define N_GNEW(n,t)	 calloc((n),sizeof(t))
 
 /* agxbinit:
  * Assume if init is non-null, hint = sizeof(init[])

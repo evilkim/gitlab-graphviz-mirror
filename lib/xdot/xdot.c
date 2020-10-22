@@ -15,8 +15,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#define NEW(t)           (t*)calloc(1, sizeof(t))
-#define N_NEW(n,t)       (t*)calloc((n), sizeof(t))
+#define NEW(t)           calloc(1, sizeof(t))
+#define N_NEW(n,t)       calloc((n), sizeof(t))
 
 typedef struct {
     unsigned char *buf;		/* start of buffer */
@@ -430,7 +430,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 
     if (initcnt == 0) {
 	bufsz = XDBSIZE;
-	ops = (char *) calloc(XDBSIZE, sz);
+	ops = calloc(XDBSIZE, sz);
     }
     else {
 	ops = (char*)(x->ops);

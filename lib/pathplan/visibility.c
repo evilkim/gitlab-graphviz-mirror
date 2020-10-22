@@ -35,7 +35,7 @@ static array2 allocArray(int V, int extra)
     COORD *p;
 
     arr = malloc((V + extra) * sizeof(COORD *));
-    p = (COORD *) calloc(V * V, sizeof(COORD));
+    p = calloc(V * V, sizeof(COORD));
     for (i = 0; i < V; i++) {
 	arr[i] = p;
 	p += V;

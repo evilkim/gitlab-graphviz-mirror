@@ -614,7 +614,7 @@ static Dtdisc_t intDisc = {
     0
 };
 
-#define NEW(t)          (t*)calloc(1,sizeof(t))
+#define NEW(t)          calloc(1,sizeof(t))
 
 static int lookup (Dt_t* map, char* name)
 {

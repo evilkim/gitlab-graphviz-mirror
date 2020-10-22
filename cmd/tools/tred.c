@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 #define NEW(t)           malloc(sizeof(t))
-#define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
+#define N_NEW(n,t)       calloc((n),sizeof(t))
 
 typedef struct {
     unsigned char on_stack;

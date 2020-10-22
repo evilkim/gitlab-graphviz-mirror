@@ -56,14 +56,14 @@ struct slist {
 };
 
 #define NEW(t)      malloc(sizeof(t))
-#define N_NEW(n,t)  (t*)calloc((n),sizeof(t))
+#define N_NEW(n,t)  calloc((n),sizeof(t))
 /* Round x up to next multiple of y, which is a power of 2 */
 #define ROUND2(x,y) (((x) + ((y)-1)) & ~((y)-1))
 
 static void pushString(slist ** stk, const char *s)
 {
     int sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
-    slist *sp = (slist *) N_NEW(sz, char);
+    slist *sp = N_NEW(sz, char);
     strcpy(sp->buf, s);
     sp->next = *stk;
     *stk = sp;
