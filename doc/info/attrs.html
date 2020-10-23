@@ -931,18 +931,10 @@ of the layout programs.
 </TR>
 <TR>
   <TD><A ID="a:orientation" HREF="#d:orientation">orientation</A></TD>
-  <TD>N</TD>
-  <TD><A HREF="#k:double">double</A></TD>
-  <TD ALIGN="CENTER">0.0</TD>
+  <TD>NG</TD>
+  <TD><A HREF="#k:double">double</A><BR><A HREF="#k:string">string</A></TD>
+  <TD ALIGN="CENTER">0.0<BR>&#34;&#34;</TD>
   <TD>360.0</TD>
-  <TD></TD>
-</TR>
-<TR>
-  <TD><A ID="aa:orientation" HREF="#dd:orientation">orientation</A></TD>
-  <TD>G</TD>
-  <TD><A HREF="#k:string">string</A></TD>
-  <TD ALIGN="CENTER">&#34;&#34;</TD>
-  <TD></TD>
   <TD></TD>
 </TR>
 <TR>
@@ -2388,10 +2380,9 @@ in the graph or subgraph. Note that the graph attribute takes
 precedence over the node attribute.
 
 <DT><A ID="d:orientation" HREF="#a:orientation"><STRONG>orientation</STRONG></A>
-<DD>Angle, in degrees, used to rotate polygon node shapes. For any number of polygon sides, 0 degrees rotation results in a flat base.
-
-<DT><A ID="dd:orientation" HREF="#aa:orientation"><STRONG>orientation</STRONG></A>
-<DD>If "[lL]*", set graph orientation to landscape
+<DD>When used on nodes: Angle, in degrees, used to rotate polygon node shapes. For any number of polygon sides, 0 degrees rotation results in a flat base.
+<P>
+When used on graphs: If <CODE>"[lL]*"</CODE>, set graph orientation to landscape.
 Used only if <A HREF=#d:rotate><B>rotate</B></A> is not defined.
 
 <DT><A ID="d:outputorder" HREF="#a:outputorder"><STRONG>outputorder</STRONG></A>
