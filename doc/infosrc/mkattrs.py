@@ -25,10 +25,6 @@ class Attribute:
     html_description: str
     defaults: List[str]
     minimums: List[str]
-    # Anchor (<a name="#">) for definition
-    d_anchor: str = ""
-    # Anchor (<a name="#">) for table at the top
-    a_anchor: str = ""
 
 
 attrs: List[Attribute] = []
@@ -69,26 +65,6 @@ attrs.sort(key=lambda attr: attr.name)
 
 for attr in attrs:
     attr.html_description = markupsafe.Markup(attr.html_description)
-
-# The specification allows items with the same attribute name.
-# This creates unique anchor keys, which are n copies of 'a' and 'd'.
-a_anchors_used = set()
-d_anchors_used = set()
-for attr in attrs:
-    a_key = 'a'
-    d_key = 'd'
-    a_anchor = a_key + ':' + attr.name
-    d_anchor = d_key + ':' + attr.name
-    while a_anchor in a_anchors_used:
-        a_key += 'a'
-        a_anchor = a_key + ':' + attr.name
-    while d_anchor in d_anchors_used:
-        d_key += 'd'
-        d_anchor = d_key + ':' + attr.name
-    a_anchors_used.add(a_anchor)
-    d_anchors_used.add(d_anchor)
-    attr.a_anchor = a_anchor
-    attr.d_anchor = d_anchor
 
 ##
 # Parse `types` file

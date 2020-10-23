@@ -91,7 +91,7 @@ of the layout programs.
 </TR>
 {% for attr in attrs %}
 <TR>
-  <TD><A ID="{{ attr.a_anchor }}" HREF="#{{ attr.d_anchor }}">{{ attr.name }}</A></TD>
+  <TD><A ID="a:{{ attr.name }}" HREF="#d:{{ attr.name }}">{{ attr.name }}</A></TD>
   <TD>{{ attr.used_by }}</TD>
   <TD>
   {%- for type in attr.types -%}
@@ -135,7 +135,7 @@ of the layout programs.
 <H1>Attribute Descriptions</H1>
 <DL>
 {% for attr in attrs %}
-<DT><A ID="{{attr.d_anchor}}" HREF="#{{attr.a_anchor}}"><STRONG>{{ attr.name }}</STRONG></A>
+<DT><A ID="d:{{attr.name}}" HREF="#a:{{attr.name}}"><STRONG>{{ attr.name }}</STRONG></A>
 <DD>{{ attr.html_description }}
 {% endfor %}
 </DL>
