@@ -78,7 +78,7 @@ static int opn;
 
 static int triangulate(pointnlink_t **, int);
 static int isdiagonal(int, int, pointnlink_t **, int);
-static void loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
+static int loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
 static void connecttris(int, int);
 static int marktripath(int, int);
 
@@ -311,7 +311,8 @@ static int triangulate(pointnlink_t ** pnlps, int pnln)
 			pnlip2 = (pnli + 2) % pnln;
 			if (isdiagonal(pnli, pnlip2, pnlps, pnln)) 
 			{
-				loadtriangle(pnlps[pnli], pnlps[pnlip1], pnlps[pnlip2]);
+				if (loadtriangle(pnlps[pnli], pnlps[pnlip1], pnlps[pnlip2]) != 0)
+					return -1;
 				for (pnli = pnlip1; pnli < pnln - 1; pnli++)
 					pnlps[pnli] = pnlps[pnli + 1];
 				return triangulate(pnlps, pnln - 1);
@@ -319,8 +320,10 @@ static int triangulate(pointnlink_t ** pnlps, int pnln)
 		}
 		prerror("triangulation failed");
     } 
-	else
-		loadtriangle(pnlps[0], pnlps[1], pnlps[2]);
+	else {
+		if (loadtriangle(pnlps[0], pnlps[1], pnlps[2]) != 0)
+			return -1;
+	}
 
     return 0;
 }
@@ -361,7 +364,7 @@ static int isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
     return TRUE;
 }
 
-static void loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
+static int loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
 			 pointnlink_t * pnlcp)
 {
     triangle_t *trip;
@@ -380,6 +383,8 @@ static void loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
 	NULL;
     for (ei = 0; ei < 3; ei++)
 	trip->e[ei].ltp = trip;
+
+    return 0;
 }
 
 /* connect a pair of triangles at their common edge (if any) */
