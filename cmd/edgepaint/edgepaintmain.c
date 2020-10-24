@@ -180,7 +180,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
       outfile = openFile(optarg, "w", CmdName);
       break;
     case '?':
-      if (optopt == '\0')
+      if (optopt == '\0' || optopt == '?')
 	usage(cmd, 0);
       else {
 	fprintf(stderr, "option -%c unrecognized\n",

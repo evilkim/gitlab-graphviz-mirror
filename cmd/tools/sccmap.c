@@ -363,7 +363,7 @@ static void scanArgs(int argc, char **argv)
 	    fprintf(stderr, "%s: option -%c missing argument - ignored\n", CmdName, optopt);
 	    break;
 	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr, "%s: option -%c unrecognized\n",

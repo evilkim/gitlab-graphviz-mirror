@@ -91,7 +91,7 @@ static void init(int argc, char *argv[])
     while ((c = getopt(argc, argv, ":?")) != -1) {
 	switch (c) {
 	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr, "gvcolor: option -%c unrecognized\n",

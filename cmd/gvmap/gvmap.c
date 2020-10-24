@@ -389,7 +389,7 @@ init(int argc, char **argv, params_t* pm)
       fprintf(stderr, "gvpack: option -%c missing argument - ignored\n", optopt);
       break;
     case '?':
-      if (optopt == '\0')
+      if (optopt == '\0' || optopt == '?')
         usage(cmd, 0);
       else {
         fprintf(stderr, " option -%c unrecognized\n", optopt);

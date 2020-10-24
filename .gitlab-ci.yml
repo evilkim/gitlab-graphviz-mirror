@@ -254,6 +254,7 @@ macos-autotools-build:
         - brew update
         - brew install autogen || brew upgrade autogen
         - brew install bison || brew upgrade bison
+        - brew install pango || brew upgrade pango
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="autotools"
         - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
@@ -294,6 +295,7 @@ macos-cmake-build:
         - brew update
         - brew install cmake || brew upgrade cmake
         - brew install bison || brew upgrade bison
+        - brew install pango || brew upgrade pango
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="cmake"
         - python3 gen_version.py > VERSION
@@ -476,6 +478,20 @@ fedora33-test:
         - linux
     image: "graphviz/graphviz:fedora33"
 
+macos-autotools-test:
+    <<: *test_definition
+    before_script:
+        - pip3 install pytest
+        - export build_system="autotools"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "macos-autotools-build"
+          artifacts: true
+    tags:
+        - macos
+
 ubuntu18-04-cmake-test:
     <<: *test_definition
     before_script:
@@ -519,6 +535,20 @@ fedora31-cmake-test:
     tags:
         - linux
     image: "graphviz/graphviz:fedora31"
+
+macos-cmake-test:
+    <<: *test_definition
+    before_script:
+        - pip3 install pytest
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "macos-cmake-build"
+          artifacts: true
+    tags:
+        - macos
 
 deployment:
     stage: deploy

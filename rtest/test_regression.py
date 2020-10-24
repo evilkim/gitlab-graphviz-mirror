@@ -332,12 +332,13 @@ def test_1783():
     assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
 
 # FIXME: Remove skip when
-
+# https://gitlab.com/graphviz/graphviz/-/issues/1857 and
 # https://gitlab.com/graphviz/graphviz/-/issues/1816 is fixed
 @pytest.mark.skipif(
     os.environ.get('build_system') == 'cmake' or
+    platform.system() == 'Darwin' or
     platform.system() == 'Windows',
-    reason='gvedit is not built for Windows or using CMake (#1816)'
+    reason='gvedit is not built for macOS or Windows or using CMake (#1816 & #1857)'
 )
 def test_1813():
     '''
@@ -353,10 +354,17 @@ def test_1813():
 
     assert 'Usage' in output, 'gvedit -? did not show usage'
 
+# FIXME: Remove skip when
 # https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
 @pytest.mark.skipif(
     os.environ.get('build_system') == 'cmake',
     reason='The Windows "CMake" installer does not install lefty (#1753)'
+)
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1858 is fixed
+@pytest.mark.skipif(
+    platform.system() == 'Darwin',
+    reason='lefty is not built on macOS (#1858)'
 )
 def test_1818():
     '''

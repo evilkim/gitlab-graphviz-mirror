@@ -257,7 +257,7 @@ static void init(int argc, char *argv[])
         PrintRemovedEdges = 1;
         break;
 	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr, "%s: option -%c unrecognized\n",

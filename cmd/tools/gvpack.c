@@ -243,7 +243,7 @@ static void init(int argc, char *argv[], pack_info* pinfo)
 	    fprintf(stderr, "gvpack: option -%c missing argument - ignored\n", optopt);
 	    break;
 	case '?':
-	    if (optopt == '\0')
+	    if (optopt == '\0' || optopt == '?')
 		usage(0);
 	    else {
 		fprintf(stderr,

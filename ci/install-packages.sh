@@ -5,6 +5,9 @@ set -x
 if test -f /etc/os-release; then
     cat /etc/os-release
     . /etc/os-release
+elif [ "$( uname -s )" = "Darwin" ]; then
+    ID=$( uname -s )
+    VERSION_ID=$( uname -r )
 else
     cat /etc/redhat-release
     ID=$( cat /etc/redhat-release | cut -d' ' -f1 | tr 'A-Z' 'a-z' )
@@ -15,17 +18,23 @@ GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 DIR=Packages/${COLLECTION}/${ID}/${VERSION_ID}
 ARCH=$( uname -m )
-if [ "${ID_LIKE}" = "debian" ]; then
-    if [ "${build_system}" = "cmake" ]; then
+if [ "${build_system}" = "cmake" ]; then
+    if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.deb
+    elif [ "${ID}" = "Darwin" ]; then
+        unzip ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Darwin.zip
+        cp -rp Graphviz-${GV_VERSION}-Darwin/* /usr/local
     else
+        rpm --install --force ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.rpm
+    fi
+else
+    if [ "${ID_LIKE}" = "debian" ]; then
         apt install ./${DIR}/os/${ARCH}/libgraphviz4_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/libgraphviz-dev_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/graphviz_${GV_VERSION}-1_amd64.deb
-    fi
-else
-    if [ "${build_system}" = "cmake" ]; then
-        rpm --install --force ${DIR}/os/${ARCH}/Graphviz-${GV_VERSION}-Linux.rpm
+    elif [ "${ID}" = "Darwin" ]; then
+        tar xf ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}-${ARCH}.tar.gz
+        cp -rp build/* /usr/local
     else
         rpm --install --force \
             ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}*.rpm \
