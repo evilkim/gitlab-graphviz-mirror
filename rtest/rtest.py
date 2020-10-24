@@ -63,22 +63,17 @@ def skipLines():
 # Store the 3 parts in the arrays ALG, FMT, FLAGS.
 # Stop at a blank line
 def readSubtests():
-  SUBTESTS = []
   while True:
     LINE = readLine()
     if LINE == '':
-      return SUBTESTS
+      return
     if not LINE.startswith('#'):
-      items = LINE.split(' ')
-      ALG0, FMT0 = items[0: 2]
-      FLAGS0 = items[2:]
-      SUBTESTS.append(
-          {
+      ALG0, FMT0, *FLAGS0 = LINE.split(' ')
+      yield {
               'ALG': ALG0,
               'FMT': FMT0,
               'FLAGS': FLAGS0,
-             }
-      )
+            }
 
 def readTest():
   # read test name
@@ -95,7 +90,7 @@ def readTest():
   else:
     return None
 
-  SUBTESTS = readSubtests()
+  SUBTESTS = list(readSubtests())
   return {
       'TESTNAME': TESTNAME,
       'GRAPH': GRAPH,
