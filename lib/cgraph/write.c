@@ -15,6 +15,7 @@
 #include <ctype.h>
 #include <cgraph/cghdr.h>
 #include <cgraph/strcasecmp.h>
+#include <inttypes.h>
 
 #define EMPTY(s)		(((s) == 0) || (s)[0] == '\0')
 #define MAX(a,b)     ((a)>(b)?(a):(b))
@@ -506,7 +507,7 @@ static int write_nodename(Agnode_t * n, iochan_t * ofile)
 	CHKRV(write_canonstr(g, ofile, name));
     } else {
 	char buf[sizeof("__SUSPECT") + 20];
-	snprintf(buf, sizeof(buf), "_%ld_SUSPECT", AGID(n));	/* could be deadly wrong */
+	snprintf(buf, sizeof(buf), "_%" PRIu64 "_SUSPECT", AGID(n));	/* could be deadly wrong */
 	CHKRV(ioput(g, ofile, buf));
     }
     return 0;
