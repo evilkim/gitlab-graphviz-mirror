@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <cgraph/cghdr.h>
+#include <inttypes.h>
 
 /* a default ID allocator that works off the shared string lib */
 
@@ -152,7 +153,7 @@ char *agnameof(void *obj)
     }
     if (AGTYPE(obj) != AGEDGE) {
 	static char buf[32];
-	snprintf(buf, sizeof(buf), "%c%ld", LOCALNAMEPREFIX, AGID(obj));
+	snprintf(buf, sizeof(buf), "%c%" PRIu64, LOCALNAMEPREFIX, AGID(obj));
 	rv = buf;
     }
     else
