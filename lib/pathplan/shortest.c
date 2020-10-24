@@ -91,7 +91,7 @@ static int intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int pointintri(int, Ppoint_t *);
 
-static void growpnls(int);
+static int growpnls(int);
 static void growtris(int);
 static void growdq(int);
 static void growops(int);
@@ -118,7 +118,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
     if (setjmp(jbuf))
 	return -2;
     /* make space */
-    growpnls(polyp->pn);
+    if (growpnls(polyp->pn) != 0)
+	return -2;
     pnll = 0;
     tril = 0;
     growdq(polyp->pn * 2);
@@ -508,30 +509,31 @@ static int pointintri(int trii, Ppoint_t * pp)
     return (sum == 3 || sum == 0);
 }
 
-static void growpnls(int newpnln)
+static int growpnls(int newpnln)
 {
     if (newpnln <= pnln)
-	return;
+	return 0;
     if (!pnls) {
 	if (!(pnls = malloc(POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot malloc pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
 	if (!(pnlps = malloc(POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot malloc pnlps");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot realloc pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
 	if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot realloc pnlps");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     pnln = newpnln;
+    return 0;
 }
 
 static void growtris(int newtrin)
