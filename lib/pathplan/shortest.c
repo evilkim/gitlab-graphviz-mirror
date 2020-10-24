@@ -14,7 +14,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <math.h>
@@ -64,7 +63,6 @@ typedef struct deque_t {
     int pnlpn, fpnlpi, lpnlpi, apex;
 } deque_t;
 
-static jmp_buf jbuf;
 static pointnlink_t *pnls, **pnlps;
 static int pnln, pnll;
 
@@ -115,8 +113,6 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
     int pnli;
 #endif
 
-    if (setjmp(jbuf))
-	return -2;
     /* make space */
     if (growpnls(polyp->pn) != 0)
 	return -2;
