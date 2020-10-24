@@ -322,8 +322,8 @@ static char *portName(graph_t * g, bport_t * p)
     node_t *t = agtail(e);
     static char buf[BSZ + 1];
 
-	sprintf(buf, "_port_%s_(%d)_(%d)_%u",agnameof(g), ND_id(t), ND_id(h),
-		AGSEQ(e));
+	snprintf(buf, sizeof(buf), "_port_%s_(%d)_(%d)_%u",agnameof(g),
+		ND_id(t), ND_id(h), AGSEQ(e));
     return buf;
 }
 
