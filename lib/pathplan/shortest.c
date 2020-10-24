@@ -93,7 +93,7 @@ static int pointintri(int, Ppoint_t *);
 
 static int growpnls(int);
 static void growtris(int);
-static void growdq(int);
+static int growdq(int);
 static void growops(int);
 
 /* Pshortestpath:
@@ -122,7 +122,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 	return -2;
     pnll = 0;
     tril = 0;
-    growdq(polyp->pn * 2);
+    if (growdq(polyp->pn * 2) != 0)
+	return -2;
     dq.fpnlpi = dq.pnlpn / 2, dq.lpnlpi = dq.fpnlpi - 1;
 
     /* make sure polygon is CCW and load pnls array */
@@ -554,23 +555,24 @@ static void growtris(int newtrin)
     trin = newtrin;
 }
 
-static void growdq(int newdqn)
+static int growdq(int newdqn)
 {
     if (newdqn <= dq.pnlpn)
-	return;
+	return 0;
     if (!dq.pnlps) {
 	if (!
 	    (dq.pnlps = malloc(POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot malloc dq.pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot realloc dq.pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     dq.pnlpn = newdqn;
+    return 0;
 }
 
 static void growops(int newopn)
