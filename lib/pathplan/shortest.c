@@ -94,7 +94,7 @@ static int pointintri(int, Ppoint_t *);
 static int growpnls(int);
 static int growtris(int);
 static int growdq(int);
-static void growops(int);
+static int growops(int);
 
 /* Pshortestpath:
  * Find a shortest path contained in the polygon polyp going between the
@@ -203,7 +203,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
     if (!marktripath(ftrii, ltrii)) {
 	prerror("cannot find triangle path");
 	/* a straight line is better than failing */
-	growops(2);
+	if (growops(2) != 0)
+		return -2;
 	output->pn = 2;
 	ops[0] = eps[0], ops[1] = eps[1];
 	output->ps = ops;
@@ -212,7 +213,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 
     /* if endpoints in same triangle, use a single line */
     if (ftrii == ltrii) {
-	growops(2);
+	if (growops(2) != 0)
+		return -2;
 	output->pn = 2;
 	ops[0] = eps[0], ops[1] = eps[1];
 	output->ps = ops;
@@ -289,7 +291,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 
     for (pi = 0, pnlp = &epnls[1]; pnlp; pnlp = pnlp->link)
 	pi++;
-    growops(pi);
+    if (growops(pi) != 0)
+	return -2;
     output->pn = pi;
     for (pi = pi - 1, pnlp = &epnls[1]; pnlp; pi--, pnlp = pnlp->link)
 	ops[pi] = *pnlp->pp;
@@ -586,20 +589,22 @@ static int growdq(int newdqn)
     return 0;
 }
 
-static void growops(int newopn)
+static int growops(int newopn)
 {
     if (newopn <= opn)
-	return;
+	return 0;
     if (!ops) {
 	if (!(ops = malloc(POINTSIZE * newopn))) {
 	    prerror("cannot malloc ops");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
 	    prerror("cannot realloc ops");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     opn = newopn;
+
+    return 0;
 }
