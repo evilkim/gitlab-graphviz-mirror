@@ -497,7 +497,7 @@ static int write_nondefault_attrs(void *obj, iochan_t * ofile,
 
 static int write_nodename(Agnode_t * n, iochan_t * ofile)
 {
-    char *name, buf[sizeof("__SUSPECT") + 20];
+    char *name;
     Agraph_t *g;
 
     name = agnameof(n);
@@ -505,6 +505,7 @@ static int write_nodename(Agnode_t * n, iochan_t * ofile)
     if (name) {
 	CHKRV(write_canonstr(g, ofile, name));
     } else {
+	char buf[sizeof("__SUSPECT") + 20];
 	sprintf(buf, "_%ld_SUSPECT", AGID(n));	/* could be deadly wrong */
 	CHKRV(ioput(g, ofile, buf));
     }
