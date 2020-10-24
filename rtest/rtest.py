@@ -120,15 +120,15 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
       stdout=subprocess.DEVNULL,
     )
   elif F == 'svg':
-    with open(TMPFILE1, mode='w') as fd1, \
-         open(TMPFILE2, mode='w') as fd2:
+    with open(TMPFILE1, mode='w') as fd:
       subprocess.check_call(
         ['sed', '/^<!--/d;/-->$/d', FILE1],
-        stdout=fd1,
+        stdout=fd,
       )
+    with open(TMPFILE2, mode='w') as fd:
       subprocess.check_call(
         ['sed', '/^<!--/d;/-->$/d', FILE2],
-        stdout=fd2,
+        stdout=fd,
       )
     returncode = subprocess.call(
       ['diff', '-q', '--strip-trailing-cr', TMPFILE1, TMPFILE2],
