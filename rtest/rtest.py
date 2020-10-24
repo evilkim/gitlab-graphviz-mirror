@@ -31,7 +31,6 @@ DIFFIMG = os.environ.get('DIFFIMG', shutil.which('diffimg'))
 
 TESTNAME = ''   # name of test
 GRAPH = ''      # graph specification
-IDX = ''
 CRASH_CNT = 0
 DIFF_CNT = 0
 TOT_CNT = 0
