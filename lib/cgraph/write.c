@@ -497,7 +497,7 @@ static int write_nondefault_attrs(void *obj, iochan_t * ofile,
 
 static int write_nodename(Agnode_t * n, iochan_t * ofile)
 {
-    char *name, buf[20];
+    char *name, buf[sizeof("__SUSPECT") + 20];
     Agraph_t *g;
 
     name = agnameof(n);
