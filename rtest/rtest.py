@@ -10,6 +10,7 @@
 import os
 import shutil
 import tempfile
+import shutil
 import subprocess
 import sys
 import platform
@@ -300,9 +301,9 @@ def doTest(TEST):
   TESTTYPES = {}
 
 def cleanup():
-  pathlib.Path(TMPFILE1).unlink(missing_ok=True)
-  pathlib.Path(TMPFILE2).unlink(missing_ok=True)
-  pathlib.Path(TMPINFILE).unlink(missing_ok=True)
+  shutil.rmtree(TMPFILE1, ignore_errors=True)
+  shutil.rmtree(TMPFILE2, ignore_errors=True)
+  shutil.rmtree(TMPINFILE, ignore_errors=True)
 atexit.register(cleanup)
 
 # Set REFDIR
