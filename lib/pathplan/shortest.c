@@ -76,7 +76,7 @@ static deque_t dq;
 static Ppoint_t *ops;
 static int opn;
 
-static void triangulate(pointnlink_t **, int);
+static int triangulate(pointnlink_t **, int);
 static int isdiagonal(int, int, pointnlink_t **, int);
 static void loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
 static void connecttris(int, int);
@@ -165,7 +165,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 #endif
 
     /* generate list of triangles */
-    triangulate(pnlps, pnll);
+    if (triangulate(pnlps, pnll))
+	return -2;
 
 #if defined(DEBUG) && DEBUG >= 2
     fprintf(stderr, "triangles\n%d\n", tril);
@@ -298,7 +299,7 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 }
 
 /* triangulate polygon */
-static void triangulate(pointnlink_t ** pnlps, int pnln)
+static int triangulate(pointnlink_t ** pnlps, int pnln)
 {
     int pnli, pnlip1, pnlip2;
 
@@ -313,14 +314,15 @@ static void triangulate(pointnlink_t ** pnlps, int pnln)
 				loadtriangle(pnlps[pnli], pnlps[pnlip1], pnlps[pnlip2]);
 				for (pnli = pnlip1; pnli < pnln - 1; pnli++)
 					pnlps[pnli] = pnlps[pnli + 1];
-				triangulate(pnlps, pnln - 1);
-				return;
+				return triangulate(pnlps, pnln - 1);
 			}
 		}
 		prerror("triangulation failed");
     } 
 	else
 		loadtriangle(pnlps[0], pnlps[1], pnlps[2]);
+
+    return 0;
 }
 
 /* check if (i, i + 2) is a diagonal */
