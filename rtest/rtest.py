@@ -250,7 +250,7 @@ def doTest(TEST):
       print('Skipping test {0}:{1} : with flag -Goverlap=false because it fails '
             'with Windows MSBuild builds which are not built with '
             'triangulation library (#1269)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1787 is
@@ -261,7 +261,7 @@ def doTest(TEST):
        TESTNAME == 'user_shapes':
       print('Skipping test {0}:{1} : using shapefile because it fails '
             'with Windows MSBuild Debug builds (#1787)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1790 is
@@ -270,7 +270,7 @@ def doTest(TEST):
        TESTNAME == 'ps_user_shapes':
       print('Skipping test {0}:{1} : using PostScript shapefile because it '
             'fails with Windows builds (#1790)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
 
