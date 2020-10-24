@@ -30,8 +30,6 @@ extern "C" {
 #include	<sfio/sfio_t.h>
 #include	"config.h"
 
-#include	<sfio/vthread.h>
-
 #if defined(__mips) && __mips == 2 && !defined(_NO_LARGEFILE64_SOURCE)
 #define _NO_LARGEFILE64_SOURCE  1
 #endif
@@ -87,22 +85,8 @@ extern "C" {
 #undef SF_MTSAFE		/* no need to worry about thread-safety */
 #define SF_MTSAFE		0
 
-#define SFONCE()		(void)(0)
-
-#define SFMTXLOCK(f)		(void)(0)
-#define SFMTXUNLOCK(f)		(void)(0)
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
-
-#define POOLMTXLOCK(p)
-#define POOLMTXUNLOCK(p)
-#define POOLMTXSTART(p)
-#define POOLMTXRETURN(p,v)	{ return(v); }
-
-/* to test for executable access mode of a file */
-#ifndef X_OK
-#define X_OK	01
-#endif
 
 /* alternative process forking */
 #if defined(HAVE_VFORK) && !defined(fork) && !defined(sparc) && !defined(__sparc)
@@ -293,7 +277,6 @@ extern "C" {
 	int n_sf;		/* number currently in pool     */
 	Sfio_t **sf;		/* array of streams             */
 	Sfio_t *array[3];	/* start with 3                 */
-	Vtmutex_t mutex;	/* mutex lock object            */
     };
 
 /* reserve buffer structure */
@@ -414,9 +397,6 @@ extern "C" {
 #define _Sfcleanup	(_Sfextern.sf_cleanup)
 #define _Sfexiting	(_Sfextern.sf_exiting)
 #define _Sfdone		(_Sfextern.sf_done)
-#define _Sfonce		(_Sfextern.sf_once)
-#define _Sfoncef	(_Sfextern.sf_oncef)
-#define _Sfmutex	(_Sfextern.sf_mutex)
     typedef struct _sfextern_s {
 	ssize_t sf_page;
 	struct _sfpool_s sf_pool;
@@ -428,9 +408,6 @@ extern "C" {
 	void (*sf_cleanup) (void);
 	int sf_exiting;
 	int sf_done;
-	Vtonce_t *sf_once;
-	void (*sf_oncef) (void);
-	Vtmutex_t *sf_mutex;
     } Sfextern_t;
 
 /* grain size for buffer increment */
@@ -681,18 +658,9 @@ extern "C" {
     extern int _sfsetpool(Sfio_t *);
     extern char *_sfcvt(void *, int, int *, int *, int);
     extern char **_sfgetpath(char *);
-    extern Sfdouble_t _sfstrtod(const char *, char **);
 
 #ifndef errno
     extern int errno;
-#endif
-
-/* for portable encoding of double values */
-#if !__STDC__
-#ifndef _WIN32
-    extern double frexp(double, int *);
-    extern double ldexp(double, int);
-#endif
 #endif
 
 #ifdef _WIN32
@@ -725,11 +693,6 @@ extern "C" {
 
     extern time_t time(time_t *);
     extern int waitpid(int, int *, int);
-#ifndef _WIN32
-    extern void _exit(int);
-#endif
-    typedef int (*Onexit_f)(void);
-    extern Onexit_f onexit(Onexit_f);
 
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);

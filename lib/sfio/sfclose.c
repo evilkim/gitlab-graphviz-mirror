@@ -65,7 +65,6 @@ int sfclose(Sfio_t * f)
 	if (f->pool == &_Sfpool) {
 	    int n;
 
-	    POOLMTXLOCK(&_Sfpool);
 	    for (n = 0; n < _Sfpool.n_sf; ++n) {
 		if (_Sfpool.sf[n] != f)
 		    continue;
@@ -75,7 +74,6 @@ int sfclose(Sfio_t * f)
 		    _Sfpool.sf[n] = _Sfpool.sf[n + 1];
 		break;
 	    }
-	    POOLMTXUNLOCK(&_Sfpool);
 	} else {
 	    f->mode &= ~SF_LOCK;
 	    /**/ ASSERT(_Sfpmove);
@@ -118,15 +116,6 @@ int sfclose(Sfio_t * f)
     /* delete any associated sfpopen-data */
     if (f->proc)
 	rv = _sfpclose(f);
-
-    /* destroy the mutex */
-    if (f->mutex) {
-	vtmtxclrlock(f->mutex);
-	if (f != sfstdin && f != sfstdout && f != sfstderr) {
-	    vtmtxclose(f->mutex);
-	    f->mutex = NIL(Vtmutex_t *);
-	}
-    }
 
     if (!local) {
 	if (f->disc && (ex = SFRAISE(f, SF_FINAL, NIL(void *))) != 0) {

@@ -60,7 +60,6 @@ static void _sfcleanup(void)
 		continue;
 
 	    SFLOCK(f, 0);
-	    SFMTXLOCK(f);
 
 	    /* let application know that we are leaving */
 	    (void) SFRAISE(f, SF_ATEXIT, NIL(void *));
@@ -78,7 +77,6 @@ static void _sfcleanup(void)
 		(void) SFSETBUF(f, NIL(void *), 0);
 	    f->mode |= pool;
 
-	    SFMTXUNLOCK(f);
 	    SFOPEN(f, 0);
 	}
     }
@@ -98,8 +96,6 @@ int _sfsetpool(Sfio_t * f)
 
     if (!(p = f->pool))
 	p = f->pool = &_Sfpool;
-
-    POOLMTXSTART(p);
 
     rv = -1;
 
@@ -130,7 +126,7 @@ int _sfsetpool(Sfio_t * f)
     rv = 0;
 
   done:
-    POOLMTXRETURN(p, rv);
+    return rv;
 }
 
 /* create an auxiliary buffer for sfputr */
@@ -194,12 +190,10 @@ int _sfpopen(Sfio_t * f, int fd, int pid, int stdio)
     if (p->sigp) {
 	Sfsignal_f handler;
 
-	vtmtxlock(_Sfmutex);
 	if ((handler = signal(SIGPIPE, ignoresig)) != SIG_DFL &&
 	    handler != ignoresig)
 	    signal(SIGPIPE, handler);	/* honor user handler */
 	_Sfsigp += 1;
-	vtmtxunlock(_Sfmutex);
     }
 #endif
 
@@ -236,7 +230,6 @@ int _sfpclose(Sfio_t * f)
 	    status = -1;
 
 #ifdef SIGPIPE
-	vtmtxlock(_Sfmutex);
 	if (p->sigp && (_Sfsigp -= 1) <= 0) {
 	    Sfsignal_f handler;
 	    if ((handler = signal(SIGPIPE, SIG_DFL)) != SIG_DFL &&
@@ -244,7 +237,6 @@ int _sfpclose(Sfio_t * f)
 		signal(SIGPIPE, handler);	/* honor user handler */
 	    _Sfsigp = 0;
 	}
-	vtmtxunlock(_Sfmutex);
 #endif
     }
 
@@ -303,8 +295,6 @@ int _sfmode(Sfio_t * f, int wanted, int local)
 {
     Sfoff_t addr;
     int rv = 0;
-
-    SFONCE();			/* initialize mutexes */
 
     if ((!local && SFFROZEN(f))
 	|| (!(f->flags & SF_STRING) && f->file < 0)) {

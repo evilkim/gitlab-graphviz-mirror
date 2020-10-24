@@ -54,7 +54,7 @@ Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
 		return NIL(Sfio_t *);
 	    }
 
-	    SFCLEAR(f2, NIL(Vtmutex_t *));
+	    SFCLEAR(f2);
 	}
 	f2->mode = SF_AVAIL | SF_LOCK;
 	f2mode = SF_AVAIL;

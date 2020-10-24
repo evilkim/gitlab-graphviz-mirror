@@ -39,7 +39,7 @@ TMPINFILE = 'tmp{}.gv'.format(os.getpid())
 TMPFILE1 = 'tmpnew{}'.format(os.getpid())
 TMPFILE2 = 'tmpref{}'.format(os.getpid())
 
-# Read single line, storing it in LINE and update count.
+# Read single line, storing it in LINE.
 # Returns the line on success, else returns None
 def readLine():
   LINE = f3.readline()
@@ -63,9 +63,6 @@ def skipLines():
 # Stop at a blank line
 def readSubtests():
   SUBTESTS = []
-  ALG = []
-  FMT = []
-  FLAGS = []
   while True:
     LINE = readLine()
     if LINE == '':
@@ -107,9 +104,7 @@ def readTest():
 # Compare old and new output and report if different.
 #  Args: testname index fmt
 def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
-  global OUTHTML
   global DIFF_CNT
-  global VERBOSE
   FILE1 = os.path.join(OUTDIR, OUTFILE)
   FILE2 = os.path.join(REFDIR, OUTFILE)
   F = fmt.split(':')[0]
@@ -204,10 +199,8 @@ def genOutname(name, alg, fmt):
   return OUTFILE
 
 def doTest(TEST):
-  global GENERATE
   global TOT_CNT
   global CRASH_CNT
-  global DIFF_CNT
   global TESTTYPES
   TESTNAME = TEST['TESTNAME']
   SUBTESTS = TEST['SUBTESTS']
@@ -296,7 +289,7 @@ def doTest(TEST):
       CRASH_CNT += 1
       print('Test {0}:{1} : == Layout failed =='.format(TESTNAME, i), file=sys.stderr)
       print('  ' + ' '.join(testcmd), file=sys.stderr)
-    elif GENERATE == 1:
+    elif GENERATE:
       continue
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
       doDiff(OUTFILE, OUTDIR, REFDIR, TESTNAME, i, SUBTEST['FMT'])
@@ -404,9 +397,9 @@ while True:
   if TEST is None:
      break
   doTest(TEST)
-if NOOP == 1:
+if NOOP:
   print('No. tests: ' + str(TOT_CNT), file=sys.stderr)
-elif GENERATE == 1:
+elif GENERATE:
   print('No. tests: ' + str(TOT_CNT) + ' Layout failures: ' + str(CRASH_CNT), file=sys.stderr)
 else:
   print('No. tests: ' +

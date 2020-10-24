@@ -38,7 +38,6 @@ extern "C" {
 	struct _sfpool_s*	pool;	/* the pool containing this	*/ \
 	struct _sfrsrv_s*	rsrv;	/* reserved buffer		*/ \
 	struct _sfproc_s*	proc;	/* coprocess id, etc.		*/ \
-	void*			mutex;	/* mutex for thread-safety	*/ \
 	void*			stdio;	/* stdio FILE if any		*/ \
 	Sfoff_t			lpos;	/* last seek position		*/ \
 	size_t			iosz;	/* prefer size for I/O          */
@@ -76,14 +75,13 @@ extern "C" {
 	  (struct _sfpool_s*)0,				/* pool		*/ \
 	  (struct _sfrsrv_s*)0,				/* rsrv		*/ \
 	  (struct _sfproc_s*)0,				/* proc		*/ \
-	  (mutex),					/* mutex	*/ \
 	  (void*)0,					/* stdio	*/ \
 	  (Sfoff_t)0,					/* lpos		*/ \
 	  (size_t)0					/* iosz		*/ \
 	}
 
 /* function to clear an Sfio_t structure */
-#define SFCLEAR(f,mtx) \
+#define SFCLEAR(f) \
 	( (f)->next = (unsigned char*)0,		/* next		*/ \
 	  (f)->endw = (unsigned char*)0,		/* endw		*/ \
 	  (f)->endr = (unsigned char*)0,		/* endr		*/ \
@@ -104,7 +102,6 @@ extern "C" {
 	  (f)->pool = (struct _sfpool_s*)0,		/* pool		*/ \
 	  (f)->rsrv = (struct _sfrsrv_s*)0,		/* rsrv		*/ \
 	  (f)->proc = (struct _sfproc_s*)0,		/* proc		*/ \
-	  (f)->mutex = (mtx),				/* mutex	*/ \
 	  (f)->stdio = (void*)0,			/* stdio	*/ \
 	  (f)->lpos = (Sfoff_t)0,			/* lpos		*/ \
 	  (f)->iosz = (size_t)0				/* iosz		*/ \

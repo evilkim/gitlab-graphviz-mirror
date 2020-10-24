@@ -17,19 +17,6 @@
 **	Written by Kiem-Phong Vo
 */
 
-/* code to initialize mutexes */
-static Vtmutex_t Sfmutex;
-static Vtonce_t Sfonce = VTONCE_INITDATA;
-static void _sfoncef(void)
-{
-    vtmtxopen(_Sfmutex, VT_INIT);
-    vtmtxopen(&_Sfpool.mutex, VT_INIT);
-    vtmtxopen(sfstdin->mutex, VT_INIT);
-    vtmtxopen(sfstdout->mutex, VT_INIT);
-    vtmtxopen(sfstderr->mutex, VT_INIT);
-    _Sfdone = 1;
-}
-
 /* global variables used internally to the package */
 Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
     {NIL(Sfpool_t *), 0, 0, 0, NIL(Sfio_t **)},	/* _Sfpool      */
@@ -46,9 +33,6 @@ Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
     NIL(void (*)(void)),	/* _Sfcleanup   */
     0,				/* _Sfexiting   */
     0,				/* _Sfdone      */
-    &Sfonce,			/* _Sfonce      */
-    _sfoncef,			/* _Sfoncef     */
-    &Sfmutex			/* _Sfmutex     */
 };
 
 /* accessible to application code for a few fast macro functions */
@@ -71,11 +55,3 @@ Sfio_t _Sfstderr = SFNEW(NIL(char *), -1, 2,
 Sfio_t *sfstdin = &_Sfstdin;
 Sfio_t *sfstdout = &_Sfstdout;
 Sfio_t *sfstderr = &_Sfstderr;
-
-extern ssize_t _Sfi;
-extern Sfio_t _Sfstdin;
-extern Sfio_t _Sfstdout;
-extern Sfio_t _Sfstderr;
-extern Sfio_t *sfstdin;
-extern Sfio_t *sfstdout;
-extern Sfio_t *sfstderr;

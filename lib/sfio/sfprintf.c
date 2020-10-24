@@ -39,7 +39,7 @@ int sfvsprintf(char *s, int n, const char *form, va_list args)
 	return -1;
 
     /* make a fake stream */
-    SFCLEAR(&f, NIL(Vtmutex_t *));
+    SFCLEAR(&f);
     f.flags = SF_STRING | SF_WRITE;
     f.mode = SF_WRITE;
     f.size = n - 1;

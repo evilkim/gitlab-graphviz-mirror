@@ -24,9 +24,6 @@
     <ClInclude Include="sfio_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sfio_f\_sffileno.c">
@@ -116,9 +113,6 @@
     <ClCompile Include="sfstack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfstrtod.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,9 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sftable.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sftell.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sftmp.c">
