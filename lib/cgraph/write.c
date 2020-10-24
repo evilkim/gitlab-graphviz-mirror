@@ -506,7 +506,7 @@ static int write_nodename(Agnode_t * n, iochan_t * ofile)
 	CHKRV(write_canonstr(g, ofile, name));
     } else {
 	char buf[sizeof("__SUSPECT") + 20];
-	sprintf(buf, "_%ld_SUSPECT", AGID(n));	/* could be deadly wrong */
+	snprintf(buf, sizeof(buf), "_%ld_SUSPECT", AGID(n));	/* could be deadly wrong */
 	CHKRV(ioput(g, ofile, buf));
     }
     return 0;
