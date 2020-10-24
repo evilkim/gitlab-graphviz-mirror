@@ -92,7 +92,7 @@ static int between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int pointintri(int, Ppoint_t *);
 
 static int growpnls(int);
-static void growtris(int);
+static int growtris(int);
 static int growdq(int);
 static void growops(int);
 
@@ -371,8 +371,10 @@ static int loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
     int ei;
 
     /* make space */
-    if (tril >= trin)
-	growtris(trin + 20);
+    if (tril >= trin) {
+	if (growtris(trin + 20) != 0)
+		return -1;
+    }
     trip = &tris[tril++];
     trip->mark = 0;
     trip->e[0].pnl0p = pnlap, trip->e[0].pnl1p = pnlbp, trip->e[0].rtp =
@@ -544,22 +546,24 @@ static int growpnls(int newpnln)
     return 0;
 }
 
-static void growtris(int newtrin)
+static int growtris(int newtrin)
 {
     if (newtrin <= trin)
-	return;
+	return 0;
     if (!tris) {
 	if (!(tris = malloc(TRIANGLESIZE * newtrin))) {
 	    prerror("cannot malloc tris");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
 	    prerror("cannot realloc tris");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     trin = newtrin;
+
+    return 0;
 }
 
 static int growdq(int newdqn)
