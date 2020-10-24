@@ -152,7 +152,7 @@ char *agnameof(void *obj)
     }
     if (AGTYPE(obj) != AGEDGE) {
 	static char buf[32];
-	sprintf(buf, "%c%ld", LOCALNAMEPREFIX, AGID(obj));
+	snprintf(buf, sizeof(buf), "%c%ld", LOCALNAMEPREFIX, AGID(obj));
 	rv = buf;
     }
     else
