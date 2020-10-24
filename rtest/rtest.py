@@ -30,7 +30,6 @@ DOT = os.environ.get('DOT', shutil.which('dot'))
 DIFFIMG = os.environ.get('DIFFIMG', shutil.which('diffimg'))
 
 TESTNAME = ''   # name of test
-GRAPH = ''      # graph specification
 CRASH_CNT = 0
 DIFF_CNT = 0
 TOT_CNT = 0
