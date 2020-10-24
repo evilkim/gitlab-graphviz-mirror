@@ -222,9 +222,12 @@ def doTest(TEST):
     OUTPATH = os.path.join(OUTDIR, OUTFILE)
     KFLAGS = SUBTEST['ALG']
     TFLAGS = SUBTEST['FMT']
-    KFLAGS = KFLAGS and '-K' + KFLAGS
-    TFLAGS = TFLAGS and '-T' + TFLAGS
-    testcmd = [DOT, KFLAGS, TFLAGS] + SUBTEST['FLAGS'] + ['-o', OUTPATH, INFILE]
+    if KFLAGS: KFLAGS = '-K{}'.format(KFLAGS)
+    if TFLAGS: TFLAGS = '-T{}'.format(TFLAGS)
+    testcmd = [DOT]
+    if KFLAGS: testcmd += [KFLAGS]
+    if TFLAGS: testcmd += [TFLAGS]
+    testcmd += SUBTEST['FLAGS'] + ['-o', OUTPATH, INFILE]
     if VERBOSE:
       print(' '.join(testcmd))
     if NOOP:
