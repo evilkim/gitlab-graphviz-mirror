@@ -146,12 +146,12 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
     )
     if returncode != 0:
       with open(os.path.join(OUTHTML, 'index.html'), mode='a') as fd:
-        print('<p>', file=fd)
+        fd.write('<p>\n')
         shutil.copyfile(FILE2, os.path.join(OUTHTML, 'old_' + OUTFILE))
-        print('<img src="old_' + OUTFILE + '" width="192" height="192">', file=fd)
+        fd.write('<img src="old_{}" width="192" height="192">\n'.format(OUTFILE))
         shutil.copyfile(FILE1, os.path.join(OUTHTML, 'new_' + OUTFILE))
-        print('<img src="new_' + OUTFILE + '" width="192" height="192">', file=fd)
-        print('<img src="dif_' + OUTFILE + '" width="192" height="192">', file=fd)
+        fd.write('<img src="new_{}" width="192" height="192">\n'.format(OUTFILE))
+        fd.write('<img src="dif_{}" width="192" height="192">\n'.format(OUTFILE))
     else:
       os.unlink(os.path.join(OUTHTML, 'dif_' + OUTFILE))
   else:
