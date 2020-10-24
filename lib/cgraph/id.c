@@ -139,7 +139,6 @@ char *agnameof(void *obj)
 {
     Agraph_t *g;
     char *rv;
-    static char buf[32];
 
     /* perform internal lookup first */
     g = agraphof(obj);
@@ -152,6 +151,7 @@ char *agnameof(void *obj)
 	    return rv;
     }
     if (AGTYPE(obj) != AGEDGE) {
+	static char buf[32];
 	sprintf(buf, "%c%ld", LOCALNAMEPREFIX, AGID(obj));
 	rv = buf;
     }
