@@ -70,12 +70,9 @@ def test_compile_example(src):
   'addranks', 'anon', 'bb', 'chkclusters', 'cliptree', 'col', 'color',
   'dechain', 'deledges', 'delnodes', 'dijkstra', 'get-layers-list', 'knbhd',
   'maxdeg', 'rotate', 'scalexy', 'topon'])
+@pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 def test_gvpr_example(src):
     '''check GVPR can parse the given example'''
-
-    # skip this test if GVPR is unavailable
-    if shutil.which('gvpr') is None:
-      pytest.skip('GVPR not available')
 
 # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1784 is fixed
     if os.environ.get('build_system') == 'msbuild' and \
