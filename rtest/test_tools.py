@@ -2,6 +2,7 @@ import os
 import platform
 import pytest
 import re
+import shutil
 import subprocess
 import shutil
 
@@ -52,110 +53,13 @@ import shutil
 ])
 def test_tools(tool):
 
-    tools_not_built_with_cmake = [
-        'circo',
-        'cluster',
-        'diffimg',
-        'dot2gxl',
-        'dot_builtins',
-        'dotty',
-        'edgepaint',
-        'fdp',
-        'gv2gml',
-        'gv2gxl',
-        'gvedit',
-        'gvmap',
-        'gvmap.sh',
-        'gvpr',
-        'gxl2dot',
-        'lefty',
-        'lneato',
-        'mingle',
-        'neato',
-        'osage',
-        'patchwork',
-        'prune',
-        'sfdp',
-        'smyrna',
-        'twopi',
-        'vimdot',
-    ]
-
-    tools_not_built_with_msbuild = [
-        'circo',
-        'cluster',
-        'dot2gxl',
-        'dot_builtins',
-        'fdp',
-        'gv2gxl',
-        'gvedit',
-        'gvmap.sh',
-        'gxl2dot',
-        'neato',
-        'osage',
-        'patchwork',
-        'sfdp',
-        'twopi',
-        'vimdot',
-    ]
-
-    tools_not_built_with_autotools_on_macos = [
-        'dotty',
-        'gvedit',
-        'lefty',
-        'lneato',
-        'mingle',
-        'smyrna',
-        'vimdot',
-    ]
-
-    os_id = os.getenv('OS_ID')
+    if shutil.which(tool) is None:
+      pytest.skip('{} not available'.format(tool))
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1829 is fixed
     if tool == 'smyrna' and os.getenv('build_system') == 'msbuild':
       pytest.skip('smyrna fails to start because of missing DLLs in Windows MSBuild builds (#1829)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1834 is fixed
-    if tool == 'smyrna' and os_id == 'centos':
-      check_that_tool_does_not_exist(tool, os_id)
-      pytest.skip('smyrna is not built for Centos (#1834)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
-    if tool == 'mingle' and os_id in ['ubuntu', 'centos']:
-      check_that_tool_does_not_exist(tool, os_id)
-      pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1839 is fixed
-    if tool == 'dot_builtins' and os_id in ['centos', 'fedora']:
-      check_that_tool_does_not_exist(tool, os_id)
-      pytest.skip('dot_builtins is not installed for ' + os_id + ' (#1839)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1753 and
-    # https://gitlab.com/graphviz/graphviz/-/issues/1836 is fixed
-    if os.getenv('build_system') == 'cmake':
-      if tool in tools_not_built_with_cmake:
-        check_that_tool_does_not_exist(tool, os_id)
-        pytest.skip(tool + ' is not built with CMake (#1753 & #1836)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1837 is fixed
-    if os.getenv('build_system') == 'msbuild':
-      if tool in tools_not_built_with_msbuild:
-        check_that_tool_does_not_exist(tool, os_id)
-        pytest.skip(tool + ' is not built with MSBuild (#1837)')
-
-    # FIXME: Remove skip when
-    # https://gitlab.com/graphviz/graphviz/-/issues/1854 is fixed
-    if os.getenv('build_system') == 'autotools':
-      if platform.system() == 'Darwin':
-        if tool in tools_not_built_with_autotools_on_macos:
-          check_that_tool_does_not_exist(tool, os_id)
-          pytest.skip(tool + ' is not built with autotools on macOS (#1854)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1838 is fixed
@@ -186,11 +90,3 @@ def test_tools(tool):
     )
 
     assert returncode != 0, tool + ' accepted unsupported option -$'
-
-def check_that_tool_does_not_exist(tool, os_id):
-    assert shutil.which(tool) is None, '{} has been resurrected in the {} ' \
-    'build on {}. Please remove skip.'.format(
-        tool,
-        os.getenv('build_system'),
-        os_id
-    )
