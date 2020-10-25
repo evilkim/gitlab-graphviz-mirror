@@ -250,16 +250,6 @@ static int agraphidcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
     return ((v==0)?0:(v<0?-1:1));
 }
 
-int agraphseqcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
-{
-    long	v;
-    Agraph_t *sg0, *sg1;
-    sg0 = (Agraph_t *) arg0;
-    sg1 = (Agraph_t *) arg1;
-    v = (AGSEQ(sg0) - AGSEQ(sg1));
-    return ((v==0)?0:(v<0?-1:1));
-}
-
 Dtdisc_t Ag_subgraph_id_disc = {
     0,				/* pass object ptr  */
     0,				/* size (ignored)   */
@@ -280,11 +270,3 @@ Agdesc_t Agundirected = { 0, 0, 0, 1 };
 Agdesc_t Agstrictundirected = { 0, 1, 0, 1 };
 
 Agdisc_t AgDefaultDisc = { &AgMemDisc, &AgIdDisc, &AgIoDisc };
-
-
-#include <stdio.h>
-void scndump(Agraph_t *g, char *file)
-{
-	FILE * f = fopen(file,"w");
-	if (f) {agwrite(g,f); fclose(f);}
-}

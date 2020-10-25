@@ -70,12 +70,6 @@ int agdtdelete(Agraph_t * g, Dict_t * dict, void *obj)
     return dtdelete(dict, obj) != NULL;
 }
 
-int agobjfinalize(void * obj)
-{
-    agfree(Ag_dictop_G, obj);
-    return 0;
-}
-
 int agdtclose(Agraph_t * g, Dict_t * dict)
 {
     Dtmemory_f memf;
