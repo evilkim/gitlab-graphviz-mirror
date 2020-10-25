@@ -10,6 +10,7 @@ import subprocess
 import os
 
 @pytest.mark.parametrize('binary', [
+  'mingle',
   'smyrna',
 ])
 def test_existence(binary: str):
@@ -18,6 +19,12 @@ def test_existence(binary: str):
   '''
 
   os_id = os.getenv('OS_ID')
+
+  # FIXME: Remove skip when
+  # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
+  if os_id in ['ubuntu', 'centos'] and binary == 'mingle':
+    check_that_tool_does_not_exist(binary, os_id)
+    pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1834 is fixed
