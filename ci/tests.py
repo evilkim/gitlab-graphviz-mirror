@@ -4,8 +4,33 @@
 test cases that are only relevant to run in CI
 '''
 
-def test_stub():
+import pytest
+import shutil
+import subprocess
+import os
+
+@pytest.mark.parametrize('binary', [
+  'smyrna',
+])
+def test_existence(binary: str):
   '''
-  a no-op test case to allow pytest to accept this file at first
+  check that a given binary was built and is on $PATH
   '''
-  pass
+
+  os_id = os.getenv('OS_ID')
+
+  # FIXME: Remove skip when
+  # https://gitlab.com/graphviz/graphviz/-/issues/1834 is fixed
+  if os_id == 'centos' and binary == 'smyrna':
+    check_that_tool_does_not_exist(binary, os_id)
+    pytest.skip('smyrna is not built for Centos (#1834)')
+
+  assert shutil.which(binary) is not None
+
+def check_that_tool_does_not_exist(tool, os_id):
+    assert shutil.which(tool) is None, '{} has been resurrected in the {} ' \
+    'build on {}. Please remove skip.'.format(
+        tool,
+        os.getenv('build_system'),
+        os_id
+    )
