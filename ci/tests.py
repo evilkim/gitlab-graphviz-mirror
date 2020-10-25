@@ -10,6 +10,7 @@ import subprocess
 import os
 
 @pytest.mark.parametrize('binary', [
+  'dot_builtins',
   'mingle',
   'smyrna',
 ])
@@ -19,6 +20,12 @@ def test_existence(binary: str):
   '''
 
   os_id = os.getenv('OS_ID')
+
+  # FIXME: Remove skip when
+  # https://gitlab.com/graphviz/graphviz/-/issues/1839 is fixed
+  if os_id in ['centos', 'fedora'] and binary == 'dot_builtins':
+    check_that_tool_does_not_exist(binary, os_id)
+    pytest.skip('dot_builtins is not installed for ' + os_id + ' (#1839)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
