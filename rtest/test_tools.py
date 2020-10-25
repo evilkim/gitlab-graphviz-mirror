@@ -3,6 +3,7 @@ import platform
 import pytest
 import re
 import subprocess
+import shutil
 
 @pytest.mark.parametrize('tool', [
     'acyclic',
@@ -60,7 +61,6 @@ def test_tools(tool):
         'dotty',
         'edgepaint',
         'fdp',
-        'gc',
         'gv2gml',
         'gv2gxl',
         'gvedit',
@@ -119,16 +119,19 @@ def test_tools(tool):
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1834 is fixed
     if tool == 'smyrna' and os_id == 'centos':
+      check_that_tool_does_not_exist(tool, os_id)
       pytest.skip('smyrna is not built for Centos (#1834)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
     if tool == 'mingle' and os_id in ['ubuntu', 'centos']:
+      check_that_tool_does_not_exist(tool, os_id)
       pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1839 is fixed
     if tool == 'dot_builtins' and os_id in ['centos', 'fedora']:
+      check_that_tool_does_not_exist(tool, os_id)
       pytest.skip('dot_builtins is not installed for ' + os_id + ' (#1839)')
 
     # FIXME: Remove skip when
@@ -136,12 +139,14 @@ def test_tools(tool):
     # https://gitlab.com/graphviz/graphviz/-/issues/1836 is fixed
     if os.getenv('build_system') == 'cmake':
       if tool in tools_not_built_with_cmake:
+        check_that_tool_does_not_exist(tool, os_id)
         pytest.skip(tool + ' is not built with CMake (#1753 & #1836)')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1837 is fixed
     if os.getenv('build_system') == 'msbuild':
       if tool in tools_not_built_with_msbuild:
+        check_that_tool_does_not_exist(tool, os_id)
         pytest.skip(tool + ' is not built with MSBuild (#1837)')
 
     # FIXME: Remove skip when
@@ -149,6 +154,7 @@ def test_tools(tool):
     if os.getenv('build_system') == 'autotools':
       if platform.system() == 'Darwin':
         if tool in tools_not_built_with_autotools_on_macos:
+          check_that_tool_does_not_exist(tool, os_id)
           pytest.skip(tool + ' is not built with autotools on macOS (#1854)')
 
     # FIXME: Remove skip when
@@ -180,3 +186,11 @@ def test_tools(tool):
     )
 
     assert returncode != 0, tool + ' accepted unsupported option -$'
+
+def check_that_tool_does_not_exist(tool, os_id):
+    assert shutil.which(tool) is None, '{} has been resurrected in the {} ' \
+    'build on {}. Please remove skip.'.format(
+        tool,
+        os.getenv('build_system'),
+        os_id
+    )

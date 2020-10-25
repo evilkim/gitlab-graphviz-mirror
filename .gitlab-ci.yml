@@ -139,7 +139,7 @@ portable-source:
               # will then fail because the install hasn't finished)
               ./graphviz-install.exe /S /D=$env:graphviz_install_dir | Out-Null;
               mv graphviz-install.exe graphviz-install-$Env:GV_VERSION-$API.exe;
-              $env:Path += ";" + $env:graphviz_install_dir + "\bin"
+              $env:Path = $env:graphviz_install_dir + "\bin" + ";" + $env:Path
               cd ..;
               $Env:INCLUDE += ";C:\Graphviz\include";
               $Env:LIB += ";C:\Graphviz\lib";
