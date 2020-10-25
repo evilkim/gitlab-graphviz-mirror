@@ -4,6 +4,7 @@
 test cases that are only relevant to run in CI
 '''
 
+import platform
 import pytest
 import shutil
 import subprocess
@@ -66,6 +67,16 @@ def test_existence(binary: str):
     'vimdot',
   ]
 
+  tools_not_built_with_autotools_on_macos = [
+    'dotty',
+    'gvedit',
+    'lefty',
+    'lneato',
+    'mingle',
+    'smyrna',
+    'vimdot',
+  ]
+
   os_id = os.getenv('OS_ID')
 
   # FIXME: Remove skip when
@@ -100,6 +111,14 @@ def test_existence(binary: str):
     if binary in tools_not_built_with_msbuild:
       check_that_tool_does_not_exist(binary, os_id)
       pytest.skip(binary + ' is not built with MSBuild (#1837)')
+
+  # FIXME: Remove skip when
+  # https://gitlab.com/graphviz/graphviz/-/issues/1854 is fixed
+  if os.getenv('build_system') == 'autotools':
+    if platform.system() == 'Darwin':
+      if binary in tools_not_built_with_autotools_on_macos:
+        check_that_tool_does_not_exist(binary, os_id)
+        pytest.skip(binary + ' is not built with autotools on macOS (#1854)')
 
   assert shutil.which(binary) is not None
 
