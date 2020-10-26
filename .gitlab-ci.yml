@@ -72,6 +72,7 @@ portable-source:
         - brew install cmake || brew upgrade cmake
         - brew install bison || brew upgrade bison
         - brew install pango || brew upgrade pango
+        - brew install libxaw || brew upgrade libxaw
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
         - echo experimental > COLLECTION

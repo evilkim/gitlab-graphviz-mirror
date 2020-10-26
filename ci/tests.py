@@ -108,13 +108,9 @@ def test_existence(binary: str):
   ]
 
   tools_not_built_with_autotools_on_macos = [
-    'dotty',
     'gvedit',
-    'lefty',
-    'lneato',
     'mingle',
     'smyrna',
-    'vimdot',
   ]
 
   os_id = os.getenv('OS_ID')
