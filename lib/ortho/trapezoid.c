@@ -24,6 +24,7 @@
 #include <common/geom.h>
 #include <common/logic.h>
 #include <common/memory.h>
+#include <common/types.h>
 #include <ortho/trap.h>
 
 /* Node types */
@@ -134,12 +135,7 @@ static int _greater_than_equal_to (pointf *v0, pointf *v1)
 
 static int _less_than (pointf *v0, pointf *v1)
 {
-  if (v0->y < v1->y - C_EPS)
-    return TRUE;
-  else if (v0->y > v1->y + C_EPS)
-    return FALSE;
-  else
-    return (v0->x < v1->x);
+  return !_greater_than_equal_to(v0, v1);
 }
 
 /* Initilialise the query structure (Q) and the trapezoid table (T)
@@ -358,24 +354,25 @@ static void
 merge_trapezoids (int segnum, int tfirst, int tlast, int side, trap_t* tr,
     qnode_t* qs)
 {
-  int t, tnext, cond;
-  int ptnext;
+  int t;
 
   /* First merge polys on the LHS */
   t = tfirst;
-  while ((t > 0) && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
+  while (t > 0 && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
     {
+      int tnext, ptnext;
+      boolean cond;
       if (side == S_LEFT)
-	cond = ((((tnext = tr[t].d0) > 0) && (tr[tnext].rseg == segnum)) ||
-		(((tnext = tr[t].d1) > 0) && (tr[tnext].rseg == segnum)));
+	cond = ((tnext = tr[t].d0) > 0 && tr[tnext].rseg == segnum) ||
+		((tnext = tr[t].d1) > 0 && tr[tnext].rseg == segnum);
       else
-	cond = ((((tnext = tr[t].d0) > 0) && (tr[tnext].lseg == segnum)) ||
-		(((tnext = tr[t].d1) > 0) && (tr[tnext].lseg == segnum)));
+	cond = ((tnext = tr[t].d0) > 0 && tr[tnext].lseg == segnum) ||
+		((tnext = tr[t].d1) > 0 && tr[tnext].lseg == segnum);
 
       if (cond)
 	{
-	  if ((tr[t].lseg == tr[tnext].lseg) &&
-	      (tr[t].rseg == tr[tnext].rseg)) /* good neighbours */
+	  if (tr[t].lseg == tr[tnext].lseg &&
+	      tr[t].rseg == tr[tnext].rseg) /* good neighbours */
 	    {			              /* merge them */
 	      /* Use the upper node as the new node i.e. t */
 
@@ -447,8 +444,8 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
     }
   else is_swapped = FALSE;
 
-  if ((is_swapped) ? !inserted(segnum, seg, LASTPT) :
-       !inserted(segnum, seg, FIRSTPT))     /* insert v0 in the tree */
+  if (!inserted(segnum, seg, is_swapped ? LASTPT : FIRSTPT))
+    /* insert v0 in the tree */
     {
       int tmp_d;
 
@@ -463,14 +460,14 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       tr[tl].u0 = tu;
       tr[tl].u1 = 0;
 
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
       /* Now update the query structure and obtain the sinks for the */
@@ -504,8 +501,8 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
     }
 
 
-  if ((is_swapped) ? !inserted(segnum, seg, FIRSTPT) :
-       !inserted(segnum, seg, LASTPT))     /* insert v1 in the tree */
+  if (!inserted(segnum, seg, is_swapped ? FIRSTPT : LASTPT))
+    /* insert v1 in the tree */
     {
       int tmp_d;
 
@@ -521,14 +518,14 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       tr[tl].u0 = tu;
       tr[tl].u1 = 0;
 
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d0) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d0) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u0 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u0 == tu)
 	tr[tmp_d].u0 = tl;
-      if (((tmp_d = tr[tl].d1) > 0) && (tr[tmp_d].u1 == tu))
+      if ((tmp_d = tr[tl].d1) > 0 && tr[tmp_d].u1 == tu)
 	tr[tmp_d].u1 = tl;
 
       /* Now update the query structure and obtain the sinks for the */
@@ -568,7 +565,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
   t = tfirst;			/* topmost trapezoid */
 
-  while ((t > 0) &&
+  while (t > 0 &&
 	 _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
 				/* traverse from top to bot */
     {
@@ -604,7 +601,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
       /* error */
 
-      if ((tr[t].d0 <= 0) && (tr[t].d1 <= 0)) /* case cannot arise */
+      if (tr[t].d0 <= 0 && tr[t].d1 <= 0) /* case cannot arise */
 	{
 	  fprintf(stderr, "add_segment: error\n");
 	  break;
@@ -614,9 +611,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
       /* two resulting trapezoids t and tn as the upper neighbours of */
       /* the sole lower trapezoid */
 
-      else if ((tr[t].d0 > 0) && (tr[t].d1 <= 0))
+      else if (tr[t].d0 > 0 && tr[t].d1 <= 0)
 	{			/* Only one trapezoid below */
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -655,10 +652,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
@@ -686,7 +683,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	      else
 		tmptriseg = seg[segnum].next;
 
-	      if ((tmptriseg > 0) && is_left_of(tmptriseg, seg, &s.v0))
+	      if (tmptriseg > 0 && is_left_of(tmptriseg, seg, &s.v0))
 		{
 				/* L-R downward cusp */
 		  tr[tr[t].d0].u0 = t;
@@ -701,7 +698,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    }
 	  else
 	    {
-	      if ((tr[tr[t].d0].u0 > 0) && (tr[tr[t].d0].u1 > 0))
+	      if (tr[tr[t].d0].u0 > 0 && tr[tr[t].d0].u1 > 0)
 		{
 		  if (tr[tr[t].d0].u0 == t) /* passes through LHS */
 		    {
@@ -722,9 +719,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	}
 
 
-      else if ((tr[t].d0 <= 0) && (tr[t].d1 > 0))
+      else if (tr[t].d0 <= 0 && tr[t].d1 > 0)
 	{			/* Only one trapezoid below */
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -763,10 +760,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
@@ -796,7 +793,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 		tmptriseg = seg[segnum].next;
 
 	      /* if ((tmpseg > 0) && is_left_of(tmpseg, seg, &s.v0)) */
-	      if ((tmptriseg > 0) && is_left_of(tmptriseg, seg, &s.v0))
+	      if (tmptriseg > 0 && is_left_of(tmptriseg, seg, &s.v0))
 		{
 		  /* L-R downward cusp */
 		  tr[tr[t].d1].u0 = t;
@@ -811,7 +808,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    }
 	  else
 	    {
-	      if ((tr[tr[t].d1].u0 > 0) && (tr[tr[t].d1].u1 > 0))
+	      if (tr[tr[t].d1].u0 > 0 && tr[tr[t].d1].u1 > 0)
 		{
 		  if (tr[tr[t].d1].u0 == t) /* passes through LHS */
 		    {
@@ -864,7 +861,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	  /* check continuity from the top so that the lower-neighbour */
 	  /* values are properly filled for the upper trapezoid */
 
-	  if ((tr[t].u0 > 0) && (tr[t].u1 > 0))
+	  if (tr[t].u0 > 0 && tr[t].u1 > 0)
 	    {			/* continuation of a chain from abv. */
 	      if (tr[t].usave > 0) /* three upper neighbours */
 		{
@@ -904,10 +901,10 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if (((td0 = tr[tmp_u].d0) > 0) &&
-		  ((td1 = tr[tmp_u].d1) > 0))
+	      if ((td0 = tr[tmp_u].d0) > 0 &&
+		  (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if ((tr[td0].rseg > 0) &&
+		  if (tr[td0].rseg > 0 &&
 		      !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
@@ -1029,7 +1026,7 @@ static int math_N(int n, int h)
   int i;
   double v;
 
-  for (i = 0, v = (int) n; i < h; i++)
+  for (i = 0, v = (double) n; i < h; i++)
       v = log2(v);
 
   return (int) ceil((double) 1.0*n/v);
@@ -1049,7 +1046,7 @@ construct_trapezoids(int nseg, segment_t* seg, int* permute, int ntraps,
     TRSIZE = ntraps;
     qs = N_NEW (2*ntraps, qnode_t);
     q_idx = tr_idx = 1;
-    memset((void *)tr, 0, ntraps*sizeof(trap_t));
+    memset(tr, 0, ntraps*sizeof(trap_t));
 
   /* Add the first segment and get the query structure and trapezoid */
   /* list initialised */
