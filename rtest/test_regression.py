@@ -1,5 +1,6 @@
 import pytest
 import platform
+import shutil
 import signal
 import subprocess
 import os
@@ -208,12 +209,7 @@ def test_1449():
 
     assert stderr.strip() == '', 'SVG color scheme use caused warnings'
 
-# FIXME: Remove skip when
-# https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
-@pytest.mark.skipif(
-    os.environ.get('build_system') == 'cmake',
-    reason='The Windows "CMake" installer does not install gvpr (#1753)'
-)
+@pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 def test_1594():
     '''
     GVPR should give accurate line numbers in error messages
@@ -331,15 +327,7 @@ def test_1783():
 
     assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
 
-# FIXME: Remove skip when
-# https://gitlab.com/graphviz/graphviz/-/issues/1857 and
-# https://gitlab.com/graphviz/graphviz/-/issues/1816 is fixed
-@pytest.mark.skipif(
-    os.environ.get('build_system') == 'cmake' or
-    platform.system() == 'Darwin' or
-    platform.system() == 'Windows',
-    reason='gvedit is not built for macOS or Windows or using CMake (#1816 & #1857)'
-)
+@pytest.mark.skipif(shutil.which('gvedit') is None, reason='Gvedit not available')
 def test_1813():
     '''
     gvedit -? should show usage
@@ -354,18 +342,7 @@ def test_1813():
 
     assert 'Usage' in output, 'gvedit -? did not show usage'
 
-# FIXME: Remove skip when
-# https://gitlab.com/graphviz/graphviz/-/issues/1753 is fixed
-@pytest.mark.skipif(
-    os.environ.get('build_system') == 'cmake',
-    reason='The Windows "CMake" installer does not install lefty (#1753)'
-)
-# FIXME: Remove skip when
-# https://gitlab.com/graphviz/graphviz/-/issues/1858 is fixed
-@pytest.mark.skipif(
-    platform.system() == 'Darwin',
-    reason='lefty is not built on macOS (#1858)'
-)
+@pytest.mark.skipif(shutil.which('lefty') is None, reason='Lefty not available')
 def test_1818():
     '''
     lefty -? should show usage

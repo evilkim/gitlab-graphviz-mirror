@@ -149,7 +149,7 @@ portable-source:
               # The following is per https://gitlab.com/graphviz/graphviz/-/merge_requests/1345
               $env:Path = $env:CI_PROJECT_DIR + "\" + $env:configuration + "\Graphviz\bin" + ";" + $env:Path;
             }
-        - python3 -m pytest --junitxml=report.xml tests rtest
+        - python3 -m pytest --junitxml=report.xml ci/tests.py tests rtest
         # Create artifacts to archive
         - $ID = "windows"
         - $VERSION_ID = "10"
@@ -180,7 +180,7 @@ portable-source:
         - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
         - export OS_ID=$( cat OS_ID )
-        - python3 -m pytest --junitxml=report.xml tests rtest
+        - python3 -m pytest --junitxml=report.xml ci/tests.py tests rtest
     artifacts:
         reports:
             junit: ./report.xml

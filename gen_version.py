@@ -82,6 +82,7 @@ if not patch_version.isnumeric() or args.date_format:
                     '--format=%cd',
                     '--date=format-local:%Y-%m-%d %H:%M:%S'
                 ],
+                cwd=os.path.abspath(os.path.dirname(__file__)),
                 universal_newlines=True,
             ).strip(),
             '%Y-%m-%d %H:%M:%S',
