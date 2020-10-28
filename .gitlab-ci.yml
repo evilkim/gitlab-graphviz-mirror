@@ -67,6 +67,15 @@ portable-source:
 .build_template: &macos_build_definition
     stage: build
     script:
+        - brew update
+        - brew install autogen || brew upgrade autogen
+        - brew install cmake || brew upgrade cmake
+        - brew install bison || brew upgrade bison
+        - brew install pango || brew upgrade pango
+        - brew install libxaw || brew upgrade libxaw
+        - export PATH="/usr/local/opt/bison/bin:$PATH"
+        - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
+        - echo experimental > COLLECTION
         - logfile=`mktemp`
         - ci/build.sh 2>&1 | tee $logfile
         - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
@@ -251,14 +260,7 @@ ubuntu20-04-build:
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
-        - brew update
-        - brew install autogen || brew upgrade autogen
-        - brew install bison || brew upgrade bison
-        - brew install pango || brew upgrade pango
-        - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="autotools"
-        - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
-        - echo experimental > COLLECTION
     tags:
         - macos
 
@@ -292,14 +294,7 @@ fedora31-cmake-build:
 macos-cmake-build:
     <<: *macos_build_definition
     before_script:
-        - brew update
-        - brew install cmake || brew upgrade cmake
-        - brew install bison || brew upgrade bison
-        - brew install pango || brew upgrade pango
-        - export PATH="/usr/local/opt/bison/bin:$PATH"
         - export build_system="cmake"
-        - python3 gen_version.py > VERSION
-        - echo experimental > COLLECTION
     tags:
         - macos
 
