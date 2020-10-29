@@ -563,7 +563,7 @@ static int growops(int newopn)
 {
     if (newopn <= opn)
 	return 0;
-    if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
+    if (!(ops = realloc(ops, POINTSIZE * newopn))) {
 	prerror("cannot realloc ops");
 	return -1;
     }
