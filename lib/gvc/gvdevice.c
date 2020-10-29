@@ -355,14 +355,14 @@ void gvdevice_finalize(GVJ_t * job)
 	    (job->common->errorfn) ("deflation end problem %d\n", ret);
 	    exit(1);
 	}
-	out[0] = crc;
-	out[1] = crc >> 8;
-	out[2] = crc >> 16;
-	out[3] = crc >> 24;
-	out[4] = z->total_in;
-	out[5] = z->total_in >> 8;
-	out[6] = z->total_in >> 16;
-	out[7] = z->total_in >> 24;
+	out[0] = (unsigned char)crc;
+	out[1] = (unsigned char)(crc >> 8);
+	out[2] = (unsigned char)(crc >> 16);
+	out[3] = (unsigned char)(crc >> 24);
+	out[4] = (unsigned char)z->total_in;
+	out[5] = (unsigned char)(z->total_in >> 8);
+	out[6] = (unsigned char)(z->total_in >> 16);
+	out[7] = (unsigned char)(z->total_in >> 24);
 	gvwrite_no_z(job, (char*)out, sizeof(out));
 #else
 	(job->common->errorfn) ("No libz support\n");
