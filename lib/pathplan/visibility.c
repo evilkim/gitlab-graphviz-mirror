@@ -34,8 +34,8 @@ static array2 allocArray(int V, int extra)
     array2 arr;
     COORD *p;
 
-    arr = (COORD **) malloc((V + extra) * sizeof(COORD *));
-    p = (COORD *) calloc(V * V, sizeof(COORD));
+    arr = malloc((V + extra) * sizeof(COORD *));
+    p = calloc(V * V, sizeof(COORD));
     for (i = 0; i < V; i++) {
 	arr[i] = p;
 	p += V;
@@ -344,7 +344,7 @@ COORD *ptVis(vconfig_t * conf, int pp, Ppoint_t p)
     Ppoint_t pk;
     COORD d;
 
-    vadj = (COORD *) malloc((V + 2) * sizeof(COORD));
+    vadj = malloc((V + 2) * sizeof(COORD));
 
 
     if (pp == POLYID_UNKNOWN)

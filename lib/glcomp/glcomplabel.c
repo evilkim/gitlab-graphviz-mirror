@@ -67,8 +67,7 @@ static void update_font(glCompLabel * p,char* text,char* desc,int fs)
     p->common.font=glNewFont (p->common.compset,text,&p->common.color,temp->type,desc,fs,temp->is2D);
     if(temp)
 	glDeleteFont(temp);
-    if(p->text)
-	free(p->text);
+    free(p->text);
     p->text = strdup(text);
 
 

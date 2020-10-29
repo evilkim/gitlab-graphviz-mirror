@@ -934,8 +934,7 @@ void layout(graph_t * g, layout_info * infop)
 	    bp = 0;
 	infop->pack.fixed = bp;
 	pts = putGraphs(c_cnt, cc, NULL, &infop->pack);
-	if (bp)
-	    free(bp);
+	free(bp);
     } else {
 	pts = NULL;
 	if (c_cnt == 1)

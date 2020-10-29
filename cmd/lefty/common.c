@@ -147,12 +147,9 @@ int init (char *aout) {
 }
 
 void term (void) {
-    if (lpathp)
-        free (lpathp);
-    if (pathp)
-        free (pathp);
-    if (cmdp)
-        free (cmdp);
+    free (lpathp);
+    free (pathp);
+    free (cmdp);
 }
 
 /*  given a file name, it looks for this file in LEFTYPATH

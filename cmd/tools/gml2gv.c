@@ -22,7 +22,7 @@
 
 #include <getopt.h>
 
-#define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
+#define N_NEW(n,t)       calloc((n),sizeof(t))
 
 static int Verbose;
 static char* gname = "";

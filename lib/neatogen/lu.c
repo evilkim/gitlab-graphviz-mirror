@@ -73,11 +73,9 @@ int lu_decompose(double **a, int n)
     if (lu)
 	free_array(lu);
     lu = new_array(n, n, 0.0);
-    if (ps)
-	free(ps);
+    free(ps);
     ps = N_NEW(n, int);
-    if (scales)
-	free(scales);
+    free(scales);
     scales = N_NEW(n, double);
 
     for (i = 0; i < n; i++) {	/* For each row */

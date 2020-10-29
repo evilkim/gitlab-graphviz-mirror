@@ -184,8 +184,7 @@ static glCompFont *glut_font_init(void)
 #endif
 void glDeleteFont(glCompFont * f)
 {
-    if (f->fontdesc)
-	free(f->fontdesc);
+    free(f->fontdesc);
     if (f->tex)
 	glCompDeleteTexture(f->tex);
     free(f);
@@ -194,7 +193,7 @@ void glDeleteFont(glCompFont * f)
 
 glCompFont *glNewFont (glCompSet * s, char *text, glCompColor * c,glCompFontType type, char *fontdesc, int fs,int is2D)
 {
-    glCompFont *font = (glCompFont*) malloc(sizeof(glCompFont));
+    glCompFont *font = malloc(sizeof(glCompFont));
     font->reference = 0;
     font->color.R = c->R;
     font->color.G = c->G;

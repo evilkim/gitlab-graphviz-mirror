@@ -897,10 +897,8 @@ v_data *UG_graph(double *x, double *y, int n, int accurate_computation)
 void freeGraph (v_data * graph)
 {
     if (graph != NULL) {
-	if (graph[0].edges != NULL)
-	    free(graph[0].edges);
-	if (graph[0].ewgts != NULL)
-	    free(graph[0].ewgts);
+	free(graph[0].edges);
+	free(graph[0].ewgts);
 	free(graph);
     }
 }
@@ -908,17 +906,13 @@ void freeGraph (v_data * graph)
 void freeGraphData(vtx_data * graph)
 {
     if (graph != NULL) {
-	if (graph[0].edges != NULL)
-	    free(graph[0].edges);
-	if (graph[0].ewgts != NULL)
-	    free(graph[0].ewgts);
+	free(graph[0].edges);
+	free(graph[0].ewgts);
 #ifdef USE_STYLES
-	if (graph[0].styles != NULL)
-	    free(graph[0].styles);
+	free(graph[0].styles);
 #endif
 #ifdef DIGCOLA
-	if (graph[0].edists != NULL)
-	    free(graph[0].edists);
+	free(graph[0].edists);
 #endif
 	free(graph);
     }

@@ -150,10 +150,8 @@ int Pobspath(vconfig_t * config, Ppoint_t p0, int poly0, Ppoint_t p1,
     printDad(dad, config->N + 1);
 #endif
 
-    if (ptvis0)
-	free(ptvis0);
-    if (ptvis1)
-	free(ptvis1);
+    free(ptvis0);
+    free(ptvis1);
 
     output_route->pn = opn;
     output_route->ps = ops;

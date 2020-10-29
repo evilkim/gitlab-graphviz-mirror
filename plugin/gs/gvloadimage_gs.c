@@ -181,7 +181,7 @@ static cairo_pattern_t* gvloadimage_gs_load(GVJ_t * job, usershape_t *us)
 	}
     }
     if (!gs) {
-	gs = (gs_t *)malloc(sizeof(gs_t));
+	gs = malloc(sizeof(gs_t));
 	if (!gs) {
 	    job->common->errorfn("malloc() failure\n");
 	    return NULL;

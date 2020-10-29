@@ -272,7 +272,7 @@ static void init_window(GVJ_t *job, Display *dpy, int scr)
     int w, h;
     double zoom_to_fit;
 
-    window = (window_t *)malloc(sizeof(window_t));
+    window = malloc(sizeof(window_t));
     if (window == NULL) {
 	fprintf(stderr, "Failed to malloc window_t\n");
 	return;
@@ -473,7 +473,7 @@ static void xlib_initialize(GVJ_t *firstjob)
     firstjob->display = (void*)dpy;
     firstjob->screen = scr;
 
-    keycodes = (KeyCode *)malloc(firstjob->numkeys * sizeof(KeyCode));
+    keycodes = malloc(firstjob->numkeys * sizeof(KeyCode));
     if (keycodes == NULL) {
         fprintf(stderr, "Failed to malloc %d*KeyCode\n", firstjob->numkeys);
         return;

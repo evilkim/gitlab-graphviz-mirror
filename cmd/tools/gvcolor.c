@@ -142,7 +142,7 @@ static void color(Agraph_t * g)
 
     /* assemble the sorted list of nodes and store the initial colors */
     nn = agnnodes(g);
-    nlist = (Agnode_t **) malloc(nn * sizeof(Agnode_t *));
+    nlist = malloc(nn * sizeof(Agnode_t *));
     i = 0;
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	nlist[i++] = n;

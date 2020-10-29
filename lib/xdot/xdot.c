@@ -15,8 +15,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#define NEW(t)           (t*)calloc(1, sizeof(t))
-#define N_NEW(n,t)       (t*)calloc((n), sizeof(t))
+#define NEW(t)           calloc(1, sizeof(t))
+#define N_NEW(n,t)       calloc((n), sizeof(t))
 
 typedef struct {
     unsigned char *buf;		/* start of buffer */
@@ -430,12 +430,12 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 
     if (initcnt == 0) {
 	bufsz = XDBSIZE;
-	ops = (char *) calloc(XDBSIZE, sz);
+	ops = calloc(XDBSIZE, sz);
     }
     else {
 	ops = (char*)(x->ops);
 	bufsz = initcnt + XDBSIZE;
-	ops = (char *) realloc(ops, bufsz * sz);
+	ops = realloc(ops, bufsz * sz);
 	memset(ops + (initcnt*sz), '\0', (bufsz - initcnt)*sz);
     }
 
@@ -443,7 +443,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 	if (x->cnt == bufsz) {
 	    oldsz = bufsz;
 	    bufsz *= 2;
-	    ops = (char *) realloc(ops, bufsz * sz);
+	    ops = realloc(ops, bufsz * sz);
 	    memset(ops + (oldsz*sz), '\0', (bufsz - oldsz)*sz);
 	}
 	*(xdot_op *) (ops + (x->cnt * sz)) = op;
@@ -452,7 +452,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
     if (error)
 	x->flags |= XDOT_PARSE_ERROR;
     if (x->cnt) {
-	x->ops = (xdot_op *) realloc(ops, x->cnt * sz);
+	x->ops = realloc(ops, x->cnt * sz);
     }
     else {
 	free (ops);

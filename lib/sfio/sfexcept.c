@@ -72,9 +72,9 @@ int _sfexcept(Sfio_t * f, int type, ssize_t io, Sfdisc_t * disc)
 		io = SF_GRAIN;
 	    size = ((size + io + SF_GRAIN - 1) / SF_GRAIN) * SF_GRAIN;
 	    if (f->size > 0)
-		data = (uchar *) realloc((char *) f->data, size);
+		data = realloc(f->data, size);
 	    else
-		data = (uchar *) malloc(size);
+		data = malloc(size);
 	    if (!data)
 		goto chk_stack;
 	    f->endb = data + size;

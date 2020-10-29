@@ -101,7 +101,7 @@ static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, int neededIdx)
     newSize =
 	(tblHdrPtr->tableSize + numNewEntries) * tblHdrPtr->entrySize;
 
-    tblHdrPtr->bodyPtr = (ubyte_pt) malloc(newSize);
+    tblHdrPtr->bodyPtr = malloc(newSize);
     memcpy(tblHdrPtr->bodyPtr, oldbodyPtr,
 	   (tblHdrPtr->tableSize * tblHdrPtr->entrySize));
     tclhandleLinkInNewEntries(tblHdrPtr, tblHdrPtr->tableSize,
@@ -176,7 +176,7 @@ tblHeader_pt tclhandleInit(char *prefix, int entrySize, int initEntries)
     /*
      * Set up the table entry.
      */
-    tblHdrPtr = (tblHeader_pt) malloc(sizeof(tblHeader_t));
+    tblHdrPtr = malloc(sizeof(tblHeader_t));
 
     /* 
      * Calculate entry size, including header, rounded up to sizeof (void *). 
@@ -184,11 +184,10 @@ tblHeader_pt tclhandleInit(char *prefix, int entrySize, int initEntries)
     tblHdrPtr->entrySize = ENTRY_HEADER_SIZE + ROUND_ENTRY_SIZE(entrySize);
     tblHdrPtr->freeHeadIdx = NULL_IDX;
     tblHdrPtr->tableSize = initEntries;
-    tblHdrPtr->handleFormat = (char *) malloc(strlen(prefix) + 4);
+    tblHdrPtr->handleFormat = malloc(strlen(prefix) + 4);
     strcpy(tblHdrPtr->handleFormat, prefix);
     strcat(tblHdrPtr->handleFormat, "%lu");
-    tblHdrPtr->bodyPtr =
-	(ubyte_pt) malloc(initEntries * tblHdrPtr->entrySize);
+    tblHdrPtr->bodyPtr = malloc(initEntries * tblHdrPtr->entrySize);
     tclhandleLinkInNewEntries(tblHdrPtr, 0, initEntries);
 
     return tblHdrPtr;
@@ -249,8 +248,7 @@ int tclhandleReset(tblHeader_pt tblHdrPtr, int initEntries)
     free(tblHdrPtr->bodyPtr);
     tblHdrPtr->freeHeadIdx = NULL_IDX;
     tblHdrPtr->tableSize = initEntries;
-    tblHdrPtr->bodyPtr =
-	(ubyte_pt) malloc(initEntries * tblHdrPtr->entrySize);
+    tblHdrPtr->bodyPtr = malloc(initEntries * tblHdrPtr->entrySize);
     tclhandleLinkInNewEntries(tblHdrPtr, 0, initEntries);
 
     return TCL_OK;

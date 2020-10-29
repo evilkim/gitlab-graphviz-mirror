@@ -282,7 +282,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 
     if (!fp) {			/* constructing position array only */
 	if (!dollar
-	    || !(fp = (Fmtpos_t *) malloc((maxp + 1) * sizeof(Fmtpos_t))))
+	    || !(fp = malloc((maxp + 1) * sizeof(Fmtpos_t))))
 	    return NIL(Fmtpos_t *);
 	for (n = 0; n <= maxp; ++n)
 	    fp[n].ft.fmt = 0;

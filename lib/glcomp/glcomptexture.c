@@ -162,12 +162,9 @@ void glCompDeleteTexture(glCompTex * t)
 	return;
     t->userCount--;
     if (!t->userCount) {
-	if (t->data)
-	    free(t->data);
-	if (t->def)
-	    free(t->def);
-	if (t->text)
-	    free(t->text);
+	free(t->data);
+	free(t->def);
+	free(t->text);
 	free(t);
     }
 }

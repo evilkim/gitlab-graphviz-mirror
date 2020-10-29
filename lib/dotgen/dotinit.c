@@ -145,8 +145,8 @@ dot_cleanup_graph(graph_t * g)
 	dot_cleanup_graph(subg);
     }
     if (! agbindrec(g, "Agraphinfo_t", 0, TRUE)) return;
-    if (GD_clust(g)) free (GD_clust(g));
-    if (GD_rankleader(g)) free (GD_rankleader(g));
+    free (GD_clust(g));
+    free (GD_rankleader(g));
 
     free_list(GD_comp(g));
     if (GD_rank(g)) {

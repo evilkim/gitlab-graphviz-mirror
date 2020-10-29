@@ -397,12 +397,10 @@ char *gvplugin_list(GVC_t * gvc, api_t api, const char *str)
                 agxbprint(&xb, " %s", q);
                 new = FALSE;
             }
-            if (!typestr_last)
-                free(typestr_last);
+            free(typestr_last);
             typestr_last = q;
         }
-        if (!typestr_last)
-            free(typestr_last);
+        free(typestr_last);
     }
     if (new)
         bp = "";

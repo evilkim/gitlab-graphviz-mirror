@@ -91,7 +91,7 @@ static void mkHeap(heap * h, int size)
 
 static void freeHeap(heap * h)
 {
-    if (h->data) free(h->data);
+    free(h->data);
 }
 
 static void
@@ -163,7 +163,7 @@ void dijkstra(int vertex, vtx_data * graph, int n, DistType * dist)
 #ifdef OBSOLETE
     mkHeap(&H, n);
 #endif
-    index = (int *) realloc(index, n * sizeof(int));
+    index = realloc(index, n * sizeof(int));
 
     /* initial distances with edge weights: */
     for (i = 0; i < n; i++)
@@ -223,8 +223,7 @@ dijkstra_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     num_visited_nodes =
 	bfs_bounded(vertex, graph, n, dist, &Q, bound, visited_nodes);
     if (size < n) {
-	node_in_neighborhood =
-	    (boolean *) realloc(node_in_neighborhood, n * sizeof(boolean));
+	node_in_neighborhood = realloc(node_in_neighborhood, n * sizeof(boolean));
 	for (i = size; i < n; i++) {
 	    node_in_neighborhood[i] = FALSE;
 	}
@@ -238,7 +237,7 @@ dijkstra_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
 #ifdef OBSOLETE
     mkHeap(&H, n);
 #endif
-    index = (int *) realloc(index, n * sizeof(int));
+    index = realloc(index, n * sizeof(int));
 
     /* initial distances with edge weights: */
     for (i = 0; i < n; i++)	/* far, TOO COSTLY (O(n))! */

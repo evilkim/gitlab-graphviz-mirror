@@ -68,7 +68,7 @@ waitpid(int pid, int *status, int options)
 	    return pid;
 	}
 
-	if (!(w = (Waitpid_t *) malloc(sizeof(Waitpid_t))))
+	if (!(w = malloc(sizeof(Waitpid_t))))
 	    continue;
 
 	w->pid = id;

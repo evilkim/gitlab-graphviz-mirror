@@ -89,7 +89,7 @@ typedef struct {
 
 static void initStack(Stack * sp, int sz)
 {
-    sp->data = (Agnode_t **) malloc(sz * sizeof(Agnode_t *));
+    sp->data = malloc(sz * sizeof(Agnode_t *));
     sp->ptr = sp->data;
 }
 

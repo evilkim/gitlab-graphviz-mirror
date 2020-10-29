@@ -31,7 +31,7 @@
 #include <common/utils.h>
 #include <gvc/gvio.h>
 
-#define GNEW(t)          (t*)malloc(sizeof(t))
+#define GNEW(t)          malloc(sizeof(t))
 
 /* #define NEW_XDOT */
 

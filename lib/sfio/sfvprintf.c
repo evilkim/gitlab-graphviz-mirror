@@ -461,7 +461,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		    continue;
 		fmstk->ft = ft = argv.ft;
 	    } else {		/* stack a new environment */
-		if (!(fm = (Fmt_t *) malloc(sizeof(Fmt_t))))
+		if (!(fm = malloc(sizeof(Fmt_t))))
 		    goto done;
 
 		if (argv.ft->form) {
@@ -957,10 +957,8 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
     }
 
   pop_fmt:
-    if (fp) {
-	free(fp);
-	fp = NIL(Fmtpos_t *);
-    }
+    free(fp);
+    fp = NIL(Fmtpos_t *);
     while ((fm = fmstk)) {	/* pop the format stack and continue */
 	if (fm->eventf) {
 	    if (!form || !form[0])
@@ -984,8 +982,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
     }
 
   done:
-    if (fp)
-	free(fp);
+    free(fp);
     while ((fm = fmstk)) {
 	if (fm->eventf)
 	    (*fm->eventf) (f, SF_FINAL, NIL(void *), fm->ft);

@@ -56,7 +56,7 @@ int dtstat(Dt_t* dt, Dtstat_t* ds, int all)
 		if(ds->dt_max+1 > Size)
 		{	if(Size > 0)
 				free(Count);
-			if(!(Count = (int*)malloc((ds->dt_max+1)*sizeof(int))) )
+			if(!(Count = malloc((ds->dt_max+1)*sizeof(int))) )
 				return -1;
 			Size = ds->dt_max+1;
 		}
@@ -70,7 +70,7 @@ int dtstat(Dt_t* dt, Dtstat_t* ds, int all)
 			if(ds->dt_n+1 > Size)
 			{	if(Size > 0)
 					free(Count);
-				if(!(Count = (int*)malloc((ds->dt_n+1)*sizeof(int))) )
+				if(!(Count = malloc((ds->dt_n+1)*sizeof(int))) )
 					return -1;
 				Size = ds->dt_n+1;
 			}

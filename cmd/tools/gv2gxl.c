@@ -17,8 +17,8 @@
 
 #define SMALLBUF    128
 
-#define NEW(t)      (t*)malloc(sizeof(t))
-#define N_NEW(n,t)  (t*)calloc((n),sizeof(t))
+#define NEW(t)      malloc(sizeof(t))
+#define N_NEW(n,t)  calloc((n),sizeof(t))
 #define EMPTY(s)	((s == 0) || (*s == '\0'))
 #define SLEN(s)     (sizeof(s)-1)
 
@@ -524,8 +524,7 @@ writeHdr(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile, int top)
 
 	tabover(gxlFile);
 	fprintf(gxlFile, "<node id=\"%s\">\n", bp);
-	if (dynbuf)
-	    free(dynbuf);
+	free(dynbuf);
 	Level++;
     } else {
 	Tailport = agattr(g, AGEDGE, "tailport", NIL(char *));

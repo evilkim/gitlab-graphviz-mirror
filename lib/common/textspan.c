@@ -248,8 +248,8 @@ static void textfont_freef(Dt_t* dt, void* obj, Dtdisc_t* disc)
 {
     textfont_t *f = (textfont_t*)obj;
 
-    if (f->name) free(f->name);
-    if (f->color) free(f->color);
+    free(f->name);
+    free(f->color);
     free(f);
 }
 

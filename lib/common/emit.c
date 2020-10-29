@@ -1194,18 +1194,12 @@ static void init_layering(GVC_t * gvc, graph_t * g)
     char *str;
 
     /* free layer strings and pointers from previous graph */
-    if (gvc->layers) {
-	free(gvc->layers);
-	gvc->layers = NULL;
-    }
-    if (gvc->layerIDs) {
-	free(gvc->layerIDs);
-	gvc->layerIDs = NULL;
-    }
-    if (gvc->layerlist) {
-	free(gvc->layerlist);
-	gvc->layerlist = NULL;
-    }
+    free(gvc->layers);
+    gvc->layers = NULL;
+    free(gvc->layerIDs);
+    gvc->layerIDs = NULL;
+    free(gvc->layerlist);
+    gvc->layerlist = NULL;
     if ((str = agget(g, "layers")) != 0) {
 	gvc->numLayers = parse_layers(gvc, g, str);
  	if (((str = agget(g, "layerselect")) != 0) && *str) {
@@ -2745,7 +2739,7 @@ emit_edge_label(GVJ_t* job, textlabel_t* lbl, emit_state_t lkind, int explicit,
 	}
 	gvrender_end_anchor(job);
     }
-    if (newid) free (newid);
+    free (newid);
     job->obj->emit_state = old_emit_state;
 }
 

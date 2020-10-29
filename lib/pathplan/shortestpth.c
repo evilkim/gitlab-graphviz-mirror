@@ -37,8 +37,8 @@ static int *shortestPath(int root, int target, int V, array2 wadj)
     int k, t;
 
     /* allocate arrays */
-    dad = (int *) malloc(V * sizeof(int));
-    vl = (COORD *) malloc((V + 1) * sizeof(COORD));	/* One extra for sentinel */
+    dad = malloc(V * sizeof(int));
+    vl = malloc((V + 1) * sizeof(COORD));	/* One extra for sentinel */
     val = vl + 1;
 
     /* initialize arrays */
@@ -99,7 +99,7 @@ int *makePath(Ppoint_t p, int pp, COORD * pvis,
     int V = conf->N;
 
     if (directVis(p, pp, q, qp, conf)) {
-	int *dad = (int *) malloc(sizeof(int) * (V + 2));
+	int *dad = malloc(sizeof(int) * (V + 2));
 	dad[V] = V + 1;
 	dad[V + 1] = -1;
 	return dad;

@@ -34,8 +34,7 @@ void find_ints(struct vertex vertex_list[],
     all.first = all.final = NIL;
     all.number = 0;
 
-    pvertex = (struct vertex **)
-	malloc((input->nvertices) * sizeof(struct vertex *));
+    pvertex = malloc((input->nvertices) * sizeof(struct vertex *));
 
     for (i = 0; i < input->nvertices; i++)
 	pvertex[i] = vertex_list + i;
@@ -57,9 +56,7 @@ void find_ints(struct vertex vertex_list[],
 		     j++, tempa = tempa->next)
 		    find_intersection(tempa->name, templ, ilist, input);	/* test */
 
-		new =
-		    (struct active_edge *)
-		    malloc(sizeof(struct active_edge));
+		new = malloc(sizeof(struct active_edge));
 		if (all.number == 0) {
 		    all.first = new;
 		    new->last = NIL;
@@ -96,7 +93,7 @@ void find_ints(struct vertex vertex_list[],
 		    tempa->last->next = tempa->next;
 		    tempa->next->last = tempa->last;
 		}
-		free((char *) tempa);
+		free(tempa);
 		all.number--;
 		templ->active = NIL;
 		break;		/* end of case 1        */

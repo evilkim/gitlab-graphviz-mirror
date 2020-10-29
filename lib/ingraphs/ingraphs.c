@@ -95,7 +95,7 @@ static ingraph_state*
 new_ing(ingraph_state * sp, char **files, Agraph_t** graphs, ingdisc * disc)
 {
     if (!sp) {
-	sp = (ingraph_state *) malloc(sizeof(ingraph_state));
+	sp = malloc(sizeof(ingraph_state));
 	if (!sp) {
 	    fprintf(stderr, "ingraphs: out of memory\n");
 	    return 0;
@@ -114,7 +114,7 @@ new_ing(ingraph_state * sp, char **files, Agraph_t** graphs, ingdisc * disc)
     sp->ctr = 0;
     sp->errors = 0;
     sp->fp = NULL;
-    sp->fns = (ingdisc *) malloc(sizeof(ingdisc));
+    sp->fns = malloc(sizeof(ingdisc));
     if (!sp->fns) {
 	fprintf(stderr, "ingraphs: out of memory\n");
 	if (sp->heap)

@@ -41,8 +41,8 @@ int main(int argc, char **argv)
 {
     Ppoly_t polys[2], *polys_ptr[2];
 
-    polys[0].ps = (Ppoint_t *) malloc(3 * sizeof(Ppoint_t));
-    polys[1].ps = (Ppoint_t *) malloc(3 * sizeof(Ppoint_t));
+    polys[0].ps = malloc(3 * sizeof(Ppoint_t));
+    polys[1].ps = malloc(3 * sizeof(Ppoint_t));
     polys[0].pn = 3;
     polys[1].pn = 3;
 
@@ -101,14 +101,12 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
     struct data input;
     struct intersection ilist[10000];
 
-    polygon_list = (struct polygon *)
-	malloc(n_polys * sizeof(struct polygon));
+    polygon_list = malloc(n_polys * sizeof(struct polygon));
 
     for (i = nverts = 0; i < n_polys; i++)
 	nverts += polys[i]->pn;
 
-    vertex_list = (struct vertex *)
-	malloc(nverts * sizeof(struct vertex));
+    vertex_list = malloc(nverts * sizeof(struct vertex));
 
     for (i = vno = 0; i < n_polys; i++) {
 	polygon_list[i].start = &vertex_list[vno];

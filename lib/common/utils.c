@@ -1905,7 +1905,7 @@ void gv_cleanup_edge(edge_t * e)
 
 void gv_cleanup_node(node_t * n)
 {
-    if (ND_pos(n)) free(ND_pos(n));
+    free(ND_pos(n));
     if (ND_shape(n))
         ND_shape(n)->fns->freefn(n);
     free_label(ND_label(n));

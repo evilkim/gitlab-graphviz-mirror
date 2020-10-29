@@ -1158,7 +1158,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineI
 	rte = route_list[irte];
 	npts = 1 + 3*rte.n;
 	if (npts > splsz) {
-		if (ispline) free (ispline);
+		free (ispline);
 		ispline = N_GNEW(npts, pointf);
 		splsz = npts;
 	}

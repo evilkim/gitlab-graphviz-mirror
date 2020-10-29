@@ -513,23 +513,20 @@ static void growpnls(int newpnln)
     if (newpnln <= pnln)
 	return;
     if (!pnls) {
-	if (!(pnls = (pointnlink_t *) malloc(POINTNLINKSIZE * newpnln))) {
+	if (!(pnls = malloc(POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot malloc pnls");
 	    longjmp(jbuf,1);
 	}
-	if (!(pnlps = (pointnlink_t **) malloc(POINTNLINKPSIZE * newpnln))) {
+	if (!(pnlps = malloc(POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot malloc pnlps");
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(pnls = (pointnlink_t *) realloc((void *) pnls,
-					      POINTNLINKSIZE * newpnln))) {
+	if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot realloc pnls");
 	    longjmp(jbuf,1);
 	}
-	if (!(pnlps = (pointnlink_t **) realloc((void *) pnlps,
-						POINTNLINKPSIZE *
-						newpnln))) {
+	if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot realloc pnlps");
 	    longjmp(jbuf,1);
 	}
@@ -542,13 +539,12 @@ static void growtris(int newtrin)
     if (newtrin <= trin)
 	return;
     if (!tris) {
-	if (!(tris = (triangle_t *) malloc(TRIANGLESIZE * newtrin))) {
+	if (!(tris = malloc(TRIANGLESIZE * newtrin))) {
 	    prerror("cannot malloc tris");
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(tris = (triangle_t *) realloc((void *) tris,
-					    TRIANGLESIZE * newtrin))) {
+	if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
 	    prerror("cannot realloc tris");
 	    longjmp(jbuf,1);
 	}
@@ -562,15 +558,12 @@ static void growdq(int newdqn)
 	return;
     if (!dq.pnlps) {
 	if (!
-	    (dq.pnlps =
-	     (pointnlink_t **) malloc(POINTNLINKPSIZE * newdqn))) {
+	    (dq.pnlps = malloc(POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot malloc dq.pnls");
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(dq.pnlps = (pointnlink_t **) realloc((void *) dq.pnlps,
-						   POINTNLINKPSIZE *
-						   newdqn))) {
+	if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot realloc dq.pnls");
 	    longjmp(jbuf,1);
 	}
@@ -583,13 +576,12 @@ static void growops(int newopn)
     if (newopn <= opn)
 	return;
     if (!ops) {
-	if (!(ops = (Ppoint_t *) malloc(POINTSIZE * newopn))) {
+	if (!(ops = malloc(POINTSIZE * newopn))) {
 	    prerror("cannot malloc ops");
 	    longjmp(jbuf,1);
 	}
     } else {
-	if (!(ops = (Ppoint_t *) realloc((void *) ops,
-					 POINTSIZE * newopn))) {
+	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
 	    prerror("cannot realloc ops");
 	    longjmp(jbuf,1);
 	}

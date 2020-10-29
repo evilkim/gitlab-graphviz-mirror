@@ -19,7 +19,7 @@ static void *myiddisc_open(Agraph_t *g, Agdisc_t *disc) {
     ictx_t *ictx = (ictx_t *)disc;
     gctx_t *gctx;
 
-    gctx = (gctx_t *)malloc(sizeof(gctx_t));
+    gctx = malloc(sizeof(gctx_t));
     gctx->g = g;
     gctx->ictx = ictx;
     return (void *)gctx;

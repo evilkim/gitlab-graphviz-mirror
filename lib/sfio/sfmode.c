@@ -105,14 +105,13 @@ int _sfsetpool(Sfio_t * f)
 	    p->sf = p->array;
 	} else {		/* allocate a larger array */
 	    n = (p->sf != p->array ? p->s_sf : (p->s_sf / 4 + 1) * 4) + 4;
-	    if (!(array = (Sfio_t **) malloc(n * sizeof(Sfio_t *))))
+	    if (!(array = malloc(n * sizeof(Sfio_t *))))
 		goto done;
 
 	    /* move old array to new one */
-	    memcpy((void *) array, (void *) p->sf,
-		   p->n_sf * sizeof(Sfio_t *));
+	    memcpy(array, p->sf, p->n_sf * sizeof(Sfio_t *));
 	    if (p->sf != p->array)
-		free((void *) p->sf);
+		free(p->sf);
 
 	    p->sf = array;
 	    p->s_sf = n;
@@ -137,7 +136,7 @@ Sfrsrv_t *_sfrsrv(Sfio_t * f, ssize_t size)
     /* make buffer if nothing yet */
     size = ((size + SF_GRAIN - 1) / SF_GRAIN) * SF_GRAIN;
     if (!(rsrv = f->rsrv) || size > rsrv->size) {
-	if (!(rs = (Sfrsrv_t *) malloc(size + sizeof(Sfrsrv_t))))
+	if (!(rs = malloc(size + sizeof(Sfrsrv_t))))
 	    size = -1;
 	else {
 	    if (rsrv) {
@@ -177,7 +176,7 @@ int _sfpopen(Sfio_t * f, int fd, int pid, int stdio)
     if (f->proc)
 	return 0;
 
-    if (!(p = f->proc = (Sfproc_t *) malloc(sizeof(Sfproc_t))))
+    if (!(p = f->proc = malloc(sizeof(Sfproc_t))))
 	return -1;
 
     p->pid = pid;
@@ -212,8 +211,7 @@ int _sfpclose(Sfio_t * f)
 	return -1;
     f->proc = NIL(Sfproc_t *);
 
-    if (p->rdata)
-	free(p->rdata);
+    free(p->rdata);
 
     if (p->pid < 0)
 	status = 0;
@@ -254,9 +252,8 @@ static int _sfpmode(Sfio_t * f, int type)
     if (type == SF_WRITE) {	/* save unread data */
 	p->ndata = f->endb - f->next;
 	if (p->ndata > p->size) {
-	    if (p->rdata)
-		free((char *) p->rdata);
-	    if ((p->rdata = (uchar *) malloc(p->ndata)))
+	    free(p->rdata);
+	    if ((p->rdata = malloc(p->ndata)))
 		p->size = p->ndata;
 	    else {
 		p->size = 0;
@@ -264,13 +261,13 @@ static int _sfpmode(Sfio_t * f, int type)
 	    }
 	}
 	if (p->ndata > 0)
-	    memcpy((void *) p->rdata, (void *) f->next, p->ndata);
+	    memcpy(p->rdata, f->next, p->ndata);
 	f->endb = f->data;
     } else {			/* restore read data */
 	if (p->ndata > f->size)	/* may lose data!!! */
 	    p->ndata = f->size;
 	if (p->ndata > 0) {
-	    memcpy((void *) f->data, (void *) p->rdata, p->ndata);
+	    memcpy(f->data, p->rdata, p->ndata);
 	    f->endb = f->data + p->ndata;
 	    p->ndata = 0;
 	}

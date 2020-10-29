@@ -290,8 +290,8 @@ constructSierpinski(int v1, int v2, int v3, int depth, vtx_data* graph)
 
 }
 
-#define NEW(t)           (t*)calloc((1),sizeof(t))
-#define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
+#define NEW(t)           calloc((1),sizeof(t))
+#define N_NEW(n,t)       calloc((n),sizeof(t))
 
 void makeSierpinski(int depth, edgefn ef)
 {
