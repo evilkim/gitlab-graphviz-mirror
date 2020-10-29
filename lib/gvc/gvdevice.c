@@ -535,9 +535,8 @@ int main (int argc, char *argv[])
 
 /* gv_trim_zeros
 * Trailing zeros are removed and decimal point, if possible.
-* Add trailing space if addSpace is non-zero.
 */
-static void gv_trim_zeros(char* buf, int addSpace)
+static void gv_trim_zeros(char* buf)
 {
     char* dotp;
     char* p;
@@ -551,13 +550,6 @@ static void gv_trim_zeros(char* buf, int addSpace)
             *p = '\0';
         else
             p++;
-    }
-    else if (addSpace)
-        p = buf + strlen(buf);
-
-    if (addSpace) { /* p points to null byte */
-        *p++ = ' ';
-        *p = '\0';
     }
 }
 
@@ -573,7 +565,7 @@ void gvprintdouble(GVJ_t * job, double num)
     char buf[50];
 
     snprintf(buf, 50, "%.02f", num);
-    gv_trim_zeros(buf, 0);
+    gv_trim_zeros(buf);
 
     gvwrite(job, buf, strlen(buf));
 }
