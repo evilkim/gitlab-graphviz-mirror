@@ -593,7 +593,7 @@ glob (GVC_t* gvc, char* pattern, int flags, int (*errfunc)(const char *, int), g
         str = realloc (str, arrsize*sizeof(char*));
         if (!str) return GLOB_NOSPACE;
       }
-      str[cnt] = (char*)malloc (strlen(libdir)+1+strlen(wfd.cFileName)+1);
+      str[cnt] = malloc (strlen(libdir)+1+strlen(wfd.cFileName)+1);
       if (!str[cnt]) return GLOB_NOSPACE;
       strcpy(str[cnt],libdir);
       strcat(str[cnt],DIRSEP);
@@ -603,7 +603,7 @@ glob (GVC_t* gvc, char* pattern, int flags, int (*errfunc)(const char *, int), g
     str[cnt] = 0;
 
     pglob->gl_pathc = cnt;
-    pglob->gl_pathv = (char**)realloc(str, (cnt+1)*sizeof(char*));
+    pglob->gl_pathv = realloc(str, (cnt+1)*sizeof(char*));
     
     return 0;
 }
