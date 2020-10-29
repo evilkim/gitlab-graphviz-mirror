@@ -61,7 +61,7 @@ static const int PAGE_ALIGN = 4095;		/* align to a 4K boundary (less one), typic
 static size_t gvwrite_no_z (GVJ_t * job, const char *s, size_t len)
 {
     if (job->gvc->write_fn)   /* externally provided write dicipline */
-	return (job->gvc->write_fn)(job, (char*)s, len);
+	return (job->gvc->write_fn)(job, s, len);
     if (job->output_data) {
 	if (len > job->output_data_allocated - (job->output_data_position + 1)) {
 	    /* ensure enough allocation for string = null terminator */
