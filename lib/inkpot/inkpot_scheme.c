@@ -124,24 +124,6 @@ static inkpot_status_t inkpot_scheme ( inkpot_t *inkpot, const char *scheme )
     return ((inkpot->status = INKPOT_SUCCESS));
 }
 
-#if 0
-    IDX_ICOLORS_t i;
-    inkpot_icolor_t *inkpot_icolor;
-    inkpot_icolor = inkpot_find_icolor(icolor);
-    if (! inkpot_icolor)
-        return ((inkpot->status = INKPOT_SCHEME_UNKNOWN));
-    
-    for (i = 0; i < inkpot->active_schemes; i++)
-        if (inkpot->scheme_list[i] == (inkpot_icolor - TAB_ICOLORS))
-	    return ((inkpot->status = INKPOT_SUCCESS));
-
-    inkpot->scheme_list[i] = (inkpot_icolor - TAB_ICOLORS);
-    inkpot->active_schemes++;
-    return ((inkpot->status = INKPOT_SUCCESS));
-        return ((inkpot->status = INKPOT_SCHEME_UNKNOWN));
-}
-#endif
- 
 inkpot_status_t inkpot_schemes_put ( inkpot_t *inkpot, const char *schemes )
 {
     inkpot_status_t rc = INKPOT_SUCCESS;
@@ -211,19 +193,6 @@ inkpot_status_t inkpot_icolor_get ( inkpot_t *inkpot, const char *icolor )
     return ((inkpot->status = INKPOT_SUCCESS));
 }
 
-#if 0
-inkpot_status_t inkpot_palette( inkpot_t *inkpot, int size )
-{
-    if (inkpot->palette_alloc < size * sizeof(inkpot_noname_value_t)) {
-        inkpot->palette_alloc = size * sizeof(inkpot_noname_value_t);
-	inkpot->palette = realloc(inkpot->palette, inkpot->palette_alloc);
-        if (! inkpot->palette)
-            return ((inkpot->status = INKPOT_MALLOC_FAIL));
-    }
-    return ((inkpot->status = INKPOT_SUCCESS));
-}
-#endif
- 
 static int inkpot_name_cmpf ( const void *key, const void *base)
 {
     const char *k = (const char*)key;
@@ -649,15 +618,6 @@ inkpot_status_t inkpot_get_cmyk ( inkpot_t *inkpot, double cmyk[4] )
     return rc;
 }
 
-#if 0
-/* FIXME - requires palette collection and transformation */
-inkpot_status_t inkpot_get_index ( inkpot_t *inkpot, unsigned int *index )
-{
-    /* FIXME */
-    return ((inkpot->status = INKPOT_FAIL));
-}
-#endif
-
 static void inkpot_puts(inkpot_t *inkpot, const char *s)
 {
     inkpot->write_disc.writer(inkpot->write_closure, s, strlen(s));
@@ -778,150 +738,6 @@ inkpot_status_t inkpot_debug_schemes( inkpot_t *inkpot )
 
     return ((inkpot->status = INKPOT_SUCCESS));
 }
-
-#if 0
-static inkpot_status_t inkpot_debug_scheme_names( inkpot_t *inkpot, int scheme_bits )
-{
-    IDX_SCHEMES_NAME_t i;
-    int found = 0;
-
-    inkpot_puts(inkpot, "(");
-    for (i = 0; i < SZT_SCHEMES_NAME; i++) {
-        if ((1 << i) & scheme_bits) {
-            if (found++)
-                inkpot_puts(inkpot, " ");
-            inkpot_puts(inkpot, &TAB_STRINGS[TAB_SCHEMES_NAME[i].string_idx]);
-        }
-    }
-    inkpot_puts(inkpot, ")");
-
-    return INKPOT_SUCCESS;
-}
-
-static void inkpot_debug_rgba( inkpot_t *inkpot, VALUE value )
-{
-    char buf[22];
-    unsigned short rgba[4];
-    int i;
-
-    for (i = 3; i >= 0; i--) {
-	rgba[i] = (value & 65535);
-	value >>= 16;
-    }
-    sprintf(buf, "#%04x%04x%04x%04x", rgba[0], rgba[1], rgba[2], rgba[3]);
-    inkpot_puts(inkpot, buf);
-}
-#endif
-
-#if 0
-static inkpot_status_t inkpot_debug_names_schemes( inkpot_t *inkpot, MSK_SCHEMES_t scheme_bits, IDX_ICOLORS_t active, IDX_SCHEMES_NAME_t *scheme_index )
-{
-    inkpot_name_t *name;
-    IDX_NAMES_t i;
-#if 0
-    IDX_ICOLORS_t j;
-    IDX_INDEXES_t k, first, last;
-    IDX_VALUES_t v;
-    char buf[20];
-#endif
-
-    if (scheme_bits) {
-        for (i = 0; i < SZT_NAMES; i++) {
-            name = &TAB_NAMES[i];
-            if (scheme_bits & name->scheme_bits) {
-                inkpot_puts(inkpot, &TAB_STRINGS[TAB_NAMES[i].string_idx]);
-		inkpot_debug_scheme_names(inkpot, scheme_bits);
-		inkpot_puts(inkpot, " ");
-		inkpot_debug_rgba(inkpot, TAB_VALUES[name->value_idx].value);
-		inkpot_puts(inkpot, "\n");
-            }
-        }
-    }
-#if 0
-    for (j=0; j < active; j++) {
-	first = scheme_index->range_idx;
-	j = scheme_index - TAB_ICOLORS;
-	if (++j >= SZT_ICOLORS)
-	    last = SZT_INDEXES;
-	else
-	    last = TAB_ICOLORS[j].range_idx;
-    
-	for (k = first; k < last; k++) {
-	    v = TAB_INDEXES[k];
-	    sprintf(buf, "%d(", k - first);
-	    inkpot_puts(inkpot, buf);
-	    inkpot_puts(inkpot, &TAB_STRINGS[scheme_index->string_idx]);
-	    inkpot_puts(inkpot, ") ");
-	    if (v < SZT_VALUES)
-	        inkpot_debug_rgba(inkpot, TAB_VALUES[v].value);
-	    else
-	        inkpot_debug_rgba(inkpot, TAB_NONAME_VALUES[v - SZT_VALUES].value);
-	    inkpot_puts(inkpot, "\n");
-	}
-    }
-#endif
-    inkpot_puts(inkpot, "\n");
-
-    return ((inkpot->status = INKPOT_SUCCESS));
-}
-
-inkpot_status_t inkpot_debug_names( inkpot_t *inkpot )
-{
-    inkpot_puts(inkpot, "names (in):\n");
-    return inkpot_debug_names_schemes(inkpot, inkpot->scheme_bits, inkpot->active_schemes, inkpot->scheme_list);
-}
-
-inkpot_status_t inkpot_debug_out_names( inkpot_t *inkpot )
-{
-    inkpot_puts(inkpot, "names (out):\n");
-    return inkpot_debug_names_schemes(inkpot, inkpot->out_scheme_bit, 1, inkpot->out_scheme_list);
-}
-#endif
-
-#if 0
-/* Print all values that are members of the currently listed
- * name schemes, with the names in those schemes.
- * Does not print the indexes in index schemes that a value may
- * be a member of. */
-inkpot_status_t inkpot_debug_values( inkpot_t *inkpot )
-{
-    inkpot_status_t rc;
-    inkpot_value_t *value;
-    inkpot_name_t *name;
-    IDX_VALUES_t i;
-    IDX_NAMES_t t;
-    MSK_SCHEMES_t scheme_bits;
-    int found;
-
-    inkpot_puts(inkpot, "values:\n");
-    for (rc = inkpot_value_get_first(inkpot, &value);
-	    rc == INKPOT_SUCCESS
-	    rc = inkpot_value_get_next(inkpot, &value)) {
-
-        found = 0;
-        for (t = value->toname_idx; t < SZT_NAMES; t++) {
-            name = &TAB_NAMES[TAB_NAMES[t].toname_idx];
-            if (name->value_idx != i)
-                break;
-            scheme_bits = name->scheme_bits & inkpot->scheme_bits;
-            if (scheme_bits) {
-                if (found++)
-                    inkpot_puts(inkpot, " ");
-                else
-		    inkpot_debug_rgba(inkpot, TAB_VALUES[i].value);
-                inkpot_puts(inkpot, " ");
-                inkpot_puts(inkpot, &TAB_STRINGS[name->string_idx]);
-		inkpot_debug_scheme_names(inkpot, scheme_bits);
-            }
-        }
-        if (found)
-            inkpot_puts(inkpot, "\n");
-    }
-    inkpot_puts(inkpot, "\n");
-
-    return ((inkpot->status = INKPOT_SUCCESS));
-}
-#endif
 
 inkpot_status_t inkpot_debug_error ( inkpot_t *inkpot )
 {

@@ -30,19 +30,6 @@ static void gasp_print_polyline(Ppolyline_t * route);
 static void gasp_print_bezier(Ppolyline_t * route);
 #endif
 
-#if 0				/* not used */
-static void *myrealloc(void *p, size_t newsize)
-{
-    void *rv;
-
-    if (p == (void *) 0)
-	rv = malloc(newsize);
-    else
-	rv = realloc(p, newsize);
-    return rv;
-}
-#endif
-
 static void *mymalloc(size_t newsize)
 {
     void *rv;
