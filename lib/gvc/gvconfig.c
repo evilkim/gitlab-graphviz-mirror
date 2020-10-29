@@ -590,8 +590,7 @@ glob (GVC_t* gvc, char* pattern, int flags, int (*errfunc)(const char *, int), g
     do {
       if (cnt >= arrsize-1) {
         arrsize += 512;
-        if (str) str = (char**)realloc (str, arrsize*sizeof(char*));
-        else str = (char**)malloc (arrsize*sizeof(char*));
+        str = realloc (str, arrsize*sizeof(char*));
         if (!str) return GLOB_NOSPACE;
       }
       str[cnt] = (char*)malloc (strlen(libdir)+1+strlen(wfd.cFileName)+1);

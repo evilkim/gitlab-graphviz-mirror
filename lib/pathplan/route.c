@@ -200,13 +200,8 @@ static int reallyroutespline(Pedge_t * edges, int edgen,
     static int tnan;
 
     if (tnan < inpn) {
-	if (!tnas) {
-	    if (!(tnas = malloc(sizeof(tna_t) * inpn)))
-		return -1;
-	} else {
-	    if (!(tnas = realloc(tnas, sizeof(tna_t) * inpn)))
-		return -1;
-	}
+	if (!(tnas = realloc(tnas, sizeof(tna_t) * inpn)))
+	    return -1;
 	tnan = inpn;
     }
     tnas[0].t = 0;
@@ -518,16 +513,9 @@ static void growops(int newopn)
 {
     if (newopn <= opn)
 	return;
-    if (!ops) {
-	if (!(ops = malloc(POINTSIZE * newopn))) {
-	    prerror("cannot malloc ops");
-	    longjmp(jbuf,1);
-	}
-    } else {
-	if (!(ops = realloc(ops, POINTSIZE * newopn))) {
-	    prerror("cannot realloc ops");
-	    longjmp(jbuf,1);
-	}
+    if (!(ops = realloc(ops, POINTSIZE * newopn))) {
+	prerror("cannot realloc ops");
+	longjmp(jbuf,1);
     }
     opn = newopn;
 }

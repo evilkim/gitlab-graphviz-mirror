@@ -522,24 +522,13 @@ static int growpnls(int newpnln)
 {
     if (newpnln <= pnln)
 	return 0;
-    if (!pnls) {
-	if (!(pnls = malloc(POINTNLINKSIZE * newpnln))) {
-	    prerror("cannot malloc pnls");
-	    return -1;
-	}
-	if (!(pnlps = malloc(POINTNLINKPSIZE * newpnln))) {
-	    prerror("cannot malloc pnlps");
-	    return -1;
-	}
-    } else {
-	if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
-	    prerror("cannot realloc pnls");
-	    return -1;
-	}
-	if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
-	    prerror("cannot realloc pnlps");
-	    return -1;
-	}
+    if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
+	prerror("cannot realloc pnls");
+	return -1;
+    }
+    if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
+	prerror("cannot realloc pnlps");
+	return -1;
     }
     pnln = newpnln;
     return 0;
@@ -549,16 +538,9 @@ static int growtris(int newtrin)
 {
     if (newtrin <= trin)
 	return 0;
-    if (!tris) {
-	if (!(tris = malloc(TRIANGLESIZE * newtrin))) {
-	    prerror("cannot malloc tris");
-	    return -1;
-	}
-    } else {
-	if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
-	    prerror("cannot realloc tris");
-	    return -1;
-	}
+    if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
+	prerror("cannot realloc tris");
+	return -1;
     }
     trin = newtrin;
 
@@ -569,17 +551,9 @@ static int growdq(int newdqn)
 {
     if (newdqn <= dq.pnlpn)
 	return 0;
-    if (!dq.pnlps) {
-	if (!
-	    (dq.pnlps = malloc(POINTNLINKPSIZE * newdqn))) {
-	    prerror("cannot malloc dq.pnls");
-	    return -1;
-	}
-    } else {
-	if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
-	    prerror("cannot realloc dq.pnls");
-	    return -1;
-	}
+    if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
+	prerror("cannot realloc dq.pnls");
+	return -1;
     }
     dq.pnlpn = newdqn;
     return 0;
@@ -589,16 +563,9 @@ static int growops(int newopn)
 {
     if (newopn <= opn)
 	return 0;
-    if (!ops) {
-	if (!(ops = malloc(POINTSIZE * newopn))) {
-	    prerror("cannot malloc ops");
-	    return -1;
-	}
-    } else {
-	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
-	    prerror("cannot realloc ops");
-	    return -1;
-	}
+    if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
+	prerror("cannot realloc ops");
+	return -1;
     }
     opn = newopn;
 

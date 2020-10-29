@@ -43,10 +43,7 @@ char *gd_alternate_fontlist(char *font)
     len = strlen(font) + 1;
     if (len > fontbufsz) {
 	fontbufsz = 2 * len;
-	if (fontbuf == NULL)
-	    fontbuf = malloc(fontbufsz);
-	else
-	    fontbuf = realloc(fontbuf, fontbufsz);
+	fontbuf = realloc(fontbuf, fontbufsz);
     }
 
     /* fontbuf to contain font without style descriptions like -Roman or -Italic */
