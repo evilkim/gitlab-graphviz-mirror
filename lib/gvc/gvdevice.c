@@ -487,7 +487,7 @@ static char * gvprintnum (size_t *len, double number)
         N /= 10;
         if (digit || showzeros) {	/* if digit is non-zero,
 						or if we are printing zeros */
-            *--result = digit | '0';	/* convert digit to ascii */
+            *--result = (char)digit | '0';	/* convert digit to ascii */
             showzeros = TRUE;		/* from now on we must print zeros */
         }
         if (i == 1) {			/* if completed fractional part */
