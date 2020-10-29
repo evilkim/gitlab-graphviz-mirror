@@ -483,7 +483,7 @@ static char * gvprintnum (size_t *len, double number)
     showzeros = FALSE;			/* don't print trailing zeros */
     for (i = DECPLACES; N || i > 0; i--) {  /* non zero remainder,
 						or still in fractional part */
-        digit = N % 10;			/* next least-significant digit */
+        digit = (int)(N % 10L);			/* next least-significant digit */
         N /= 10;
         if (digit || showzeros) {	/* if digit is non-zero,
 						or if we are printing zeros */
