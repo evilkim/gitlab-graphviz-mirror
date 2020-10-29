@@ -14,9 +14,8 @@
 #  - mkoutput.py, which converts templates/output.html.j2 to output.html
 #    This requires the jinja2 python package.
 #
-# The main product are 7 web pages:
+# The main products are web pages:
 #    arrows.html  - arrow_grammar
-#    attrs.html   - attrs, types
 #    colors.html  - color_names svgcolor_names brewer_colors
 #    command.html - raw HTML
 #    lang.html    - grammar
@@ -87,7 +86,7 @@ A2GIF= aa_box.gif aa_lbox.gif aa_rbox.gif aa_obox.gif aa_olbox.gif aa_orbox.gif\
 
 GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
-HTML = attrs.html colors.html command.html lang.html output.html shapes.html \
+HTML = colors.html command.html lang.html output.html shapes.html \
        arrows.html schema.html
 MISC = graphviz_json_schema.json w3data.js
 INSTALL_FILES = $(HTML) $(DOTS) $(SGIF) $(AGIF) $(A2GIF) $(MGIF) $(XGIF) $(MPNG) $(MISC)
@@ -118,9 +117,6 @@ sdlshapes.ps : sdlshapes.dot
 
 sdlshapes.png : sdlshapes.ps
 	./ps_to_png.sh sdlshapes.ps sdlshapes.png
-
-attrs.html : attrs types mkattrs.py templates/attrs.html.j2
-	./mkattrs.py attrs types > $@
 
 colors.html : colors.1 colors.n ../../lib/common/color_names ../../lib/common/svgcolor_names ../../lib/common/brewer_colors mkcolors.awk brewer.awk svg.awk
 	mkdir -p colortmp
@@ -206,17 +202,17 @@ clean :
 
 .PHONY: distclean
 distclean : clean
-	rm -f attrs.html colors.html output.html shapes.html lang.html arrows.html schema.html
+	rm -f colors.html output.html shapes.html lang.html arrows.html schema.html
 	rm -f $(A2GIF) $(AGIF) $(SGIF) $(MPJG) $(MGIF) $(MPNG) $(XGIF) shapes
 	(for s in $$(cat shapelist); do rm -f $$s.gif; done)
 
-EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkattrs.py mkshapes.sh mkstyles.sh mktapers.sh \
+EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkshapes.sh mkstyles.sh mktapers.sh \
              mkarrowtbl.sh mkoutput.py mkshhtml.py \
 	           ps_to_png.sh arrow_grammar grammar html_grammar \
-             shapelist attrs.1 colors.1 colors.n \
+             shapelist colors.1 colors.n \
              output.1 output.2 html.1 html.2 html1.dot html.3 \
              shapes.1 shapes.2 shapes.3 lang.1 lang.2 arrows.1 arrows.2 \
              brewer.awk mkcolors.awk svg.awk sz.awk \
              colorlist.dot html1.dot html4.dot round.dot constraint.dot \
              html2.dot mrecord.dot sdlshapes.dot fill.dot html3.dot record.dot \
-             attrs types X11 outputs eqn.gif plugins.gv
+             X11 outputs eqn.gif plugins.gv
