@@ -56,7 +56,7 @@ install(
 
 # Specify headers to be installed
 install(
-    FILES cgraph.h strcasecmp.h
+    FILES cgraph.h
     DESTINATION ${HEADER_INSTALL_DIR}
 )
 

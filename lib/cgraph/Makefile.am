@@ -8,8 +8,8 @@ pkgconfigdir = $(libdir)/pkgconfig
 
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/lib/cdt
 
-pkginclude_HEADERS = cgraph.h strcasecmp.h
-noinst_HEADERS = agxbuf.h cghdr.h
+pkginclude_HEADERS = cgraph.h
+noinst_HEADERS = agxbuf.h cghdr.h strcasecmp.h
 noinst_LTLIBRARIES = libcgraph_C.la
 lib_LTLIBRARIES = libcgraph.la
 pkgconfig_DATA = libcgraph.pc
