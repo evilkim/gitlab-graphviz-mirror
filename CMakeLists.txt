@@ -183,6 +183,9 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
 else()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    # Enable common warnings flags
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
 # ============================ Packaging information ===========================
