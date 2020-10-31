@@ -122,6 +122,19 @@ def test_793():
     # Graphviz should not have caused a segfault
     assert p.returncode != -signal.SIGSEGV, 'Graphviz segfaulted'
 
+def test_1221():
+    '''
+    assigning a node to two clusters with newrank should not cause a crash
+    https://gitlab.com/graphviz/graphviz/-/issues/1221
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1221.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # process this with dot
+    subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
+
 def test_1314():
     '''
     test that a large font size that produces an overflow in Pango is rejected

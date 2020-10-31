@@ -20,9 +20,11 @@
  */
 
 #include <assert.h>
+#include <cgraph/cgraph.h>
 #include <dotgen/dot.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* #define DEBUG */
 #define MARK(v)		(ND_mark(v))
@@ -336,6 +338,23 @@ void dot_mincross(graph_t * g, int doBalance)
 {
     int c, nc;
     char *s;
+
+    /* check whether malformed input has led to empty cluster that the crossing
+     * functions will not anticipate
+     */
+    {
+	size_t i;
+	for (i = 1; i <= (size_t)GD_n_cluster(g); ) {
+	    if (agfstnode(GD_clust(g)[i]) == NULL) {
+	      agwarningf("removing empty cluster\n");
+	      memmove(&GD_clust(g)[i], &GD_clust(g)[i + 1],
+	        ((size_t)GD_n_cluster(g) - i) * sizeof(GD_clust(g)[0]));
+	      --GD_n_cluster(g);
+	    } else {
+	      ++i;
+	    }
+	}
+    }
 
     init_mincross(g);
 
