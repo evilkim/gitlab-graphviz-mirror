@@ -75,7 +75,7 @@ static edge_t **TE_list;
 static int *TI_list;
 static boolean ReMincross;
 
-#if DEBUG > 1
+#if defined(DEBUG) && DEBUG > 1
 static void indent(graph_t* g)
 {
   if (g->parent) {
