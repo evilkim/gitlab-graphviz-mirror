@@ -33,6 +33,7 @@
 
 /* for late_double() */
 #include <cgraph/agxbuf.h>
+#include <cgraph/cgraph.h>
 #include <common/utils.h>
 
 /* for wind() */
@@ -242,6 +243,9 @@ static void vrml_begin_node(GVJ_t *job)
 	MinZ = z;
     if (shapeOf(n) != SH_POINT) {
 	PNGfile = nodefile(job->output_filename, n);
+	if (PNGfile == NULL) {
+		agerrorf("failed to open file for writing PNG node image\n");
+	}
 
 	width  = (ND_lw(n) + ND_rw(n)) * Scale + 2 * NODE_PAD;
 	height = (ND_ht(n)           ) * Scale + 2 * NODE_PAD;
@@ -258,8 +262,10 @@ static void vrml_begin_node(GVJ_t *job)
 static void vrml_end_node(GVJ_t *job)
 {
     if (im) {
-	gdImagePng(im, PNGfile);
-	fclose(PNGfile);
+	if (PNGfile != NULL) {
+		gdImagePng(im, PNGfile);
+		fclose(PNGfile);
+	}
 	gdImageDestroy(im);
 	im = NULL;
     }
