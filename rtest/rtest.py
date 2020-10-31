@@ -10,6 +10,7 @@
 import os
 import shutil
 import tempfile
+import shutil
 import subprocess
 import sys
 import platform
@@ -29,8 +30,6 @@ DOT = os.environ.get('DOT', shutil.which('dot'))
 DIFFIMG = os.environ.get('DIFFIMG', shutil.which('diffimg'))
 
 TESTNAME = ''   # name of test
-GRAPH = ''      # graph specification
-IDX = ''
 CRASH_CNT = 0
 DIFF_CNT = 0
 TOT_CNT = 0
@@ -62,22 +61,17 @@ def skipLines():
 # Store the 3 parts in the arrays ALG, FMT, FLAGS.
 # Stop at a blank line
 def readSubtests():
-  SUBTESTS = []
   while True:
     LINE = readLine()
     if LINE == '':
-      return SUBTESTS
+      return
     if not LINE.startswith('#'):
-      items = LINE.split(' ')
-      ALG0, FMT0 = items[0: 2]
-      FLAGS0 = items[2:]
-      SUBTESTS.append(
-          {
+      ALG0, FMT0, *FLAGS0 = LINE.split(' ')
+      yield {
               'ALG': ALG0,
               'FMT': FMT0,
               'FLAGS': FLAGS0,
-             }
-      )
+            }
 
 def readTest():
   # read test name
@@ -94,7 +88,7 @@ def readTest():
   else:
     return None
 
-  SUBTESTS = readSubtests()
+  SUBTESTS = list(readSubtests())
   return {
       'TESTNAME': TESTNAME,
       'GRAPH': GRAPH,
@@ -109,30 +103,30 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
   FILE2 = os.path.join(REFDIR, OUTFILE)
   F = fmt.split(':')[0]
   if F in ['ps', 'ps2']:
-    with open(TMPFILE1, mode='w') as fd1, \
-         open(TMPFILE2, mode='w') as fd2:
+    with open(TMPFILE1, mode='w') as fd:
       subprocess.check_call(
         ['awk', '-f', 'strps.awk', FILE1],
-        stdout=fd1,
+        stdout=fd,
       )
+    with open(TMPFILE2, mode='w') as fd:
       subprocess.check_call(
         ['awk', '-f', 'strps.awk', FILE2],
-        stdout=fd2,
+        stdout=fd,
       )
     returncode = subprocess.call(
       ['diff', '-q', TMPFILE1, TMPFILE2],
       stdout=subprocess.DEVNULL,
     )
   elif F == 'svg':
-    with open(TMPFILE1, mode='w') as fd1, \
-         open(TMPFILE2, mode='w') as fd2:
+    with open(TMPFILE1, mode='w') as fd:
       subprocess.check_call(
         ['sed', '/^<!--/d;/-->$/d', FILE1],
-        stdout=fd1,
+        stdout=fd,
       )
+    with open(TMPFILE2, mode='w') as fd:
       subprocess.check_call(
         ['sed', '/^<!--/d;/-->$/d', FILE2],
-        stdout=fd2,
+        stdout=fd,
       )
     returncode = subprocess.call(
       ['diff', '-q', '--strip-trailing-cr', TMPFILE1, TMPFILE2],
@@ -152,12 +146,12 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
     )
     if returncode != 0:
       with open(os.path.join(OUTHTML, 'index.html'), mode='a') as fd:
-        print('<p>', file=fd)
+        fd.write('<p>\n')
         shutil.copyfile(FILE2, os.path.join(OUTHTML, 'old_' + OUTFILE))
-        print('<img src="old_' + OUTFILE + '" width="192" height="192">', file=fd)
+        fd.write('<img src="old_{}" width="192" height="192">\n'.format(OUTFILE))
         shutil.copyfile(FILE1, os.path.join(OUTHTML, 'new_' + OUTFILE))
-        print('<img src="new_' + OUTFILE + '" width="192" height="192">', file=fd)
-        print('<img src="dif_' + OUTFILE + '" width="192" height="192">', file=fd)
+        fd.write('<img src="new_{}" width="192" height="192">\n'.format(OUTFILE))
+        fd.write('<img src="dif_{}" width="192" height="192">\n'.format(OUTFILE))
     else:
       os.unlink(os.path.join(OUTHTML, 'dif_' + OUTFILE))
   else:
@@ -226,9 +220,12 @@ def doTest(TEST):
     OUTPATH = os.path.join(OUTDIR, OUTFILE)
     KFLAGS = SUBTEST['ALG']
     TFLAGS = SUBTEST['FMT']
-    KFLAGS = KFLAGS and '-K' + KFLAGS
-    TFLAGS = TFLAGS and '-T' + TFLAGS
-    testcmd = [DOT, KFLAGS, TFLAGS] + SUBTEST['FLAGS'] + ['-o', OUTPATH, INFILE]
+    if KFLAGS: KFLAGS = '-K{}'.format(KFLAGS)
+    if TFLAGS: TFLAGS = '-T{}'.format(TFLAGS)
+    testcmd = [DOT]
+    if KFLAGS: testcmd += [KFLAGS]
+    if TFLAGS: testcmd += [TFLAGS]
+    testcmd += SUBTEST['FLAGS'] + ['-o', OUTPATH, INFILE]
     if VERBOSE:
       print(' '.join(testcmd))
     if NOOP:
@@ -250,7 +247,7 @@ def doTest(TEST):
       print('Skipping test {0}:{1} : with flag -Goverlap=false because it fails '
             'with Windows MSBuild builds which are not built with '
             'triangulation library (#1269)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1787 is
@@ -261,7 +258,7 @@ def doTest(TEST):
        TESTNAME == 'user_shapes':
       print('Skipping test {0}:{1} : using shapefile because it fails '
             'with Windows MSBuild Debug builds (#1787)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1790 is
@@ -270,7 +267,7 @@ def doTest(TEST):
        TESTNAME == 'ps_user_shapes':
       print('Skipping test {0}:{1} : using PostScript shapefile because it '
             'fails with Windows builds (#1790)'
-            .format(TESTNAME, i, ' '.join(SUBTEST['FLAGS'])),
+            .format(TESTNAME, i),
             file=sys.stderr)
       continue
 
@@ -300,9 +297,9 @@ def doTest(TEST):
   TESTTYPES = {}
 
 def cleanup():
-  pathlib.Path(TMPFILE1).unlink(missing_ok=True)
-  pathlib.Path(TMPFILE2).unlink(missing_ok=True)
-  pathlib.Path(TMPINFILE).unlink(missing_ok=True)
+  shutil.rmtree(TMPFILE1, ignore_errors=True)
+  shutil.rmtree(TMPFILE2, ignore_errors=True)
+  shutil.rmtree(TMPINFILE, ignore_errors=True)
 atexit.register(cleanup)
 
 # Set REFDIR
