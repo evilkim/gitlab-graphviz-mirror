@@ -42,7 +42,7 @@ static void init_mincross(graph_t * g);
 static void merge2(graph_t * g);
 static void init_mccomp(graph_t * g, int c);
 static void cleanup2(graph_t * g, int nc);
-static int mincross_clust(graph_t * par, graph_t * g, int);
+static int mincross_clust(graph_t * g, int);
 static int mincross(graph_t * g, int startpass, int endpass, int);
 static void mincross_step(graph_t * g, int pass);
 static void mincross_options(graph_t * g);
@@ -367,7 +367,7 @@ void dot_mincross(graph_t * g, int doBalance)
 
     /* run mincross on contents of each cluster */
     for (c = 1; c <= GD_n_cluster(g); c++) {
-	nc += mincross_clust(g, GD_clust(g)[c], doBalance);
+	nc += mincross_clust(GD_clust(g)[c], doBalance);
 #ifdef DEBUG
 	check_vlists(GD_clust(g)[c]);
 	check_order();
@@ -528,7 +528,7 @@ static void ordered_edges(graph_t * g)
     }
 }
 
-static int mincross_clust(graph_t * par, graph_t * g, int doBalance)
+static int mincross_clust(graph_t * g, int doBalance)
 {
     int c, nc;
 
@@ -539,7 +539,7 @@ static int mincross_clust(graph_t * par, graph_t * g, int doBalance)
     nc = mincross(g, 2, 2, doBalance);
 
     for (c = 1; c <= GD_n_cluster(g); c++)
-	nc += mincross_clust(g, GD_clust(g)[c], doBalance);
+	nc += mincross_clust(GD_clust(g)[c], doBalance);
 
     save_vlist(g);
     return nc;
