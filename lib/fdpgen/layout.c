@@ -310,8 +310,7 @@ static void addCluster(clist_t * clist, graph_t * subg)
 
 /* portName:
  * Generate a name for a port.
- * We use the name of the subgraph and names of the nodes on the edge,
- * if possible. Otherwise, we use the ids of the nodes.
+ * We use the ids of the nodes.
  * This is for debugging. For production, just use edge id and some
  * id for the graph. Note that all the graphs are subgraphs of the
  * root graph.
@@ -322,15 +321,9 @@ static char *portName(graph_t * g, bport_t * p)
     node_t *h = aghead(e);
     node_t *t = agtail(e);
     static char buf[BSZ + 1];
-    int len = 8;
 
-    len += strlen(agnameof(g)) + strlen(agnameof(h)) + strlen(agnameof(t));
-    if (len >= BSZ)
-	sprintf(buf, "_port_%s_%s_%s_%ld", agnameof(g), agnameof(t), agnameof(h),
-		(uint64_t)AGSEQ(e));
-    else
-	sprintf(buf, "_port_%s_(%d)_(%d)_%ld",agnameof(g), ND_id(t), ND_id(h),
-		(uint64_t)AGSEQ(e));
+	snprintf(buf, sizeof(buf), "_port_%s_(%d)_(%d)_%u",agnameof(g),
+		ND_id(t), ND_id(h), AGSEQ(e));
     return buf;
 }
 

@@ -398,8 +398,14 @@ void gvprintf(GVJ_t * job, const char *format, ...)
 
     va_start(argp, format);
 #ifdef HAVE_VSNPRINTF
-    len = vsnprintf((char *)buf, BUFSIZ, format, argp);
+    {
+	va_list argp2;
+	va_copy(argp2, argp);
+	len = vsnprintf((char *)buf, BUFSIZ, format, argp2);
+	va_end(argp2);
+    }
     if (len < 0) {
+	va_end(argp);
 	agerr (AGERR, "gvprintf: %s\n", strerror(errno));
 	return;
     }
@@ -408,8 +414,6 @@ void gvprintf(GVJ_t * job, const char *format, ...)
      * to write the string without truncation. 
      */
 	bp = gmalloc(len + 1);
-	va_end(argp);
-	va_start(argp, format);
 	len = vsprintf(bp, format, argp);
     }
 #else
