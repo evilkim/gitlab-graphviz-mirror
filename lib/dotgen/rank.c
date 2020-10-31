@@ -226,7 +226,7 @@ cluster_leader(graph_t * clust)
     /* find number of ranks and select a leader */
     leader = NULL;
     for (n = GD_nlist(clust); n; n = ND_next(n)) {
-	if ((ND_rank(n) == 0) && (ND_node_type(n) == NORMAL))
+	if (ND_rank(n) == 0 && ND_node_type(n) == NORMAL)
 	    leader = n;
 	if (maxrank < ND_rank(n))
 	    maxrank = ND_rank(n);
@@ -235,7 +235,7 @@ cluster_leader(graph_t * clust)
     GD_leader(clust) = leader;
 
     for (n = agfstnode(clust); n; n = agnxtnode(clust, n)) {
-	assert((ND_UF_size(n) <= 1) || (n == leader));
+	assert(ND_UF_size(n) <= 1 || n == leader);
 	UF_union(n, leader);
 	ND_ranktype(n) = CLUSTER;
     }
