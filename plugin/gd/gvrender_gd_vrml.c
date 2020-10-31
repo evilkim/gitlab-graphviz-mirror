@@ -203,8 +203,8 @@ static void vrml_begin_page(GVJ_t *job)
 
     Saw_skycolor = FALSE;
     MinZ = MAXDOUBLE;
-    gvputs(job,   "Group { children [\n");
-    gvputs(job,   "  Transform {\n");
+    gvputs(job,   "Group { children [\n"
+                  "  Transform {\n");
     gvprintf(job, "    scale %.3f %.3f %.3f\n", .0278, .0278, .0278);
     gvputs(job,   "    children [\n");
 }
@@ -437,22 +437,22 @@ doSegment (GVJ_t *job, pointf* A, pointf p0, double z0, pointf p1, double z1)
     TailHt = HeadHt = 0;
 
     IsSegment = 1;
-    gvputs(job,   "Transform {\n");
-    gvputs(job,   "  children [\n");
-    gvputs(job,   "    Shape {\n");
-    gvputs(job,   "      geometry Cylinder {\n"); 
-    gvputs(job,   "        bottom FALSE top FALSE\n"); 
+    gvputs(job,   "Transform {\n"
+                  "  children [\n"
+                  "    Shape {\n"
+                  "      geometry Cylinder {\n"
+                  "        bottom FALSE top FALSE\n");
     gvprintf(job, "        height %.3f radius %.3f }\n", CylHt, obj->penwidth);
-    gvputs(job,   "      appearance Appearance {\n");
-    gvputs(job,   "        material Material {\n");
-    gvputs(job,   "          ambientIntensity 0.33\n");
+    gvputs(job,   "      appearance Appearance {\n"
+                  "        material Material {\n"
+                  "          ambientIntensity 0.33\n");
     gvprintf(job, "          diffuseColor %.3f %.3f %.3f\n",
 	    obj->pencolor.u.rgba[0] / 255.,
 	    obj->pencolor.u.rgba[1] / 255.,
 	    obj->pencolor.u.rgba[2] / 255.);
-    gvputs(job,   "        }\n");
-    gvputs(job,   "      }\n");
-    gvputs(job,   "    }\n");
+    gvputs(job,   "        }\n"
+                  "      }\n"
+                  "    }\n");
 }
 
 /* nearTail:
@@ -489,8 +489,8 @@ vrml_bezier(GVJ_t *job, pointf * A, int n, int arrow_at_start, int arrow_at_end,
 	return;
     }
 
-    gvputs(job,   "Shape { geometry Extrusion  {\n");
-    gvputs(job,   "  spine [");
+    gvputs(job,   "Shape { geometry Extrusion  {\n"
+                  "  spine [");
     V[3] = A[0];
     for (i = 0; i + 3 < n; i += 3) {
 	V[0] = V[3];
@@ -509,15 +509,15 @@ vrml_bezier(GVJ_t *job, pointf * A, int n, int arrow_at_start, int arrow_at_end,
 	    (obj->penwidth), -(obj->penwidth));
     gvputs(job,   "}\n");
     gvprintf(job, " appearance DEF E%ld Appearance {\n", AGSEQ(e));
-    gvputs(job,   "   material Material {\n");
-    gvputs(job,   "   ambientIntensity 0.33\n");
+    gvputs(job,   "   material Material {\n"
+                  "   ambientIntensity 0.33\n");
     gvprintf(job, "   diffuseColor %.3f %.3f %.3f\n",
 	    obj->pencolor.u.rgba[0] / 255.,
 	    obj->pencolor.u.rgba[1] / 255.,
 	    obj->pencolor.u.rgba[2] / 255.);
-    gvputs(job,   "   }\n");
-    gvputs(job,   " }\n");
-    gvputs(job,   "}\n");
+    gvputs(job,   "   }\n"
+                  " }\n"
+                  "}\n");
 }
 
 /* doArrowhead:
@@ -547,22 +547,22 @@ static void doArrowhead (GVJ_t *job, pointf * A)
 	HeadHt = ht;
 	gvprintf(job, "  translation 0 %.3f 0\n", y);
     }
-    gvputs(job,   "  children [\n");
-    gvputs(job,   "    Shape {\n");
+    gvputs(job,   "  children [\n"
+                  "    Shape {\n");
     gvprintf(job, "      geometry Cone {bottomRadius %.3f height %.3f }\n",
 	rad, ht);
-    gvputs(job,   "      appearance Appearance {\n");
-    gvputs(job,   "        material Material {\n");
-    gvputs(job,   "          ambientIntensity 0.33\n");
+    gvputs(job,   "      appearance Appearance {\n"
+                  "        material Material {\n"
+                  "          ambientIntensity 0.33\n");
     gvprintf(job, "          diffuseColor %.3f %.3f %.3f\n",
 	    obj->pencolor.u.rgba[0] / 255.,
 	    obj->pencolor.u.rgba[1] / 255.,
 	    obj->pencolor.u.rgba[2] / 255.);
-    gvputs(job,   "        }\n");
-    gvputs(job,   "      }\n");
-    gvputs(job,   "    }\n");
-    gvputs(job,   "  ]\n");
-    gvputs(job,   "}\n");
+    gvputs(job,   "        }\n"
+                  "      }\n"
+                  "    }\n"
+                  "  ]\n"
+                  "}\n");
 }
 
 static void vrml_polygon(GVJ_t *job, pointf * A, int np, int filled)
@@ -603,16 +603,16 @@ static void vrml_polygon(GVJ_t *job, pointf * A, int np, int filled)
 	if (brush)
 	    gdImageDestroy(brush);
 
-	gvputs(job,   "Shape {\n");
-	gvputs(job,   "  appearance Appearance {\n");
-	gvputs(job,   "    material Material {\n");
-	gvputs(job,   "      ambientIntensity 0.33\n");
-	gvputs(job,   "        diffuseColor 1 1 1\n");
-	gvputs(job,   "    }\n");
+	gvputs(job,   "Shape {\n"
+	              "  appearance Appearance {\n"
+	              "    material Material {\n"
+	              "      ambientIntensity 0.33\n"
+	              "        diffuseColor 1 1 1\n"
+	              "    }\n");
 	gvprintf(job, "    texture ImageTexture { url \"node%ld.png\" }\n", AGSEQ(n));
-	gvputs(job,   "  }\n");
-	gvputs(job,   "  geometry Extrusion {\n");
-	gvputs(job,   "    crossSection [");
+	gvputs(job,   "  }\n"
+	              "  geometry Extrusion {\n"
+	              "    crossSection [");
 	for (i = 0; i < np; i++) {
 	    p.x = A[i].x - ND_coord(n).x;
 	    p.y = A[i].y - ND_coord(n).y;
@@ -624,8 +624,8 @@ static void vrml_polygon(GVJ_t *job, pointf * A, int np, int filled)
 	gvprintf(job, "    spine [ %.5g %.5g %.5g, %.5g %.5g %.5g ]\n",
 		ND_coord(n).x, ND_coord(n).y, z - .01,
 		ND_coord(n).x, ND_coord(n).y, z + .01);
-	gvputs(job,   "  }\n");
-	gvputs(job,   "}\n");
+	gvputs(job,   "  }\n"
+	              "}\n");
 	break;
     case EDGE_OBJTYPE:
 	e = obj->u.e;
@@ -659,19 +659,19 @@ static void vrml_polygon(GVJ_t *job, pointf * A, int np, int filled)
 	/* FIXME: arrow vector ought to follow z coord of bezier */
 	gvputs(job,   "Transform {\n");
 	gvprintf(job, "  translation %.3f %.3f %.3f\n", p.x, p.y, z);
-	gvputs(job,   "  children [\n");
-	gvputs(job,   "    Transform {\n");
+	gvputs(job,   "  children [\n"
+	              "    Transform {\n");
 	gvprintf(job, "      rotation 0 0 1 %.3f\n", theta);
-	gvputs(job,   "      children [\n");
-	gvputs(job,   "        Shape {\n");
+	gvputs(job,   "      children [\n"
+	              "        Shape {\n");
 	gvprintf(job, "          geometry Cone {bottomRadius %.3f height %.3f }\n",
 		obj->penwidth * 2.5, obj->penwidth * 10.0);
 	gvprintf(job, "          appearance USE E%ld\n", AGSEQ(e));
-	gvputs(job,   "        }\n");
-	gvputs(job,   "      ]\n");
-	gvputs(job,   "    }\n");
-	gvputs(job,   "  ]\n");
-	gvputs(job,   "}\n");
+	gvputs(job,   "        }\n"
+	              "      ]\n"
+	              "    }\n"
+	              "  ]\n"
+	              "}\n");
 	break;
     }
 }
@@ -691,25 +691,25 @@ doSphere (GVJ_t *job, node_t *n, pointf p, double z, double rx, double ry)
     gvputs(job,   "Transform {\n");
     gvprintf(job, "  translation %.3f %.3f %.3f\n", p.x, p.y, z);
     gvprintf(job, "  scale %.3f %.3f %.3f\n", rx, rx, rx);
-    gvputs(job,   "  children [\n");
-    gvputs(job,   "    Transform {\n");
-    gvputs(job,   "      children [\n");
-    gvputs(job,   "        Shape {\n");
-    gvputs(job,   "          geometry Sphere { radius 1.0 }\n");
-    gvputs(job,   "          appearance Appearance {\n");
-    gvputs(job,   "            material Material {\n");
-    gvputs(job,   "              ambientIntensity 0.33\n");
+    gvputs(job,   "  children [\n"
+                  "    Transform {\n"
+                  "      children [\n"
+                  "        Shape {\n"
+                  "          geometry Sphere { radius 1.0 }\n"
+                  "          appearance Appearance {\n"
+                  "            material Material {\n"
+                  "              ambientIntensity 0.33\n");
     gvprintf(job, "              diffuseColor %.3f %.3f %.3f\n", 
 	    obj->pencolor.u.rgba[0] / 255.,
 	    obj->pencolor.u.rgba[1] / 255.,
 	    obj->pencolor.u.rgba[2] / 255.);
-    gvputs(job,   "            }\n");
-    gvputs(job,   "          }\n");
-    gvputs(job,   "        }\n");
-    gvputs(job,   "      ]\n");
-    gvputs(job,   "    }\n");
-    gvputs(job,   "  ]\n");
-    gvputs(job,   "}\n");
+    gvputs(job,   "            }\n"
+                  "          }\n"
+                  "        }\n"
+                  "      ]\n"
+                  "    }\n"
+                  "  ]\n"
+                  "}\n");
 }
 
 static void vrml_ellipse(GVJ_t * job, pointf * A, int filled)
@@ -758,24 +758,24 @@ static void vrml_ellipse(GVJ_t * job, pointf * A, int filled)
 	gvputs(job,   "Transform {\n");
 	gvprintf(job, "  translation %.3f %.3f %.3f\n", A[0].x, A[0].y, z);
 	gvprintf(job, "  scale %.3f %.3f 1\n", rx, ry);
-	gvputs(job,   "  children [\n");
-	gvputs(job,   "    Transform {\n");
-	gvputs(job,   "      rotation 1 0 0   1.57\n");
-	gvputs(job,   "      children [\n");
-	gvputs(job,   "        Shape {\n");
-	gvputs(job,   "          geometry Cylinder { side FALSE }\n");
-	gvputs(job,   "          appearance Appearance {\n");
-	gvputs(job,   "            material Material {\n");
-	gvputs(job,   "              ambientIntensity 0.33\n");
-	gvputs(job,   "              diffuseColor 1 1 1\n");
-	gvputs(job,   "            }\n");
+	gvputs(job,   "  children [\n"
+	              "    Transform {\n"
+	              "      rotation 1 0 0   1.57\n"
+	              "      children [\n"
+	              "        Shape {\n"
+	              "          geometry Cylinder { side FALSE }\n"
+	              "          appearance Appearance {\n"
+	              "            material Material {\n"
+	              "              ambientIntensity 0.33\n"
+	              "              diffuseColor 1 1 1\n"
+	              "            }\n");
 	gvprintf(job, "            texture ImageTexture { url \"node%ld.png\" }\n", AGSEQ(n));
-	gvputs(job,   "          }\n");
-	gvputs(job,   "        }\n");
-	gvputs(job,   "      ]\n");
-	gvputs(job,   "    }\n");
-	gvputs(job,   "  ]\n");
-	gvputs(job,   "}\n");
+	gvputs(job,   "          }\n"
+	              "        }\n"
+	              "      ]\n"
+	              "    }\n"
+	              "  ]\n"
+	              "}\n");
 	break;
     case EDGE_OBJTYPE:
 	e = obj->u.e;
@@ -783,13 +783,13 @@ static void vrml_ellipse(GVJ_t * job, pointf * A, int filled)
 
 	gvputs(job,   "Transform {\n");
 	gvprintf(job, "  translation %.3f %.3f %.3f\n", A[0].x, A[0].y, z);
-	gvputs(job,   "  children [\n");
-	gvputs(job,   "    Shape {\n");
+	gvputs(job,   "  children [\n"
+	              "    Shape {\n");
 	gvprintf(job, "      geometry Sphere {radius %.3f }\n", (double) rx);
 	gvprintf(job, "      appearance USE E%d\n", AGSEQ(e));
-	gvputs(job,   "    }\n");
-	gvputs(job,   "  ]\n");
-	gvputs(job,   "}\n");
+	gvputs(job,   "    }\n"
+	              "  ]\n"
+	              "}\n");
     }
 }
 
