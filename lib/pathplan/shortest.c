@@ -14,7 +14,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <math.h>
@@ -64,7 +63,6 @@ typedef struct deque_t {
     int pnlpn, fpnlpi, lpnlpi, apex;
 } deque_t;
 
-static jmp_buf jbuf;
 static pointnlink_t *pnls, **pnlps;
 static int pnln, pnll;
 
@@ -76,9 +74,9 @@ static deque_t dq;
 static Ppoint_t *ops;
 static int opn;
 
-static void triangulate(pointnlink_t **, int);
+static int triangulate(pointnlink_t **, int);
 static int isdiagonal(int, int, pointnlink_t **, int);
-static void loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
+static int loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
 static void connecttris(int, int);
 static int marktripath(int, int);
 
@@ -91,10 +89,10 @@ static int intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int pointintri(int, Ppoint_t *);
 
-static void growpnls(int);
-static void growtris(int);
-static void growdq(int);
-static void growops(int);
+static int growpnls(int);
+static int growtris(int);
+static int growdq(int);
+static int growops(int);
 
 /* Pshortestpath:
  * Find a shortest path contained in the polygon polyp going between the
@@ -115,13 +113,13 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
     int pnli;
 #endif
 
-    if (setjmp(jbuf))
-	return -2;
     /* make space */
-    growpnls(polyp->pn);
+    if (growpnls(polyp->pn) != 0)
+	return -2;
     pnll = 0;
     tril = 0;
-    growdq(polyp->pn * 2);
+    if (growdq(polyp->pn * 2) != 0)
+	return -2;
     dq.fpnlpi = dq.pnlpn / 2, dq.lpnlpi = dq.fpnlpi - 1;
 
     /* make sure polygon is CCW and load pnls array */
@@ -163,7 +161,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 #endif
 
     /* generate list of triangles */
-    triangulate(pnlps, pnll);
+    if (triangulate(pnlps, pnll))
+	return -2;
 
 #if defined(DEBUG) && DEBUG >= 2
     fprintf(stderr, "triangles\n%d\n", tril);
@@ -200,7 +199,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
     if (!marktripath(ftrii, ltrii)) {
 	prerror("cannot find triangle path");
 	/* a straight line is better than failing */
-	growops(2);
+	if (growops(2) != 0)
+		return -2;
 	output->pn = 2;
 	ops[0] = eps[0], ops[1] = eps[1];
 	output->ps = ops;
@@ -209,7 +209,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 
     /* if endpoints in same triangle, use a single line */
     if (ftrii == ltrii) {
-	growops(2);
+	if (growops(2) != 0)
+		return -2;
 	output->pn = 2;
 	ops[0] = eps[0], ops[1] = eps[1];
 	output->ps = ops;
@@ -286,7 +287,8 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 
     for (pi = 0, pnlp = &epnls[1]; pnlp; pnlp = pnlp->link)
 	pi++;
-    growops(pi);
+    if (growops(pi) != 0)
+	return -2;
     output->pn = pi;
     for (pi = pi - 1, pnlp = &epnls[1]; pnlp; pi--, pnlp = pnlp->link)
 	ops[pi] = *pnlp->pp;
@@ -296,7 +298,7 @@ int Pshortestpath(Ppoly_t * polyp, Ppoint_t * eps, Ppolyline_t * output)
 }
 
 /* triangulate polygon */
-static void triangulate(pointnlink_t ** pnlps, int pnln)
+static int triangulate(pointnlink_t ** pnlps, int pnln)
 {
     int pnli, pnlip1, pnlip2;
 
@@ -308,17 +310,21 @@ static void triangulate(pointnlink_t ** pnlps, int pnln)
 			pnlip2 = (pnli + 2) % pnln;
 			if (isdiagonal(pnli, pnlip2, pnlps, pnln)) 
 			{
-				loadtriangle(pnlps[pnli], pnlps[pnlip1], pnlps[pnlip2]);
+				if (loadtriangle(pnlps[pnli], pnlps[pnlip1], pnlps[pnlip2]) != 0)
+					return -1;
 				for (pnli = pnlip1; pnli < pnln - 1; pnli++)
 					pnlps[pnli] = pnlps[pnli + 1];
-				triangulate(pnlps, pnln - 1);
-				return;
+				return triangulate(pnlps, pnln - 1);
 			}
 		}
 		prerror("triangulation failed");
     } 
-	else
-		loadtriangle(pnlps[0], pnlps[1], pnlps[2]);
+	else {
+		if (loadtriangle(pnlps[0], pnlps[1], pnlps[2]) != 0)
+			return -1;
+	}
+
+    return 0;
 }
 
 /* check if (i, i + 2) is a diagonal */
@@ -357,15 +363,17 @@ static int isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
     return TRUE;
 }
 
-static void loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
+static int loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
 			 pointnlink_t * pnlcp)
 {
     triangle_t *trip;
     int ei;
 
     /* make space */
-    if (tril >= trin)
-	growtris(trin + 20);
+    if (tril >= trin) {
+	if (growtris(trin + 20) != 0)
+		return -1;
+    }
     trip = &tris[tril++];
     trip->mark = 0;
     trip->e[0].pnl0p = pnlap, trip->e[0].pnl1p = pnlbp, trip->e[0].rtp =
@@ -376,6 +384,8 @@ static void loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
 	NULL;
     for (ei = 0; ei < 3; ei++)
 	trip->e[ei].ltp = trip;
+
+    return 0;
 }
 
 /* connect a pair of triangles at their common edge (if any) */
@@ -508,83 +518,89 @@ static int pointintri(int trii, Ppoint_t * pp)
     return (sum == 3 || sum == 0);
 }
 
-static void growpnls(int newpnln)
+static int growpnls(int newpnln)
 {
     if (newpnln <= pnln)
-	return;
+	return 0;
     if (!pnls) {
 	if (!(pnls = malloc(POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot malloc pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
 	if (!(pnlps = malloc(POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot malloc pnlps");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(pnls = realloc(pnls, POINTNLINKSIZE * newpnln))) {
 	    prerror("cannot realloc pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
 	if (!(pnlps = realloc(pnlps, POINTNLINKPSIZE * newpnln))) {
 	    prerror("cannot realloc pnlps");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     pnln = newpnln;
+    return 0;
 }
 
-static void growtris(int newtrin)
+static int growtris(int newtrin)
 {
     if (newtrin <= trin)
-	return;
+	return 0;
     if (!tris) {
 	if (!(tris = malloc(TRIANGLESIZE * newtrin))) {
 	    prerror("cannot malloc tris");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(tris = realloc(tris, TRIANGLESIZE * newtrin))) {
 	    prerror("cannot realloc tris");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     trin = newtrin;
+
+    return 0;
 }
 
-static void growdq(int newdqn)
+static int growdq(int newdqn)
 {
     if (newdqn <= dq.pnlpn)
-	return;
+	return 0;
     if (!dq.pnlps) {
 	if (!
 	    (dq.pnlps = malloc(POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot malloc dq.pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(dq.pnlps = realloc(dq.pnlps, POINTNLINKPSIZE * newdqn))) {
 	    prerror("cannot realloc dq.pnls");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     dq.pnlpn = newdqn;
+    return 0;
 }
 
-static void growops(int newopn)
+static int growops(int newopn)
 {
     if (newopn <= opn)
-	return;
+	return 0;
     if (!ops) {
 	if (!(ops = malloc(POINTSIZE * newopn))) {
 	    prerror("cannot malloc ops");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     } else {
 	if (!(ops = realloc((void *) ops, POINTSIZE * newopn))) {
 	    prerror("cannot realloc ops");
-	    longjmp(jbuf,1);
+	    return -1;
 	}
     }
     opn = newopn;
+
+    return 0;
 }
