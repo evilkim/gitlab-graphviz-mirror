@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-
+#include <assert.h>
 #include <dotgen/dot.h>
 
 static node_t*
@@ -232,6 +232,8 @@ merge_ranks(graph_t * subg)
     int i, d, r, pos, ipos;
     node_t *v;
     graph_t *root;
+
+    assert(GD_minrank(subg) <= GD_maxrank(subg) && "corrupted rank bounds");
 
     root = dot_root(subg);
     if (GD_minrank(subg) > 0)
