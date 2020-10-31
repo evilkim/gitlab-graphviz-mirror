@@ -1115,11 +1115,11 @@ static void add_fast_edges (graph_t * g)
 }
 
 static void my_init_graph(Agraph_t *g, Agobj_t *graph, void *arg)
-{ int *sz = arg; agbindrec(graph,"level graph rec",sz[0],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(graph,"level graph rec",sz[0],TRUE); }
 static void my_init_node(Agraph_t *g, Agobj_t *node, void *arg)
-{ int *sz = arg; agbindrec(node,"level node rec",sz[1],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(node,"level node rec",sz[1],TRUE); }
 static void my_init_edge(Agraph_t *g, Agobj_t *edge, void *arg)
-{ int *sz = arg; agbindrec(edge,"level edge rec",sz[2],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(edge,"level edge rec",sz[2],TRUE); }
 static Agcbdisc_t mydisc = { {my_init_graph,0,0}, {my_init_node,0,0}, {my_init_edge,0,0} };
 
 int infosizes[] = {
