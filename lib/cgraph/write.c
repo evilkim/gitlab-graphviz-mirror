@@ -523,7 +523,7 @@ static int write_nodename(Agnode_t * n, iochan_t * ofile)
 
 static int attrs_written(void *obj)
 {
-    return (AGATTRWF((Agobj_t *) obj));
+    return AGATTRWF(obj);
 }
 
 static int write_node(Agnode_t * n, iochan_t * ofile, Dict_t * d)
@@ -634,8 +634,7 @@ static int write_body(Agraph_t * g, iochan_t * ofile)
 	    CHKRV(write_node(n, ofile, dd ? dd->dict.n : 0));
 	prev = n;
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
-	    if ((prev != aghead(e))
-		&& write_node_test(g, aghead(e), AGSEQ(n))) {
+	    if (prev != aghead(e) && write_node_test(g, aghead(e), AGSEQ(n))) {
 		CHKRV(write_node(aghead(e), ofile, dd ? dd->dict.n : 0));
 		prev = aghead(e);
 	    }
