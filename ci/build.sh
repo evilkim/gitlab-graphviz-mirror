@@ -46,7 +46,7 @@ else
         mv *.ddeb ${DIR}/debug/${ARCH}/
     elif [ "${ID}" = "Darwin" ]; then
         ./autogen.sh
-        ./configure --prefix=$( pwd )/build
+        ./configure --prefix=$( pwd )/build --with-quartz=yes
         make
         make install
         tar cfz graphviz-${GV_VERSION}-${ARCH}.tar.gz --options gzip:compression-level=9 build
