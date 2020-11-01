@@ -217,7 +217,18 @@ static int _write_canonstr(Agraph_t * g, iochan_t * ofile, char *str,
 
 static int write_canonstr(Agraph_t * g, iochan_t * ofile, char *str)
 {
-    return _write_canonstr(g, ofile, str, TRUE);
+    char *s;
+    int r;
+
+    /* str may not have been allocated by agstrdup, so we first need to turn it
+     * into a valid refstr
+     */
+    s = agstrdup(g, str);
+
+    r = _write_canonstr(g, ofile, s, TRUE);
+
+    agstrfree(g, s);
+    return r;
 }
 
 static int write_dict(Agraph_t * g, iochan_t * ofile, char *name,

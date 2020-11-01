@@ -401,6 +401,22 @@ def test_1845():
     # generate a multipage PS file from this input
     subprocess.check_call(['dot', '-Tps', '-o', os.devnull, input])
 
+@pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
+def test_1865():
+    '''
+    fdp should not read out of bounds when processing node names
+    https://gitlab.com/graphviz/graphviz/-/issues/1865
+    Note, the crash this test tries to provoke may only occur when run under
+    Address Sanitizer or Valgrind
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1865.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # fdp should not crash when processing this file
+    subprocess.check_call(['fdp', '-o', os.devnull, input])
+
 # root directory of this checkout
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
