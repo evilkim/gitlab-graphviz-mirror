@@ -15,7 +15,7 @@
 
 #include <common/types.h>
 #include <gvc/gvplugin.h>
-#include <gvc/gvplugin_quartz.h>
+#include "gvplugin_quartz.h"
 #include <gvc/gvio.h>
 
 extern gvplugin_installed_t gvrender_quartz_types;
