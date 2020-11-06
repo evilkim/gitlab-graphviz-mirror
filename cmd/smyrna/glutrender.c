@@ -76,11 +76,9 @@ void cb_reshape(int width, int height)
 }
 void cb_display(void )
 {
-//    glClearColor(view->bgColor.R, view->bgColor.G, view->bgColor.B, view->bgColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glexpose_main(view);	//draw all stuff
-//    draw_cube_tex();
     glutSwapBuffers();
     if (view->initFile) {
 	view->initFile = 0;
@@ -128,14 +126,6 @@ void cb_mouseclick(int button, int state,int x, int y)
 }
 void cb_mouseover(int x,int y)/*no mouse click only mouse pointer moving on context*/
 {
-
-
-
-
-
-
-
-
 }
 void cb_drag(int X,int Y)/*mouse moving witha button clicked (dragging)*/
 {
@@ -261,12 +251,8 @@ int cb_glutinit(int x,int y,int w,int h, int bits,int s_rate,int fullscreen,int*
 
     glutInit(argcp,argv); //this is required by some OS.
 
-//    glutInitDisplayMode( GLUT_ALPHA | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	// The Type Of Depth Testing To Do
-/*	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glShadeModel(GL_SMOOTH);*/
         glDisable(GL_DEPTH);
 	glClearDepth(1.0f);		// Depth Buffer Setup
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
@@ -318,5 +304,3 @@ int cb_glutinit(int x,int y,int w,int h, int bits,int s_rate,int fullscreen,int*
     return 0; //we should never reach here
 
 }
-
-

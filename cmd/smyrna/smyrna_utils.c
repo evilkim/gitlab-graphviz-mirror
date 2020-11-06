@@ -128,45 +128,6 @@ char *xml_string(char *s)
     *p = '\0';
     return buf;
 }
-#if 0
-static int late_int(void *obj,Agsym_t* attr, int def, int low)
-{
-    char *p;
-    int rv;
-    if (attr == NULL)
-	return def;
-    p = agxget(obj, attr);
-    if (!p || p[0] == '\0')
-	return def;
-    if ((rv = atoi(p)) < low)
-	rv = low;
-    return rv;
-}
-
-static double late_double(void *obj, Agsym_t* attr, double def, double low)
-{
-    char *p;
-    double rv;
-
-    if (!attr || !obj)
-	return def;
-    p = agxget(obj, attr);
-    if (!p || p[0] == '\0')
-	return def;
-    if ((rv = atof(p)) < low)
-	rv = low;
-    return rv;
-}
-
-static char *late_nnstring(void *obj, Agsym_t * attr, char *def)
-{
-    char *rv = late_string(obj, attr, def);
-    if (!rv || (rv[0] == '\0'))
-	rv = def;
-    return rv;
-}
-
-#endif
 
 static char* late_string(void *obj, Agsym_t * attr, char *def)
 {
@@ -258,44 +219,6 @@ glCompPoint getPointFromStr(char* str)
     return p;
 }
 
-
-#if 0
-static float interpol(float minv, float maxv, float minc, float maxc, float x)
-{
-    return ((x - minv) * (maxc - minc) / (maxv - minv) + minc);
-}
-
-
-void 
-getcolorfromschema(colorschemaset * sc, float l, float maxl,glCompColor * c)
-{
-    int ind;
-    float percl = l / maxl * 100.00;
-    for (ind = 0; ind < sc->schemacount; ind++) {
-	if (percl < sc->s[ind].perc)
-	    break;
-    }
-
-    if (sc->s[ind].smooth) {
-	c->R =
-	    interpol(sc->s[ind - 1].perc, sc->s[ind].perc,
-		     sc->s[ind - 1].c.R, sc->s[ind].c.R, percl);
-	c->G =
-	    interpol(sc->s[ind - 1].perc, sc->s[ind].perc,
-		     sc->s[ind - 1].c.G, sc->s[ind].c.G, percl);
-	c->B =
-	    interpol(sc->s[ind - 1].perc, sc->s[ind].perc,
-		     sc->s[ind - 1].c.B, sc->s[ind].c.B, percl);
-	c->A = 1;
-    } else {
-	c->R = sc->s[ind].c.R;
-	c->G = sc->s[ind].c.G;
-	c->B = sc->s[ind].c.B;
-	c->A = 1;
-    }
-}
-#endif
-
 int point_within_ellips_with_coords(float ex, float ey, float ea, float eb,
 				    float px, float py)
 {
@@ -317,30 +240,6 @@ int point_within_sphere_with_coords(float x0, float y0, float z0, float r,
 	return 1;
     return 0;
 }
-#if 0
-float distance_to_line(float ax, float ay, float bx, float by, float cx,
-		       float cy)
-{
-    //this function returns the distance between a line(a-b) segment and a point(c) in 2D plane
-    return (float)
-	sqrt(pow(((by - ay) * (cx - ax) + (bx - ax) * (cy - ay)), 2)
-	     / (pow((bx - ax), 2) + pow((by - ay), 2))
-	);
-}
-
-int _point_in_polygon(int npol, float *xp, float *yp, float x, float y)
-{
-    int i, j, c = 0;
-      for (i = 0, j = npol-1; i < npol; j = i++) {
-        if ((((yp[i] <= y) && (y < yp[j])) ||
-             ((yp[j] <= y) && (y < yp[i]))) &&
-            (x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i]))
-          c = !c;
-      }
-      return c;
-}
-#endif
-
 
 int point_in_polygon(glCompPoly* selPoly,glCompPoint p)
 {
@@ -356,5 +255,3 @@ int point_in_polygon(glCompPoly* selPoly,glCompPoint p)
       }
       return c;
     }
-
-
