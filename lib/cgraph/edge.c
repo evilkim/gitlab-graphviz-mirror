@@ -176,6 +176,7 @@ static void ins(Dict_t * d, Dtlink_t ** set, Agedge_t * e)
 static void del(Dict_t * d, Dtlink_t ** set, Agedge_t * e)
 {
     void *x;
+    NOTUSED(x);
     dtrestore(d, *set);
     x = dtdelete(d, e);
     assert(x);
