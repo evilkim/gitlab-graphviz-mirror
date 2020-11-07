@@ -250,6 +250,7 @@ static void gdgen_end_page(GVJ_t * job)
     }
 }
 
+#ifdef HAVE_GD_FREETYPE
 static void gdgen_missingfont(char *err, char *fontreq)
 {
     static char *lastmissing = 0;
@@ -282,6 +283,7 @@ static void gdgen_missingfont(char *err, char *fontreq)
 #endif
     }
 }
+#endif
 
 /* fontsize at which text is omitted entirely */
 #define FONTSIZE_MUCH_TOO_SMALL 0.15
