@@ -442,7 +442,7 @@ static void vml_textspan(GVJ_t * job, pointf p, textspan_t * span)
 
 static void vml_ellipse(GVJ_t * job, pointf * A, int filled)
 {   
-    double dx, dy, left, right, top, bottom;
+    double dx, dy, left, top;
 
     /* A[] contains 2 points: the center and corner. */
     gvputs(job, "  <v:oval style=\"position:absolute;");
@@ -451,9 +451,7 @@ static void vml_ellipse(GVJ_t * job, pointf * A, int filled)
     dy=A[1].y-A[0].y;
 
     top=graphHeight-(A[0].y+dy);
-    bottom=top+dy+dy;
     left=A[0].x - dx;
-    right=A[1].x;
     gvprintf(job, " left: %.2f; top: %.2f;",left, top);
     gvprintf(job, " width: %.2f; height: %.2f\"", 2*dx, 2*dy);
 
