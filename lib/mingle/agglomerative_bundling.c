@@ -708,7 +708,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 	jj = ja[j];
 	e = edges[jj] = pedge_wgts_realloc(edges[jj], npp);
 
-	assert(e->npoints = 2);
+	assert(e->npoints == 2);
 	for (l = 0; l < dim; l++){/* move the second point to the last */
 	  e->x[(npp - 1)*dim+l] = e->x[1*dim+l];
 	}
