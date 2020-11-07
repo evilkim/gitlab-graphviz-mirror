@@ -26,7 +26,6 @@
 #include <fstream>
 using std::ios;
 using std::ofstream;
-using std::endl;
 
 using std::ostringstream;
 using std::list;
@@ -60,10 +59,10 @@ void VPSC::printBlocks() {
 		ofstream f(LOGFILE,ios::app);
 		for(set<Block*>::iterator i=bs->begin();i!=bs->end();i++) {
 			Block *b=*i;
-			f<<"  "<<*b<<endl;
+			f<<"  "<<*b<<"\n";
 		}
 		for(unsigned i=0;i<m;i++) {
-			f<<"  "<<*cs[i]<<endl;
+			f<<"  "<<*cs[i]<<"\n";
 		}
 	}
 }
@@ -90,7 +89,7 @@ void VPSC::satisfy() {
 		if(cs[i]->slack()<-0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
-				f<<"Error: Unsatisfied constraint: "<<*cs[i]<<endl;
+				f<<"Error: Unsatisfied constraint: "<<*cs[i]<<"\n";
 			}
 			//assert(cs[i]->slack()>-0.0000001);
 			throw "Unsatisfied constraint";
@@ -118,7 +117,7 @@ void VPSC::refine() {
 			if(c!=NULL && c->lm<0) {
 				if (RECTANGLE_OVERLAP_LOGGING) {
 					ofstream f(LOGFILE,ios::app);
-					f<<"Split on constraint: "<<*c<<endl;
+					f<<"Split on constraint: "<<*c<<"\n";
 				}
 				// Split on c
 				Block *l=NULL, *r=NULL;
@@ -151,7 +150,7 @@ void VPSC::solve() {
 void IncVPSC::solve() {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"solve_inc()..."<<endl;
+		f<<"solve_inc()...\n";
 	}
 	double lastcost,cost = bs->cost();
 	do {
@@ -161,7 +160,7 @@ void IncVPSC::solve() {
 		cost = bs->cost();
 		if (RECTANGLE_OVERLAP_LOGGING) {
 			ofstream f(LOGFILE,ios::app);
-			f<<"  cost="<<cost<<endl;
+			f<<"  cost="<<cost<<"\n";
 		}
 	} while(fabs(lastcost-cost)>0.0001);
 }
@@ -181,7 +180,7 @@ void IncVPSC::solve() {
 void IncVPSC::satisfy() {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"satisfy_inc()..."<<endl;
+		f<<"satisfy_inc()...\n";
 	}
 	splitBlocks();
 	long splitCtr = 0;
@@ -203,7 +202,7 @@ void IncVPSC::satisfy() {
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  finished merges."<<endl;
+		f<<"  finished merges.\n";
 	}
 	bs->cleanup();
 	for(unsigned i=0;i<m;i++) {
@@ -217,14 +216,14 @@ void IncVPSC::satisfy() {
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  finished cleanup."<<endl;
+		f<<"  finished cleanup.\n";
 		printBlocks();
 	}
 }
 void IncVPSC::moveBlocks() {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"moveBlocks()..."<<endl;
+		f<<"moveBlocks()...\n";
 	}
 	for(set<Block*>::const_iterator i(bs->begin());i!=bs->end();i++) {
 		Block *b = *i;
@@ -233,7 +232,7 @@ void IncVPSC::moveBlocks() {
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  moved blocks."<<endl;
+		f<<"  moved blocks.\n";
 	}
 }
 void IncVPSC::splitBlocks() {
@@ -246,7 +245,7 @@ void IncVPSC::splitBlocks() {
 		if(v!=NULL && v->lm < -0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
-				f<<"    found split point: "<<*v<<" lm="<<v->lm<<endl;
+				f<<"    found split point: "<<*v<<" lm="<<v->lm<<"\n";
 			}
 			splitCnt++;
 			Block *b = v->left->block, *l=NULL, *r=NULL;
@@ -262,13 +261,13 @@ void IncVPSC::splitBlocks() {
 			inactive.push_back(v);
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
-				f<<"  new blocks: "<<*l<<" and "<<*r<<endl;
+				f<<"  new blocks: "<<*l<<" and "<<*r<<"\n";
 			}
 		}
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  finished splits."<<endl;
+		f<<"  finished splits.\n";
 	}
 	bs->cleanup();
 }
@@ -281,7 +280,7 @@ double IncVPSC::mostViolated(ConstraintList &l, Constraint* &v) {
 	double minSlack = DBL_MAX;
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"Looking for most violated..."<<endl;
+		f<<"Looking for most violated...\n";
 	}
 	ConstraintList::iterator end = l.end();
 	ConstraintList::iterator deletePoint = end;
@@ -305,7 +304,7 @@ double IncVPSC::mostViolated(ConstraintList &l, Constraint* &v) {
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  most violated is: "<<*v<<endl;
+		f<<"  most violated is: "<<*v<<"\n";
 	}
 	return minSlack;
 }

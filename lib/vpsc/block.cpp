@@ -24,7 +24,6 @@
 #include <fstream>
 using std::ios;
 using std::ofstream;
-using std::endl;
 using std::vector;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
@@ -90,7 +89,7 @@ void Block::setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in) {
 void Block::merge(Block* b, Constraint* c) {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  merging on: "<<*c<<",c->left->offset="<<c->left->offset<<",c->right->offset="<<c->right->offset<<endl;
+		f<<"  merging on: "<<*c<<",c->left->offset="<<c->left->offset<<",c->right->offset="<<c->right->offset<<"\n";
 	}
 	double dist = c->right->offset - c->left->offset - c->gap;
 	Block *l=c->left->block;
@@ -102,7 +101,7 @@ void Block::merge(Block* b, Constraint* c) {
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  merged block="<<(b->deleted?*this:*b)<<endl;
+		f<<"  merged block="<<(b->deleted?*this:*b)<<"\n";
 	}
 }
 /**
@@ -115,7 +114,7 @@ void Block::merge(Block* b, Constraint* c) {
 void Block::merge(Block *b, Constraint *c, double dist) {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"    merging: "<<*b<<"dist="<<dist<<endl;
+		f<<"    merging: "<<*b<<"dist="<<dist<<"\n";
 	}
 	c->active=true;
 	wposn+=b->wposn-dist*b->weight;
@@ -133,7 +132,7 @@ void Block::merge(Block *b, Constraint *c, double dist) {
 void Block::mergeIn(Block *b) {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  merging constraint heaps... "<<endl;
+		f<<"  merging constraint heaps... \n";
 	}
 	// We check the top of the heaps to remove possible internal constraints
 	findMinInConstraint();
@@ -141,7 +140,7 @@ void Block::mergeIn(Block *b) {
 	in->merge(b->in);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  merged heap: "<<*in<<endl;
+		f<<"  merged heap: "<<*in<<"\n";
 	}
 }
 void Block::mergeOut(Block *b) {	
@@ -160,20 +159,20 @@ Constraint *Block::findMinInConstraint() {
 		if (RECTANGLE_OVERLAP_LOGGING) {
 			ofstream f(LOGFILE,ios::app);
 			f<<"  checking constraint ... "<<*v;
-			f<<"    timestamps: left="<<lb->timeStamp<<" right="<<rb->timeStamp<<" constraint="<<v->timeStamp<<endl;
+			f<<"    timestamps: left="<<lb->timeStamp<<" right="<<rb->timeStamp<<" constraint="<<v->timeStamp<<"\n";
 		}
 		if(lb == rb) {
 			// constraint has been merged into the same block
 			if(RECTANGLE_OVERLAP_LOGGING && v->slack()<0) {
 				ofstream f(LOGFILE,ios::app);
-				f<<"  violated internal constraint found! "<<*v<<endl;
-				f<<"     lb="<<*lb<<endl;
-				f<<"     rb="<<*rb<<endl;
+				f<<"  violated internal constraint found! "<<*v<<"\n";
+				f<<"     lb="<<*lb<<"\n";
+				f<<"     rb="<<*rb<<"\n";
 			}
 			in->deleteMin();
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
-				f<<" ... skipping internal constraint"<<endl;
+				f<<" ... skipping internal constraint\n";
 			}
 		} else if(v->timeStamp < lb->timeStamp) {
 			// block at other end of constraint has been moved since this
@@ -181,7 +180,7 @@ Constraint *Block::findMinInConstraint() {
 			outOfDate.push_back(v);
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
-				f<<"    reinserting out of date (reinsert later)"<<endl;
+				f<<"    reinserting out of date (reinsert later)\n";
 			}
 		} else {
 			break;
@@ -213,8 +212,8 @@ void Block::deleteMinInConstraint() {
 	in->deleteMin();
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"deleteMinInConstraint... "<<endl;
-		f<<"  result: "<<*in<<endl;
+		f<<"deleteMinInConstraint... \n";
+		f<<"  result: "<<*in<<"\n";
 	}
 }
 void Block::deleteMinOutConstraint() {
@@ -363,12 +362,12 @@ void Block::populateSplitBlock(Block *b, Variable *v, Variable *u) {
 Constraint* Block::splitBetween(Variable* vl, Variable* vr, Block* &lb, Block* &rb) {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  need to split between: "<<*vl<<" and "<<*vr<<endl;
+		f<<"  need to split between: "<<*vl<<" and "<<*vr<<"\n";
 	}
 	Constraint *c=findMinLMBetween(vl, vr);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  going to split on: "<<*c<<endl;
+		f<<"  going to split on: "<<*c<<"\n";
 	}
 	split(lb,rb,c);
 	deleted = true;

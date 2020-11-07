@@ -25,7 +25,6 @@
 #include <fstream>
 using std::ios;
 using std::ofstream;
-using std::endl;
 using std::set;
 using std::vector;
 using std::iterator;
@@ -82,7 +81,7 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
 	}	
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"  order="<<*v<<endl;
+		f<<"  order="<<*v<<"\n";
 	}
 	order->push_front(v);
 }
@@ -93,7 +92,7 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
 void Blocks::mergeLeft(Block *r) {	
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"mergeLeft called on "<<*r<<endl;
+		f<<"mergeLeft called on "<<*r<<"\n";
 	}
 	r->timeStamp=++blockTimeCtr;
 	r->setUpInConstraints();
@@ -101,7 +100,7 @@ void Blocks::mergeLeft(Block *r) {
 	while (c != NULL && c->slack()<0) {
 		if (RECTANGLE_OVERLAP_LOGGING) {
 			ofstream f(LOGFILE,ios::app);
-			f<<"mergeLeft on constraint: "<<*c<<endl;
+			f<<"mergeLeft on constraint: "<<*c<<"\n";
 		}
 		r->deleteMinInConstraint();
 		Block *l = c->left->block;		
@@ -120,7 +119,7 @@ void Blocks::mergeLeft(Block *r) {
 	}		
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"merged "<<*r<<endl;
+		f<<"merged "<<*r<<"\n";
 	}
 }	
 /**
@@ -129,14 +128,14 @@ void Blocks::mergeLeft(Block *r) {
 void Blocks::mergeRight(Block *l) {	
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"mergeRight called on "<<*l<<endl;
+		f<<"mergeRight called on "<<*l<<"\n";
 	}
 	l->setUpOutConstraints();
 	Constraint *c = l->findMinOutConstraint();
 	while (c != NULL && c->slack()<0) {		
 		if (RECTANGLE_OVERLAP_LOGGING) {
 			ofstream f(LOGFILE,ios::app);
-			f<<"mergeRight on constraint: "<<*c<<endl;
+			f<<"mergeRight on constraint: "<<*c<<"\n";
 		}
 		l->deleteMinOutConstraint();
 		Block *r = c->right->block;
@@ -153,7 +152,7 @@ void Blocks::mergeRight(Block *l) {
 	}	
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"merged "<<*l<<endl;
+		f<<"merged "<<*l<<"\n";
 	}
 }
 void Blocks::removeBlock(Block *doomed) {
@@ -178,8 +177,8 @@ void Blocks::split(Block *b, Block *&l, Block *&r, Constraint *c) {
 	b->split(l,r,c);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"Split left: "<<*l<<endl;
-		f<<"Split right: "<<*r<<endl;
+		f<<"Split left: "<<*l<<"\n";
+		f<<"Split right: "<<*r<<"\n";
 	}
 	r->posn = b->posn;
 	r->wposn = r->posn * r->weight;

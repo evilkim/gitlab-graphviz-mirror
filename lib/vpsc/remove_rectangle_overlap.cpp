@@ -25,7 +25,6 @@
 #include <vpsc/blocks.h>
 using std::ios;
 using std::ofstream;
-using std::endl;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
 	#define RECTANGLE_OVERLAP_LOGGING 0
@@ -66,7 +65,7 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	VPSC vpsc_x(n,vs,m,cs);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"Calling VPSC: Horizontal pass 1"<<endl;
+		f<<"Calling VPSC: Horizontal pass 1\n";
 	}
 	vpsc_x.solve();
 	for(int i=0;i<n;i++) {
@@ -83,7 +82,7 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	VPSC vpsc_y(n,vs,m,cs);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"Calling VPSC: Vertical pass"<<endl;
+		f<<"Calling VPSC: Vertical pass\n";
 	}
 	vpsc_y.solve();
 	for(int i=0;i<n;i++) {
@@ -100,7 +99,7 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	VPSC vpsc_x2(n,vs,m,cs);
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		f<<"Calling VPSC: Horizontal pass 2"<<endl;
+		f<<"Calling VPSC: Horizontal pass 2\n";
 	}
 	vpsc_x2.solve();
 	for(int i=0;i<n;i++) {
@@ -113,9 +112,9 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	}
 	delete [] cs;
 	} catch (char const *str) {
-		std::cerr<<str<<std::endl;
+		std::cerr<<str<<"\n";
 		for(int i=0;i<n;i++) {
-			std::cerr << *rs[i]<<std::endl;
+			std::cerr << *rs[i]<<"\n";
 		}
 	}
 }
