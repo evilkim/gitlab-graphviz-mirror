@@ -88,6 +88,7 @@ static void installnode(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
     int osize;
+    NOTUSED(osize);
 
     assert(dtsize(g->n_id) == dtsize(g->n_seq));
     osize = dtsize(g->n_id);
