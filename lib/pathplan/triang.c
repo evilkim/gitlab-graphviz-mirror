@@ -62,7 +62,7 @@ int Ptriangulate(Ppoly_t * polygon, void (*fn) (void *, Ppoint_t *),
 
     pointn = polygon->pn;
 
-    pointp = malloc(pointn * sizeof(Ppoint_t *));
+    pointp = calloc(pointn, sizeof(Ppoint_t *));
 
     for (i = 0; i < pointn; i++)
 	pointp[i] = &(polygon->ps[i]);
