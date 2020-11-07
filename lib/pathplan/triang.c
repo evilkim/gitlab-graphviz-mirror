@@ -45,9 +45,9 @@ static int triangulate(Ppoint_t ** pointp, int pointn,
 static int dpd_ccw(Ppoint_t * p1, Ppoint_t * p2, Ppoint_t * p3)
 {
     double d =
-	((p1->y - p2->y) * (p3->x - p2->x)) -
-	((p3->y - p2->y) * (p1->x - p2->x));
-    return (d > 0) ? ISCW : ((d < 0) ? ISCCW : ISON);
+	(p1->y - p2->y) * (p3->x - p2->x) -
+	(p3->y - p2->y) * (p1->x - p2->x);
+    return d > 0 ? ISCW : (d < 0 ? ISCCW : ISON);
 }
 
 /* Ptriangulate:
@@ -122,12 +122,11 @@ static int dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
     im1 = (i + pointn - 1) % pointn;
     /* If P[i] is a convex vertex [ i+1 left of (i-1,i) ]. */
     if (dpd_ccw(pointp[im1], pointp[i], pointp[ip1]) == ISCCW)
-	res = (dpd_ccw(pointp[i], pointp[ip2], pointp[im1]) == ISCCW) &&
-	    (dpd_ccw(pointp[ip2], pointp[i], pointp[ip1]) == ISCCW);
+	res = dpd_ccw(pointp[i], pointp[ip2], pointp[im1]) == ISCCW &&
+	    dpd_ccw(pointp[ip2], pointp[i], pointp[ip1]) == ISCCW;
     /* Assume (i - 1, i, i + 1) not collinear. */
     else
-	res = ((dpd_ccw(pointp[i], pointp[ip2], pointp[ip1]) == ISCW)
-	    );
+	res = dpd_ccw(pointp[i], pointp[ip2], pointp[ip1]) == ISCW;
 /*
 		&&
                 (dpd_ccw (pointp[ip2], pointp[i], pointp[im1]) != ISCW));
@@ -139,7 +138,7 @@ static int dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
     /* check against all other edges */
     for (j = 0; j < pointn; j++) {
 	jp1 = (j + 1) % pointn;
-	if (!((j == i) || (jp1 == i) || (j == ip2) || (jp1 == ip2)))
+	if (!(j == i || jp1 == i || j == ip2 || jp1 == ip2))
 	    if (dpd_intersects
 		(pointp[i], pointp[ip2], pointp[j], pointp[jp1])) {
 		return FALSE;
@@ -160,10 +159,10 @@ static int dpd_intersects(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc,
 	    dpd_between(pc, pd, pa) || dpd_between(pc, pd, pb))
 	    return TRUE;
     } else {
-	ccw1 = (dpd_ccw(pa, pb, pc) == ISCCW) ? 1 : 0;
-	ccw2 = (dpd_ccw(pa, pb, pd) == ISCCW) ? 1 : 0;
-	ccw3 = (dpd_ccw(pc, pd, pa) == ISCCW) ? 1 : 0;
-	ccw4 = (dpd_ccw(pc, pd, pb) == ISCCW) ? 1 : 0;
+	ccw1 = dpd_ccw(pa, pb, pc) == ISCCW ? 1 : 0;
+	ccw2 = dpd_ccw(pa, pb, pd) == ISCCW ? 1 : 0;
+	ccw3 = dpd_ccw(pc, pd, pa) == ISCCW ? 1 : 0;
+	ccw4 = dpd_ccw(pc, pd, pb) == ISCCW ? 1 : 0;
 	return (ccw1 ^ ccw2) && (ccw3 ^ ccw4);
     }
     return FALSE;
@@ -177,6 +176,6 @@ static int dpd_between(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc)
     pca.x = pc->x - pa->x, pca.y = pc->y - pa->y;
     if (dpd_ccw(pa, pb, pc) != ISON)
 	return FALSE;
-    return (pca.x * pba.x + pca.y * pba.y >= 0) &&
-	(pca.x * pca.x + pca.y * pca.y <= pba.x * pba.x + pba.y * pba.y);
+    return pca.x * pba.x + pca.y * pba.y >= 0 &&
+	pca.x * pca.x + pca.y * pca.y <= pba.x * pba.x + pba.y * pba.y;
 }
