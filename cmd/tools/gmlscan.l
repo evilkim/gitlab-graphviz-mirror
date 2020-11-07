@@ -6,6 +6,11 @@
    */
 %option prefix="gml"
 
+  /* Avoid generating an unused input function. See
+     https://westes.github.io/flex/manual/Scanner-Options.html
+   */
+%option noinput
+
 %{
 #include <stdlib.h>
 #include <gml2gv.h>
