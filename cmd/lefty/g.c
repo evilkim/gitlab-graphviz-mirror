@@ -786,7 +786,7 @@ found:
     new->w = 0;
     new->udata = 0;
     /* HACK: should do a switch on type, but ... */
-    if (!(new->u.c = (Gcw_t *) malloc (wsizes[type])))
+    if (!(new->u.c = malloc (wsizes[type])))
         panic1 (POS, "newwidget", "cannot allocate data");
     return new;
 }
