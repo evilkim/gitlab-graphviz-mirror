@@ -396,10 +396,7 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 {
     obj_state_t *obj = job->obj;
 
-    int sub_type;
     int line_style;		/* solid, dotted, dashed */
-    int fill_color = obj->fillcolor.u.index;
-    int area_fill;
     double style_val;
     int npoints = n;
     int i;
@@ -419,16 +416,6 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 
     pic_line_style(obj, &line_style, &style_val);
 
-    if (filled) {
-        sub_type = 5;     /* closed X-spline */
-        area_fill = 20;   /* fully saturated color */
-        fill_color = job->obj->fillcolor.u.index;
-    }
-    else {
-        sub_type = 4;     /* opened X-spline */
-        area_fill = -1;
-        fill_color = 0;
-    }
     V[3].x = A[0].x;
     V[3].y = A[0].y;
     /* Write first point in line */
