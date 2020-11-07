@@ -637,6 +637,7 @@ static gvrender_features_t render_features_gd = {
     RGBA_BYTE,			/* color_type */
 };
 
+#ifdef HAVE_GD_GIF
 static gvdevice_features_t device_features_gd = {
     GVDEVICE_BINARY_FORMAT,	/* flags */
     {0.,0.},			/* default margin - points */
@@ -651,6 +652,7 @@ static gvdevice_features_t device_features_gd_tc = {
     {0.,0.},                    /* default page width, height - points */
     {96.,96.},			/* default dpi */
 };
+#endif
 
 static gvdevice_features_t device_features_gd_tc_no_writer = {
     GVDEVICE_BINARY_FORMAT
