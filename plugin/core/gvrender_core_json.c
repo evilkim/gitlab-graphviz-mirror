@@ -716,7 +716,6 @@ static void json_end_graph(GVJ_t *job)
 {
     graph_t *g = job->obj->u.g;
     state_t sp;
-    Agiodisc_t* io_save;
     static Agiodisc_t io;
 
     if (io.afread == NULL) {
@@ -725,7 +724,6 @@ static void json_end_graph(GVJ_t *job)
 	io.flush = (flushfn)gvflush;
     }
 
-    io_save = g->clos->disc.io;
     g->clos->disc.io = &io;
 
     set_attrwf(g, TRUE, FALSE);
