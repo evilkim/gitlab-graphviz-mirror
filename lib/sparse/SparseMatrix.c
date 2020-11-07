@@ -2298,7 +2298,7 @@ SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A){
 
 
 SparseMatrix SparseMatrix_to_complex(SparseMatrix A){
-  int i, *ia, *ja;
+  int i;
   
   if (!A) return A;
   if (A->format != FORMAT_CSR) {
@@ -2308,8 +2308,6 @@ SparseMatrix SparseMatrix_to_complex(SparseMatrix A){
     return A;
   }
 
-  ia = A->ia;
-  ja = A->ja;
   switch (A->type){
   case MATRIX_TYPE_REAL:{
     real *a = (real*) A->a;
