@@ -226,7 +226,7 @@ cluster_leader(graph_t * clust)
     /* find number of ranks and select a leader */
     leader = NULL;
     for (n = GD_nlist(clust); n; n = ND_next(n)) {
-	if ((ND_rank(n) == 0) && (ND_node_type(n) == NORMAL))
+	if (ND_rank(n) == 0 && ND_node_type(n) == NORMAL)
 	    leader = n;
 	if (maxrank < ND_rank(n))
 	    maxrank = ND_rank(n);
@@ -235,7 +235,7 @@ cluster_leader(graph_t * clust)
     GD_leader(clust) = leader;
 
     for (n = agfstnode(clust); n; n = agnxtnode(clust, n)) {
-	assert((ND_UF_size(n) <= 1) || (n == leader));
+	assert(ND_UF_size(n) <= 1 || n == leader);
 	UF_union(n, leader);
 	ND_ranktype(n) = CLUSTER;
     }
@@ -1115,11 +1115,11 @@ static void add_fast_edges (graph_t * g)
 }
 
 static void my_init_graph(Agraph_t *g, Agobj_t *graph, void *arg)
-{ int *sz = arg; agbindrec(graph,"level graph rec",sz[0],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(graph,"level graph rec",sz[0],TRUE); }
 static void my_init_node(Agraph_t *g, Agobj_t *node, void *arg)
-{ int *sz = arg; agbindrec(node,"level node rec",sz[1],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(node,"level node rec",sz[1],TRUE); }
 static void my_init_edge(Agraph_t *g, Agobj_t *edge, void *arg)
-{ int *sz = arg; agbindrec(edge,"level edge rec",sz[2],TRUE); }
+{ int *sz = arg; (void)g; agbindrec(edge,"level edge rec",sz[2],TRUE); }
 static Agcbdisc_t mydisc = { {my_init_graph,0,0}, {my_init_node,0,0}, {my_init_edge,0,0} };
 
 int infosizes[] = {

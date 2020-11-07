@@ -443,7 +443,7 @@ static void doDot (Agraph_t* g)
     pack_mode mode = getPackModeInfo (g, l_undef, &pinfo);
     getPackInfo(g, l_node, CL_OFFSET, &pinfo);
 
-    if ((mode == l_undef) && (Pack < 0)) {
+    if (mode == l_undef && Pack < 0) {
 	/* No pack information; use old dot with components
          * handled during layout
          */
