@@ -64,6 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - buffer overflow in fdpgen
 - Crashes by VRML output when current directory is not writable #793
 - Segmentation fault when newrank=true #1221
+- sfdp craches #236
+- fdp segmentation fault with GK=0 #1290
+- fdp crash #1865
 
 ## [2.44.1] - 2020-06-29
 
