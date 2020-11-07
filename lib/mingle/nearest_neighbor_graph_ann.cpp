@@ -25,6 +25,7 @@ using namespace std;					// make std:: accessible
 int                             dim                             = 4;                    // dimension
 
 
+/*
 static void printPt(ostream &out, ANNpoint p)			// print point
 {
   out << "" << p[0];
@@ -33,6 +34,7 @@ static void printPt(ostream &out, ANNpoint p)			// print point
   }
   out << "";
 }
+*/
 
 static void sortPtsX(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
