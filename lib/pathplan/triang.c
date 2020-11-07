@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <setjmp.h>
 #include <pathplan/pathutil.h>
 #include <pathplan/tri.h>
 
@@ -36,12 +35,11 @@ typedef struct dpd_triangle {
 #define FALSE 0
 #endif
 
-static jmp_buf jbuf;
 static int dpd_ccw(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int dpd_isdiagonal(int, int, Ppoint_t **, int);
 static int dpd_intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int dpd_between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
-static void triangulate(Ppoint_t ** pointp, int pointn,
+static int triangulate(Ppoint_t ** pointp, int pointn,
 			void (*fn) (void *, Ppoint_t *), void *vc);
 
 static int dpd_ccw(Ppoint_t * p1, Ppoint_t * p2, Ppoint_t * p3)
@@ -69,11 +67,10 @@ int Ptriangulate(Ppoly_t * polygon, void (*fn) (void *, Ppoint_t *),
     for (i = 0; i < pointn; i++)
 	pointp[i] = &(polygon->ps[i]);
 
-    if (setjmp(jbuf)) {
+    if (triangulate(pointp, pointn, fn, vc) != 0) {
 	free(pointp);
 	return 1;
     }
-    triangulate(pointp, pointn, fn, vc);
 
     free(pointp);
     return 0;
@@ -81,9 +78,9 @@ int Ptriangulate(Ppoly_t * polygon, void (*fn) (void *, Ppoint_t *),
 
 /* triangulate:
  * Triangulates the given polygon. 
- * Throws an exception if no diagonal exists.
+ * Returns non-zero if no diagonal exists.
  */
-static void
+static int
 triangulate(Ppoint_t ** pointp, int pointn,
 	    void (*fn) (void *, Ppoint_t *), void *vc)
 {
@@ -102,17 +99,17 @@ triangulate(Ppoint_t ** pointp, int pointn,
 		for (i = 0; i < pointn; i++)
 		    if (i != ip1)
 			pointp[j++] = pointp[i];
-		triangulate(pointp, pointn - 1, fn, vc);
-		return;
+		return triangulate(pointp, pointn - 1, fn, vc);
 	    }
 	}
-	longjmp(jbuf,1);
+	return -1;
     } else {
 	A[0] = *pointp[0];
 	A[1] = *pointp[1];
 	A[2] = *pointp[2];
 	fn(vc, A);
     }
+    return 0;
 }
 
 /* check if (i, i + 2) is a diagonal */
