@@ -34,18 +34,6 @@ extern void drawBorders(ViewInfo * view);
 extern void drawEllipse(float xradius, float yradius, int angle1, int angle2);
 extern void draw_selpoly(glCompPoly* selPoly);
 
-typedef struct {
-    glCompColor color;
-    float width;
-} xdotstyle;
-
-typedef struct {
-    glCompColor penColor;
-    glCompColor fillColor;
-    xdotstyle style;
-} xdotstate;	
-
-
 #ifdef __cplusplus
 }				/* end extern "C" */
 #endif
