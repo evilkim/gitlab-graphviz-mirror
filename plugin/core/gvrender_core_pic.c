@@ -392,23 +392,15 @@ static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
 }
 
 static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
-//            start_y, end_x, end_y);
 	      int arrow_at_end, int filled)
 {
     obj_state_t *obj = job->obj;
 
-//  int object_code = 3;        /* always 3 for spline */
     int sub_type;
     int line_style;		/* solid, dotted, dashed */
-//  int thickness = obj->penwidth;
-//  int pen_color = obj->pencolor.u.index;
     int fill_color = obj->fillcolor.u.index;
-//  int pen_style = 0;          /* not used */
     int area_fill;
     double style_val;
-//  int cap_style = 0;
-//  int forward_arrow = 0;
-//  int backward_arrow = 0;
     int npoints = n;
     int i;
 
@@ -460,18 +452,6 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
         }
     }
 
-//    gvprintf(job, "%d %d %d %d %d %d %d %d %d %.1f %d %d %d %d\n",
-//            object_code,
-//            sub_type,
-//            line_style,
-//            thickness,
-//            pen_color,
-//            fill_color,
-//            depth,
-//            pen_style,
-//            area_fill,
-//            style_val, cap_style, forward_arrow, backward_arrow, count);
-
     gvprintf(job, " %s\n", buffer);      /* print points */
     free(buffer);
     for (i = 0; i < count; i++) {
@@ -484,29 +464,11 @@ static void pic_polygon(GVJ_t * job, pointf * A, int n, int filled)
 {
     obj_state_t *obj = job->obj;
 
-//  int object_code = 2;        /* always 2 for polyline */
-//  int sub_type = 3;           /* always 3 for polygon */
     int line_style;		/* solid, dotted, dashed */
-//  int thickness = obj->penwidth;
-//  int pen_color = obj->pencolor.u.index;
-//  int fill_color = obj->fillcolor.u.index;
-//  int pen_style = 0;          /* not used */
-//  int area_fill = filled ? 20 : -1;
     double style_val;
-//  int join_style = 0;
-//  int cap_style = 0;
-//  int radius = 0;
-//  int forward_arrow = 0;
-//  int backward_arrow = 0;
-//  int npoints = n + 1;
 
     pic_line_style(obj, &line_style, &style_val);
 
-//    gvprintf(job,
-//            "%d %d %d %d %d %d %d %d %d %.1f %d %d %d %d %d %d\n",
-//            object_code, sub_type, line_style, thickness, pen_color,
-//            fill_color, depth, pen_style, area_fill, style_val, join_style,
-//            cap_style, radius, forward_arrow, backward_arrow, npoints);
     picptarray(job, A, n, 1);        /* closed shape */
 }
 
@@ -514,29 +476,11 @@ static void pic_polyline(GVJ_t * job, pointf * A, int n)
 {
     obj_state_t *obj = job->obj;
 
-//  int object_code = 2;        /* always 2 for polyline */
-//  int sub_type = 1;           /* always 1 for polyline */
     int line_style;		/* solid, dotted, dashed */
-//  int thickness = obj->penwidth;
-//  int pen_color = obj->pencolor.u.index;
-//  int fill_color = 0;
-//  int pen_style = 0;          /* not used */
-//  int area_fill = 0;
     double style_val;
-//  int join_style = 0;
-//  int cap_style = 0;
-//  int radius = 0;
-//  int forward_arrow = 0;
-//  int backward_arrow = 0;
-//  int npoints = n;
 
     pic_line_style(obj, &line_style, &style_val);
 
-//    gvprintf(job,
-//            "%d %d %d %d %d %d %d %d %d %.1f %d %d %d %d %d %d\n",
-//            object_code, sub_type, line_style, thickness, pen_color,
-//            fill_color, depth, pen_style, area_fill, style_val, join_style,
-//            cap_style, radius, forward_arrow, backward_arrow, npoints);
     picptarray(job, A, n, 0);        /* open shape */
 }
 
