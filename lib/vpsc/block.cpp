@@ -27,6 +27,10 @@ using std::ofstream;
 using std::endl;
 using std::vector;
 
+#ifndef RECTANGLE_OVERLAP_LOGGING
+	#define RECTANGLE_OVERLAP_LOGGING 0
+#endif
+
 typedef vector<Constraint*>::iterator Cit;
 
 void Block::addVariable(Variable *v) {
@@ -84,10 +88,10 @@ void Block::setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in) {
 	}
 }	
 void Block::merge(Block* b, Constraint* c) {
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"  merging on: "<<*c<<",c->left->offset="<<c->left->offset<<",c->right->offset="<<c->right->offset<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  merging on: "<<*c<<",c->left->offset="<<c->left->offset<<",c->right->offset="<<c->right->offset<<endl;
+	}
 	double dist = c->right->offset - c->left->offset - c->gap;
 	Block *l=c->left->block;
 	Block *r=c->right->block;
@@ -96,9 +100,10 @@ void Block::merge(Block* b, Constraint* c) {
 	} else {
 	       	l->merge(r,c,-dist);
 	}
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f<<"  merged block="<<(b->deleted?*this:*b)<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  merged block="<<(b->deleted?*this:*b)<<endl;
+	}
 }
 /**
  * Merges b into this block across c.  Can be either a
@@ -108,10 +113,10 @@ void Block::merge(Block* b, Constraint* c) {
  * @param distance separation required to satisfy c
  */
 void Block::merge(Block *b, Constraint *c, double dist) {
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"    merging: "<<*b<<"dist="<<dist<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"    merging: "<<*b<<"dist="<<dist<<endl;
+	}
 	c->active=true;
 	wposn+=b->wposn-dist*b->weight;
 	weight+=b->weight;
@@ -126,17 +131,18 @@ void Block::merge(Block *b, Constraint *c, double dist) {
 }
 
 void Block::mergeIn(Block *b) {
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"  merging constraint heaps... "<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  merging constraint heaps... "<<endl;
+	}
 	// We check the top of the heaps to remove possible internal constraints
 	findMinInConstraint();
 	b->findMinInConstraint();
 	in->merge(b->in);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f<<"  merged heap: "<<*in<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  merged heap: "<<*in<<endl;
+	}
 }
 void Block::mergeOut(Block *b) {	
 	findMinOutConstraint();
@@ -151,31 +157,32 @@ Constraint *Block::findMinInConstraint() {
 		Block *lb=v->left->block;
 		Block *rb=v->right->block;
 		// rb may not be this if called between merge and mergeIn
-#ifdef RECTANGLE_OVERLAP_LOGGING
-		ofstream f(LOGFILE,ios::app);
-		f<<"  checking constraint ... "<<*v;
-		f<<"    timestamps: left="<<lb->timeStamp<<" right="<<rb->timeStamp<<" constraint="<<v->timeStamp<<endl;
-#endif
+		if (RECTANGLE_OVERLAP_LOGGING) {
+			ofstream f(LOGFILE,ios::app);
+			f<<"  checking constraint ... "<<*v;
+			f<<"    timestamps: left="<<lb->timeStamp<<" right="<<rb->timeStamp<<" constraint="<<v->timeStamp<<endl;
+		}
 		if(lb == rb) {
 			// constraint has been merged into the same block
-#ifdef RECTANGLE_OVERLAP_LOGGING
-			if(v->slack()<0) {
+			if(RECTANGLE_OVERLAP_LOGGING && v->slack()<0) {
+				ofstream f(LOGFILE,ios::app);
 				f<<"  violated internal constraint found! "<<*v<<endl;
 				f<<"     lb="<<*lb<<endl;
 				f<<"     rb="<<*rb<<endl;
 			}
-#endif
 			in->deleteMin();
-#ifdef RECTANGLE_OVERLAP_LOGGING
-			f<<" ... skipping internal constraint"<<endl;
-#endif
+			if (RECTANGLE_OVERLAP_LOGGING) {
+				ofstream f(LOGFILE,ios::app);
+				f<<" ... skipping internal constraint"<<endl;
+			}
 		} else if(v->timeStamp < lb->timeStamp) {
 			// block at other end of constraint has been moved since this
 			in->deleteMin();
 			outOfDate.push_back(v);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-			f<<"    reinserting out of date (reinsert later)"<<endl;
-#endif
+			if (RECTANGLE_OVERLAP_LOGGING) {
+				ofstream f(LOGFILE,ios::app);
+				f<<"    reinserting out of date (reinsert later)"<<endl;
+			}
 		} else {
 			break;
 		}
@@ -204,11 +211,11 @@ Constraint *Block::findMinOutConstraint() {
 }
 void Block::deleteMinInConstraint() {
 	in->deleteMin();
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"deleteMinInConstraint... "<<endl;
-	f<<"  result: "<<*in<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"deleteMinInConstraint... "<<endl;
+		f<<"  result: "<<*in<<endl;
+	}
 }
 void Block::deleteMinOutConstraint() {
 	out->deleteMin();
@@ -354,14 +361,15 @@ void Block::populateSplitBlock(Block *b, Variable *v, Variable *u) {
  * Returns the split constraint
  */
 Constraint* Block::splitBetween(Variable* vl, Variable* vr, Block* &lb, Block* &rb) {
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"  need to split between: "<<*vl<<" and "<<*vr<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  need to split between: "<<*vl<<" and "<<*vr<<endl;
+	}
 	Constraint *c=findMinLMBetween(vl, vr);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f<<"  going to split on: "<<*c<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  going to split on: "<<*c<<endl;
+	}
 	split(lb,rb,c);
 	deleted = true;
 	return c;
