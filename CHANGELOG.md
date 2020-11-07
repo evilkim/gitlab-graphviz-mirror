@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - multiple graphs to file output causes a segfault #1845
 - lefty PTY functionality relies on file descriptor implementation details #1823
 - buffer overflow in fdpgen
+- Crashes by VRML output when current directory is not writable #793
 
 ## [2.44.1] - 2020-06-29
 

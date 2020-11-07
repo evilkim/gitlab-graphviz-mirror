@@ -277,7 +277,7 @@ int gvputs(GVJ_t * job, const char *s)
     if (gvwrite (job, s, len) != len) {
 	return EOF;
     }
-    return +1;
+    return 1;
 }
 
 int gvputc(GVJ_t * job, int c)

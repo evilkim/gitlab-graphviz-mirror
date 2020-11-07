@@ -5,6 +5,7 @@ import signal
 import subprocess
 import os
 import re
+import stat
 import tempfile
 
 # The terminology used in rtest.py is a little inconsistent. At the
@@ -101,6 +102,25 @@ def test_165_3():
     # one of these should contain the label correctly escaped
     assert any(r'hello \\\" world' in l for l in ldraw), \
       'unexpected ldraw contents'
+
+def test_793():
+    '''
+    Graphviz should not crash when using VRML output with a non-writable current
+    directory
+    https://gitlab.com/graphviz/graphviz/-/issues/793
+    '''
+
+    # create a non-writable directory
+    with tempfile.TemporaryDirectory() as tmp:
+      os.chmod(tmp, os.stat(tmp).st_mode & ~stat.S_IWRITE)
+
+      # ask the VRML back end to handle a simple graph, using the above as the
+      # current working directory
+      p = subprocess.Popen(['dot', '-Tvrml', '-o', os.devnull], cwd=tmp)
+      p.communicate('digraph { a -> b; }')
+
+    # Graphviz should not have caused a segfault
+    assert p.returncode != -signal.SIGSEGV, 'Graphviz segfaulted'
 
 def test_1314():
     '''
