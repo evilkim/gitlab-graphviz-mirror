@@ -31,6 +31,7 @@
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#define NOTUSED(x)	(void) (x)
 
 typedef enum {
 	FORMAT_GIF,
@@ -77,7 +78,6 @@ static void gdgen_begin_page(GVJ_t * job)
 {
     char *bgcolor_str = NULL, *truecolor_str = NULL;
     boolean truecolor_p = FALSE;	/* try to use cheaper paletted mode */
-    boolean bg_transparent_p = FALSE;
     gdImagePtr im = NULL;
 
     truecolor_str = agget((graph_t*)(job->gvc->g), "truecolor");	/* allow user to force truecolor */
@@ -87,7 +87,6 @@ static void gdgen_begin_page(GVJ_t * job)
 	truecolor_p = mapbool(truecolor_str);
 
     if (bgcolor_str && strcmp(bgcolor_str, "transparent") == 0) {
-	bg_transparent_p = TRUE;
 	if (job->render.features->flags & GVDEVICE_DOES_TRUECOLOR)
 	    truecolor_p = TRUE;	/* force truecolor */
     }
@@ -186,6 +185,8 @@ static void gdgen_end_page(GVJ_t * job)
 #ifdef HAVE_GD_GIF
 	    gdImageTrueColorToPalette(im, 0, 256);
 	    gdImageGifCtx(im, &ctx);
+#else
+            NOTUSED(ctx);
 #endif
 	    break;
 	case FORMAT_JPEG:
