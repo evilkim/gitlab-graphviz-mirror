@@ -21,13 +21,11 @@
 #include <vpsc/solve_VPSC.h>
 #include <vpsc/variable.h>
 #include <vpsc/constraint.h>
-#ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 #include <vpsc/blocks.h>
 using std::ios;
 using std::ofstream;
 using std::endl;
-#endif
 
 #define EXTRA_GAP 0.0001
 

@@ -21,12 +21,10 @@
 #include <vpsc/constraint.h>
 #include <vpsc/block.h>
 #include <vpsc/blocks.h>
-#ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 using std::ios;
 using std::ofstream;
 using std::endl;
-#endif
 using std::vector;
 
 typedef vector<Constraint*>::iterator Cit;
