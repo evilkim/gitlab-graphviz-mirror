@@ -53,7 +53,6 @@ compute_hierarchy(vtx_data * graph, int n, double abs_tol,
 {
     double *y;
     int i, rv=0;
-    double spread;
     int use_given_levels = FALSE;
     int *ordering;
     int *levels;
@@ -79,9 +78,7 @@ compute_hierarchy(vtx_data * graph, int n, double abs_tol,
     }
     quicksort_place(y, ordering, 0, n - 1);
 
-    spread = y[ordering[n - 1]] - y[ordering[0]];
-
-    /* after spread is computed, we may take the y-coords as the given levels */
+    /* take the y-coords as the given levels */
     if (given_levels) {
 	use_given_levels = TRUE;
 	for (i = 0; i < n; i++) {
