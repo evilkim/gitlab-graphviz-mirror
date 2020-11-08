@@ -103,6 +103,22 @@ def test_165_3():
     assert any(r'hello \\\" world' in l for l in ldraw), \
       'unexpected ldraw contents'
 
+def test_167():
+    '''
+    using concentrate=true should not result in a segfault
+    https://gitlab.com/graphviz/graphviz/-/issues/167
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '167.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # process this with dot
+    ret = subprocess.call(['dot', '-Tpdf', '-o', os.devnull, input])
+
+    # Graphviz should not have caused a segfault
+    assert ret != -signal.SIGSEGV, 'Graphviz segfaulted'
+
 def test_793():
     '''
     Graphviz should not crash when using VRML output with a non-writable current

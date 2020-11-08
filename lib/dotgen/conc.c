@@ -28,8 +28,12 @@ static boolean samedir(edge_t * e, edge_t * f)
 {
     edge_t *e0, *f0;
 
-    for (e0 = e; ED_edge_type(e0) != NORMAL; e0 = ED_to_orig(e0));
-    for (f0 = f; ED_edge_type(f0) != NORMAL; f0 = ED_to_orig(f0));
+    for (e0 = e; e0 != NULL && ED_edge_type(e0) != NORMAL; e0 = ED_to_orig(e0));
+    if (e0 == NULL)
+	return FALSE;
+    for (f0 = f; f0 != NULL && ED_edge_type(f0) != NORMAL; f0 = ED_to_orig(f0));
+    if (f0 == NULL)
+	return FALSE;
     if (ED_conc_opp_flag(e0))
 	return FALSE;
     if (ED_conc_opp_flag(f0))
