@@ -1413,6 +1413,10 @@ coordOf (cell* cp, snode* np)
 	p.y = (cp->bb.LL.y + cp->bb.UR.y)/2;
 	p.x = cp->bb.UR.x;
     }
+    else {
+	agerr (AGERR, "Node not adjacent to cell -- Aborting\n");
+	exit(EXIT_FAILURE);
+    }
     return p;
 }
 
