@@ -44,8 +44,8 @@ static boolean samedir(edge_t * e, edge_t * f)
 
 static boolean downcandidate(node_t * v)
 {
-    return ((ND_node_type(v) == VIRTUAL) && (ND_in(v).size == 1)
-	    && (ND_out(v).size == 1) && (ND_label(v) == NULL));
+    return ND_node_type(v) == VIRTUAL && ND_in(v).size == 1
+	    && ND_out(v).size == 1 && ND_label(v) == NULL;
 }
 
 static boolean bothdowncandidates(node_t * u, node_t * v)
@@ -53,17 +53,17 @@ static boolean bothdowncandidates(node_t * u, node_t * v)
     edge_t *e, *f;
     e = ND_in(u).list[0];
     f = ND_in(v).list[0];
-    if (downcandidate(v) && (agtail(e) == agtail(f))) {
+    if (downcandidate(v) && agtail(e) == agtail(f)) {
 	return samedir(e, f)
-	    && (portcmp(ED_tail_port(e), ED_tail_port(f)) == 0);
+	    && portcmp(ED_tail_port(e), ED_tail_port(f)) == 0;
     }
     return FALSE;
 }
 
 static boolean upcandidate(node_t * v)
 {
-    return ((ND_node_type(v) == VIRTUAL) && (ND_out(v).size == 1)
-	    && (ND_in(v).size == 1) && (ND_label(v) == NULL));
+    return ND_node_type(v) == VIRTUAL && ND_out(v).size == 1
+	    && ND_in(v).size == 1 && ND_label(v) == NULL;
 }
 
 static boolean bothupcandidates(node_t * u, node_t * v)
@@ -71,9 +71,9 @@ static boolean bothupcandidates(node_t * u, node_t * v)
     edge_t *e, *f;
     e = ND_out(u).list[0];
     f = ND_out(v).list[0];
-    if (upcandidate(v) && (aghead(e) == aghead(f))) {
+    if (upcandidate(v) && aghead(e) == aghead(f)) {
 	return samedir(e, f)
-	    && (portcmp(ED_head_port(e), ED_head_port(f)) == 0);
+	    && portcmp(ED_head_port(e), ED_head_port(f)) == 0;
     }
     return FALSE;
 }
@@ -137,7 +137,7 @@ static void infuse(graph_t * g, node_t * n)
     node_t *lead;
 
     lead = GD_rankleader(g)[ND_rank(n)];
-    if ((lead == NULL) || (ND_order(lead) > ND_order(n)))
+    if (lead == NULL || ND_order(lead) > ND_order(n))
 	GD_rankleader(g)[ND_rank(n)] = n;
 }
 
@@ -187,7 +187,7 @@ static void rebuild_vlists(graph_t * g)
 		edge_t *e;
 		for (e = ND_in(n).list[0]; e && ED_to_orig(e);
 		     e = ED_to_orig(e));
-		if (e && (agcontains(g, agtail(e)))
+		if (e && agcontains(g, agtail(e))
 		    && agcontains(g, aghead(e)))
 		    maxi = i;
 	    }
