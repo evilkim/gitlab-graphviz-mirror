@@ -413,7 +413,6 @@ static void addXLabels(Agraph_t * gp)
     int n_set_lbls = 0;		/* # of set xlabels and edge labels */
     int n_clbls = 0;		/* # of set cluster labels */
     boxf bb;
-    pointf ur;
     textlabel_t* lp;
     label_params_t params;
     object_t* objs;
@@ -489,7 +488,8 @@ static void addXLabels(Agraph_t * gp)
 		bb = addLabelObj (lp, objp, bb);
 	    }
 	    else {
-		addXLabel (lp, objp, xlp, 0, ur); 
+		pointf ignored = { 0.0, 0.0 };
+		addXLabel (lp, objp, xlp, 0, ignored);
 		xlp++;
 	    }
 	}
