@@ -213,12 +213,12 @@ void dot_concentrate(graph_t * g)
     for (r = 1; GD_rank(g)[r + 1].n; r++) {
 	for (leftpos = 0; leftpos < GD_rank(g)[r].n; leftpos++) {
 	    left = GD_rank(g)[r].v[leftpos];
-	    if (downcandidate(left) == FALSE)
+	    if (!downcandidate(left))
 		continue;
 	    for (rightpos = leftpos + 1; rightpos < GD_rank(g)[r].n;
 		 rightpos++) {
 		right = GD_rank(g)[r].v[rightpos];
-		if (bothdowncandidates(left, right) == FALSE)
+		if (!bothdowncandidates(left, right))
 		    break;
 	    }
 	    if (rightpos - leftpos > 1)
@@ -229,12 +229,12 @@ void dot_concentrate(graph_t * g)
     while (r > 0) {
 	for (leftpos = 0; leftpos < GD_rank(g)[r].n; leftpos++) {
 	    left = GD_rank(g)[r].v[leftpos];
-	    if (upcandidate(left) == FALSE)
+	    if (!upcandidate(left))
 		continue;
 	    for (rightpos = leftpos + 1; rightpos < GD_rank(g)[r].n;
 		 rightpos++) {
 		right = GD_rank(g)[r].v[rightpos];
-		if (bothupcandidates(left, right) == FALSE)
+		if (!bothupcandidates(left, right))
 		    break;
 	    }
 	    if (rightpos - leftpos > 1)
