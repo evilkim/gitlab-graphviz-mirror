@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fdp crash #1865
 - Graphviz always crash with this simple dot file #167
 - Seg fault in dot #1771
+- gml2gv doesn't handle some attributes correctly #1869
 
 ## [2.44.1] - 2020-06-29
 

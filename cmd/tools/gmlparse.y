@@ -589,10 +589,10 @@ addNodeGraphics (Agnode_t* np, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	else if (ap->sort == OUTLINE) {
 	    agsafeset (np, "pencolor", ap->u.value, "");
 	}
-	else if ((ap->sort == WIDTH) && (ap->sort == OUTLINEWIDTH )) {
+	else if ((ap->sort == WIDTH) || (ap->sort == OUTLINEWIDTH )) {
 	    agsafeset (np, "penwidth", ap->u.value, "");
 	}
-	else if ((ap->sort == OUTLINESTYLE) && (ap->sort == OUTLINEWIDTH )) {
+	else if ((ap->sort == STYLE) || (ap->sort == OUTLINESTYLE )) {
 	    agsafeset (np, "style", ap->u.value, "");
 	}
 	else {
