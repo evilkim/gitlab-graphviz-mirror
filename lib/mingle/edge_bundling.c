@@ -813,7 +813,7 @@ pedge* edge_bundling(SparseMatrix A0, int dim, real *x, int maxit_outer, real K,
     }
     
   } else if (method == METHOD_NONE){
-    edges = edges;
+    ;
   } else {
     assert(0);
   }
