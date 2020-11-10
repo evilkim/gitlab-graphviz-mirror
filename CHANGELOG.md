@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - CentOS/RHEL 6 is no longer supported
 
+### Fixed
+- memory leak in label construction
+
 ## [2.46.0] - 2021-01-18
 
 ### Added
