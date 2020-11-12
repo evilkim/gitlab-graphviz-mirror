@@ -257,6 +257,12 @@ ubuntu20-04-build:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
+ubuntu20-10-build:
+    <<: *deb_build_definition
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
+
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
