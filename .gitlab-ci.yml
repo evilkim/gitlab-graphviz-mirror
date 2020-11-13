@@ -544,6 +544,20 @@ ubuntu18-04-cmake-test:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+ubuntu20-10-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu20-10-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
+
 centos7-cmake-test:
     <<: *test_definition
     before_script:
