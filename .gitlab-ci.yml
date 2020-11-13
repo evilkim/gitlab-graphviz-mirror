@@ -282,6 +282,18 @@ ubuntu18-04-cmake-build:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
 
+ubuntu20-10-cmake-build:
+    <<: *deb_build_definition
+    before_script:
+        - export build_system="cmake"
+        # fail on any compiler warnings
+        - export CFLAGS=-Werror
+        - export CXXFLAGS=-Werror
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
+
 centos7-cmake-build:
     <<: *rpm_build_definition
     before_script:
