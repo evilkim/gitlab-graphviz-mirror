@@ -379,7 +379,7 @@ static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *b
 static Agedge_t *inter_tree_edge(subtree_t *tree)
 {
     Agedge_t *rv;
-    rv = inter_tree_edge_search(tree->rep, (Agnode_t *)0, (Agedge_t *)0);
+    rv = inter_tree_edge_search(tree->rep, NULL, NULL);
     return rv;
 }
 
@@ -473,11 +473,11 @@ subtree_t *merge_trees(Agedge_t *e)   /* entering tree edge */
 
   if (t0->heap_index == -1) {   // move t0
     delta = SLACK(e);
-    tree_adjust(t0->rep,(Agnode_t*)0,delta);
+    tree_adjust(t0->rep,NULL,delta);
   }
   else {  // move t1
     delta = -SLACK(e);
-    tree_adjust(t1->rep,0,delta);
+    tree_adjust(t1->rep,NULL,delta);
   }
   if (add_tree_edge(e) != 0) {
     return NULL;
