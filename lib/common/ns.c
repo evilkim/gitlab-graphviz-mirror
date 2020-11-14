@@ -49,9 +49,9 @@ static int add_tree_edge(edge_t * e)
     }
     ED_tree_index(e) = Tree_edge.size;
     Tree_edge.list[Tree_edge.size++] = e;
-    if (ND_mark(agtail(e)) == FALSE)
+    if (!ND_mark(agtail(e)))
 	Tree_node.list[Tree_node.size++] = agtail(e);
-    if (ND_mark(aghead(e)) == FALSE)
+    if (!ND_mark(aghead(e)))
 	Tree_node.list[Tree_node.size++] = aghead(e);
     n = agtail(e);
     ND_mark(n) = TRUE;
@@ -184,7 +184,7 @@ static void dfs_enter_outedge(node_t * v)
     edge_t *e;
 
     for (i = 0; (e = ND_out(v).list[i]); i++) {
-	if (TREE_EDGE(e) == FALSE) {
+	if (!TREE_EDGE(e)) {
 	    if (!SEQ(Low, ND_lim(aghead(e)), Lim)) {
 		slack = SLACK(e);
 		if (slack < Slack || Enter == NULL) {
@@ -206,7 +206,7 @@ static void dfs_enter_inedge(node_t * v)
     edge_t *e;
 
     for (i = 0; (e = ND_in(v).list[i]); i++) {
-	if (TREE_EDGE(e) == FALSE) {
+	if (!TREE_EDGE(e)) {
 	    if (!SEQ(Low, ND_lim(agtail(e)), Lim)) {
 		slack = SLACK(e);
 		if (slack < Slack || Enter == NULL) {
@@ -1156,7 +1156,7 @@ static node_t *checkdfs(graph_t* g, node_t * n)
 	    return w;
 	}
 	else {
-	    if (ND_mark(w) == FALSE) {
+	    if (!ND_mark(w)) {
 		x = checkdfs(g, w);
 		if (x) {
 		    fprintf(stderr,"unwind %lx %s(%lx)\n",
