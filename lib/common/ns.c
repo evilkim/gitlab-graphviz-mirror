@@ -48,7 +48,7 @@ static int add_tree_edge(edge_t * e)
     //fprintf(stderr,"add tree edge %p %s ", (void*)e, agnameof(agtail(e))) ; fprintf(stderr,"%s\n", agnameof(aghead(e))) ;
     if (TREE_EDGE(e)) {
 	agerr(AGERR, "add_tree_edge: missing tree edge\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
     ED_tree_index(e) = Tree_edge.size;
     Tree_edge.list[Tree_edge.size++] = e;
@@ -62,7 +62,7 @@ static int add_tree_edge(edge_t * e)
     ND_tree_out(n).list[ND_tree_out(n).size] = NULL;
     if (ND_out(n).list[ND_tree_out(n).size - 1] == 0) {
 	agerr(AGERR, "add_tree_edge: empty outedge list\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
     n = aghead(e);
     ND_mark(n) = TRUE;
@@ -70,7 +70,7 @@ static int add_tree_edge(edge_t * e)
     ND_tree_in(n).list[ND_tree_in(n).size] = NULL;
     if (ND_in(n).list[ND_tree_in(n).size - 1] == 0) {
 	agerr(AGERR, "add_tree_edge: empty inedge list\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
     return 0;
 }
