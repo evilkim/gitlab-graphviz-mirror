@@ -18,7 +18,6 @@
 
 #include <common/render.h>
 
-static int init_graph(graph_t *);
 static void dfs_cutval(node_t * v, edge_t * par);
 static int dfs_range(node_t * v, edge_t * par, int low);
 static int x_val(edge_t * e, node_t * v, int dir);
