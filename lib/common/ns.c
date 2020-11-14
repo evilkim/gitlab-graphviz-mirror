@@ -279,14 +279,18 @@ static int tight_subtree_search(Agnode_t *v, subtree_t *st)
     for (i = 0; (e = ND_in(v).list[i]); i++) {
         if (TREE_EDGE(e)) continue;
         if ((ND_subtree(agtail(e)) == 0) && (SLACK(e) == 0)) {
-               add_tree_edge(e);
+               if (add_tree_edge(e) != 0) {
+                   return -1;
+               }
                rv += tight_subtree_search(agtail(e),st);
         }
     }
     for (i = 0; (e = ND_out(v).list[i]); i++) {
         if (TREE_EDGE(e)) continue;
         if ((ND_subtree(aghead(e)) == 0) && (SLACK(e) == 0)) {
-               add_tree_edge(e);
+               if (add_tree_edge(e) != 0) {
+                   return -1;
+               }
                rv += tight_subtree_search(aghead(e),st);
         }
     }
@@ -480,7 +484,9 @@ subtree_t *merge_trees(Agedge_t *e)   /* entering tree edge */
     delta = -SLACK(e);
     tree_adjust(t1->rep,0,delta);
   }
-  add_tree_edge(e);
+  if (add_tree_edge(e) != 0) {
+    return NULL;
+  }
   rv = STsetUnion(t0,t1);
   
   return rv;
