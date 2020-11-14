@@ -527,6 +527,10 @@ int feasible_tree(void)
       break;
     }
     tree1 = merge_trees(ee);
+    if (tree1 == NULL) {
+      error = 2;
+      break;
+    }
     STheapify(heap,tree1->heap_index);
   }
 
