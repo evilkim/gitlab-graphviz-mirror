@@ -22,17 +22,18 @@
 #include <vpsc/blocks.h>
 #include <vpsc/block.h>
 #include <vpsc/constraint.h>
-#ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 using std::ios;
 using std::ofstream;
-using std::endl;
-#endif
 using std::set;
 using std::vector;
 using std::iterator;
 using std::list;
 using std::copy;
+
+#ifndef RECTANGLE_OVERLAP_LOGGING
+	#define RECTANGLE_OVERLAP_LOGGING 0
+#endif
 
 long blockTimeCtr;
 
@@ -78,10 +79,10 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
 			dfsVisit(c->right, order);
 		}
 	}	
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"  order="<<*v<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"  order="<<*v<<"\n";
+	}
 	order->push_front(v);
 }
 /**
@@ -89,17 +90,18 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
  * neighbouring (left) block until no more violated constraints are found
  */
 void Blocks::mergeLeft(Block *r) {	
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"mergeLeft called on "<<*r<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"mergeLeft called on "<<*r<<"\n";
+	}
 	r->timeStamp=++blockTimeCtr;
 	r->setUpInConstraints();
 	Constraint *c=r->findMinInConstraint();
 	while (c != NULL && c->slack()<0) {
-#ifdef RECTANGLE_OVERLAP_LOGGING
-		f<<"mergeLeft on constraint: "<<*c<<endl;
-#endif
+		if (RECTANGLE_OVERLAP_LOGGING) {
+			ofstream f(LOGFILE,ios::app);
+			f<<"mergeLeft on constraint: "<<*c<<"\n";
+		}
 		r->deleteMinInConstraint();
 		Block *l = c->left->block;		
 		if (l->in==NULL) l->setUpInConstraints();
@@ -115,24 +117,26 @@ void Blocks::mergeLeft(Block *r) {
 		removeBlock(l);
 		c=r->findMinInConstraint();
 	}		
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f<<"merged "<<*r<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"merged "<<*r<<"\n";
+	}
 }	
 /**
  * Symmetrical to mergeLeft
  */
 void Blocks::mergeRight(Block *l) {	
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"mergeRight called on "<<*l<<endl;
-#endif	
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"mergeRight called on "<<*l<<"\n";
+	}
 	l->setUpOutConstraints();
 	Constraint *c = l->findMinOutConstraint();
 	while (c != NULL && c->slack()<0) {		
-#ifdef RECTANGLE_OVERLAP_LOGGING
-		f<<"mergeRight on constraint: "<<*c<<endl;
-#endif
+		if (RECTANGLE_OVERLAP_LOGGING) {
+			ofstream f(LOGFILE,ios::app);
+			f<<"mergeRight on constraint: "<<*c<<"\n";
+		}
 		l->deleteMinOutConstraint();
 		Block *r = c->right->block;
 		r->setUpOutConstraints();
@@ -146,9 +150,10 @@ void Blocks::mergeRight(Block *l) {
 		removeBlock(r);
 		c=l->findMinOutConstraint();
 	}	
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f<<"merged "<<*l<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"merged "<<*l<<"\n";
+	}
 }
 void Blocks::removeBlock(Block *doomed) {
 	doomed->deleted=true;
@@ -170,11 +175,11 @@ void Blocks::cleanup() {
  */
 void Blocks::split(Block *b, Block *&l, Block *&r, Constraint *c) {
 	b->split(l,r,c);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"Split left: "<<*l<<endl;
-	f<<"Split right: "<<*r<<endl;
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"Split left: "<<*l<<"\n";
+		f<<"Split right: "<<*r<<"\n";
+	}
 	r->posn = b->posn;
 	r->wposn = r->posn * r->weight;
 	mergeLeft(l);

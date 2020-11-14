@@ -21,12 +21,13 @@
 #include <vpsc/solve_VPSC.h>
 #include <vpsc/variable.h>
 #include <vpsc/constraint.h>
-#ifdef RECTANGLE_OVERLAP_LOGGING
 #include <fstream>
 #include <vpsc/blocks.h>
 using std::ios;
 using std::ofstream;
-using std::endl;
+
+#ifndef RECTANGLE_OVERLAP_LOGGING
+	#define RECTANGLE_OVERLAP_LOGGING 0
 #endif
 
 #define EXTRA_GAP 0.0001
@@ -62,11 +63,10 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 		oldX[i]=vs[i]->desiredPosition;
 	}
 	VPSC vpsc_x(n,vs,m,cs);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	ofstream f(LOGFILE,ios::app);
-	f<<"Calling VPSC: Horizontal pass 1"<<endl;
-	f.close();
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"Calling VPSC: Horizontal pass 1\n";
+	}
 	vpsc_x.solve();
 	for(int i=0;i<n;i++) {
 		rs[i]->moveCentreX(vs[i]->position());
@@ -80,11 +80,10 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	Rectangle::setXBorder(Rectangle::xBorder-EXTRA_GAP);
 	m=generateYConstraints(n,rs,vs,cs);
 	VPSC vpsc_y(n,vs,m,cs);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f.open(LOGFILE,ios::app);
-	f<<"Calling VPSC: Vertical pass"<<endl;
-	f.close();
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"Calling VPSC: Vertical pass\n";
+	}
 	vpsc_y.solve();
 	for(int i=0;i<n;i++) {
 		rs[i]->moveCentreY(vs[i]->position());
@@ -98,11 +97,10 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	Rectangle::setYBorder(Rectangle::yBorder-EXTRA_GAP);
 	m=generateXConstraints(n,rs,vs,cs,false);
 	VPSC vpsc_x2(n,vs,m,cs);
-#ifdef RECTANGLE_OVERLAP_LOGGING
-	f.open(LOGFILE,ios::app);
-	f<<"Calling VPSC: Horizontal pass 2"<<endl;
-	f.close();
-#endif
+	if (RECTANGLE_OVERLAP_LOGGING) {
+		ofstream f(LOGFILE,ios::app);
+		f<<"Calling VPSC: Horizontal pass 2\n";
+	}
 	vpsc_x2.solve();
 	for(int i=0;i<n;i++) {
 		rs[i]->moveCentreX(vs[i]->position());
@@ -114,9 +112,9 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 	}
 	delete [] cs;
 	} catch (char const *str) {
-		std::cerr<<str<<std::endl;
+		std::cerr<<str<<"\n";
 		for(int i=0;i<n;i++) {
-			std::cerr << *rs[i]<<std::endl;
+			std::cerr << *rs[i]<<"\n";
 		}
 	}
 }

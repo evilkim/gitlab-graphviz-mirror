@@ -94,7 +94,7 @@ void satisfyVPSC(VPSC* vpsc) {
 	try {
 		vpsc->satisfy();
 	} catch(const char *e) {
-		std::cerr << e << std::endl;
+		std::cerr << e << "\n";
 		std::exit(1);
 	}
 }

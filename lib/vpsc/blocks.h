@@ -25,9 +25,7 @@
 #ifndef SEEN_REMOVEOVERLAP_BLOCKS_H
 #define SEEN_REMOVEOVERLAP_BLOCKS_H
 
-#ifdef RECTANGLE_OVERLAP_LOGGING
 #define LOGFILE "cRectangleOverlap.log"
-#endif
 
 #include <set>
 #include <list>
