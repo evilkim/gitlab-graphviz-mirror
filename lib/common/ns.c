@@ -17,7 +17,6 @@
  */
 
 #include <common/render.h>
-#include <setjmp.h>
 
 static int init_graph(graph_t *);
 static void dfs_cutval(node_t * v, edge_t * par);
@@ -32,7 +31,6 @@ static void check_cycles(graph_t * g);
 #define SEQ(a,b,c)		(((a) <= (b)) && ((b) <= (c)))
 #define TREE_EDGE(e)	(ED_tree_index(e) >= 0)
 
-static jmp_buf jbuf;
 static graph_t *G;
 static int N_nodes, N_edges;
 static int Minrank, Maxrank;
@@ -868,10 +866,6 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 	Search_size = search_size;
     else
 	Search_size = SEARCHSIZE;
-
-    if (setjmp (jbuf)) {
-	return 2;
-    }
 
     {
 	int err = feasible_tree();
