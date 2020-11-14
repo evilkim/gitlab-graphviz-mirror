@@ -881,8 +881,13 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 	}
     }
     while ((e = leave_edge())) {
+	int err;
 	f = enter_edge(e);
-	update(e, f);
+	err = update(e, f);
+	if (err != 0) {
+	    freeTreeList (g);
+	    return err;
+	}
 	iter++;
 	if (Verbose && (iter % 100 == 0)) {
 	    if (iter % 1000 == 100)
