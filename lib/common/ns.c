@@ -493,7 +493,7 @@ int feasible_tree(void)
   Agedge_t *ee;
   subtree_t **tree, *tree0, *tree1;
   int i, subtree_count = 0;
-  STheap_t *heap;
+  STheap_t *heap = NULL;
   int error = 0;
 
   /* initialization */
@@ -506,6 +506,10 @@ int feasible_tree(void)
   for (n = GD_nlist(G); n; n = ND_next(n)) {
         if (ND_subtree(n) == 0) {
                 tree[subtree_count] = find_tight_subtree(n);
+                if (tree[subtree_count] == NULL) {
+                    error = 2;
+                    goto end;
+                }
                 subtree_count++;
         }
   }
@@ -522,10 +526,11 @@ int feasible_tree(void)
     STheapify(heap,tree1->heap_index);
   }
 
+end:
   free(heap);
   for (i = 0; i < subtree_count; i++) free(tree[i]);
   free(tree);
-  if (error) return 1;
+  if (error) return error;
   assert(Tree_edge.size == N_nodes - 1);
   init_cutvalues();
   return 0;
