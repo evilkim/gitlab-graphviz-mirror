@@ -149,7 +149,8 @@ env CFLAGS="..." CXXFLAGS="..." ./configure
 
 You should use the maximum optimization level for your compiler. E.g. `-O3` for
 GCC and Clang. If your toolchain supports it, it is recommended to also enable
-link-time optimization (`-flto`).
+link-time optimization (`-flto`). You should also disable runtime assertions
+with `-DNDEBUG`.
 
 You can further optimize compilation for the machine you are building on with
 `-march=native -mtune=native`. Be aware that the resulting binaries will no
@@ -163,8 +164,8 @@ feedback. You can enable this on GCC and Clang with `-g`.
 Putting this all together:
 
 ```sh
-env CFLAGS="-O3 -flto -march=native -mtune=native -g" \
-  CXXFLAGS="-O3 -flto -march=native -mtune=native -g" ./configure
+env CFLAGS="-O3 -flto -DNDEBUG -march=native -mtune=native -g" \
+  CXXFLAGS="-O3 -flto -DNDEBUG -march=native -mtune=native -g" ./configure
 ```
 
 ### Profiling
