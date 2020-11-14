@@ -61,8 +61,9 @@ $(MOCABLES): mocables
 mocables: qMakefile
 	$(MAKE) -f qMakefile prefix=${prefix} exec_prefix=${exec_prefix} mocables compiler_rcc_make_all
 
+# in case the user has both Qt4 and Qt5 installed, set QT_SELECT to force Qt5
 qMakefile: gvedit.pro
-	$(QMAKE) -o qMakefile gvedit.pro
+	QT_SELECT=5 $(QMAKE) -o qMakefile gvedit.pro
 
 attrs.txt: $(top_srcdir)/doc/infosrc/attrs
 	cp $(top_srcdir)/doc/infosrc/attrs attrs.txt
