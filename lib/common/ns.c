@@ -42,7 +42,7 @@ static int Search_size;
 static nlist_t Tree_node;
 static elist Tree_edge;
 
-static void add_tree_edge(edge_t * e)
+static int add_tree_edge(edge_t * e)
 {
     node_t *n;
     //fprintf(stderr,"add tree edge %p %s ", (void*)e, agnameof(agtail(e))) ; fprintf(stderr,"%s\n", agnameof(aghead(e))) ;
@@ -72,6 +72,7 @@ static void add_tree_edge(edge_t * e)
 	agerr(AGERR, "add_tree_edge: empty inedge list\n");
 	longjmp (jbuf, 1);
     }
+    return 0;
 }
 
 static void exchange_tree_edges(edge_t * e, edge_t * f)
