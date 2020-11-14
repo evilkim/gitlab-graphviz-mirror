@@ -298,6 +298,10 @@ static subtree_t *find_tight_subtree(Agnode_t *v)
     rv = NEW(subtree_t);
     rv->rep = v;
     rv->size = tight_subtree_search(v,rv);
+    if (rv->size < 0) {
+        free(rv);
+        return NULL;
+    }
     rv->par = rv;
     return rv;
 }
