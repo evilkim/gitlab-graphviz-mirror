@@ -622,7 +622,7 @@ update(edge_t * e, edge_t * f)
     lca = treeupdate(agtail(f), aghead(f), cutvalue, 1);
     if (treeupdate(aghead(f), agtail(f), cutvalue, 0) != lca) {
 	agerr(AGERR, "update: mismatched lca in treeupdates\n");
-	longjmp (jbuf, 1);
+	return 2;
     }
     ED_cutvalue(f) = -cutvalue;
     ED_cutvalue(e) = 0;
