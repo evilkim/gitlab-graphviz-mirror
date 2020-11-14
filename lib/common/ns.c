@@ -343,8 +343,6 @@ static subtree_t *STsetUnion(subtree_t *s0, subtree_t *s1)
   return r;
 }
 
-#define INCIDENT(e,treeset)  ((STsetFind(agtail(e),treeset)) != STsetFind(aghead(e),treeset))
-
 /* find tightest edge to another tree incident on the given tree */
 static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *best)
 {
