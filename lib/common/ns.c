@@ -852,9 +852,12 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 	return 2;
     }
 
-    if (feasible_tree()) {
-	freeTreeList (g);
-	return 1;
+    {
+	int err = feasible_tree();
+	if (err != 0) {
+	    freeTreeList (g);
+	    return err;
+	}
     }
     while ((e = leave_edge())) {
 	f = enter_edge(e);
