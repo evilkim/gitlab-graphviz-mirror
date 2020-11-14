@@ -592,7 +592,7 @@ static void rerank(Agnode_t * v, int delta)
 /* e is the tree edge that is leaving and f is the nontree edge that
  * is entering.  compute new cut values, ranks, and exchange e and f.
  */
-static void 
+static int
 update(edge_t * e, edge_t * f)
 {
     int cutvalue, delta;
@@ -628,6 +628,7 @@ update(edge_t * e, edge_t * f)
     ED_cutvalue(e) = 0;
     exchange_tree_edges(e, f);
     dfs_range(lca, ND_par(lca), ND_low(lca));
+    return 0;
 }
 
 static void scan_and_normalize(void)
