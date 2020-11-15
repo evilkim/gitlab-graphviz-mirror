@@ -67,7 +67,6 @@ def test_existence(binary: str):
     'dot_builtins',
     'dotty',
     'edgepaint',
-    'gv2gml',
     'gv2gxl',
     'gvedit',
     'gvmap',
