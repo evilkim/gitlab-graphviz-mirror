@@ -28,8 +28,12 @@ static boolean samedir(edge_t * e, edge_t * f)
 {
     edge_t *e0, *f0;
 
-    for (e0 = e; ED_edge_type(e0) != NORMAL; e0 = ED_to_orig(e0));
-    for (f0 = f; ED_edge_type(f0) != NORMAL; f0 = ED_to_orig(f0));
+    for (e0 = e; e0 != NULL && ED_edge_type(e0) != NORMAL; e0 = ED_to_orig(e0));
+    if (e0 == NULL)
+	return FALSE;
+    for (f0 = f; f0 != NULL && ED_edge_type(f0) != NORMAL; f0 = ED_to_orig(f0));
+    if (f0 == NULL)
+	return FALSE;
     if (ED_conc_opp_flag(e0))
 	return FALSE;
     if (ED_conc_opp_flag(f0))
@@ -40,8 +44,8 @@ static boolean samedir(edge_t * e, edge_t * f)
 
 static boolean downcandidate(node_t * v)
 {
-    return ((ND_node_type(v) == VIRTUAL) && (ND_in(v).size == 1)
-	    && (ND_out(v).size == 1) && (ND_label(v) == NULL));
+    return ND_node_type(v) == VIRTUAL && ND_in(v).size == 1
+	    && ND_out(v).size == 1 && ND_label(v) == NULL;
 }
 
 static boolean bothdowncandidates(node_t * u, node_t * v)
@@ -49,17 +53,17 @@ static boolean bothdowncandidates(node_t * u, node_t * v)
     edge_t *e, *f;
     e = ND_in(u).list[0];
     f = ND_in(v).list[0];
-    if (downcandidate(v) && (agtail(e) == agtail(f))) {
+    if (downcandidate(v) && agtail(e) == agtail(f)) {
 	return samedir(e, f)
-	    && (portcmp(ED_tail_port(e), ED_tail_port(f)) == 0);
+	    && portcmp(ED_tail_port(e), ED_tail_port(f)) == 0;
     }
     return FALSE;
 }
 
 static boolean upcandidate(node_t * v)
 {
-    return ((ND_node_type(v) == VIRTUAL) && (ND_out(v).size == 1)
-	    && (ND_in(v).size == 1) && (ND_label(v) == NULL));
+    return ND_node_type(v) == VIRTUAL && ND_out(v).size == 1
+	    && ND_in(v).size == 1 && ND_label(v) == NULL;
 }
 
 static boolean bothupcandidates(node_t * u, node_t * v)
@@ -67,9 +71,9 @@ static boolean bothupcandidates(node_t * u, node_t * v)
     edge_t *e, *f;
     e = ND_out(u).list[0];
     f = ND_out(v).list[0];
-    if (upcandidate(v) && (aghead(e) == aghead(f))) {
+    if (upcandidate(v) && aghead(e) == aghead(f)) {
 	return samedir(e, f)
-	    && (portcmp(ED_head_port(e), ED_head_port(f)) == 0);
+	    && portcmp(ED_head_port(e), ED_head_port(f)) == 0;
     }
     return FALSE;
 }
@@ -133,7 +137,7 @@ static void infuse(graph_t * g, node_t * n)
     node_t *lead;
 
     lead = GD_rankleader(g)[ND_rank(n)];
-    if ((lead == NULL) || (ND_order(lead) > ND_order(n)))
+    if (lead == NULL || ND_order(lead) > ND_order(n))
 	GD_rankleader(g)[ND_rank(n)] = n;
 }
 
@@ -183,7 +187,7 @@ static void rebuild_vlists(graph_t * g)
 		edge_t *e;
 		for (e = ND_in(n).list[0]; e && ED_to_orig(e);
 		     e = ED_to_orig(e));
-		if (e && (agcontains(g, agtail(e)))
+		if (e && agcontains(g, agtail(e))
 		    && agcontains(g, aghead(e)))
 		    maxi = i;
 	    }
@@ -209,12 +213,12 @@ void dot_concentrate(graph_t * g)
     for (r = 1; GD_rank(g)[r + 1].n; r++) {
 	for (leftpos = 0; leftpos < GD_rank(g)[r].n; leftpos++) {
 	    left = GD_rank(g)[r].v[leftpos];
-	    if (downcandidate(left) == FALSE)
+	    if (!downcandidate(left))
 		continue;
 	    for (rightpos = leftpos + 1; rightpos < GD_rank(g)[r].n;
 		 rightpos++) {
 		right = GD_rank(g)[r].v[rightpos];
-		if (bothdowncandidates(left, right) == FALSE)
+		if (!bothdowncandidates(left, right))
 		    break;
 	    }
 	    if (rightpos - leftpos > 1)
@@ -225,12 +229,12 @@ void dot_concentrate(graph_t * g)
     while (r > 0) {
 	for (leftpos = 0; leftpos < GD_rank(g)[r].n; leftpos++) {
 	    left = GD_rank(g)[r].v[leftpos];
-	    if (upcandidate(left) == FALSE)
+	    if (!upcandidate(left))
 		continue;
 	    for (rightpos = leftpos + 1; rightpos < GD_rank(g)[r].n;
 		 rightpos++) {
 		right = GD_rank(g)[r].v[rightpos];
-		if (bothupcandidates(left, right) == FALSE)
+		if (!bothupcandidates(left, right))
 		    break;
 	    }
 	    if (rightpos - leftpos > 1)
