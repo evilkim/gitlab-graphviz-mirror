@@ -71,7 +71,7 @@
       <AdditionalDependencies>cgraph.lib;gvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(OutDir)/dot -c</Command>
+      <Command>$(OutDir)dot -c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,7 +94,7 @@
       <AdditionalDependencies>cgraph.lib;gvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(OutDir)/dot -c</Command>
+      <Command>$(OutDir)dot -c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
