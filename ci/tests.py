@@ -82,20 +82,13 @@ def test_existence(binary: str):
   ]
 
   tools_not_built_with_msbuild = [
-    'circo',
     'cluster',
     'dot2gxl',
     'dot_builtins',
-    'fdp',
     'gv2gxl',
     'gvedit',
     'gvmap.sh',
     'gxl2dot',
-    'neato',
-    'osage',
-    'patchwork',
-    'sfdp',
-    'twopi',
     'vimdot',
   ]
 
