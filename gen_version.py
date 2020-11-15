@@ -19,7 +19,6 @@
 # 2.44.2          stable                 => 2.44.2
 # 2.44.3          development            => 2.44.3~dev.20200824.1337
 
-#collection = 'stable'
 collection = 'development'
 
 version = '2.44.2'
