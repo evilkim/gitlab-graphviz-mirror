@@ -5,7 +5,6 @@
 #define DSEXCEPTIONS_H_
 
 class Underflow { };
-class Overflow  { };
 class BadIterator { };
 
 #endif
