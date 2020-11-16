@@ -6,7 +6,6 @@
 
 class Underflow { };
 class Overflow  { };
-class OutOfMemory { };
 class BadIterator { };
 
 #endif
