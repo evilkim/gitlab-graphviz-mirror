@@ -433,6 +433,23 @@ def test_1865():
     # fdp should not crash when processing this file
     subprocess.check_call(['fdp', '-o', os.devnull, input])
 
+@pytest.mark.xfail(strict=True) # FIXME
+@pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
+def test_1877():
+    '''
+    fdp should not fail an assertion when processing cluster edges
+    https://gitlab.com/graphviz/graphviz/-/issues/1877
+    '''
+
+    # simple input with a cluster edge
+    input = 'graph {subgraph cluster_a {}; cluster_a -- b}'
+
+    # fdp should be able to process this
+    p = subprocess.Popen(['fdp', '-o', os.devnull], stdin=subprocess.PIPE,
+      universal_newlines=True)
+    p.communicate(input)
+    assert p.returncode == 0
+
 def test_1898():
     '''
     test a segfault from https://gitlab.com/graphviz/graphviz/-/issues/1898 has
