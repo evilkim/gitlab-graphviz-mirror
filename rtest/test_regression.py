@@ -435,6 +435,27 @@ def test_1865():
 
 @pytest.mark.xfail(strict=True) # FIXME
 @pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
+def test_1876():
+    '''
+    fdp should not rename nodes with internal names
+    https://gitlab.com/graphviz/graphviz/-/issues/1876
+    '''
+
+    # a trivial graph to provoke this issue
+    input = 'graph { a }'
+
+    # process this with fdp
+    p = subprocess.Popen(['fdp'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+      universal_newlines=True)
+    output, _ = p.communicate(input)
+
+    assert p.returncode == 0, 'fdp failed to process trivial graph'
+
+    # we should not see any internal names like '%3'
+    assert '%' not in output, 'internal name in fdp output'
+
+@pytest.mark.xfail(strict=True) # FIXME
+@pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
 def test_1877():
     '''
     fdp should not fail an assertion when processing cluster edges
