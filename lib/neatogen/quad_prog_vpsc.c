@@ -561,7 +561,7 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
     if (e->m > 0) {
 	/* can't reuse instance of VPSC when constraints change! */
 	deleteVPSC(e->vpsc);
-	for (i = e->gm == 0 ? 0 : e->gm; i < e->m; i++) {
+	for (i = e->gm; i < e->m; i++) {
 	    /* delete previous overlap constraints */
 	    deleteConstraint(e->cs[i]);
 	}
