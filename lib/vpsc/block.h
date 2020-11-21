@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  * \brief A block is a group of variables that must be moved together to improve
  * the goal function without violating already active constraints.

@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  * \brief A block structure defined over the variables
  *
