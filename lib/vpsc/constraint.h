@@ -21,7 +21,7 @@
 #include <iostream>
 #include <vpsc/variable.h>
 
-class Constraint
+struct Constraint
 {
 	friend std::ostream& operator <<(std::ostream &os,const Constraint &c);
 public:

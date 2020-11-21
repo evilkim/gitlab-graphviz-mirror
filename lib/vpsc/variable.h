@@ -18,11 +18,11 @@
 #include <vector>
 #include <iostream>
 class Block;
-class Constraint;
+struct Constraint;
 #include <vpsc/block.h>
 
 typedef std::vector<Constraint*> Constraints;
-class Variable
+struct Variable
 {
 	friend std::ostream& operator <<(std::ostream &os, const Variable &v);
 public:

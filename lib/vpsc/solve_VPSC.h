@@ -18,14 +18,14 @@
 #pragma once
 
 #include <vector>
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 class Blocks;
 
 /**
  * Variable Placement with Separation Constraints problem instance
  */
-class VPSC {
+struct VPSC {
 public:
 	virtual void satisfy();
 	virtual void solve();
@@ -43,7 +43,7 @@ private:
 	bool blockGraphIsCyclic();
 };
 
-class IncVPSC : VPSC {
+struct IncVPSC : private VPSC {
 public:
 	unsigned splitCnt;
 	void satisfy();

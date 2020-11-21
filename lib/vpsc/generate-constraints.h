@@ -72,8 +72,8 @@ private:
 };
 
 
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 
 // returns number of constraints generated
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists);

@@ -27,8 +27,8 @@
 #include <list>
 
 class Block;
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 /**
  * A block structure defined over the variables such that each block contains
  * 1 or more variables, with the invariant that all constraints inside a block

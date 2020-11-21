@@ -21,8 +21,8 @@
 
 #include <vector>
 #include <iostream>
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 template <class T> class PairingHeap;
 
 class Block
