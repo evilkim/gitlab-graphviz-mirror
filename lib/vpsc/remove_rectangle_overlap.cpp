@@ -23,6 +23,7 @@
 #include <vpsc/constraint.h>
 #include <fstream>
 #include <vpsc/blocks.h>
+#include <vector>
 using std::ios;
 using std::ofstream;
 
@@ -57,10 +58,11 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 		vs[i]=new Variable(i,0,1);
 	}
 	Constraint **cs;
-	double *oldX = new double[n];
+	std::vector<double> oldX;
+	oldX.reserve(n);
 	int m=generateXConstraints(n,rs,vs,cs,true);
 	for(int i=0;i<n;i++) {
-		oldX[i]=vs[i]->desiredPosition;
+		oldX.push_back(vs[i]->desiredPosition);
 	}
 	VPSC vpsc_x(n,vs,m,cs);
 	if (RECTANGLE_OVERLAP_LOGGING) {
@@ -89,7 +91,6 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 		rs[i]->moveCentreY(vs[i]->position());
 		rs[i]->moveCentreX(oldX[i]);
 	}
-	delete [] oldX;
 	for(int i = 0; i < m; ++i) {
 		delete cs[i];
 	}
