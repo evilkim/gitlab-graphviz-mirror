@@ -27,9 +27,7 @@ using std::ios;
 using std::ofstream;
 using std::set;
 using std::vector;
-using std::iterator;
 using std::list;
-using std::copy;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
 	#define RECTANGLE_OVERLAP_LOGGING 0
