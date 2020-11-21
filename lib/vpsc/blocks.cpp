@@ -60,7 +60,7 @@ list<Variable*> *Blocks::totalOrder() {
 		vs[i]->visited=false;
 	}
 	for(int i=0;i<nvs;i++) {
-		if(vs[i]->in.size()==0) {
+		if(vs[i]->in.empty()) {
 			dfsVisit(vs[i],order);
 		}
 	}
