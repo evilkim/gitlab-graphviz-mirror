@@ -15,8 +15,7 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef SEEN_REMOVEOVERLAP_VARIABLE_H
-#define SEEN_REMOVEOVERLAP_VARIABLE_H
+#pragma once
 
 #include <vector>
 #include <iostream>
@@ -50,4 +49,3 @@ public:
 		return block->posn+offset;
 	}
 };
-#endif // SEEN_REMOVEOVERLAP_VARIABLE_H

@@ -18,8 +18,7 @@
  * Adaptagrams repository.
  */
 
-#ifndef SEEN_REMOVEOVERLAP_CONSTRAINT_H
-#define SEEN_REMOVEOVERLAP_CONSTRAINT_H
+#pragma once
 
 #include <iostream>
 #include <vpsc/variable.h>
@@ -62,5 +61,3 @@ static inline bool compareConstraints(Constraint *const &l, Constraint *const &r
 	}
 	return sl < sr;
 }
-
-#endif // SEEN_REMOVEOVERLAP_CONSTRAINT_H

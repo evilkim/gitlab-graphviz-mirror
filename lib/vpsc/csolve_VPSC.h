@@ -16,8 +16,7 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef _CSOLVE_VPSC_H_
-#define _CSOLVE_VPSC_H_
+#pragma once
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -75,4 +74,3 @@ int getSplitCnt(IncVPSC *vpsc);
 #ifdef __cplusplus
 }
 #endif
-#endif /* _CSOLVE_VPSC_H_ */

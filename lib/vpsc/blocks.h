@@ -21,8 +21,7 @@
  * Adaptagrams repository.
  */
 
-#ifndef SEEN_REMOVEOVERLAP_BLOCKS_H
-#define SEEN_REMOVEOVERLAP_BLOCKS_H
+#pragma once
 
 #define LOGFILE "cRectangleOverlap.log"
 
@@ -56,4 +55,3 @@ private:
 };
 
 extern long blockTimeCtr;
-#endif // SEEN_REMOVEOVERLAP_BLOCKS_H

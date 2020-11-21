@@ -16,12 +16,8 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef REMOVE_RECTANGLE_OVERLAP_H_SEEN
-#define REMOVE_RECTANGLE_OVERLAP_H_SEEN
+#pragma once
 
 class Rectangle;
 
 void removeRectangleOverlap(Rectangle *rs[], int n, double xBorder, double yBorder);
-
-
-#endif /* !REMOVE_RECTANGLE_OVERLAP_H_SEEN */

@@ -17,8 +17,7 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H
-#define SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H
+#pragma once
 #include <iostream>
 
 class Rectangle {	
@@ -81,6 +80,3 @@ class Constraint;
 // returns number of constraints generated
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists);
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs);
-
-
-#endif // SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H

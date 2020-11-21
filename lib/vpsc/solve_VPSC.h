@@ -17,8 +17,7 @@
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef SEEN_REMOVEOVERLAP_SOLVE_VPSC_H
-#define SEEN_REMOVEOVERLAP_SOLVE_VPSC_H
+#pragma once
 
 #include <vector>
 class Variable;
@@ -59,4 +58,3 @@ private:
 	ConstraintList inactive;
 	double mostViolated(ConstraintList &l,Constraint* &v);
 };
-#endif // SEEN_REMOVEOVERLAP_SOLVE_VPSC_H
