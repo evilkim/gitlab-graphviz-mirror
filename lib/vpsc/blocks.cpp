@@ -43,7 +43,7 @@ Blocks::Blocks(const int n, Variable *vs[]) : vs(vs),nvs(n) {
 		insert(new Block(vs[i]));
 	}
 }
-Blocks::~Blocks(void)
+Blocks::~Blocks()
 {
 	blockTimeCtr=0;
 	for(set<Block*>::iterator i=begin();i!=end();i++) {

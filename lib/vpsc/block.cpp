@@ -59,7 +59,7 @@ double Block::desiredWeightedPosition() {
 	}
 	return wp;
 }
-Block::~Block(void)
+Block::~Block()
 {
 	delete vars;
 	delete in;
