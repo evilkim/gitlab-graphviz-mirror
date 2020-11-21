@@ -24,7 +24,6 @@
 #include <cstdlib>
 #include <cassert>
 #include <vpsc/csolve_VPSC.h>
-extern "C" {
 Variable* newVariable(int id, double desiredPos, double weight) {
 	return new Variable(id,desiredPos,weight);
 }
@@ -143,5 +142,4 @@ int getRightVarID(Constraint *c){
 }
 double getSeparation(Constraint *c){
 	return c->gap;
-}
 }
