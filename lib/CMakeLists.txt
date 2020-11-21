@@ -1,4 +1,5 @@
 # No dependencies
+add_subdirectory(ast)
 add_subdirectory(cdt)
 add_subdirectory(circogen)
 add_subdirectory(common)
