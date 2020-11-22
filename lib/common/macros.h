@@ -40,10 +40,4 @@
 #define YPAD(d) ((d).y += 2*GAP)
 #define PAD(d)  {XPAD(d); YPAD(d);}
 
-#define OTHERDIR(dir) ((dir == CCW) ? CW : CCW)
-
-#define NEXTSIDE(side, dir) ((dir == CCW) ? \
-		((side & 0x8) ? BOTTOM : (side << 1)) : \
-		((side & 0x1) ? LEFT : (side >> 1)))
-
 #endif
