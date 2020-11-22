@@ -358,7 +358,11 @@ doFlags(char* arg, int argi, int argc, char** argv, options* opts)
 	    return 0;
 	    break;
 	case '?':
-	    error(ERROR_USAGE|ERROR_WARNING, "%s", usage);
+	    if (optopt == '\0' || optopt == '?')
+		fprintf(stderr, "Usage: gvpr%s", usage);
+	    else {
+		error(ERROR_USAGE|ERROR_WARNING, "%s", usage);
+	    }
 	    return 0;
 	    break;
 	default :

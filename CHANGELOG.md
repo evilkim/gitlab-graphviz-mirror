@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The edges in JSON output are ordered now !1728
 
 ### Fixed
+- Fix gvpr -? to actually print usage and exit non-zero
 - gvpr is not built by CMake #1878
 - typos in gpcanvas.c #1927
 - memory leak in libmingle
