@@ -100,10 +100,10 @@ static int ijcmpf(Dt_t * d, gridpt * p1, gridpt * p2, Dtdisc_t * disc)
 
     NOTUSED(d);
     NOTUSED(disc);
-    if ((diff = (p1->i - p2->i)))
+    if ((diff = p1->i - p2->i))
 	return diff;
     else
-	return (p1->j - p2->j);
+	return p1->j - p2->j;
 }
 
 static Grid *_grid;		/* hack because can't attach info. to Dt_t */
@@ -184,7 +184,7 @@ void adjustGrid(Grid * g, int nnodes)
     int nsize;
 
     if (nnodes > g->listSize) {
-	nsize = MAX(nnodes, 2 * (g->listSize));
+	nsize = MAX(nnodes, 2 * g->listSize);
 	if (g->listMem)
 	    free(g->listMem);
 	g->listMem = N_GNEW(nsize, node_list);
@@ -255,7 +255,7 @@ cell *findGrid(Grid * g, int i, int j)
 
     key.p.i = i;
     key.p.j = j;
-    return ((cell *) dtsearch(g->data, &key));
+    return (cell *) dtsearch(g->data, &key);
 }
 
 /* gLength:

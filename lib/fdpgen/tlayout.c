@@ -120,7 +120,7 @@ static parms_t parms;
 
 static double cool(double temp, int t)
 {
-    return (T_T0 * (T_maxIters - t)) / T_maxIters;
+    return T_T0 * (T_maxIters - t) / T_maxIters;
 }
 
 /* reset_params:
@@ -200,7 +200,7 @@ void fdp_initParams(graph_t * g)
 	T_seed = DFLT_smode;
     }
 
-    T_pass1 = (T_unscaled * T_maxIters) / 100;
+    T_pass1 = T_unscaled * T_maxIters / 100;
     T_K2 = T_K * T_K;
 
     if (T_useGrid) {
@@ -342,9 +342,9 @@ static void applyAttr(Agnode_t * p, Agnode_t * q, Agedge_t * e)
     }
     dist = sqrt(dist2);
     if (T_useNew)
-	force = (ED_factor(e) * (dist - ED_dist(e))) / dist;
+	force = ED_factor(e) * (dist - ED_dist(e)) / dist;
     else
-	force = (ED_factor(e) * dist) / ED_dist(e);
+	force = ED_factor(e) * dist / ED_dist(e);
     DISP(q)[0] -= xdelta * force;
     DISP(q)[1] -= ydelta * force;
     DISP(p)[0] += xdelta * force;
@@ -372,14 +372,14 @@ static void updatePos(Agraph_t * g, double temp, bport_t * pp)
 	    x = ND_pos(n)[0] + dx;
 	    y = ND_pos(n)[1] + dy;
 	} else {
-	    double fact = temp / (sqrt(len2));
+	    double fact = temp / sqrt(len2);
 	    x = ND_pos(n)[0] + dx * fact;
 	    y = ND_pos(n)[1] + dy * fact;
 	}
 
 	/* if ports, limit by boundary */
 	if (pp) {
-	    d = sqrt((x * x) / T_Wd2 + (y * y) / T_Ht2);
+	    d = sqrt(x * x / T_Wd2 + y * y / T_Ht2);
 	    if (IS_PORT(n)) {
 		ND_pos(n)[0] = x / d;
 		ND_pos(n)[1] = y / d;
@@ -500,7 +500,7 @@ static pointf initPositions(graph_t * g, bport_t * pp)
 	width = EXPFACTOR * (bb.UR.x - bb.LL.x);
 	height = EXPFACTOR * (bb.UR.y - bb.LL.y);
 	area = 4.0 * T_Wd * T_Ht;
-	quot = (width * height) / area;
+	quot = width * height / area;
 	if (quot >= 1.0) {	/* If bbox has large enough area, use it */
 	    T_Wd = width / 2.0;
 	    T_Ht = height / 2.0;
@@ -578,7 +578,7 @@ static pointf initPositions(graph_t * g, bport_t * pp)
 		for (ep = agfstedge(g, np); ep; ep = agnxtedge(g, ep, np)) {
 		    if (aghead(ep) == agtail(ep))
 			continue;
-		    op = (aghead(ep) == np ? agtail(ep) : aghead(ep));
+		    op = aghead(ep) == np ? agtail(ep) : aghead(ep);
 		    if (!hasPos(op))
 			continue;
 		    if (cnt) {
@@ -691,7 +691,7 @@ void fdp_tLayout(graph_t * g, xparams * xpms)
 	}
     }
 
-    if ((ctr.x != 0.0) || (ctr.y != 0.0)) {
+    if (ctr.x != 0.0 || ctr.y != 0.0) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	    ND_pos(n)[0] += ctr.x;
 	    ND_pos(n)[1] += ctr.y;

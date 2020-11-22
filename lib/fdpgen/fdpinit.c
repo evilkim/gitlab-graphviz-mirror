@@ -51,7 +51,7 @@ static void initialPositions(graph_t * g)
 			pvec[j] = pvec[j] / PSinputscale;
 		}
 		ND_pinned(np) = P_SET;
-		if ((c == '!')
+		if (c == '!'
 		    || (pinsym && mapbool(agxget(np, pinsym))))
 		    ND_pinned(np) = P_PIN;
 	    } else

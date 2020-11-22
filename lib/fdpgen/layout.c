@@ -85,7 +85,7 @@ finalCC(graph_t * g, int c_cnt, graph_t ** cc, point * pts, graph_t * rg,
     int margin;
     graph_t **cp = cc;
     point *pp = pts;
-    int isRoot = (rg == infop->rootg);
+    int isRoot = rg == infop->rootg;
     int isEmpty = 0;
 
     /* compute graph bounding box in points */
@@ -349,7 +349,7 @@ static void chkPos(graph_t* g, node_t* n, layout_info* infop, boxf* bbp)
 	if (g != infop->rootg) {
 	    parent =agparent(g);
 	    pp = agxget(parent, G_coord);
-	    if ((pp == p) || !strcmp(p, pp))
+	    if (pp == p || !strcmp(p, pp))
 		return;
 	}
 	c = '\0';
@@ -482,7 +482,7 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
     /* create derived nodes from remaining nodes */
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (!DNODE(n)) {
-	    if (PARENT(n) && (PARENT(n) != GPARENT(g))) {
+	    if (PARENT(n) && PARENT(n) != GPARENT(g)) {
 		agerr (AGERR, "node \"%s\" is contained in two non-comparable clusters \"%s\" and \"%s\"\n", agnameof(n), agnameof(g), agnameof(PARENT(n)));
 		longjmp (jbuf, 1);
 	    }
@@ -638,7 +638,7 @@ static erec *getEdgeList(node_t * n, graph_t * g)
 	while (i < deg - 1) {
 	    a = erecs[i].alpha;
 	    j = i + 1;
-	    while ((j < deg) && (erecs[j].alpha == a))
+	    while (j < deg && erecs[j].alpha == a)
 		j++;
 	    if (j == i + 1)
 		i = j;
@@ -707,7 +707,7 @@ genPorts(node_t * n, erec * er, bport_t * pp, int idx, double bnd)
     for (j = 0; j < ED_count(e); j++, ep++) {
 	el = *ep;
 	pp[i].e = el;
-	pp[i].n = (DNODE(agtail(el)) == n ? agtail(el) : aghead(el));
+	pp[i].n = DNODE(agtail(el)) == n ? agtail(el) : aghead(el);
 	pp[i].alpha = angle;
 	i += inc;
 	angle += delta;
@@ -1001,7 +1001,7 @@ static void init_info(graph_t * g, layout_info * infop)
     infop->G_height = agattr(g, AGRAPH, "height", NULL);
     infop->rootg = g;
     infop->gid = 0;
-    infop->pack.mode = getPackInfo(g, l_node, CL_OFFSET / 2, &(infop->pack));
+    infop->pack.mode = getPackInfo(g, l_node, CL_OFFSET / 2, &infop->pack);
 }
 
 /* mkClusters:
@@ -1088,7 +1088,7 @@ fdpSplines (graph_t * g)
 	    if (trySplines)
 		Nop = 2;
 	}
-	if (trySplines || (et != ET_COMPOUND)) {
+	if (trySplines || et != ET_COMPOUND) {
 	    if (HAS_CLUST_EDGE(g)) {
 		agerr(AGWARN,
 		      "splines and cluster edges not supported - using line segments\n");

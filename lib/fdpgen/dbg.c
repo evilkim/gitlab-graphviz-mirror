@@ -320,8 +320,7 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 
     /* Check for rotation
      */
-    if ((p = agget(g, "rotate")) && (*p != '\0')
-	&& ((angle = atoi(p)) != 0)) {
+    if ((p = agget(g, "rotate")) && *p != '\0' && (angle = atoi(p)) != 0) {
 	fprintf(fp, "306 396 translate\n");
 	fprintf(fp, "%d rotate\n", angle);
 	fprintf(fp, "-306 -396 translate\n");
@@ -338,9 +337,9 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 	if (width > PSWidth) {
 	    if (height > PSHeight) {
 		scale =
-		    (PSWidth / width <
+		    PSWidth / width <
 		     PSHeight / height ? PSWidth / width : PSHeight /
-		     height);
+		     height;
 	    } else
 		scale = PSWidth / width;
 	} else if (height > PSHeight) {
