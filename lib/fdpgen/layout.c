@@ -421,15 +421,14 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
     graph_t *dg;
     node_t *dn;
     graph_t *subg;
-    char name[100];
     bport_t *pp;
     node_t *n;
     edge_t *de;
     int i, id = 0;
 
-    sprintf(name, "_dg_%d", infop->gid++);
     if (Verbose >= 2)
-	fprintf(stderr, "derive graph %s of %s\n", name, agnameof(g));
+	fprintf(stderr, "derive graph _dg_%d of %s\n", infop->gid, agnameof(g));
+    infop->gid++;
 
     dg = agopen("derived", Agstrictdirected,NIL(Agdisc_t *));
     agbindrec(dg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
