@@ -27,6 +27,7 @@
 #include <fdpgen/fdp.h>
 #include <fdpgen/grid.h>
 #include <common/macros.h>
+#include <stddef.h>
 
   /* structure for maintaining a free list of cells */
 typedef struct _block {
@@ -148,11 +149,11 @@ static Dtdisc_t gridDisc = {
     sizeof(gridpt),
     offsetof(cell, link),
     (Dtmake_f) newCell,
-    NIL(Dtfree_f),
+    NULL,
     (Dtcompar_f) ijcmpf,
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
+    NULL,
+    NULL,
+    NULL
 };
 
 /* mkGrid:

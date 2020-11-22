@@ -43,6 +43,7 @@
 #include <fdpgen/clusteredges.h>
 #include <fdpgen/dbg.h>
 #include <setjmp.h>
+#include <stddef.h>
 
 static jmp_buf jbuf;
 
@@ -430,7 +431,7 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
 	fprintf(stderr, "derive graph _dg_%d of %s\n", infop->gid, agnameof(g));
     infop->gid++;
 
-    dg = agopen("derived", Agstrictdirected,NIL(Agdisc_t *));
+    dg = agopen("derived", Agstrictdirected,NULL);
     agbindrec(dg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
     GD_alg(dg) = NEW(gdata);	/* freed in freeDeriveGraph */
 #ifdef DEBUG
