@@ -75,11 +75,13 @@ def test_gvpr_example(src):
     '''check GVPR can parse the given example'''
 
 # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1784 is fixed
-    if os.environ.get('build_system') == 'msbuild' and \
-      os.environ.get('configuration') == 'Debug' and \
+    if ((os.environ.get('build_system') == 'msbuild' and \
+      os.environ.get('configuration') == 'Debug') or
+      (platform.system() == 'Windows' and \
+      os.environ.get('build_system') == 'cmake')) and \
       src in ['bbox', 'col']:
       pytest.skip('GVPR tests "bbox" and "col" hangs on Windows MSBuild Debug '
-                  'builds (#1784)')
+                  'builds and Windows CMake builds (#1784)')
 
     # construct a relative path to the example because gvpr on Windows does not
     # support absolute paths (#1780)
