@@ -71,7 +71,6 @@ def test_existence(binary: str):
     'gvedit',
     'gvmap',
     'gvmap.sh',
-    'gvpr',
     'gxl2dot',
     'lefty',
     'lneato',
