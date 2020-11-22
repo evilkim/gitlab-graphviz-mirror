@@ -93,6 +93,14 @@ def test_gvpr_example(src):
       subprocess.check_call(['gvpr', '-f', path], stdin=nul, cwd=wd)
 
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
+# FIXME: Remove skip when
+# https://gitlab.com/graphviz/graphviz/-/issues/1882 is fixed
+@pytest.mark.skipif(
+    platform.system() == 'Windows' and \
+    os.getenv('build_system') == 'cmake' and \
+    platform.machine() in ('AMD64', 'x86_64'),
+    reason='test_gvpr_clustg fails with 64-bit gvpr on Windows (#1882)'
+)
 def test_gvpr_clustg():
     '''check cmd/gvpr/lib/clustg works'''
 
