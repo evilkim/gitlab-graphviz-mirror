@@ -110,7 +110,13 @@ int agclose(Agraph_t * g)
 	agdelnode(g, n);
     }
 
-    aginternalmapclose(g);
+    /* if this is a subgraph, it shares an internal map with its parent, so only
+     * free the internal map if it is not a subgraph
+     */
+    if (par == NULL) {
+	aginternalmapclose(g);
+    }
+
     agmethod_delete(g, g);
 
     assert(dtsize(g->n_id) == 0);
