@@ -114,7 +114,7 @@ static Grid *_grid;		/* hack because can't attach info. to Dt_t */
  */
 static void *newCell(Dt_t * d, void *obj, Dtdisc_t * disc)
 {
-    cell *cellp = (cell *) obj;
+    cell *cellp = obj;
     cell *newp;
 
     NOTUSED(disc);

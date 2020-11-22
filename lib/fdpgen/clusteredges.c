@@ -185,7 +185,7 @@ raiseLevel(objlist * l, int maxlvl, void *ex, int minlvl, graph_t ** gp,
 	ex = g;
 	g = GPARENT(g);
     }
-    *gp = (graph_t *) ex;
+    *gp = ex;
 }
 
 /* objectList:

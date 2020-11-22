@@ -187,7 +187,7 @@ static node_t *mkDeriveNode(graph_t * dg, char *name)
 
     dn = agnode(dg, name,1);
     agbindrec(dn, "Agnodeinfo_t", sizeof(Agnodeinfo_t), TRUE);	//node custom data
-    ND_alg(dn) = (void *) NEW(dndata);	/* free in freeDeriveNode */
+    ND_alg(dn) = NEW(dndata);	/* free in freeDeriveNode */
     ND_pos(dn) = N_GNEW(GD_ndim(dg), double);
     /* fprintf (stderr, "Creating %s\n", dn->name); */
     return dn;
@@ -433,7 +433,7 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
 
     dg = agopen("derived", Agstrictdirected,NIL(Agdisc_t *));
     agbindrec(dg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-    GD_alg(dg) = (void *) NEW(gdata);	/* freed in freeDeriveGraph */
+    GD_alg(dg) = NEW(gdata);	/* freed in freeDeriveGraph */
 #ifdef DEBUG
     GORIG(dg) = g;
 #endif
@@ -581,8 +581,8 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
  */
 static int ecmp(const void *v1, const void *v2)
 {
-    const erec *e1 = (const erec *) v1;
-    const erec *e2 = (const erec *) v2;
+    const erec *e1 = v1;
+    const erec *e2 = v2;
     if (e1->alpha > e2->alpha)
 	return 1;
     else if (e1->alpha < e2->alpha)
@@ -1029,7 +1029,7 @@ mkClusters (graph_t * g, clist_t* pclist, graph_t* parent)
 	{
 	if (!strncmp(agnameof(subg), "cluster", 7)) {
 	    agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-	    GD_alg(subg) = (void *) NEW(gdata);	/* freed in cleanup_subgs */
+	    GD_alg(subg) = NEW(gdata);	/* freed in cleanup_subgs */
 	    GD_ndim(subg) = GD_ndim(parent);
 	    LEVEL(subg) = LEVEL(parent) + 1;
 	    GPARENT(subg) = parent;
@@ -1050,7 +1050,7 @@ mkClusters (graph_t * g, clist_t* pclist, graph_t* parent)
 static void fdp_init_graph(Agraph_t * g)
 {
     setEdgeType (g, ET_LINE);
-    GD_alg(g) = (void *) NEW(gdata);	/* freed in cleanup_graph */
+    GD_alg(g) = NEW(gdata);	/* freed in cleanup_graph */
     GD_ndim(g) = late_int(g, agattr(g,AGRAPH, "dim", NULL), 2, 2);
     Ndim = GD_ndim(g) = MIN(GD_ndim(g), MAXDIM);
 
