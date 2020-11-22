@@ -703,7 +703,7 @@ genPorts(node_t * n, erec * er, bport_t * pp, int idx, double bnd)
 	delta = -delta;
     }
 
-    ep = (edge_t **) (el = ED_to_virt(e));
+    ep = (edge_t **)ED_to_virt(e);
     for (j = 0; j < ED_count(e); j++, ep++) {
 	el = *ep;
 	pp[i].e = el;
