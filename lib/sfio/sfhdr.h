@@ -691,7 +691,6 @@ extern "C" {
 #endif /* _WIN32 */
 
     extern time_t time(time_t *);
-    extern int waitpid(int, int *, int);
 
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);

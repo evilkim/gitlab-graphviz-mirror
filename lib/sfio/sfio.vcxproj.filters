@@ -50,9 +50,6 @@
     <ClCompile Include="sfexcept.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfexit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sfextern.c">
       <Filter>Source Files</Filter>
     </ClCompile>
