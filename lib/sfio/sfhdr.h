@@ -690,8 +690,6 @@ extern "C" {
 #endif /*HAVE_UNISTD_H*/
 #endif /* _WIN32 */
 
-    extern time_t time(time_t *);
-
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);
 #endif
