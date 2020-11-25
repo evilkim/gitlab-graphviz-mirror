@@ -12,7 +12,7 @@
 
 
 /*
- *  Compile-time and run-time interface between gpr and libexpr
+ *  Compile-time and run-time interface between gvpr and libexpr
  */
 
 #include "config.h"
