@@ -5,6 +5,11 @@ set -x
 if test -f /etc/os-release; then
     cat /etc/os-release
     . /etc/os-release
+    if [ -z ${ID_LIKE:+x} ]; then
+        if [ ! -z ${ID:+x} ]; then
+            ID_LIKE=${ID}
+        fi
+    fi
 elif [ "$( uname -s )" = "Darwin" ]; then
     ID=$( uname -s )
     VERSION_ID=$( uname -r )
