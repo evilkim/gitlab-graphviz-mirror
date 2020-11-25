@@ -31,7 +31,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#define ISEDGE(e) (AGTYPE(e)&2)
+static int isedge(Agobj_t *obj) {
+  return AGTYPE(obj) == AGOUTEDGE || AGTYPE(obj) == AGINEDGE;
+}
+
 #define MIN(a,b)        ((a)<(b)?(a):(b))
 #define MAX(a,b)        ((a)>(b)?(a):(b))
 
@@ -316,7 +319,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		exerror("Current object $ not defined");
 		return 0;
 	    }
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		return deref(pgm, x, ref->next,
 			     (Agobj_t *) AGHEAD((Agedge_t *) objp), state);
 	    else
@@ -327,7 +330,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		exerror("Current object $ not defined");
 		return 0;
 	    }
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		return deref(pgm, x, ref->next,
 			     (Agobj_t *) AGTAIL((Agedge_t *) objp), state);
 	    else
@@ -432,7 +435,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
     if (sym->lex == ID) {
 	switch (sym->index) {
 	case M_head:
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		v->integer = PTR2INT(AGHEAD((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "head of non-edge");
@@ -440,7 +443,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    }
 	    break;
 	case M_tail:
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		v->integer = PTR2INT(AGTAIL((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "tail of non-edge");
@@ -2152,7 +2155,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 		    ret = 0;
 		break;
 	    case T_edge:
-		if (!objp || ISEDGE(objp))
+		if (!objp || isedge(objp))
 		    ret = 0;
 		break;
 	    }
