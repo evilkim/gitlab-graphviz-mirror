@@ -52,17 +52,17 @@ static int isedge(Agobj_t *obj) {
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
-    return read(sffileno((Sfio_t *) chan), buf, bufsize);
+    return read(sffileno(chan), buf, bufsize);
 }
 
 static int ioputstr(void *chan, const char *str)
 {
-    return sfputr((Sfio_t *) chan, str, -1);
+    return sfputr(chan, str, -1);
 }
 
 static int ioflush(void *chan)
 {
-    return sfsync((Sfio_t *) chan);
+    return sfsync(chan);
 }
 
 static Agiodisc_t gprIoDisc = { iofread, ioputstr, ioflush };
@@ -678,7 +678,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 
     assert(sym->lex != CONSTANT);
     if (elt == EX_CALL) {
-	args = (Extype_t *) env;
+	args = env;
 	state = (Gpr_t *) (disc->user);
 	switch (sym->index) {
 	case F_graph:
@@ -1506,7 +1506,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	}
 	return v;
     } else if (elt == EX_ARRAY) {
-	args = (Extype_t *) env;
+	args = env;
 	state = (Gpr_t *) (disc->user);
 	switch (sym->index) {
 	case A_ARGV:
@@ -1519,7 +1519,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	return v;
     }
 
-    state = (Gpr_t *) env;
+    state = env;
     if (ref) {
 	objp = deref(pgm, node, ref, 0, state);
 	if (!objp)
@@ -1607,7 +1607,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
     int iv;
     int rv = 0;
 
-    state = (Gpr_t *) env;
+    state = env;
     if (ref) {
 	objp = deref(pgm, x, ref, 0, state);
 	if (!objp) {
