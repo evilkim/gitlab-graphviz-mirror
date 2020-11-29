@@ -46,4 +46,6 @@
 #define RROTATE(x,y)	(rrotate(x,y), (x) = (y))
 #define LROTATE(x,y)	(lrotate(x,y), (x) = (y))
 
+#define NOTUSED(x)	(void)(x)
+
 #endif /* _DTHDR_H */

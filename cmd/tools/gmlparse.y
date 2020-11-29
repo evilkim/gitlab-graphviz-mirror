@@ -389,7 +389,7 @@ alistitem : NAME INTEGER { $$ = mkAttr ($1, 0, INTEGER, $2, 0); }
           | OUTLINE STRING  { $$ = mkAttr (0, OUTLINE, STRING, $2, 0); }
           | OUTLINESTYLE STRING  { $$ = mkAttr (0, OUTLINESTYLE, STRING, $2, 0); }
           | OUTLINEWIDTH INTEGER  { $$ = mkAttr (0, OUTLINEWIDTH, INTEGER, $2, 0); }
-          | WIDTH REAL  { $$ = mkAttr (0, OUTLINEWIDTH, REAL, $2, 0); }
+          | WIDTH REAL  { $$ = mkAttr (0, WIDTH, REAL, $2, 0); }
           | STYLE STRING  { $$ = mkAttr (0, STYLE, STRING, $2, 0); }
           | STYLE attrlist  { $$ = mkAttr (0, STYLE, LIST, 0, $2); }
           | LINE attrlist  { $$ = mkAttr (0, LINE, LIST, 0, $2); }
@@ -589,10 +589,10 @@ addNodeGraphics (Agnode_t* np, Dt_t* alist, agxbuf* xb, agxbuf* unk)
 	else if (ap->sort == OUTLINE) {
 	    agsafeset (np, "pencolor", ap->u.value, "");
 	}
-	else if ((ap->sort == WIDTH) && (ap->sort == OUTLINEWIDTH )) {
+	else if ((ap->sort == WIDTH) || (ap->sort == OUTLINEWIDTH )) {
 	    agsafeset (np, "penwidth", ap->u.value, "");
 	}
-	else if ((ap->sort == OUTLINESTYLE) && (ap->sort == OUTLINEWIDTH )) {
+	else if ((ap->sort == STYLE) || (ap->sort == OUTLINESTYLE )) {
 	    agsafeset (np, "style", ap->u.value, "");
 	}
 	else {

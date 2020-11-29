@@ -625,6 +625,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 	ink1 = ink(edges, ia[i+1]-ia[i], pick, &ink0, &meet1, &meet2, angle_param, angle);
 	if (Verbose && DEBUG) fprintf(stderr,"finish calling ink2...\n");
 	assert(fabs(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
+	assert(ink1 < 1000 * ink0); /* assert that points were found */
 	wgt_all = 0.;
 	if (ia[i+1]-ia[i] > 1){
 	  for (j = ia[i]; j < ia[i+1]; j++){
@@ -684,6 +685,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
       ink1 = ink(edges, ia[i+1]-ia[i], pick, &ink0, &meet1, &meet2, angle_param, angle);
       if (Verbose && DEBUG) fprintf(stderr,"done calling ink3...\n");
       assert(fabs(ink1 - cgrid->inks[i])<=MAX(TOL, TOL*ink1) && ink1 - ink0 <= TOL);
+      assert(ink1 < 1000 * ink0); /* assert that points were found */
       xx[i*4 + 0] = meet1.x;
       xx[i*4 + 1] = meet1.y;
       xx[i*4 + 2] = meet2.x;
@@ -708,7 +710,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 	jj = ja[j];
 	e = edges[jj] = pedge_wgts_realloc(edges[jj], npp);
 
-	assert(e->npoints = 2);
+	assert(e->npoints == 2);
 	for (l = 0; l < dim; l++){/* move the second point to the last */
 	  e->x[(npp - 1)*dim+l] = e->x[1*dim+l];
 	}

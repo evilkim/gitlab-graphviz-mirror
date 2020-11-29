@@ -454,25 +454,17 @@ addLoop (sgraph* sg, cell* cp, snode* dp, snode* sp)
 {
     int i;
     int onTop;
-    pointf midp = midPt (cp);
 
     for (i = 0; i < cp->nsides; i++) {
-	cell* ocp;
-	pointf p;
-	double wt;
 	snode* onp = cp->sides[i];
 
 	if (onp->isVert) continue;
 	if (onp->cells[0] == cp) {
 	    onTop = 1;
-	    ocp = onp->cells[1];
 	}
 	else {
 	    onTop = 0;
-	    ocp = onp->cells[0];
 	}
-	p = sidePt (onp, ocp);
-	wt = fabs(p.x - midp.x) +  fabs(p.y - midp.y);
 	if (onTop)
 	    createSEdge (sg, sp, onp, 0);  /* FIX weight */
 	else
@@ -489,20 +481,10 @@ static void
 addNodeEdges (sgraph* sg, cell* cp, snode* np)
 {
     int i;
-    pointf midp = midPt (cp);
 
     for (i = 0; i < cp->nsides; i++) {
 	snode* onp = cp->sides[i];
-	cell* ocp;
-	pointf p;
-	double wt;
 
-	if (onp->cells[0] == cp)
-	    ocp = onp->cells[1];
-	else
-	    ocp = onp->cells[0];
-	p = sidePt (onp, ocp);
-	wt = fabs(p.x - midp.x) +  fabs(p.y - midp.y);
 	createSEdge (sg, np, onp, 0);  /* FIX weight */
     }
     sg->nnodes++;
@@ -1430,6 +1412,10 @@ coordOf (cell* cp, snode* np)
     else if (cp->sides[M_RIGHT] == np) {
 	p.y = (cp->bb.LL.y + cp->bb.UR.y)/2;
 	p.x = cp->bb.UR.x;
+    }
+    else {
+	agerr (AGERR, "Node not adjacent to cell -- Aborting\n");
+	exit(EXIT_FAILURE);
     }
     return p;
 }

@@ -486,3 +486,24 @@ def test_html(src: str):
   # otherwise, expect it to succeed
   assert p.returncode == 0
   assert stderr == ''
+
+@pytest.mark.parametrize('variant', [1, 2])
+@pytest.mark.skipif(shutil.which('gml2gv') is None, reason='gml2gv not available')
+def test_1869(variant: int):
+    '''
+    gml2gv should be able to parse the style, outlineStyle, width and
+    outlineWidth GML attributes and map them to the DOT attributes
+    style and penwidth respectively
+    https://gitlab.com/graphviz/graphviz/-/issues/1869
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1869-{}.gml'.format(variant))
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # ask gml2gv to translate it to DOT
+    output = subprocess.check_output(['gml2gv', input],
+      universal_newlines=True)
+
+    assert 'style=dashed' in output, 'style=dashed not found in DOT output'
+    assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'

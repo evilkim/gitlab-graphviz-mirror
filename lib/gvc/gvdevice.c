@@ -239,6 +239,7 @@ size_t gvwrite (GVJ_t * job, const char *s, size_t len)
 	}
 
 #else
+        NOTUSED(olen);
 	(job->common->errorfn) ("No libz support.\n");
 	exit(1);
 #endif

@@ -20,6 +20,11 @@
    */
 %option prefix="aag"
 
+  /* Avoid generating an unused input function. See
+     https://westes.github.io/flex/manual/Scanner-Options.html
+   */
+%option noinput
+
 %{
 #include <grammar.h>
 #include <cghdr.h>

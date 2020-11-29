@@ -467,7 +467,7 @@ void initEdgeTypes(graph_t * g)
  */
 static double computeCombiAR(graph_t * g)
 {
-    int i, maxLayerIndex;
+    int i;
     double maxW = 0;
     double maxH;
     double ratio;
@@ -482,7 +482,6 @@ static double computeCombiAR(graph_t * g)
 	    maxW =
 		layerWidthInfo[i].width +
 		layerWidthInfo[i].nDummyNodes * GD_nodesep(g);
-	    maxLayerIndex = i;
 	}
 	maxH += layerWidthInfo[i].height;
     }

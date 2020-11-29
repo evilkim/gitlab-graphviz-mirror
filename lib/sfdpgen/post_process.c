@@ -813,7 +813,7 @@ static real uniform_stress_solve(SparseMatrix Lw, real alpha, int dim, real *x0,
 real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, real *x, int maxit_sm, real tol) {
   SparseMatrix Lw = sm->Lw, Lwd = sm->Lwd, Lwdd = NULL;
   int i, j, k, m, *id, *jd, *iw, *jw, idiag, flag = 0, iter = 0;
-  real *w, *dd, *d, *y = NULL, *x0 = NULL, *x00 = NULL, diag, diff = 1, *lambda = sm->lambda, res, alpha = 0., M = 0.;
+  real *w, *dd, *d, *y = NULL, *x0 = NULL, *x00 = NULL, diag, diff = 1, *lambda = sm->lambda, alpha = 0., M = 0.;
   SparseMatrix Lc = NULL;
   real dij, dist;
 
@@ -835,6 +835,9 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
 
 #ifdef DEBUG_PRINT
   if (Verbose) fprintf(stderr, "initial stress = %f\n", get_stress(m, dim, iw, jw, w, d, x, sm->scaling, sm->data, 1));
+#else
+  NOTUSED(iw);
+  NOTUSED(jw);
 #endif
   /* for the additional matrix L due to the position constraints */
   if (sm->scheme == SM_SCHEME_NORMAL_ELABEL){
@@ -972,10 +975,10 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
 #endif
 
     if (sm->scheme == SM_SCHEME_UNIFORM_STRESS){
-      res = uniform_stress_solve(Lw, alpha, dim, x, y, sm->tol_cg, sm->maxit_cg, &flag);
+      uniform_stress_solve(Lw, alpha, dim, x, y, sm->tol_cg, sm->maxit_cg, &flag);
     } else {
-      res = SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, sm->maxit_cg, SOLVE_METHOD_CG, &flag);
-      //res = SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, 1, SOLVE_METHOD_JACOBI, &flag);
+      SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, sm->maxit_cg, SOLVE_METHOD_CG, &flag);
+      //SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, 1, SOLVE_METHOD_JACOBI, &flag);
     }
 
     if (flag) goto RETURN;

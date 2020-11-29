@@ -265,8 +265,8 @@ void BinaryHeap_sanity_check(BinaryHeap h){
     assert(id_to_pos[pos_to_id[i]] == i);
   }
 
-  /* all IDs, spare or in use, are ccounted for and give a contiguous set */
-  for (i = 0; i < h->len + IntStack_get_length(h->id_stack); i++) assert(mask[i] =- 1);
+  /* all IDs, spare or in use, are accounted for and give a contiguous set */
+  for (i = 0; i < h->len + IntStack_get_length(h->id_stack); i++) assert(mask[i] != -1);
 
   FREE(mask);
 }
