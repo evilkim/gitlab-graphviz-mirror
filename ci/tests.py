@@ -61,15 +61,12 @@ def test_existence(binary: str):
   '''
 
   tools_not_built_with_cmake = [
-    'circo',
     'cluster',
     'diffimg',
     'dot2gxl',
     'dot_builtins',
     'dotty',
     'edgepaint',
-    'fdp',
-    'gv2gml',
     'gv2gxl',
     'gvedit',
     'gvmap',
@@ -79,31 +76,19 @@ def test_existence(binary: str):
     'lefty',
     'lneato',
     'mingle',
-    'neato',
-    'osage',
-    'patchwork',
     'prune',
-    'sfdp',
     'smyrna',
-    'twopi',
     'vimdot',
   ]
 
   tools_not_built_with_msbuild = [
-    'circo',
     'cluster',
     'dot2gxl',
     'dot_builtins',
-    'fdp',
     'gv2gxl',
     'gvedit',
     'gvmap.sh',
     'gxl2dot',
-    'neato',
-    'osage',
-    'patchwork',
-    'sfdp',
-    'twopi',
     'vimdot',
   ]
 
