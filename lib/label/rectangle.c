@@ -135,7 +135,7 @@ unsigned int RectArea(Rect_t * r)
      */
     area = 1;
     for (i = 0; i < NUMDIMS; i++) {
-      long long a_test = area * r->boundary[i + NUMDIMS] - r->boundary[i];
+      long long a_test = area * (r->boundary[i + NUMDIMS] - r->boundary[i]);
       if( a_test > UINT_MAX) {
 	agerr (AGERR, "label: area too large for rtree\n");
 	return UINT_MAX;
