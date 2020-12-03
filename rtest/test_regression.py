@@ -433,6 +433,20 @@ def test_1865():
     # fdp should not crash when processing this file
     subprocess.check_call(['fdp', '-o', os.devnull, input])
 
+def test_1898():
+    '''
+    test a segfault from https://gitlab.com/graphviz/graphviz/-/issues/1898 has
+    not reappeared
+    '''
+
+    # locate our associated test case in this directory
+    input = os.path.join(os.path.dirname(__file__), '1898.dot')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # ask Graphviz to process it, which should generate a segfault if this bug
+    # has been reintroduced
+    subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
+
 # root directory of this checkout
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
