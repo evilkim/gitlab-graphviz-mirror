@@ -257,6 +257,12 @@ ubuntu20-04-build:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
+ubuntu20-10-build:
+    <<: *deb_build_definition
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
+
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
@@ -275,6 +281,18 @@ ubuntu18-04-cmake-build:
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
+
+ubuntu20-10-cmake-build:
+    <<: *deb_build_definition
+    before_script:
+        - export build_system="cmake"
+        # fail on any compiler warnings
+        - export CFLAGS=-Werror
+        - export CXXFLAGS=-Werror
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
 
 centos7-cmake-build:
     <<: *rpm_build_definition
@@ -407,6 +425,19 @@ ubuntu20-04-test:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
+ubuntu20-10-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="autotools"
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu20-10-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
+
 centos6-test:
     <<: *test_definition
     before_script:
@@ -512,6 +543,20 @@ ubuntu18-04-cmake-test:
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
+
+ubuntu20-10-cmake-test:
+    <<: *test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu20-10-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-20.10"
 
 centos7-cmake-test:
     <<: *test_definition
