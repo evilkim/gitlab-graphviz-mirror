@@ -1081,7 +1081,7 @@ static void addEndpoint(router_t * rtr, pointf p, node_t* v, int v_id, int sides
  */
 static ipair edgeToSeg(tgraph * tg, int i, int j)
 {
-    ipair ip;
+    ipair ip = {0, 0};
     tnode *np = tg->nodes + i;
     tedge *ep;
 
