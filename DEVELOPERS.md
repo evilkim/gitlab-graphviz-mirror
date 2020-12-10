@@ -25,7 +25,7 @@ Before making the release, it must be decided if it is a *major*, *minor* or
 
 #### Stable release versions and development versions numbering convention
 
-See gen-version.py.
+See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/master/gen_version.py).
 
 ### Instructions
 
