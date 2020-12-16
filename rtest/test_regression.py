@@ -559,7 +559,6 @@ def test_1869(variant: int):
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
-@pytest.mark.xfail(strict=True) # FIXME
 @pytest.mark.skipif(shutil.which('twopi') is None, reason='twopi not available')
 def test_1907():
     '''
