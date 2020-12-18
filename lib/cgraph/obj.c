@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 int agdelete(Agraph_t * g, void *obj)
 {
@@ -78,17 +79,17 @@ void agmethod_init(Agraph_t * g, void *obj)
     if (g->clos->callbacks_enabled)
 	aginitcb(g, obj, g->clos->cb);
     else
-	agrecord_callback(g, obj, CB_INITIALIZE, NILsym);
+	agrecord_callback(g, obj, CB_INITIALIZE, NULL);
 }
 
 void aginitcb(Agraph_t * g, void *obj, Agcbstack_t * cbstack)
 {
     agobjfn_t fn;
 
-    if (cbstack == NIL(Agcbstack_t *))
+    if (cbstack == NULL)
 	return;
     aginitcb(g, obj, cbstack->prev);
-    fn = NIL(agobjfn_t);
+    fn = NULL;
     switch (AGTYPE(obj)) {
     case AGRAPH:
 	fn = cbstack->f->graph.ins;
@@ -116,10 +117,10 @@ void agupdcb(Agraph_t * g, void *obj, Agsym_t * sym, Agcbstack_t * cbstack)
 {
     agobjupdfn_t fn;
 
-    if (cbstack == NIL(Agcbstack_t *))
+    if (cbstack == NULL)
 	return;
     agupdcb(g, obj, sym, cbstack->prev);
-    fn = NIL(agobjupdfn_t);
+    fn = NULL;
     switch (AGTYPE(obj)) {
     case AGRAPH:
 	fn = cbstack->f->graph.mod;
@@ -140,17 +141,17 @@ void agmethod_delete(Agraph_t * g, void *obj)
     if (g->clos->callbacks_enabled)
 	agdelcb(g, obj, g->clos->cb);
     else
-	agrecord_callback(g, obj, CB_DELETION, NILsym);
+	agrecord_callback(g, obj, CB_DELETION, NULL);
 }
 
 void agdelcb(Agraph_t * g, void *obj, Agcbstack_t * cbstack)
 {
     agobjfn_t fn;
 
-    if (cbstack == NIL(Agcbstack_t *))
+    if (cbstack == NULL)
 	return;
     agdelcb(g, obj, cbstack->prev);
-    fn = NIL(agobjfn_t);
+    fn = NULL;
     switch (AGTYPE(obj)) {
     case AGRAPH:
 	fn = cbstack->f->graph.del;
@@ -169,7 +170,7 @@ void agdelcb(Agraph_t * g, void *obj, Agcbstack_t * cbstack)
 Agraph_t *agroot(void* obj)
 {
     // fixes CVE-2019-11023 by moving the problem to the caller :-)
-    if (obj == 0) return NILgraph; 
+    if (obj == 0) return NULL;
     switch (AGTYPE(obj)) {
     case AGINEDGE:
     case AGOUTEDGE:
@@ -180,7 +181,7 @@ Agraph_t *agroot(void* obj)
 	return ((Agraph_t *) obj)->root;
     default:			/* actually can't occur if only 2 bit tags */
 	agerr(AGERR, "agroot of a bad object");
-	return NILgraph;
+	return NULL;
     }
 }
 
@@ -196,7 +197,7 @@ Agraph_t *agraphof(void *obj)
 	return (Agraph_t *) obj;
     default:			/* actually can't occur if only 2 bit tags */
 	agerr(AGERR, "agraphof a bad object");
-	return NILgraph;
+	return NULL;
     }
 }
 

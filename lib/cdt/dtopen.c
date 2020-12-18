@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /* 	Make a new dictionary
 **
@@ -12,25 +13,25 @@ Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 	Dtdata_t*	data;
 
 	if(!disc || !meth)
-		return NIL(Dt_t*);
+		return NULL;
 
 	/* allocate space for dictionary */
 	if(!(dt = malloc(sizeof(Dt_t))))
-		return NIL(Dt_t*);
+		return NULL;
 
 	/* initialize all absolutely private data */
-	dt->searchf = NIL(Dtsearch_f);
-	dt->meth = NIL(Dtmethod_t*);
-	dt->disc = NIL(Dtdisc_t*);
+	dt->searchf = NULL;
+	dt->meth = NULL;
+	dt->disc = NULL;
 	dtdisc(dt,disc,0);
 	dt->type = DT_MALLOC;
 	dt->nview = 0;
-	dt->view = dt->walk = NIL(Dt_t*);
-	dt->user = NIL(void*);
+	dt->view = dt->walk = NULL;
+	dt->user = NULL;
 
 	if(disc->eventf)
 	{	/* if shared/persistent dictionary, get existing data */
-		data = NIL(Dtdata_t*);
+		data = NULL;
 		if((e = (*disc->eventf)(dt,DT_OPEN,(void*)(&data),disc)) < 0)
 			goto err_open;
 		else if(e > 0)
@@ -45,27 +46,27 @@ Dt_t* dtopen(Dtdisc_t* disc, Dtmethod_t* meth)
 
 			free(dt);
 			if(!(dt = (*disc->memoryf)(0, 0, sizeof(Dt_t), disc)) )
-				return NIL(Dt_t*);
-			dt->searchf = NIL(Dtsearch_f);
-			dt->meth = NIL(Dtmethod_t*);
-			dt->disc = NIL(Dtdisc_t*);
+				return NULL;
+			dt->searchf = NULL;
+			dt->meth = NULL;
+			dt->disc = NULL;
 			dtdisc(dt,disc,0);
 			dt->type = DT_MEMORYF;
 			dt->nview = 0;
-			dt->view = dt->walk = NIL(Dt_t*);
+			dt->view = dt->walk = NULL;
 		}
 	}
 
 	/* allocate sharable data */
-	if(!(data = (Dtdata_t*)(dt->memoryf)(dt,NIL(void*),sizeof(Dtdata_t),disc)) )
+	if(!(data = (Dtdata_t*)(dt->memoryf)(dt,NULL,sizeof(Dtdata_t),disc)) )
 	{ err_open:
 		free(dt);
-		return NIL(Dt_t*);
+		return NULL;
 	}
 
 	data->type = meth->type;
-	data->here = NIL(Dtlink_t*);
-	data->htab = NIL(Dtlink_t**);
+	data->here = NULL;
+	data->htab = NULL;
 	data->ntab = data->size = data->loop = 0;
 	data->minp = 0;
 

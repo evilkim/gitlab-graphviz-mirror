@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Function to handle io exceptions.
 **	Written by Kiem-Phong Vo
@@ -103,7 +104,7 @@ int _sfexcept(Sfio_t * f, int type, ssize_t io, Sfdisc_t * disc)
 	    SFOPEN(f, 0);
 
 	/* pop and close */
-	pf = (*_Sfstack) (f, NIL(Sfio_t *));
+	pf = (*_Sfstack) (f, NULL);
 	if ((ev = sfclose(pf)) < 0)	/* can't close, restack */
 	    (*_Sfstack) (f, pf);
 

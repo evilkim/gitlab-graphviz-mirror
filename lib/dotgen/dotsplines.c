@@ -18,6 +18,7 @@
 
 #include <dotgen/dot.h>
 #include <math.h>
+#include <stddef.h>
 
 #ifdef ORTHO
 #include <ortho/ortho.h>
@@ -793,9 +794,9 @@ cloneGraph (graph_t* g, attr_state_t* attr_state)
     Agsym_t* sym;
     graph_t* auxg;
     if (agisdirected(g))
-	auxg = agopen ("auxg",Agdirected, NIL(Agdisc_t *));
+	auxg = agopen ("auxg",Agdirected, NULL);
     else
-	auxg = agopen ("auxg",Agundirected, NIL(Agdisc_t *));
+	auxg = agopen ("auxg",Agundirected, NULL);
     agbindrec(auxg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
     agattr(auxg, AGRAPH, "rank", "");
     GD_drawing(auxg) = NEW(layout_t);

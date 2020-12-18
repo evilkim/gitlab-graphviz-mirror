@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Put out a null-terminated string
 **
@@ -76,7 +77,7 @@ ssize_t sfputr(Sfio_t * f, const char *s, int rc)
 	    w += 1;
 	    break;
 	}
-	if ((ps = (uchar *) memccpy(ps, s, '\0', p)) != NIL(uchar *))
+	if ((ps = (uchar *) memccpy(ps, s, '\0', p)) != NULL)
 	    ps -= 1;
 	else
 	    ps = f->next + p;

@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Synchronize data in buffers with the file system.
 **	If f is nil, all streams are sync-ed
@@ -82,7 +83,7 @@ int sfsync(Sfio_t * f)
     GETLOCAL(origf, local);
 
     if (origf->disc == _Sfudisc)	/* throw away ungetc */
-	(void) sfclose((*_Sfstack) (origf, NIL(Sfio_t *)));
+	(void) sfclose((*_Sfstack) (origf, NULL));
 
     rv = 0;
 

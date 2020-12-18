@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 char **_sfgetpath(char *path)
 {
@@ -19,7 +20,7 @@ char **_sfgetpath(char *path)
     int n;
 
     if (!(path = getenv(path)))
-	return NIL(char **);
+	return NULL;
 
     for (p = path, n = 0;;) {	/* count number of directories */
 	while (*p == ':')
@@ -31,10 +32,10 @@ char **_sfgetpath(char *path)
 	    ++p;
     }
     if (n == 0 || !(dirs = malloc((n + 1) * sizeof(char *))))
-	return NIL(char **);
+	return NULL;
     if (!(p = malloc(strlen(path) + 1))) {
 	free(dirs);
-	return NIL(char **);
+	return NULL;
     }
     strcpy(p, path);
     for (n = 0;; ++n) {
@@ -48,7 +49,7 @@ char **_sfgetpath(char *path)
 	if (*p == ':')
 	    *p++ = 0;
     }
-    dirs[n] = NIL(char *);
+    dirs[n] = NULL;
 
     return dirs;
 }

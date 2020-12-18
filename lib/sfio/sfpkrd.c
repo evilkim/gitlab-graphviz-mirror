@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 #ifdef HAVE_SYS_IOCTL_H
 #include	<sys/ioctl.h>
 #endif
@@ -66,7 +67,7 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 	    pbuf.flags = 0;
 	    pbuf.ctlbuf.maxlen = -1;
 	    pbuf.ctlbuf.len = 0;
-	    pbuf.ctlbuf.buf = NIL(char *);
+	    pbuf.ctlbuf.buf = NULL;
 	    pbuf.databuf.maxlen = n;
 	    pbuf.databuf.buf = buf;
 	    pbuf.databuf.len = 0;
@@ -107,13 +108,13 @@ ssize_t sfpkrd(int fd, void * argbuf, size_t n, int rc, long tm,
 		FD_ZERO(&rd);
 		FD_SET(fd, &rd);
 		if (tm < 0)
-		    tmp = NIL(struct timeval *);
+		    tmp = NULL;
 		else {
 		    tmp = &tmb;
 		    tmb.tv_sec = tm / SECOND;
 		    tmb.tv_usec = (tm % SECOND) * SECOND;
 		}
-		r = select(fd + 1, &rd, NIL(fd_set *), NIL(fd_set *), tmp);
+		r = select(fd + 1, &rd, NULL, NULL, tmp);
 		if (r < 0) {
 		    if (errno == EINTR)
 			return -1;

@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Push back one byte to a given SF_READ stream
 **
@@ -28,7 +29,7 @@ static int _uexcept(Sfio_t * f, int type, void * val,
 
     /* close the unget stream */
     if (type != SF_CLOSING)
-	(void) sfclose((*_Sfstack) (f, NIL(Sfio_t *)));
+	(void) sfclose((*_Sfstack) (f, NULL));
 
     return 1;
 }
@@ -55,7 +56,7 @@ int sfungetc(Sfio_t * f, int c)
 
     /* make a string stream for unget characters */
     if (f->disc != _Sfudisc) {
-	if (!(uf = sfnew(NIL(Sfio_t *), NIL(char *), (size_t) SF_UNBOUND,
+	if (!(uf = sfnew(NULL, NULL, (size_t) SF_UNBOUND,
 			 -1, SF_STRING | SF_READ))) {
 	    c = -1;
 	    goto done;

@@ -13,6 +13,7 @@
 
 #include <inttypes.h>
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	The engine for formatting data
 **
@@ -105,14 +106,14 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
     }
     SFINIT(f);
 
-    tls[1] = NIL(char *);
+    tls[1] = NULL;
 
-    fmstk = NIL(Fmt_t *);
-    ft = NIL(Sffmt_t *);
+    fmstk = NULL;
+    ft = NULL;
 
     oform = (char *) form;
     va_copy(oargs, args);
-    fp = NIL(Fmtpos_t *);
+    fp = NULL;
     argn = -1;
 
   loop_fmt:
@@ -130,9 +131,9 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 	flags = 0;
 	size = width = precis = base = n_s = argp = -1;
 	ssp = _Sfdigits;
-	endep = ep = NIL(char *);
+	endep = ep = NULL;
 	endsp = sp = buf + (sizeof(buf) - 1);
-	t_str = NIL(char *);
+	t_str = NULL;
 	n_str = dot = 0;
 
       loop_flags:		/* LOOP FOR \0, %, FLAGS, WIDTH, PRECISION, BASE, TYPE */
@@ -150,7 +151,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		switch (*form++) {
 		case 0:	/* not balancable, retract */
 		    form = t_str;
-		    t_str = NIL(char *);
+		    t_str = NULL;
 		    n_str = 0;
 		    goto loop_flags;
 		case LEFTP:	/* increasing nested level */
@@ -176,7 +177,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 			    n_str = fp[n].ft.size;
 			} else if (ft && ft->extf) {
 			    FMTSET(ft, form, args,
-				   LEFTP, 0, 0, 0, 0, 0, NIL(char *), 0);
+				   LEFTP, 0, 0, 0, 0, 0, NULL, 0);
 			    n = (*ft->extf)
 				(f, (void *) & argv, ft);
 			    if (n < 0)
@@ -259,7 +260,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 	    if (fp)
 		v = fp[n].argv.i;
 	    else if (ft && ft->extf) {
-		FMTSET(ft, form, args, '.', dot, 0, 0, 0, 0, NIL(char *),
+		FMTSET(ft, form, args, '.', dot, 0, 0, 0, 0, NULL,
 		       0);
 		if ((*ft->extf) (f, (void *) (&argv), ft) < 0)
 		    goto pop_fmt;
@@ -322,7 +323,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		    size = fp[n].argv.i;
 		else if (ft && ft->extf) {
 		    FMTSET(ft, form, args, 'I', sizeof(int), 0, 0, 0, 0,
-			   NIL(char *), 0);
+			   NULL, 0);
 		    if ((*ft->extf) (f, (void *) (&argv), ft) < 0)
 			goto pop_fmt;
 		    if (ft->flags & SFFMT_VALUE)
@@ -476,9 +477,9 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 		    form = argv.ft->form;
 		    va_copy(args, argv.ft->args);
 		    argn = -1;
-		    fp = NIL(Fmtpos_t *);
+		    fp = NULL;
 		} else
-		    fm->form = NIL(char *);
+		    fm->form = NULL;
 
 		fm->eventf = argv.ft->eventf;
 		fm->ft = ft;
@@ -958,11 +959,11 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 
   pop_fmt:
     free(fp);
-    fp = NIL(Fmtpos_t *);
+    fp = NULL;
     while ((fm = fmstk)) {	/* pop the format stack and continue */
 	if (fm->eventf) {
 	    if (!form || !form[0])
-		(*fm->eventf) (f, SF_FINAL, NIL(void *), ft);
+		(*fm->eventf) (f, SF_FINAL, NULL, ft);
 	    else if ((*fm->eventf) (f, SF_DPOP, (void *) form, ft) < 0)
 		goto loop_fmt;
 	}
@@ -985,7 +986,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
     free(fp);
     while ((fm = fmstk)) {
 	if (fm->eventf)
-	    (*fm->eventf) (f, SF_FINAL, NIL(void *), fm->ft);
+	    (*fm->eventf) (f, SF_FINAL, NULL, fm->ft);
 	fmstk = fm->next;
 	free(fm);
     }
@@ -994,7 +995,7 @@ int sfvprintf(Sfio_t * f, const char *form, va_list args)
 
     n = f->next - f->data;
     if ((d = f->data) == (uchar *) data)
-	f->endw = f->endr = f->endb = f->data = NIL(uchar *);
+	f->endw = f->endr = f->endb = f->data = NULL;
     f->next = f->data;
 
     if ((((flags = f->flags) & SF_SHARE) && !(flags & SF_PUBLIC)) ||

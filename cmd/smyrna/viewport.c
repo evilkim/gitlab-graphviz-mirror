@@ -22,6 +22,7 @@
 #include <glade/glade.h>
 #include "gui.h"
 #include "menucallbacks.h"
+#include <stddef.h>
 #include <string.h>
 #include "glcompui.h"
 /* #include "topview.h" */
@@ -609,7 +610,7 @@ static Agraph_t *loadGraph(char *filename)
 	g_print("Cannot open %s\n", filename);
 	return 0;
     }
-    g = agread(input_file, NIL(Agdisc_t *));
+    g = agread(input_file, NULL);
     fclose (input_file);
     if (!g) {
 	g_print("Cannot read graph in  %s\n", filename);

@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<stddef.h>
 
 /*
  * dynamic attributes
@@ -27,12 +28,12 @@ Dtdisc_t AgDataDictDisc = {
     (int) offsetof(Agsym_t, name),	/* use symbol name as key */
     -1,
     (int) offsetof(Agsym_t, link),
-    NIL(Dtmake_f),
+    NULL,
     freesym,
-    NIL(Dtcompar_f),
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f),
+    NULL,
+    NULL,
+    NULL,
+    NULL,
 };
 
 static char DataDictName[] = "_AG_datadict";
@@ -71,10 +72,10 @@ static Dict_t *agdictof(Agraph_t * g, int kind)
 	    break;
 	default:
 	    agerr(AGERR,"agdictof: unknown kind %d\n", kind);
-	    dict = NIL(Dict_t *);
+	    dict = NULL;
 	    break;
     } else
-	dict = NIL(Dict_t *);
+	dict = NULL;
     return dict;
 }
 
@@ -146,7 +147,7 @@ static Agsym_t *aglocaldictsym(Dict_t * dict, char *name)
     Agsym_t *rv;
     Dict_t *view;
 
-    view = dtview(dict, NIL(Dict_t *));
+    view = dtview(dict, NULL);
     rv = agdictsym(dict, name);
     dtview(dict, view);
     return rv;
@@ -162,7 +163,7 @@ Agsym_t *agattrsym(void *obj, char *name)
     if (data)
 	rv = agdictsym(data->dict, arg);
     else
-	rv = NILsym;
+	rv = NULL;
     return rv;
 }
 
@@ -189,7 +190,7 @@ static Agrec_t *agmakeattrs(Agraph_t * context, void *obj)
     rec = agbindrec(obj, AgDataRecName, sizeof(Agattr_t), FALSE);
     datadict = agdictof(context, AGTYPE(obj));
     assert(datadict);
-    if (rec->dict == NIL(Dict_t *)) {
+    if (rec->dict == NULL) {
 	rec->dict = agdictof(agroot(context), AGTYPE(obj));
 	/* don't malloc(0) */
 	sz = topdictsize(obj);
@@ -241,7 +242,7 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
     Agattr_t *attr;
 
     attr = (Agattr_t *) agattrrec(obj);
-    assert(attr != NIL(Agattr_t *));
+    assert(attr != NULL);
     if (sym->id >= MINATTR)
 	attr->str = (char **) AGDISC(g, mem)->resize(AGCLOS(g, mem),
 						     attr->str,
@@ -321,7 +322,7 @@ static Agsym_t *getattr(Agraph_t * g, int kind, char *name)
 
 /*
  * create or update an existing attribute and return its descriptor.
- * if the new value is NIL(char*), this is only a search, no update.
+ * if the new value is NULL, this is only a search, no update.
  * when a new attribute is created, existing graphs/nodes/edges
  * receive its default value.
  */
@@ -434,7 +435,7 @@ char *agget(void *obj, char *name)
     char *rv;
 
     sym = agattrsym(obj, name);
-    if (sym == NILsym)
+    if (sym == NULL)
 	rv = 0;			/* note was "", but this provides more info */
     else {
 	data = agattrrec((Agobj_t *) obj);
@@ -460,7 +461,7 @@ int agset(void *obj, char *name, char *value)
     int rv;
 
     sym = agattrsym(obj, name);
-    if (sym == NILsym)
+    if (sym == NULL)
 	rv = FAILURE;
     else
 	rv = agxset(obj, sym, value);
@@ -520,7 +521,7 @@ static void init_all_attrs(Agraph_t * g)
 
     root = agroot(g);
     agapply(root, (Agobj_t *) root, (agobjfn_t) agraphattr_init,
-	    NIL(Agdisc_t *), TRUE);
+	    NULL, TRUE);
     for (n = agfstnode(root); n; n = agnxtnode(root, n)) {
 	agnodeattr_init(g, n);
 	for (e = agfstout(root, n); e; e = agnxtout(root, e)) {

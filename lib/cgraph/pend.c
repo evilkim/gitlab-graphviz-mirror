@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 static char DRName[] = "_AG_pending";
 
@@ -61,15 +62,15 @@ static Dtdisc_t Disc = {
     offsetof(pending_cb_t, key),	/* sort by 'key' */
     sizeof(uint64_t),
     0,				/* link offset */
-    NIL(Dtmake_f),
+    NULL,
     freef,
-    NIL(Dtcompar_f),
-    NIL(Dthash_f)
+    NULL,
+    NULL
 };
 
 static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
 {
-    Dict_t **dict_ref = NIL(Dict_t **);
+    Dict_t **dict_ref = NULL;
 
     dict_ref = 0;
     switch (AGTYPE(obj)) {
@@ -124,7 +125,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
 
     if (dict_ref == 0)
 	agerr(AGERR, "pend dictof a bad object");
-    if (*dict_ref == NIL(Dict_t *))
+    if (*dict_ref == NULL)
 	*dict_ref = agdtopen(agraphof(obj), &Disc, Dttree);
     return *dict_ref;
 }
@@ -148,11 +149,11 @@ static void record_sym(Agobj_t * obj, pending_cb_t * handle,
 {
     symlist_t *sym, *nsym, *psym;
 
-    psym = NIL(symlist_t *);
+    psym = NULL;
     for (sym = handle->symlist; sym; psym = sym, sym = sym->link) {
 	if (sym->sym == optsym)
 	    break;
-	if (sym == NIL(symlist_t *)) {
+	if (sym == NULL) {
 	    nsym = agalloc(agraphof(obj), sizeof(symlist_t));
 	    nsym->sym = optsym;
 	    if (psym)

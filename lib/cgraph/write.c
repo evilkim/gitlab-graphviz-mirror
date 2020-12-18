@@ -11,6 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <stddef.h>
 #include <stdio.h>		/* need sprintf() */
 #include <ctype.h>
 #include <cgraph/cghdr.h>
@@ -62,7 +63,7 @@ static char *_agstrcanon(char *arg, char *buf)
     int backslash_pending = FALSE;
     static const char *tokenlist[]	/* must agree with scan.l */
 	= { "node", "edge", "strict", "graph", "digraph", "subgraph",
-	NIL(char *)
+	NULL
     };
     const char **tok;
 
@@ -239,13 +240,13 @@ static int write_dict(Agraph_t * g, iochan_t * ofile, char *name,
     Agsym_t *sym, *psym;
 
     if (!top)
-	view = dtview(dict, NIL(Dict_t *));
+	view = dtview(dict, NULL);
     else
 	view = 0;
     for (sym = (Agsym_t *) dtfirst(dict); sym;
 	 sym = (Agsym_t *) dtnext(dict, sym)) {
 	if (EMPTY(sym->defval) && !sym->print) {	/* try to skip empty str (default) */
-	    if (view == NIL(Dict_t *))
+	    if (view == NULL)
 		continue;	/* no parent */
 	    psym = (Agsym_t *) dtsearch(view, sym);
 	    assert(psym);
@@ -307,8 +308,8 @@ static int write_hdr(Agraph_t * g, iochan_t * ofile, int top)
 	    kind = "";
 	if (agisstrict(g))
 	    strict = "strict ";
-	Tailport = agattr(g, AGEDGE, TAILPORT_ID, NIL(char *));
-	Headport = agattr(g, AGEDGE, HEADPORT_ID, NIL(char *));
+	Tailport = agattr(g, AGEDGE, TAILPORT_ID, NULL);
+	Headport = agattr(g, AGEDGE, HEADPORT_ID, NULL);
     }
     name = agnameof(g);
     sep = " ";
@@ -385,8 +386,7 @@ static int node_in_subg(Agraph_t * g, Agnode_t * n)
 
 static int has_no_edges(Agraph_t * g, Agnode_t * n)
 {
-    return ((agfstin(g, n) == NIL(Agedge_t *))
-	    && (agfstout(g, n) == NIL(Agedge_t *)));
+    return agfstin(g, n) == NULL && agfstout(g, n) == NULL;
 }
 
 static int has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
@@ -625,7 +625,7 @@ static int write_body(Agraph_t * g, iochan_t * ofile)
     Agdatadict_t *dd;
     /* int                  has_attr; */
 
-    /* has_attr = (agattrrec(g) != NIL(Agattr_t*)); */
+    /* has_attr = agattrrec(g) != NULL; */
 
     CHKRV(write_subgs(g, ofile));
     dd = agdatadict(g, FALSE);

@@ -29,6 +29,7 @@
 #include    <neatogen/adjust.h>
 #include    <pack/pack.h>
 #include    <neatogen/neatoprocs.h>
+#include    <stddef.h>
 #include    <string.h>
 
 static void circular_init_edge(edge_t * e)
@@ -112,7 +113,7 @@ static Agraph_t **circomps(Agraph_t * g, int *cnt)
     Agedge_t *ep;
     Agnode_t *p;
 
-    dg = agopen("derived", Agstrictundirected,NIL(Agdisc_t *));
+    dg = agopen("derived", Agstrictundirected,NULL);
     agbindrec (dg, "info", sizeof(Agraphinfo_t), TRUE);
     GD_alg(g) = dg;  /* store derived graph for closing later */
 

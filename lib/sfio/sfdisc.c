@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Set a new discipline for a stream.
 **
@@ -26,16 +27,16 @@ Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
     Sfseek_f oseekf;
     ssize_t n;
 
-    SFMTXSTART(f, NIL(Sfdisc_t *));
+    SFMTXSTART(f, NULL);
 
     if ((f->flags & SF_READ) && f->proc && (f->mode & SF_WRITE)) {	/* make sure in read mode to check for read-ahead data */
 	if (_sfmode(f, SF_READ, 0) < 0)
-	    SFMTXRETURN(f, NIL(Sfdisc_t *));
+	    SFMTXRETURN(f, NULL);
     } else if ((f->mode & SF_RDWR) != f->mode && _sfmode(f, 0, 0) < 0)
-	SFMTXRETURN(f, NIL(Sfdisc_t *));
+	SFMTXRETURN(f, NULL);
 
     SFLOCK(f, 0);
-    rdisc = NIL(Sfdisc_t *);
+    rdisc = NULL;
 
     /* synchronize before switching to a new discipline */
     if (!(f->flags & SF_STRING)) {
@@ -50,7 +51,7 @@ Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
 	    int rv = 0;
 
 	    exceptf = disc ? disc->exceptf :
-		f->disc ? f->disc->exceptf : NIL(Sfexcept_f);
+		f->disc ? f->disc->exceptf : NULL;
 
 	    /* check with application for course of action */
 	    if (exceptf) {
@@ -68,7 +69,7 @@ Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
     /* save old readf, writef, and seekf to see if stream need reinit */
 #define GETDISCF(func,iof,type) \
 	{ for(d = f->disc; d && !d->iof; d = d->disc) ; \
-	  func = d ? d->iof : NIL(type); \
+	  func = d ? d->iof : NULL; \
 	}
     GETDISCF(oreadf, readf, Sfread_f);
     GETDISCF(owritef, writef, Sfwrite_f);
@@ -110,7 +111,7 @@ Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
 
     if (!(f->flags & SF_STRING)) {	/* this stream may have to be reinitialized */
 	int reinit = 0;
-#define DISCF(dst,iof,type)	(dst ? dst->iof : NIL(type))
+#define DISCF(dst,iof,type)	(dst ? dst->iof : NULL)
 #define REINIT(oiof,iof,type) \
 		if(!reinit) \
 		{	for(d = f->disc; d && !d->iof; d = d->disc) ; \
@@ -126,9 +127,9 @@ Sfdisc_t *sfdisc(Sfio_t * f, Sfdisc_t * disc)
 	    SETLOCAL(f);
 	    f->bits &= (unsigned short)~SF_NULL;	/* turn off /dev/null handling */
 	    if ((f->bits & SF_MMAP) || (f->mode & SF_INIT))
-		sfsetbuf(f, NIL(void *), (size_t) SF_UNBOUND);
+		sfsetbuf(f, NULL, (size_t) SF_UNBOUND);
 	    else if (f->data == f->tiny)
-		sfsetbuf(f, NIL(void *), 0);
+		sfsetbuf(f, NULL, 0);
 	    else {
 		unsigned short flags = f->flags;
 		sfsetbuf(f, (void *) f->data, f->size);

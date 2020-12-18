@@ -11,6 +11,8 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <stddef.h>
+
 #if defined(__STDPP__directive) && defined(__STDPP__hide)
 __STDPP__directive pragma pp:hide getpagesize
 #else
@@ -63,7 +65,7 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
     int oflags, init, local;
     Stat_t st;
 
-    SFMTXSTART(f, NIL(void *));
+    SFMTXSTART(f, NULL);
 
     GETLOCAL(f, local);
 
@@ -75,16 +77,16 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 
     /* cleanup actions already done, don't allow write buffering any more */
     if (_Sfexiting && !(f->flags & SF_STRING) && (f->mode & SF_WRITE)) {
-	buf = NIL(void *);
+	buf = NULL;
 	size = 0;
     }
 
     if ((init = f->mode & SF_INIT)) {
 	if (!f->pool && _sfsetpool(f) < 0)
-	    SFMTXRETURN(f, NIL(void *));
+	    SFMTXRETURN(f, NULL);
     } else if ((f->mode & SF_RDWR) != SFMODE(f, local)
 	       && _sfmode(f, 0, local) < 0)
-	SFMTXRETURN(f, NIL(void *));
+	SFMTXRETURN(f, NULL);
 
     if (init)
 	f->mode = (f->mode & SF_RDWR) | SF_LOCK;
@@ -94,14 +96,14 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 	/* make sure there is no hidden read data */
 	if (f->proc && (f->flags & SF_READ) && (f->mode & SF_WRITE) &&
 	    _sfmode(f, SF_READ, local) < 0)
-	    SFMTXRETURN(f, NIL(void *));
+	    SFMTXRETURN(f, NULL);
 
 	/* synchronize first */
 	SFLOCK(f, local);
 	rv = SFSYNC(f);
 	SFOPEN(f, local);
 	if (rv < 0)
-	    SFMTXRETURN(f, NIL(void *));
+	    SFMTXRETURN(f, NULL);
 
 	/* turn off the SF_SYNCED bit because buffer is changing */
 	f->mode &= ~SF_SYNCED;
@@ -113,7 +115,7 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
     oflags = f->flags;
 
     if (f->data == f->tiny) {
-	f->data = NIL(uchar *);
+	f->data = NULL;
 	f->size = 0;
     }
     obuf = f->data;
@@ -224,14 +226,14 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 	else if ((ssize_t) (size = _Sfpage) < blksize)
 	    size = blksize;
 
-	buf = NIL(void *);
+	buf = NULL;
     }
 
     sf_malloc = 0;
     if (size > 0 && !buf && !(f->bits & SF_MMAP)) {	/* try to allocate a buffer */
 	if (obuf && size == (size_t) osize && init) {
 	    buf = (void *) obuf;
-	    obuf = NIL(uchar *);
+	    obuf = NULL;
 	    sf_malloc = (oflags & SF_MALLOC);
 	}
 	if (!buf) {		/* do allocation */
@@ -270,7 +272,7 @@ void *sfsetbuf(Sfio_t * f, void * buf, size_t size)
 
     if (obuf && obuf != f->data && osize > 0 && (oflags & SF_MALLOC)) {
 	free(obuf);
-	obuf = NIL(uchar *);
+	obuf = NULL;
     }
 
     _Sfi = f->val = obuf ? osize : 0;

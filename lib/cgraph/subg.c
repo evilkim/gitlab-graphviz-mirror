@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 static Agraph_t *agfindsubg_by_id(Agraph_t * g, IDTYPE id)
 {
@@ -44,7 +45,7 @@ Agraph_t *agidsubg(Agraph_t * g, IDTYPE id, int cflag)
 {
     Agraph_t *subg;
     subg = agfindsubg_by_id(g, id);
-    if ((subg == NILgraph) && cflag && agallocid(g, AGRAPH, id))
+    if (subg == NULL && cflag && agallocid(g, AGRAPH, id))
 	subg = localsubg(g, id);
     return subg;
 }
@@ -66,7 +67,7 @@ Agraph_t *agsubg(Agraph_t * g, char *name, int cflag)
 	return subg;
     }
 
-    return NILgraph;
+    return NULL;
 }
 
 Agraph_t *agfstsubg(Agraph_t * g)

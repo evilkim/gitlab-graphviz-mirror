@@ -70,7 +70,7 @@ static graph_t *create_test_graph(void)
     char name[10];
 
     /* Create a new graph */
-    g = agopen("new_graph", Agdirected,NIL(Agdisc_t *));
+    g = agopen("new_graph", Agdirected,NULL);
 
     /* Add nodes */
     for (j = 0; j < NUMNODES; j++) {

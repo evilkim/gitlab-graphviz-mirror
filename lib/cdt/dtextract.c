@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Extract objects of a dictionary.
 **
@@ -14,16 +15,16 @@ Dtlink_t* dtextract(Dt_t* dt)
 	else if(dt->data->type&(DT_SET|DT_BAG))
 	{	list = dtflatten(dt);
 		for(ends = (s = dt->data->htab) + dt->data->ntab; s < ends; ++s)
-			*s = NIL(Dtlink_t*);
+			*s = NULL;
 	}
 	else /*if(dt->data->type&(DT_LIST|DT_STACK|DT_QUEUE))*/
 	{	list = dt->data->head;
-		dt->data->head = NIL(Dtlink_t*);
+		dt->data->head = NULL;
 	}
 
 	dt->data->type &= ~DT_FLATTEN;
 	dt->data->size = 0;
-	dt->data->here = NIL(Dtlink_t*);
+	dt->data->here = NULL;
 
 	return list;
 }

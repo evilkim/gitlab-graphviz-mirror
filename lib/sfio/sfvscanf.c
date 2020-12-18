@@ -13,6 +13,7 @@
 
 #include <inttypes.h>
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	The main engine for reading formatted data
 **
@@ -127,10 +128,10 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 
     inp = -1;
 
-    fmstk = NIL(Fmt_t *);
-    ft = NIL(Sffmt_t *);
+    fmstk = NULL;
+    ft = NULL;
 
-    fp = NIL(Fmtpos_t *);
+    fp = NULL;
     argn = -1;
     oform = (char *) form;
     va_copy(oargs, args);
@@ -178,9 +179,9 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 	base = 10;
 	size = -1;
 	width = dot = 0;
-	t_str = NIL(char *);
+	t_str = NULL;
 	n_str = 0;
-	value = NIL(void *);
+	value = NULL;
 	argp = -1;
 
       loop_flags:		/* LOOP FOR FLAGS, WIDTH, BASE, TYPE */
@@ -191,7 +192,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		switch (*form++) {
 		case 0:	/* not balanceable, retract */
 		    form = t_str;
-		    t_str = NIL(char *);
+		    t_str = NULL;
 		    n_str = 0;
 		    goto loop_flags;
 		case LEFTP:	/* increasing nested level */
@@ -217,7 +218,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 			    n_str = fp[n].ft.size;
 			} else if (ft && ft->extf) {
 			    FMTSET(ft, form, args,
-				   LEFTP, 0, 0, 0, 0, 0, NIL(char *), 0);
+				   LEFTP, 0, 0, 0, 0, 0, NULL, 0);
 			    n = (*ft->extf)
 				(f, (void *) & argv, ft);
 			    if (n < 0)
@@ -260,7 +261,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		    v = fp[n].argv.i;
 		else if (ft && ft->extf) {
 		    FMTSET(ft, form, args, '.', dot, 0, 0, 0, 0,
-			   NIL(char *), 0);
+			   NULL, 0);
 		    if ((*ft->extf) (f, (void *) (&argv), ft) < 0)
 			goto pop_fmt;
 		    if (ft->flags & SFFMT_VALUE)
@@ -324,7 +325,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		    size = fp[n].argv.i;
 		else if (ft && ft->extf) {
 		    FMTSET(ft, form, args, 'I', sizeof(int), 0, 0, 0, 0,
-			   NIL(char *), 0);
+			   NULL, 0);
 		    if ((*ft->extf) (f, (void *) (&argv), ft) < 0)
 			goto pop_fmt;
 		    if (ft->flags & SFFMT_VALUE)
@@ -454,9 +455,9 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		    form = argv.ft->form;
 		    va_copy(args, argv.ft->args);
 		    argn = -1;
-		    fp = NIL(Fmtpos_t *);
+		    fp = NULL;
 		} else
-		    fm->form = NIL(char *);
+		    fm->form = NULL;
 
 		fm->eventf = argv.ft->eventf;
 		fm->ft = ft;
@@ -535,7 +536,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 
 	    if (value) {
 		*val = '\0';
-		    argv.d = (double) strtod(accept, NIL(char **));
+		    argv.d = (double) strtod(accept, NULL);
 	    }
 
 	    if (value) {
@@ -729,11 +730,11 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 
   pop_fmt:
     free(fp);
-    fp = NIL(Fmtpos_t *);
+    fp = NULL;
     while ((fm = fmstk)) {	/* pop the format stack and continue */
 	if (fm->eventf) {
 	    if (!form || !form[0])
-		(*fm->eventf) (f, SF_FINAL, NIL(void *), ft);
+		(*fm->eventf) (f, SF_FINAL, NULL, ft);
 	    else if ((*fm->eventf) (f, SF_DPOP, (void *) form, ft) < 0)
 		goto loop_fmt;
 	}
@@ -756,7 +757,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
     free(fp);
     while ((fm = fmstk)) {
 	if (fm->eventf)
-	    (*fm->eventf) (f, SF_FINAL, NIL(void *), fm->ft);
+	    (*fm->eventf) (f, SF_FINAL, NULL, fm->ft);
 	fmstk = fm->next;
 	free(fm);
     }

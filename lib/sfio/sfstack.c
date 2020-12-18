@@ -76,7 +76,7 @@ Sfio_t *sfstack(Sfio_t * f1, Sfio_t * f2)
 	rf = f1;
     } else {			/* unfreeze the just exposed stream */
 	f1->mode &= ~SF_PUSH;
-	f2->push = NIL(Sfio_t *);
+	f2->push = NULL;
 	rf = f2;
     }
 

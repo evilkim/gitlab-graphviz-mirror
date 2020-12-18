@@ -1,5 +1,5 @@
 #include	<cdt/dthdr.h>
-
+#include	<stddef.h>
 
 /*	Renew the object at the current finger.
 **
@@ -15,7 +15,7 @@ void* dtrenew(Dt_t* dt, void* obj)
 	UNFLATTEN(dt);
 
 	if(!(e = dt->data->here) || _DTOBJ(e,disc->link) != obj)
-		return NIL(void*);
+		return NULL;
 
 	if(dt->data->type&(DT_STACK|DT_QUEUE|DT_LIST))
 		return obj;
@@ -44,9 +44,9 @@ void* dtrenew(Dt_t* dt, void* obj)
 		}
 		key = _DTKEY(obj,disc->key,disc->size);
 		e->hash = _DTHSH(dt,key,disc,disc->size);
-		dt->data->here = NIL(Dtlink_t*);
+		dt->data->here = NULL;
 	}
 
 	dt->data->size -= 1;
-	return (*dt->meth->searchf)(dt,(void*)e,DT_RENEW) ? obj : NIL(void*);
+	return (*dt->meth->searchf)(dt,(void*)e,DT_RENEW) ? obj : NULL;
 }

@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Close a dictionary
 **
@@ -15,14 +16,14 @@ int dtclose(Dt_t* dt)
 	/* announce the close event to see if we should continue */
 	disc = dt->disc;
 	if(disc->eventf &&
-	   (ev = (*disc->eventf)(dt,DT_CLOSE,NIL(void*),disc)) < 0)
+	   (ev = (*disc->eventf)(dt,DT_CLOSE,NULL,disc)) < 0)
 		return -1;
 
 	if(dt->view)	/* turn off viewing */
-		dtview(dt,NIL(Dt_t*));
+		dtview(dt,NULL);
 
 	if(ev == 0) /* release all allocated data */
-	{	(void)(*(dt->meth->searchf))(dt,NIL(void*),DT_CLEAR);
+	{	(void)(*(dt->meth->searchf))(dt,NULL,DT_CLEAR);
 		if(dtsize(dt) > 0)
 			return -1;
 
@@ -37,7 +38,7 @@ int dtclose(Dt_t* dt)
 		(*dt->memoryf)(dt, (void*)dt, 0, disc);
 
 	if(disc->eventf)
-		(void)(*disc->eventf)(dt, DT_ENDCLOSE, NIL(void*), disc);
+		(void)(*disc->eventf)(dt, DT_ENDCLOSE, NULL, disc);
 
 	return 0;
 }

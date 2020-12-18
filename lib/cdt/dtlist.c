@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	List, Deque, Stack, Queue.
 **
@@ -24,11 +25,11 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 					r = r->left;
 				dt->data->here = r;
 			}
-			return r ? _DTOBJ(r,lk) : NIL(void*);
+			return r ? _DTOBJ(r,lk) : NULL;
 		}
 		else if(type&(DT_DELETE|DT_DETACH))
 		{	if((dt->data->type&(DT_LIST|DT_DEQUE)) || !(r = dt->data->head))
-				return NIL(void*);
+				return NULL;
 			else	goto dt_delete;
 		}
 		else if(type&DT_CLEAR)
@@ -41,28 +42,28 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 						(*dt->memoryf)(dt,(void*)r,0,disc);
 				}
 			}
-			dt->data->head = dt->data->here = NIL(Dtlink_t*);
+			dt->data->head = dt->data->here = NULL;
 			dt->data->size = 0;
-			return NIL(void*);
+			return NULL;
 		}
-		else	return NIL(void*);
+		else	return NULL;
 	}
 
 	if(type&(DT_INSERT|DT_ATTACH))
 	{	if(disc->makef && (type&DT_INSERT) &&
 		   !(obj = (*disc->makef)(dt,obj,disc)) )
-			return NIL(void*);
+			return NULL;
 		if(lk >= 0)
 			r = _DTLNK(obj,lk);
 		else
 		{	r = (Dtlink_t*)(*dt->memoryf)
-				(dt,NIL(void*),sizeof(Dthold_t),disc);
+				(dt,NULL,sizeof(Dthold_t),disc);
 			if(r)
 				((Dthold_t*)r)->obj = obj;
 			else
 			{	if(disc->makef && disc->freef && (type&DT_INSERT))
 					(*disc->freef)(dt,obj,disc);
-				return NIL(void*);
+				return NULL;
 			}
 		}
 
@@ -110,7 +111,7 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 			{	dt->data->head = r;
 				r->left = r;
 			}
-			r->right = NIL(Dtlink_t*);
+			r->right = NULL;
 		}
 
 		if(dt->data->size >= 0)
@@ -130,7 +131,7 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 	}
 
 	if(!r)
-		return NIL(void*);
+		return NULL;
 	dt->type |= DT_FOUND;
 
 	if(type&(DT_DELETE|DT_DETACH))
@@ -148,7 +149,7 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 				t->left = r->left;
 		}
 
-		dt->data->here = r == dt->data->here ? r->right : NIL(Dtlink_t*);
+		dt->data->here = r == dt->data->here ? r->right : NULL;
 		dt->data->size -= 1;
 
 		obj = _DTOBJ(r,lk);
@@ -161,10 +162,10 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 	else if(type&DT_NEXT)
 		r = r->right;
 	else if(type&DT_PREV)
-		r = r == dt->data->head ? NIL(Dtlink_t*) : r->left;
+		r = r == dt->data->head ? NULL : r->left;
 
 	dt->data->here = r;
-	return r ? _DTOBJ(r,lk) : NIL(void*);
+	return r ? _DTOBJ(r,lk) : NULL;
 }
 
 #ifndef KPVDEL	/* to be remove next round */
