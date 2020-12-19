@@ -559,6 +559,25 @@ def test_1869(variant: int):
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
+@pytest.mark.xfail(strict=True) # FIXME
+@pytest.mark.skipif(shutil.which('twopi') is None, reason='twopi not available')
+def test_1907():
+    '''
+    SVG edges should have title elements that match their names
+    https://gitlab.com/graphviz/graphviz/-/issues/1907
+    '''
+
+    # a trivial graph to provoke this issue
+    input = 'digraph { A -> B -> C }'
+
+    # generate an SVG from this input with twopi
+    p = subprocess.Popen(['twopi', '-Tsvg'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+      universal_newlines=True)
+    output, _ = p.communicate(input)
+
+    assert '<title>A&#45;&gt;B</title>' in output, \
+      'element title not found in SVG'
+
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='gvpr not available')
 def test_1909():
     '''
