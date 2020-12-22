@@ -588,3 +588,36 @@ def test_1909():
                      '	a -> b;\n' \
                      '	b -> c;\n' \
                      '}\n'
+
+@pytest.mark.xfail(strict=True) # FIXME
+def test_1910():
+    '''
+    Repeatedly using agmemread() should have consistent results
+    https://gitlab.com/graphviz/graphviz/-/issues/1910
+    '''
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+    if os.getenv('build_system') == 'msbuild':
+      pytest.skip('Windows MSBuild release does not contain any header files (#1777)')
+
+    # find co-located test source
+    c_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '1910.c'))
+    assert os.path.exists(c_src), 'missing test case'
+
+    # create some scratch space to work in
+    with tempfile.TemporaryDirectory() as tmp:
+
+      # compile our test code
+      exe = os.path.join(tmp, 'a.exe')
+      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
+      if platform.system() == 'Windows':
+          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
+            rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
+      else:
+          cc = os.environ.get('CC', 'cc')
+          subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
+
+      # run the test
+      subprocess.check_call([exe])
