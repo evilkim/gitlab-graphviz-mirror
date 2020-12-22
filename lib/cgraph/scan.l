@@ -53,6 +53,14 @@ void agsetfile(char* f) { InputFile = f; line_num = 1; }
  */
 void aglexinit(Agdisc_t *disc, void *ifile) { Disc = disc; Ifile = ifile; graphType = 0;}
 
+/* By default, Flex calls isatty() to determine whether the input it is
+ * scanning is coming from the user typing or from a file. However, our input
+ * is being provided by Graphviz' I/O channel mechanism, which does not have a
+ * valid file descriptor that supports isatty().
+ */
+#define isatty(x) gv_isatty_suppression
+int gv_isatty_suppression;
+
 #ifndef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
 	if ((result = Disc->io->afread(Ifile, buf, max_size)) < 0) \
@@ -182,15 +190,6 @@ static int chkNum(void) {
  * harm. (Presumably undefined characters will be ignored in display.) And,
  * it allows a greater wealth of names. */
 %}
-
-  /* By default, Flex calls isatty() to determine whether the input it is
-   * scanning is coming from the user typing or from a file. However, our input
-   * is being provided by Graphviz' I/O channel mechanism, which does not have a
-   * valid file descriptor that supports isatty(). To suppress Flex's behavior,
-   * we tell it that the input is unconditionally a file.
-   */
-%option never-interactive
-
 GRAPH_EOF_TOKEN				[@]	
 LETTER [A-Za-z_\200-\377]
 DIGIT	[0-9]

@@ -589,7 +589,6 @@ def test_1909():
                      '	b -> c;\n' \
                      '}\n'
 
-@pytest.mark.xfail(strict=True) # FIXME
 def test_1910():
     '''
     Repeatedly using agmemread() should have consistent results
