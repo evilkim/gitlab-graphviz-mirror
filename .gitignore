@@ -159,9 +159,11 @@ cmd/lefty/dot2l/dotparse.c
 cmd/lefty/dot2l/dotparse.h
 cmd/tools/gmlparse.c
 cmd/tools/gmlparse.h
+cmd/tools/gmlparse.output
 cmd/tools/gmlscan.c
 lib/cgraph/grammar.c
 lib/cgraph/grammar.h
+lib/cgraph/grammar.output
 lib/cgraph/scan.c
 lib/common/brewer_lib
 lib/common/color_lib
@@ -170,6 +172,7 @@ lib/common/color_lib-temp
 lib/common/colortbl.h
 lib/common/htmlparse.c
 lib/common/htmlparse.h
+lib/common/htmlparse.output
 lib/common/ps_font_equiv.h
 lib/common/svgcolor_lib
 lib/expr/exparse.c
@@ -220,6 +223,8 @@ contrib/prune/prune
 # Files generated during make check
 rtest/ndata
 rtest/nhtml
+rtest/tmp*
+rtest/tmp*
 tests/**/*.log
 tests/**/*.trs
 tests/**/output/**
