@@ -464,12 +464,11 @@ static int scalefn(htmlimg_t * p, char *v)
 static int alignfn(int *p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    if (!strcasecmp(v, "RIGHT"))
 	*p = 'r';
-    else if ((c == 'L') || !strcasecmp(v + 1, "EFT"))
+    else if (!strcasecmp(v, "LEFT"))
 	*p = 'l';
-    else if ((c == 'C') || strcasecmp(v + 1, "ENTER")) 
+    else if (!strcasecmp(v, "CENTER"))
 	*p = 'n';
     else {
 	agerr(AGWARN, "Illegal value %s for ALIGN - ignored\n", v);

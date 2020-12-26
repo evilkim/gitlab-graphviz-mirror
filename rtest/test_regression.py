@@ -639,7 +639,6 @@ def test_1910():
       # run the test
       subprocess.check_call([exe])
 
-@pytest.mark.xfail(strict=True) # FIXME
 def test_1913():
     '''
     ALIGN attributes in <BR> tags should be parsed correctly

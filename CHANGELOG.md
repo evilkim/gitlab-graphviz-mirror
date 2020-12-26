@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - memory leak in label construction
 - gvedit compilation errors out, but works if manually compiled with qt5 #1862
+- incorrect HTML BR attribute parsing code #1913
 
 ## [2.46.0] - 2021-01-18
 
