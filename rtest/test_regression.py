@@ -559,3 +559,34 @@ def test_1869(variant: int):
 
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
+
+@pytest.mark.xfail(strict=True) # FIXME
+@pytest.mark.skipif(shutil.which('gvpr') is None, reason='gvpr not available')
+def test_1909():
+    '''
+    GVPR should not output internal names
+    https://gitlab.com/graphviz/graphviz/-/issues/1909
+    '''
+
+    # locate our associated test case in this directory
+    prog = os.path.join(os.path.dirname(__file__), '1909.gvpr')
+    graph = os.path.join(os.path.dirname(__file__), '1909.dot')
+
+    # run GVPR with the given input
+    p = subprocess.Popen(['gvpr', '-c', '-f', prog, graph],
+      stdout=subprocess.PIPE, universal_newlines=True)
+    output, _ = p.communicate()
+
+    # FIXME: for some undiagnosed reason, the above command fails on Windows
+    if platform.system() == 'Windows':
+      assert p.returncode != 0
+      return
+
+    assert p.returncode == 0, 'gvpr failed to process graph'
+
+    # we should have produced this graph without names like "%2" in it
+    assert output == '// begin\n' \
+                     'digraph bug {\n' \
+                     '	a -> b;\n' \
+                     '	b -> c;\n' \
+                     '}\n'
