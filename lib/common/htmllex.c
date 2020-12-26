@@ -18,6 +18,7 @@
 #include <cdt/cdt.h>
 #include <ctype.h>
 #include <cgraph/strcasecmp.h>
+#include <limits.h>
 
 #ifdef HAVE_EXPAT
 #include <expat.h>
@@ -84,11 +85,6 @@ static void lexerror(const char *name)
 
 typedef int (*attrFn) (void *, char *);
 typedef int (*bcmpfn) (const void *, const void *);
-
-#define MAX_CHAR    (((unsigned char)(~0)) >> 1)
-#define MIN_CHAR    ((signed char)(~MAX_CHAR))
-#define MAX_UCHAR   ((unsigned char)(~0))
-#define MAX_USHORT  ((unsigned short)(~0))
 
 /* Mechanism for automatically processing attributes */
 typedef struct {
@@ -251,7 +247,7 @@ static int borderfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "BORDER", 0, MAX_UCHAR, &u))
+    if (doInt(v, "BORDER", 0, UCHAR_MAX, &u))
 	return 1;
     p->border = (unsigned char) u;
     p->flags |= BORDER_SET;
@@ -262,7 +258,7 @@ static int cellpaddingfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLPADDING", 0, MAX_UCHAR, &u))
+    if (doInt(v, "CELLPADDING", 0, UCHAR_MAX, &u))
 	return 1;
     p->pad = (unsigned char) u;
     p->flags |= PAD_SET;
@@ -273,7 +269,7 @@ static int cellspacingfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLSPACING", MIN_CHAR, MAX_CHAR, &u))
+    if (doInt(v, "CELLSPACING", SCHAR_MIN, SCHAR_MAX, &u))
 	return 1;
     p->space = (signed char) u;
     p->flags |= SPACE_SET;
@@ -284,7 +280,7 @@ static int cellborderfn(htmltbl_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLSBORDER", 0, MAX_CHAR, &u))
+    if (doInt(v, "CELLSBORDER", 0, SCHAR_MAX, &u))
 	return 1;
     p->cb = (unsigned char) u;
     return 0;
@@ -389,7 +385,7 @@ static int heightfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "HEIGHT", 0, MAX_USHORT, &u))
+    if (doInt(v, "HEIGHT", 0, USHRT_MAX, &u))
 	return 1;
     p->height = (unsigned short) u;
     return 0;
@@ -399,7 +395,7 @@ static int widthfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "WIDTH", 0, MAX_USHORT, &u))
+    if (doInt(v, "WIDTH", 0, USHRT_MAX, &u))
 	return 1;
     p->width = (unsigned short) u;
     return 0;
@@ -409,7 +405,7 @@ static int rowspanfn(htmlcell_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "ROWSPAN", 0, MAX_USHORT, &u))
+    if (doInt(v, "ROWSPAN", 0, USHRT_MAX, &u))
 	return 1;
     if (u == 0) {
 	agerr(AGWARN, "ROWSPAN value cannot be 0 - ignored\n");
@@ -423,7 +419,7 @@ static int colspanfn(htmlcell_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "COLSPAN", 0, MAX_USHORT, &u))
+    if (doInt(v, "COLSPAN", 0, USHRT_MAX, &u))
 	return 1;
     if (u == 0) {
 	agerr(AGWARN, "COLSPAN value cannot be 0 - ignored\n");
@@ -449,7 +445,7 @@ static int ptsizefn(textfont_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "POINT-SIZE", 0, MAX_UCHAR, &u))
+    if (doInt(v, "POINT-SIZE", 0, UCHAR_MAX, &u))
 	return 1;
     p->size = (double) u;
     return 0;
