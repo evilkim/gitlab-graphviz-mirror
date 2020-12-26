@@ -275,6 +275,8 @@ Agnode_t *agsubnode(Agraph_t * g, Agnode_t * n0, int cflag)
 
 static int agsubnodeidcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
 {
+    (void)d; /* unused */
+    (void)disc; /* unused */
     Agsubnode_t *sn0, *sn1;
 
     sn0 = (Agsubnode_t *) arg0;
@@ -287,6 +289,8 @@ static int agsubnodeidcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
 
 static int agsubnodeseqcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
 {
+    (void)d; /* unused */
+    (void)disc; /* unused */
     Agsubnode_t *sn0, *sn1;
 
     sn0 = (Agsubnode_t *) arg0;
@@ -308,7 +312,8 @@ static int agsubnodeseqcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
 static void
 free_subnode (Dt_t* d, Agsubnode_t* sn, Dtdisc_t * disc)
 {
-
+   (void)d; /* unused */
+   (void)disc; /* unused */
    if (!AGSNMAIN(sn)) 
 	agfree (sn->node->root, sn);
 }

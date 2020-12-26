@@ -89,6 +89,7 @@ int agdtclose(Agraph_t * g, Dict_t * dict)
 
 void agdtdisc(Agraph_t * g, Dict_t * dict, Dtdisc_t * disc)
 {
+    (void)g; /* unused */
     if (disc && dtdisc(dict, NULL, 0) != disc) {
 	dtdisc(dict, disc, 0);
     }

@@ -65,7 +65,7 @@ typedef struct gstack_s {
 static void appendnode(char *name, char *port, char *sport);
 static void attrstmt(int tkind, char *macroname);
 static void startgraph(char *name, int directed, int strict);
-static void getedgeitems(int x);
+static void getedgeitems(void);
 static void newedge(Agnode_t *t, char *tport, Agnode_t *h, char *hport, char *key);
 static void edgerhs(Agnode_t *n, char *tport, item *hlist, char *key);
 static void appendattr(char *name, char *value);
@@ -137,7 +137,7 @@ compound 	:	simple rcompound optattr
 
 simple		:	nodelist | subgraph ;
 
-rcompound	:	T_edgeop {getedgeitems(1);} simple {getedgeitems(2);} rcompound {$$ = 1;}
+rcompound	:	T_edgeop {getedgeitems();} simple {getedgeitems();} rcompound {$$ = 1;}
 			|	/* empty */ {$$ = 0;}
 			;
 
@@ -406,7 +406,7 @@ static void endnode()
 
 /* edges - store up node/subg lists until optional edge key can be seen */
 
-static void getedgeitems(int x)
+static void getedgeitems(void)
 {
 	item	*v = 0;
 
