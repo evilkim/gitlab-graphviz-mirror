@@ -164,19 +164,11 @@ static int portfn(htmldata_t * p, char *v)
 static int stylefn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c;
     char* tk;
     char* buf = strdup (v);
     for (tk = strtok (buf, DELIM); tk; tk = strtok (NULL, DELIM)) {
-	c = (char) toupper(*tk);
-	if (c == 'R') {
-	    if (!strcasecmp(tk + 1, "OUNDED")) p->style |= ROUNDED;
-	    else if (!strcasecmp(tk + 1, "ADIAL")) p->style |= RADIAL;
-	    else {
-		agerr(AGWARN, "Illegal value %s for STYLE - ignored\n", tk);
-		rv = 1;
-	    }
-	}
+	if (!strcasecmp(tk, "ROUNDED")) p->style |= ROUNDED;
+	else if (!strcasecmp(tk, "RADIAL")) p->style |= RADIAL;
 	else if(!strcasecmp(tk,"SOLID")) p->style &= ~(DOTTED|DASHED);
 	else if(!strcasecmp(tk,"INVISIBLE") || !strcasecmp(tk,"INVIS")) p->style |= INVISIBLE;
 	else if(!strcasecmp(tk,"DOTTED")) p->style |= DOTTED;
@@ -307,10 +299,9 @@ static int rowsfn(htmltbl_t * p, char *v)
 static int fixedsizefn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*(unsigned char *) v);
-    if ((c == 'T') && !strcasecmp(v + 1, "RUE"))
+    if (!strcasecmp(v, "TRUE"))
 	p->flags |= FIXED_FLAG;
-    else if ((c != 'F') || strcasecmp(v + 1, "ALSE")) {
+    else if (strcasecmp(v, "FALSE")) {
 	agerr(AGWARN, "Illegal value %s for FIXEDSIZE - ignored\n", v);
 	rv = 1;
     }
@@ -320,12 +311,11 @@ static int fixedsizefn(htmldata_t * p, char *v)
 static int valignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'B') && !strcasecmp(v + 1, "OTTOM"))
+    if (!strcasecmp(v, "BOTTOM"))
 	p->flags |= VALIGN_BOTTOM;
-    else if ((c == 'T') && !strcasecmp(v + 1, "OP"))
+    else if (!strcasecmp(v, "TOP"))
 	p->flags |= VALIGN_TOP;
-    else if ((c != 'M') || strcasecmp(v + 1, "IDDLE")) {
+    else if (strcasecmp(v, "MIDDLE")) {
 	agerr(AGWARN, "Illegal value %s for VALIGN - ignored\n", v);
 	rv = 1;
     }
@@ -335,12 +325,11 @@ static int valignfn(htmldata_t * p, char *v)
 static int halignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= HALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= HALIGN_RIGHT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER")) {
+    else if (strcasecmp(v, "CENTER")) {
 	agerr(AGWARN, "Illegal value %s for ALIGN - ignored\n", v);
 	rv = 1;
     }
@@ -350,14 +339,13 @@ static int halignfn(htmldata_t * p, char *v)
 static int cell_halignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= HALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= HALIGN_RIGHT;
-    else if ((c == 'T') && !strcasecmp(v + 1, "EXT"))
+    else if (!strcasecmp(v, "TEXT"))
 	p->flags |= HALIGN_TEXT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER"))
+    else if (strcasecmp(v, "CENTER"))
 	rv = 1;
     if (rv)
 	agerr(AGWARN, "Illegal value %s for ALIGN in TD - ignored\n", v);
@@ -367,12 +355,11 @@ static int cell_halignfn(htmldata_t * p, char *v)
 static int balignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= BALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= BALIGN_RIGHT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER"))
+    else if (strcasecmp(v, "CENTER"))
 	rv = 1;
     if (rv)
 	agerr(AGWARN, "Illegal value %s for BALIGN in TD - ignored\n", v);
@@ -840,7 +827,7 @@ static char *findNext(char *s, agxbuf* xb)
     char c;
 
     if (*s == '<') {
-	if ((*t == '!') && !strncmp(t + 1, "--", 2))
+	if (!strncmp(t, "!--", 3))
 	    t = eatComment(t + 3);
 	else
 	    while (*t && (*t != '>'))
