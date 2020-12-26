@@ -617,8 +617,7 @@ static void startElement(void *user, const char *name, char **atts)
 	htmllval.tbl = mkTbl(atts);
 	state.inCell = 0;
 	state.tok = T_table;
-    } else if ((strcasecmp(name, "TR") == 0)
-	       || (strcasecmp(name, "TH") == 0)) {
+    } else if (strcasecmp(name, "TR") == 0 || strcasecmp(name, "TH") == 0) {
 	state.inCell = 0;
 	state.tok = T_row;
     } else if (strcasecmp(name, "TD") == 0) {
@@ -671,8 +670,7 @@ static void endElement(void *user, const char *name)
     if (strcasecmp(name, "TABLE") == 0) {
 	state.tok = T_end_table;
 	state.inCell = 1;
-    } else if ((strcasecmp(name, "TR") == 0)
-	       || (strcasecmp(name, "TH") == 0)) {
+    } else if (strcasecmp(name, "TR") == 0 || strcasecmp(name, "TH") == 0) {
 	state.tok = T_end_row;
     } else if (strcasecmp(name, "TD") == 0) {
 	state.tok = T_end_cell;
@@ -809,7 +807,7 @@ static char *eatComment(char *p)
     s--;			/* move back to '\0' or '>' */
     if (*s) {
 	char *t = s - 2;
-	if ((t < p) || strncmp(t, "--", 2)) {
+	if (t < p || strncmp(t, "--", 2)) {
 	    agerr(AGWARN, "Unclosed comment\n");
 	    state.warn = 1;
 	}
@@ -830,7 +828,7 @@ static char *findNext(char *s, agxbuf* xb)
 	if (!strncmp(t, "!--", 3))
 	    t = eatComment(t + 3);
 	else
-	    while (*t && (*t != '>'))
+	    while (*t && *t != '>')
 		t++;
 	if (*t != '>') {
 	    agerr(AGWARN, "Label closed before end of HTML element\n");
@@ -839,8 +837,8 @@ static char *findNext(char *s, agxbuf* xb)
 	    t++;
     } else {
 	t = s;
-	while ((c = *t) && (c != '<')) {
-	    if ((c == '&') && (*(t+1) != '#')) {
+	while ((c = *t) && c != '<') {
+	    if (c == '&' && *(t+1) != '#') {
 		t = scanEntity(t + 1, xb);
 	    }
 	    else {
@@ -1033,7 +1031,7 @@ int htmllex()
 	if ((llen = agxblen(&state.lb)))
 	    rv = XML_Parse(state.parser, agxbuse(&state.lb),llen, 0);
 	else
-	    rv = XML_Parse(state.parser, s, len, (len ? 0 : 1));
+	    rv = XML_Parse(state.parser, s, len, len ? 0 : 1);
 	if (rv == XML_STATUS_ERROR) {
 	    if (!state.error) {
 		agerr(AGERR, "%s in line %d \n",
