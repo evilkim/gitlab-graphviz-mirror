@@ -701,27 +701,28 @@ else
     if test `$SWIG -help 2>&1 | $EGREP -c '\-guile *- Generate'` = 0; then
       use_guile="No (swig does not support -guile option)"
     else
-      AC_CHECK_PROGS(GUILE,guile2 guile1.8 guile)
-      if test "x$GUILE" = "x"; then
+      AC_CHECK_PROGS(GUILE_CONFIG,guile-config)
+      if test "x$GUILE_CONFIG" = "x"; then
         use_guile="No (guile not available)"
       else
-        [GUILE_VERSION=`$GUILE --version | sed -n '1 s/^.* \+\([0-9\.]\+\)$/\1/ p'`]
+        [GUILE_VERSION=`$GUILE_CONFIG --version 2>&1 | sed -n '1 s/^.* \+\([0-9\.]\+\)$/\1/ p'`]
         GUILE_VERSION_MAJOR=`echo $GUILE_VERSION | cut -d '.' -f 1`
         GUILE_VERSION_MINOR=`echo $GUILE_VERSION | cut -d '.' -f 2`
+        AC_CHECK_PROGS(GUILE,guile$GUILE_VERSION_MAJOR.$GUILE_VERSION_MINOR guile$GUILE_VERSION_MAJOR guile)
         if test 0$GUILE_VERSION_MAJOR -lt 2; then
           if test 0$GUILE_VERSION_MAJOR -lt 1; then
-            GUILE=
+            GUILE_CONFIG=
           else
             if test 0$GUILE_VERSION_MINOR -lt 4; then
-	      GUILE=
+	      GUILE_CONFIG=
             fi
           fi
         fi
-        if test "x$GUILE" = "x"; then
+        if test "x$GUILE_CONFIG" = "x"; then
 	  use_guile="No (guile is too old)"
         else
-	  GUILE_INCLUDES=$(guile-config compile)
-	  GUILE_LIBS=$(guile-config link)
+	  GUILE_INCLUDES=$($GUILE_CONFIG compile)
+	  GUILE_LIBS=$($GUILE_CONFIG link)
 	  # don't die if PKG_CHECK_MODULES not available - el4, el5
           PKG_CHECK_MODULES([GUILE],
 		[guile-2.0 >= "$GUILE_VERSION_MAJOR.$GUILE_VERSION_MINOR"],
@@ -738,7 +739,7 @@ else
           CPPFLAGS="$CPPFLAGS $GUILE_INCLUDES"
           AC_CHECK_HEADER(libguile.h,,[
             use_guile="No (guile header missing)"
-            GUILE=
+            GUILE_CONFIG=
           ])
           CFLAGS="$ac_save_CFLAGS"
           CPPFLAGS="$ac_save_CPPFLAGS"
