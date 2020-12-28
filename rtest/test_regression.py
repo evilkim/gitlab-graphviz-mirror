@@ -559,6 +559,27 @@ def test_1869(variant: int):
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
+@pytest.mark.xfail(strict=True) # FIXME
+def test_1906():
+    '''
+    graphs that cause an overflow during rectangle calculation should result in
+    a layout error
+    https://gitlab.com/graphviz/graphviz/-/issues/1906
+    '''
+
+    # one of the rtest graphs is sufficient to provoke this
+    input = os.path.join(os.path.dirname(__file__), 'graphs/root.gv')
+    assert os.path.exists(input), 'unexpectedly missing test case'
+
+    # use Circo to translate it to DOT
+    p = subprocess.Popen(['dot', '-Kcirco', '-Tgv', '-o', os.devnull, input],
+      stderr=subprocess.PIPE, universal_newlines=True)
+    _, stderr = p.communicate()
+
+    assert p.returncode != 0, 'graph that generates overflow was accepted'
+
+    assert 'area too large' in stderr, 'missing/incorrect error message'
+
 @pytest.mark.skipif(shutil.which('twopi') is None, reason='twopi not available')
 def test_1907():
     '''
