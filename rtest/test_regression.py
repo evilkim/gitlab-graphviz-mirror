@@ -552,7 +552,7 @@ def test_1869(variant: int):
     '''
 
     # locate our associated test case in this directory
-    input = Path(__file__).parent / '1869-{}.gml'.format(variant)
+    input = Path(__file__).parent / f'1869-{variant}.gml'
     assert input.exists(), 'unexpectedly missing test case'
 
     # ask gml2gv to translate it to DOT
@@ -692,7 +692,7 @@ def test_1913():
       assert stderr.strip() == ''
 
       # these attributes should also be valid when title cased
-      input = '{}{}'.format(align[0].upper(), align[1:])
+      input = f'{align[0].upper()}{align[1:]}'
       ret, stderr = run(graph.format(input))
       assert ret == 0
       assert stderr.strip() == ''
@@ -709,17 +709,17 @@ def test_1913():
 
       input = align
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
       # these attributes should also fail when title cased
-      input = '{}{}'.format(align[0].upper(), align[1:])
+      input = f'{align[0].upper()}{align[1:]}'
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
       # similarly, they should fail when upper cased
       input = align.upper()
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
 def test_1931():
     '''

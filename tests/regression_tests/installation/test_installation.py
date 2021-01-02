@@ -25,5 +25,5 @@ def test_installation():
     try:
         actual_version = actual_version_string.split()[4]
     except IndexError:
-        pytest.fail('Malformed version string: {0}'.format(actual_version_string))
+        pytest.fail(f'Malformed version string: {actual_version_string}')
     assert actual_version == expected_version

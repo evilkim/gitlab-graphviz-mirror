@@ -42,10 +42,10 @@ def test_compile_example(src):
         debug = os.environ.get('configuration') == 'Debug'
         rt_lib_option = '-MDd' if debug else '-MD'
         subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
-          rt_lib_option, '-link'] + ['{}.lib'.format(l) for l in libs])
+          rt_lib_option, '-link'] + [f'{l}.lib' for l in libs])
       else:
         subprocess.check_call([cc, '-std=c99', '-o', exe, filepath]
-          + ['-l{}'.format(l) for l in libs])
+          + [f'-l{l}' for l in libs])
 
       # FIXME: Remove skip of execution of neatopack.c example when
       # https://gitlab.com/graphviz/graphviz/-/issues/1800 has been fixed
@@ -61,7 +61,7 @@ def test_compile_example(src):
           universal_newlines=True,
       )
       p.communicate(input='graph {a -- b}')
-      print('returncode: {} = 0x{:08x}'.format(p.returncode, p.returncode))
+      print(f'returncode: {p.returncode} = 0x{p.returncode:08x}')
       assert p.returncode == 0
 
 @pytest.mark.parametrize('src', ['addrings', 'attr', 'bbox', 'bipart',

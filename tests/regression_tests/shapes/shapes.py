@@ -81,14 +81,14 @@ def generate_shape_graph(shape, output_type):
     if not Path('output').exists():
         Path('output').mkdir(parents=True)
 
-    output_file = Path('output') / (shape + '.' + output_type)
+    output_file = Path('output') / f'{shape}.{output_type}'
     process = Popen(['dot', '-T' + output_type, '-o', output_file], stdin=PIPE)
 
-    input_graph = 'graph G { a [label="" shape=' + shape + '] }'
+    input_graph = f'graph G {{ a [label="" shape={shape}] }}'
     process.communicate(input = input_graph.encode('utf_8'))
 
     if process.wait() != 0:
-        print('An error occurred while generating: ' + str(output_file))
+        print(f'An error occurred while generating: {output_file}')
         exit(1)
 
     if output_type == 'svg':
@@ -115,8 +115,8 @@ for shape in shapes:
 
 print('')
 print('Results for "shapes" regression test:')
-print('    Number of tests: ' + str(len(shapes) * len(output_types)))
-print('    Number of failures: ' + str(failures))
+print(f'    Number of tests: {len(shapes) * len(output_types)}')
+print(f'    Number of failures: {failures}')
 
 if not failures == 0:
     exit(1) 

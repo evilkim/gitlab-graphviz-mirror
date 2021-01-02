@@ -2,11 +2,11 @@ import difflib
 from pathlib import Path
 
 def compare_graphs(name, output_type):
-    filename = Path(name + '.' + output_type)
+    filename = Path(f'{name}.{output_type}')
     filename_reference = Path('reference') / filename
     filename_output = Path('output') / filename
     if not filename_reference.is_file():
-        print('Failure: ' + str(filename) + ' - No reference file present.')
+        print(f'Failure: {filename} - No reference file present.')
         return False
 
     with open(filename_reference) as reference_file:
@@ -21,7 +21,7 @@ def compare_graphs(name, output_type):
                 diff.append(line)
 
             if len(diff) == 0:
-                print('Success: ' + str(filename))
+                print(f'Success: {filename}')
                 return True
             else:
                 difference = Path('difference')
@@ -36,5 +36,5 @@ def compare_graphs(name, output_type):
                 with open('difference/' + str(filename), 'w') as diff_file:
                     diff_file.writelines(diff)
 
-                print('Failure: ' + str(filename) + ' - Generated file does not match reference file.')
+                print(f'Failure: {filename} - Generated file does not match reference file.')
                 return False
