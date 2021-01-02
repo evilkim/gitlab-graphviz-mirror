@@ -363,6 +363,22 @@ def test_1767():
       #                  'cluster_2 contains 3 nodes\n' \
       #                  'cluster_3 contains 3 nodes\n'
 
+@pytest.mark.xfail(strict=True) # FIXME
+@pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
+@pytest.mark.skipif(platform.system() != 'Windows',
+  reason='only relevant on Windows')
+def test_1780():
+    '''
+    GVPR should accept programs at absolute paths
+    https://gitlab.com/graphviz/graphviz/-/issues/1780
+    '''
+
+    # get absolute path to an arbitrary GVPR program
+    clustg = Path(__file__).resolve().parent.parent / 'cmd/gvpr/lib/clustg'
+
+    # GVPR should not fail when given this path
+    subprocess.check_call(['gvpr', '-f', clustg], stdin=subprocess.DEVNULL)
+
 def test_1783():
     '''
     Graphviz should not segfault when passed large edge weights
