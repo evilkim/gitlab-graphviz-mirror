@@ -1,6 +1,7 @@
 # tests that examples provided with Graphviz compile correctly
 
 import os
+from pathlib import Path
 import platform
 import pytest
 import shutil
@@ -26,8 +27,7 @@ def test_compile_example(src):
     '''try to compile the example'''
 
     # construct an absolute path to the example
-    filepath = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-      '..', 'dot.demo', src)
+    filepath = Path(__file__).parent.resolve() / '..' / 'dot.demo' / src
 
     cc = c_compiler()
 
@@ -37,7 +37,7 @@ def test_compile_example(src):
     with tempfile.TemporaryDirectory() as tmp:
 
       # compile our test code
-      exe = os.path.join(tmp, 'a.exe')
+      exe = Path(tmp) / 'a.exe'
       if platform.system() == 'Windows':
         debug = os.environ.get('configuration') == 'Debug'
         rt_lib_option = '-MDd' if debug else '-MD'
@@ -81,28 +81,30 @@ def test_gvpr_example(src):
       pytest.skip('GVPR tests "bbox" and "col" hangs on Windows MSBuild Debug '
                   'builds (#1784)')
 
-    # construct an absolute path to the example
-    path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-      '../cmd/gvpr/lib', src)
+    # construct a relative path to the example because gvpr on Windows does not
+    # support absolute paths (#1780)
+    path = Path('cmd/gvpr/lib') / src
+    wd = Path(__file__).parent.parent.resolve()
 
     # run GVPR with the given script
     with open(os.devnull, 'rt') as nul:
-      subprocess.check_call(['gvpr', '-f', path], stdin=nul)
+      subprocess.check_call(['gvpr', '-f', path], stdin=nul, cwd=wd)
 
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 def test_gvpr_clustg():
     '''check cmd/gvpr/lib/clustg works'''
 
-    # construct an absolute path to clustg
-    path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-      '../cmd/gvpr/lib/clustg')
+    # construct a relative path to clustg because gvpr on Windows does not
+    # support absolute paths (#1780)
+    path = Path('cmd/gvpr/lib/clustg')
+    wd = Path(__file__).parent.parent.resolve()
 
     # some sample input
     input = 'digraph { N1; N2; N1 -> N2; N3; }'
 
     # run GVPR on this input
     p = subprocess.Popen(['gvpr', '-f', path], stdin=subprocess.PIPE,
-      stdout=subprocess.PIPE, universal_newlines=True)
+      stdout=subprocess.PIPE, cwd=wd, universal_newlines=True)
     output, _ = p.communicate(input)
 
     assert p.returncode == 0, 'GVPR exited with non-zero status'
