@@ -44,7 +44,7 @@ def test_compile_example(src):
         subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
           rt_lib_option, '-link'] + ['{}.lib'.format(l) for l in libs])
       else:
-        subprocess.check_call([cc, '-o', exe, filepath]
+        subprocess.check_call([cc, '-std=c99', '-o', exe, filepath]
           + ['-l{}'.format(l) for l in libs])
 
       # FIXME: Remove skip of execution of neatopack.c example when

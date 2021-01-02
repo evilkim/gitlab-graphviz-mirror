@@ -339,7 +339,8 @@ def test_1767():
             rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
       else:
           cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
+          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe, '-lcgraph',
+            '-lgvc'])
 
       # find our co-located dot input
       dot = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.dot'))

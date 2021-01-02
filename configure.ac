@@ -310,6 +310,9 @@ dnl checks for compilers
 
 AM_PROG_CC_C_O
 AC_PROG_CC_C99
+if test "x$ac_cv_prog_cc_c99" = "xno"; then
+  AC_MSG_ERROR([C compiler does not support C99])
+fi
 AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX_11(noext,mandatory)
 AC_PROG_OBJC
