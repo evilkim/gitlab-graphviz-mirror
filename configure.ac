@@ -2409,11 +2409,7 @@ if test "x$with_qt" != "xyes"; then
 else
 
   # required for linking with QT5
-  AX_CHECK_COMPILE_FLAG([-std=c++11], [
-	CXXFLAGS="${CXXFLAGS} -fPIE -fPIC -std=c++11"
-     ],[
-	CXXFLAGS="${CXXFLAGS} -fPIE -fPIC"
-     ])
+  CXXFLAGS="${CXXFLAGS} -fPIE -fPIC"
   AC_CHECK_PROGS(QMAKE,qmake-qt5 qmake,false)
   if test "$QMAKE" != "false"; then
     PKG_CHECK_MODULES(QTCORE, [Qt5Core],[
