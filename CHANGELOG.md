@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - CentOS/RHEL 6 is no longer supported
 - Vestiges of Qt4 support have been removed
+- C++11 support is now required of the C++ compiler used to build Graphviz
 
 ### Fixed
 - memory leak in label construction
