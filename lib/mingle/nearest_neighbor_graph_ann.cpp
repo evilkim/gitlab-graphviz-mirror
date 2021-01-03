@@ -15,13 +15,8 @@
 //		File:			get_nearest_neighb_graph.cpp
 //----------------------------------------------------------------------
 
-#include <cstdlib>						// C standard library
-#include <cstdio>						// C I/O (for sscanf)
-#include <cstring>						// string manipulation
-#include <fstream>						// file I/O
 #include <ANN/ANN.h>					// ANN declarations
 
-using namespace std;					// make std:: accessible
 int                             dim                             = 4;                    // dimension
 
 
