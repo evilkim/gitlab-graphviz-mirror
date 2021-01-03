@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <cgraph/agxbuf.h>
 #include <cgraph/strcasecmp.h>
 
 #define KINDS(p) ((AGTYPE(p) == AGRAPH) ? "graph" : (AGTYPE(p) == AGNODE) ? "node" : "edge")
@@ -701,20 +702,20 @@ char *readLine(Expr_t * ex, int fd)
 {
     Sfio_t *sp;
     int c;
-    Sfio_t *tmps;
+    agxbuf tmps;
     char *line;
 
     if (fd < 0 || fd >= elementsof(ex->file) || !((sp = ex->file[fd]))) {
 	exerror("readL: %d: invalid descriptor", fd);
 	return "";
     }
-    tmps = sfstropen();
+    agxbinit(&tmps, 0, NULL);
     while ((c = sfgetc(sp)) > 0 && c != '\n')
-	sfputc(tmps, c);
+	agxbputc(&tmps, c);
     if (c == '\n')
-	sfputc(tmps, c);
-    line = exstring(ex, sfstruse(tmps));
-    sfclose(tmps);
+	agxbputc(&tmps, c);
+    line = exstring(ex, agxbuse(&tmps));
+    agxbfree(&tmps);
     return line;
 }
 
