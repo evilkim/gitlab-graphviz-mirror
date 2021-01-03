@@ -17,6 +17,7 @@
 #include <ast/ast.h>
 #include <ast/sfstr.h>
 #include <ast/error.h>
+#include <cgraph/agxbuf.h>
 #include <gvpr/parse.h>
 #include <string.h>
 #include <stdlib.h>
@@ -68,7 +69,7 @@ static int eol (Sfio_t * str)
  * If a newline is seen in comment and ostr
  * is non-null, add newline to ostr.
  */
-static int readc(Sfio_t * str, Sfio_t * ostr)
+static int readc(Sfio_t * str, agxbuf * ostr)
 {
     int c;
     int cc;
@@ -93,7 +94,7 @@ static int readc(Sfio_t * str, Sfio_t * ostr)
 		case '\n':
 		    lineno++;
 		    if (ostr)
-			sfputc(ostr, c);
+			agxbputc(ostr, c);
 		    break;
 		case '*':
 		    switch (cc = sfgetc(str)) {
@@ -103,7 +104,7 @@ static int readc(Sfio_t * str, Sfio_t * ostr)
 		    case '\n':
 			lineno++;
 			if (ostr)
-			    sfputc(ostr, cc);
+			    agxbputc(ostr, cc);
 			break;
 		    case '*':
 			sfungetc(str, cc);
@@ -241,14 +242,14 @@ static case_t parseKind(Sfio_t * str)
  * up to and including a terminating character ec
  * that is not escaped with a back quote.
  */
-static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
+static int endString(Sfio_t * ins, agxbuf * outs, char ec)
 {
     int sline = lineno;
     int c;
 
     while ((c = sfgetc(ins)) != ec) {
 	if (c == '\\') {
-	    sfputc(outs, c);
+	    agxbputc(outs, c);
 	    c = sfgetc(ins);
 	}
 	if (c < 0) {
@@ -257,9 +258,9 @@ static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
 	}
 	if (c == '\n')
 	    lineno++;
-	sfputc(outs, (char) c);
+	agxbputc(outs, (char) c);
     }
-    sfputc(outs, c);
+    agxbputc(outs, c);
     return 0;
 }
 
@@ -270,7 +271,7 @@ static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
  * is ignored. Since matching bc-ec pairs might nest,
  * the function is called recursively.
  */
-static int endBracket(Sfio_t * ins, Sfio_t * outs, char bc, char ec)
+static int endBracket(Sfio_t * ins, agxbuf * outs, char bc, char ec)
 {
     int c;
 
@@ -279,17 +280,17 @@ static int endBracket(Sfio_t * ins, Sfio_t * outs, char bc, char ec)
 	if ((c < 0) || (c == ec))
 	    return c;
 	else if (c == bc) {
-	    sfputc(outs, (char) c);
+	    agxbputc(outs, (char) c);
 	    c = endBracket(ins, outs, bc, ec);
 	    if (c < 0)
 		return c;
 	    else
-		sfputc(outs, (char) c);
+		agxbputc(outs, (char) c);
 	} else if ((c == '\'') || (c == '"')) {
-	    sfputc(outs, (char) c);
+	    agxbputc(outs, (char) c);
 	    if (endString(ins, outs, c)) return -1;
 	} else
-	    sfputc(outs, (char) c);
+	    agxbputc(outs, (char) c);
     }
 }
 
@@ -298,7 +299,7 @@ static int endBracket(Sfio_t * ins, Sfio_t * outs, char bc, char ec)
  *  returning <string>
  * As a side-effect, set startLine to beginning of content.
  */
-static char *parseBracket(Sfio_t * str, Sfio_t * buf, int bc, int ec)
+static char *parseBracket(Sfio_t * str, agxbuf * buf, int bc, int ec)
 {
     int c;
 
@@ -319,19 +320,19 @@ static char *parseBracket(Sfio_t * str, Sfio_t * buf, int bc, int ec)
 	return 0;
     }
     else
-	return strdup(sfstruse(buf));
+	return agxbdisown(buf);
 }
 
 /* parseAction:
  */
-static char *parseAction(Sfio_t * str, Sfio_t * buf)
+static char *parseAction(Sfio_t * str, agxbuf * buf)
 {
     return parseBracket(str, buf, '{', '}');
 }
 
 /* parseGuard:
  */
-static char *parseGuard(Sfio_t * str, Sfio_t * buf)
+static char *parseGuard(Sfio_t * str, agxbuf * buf)
 {
     return parseBracket(str, buf, '[', ']');
 }
@@ -354,7 +355,8 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
 {
     case_t kind;
 
-    Sfio_t *buf = sfstropen();
+    agxbuf buf;
+    agxbinit(&buf, 0, NULL);
 
     kind = parseKind(str);
     switch (kind) {
@@ -362,17 +364,17 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
     case BeginG:
     case End:
     case EndG:
-	*action = parseAction(str, buf);
+	*action = parseAction(str, &buf);
 	*aline = startLine;
 	if (getErrorErrors ())
 	    kind = Error;
 	break;
     case Edge:
     case Node:
-	*guard = parseGuard(str, buf);
+	*guard = parseGuard(str, &buf);
 	*gline = startLine;
 	if (!getErrorErrors ()) {
-	    *action = parseAction(str, buf);
+	    *action = parseAction(str, &buf);
 	    *aline = startLine;
 	}
 	if (getErrorErrors ())
@@ -383,7 +385,7 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
 	break;
     }
 
-    sfstrclose(buf);
+    agxbfree(&buf);
     return kind;
 }
 
