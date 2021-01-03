@@ -88,7 +88,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   */
 
   ANNpointArray		dataPts;				// data points
-  ANNkd_tree*			kdTree;					// search structure
   
   double *xx;
   int *irn, *jcn;
@@ -112,12 +111,12 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   //========= graph when sort based on x ========
   nz = 0;
   sortPtsX(nPts, dataPts);
-  kdTree = new ANNkd_tree(					// build search structure
+  ANNkd_tree kdTree(					// build search structure
 			  dataPts,					// the data points
 			  nPts,						// number of points
 			  dim);						// dimension of space
   for (int ip = 0; ip < nPts; ip++){
-    kdTree->annkSearch(						// search
+    kdTree.annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
 		       nnIdx.data(),						// nearest neighbors (returned)
@@ -140,12 +139,12 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
   //========= graph when sort based on y ========
   sortPtsY(nPts, dataPts);
-  kdTree = new ANNkd_tree(					// build search structure
+  kdTree = ANNkd_tree(					// build search structure
 			  dataPts,					// the data points
 			  nPts,						// number of points
 			  dim);						// dimension of space
   for (int ip = 0; ip < nPts; ip++){
-    kdTree->annkSearch(						// search
+    kdTree.annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
 		       nnIdx.data(),						// nearest neighbors (returned)
@@ -160,8 +159,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
       // cout << ip << "--" << nnIdx[i] << " [len = " << dists[i]<< ", weight = \"" << 1./(dists[i]) << "\", wt = \"" << 1./(dists[i]) << "\"]\n";
     }
   }
-    
-  delete kdTree;							// clean things up
     
   *nz0 = nz;
     
