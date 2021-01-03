@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------
 
 #include <ANN/ANN.h>					// ANN declarations
+#include <vector>
 
 int                             dim                             = 4;                    // dimension
 
@@ -87,7 +88,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   */
 
   ANNpointArray		dataPts;				// data points
-  ANNidxArray			nnIdx;					// near neighbor indices
   ANNdistArray		dists;					// near neighbor distances
   ANNkd_tree*			kdTree;					// search structure
   
@@ -102,7 +102,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
 
   dataPts = annAllocPts(nPts, dim);			// allocate data points
-  nnIdx = new ANNidx[k];						// allocate near neighbor indices
+  std::vector<ANNidx> nnIdx(k);						// allocate near neighbor indices
   dists = new ANNdist[k];						// allocate near neighbor dists
 
   for (int i = 0; i < nPts; i++){
@@ -121,7 +121,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
     kdTree->annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
-		       nnIdx,							// nearest neighbors (returned)
+		       nnIdx.data(),						// nearest neighbors (returned)
 		       dists,							// distance (returned)
 		       eps);							// error bound
 
@@ -149,7 +149,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
     kdTree->annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
-		       nnIdx,							// nearest neighbors (returned)
+		       nnIdx.data(),						// nearest neighbors (returned)
 		       dists,							// distance (returned)
 		       eps);							// error bound
       
@@ -162,8 +162,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
     }
   }
     
-  delete [] nnIdx;							// clean things up
-  delete [] dists;
+  delete [] dists;							// clean things up
   delete kdTree;
     
   *nz0 = nz;
