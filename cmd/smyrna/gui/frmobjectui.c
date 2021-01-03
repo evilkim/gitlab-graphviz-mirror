@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <ast/sfstr.h>
 #include "gvprpipe.h"
+#include <cgraph/agxbuf.h>
 #include <cgraph/strcasecmp.h>
 
 static attr_t *binarySearch(attr_list * l, char *searchKey);
@@ -782,22 +783,21 @@ void showAttrsWidget(topview * t)
 static void gvpr_select(char *attr, char *regex_str, int objType)
 {
 
-    static Sfio_t *sf;
     char *bf2;
     int i, j, argc;
     char **argv;
 
-    if (!sf)
-	sf = sfstropen();
+    agxbuf sf;
+    agxbinit(&sf, 0, NULL);
 
     if (objType == AGNODE)
-	sfprintf(sf, "N[%s==\"%s\"]{selected = \"1\"}", attr, regex_str);
+	agxbprint(&sf, "N[%s==\"%s\"]{selected = \"1\"}", attr, regex_str);
     else if (objType == AGEDGE)
-	sfprintf(sf, "E[%s==\"%s\"]{selected = \"1\"}", attr, regex_str);
+	agxbprint(&sf, "E[%s==\"%s\"]{selected = \"1\"}", attr, regex_str);
 
 
 
-    bf2 = sfstruse(sf);
+    bf2 = agxbdisown(&sf);
 
     argc = 1;
     if (*bf2 != '\0')
@@ -805,7 +805,7 @@ static void gvpr_select(char *attr, char *regex_str, int objType)
     argv = N_NEW(argc + 1, char *);
     j = 0;
     argv[j++] = "smyrna";
-    argv[j++] = strdup(bf2);
+    argv[j++] = bf2;
 
     run_gvpr(view->g[view->activeGraph], j, argv);
     for (i = 1; i < argc; i++)
