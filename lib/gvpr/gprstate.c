@@ -138,7 +138,7 @@ void closeGPRState(Gpr_t* state)
     free (state);
 }
 
-#ifdef WIN32_DLL
+#ifdef _WIN32
 int pathisrelative (char* path)
 {
     return PathIsRelative(path);

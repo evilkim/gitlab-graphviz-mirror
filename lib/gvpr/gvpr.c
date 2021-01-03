@@ -218,7 +218,7 @@ static char *resolve(char *arg, int Verbose)
     Sfio_t *pathp = NULL;
     size_t sz;
 
-#ifdef WIN32_DLL
+#ifdef _WIN32
     if (!pathisrelative(arg))
 #else
     if (strchr(arg, '/'))

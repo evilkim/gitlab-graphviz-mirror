@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Header file graphviz_version.h has no include guards #1929
 - regression: newlines embedded in quoted labels / node names are not preserved in 2.46.0 #1931
 - Properly fill graphviz_version.h !1706
+- gvpr on Windows does not support absolute paths #1780
 
 ## [2.46.0] - 2021-01-18
 
