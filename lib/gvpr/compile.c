@@ -191,12 +191,21 @@ static char *symName(Expr_t * ex, int op)
     if (op >= MINNAME && op <= MAXNAME)
 	return gprnames[op];
     else {
-	Sfio_t *sf = sfstropen();
-	char *s;
+	// calculate how much space we need to construct a name
+	int bytes = vsnprintf(NULL, 0, "<unknown (%d)>", op);
+	if (bytes < 0) {
+		fprintf(stderr, "%s: vsnprintf failure\n", __func__);
+		exit(EXIT_FAILURE);
+	}
 
-	sfprintf(sf, "<unknown (%d)>", op);
-	s = exstring(ex, sfstruse(sf));
-	sfclose(sf);
+	// construct a managed buffer to store this name
+	char *s = vmalloc(ex->ve, (size_t)bytes + 1);
+
+	// make the name
+	if (s != NULL) {
+		snprintf(s, (size_t)bytes + 1, "<unknown (%d)>", op);
+	}
+
 	return s;
     }
 }
