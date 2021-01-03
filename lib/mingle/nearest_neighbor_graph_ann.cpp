@@ -88,7 +88,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   */
 
   ANNpointArray		dataPts;				// data points
-  ANNdistArray		dists;					// near neighbor distances
   ANNkd_tree*			kdTree;					// search structure
   
   double *xx;
@@ -103,7 +102,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
   dataPts = annAllocPts(nPts, dim);			// allocate data points
   std::vector<ANNidx> nnIdx(k);						// allocate near neighbor indices
-  dists = new ANNdist[k];						// allocate near neighbor dists
+  std::vector<ANNdist> dists(k);					// allocate near neighbor dists
 
   for (int i = 0; i < nPts; i++){
     xx =  dataPts[i];
@@ -122,7 +121,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
 		       nnIdx.data(),						// nearest neighbors (returned)
-		       dists,							// distance (returned)
+		       dists.data(),						// distance (returned)
 		       eps);							// error bound
 
     for (int i = 0; i < k; i++) {			// print summary
@@ -150,7 +149,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
 		       nnIdx.data(),						// nearest neighbors (returned)
-		       dists,							// distance (returned)
+		       dists.data(),						// distance (returned)
 		       eps);							// error bound
       
     for (int i = 0; i < k; i++) {			// print summary
@@ -162,8 +161,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
     }
   }
     
-  delete [] dists;							// clean things up
-  delete kdTree;
+  delete kdTree;							// clean things up
     
   *nz0 = nz;
     
