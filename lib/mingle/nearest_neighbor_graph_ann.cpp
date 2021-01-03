@@ -102,7 +102,7 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
 
   dataPts = annAllocPts(nPts, dim);			// allocate data points
-  nnIdx = new ANNidx[k];						// allocate near neigh indices
+  nnIdx = new ANNidx[k];						// allocate near neighbor indices
   dists = new ANNdist[k];						// allocate near neighbor dists
 
   for (int i = 0; i < nPts; i++){
