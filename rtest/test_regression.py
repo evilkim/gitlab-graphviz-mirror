@@ -363,7 +363,6 @@ def test_1767():
       #                  'cluster_2 contains 3 nodes\n' \
       #                  'cluster_3 contains 3 nodes\n'
 
-@pytest.mark.xfail(strict=True) # FIXME
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 @pytest.mark.skipif(platform.system() != 'Windows',
   reason='only relevant on Windows')
@@ -600,11 +599,6 @@ def test_1909():
     p = subprocess.Popen(['gvpr', '-c', '-f', prog, graph],
       stdout=subprocess.PIPE, universal_newlines=True)
     output, _ = p.communicate()
-
-    # FIXME: for some undiagnosed reason, the above command fails on Windows
-    if platform.system() == 'Windows':
-      assert p.returncode != 0
-      return
 
     assert p.returncode == 0, 'gvpr failed to process graph'
 

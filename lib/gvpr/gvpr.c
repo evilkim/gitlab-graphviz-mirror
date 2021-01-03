@@ -216,11 +216,7 @@ static char *resolve(char *arg, int Verbose)
     char *pathp = NULL;
     size_t sz;
 
-#ifdef WIN32_DLL
-    if (!pathisrelative(arg))
-#else
-    if (strchr(arg, '/'))
-#endif
+    if (strchr(arg, PATHSEP))
 	return strdup(arg);
 
     path = getenv("GVPRPATH");
