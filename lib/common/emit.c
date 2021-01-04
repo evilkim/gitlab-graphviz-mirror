@@ -1176,10 +1176,9 @@ static int chkOrder(graph_t * g)
 {
     char *p = agget(g, "outputorder");
     if (p) {
-        char c = *p;
-        if ((c == 'n') && !strcmp(p + 1, "odesfirst"))
+        if (!strcmp(p, "nodesfirst"))
             return EMIT_SORTED;
-        if ((c == 'e') && !strcmp(p + 1, "dgesfirst"))
+        if (!strcmp(p, "edgesfirst"))
             return EMIT_EDGE_SORTED;
     }
     return 0;

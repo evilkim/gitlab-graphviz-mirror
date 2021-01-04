@@ -148,7 +148,7 @@ static char* myagxget(void *obj, Agsym_t *a)
     val = agxget(obj, a);
     if (!val)
         return emptystring;
-    if (a->name[0] == 'l' && strcmp(a->name, "label") == 0 && aghtmlstr(val)) {
+    if (strcmp(a->name, "label") == 0 && aghtmlstr(val)) {
         len = strlen(val);
         hs = (char*)malloc(len + 3);
         hs[0] = '<';
@@ -177,7 +177,7 @@ static void myagxset(void *obj, Agsym_t *a, char *val)
     int len;
     char *hs;
 
-    if (a->name[0] == 'l' && val[0] == '<' && strcmp(a->name, "label") == 0) {
+    if (strcmp(a->name, "label") == 0 && val[0] == '<') {
         len = strlen(val);
         if (val[len-1] == '>') {
             hs = strdup(val+1);
@@ -785,7 +785,7 @@ bool rm(Agnode_t *n)
     if (!n)
         return false;
     // removal of the protonode is not permitted
-    if (agnameof(n)[0] == '\001' && strcmp (agnameof(n), "\001proto") ==0)
+    if (strcmp (agnameof(n), "\001proto") ==0)
         return false;
     agdelete(agraphof(n), n);
     return true;
@@ -796,8 +796,8 @@ bool rm(Agedge_t *e)
     if (!e)
         return false;
     // removal of the protoedge is not permitted
-    if ((agnameof(aghead(e))[0] == '\001' && strcmp (agnameof(aghead(e)), "\001proto") == 0)
-     || (agnameof(agtail(e))[0] == '\001' && strcmp (agnameof(agtail(e)), "\001proto") == 0))
+    if (strcmp (agnameof(aghead(e)), "\001proto") == 0
+     || strcmp (agnameof(agtail(e)), "\001proto") == 0)
         return false;
     agdelete(agroot(agraphof(aghead(e))), e);
     return true;

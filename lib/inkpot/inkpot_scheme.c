@@ -228,7 +228,7 @@ static inkpot_status_t inkpot_cache_get( inkpot_t *inkpot )
 
 	cache_name_idx = inkpot->cache[i].name_idx;
 	cache_color = &TAB_STRINGS[TAB_NAMES[cache_name_idx].string_idx];
-	if (cache_color[0] != color[0] || (strcmp(cache_color, color) != 0))
+	if (strcmp(cache_color, color) != 0)
 	    continue;
 
 	/* found */
@@ -448,7 +448,7 @@ inkpot_status_t inkpot_put ( inkpot_t *inkpot, const char *color )
 	for (i=0; i < inkpot->active_schemes; i++) {
 	    j = inkpot->scheme_list[i];
 	    p = &TAB_STRINGS[TAB_ICOLORS[j].string_idx];
-	    if (*p != *s || strcmp(p, s) != 0) 
+	    if (strcmp(p, s) != 0)
 		continue;
 	    /* FIXME - deal with subschemes */
 	    first = TAB_ICOLORS[j].range_idx;
