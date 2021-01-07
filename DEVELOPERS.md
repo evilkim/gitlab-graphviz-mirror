@@ -121,6 +121,88 @@ is green
 
 1. Merge the merge request
 
+## Building
+
+Instructions for building Graphviz from source are available
+[on the public website](https://graphviz.org/download/source/). However, if you
+are building Graphviz from a repository clone for the purpose of testing changes
+you are making, you will want to follow different steps.
+
+### Autotools build system
+
+```sh
+# generate the configure script for setting up the build
+./autogen.sh
+
+# you probably do not want to install your development version of Graphviz over
+# the top of your system binaries/libraries, so create a temporary directory as
+# an install destination
+PREFIX=$(mktemp -d)
+
+# configure the build system
+./configure --prefix=${PREFIX}
+
+# if this is the first time you are building Graphviz from source, you should
+# inspect the output of ./configure and make sure it is what you expected
+
+# compile Graphviz binaries and libraries
+make
+
+# install everything to the temporary directory
+make install
+```
+
+### CMake build system
+
+Note that Graphviz’ CMake build system is incomplete. It only builds a subset
+of the binaries and libraries. For most code-related changes, you will probably
+want to test using Autotools or MSBuild instead.
+
+However, if you do want to use CMake:
+
+```sh
+# make a scratch directory to store build artifacts
+mkdir build
+cd build
+
+# you probably do not want to install your development version of Graphviz over
+# the top of your system binaries/libraries, so create a temporary directory as
+# an install destination
+PREFIX=$(mktemp -d)
+
+# configure the build system
+cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
+
+# compile Graphviz binaries and libraries
+make
+
+# install everything to the temporary directory
+make install
+```
+
+### Microsoft Build Engine
+
+TODO
+
+## Testing
+
+The Graphviz test suite uses [pytest](https://pytest.org/). This is not because
+of any Python-related specifics in Graphviz, but rather because pytest is a
+convenient framework.
+
+If you have compiled Graphviz and installed to a custom location, as described
+above, then you can run the test suite from the root of a Graphviz checkout as
+follows:
+
+```sh
+# run the Graphviz test suite, making the temporary installation visible to it
+env PATH=${PREFIX}/bin:${PATH} C_INCLUDE_PATH=${PREFIX}/include \
+  LD_LIBRARY_PATH=${PREFIX}/lib LIBRARY_PATH=${PREFIX}/lib \
+  python3 -m pytest tests rtest --verbose
+```
+
+*TODO: on macOS and Windows, you probably need to override different environment variables?*
+
 ## Performance and profiling
 
 The runtime and memory usage of Graphviz is dependent on the user’s graph. It is
