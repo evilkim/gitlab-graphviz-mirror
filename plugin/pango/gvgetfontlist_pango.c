@@ -407,6 +407,7 @@ static availfont_t *gv_get_ps_fontlist(PangoFontMap * fontmap)
 	} else {
 	    gv_afs->fontname = NULL;
 	    gv_afs->faces = 0;
+	    free(family_name);
 	}
     }
     g_free(families);
