@@ -25,7 +25,7 @@ Before making the release, it must be decided if it is a *major*, *minor* or
 
 #### Stable release versions and development versions numbering convention
 
-See gen-version.py.
+See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/master/gen_version.py).
 
 ### Instructions
 
@@ -86,19 +86,12 @@ is green
 [master pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=master)
   to run for the new commit and check that it's green
 
-1. Create a release at [GitHub releases](https://gitlab.com/graphviz/graphviz/-/releases)
-
-   Fill in the `Tag name`, `Message` and `Release notes` fields. The
-   `Tag name` shall be a pure numeric new tag on the form
-   `<major>.<minor>.<patch>`. The `Message` field shall have the text
-   `Stable Release <major>.<minor>.<patch>`. The `Release Notes` field
-   shall have the text `See the [CHANGELOG.md](<link to version in
-   CHANGELOG.md>)`.
-
-   Example:
-   * **Tag name:** `2.44.1`
-   * **Message:** `Stable Release 2.44.1`
-   * **Release notes:** `See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md#2441-2020-06-29).`
+1. The “deployment” CI task will automatically create a release on the
+   [Gitlab releases tab](https://gitlab.com/graphviz/graphviz/-/releases). If a
+   release is not created, check that your modifications to `gen_version.py`
+   correctly set a version conforming to the regular expression `\d+\.\d+\.\d+`.
+   The “deployment” CI task will also create a Git tag for the version, e.g.
+   `2.44.1`.
 
 1. Create a new local branch and name it e.g. `return-to-<version>-dev`
 
