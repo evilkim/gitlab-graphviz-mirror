@@ -114,6 +114,10 @@ def main(args: [str]) -> int:
     gv_version = f.read().strip()
   log.info(f'VERSION == {gv_version}')
 
+  # if we were not passed an explicit version, use the one from the VERSION file
+  if options.version is None:
+    options.version = gv_version
+
   tarball = f'graphviz-{gv_version}.tar.gz'
   if not os.path.exists(tarball):
     log.error(f'source {tarball} not found')
