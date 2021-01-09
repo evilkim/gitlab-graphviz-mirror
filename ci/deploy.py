@@ -150,7 +150,7 @@ def main(args: [str]) -> int:
 
   # we only create Gitlab releases for stable version numbers
   if not options.force:
-    if re.match(r'\d+\.\d+\.\d+', options.version) is None:
+    if re.match(r'\d+\.\d+\.\d+$', options.version) is None:
       log.warning(f'skipping release creation because {options.version} is not '
         'of the form \\d+.\\d+.\\d+')
       return 0
