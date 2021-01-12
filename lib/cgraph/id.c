@@ -26,16 +26,22 @@ static void *idopen(Agraph_t * g, Agdisc_t* disc)
 static long idmap(void *state, int objtype, char *str, IDTYPE *id,
 		  int createflag)
 {
+    char *s;
     static IDTYPE ctr = 1;
 
-    NOTUSED(state);
     NOTUSED(objtype);
-    NOTUSED(str);
-    NOTUSED(createflag);
-
-    *id = ctr;
-    ++ctr;
-
+    if (str) {
+        Agraph_t *g;
+        g = state;
+        if (createflag)
+            s = agstrdup(g, str);
+        else
+            s = agstrbind(g, str);
+        *id = (IDTYPE) s;
+    } else {
+        *id = ctr;
+        ctr += 2;
+    }
     return TRUE;
 }
 
@@ -50,17 +56,19 @@ static long idalloc(void *state, int objtype, IDTYPE request)
 
 static void idfree(void *state, int objtype, IDTYPE id)
 {
-    NOTUSED(state);
     NOTUSED(objtype);
-    NOTUSED(id);
+    if (id % 2 == 0)
+	agstrfree(state, (char *) id);
 }
 
 static char *idprint(void *state, int objtype, IDTYPE id)
 {
     NOTUSED(state);
     NOTUSED(objtype);
-    NOTUSED(id);
-    return NILstr;
+    if (id % 2 == 0)
+	return (char *) id;
+    else
+	return NULL;
 }
 
 static void idclose(void *state)
@@ -92,6 +100,13 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 {
     int rv;
 
+    if (str && str[0] != LOCALNAMEPREFIX) {
+	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
+				createflag);
+	if (rv)
+	    return rv;
+    }
+
     /* either an internal ID, or disc. can't map strings */
     if (str) {
 	rv = aginternalmaplookup(g, objtype, str, result);
@@ -99,15 +114,6 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 	    return rv;
     } else
 	rv = 0;
-
-    if (str && (str[0] != LOCALNAMEPREFIX)) {
-	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, str, result,
-				createflag);
-	if (rv) {
-	    aginternalmapinsert(g, objtype, str, *result);
-	    return rv;
-	}
-    }
 
     if (createflag) {
 	/* get a new anonymous ID, and store in the internal map */
