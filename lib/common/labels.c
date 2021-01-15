@@ -322,11 +322,11 @@ static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash)
 	    t_str = agnameof(agtail(((edge_t *)obj)));
 	    pt = ED_tail_port((edge_t *)obj);
 	    if ((tp_str = pt.name))
-	        has_tp = TRUE;
+	        has_tp = (*tp_str != '\0');
 	    h_str = agnameof(aghead(((edge_t *)obj)));
 	    pt = ED_head_port((edge_t *)obj);
 	    if ((hp_str = pt.name))
-		has_hp = TRUE;
+		has_hp = (*hp_str != '\0');
 	    tl = ED_label((edge_t *)obj);
 	    if (tl) {
 		l_str = tl->text;

@@ -73,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add gv2gml tool to CMake (copy of gml2gv on Windows, symlink to gml2gv otherwise)
 - Regression: fdp generates internal names in the output #1876
 - Regression: fdp assertion error on cluster in edge #1877
+- Regression in id / &lt;title&gt; in svg for twopi #1907
 
 ## [2.44.1] - 2020-06-29
 
