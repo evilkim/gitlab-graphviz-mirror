@@ -779,10 +779,4 @@ def test_package_version():
           subprocess.check_call([cc, '-std=c99', c_src, '-o', exe])
 
       # run the test
-      ret = subprocess.call([exe])
-
-    # FIXME: this is currently broken in the CMake build
-    if os.getenv('build_system') == 'cmake':
-      assert ret != 0
-    else:
-      assert ret == 0
+      subprocess.check_call([exe])

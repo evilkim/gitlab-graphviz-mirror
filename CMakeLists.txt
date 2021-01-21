@@ -104,8 +104,6 @@ if (WIN32)
 endif()
 
 # ============================ Set Graphviz version ============================
-configure_file(graphviz_version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h DESTINATION ${HEADER_INSTALL_DIR})
 
 if (DEFINED VERSION)
     set(GRAPHVIZ_VERSION_STRING "${VERSION}")
@@ -154,6 +152,9 @@ string(REGEX REPLACE "[^.]*\\.[^.]*\\.(.*)$"
 
 set(GRAPHVIZ_VERSION_FULL "${GRAPHVIZ_VERSION_STRING}")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.h "#define BUILDDATE \"${GRAPHVIZ_VERSION_BUILD}\"")
+
+configure_file(graphviz_version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/graphviz_version.h DESTINATION ${HEADER_INSTALL_DIR})
 
 message(STATUS "Graphviz version: ${GRAPHVIZ_VERSION_FULL}")
 
