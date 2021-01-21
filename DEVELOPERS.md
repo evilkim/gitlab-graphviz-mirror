@@ -6,6 +6,31 @@
 
 ## How to make a release
 
+### Downstream packagers/consumers
+
+The following is a list of known downstream software that packages or
+distributes Graphviz, along with the best known contact or maintainer we have
+for the project. We do not have the resources to coordinate with all these
+people prior to a release, but this information is here to give you an idea of
+who will be affected by a new Graphviz release.
+
+* [Chocolatey](https://chocolatey.org/packages/Graphviz/),
+  [@RedBaron2 on Github](https://github.com/RedBaron2)
+* [Debian](https://packages.debian.org/sid/graphviz),
+  [Laszlo Boszormenyi (GCS) on Debian](https://qa.debian.org/developer.php?login=gcs%40debian.org)
+* [FreeBSD](https://svnweb.freebsd.org/ports/head/graphics/graphviz/),
+  dinoex@FreeBSD.org
+* [Homebrew](https://formulae.brew.sh/formula/graphviz#default),
+  [@fxcoudert on Github](https://github.com/fxcoudert)
+* [@hpcc-hs/wasm](https://www.npmjs.com/package/@hpcc-js/wasm),
+  [@GordonSmith on Github](https://github.com/GordonSmith)
+* [MacPorts](https://ports.macports.org/port/graphviz/summary),
+  [@ryandesign on Github](https://github.com/ryandesign)
+* [PyGraphviz](https://github.com/pygraphviz/pygraphviz),
+  [@jarrodmillman on Gitlab](https://gitlab.com/jarrodmillman)
+* [Winget](https://github.com/microsoft/winget-pkgs),
+  [@GordonSmith on Github](https://github.com/GordonSmith)
+
 ### A note about the examples below
 
 The examples below are for the 2.44.1 release. Modify the version
