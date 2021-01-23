@@ -17,9 +17,7 @@
  */
 
 #include <common/render.h>
-#include <setjmp.h>
 
-static int init_graph(graph_t *);
 static void dfs_cutval(node_t * v, edge_t * par);
 static int dfs_range(node_t * v, edge_t * par, int low);
 static int x_val(edge_t * e, node_t * v, int dir);
@@ -29,10 +27,9 @@ static void check_cycles(graph_t * g);
 
 #define LENGTH(e)		(ND_rank(aghead(e)) - ND_rank(agtail(e)))
 #define SLACK(e)		(LENGTH(e) - ED_minlen(e))
-#define SEQ(a,b,c)		(((a) <= (b)) && ((b) <= (c)))
+#define SEQ(a,b,c)		((a) <= (b) && (b) <= (c))
 #define TREE_EDGE(e)	(ED_tree_index(e) >= 0)
 
-static jmp_buf jbuf;
 static graph_t *G;
 static int N_nodes, N_edges;
 static int Minrank, Maxrank;
@@ -42,19 +39,19 @@ static int Search_size;
 static nlist_t Tree_node;
 static elist Tree_edge;
 
-static void add_tree_edge(edge_t * e)
+static int add_tree_edge(edge_t * e)
 {
     node_t *n;
     //fprintf(stderr,"add tree edge %p %s ", (void*)e, agnameof(agtail(e))) ; fprintf(stderr,"%s\n", agnameof(aghead(e))) ;
     if (TREE_EDGE(e)) {
 	agerr(AGERR, "add_tree_edge: missing tree edge\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
     ED_tree_index(e) = Tree_edge.size;
     Tree_edge.list[Tree_edge.size++] = e;
-    if (ND_mark(agtail(e)) == FALSE)
+    if (!ND_mark(agtail(e)))
 	Tree_node.list[Tree_node.size++] = agtail(e);
-    if (ND_mark(aghead(e)) == FALSE)
+    if (!ND_mark(aghead(e)))
 	Tree_node.list[Tree_node.size++] = aghead(e);
     n = agtail(e);
     ND_mark(n) = TRUE;
@@ -62,7 +59,7 @@ static void add_tree_edge(edge_t * e)
     ND_tree_out(n).list[ND_tree_out(n).size] = NULL;
     if (ND_out(n).list[ND_tree_out(n).size - 1] == 0) {
 	agerr(AGERR, "add_tree_edge: empty outedge list\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
     n = aghead(e);
     ND_mark(n) = TRUE;
@@ -70,8 +67,9 @@ static void add_tree_edge(edge_t * e)
     ND_tree_in(n).list[ND_tree_in(n).size] = NULL;
     if (ND_in(n).list[ND_tree_in(n).size - 1] == 0) {
 	agerr(AGERR, "add_tree_edge: empty inedge list\n");
-	longjmp (jbuf, 1);
+	return -1;
     }
+    return 0;
 }
 
 static void exchange_tree_edges(edge_t * e, edge_t * f)
@@ -84,14 +82,14 @@ static void exchange_tree_edges(edge_t * e, edge_t * f)
     ED_tree_index(e) = -1;
 
     n = agtail(e);
-    i = --(ND_tree_out(n).size);
+    i = --ND_tree_out(n).size;
     for (j = 0; j <= i; j++)
 	if (ND_tree_out(n).list[j] == e)
 	    break;
     ND_tree_out(n).list[j] = ND_tree_out(n).list[i];
     ND_tree_out(n).list[i] = NULL;
     n = aghead(e);
-    i = --(ND_tree_in(n).size);
+    i = --ND_tree_in(n).size;
     for (j = 0; j <= i; j++)
 	if (ND_tree_in(n).list[j] == e)
 	    break;
@@ -128,7 +126,7 @@ void init_rank(void)
 	for (i = 0; (e = ND_in(v).list[i]); i++)
 	    ND_rank(v) = MAX(ND_rank(v), ND_rank(agtail(e)) + ED_minlen(e));
 	for (i = 0; (e = ND_out(v).list[i]); i++) {
-	    if (--(ND_priority(aghead(e))) <= 0)
+	    if (--ND_priority(aghead(e)) <= 0)
 		enqueue(Q, aghead(e));
 	}
     }
@@ -186,10 +184,10 @@ static void dfs_enter_outedge(node_t * v)
     edge_t *e;
 
     for (i = 0; (e = ND_out(v).list[i]); i++) {
-	if (TREE_EDGE(e) == FALSE) {
+	if (!TREE_EDGE(e)) {
 	    if (!SEQ(Low, ND_lim(aghead(e)), Lim)) {
 		slack = SLACK(e);
-		if ((slack < Slack) || (Enter == NULL)) {
+		if (slack < Slack || Enter == NULL) {
 		    Enter = e;
 		    Slack = slack;
 		}
@@ -208,10 +206,10 @@ static void dfs_enter_inedge(node_t * v)
     edge_t *e;
 
     for (i = 0; (e = ND_in(v).list[i]); i++) {
-	if (TREE_EDGE(e) == FALSE) {
+	if (!TREE_EDGE(e)) {
 	    if (!SEQ(Low, ND_lim(agtail(e)), Lim)) {
 		slack = SLACK(e);
-		if ((slack < Slack) || (Enter == NULL)) {
+		if (slack < Slack || Enter == NULL) {
 		    Enter = e;
 		    Slack = slack;
 		}
@@ -219,7 +217,7 @@ static void dfs_enter_inedge(node_t * v)
 	} else if (ND_lim(agtail(e)) < ND_lim(v))
 	    dfs_enter_inedge(agtail(e));
     }
-    for (i = 0; (e = ND_tree_out(v).list[i]) && (Slack > 0); i++)
+    for (i = 0; (e = ND_tree_out(v).list[i]) && Slack > 0; i++)
 	if (ND_lim(aghead(e)) < ND_lim(v))
 	    dfs_enter_inedge(aghead(e));
 }
@@ -277,15 +275,19 @@ static int tight_subtree_search(Agnode_t *v, subtree_t *st)
     ND_subtree_set(v,st);
     for (i = 0; (e = ND_in(v).list[i]); i++) {
         if (TREE_EDGE(e)) continue;
-        if ((ND_subtree(agtail(e)) == 0) && (SLACK(e) == 0)) {
-               add_tree_edge(e);
+        if (ND_subtree(agtail(e)) == 0 && SLACK(e) == 0) {
+               if (add_tree_edge(e) != 0) {
+                   return -1;
+               }
                rv += tight_subtree_search(agtail(e),st);
         }
     }
     for (i = 0; (e = ND_out(v).list[i]); i++) {
         if (TREE_EDGE(e)) continue;
-        if ((ND_subtree(aghead(e)) == 0) && (SLACK(e) == 0)) {
-               add_tree_edge(e);
+        if (ND_subtree(aghead(e)) == 0 && SLACK(e) == 0) {
+               if (add_tree_edge(e) != 0) {
+                   return -1;
+               }
                rv += tight_subtree_search(aghead(e),st);
         }
     }
@@ -298,6 +300,10 @@ static subtree_t *find_tight_subtree(Agnode_t *v)
     rv = NEW(subtree_t);
     rv->rep = v;
     rv->size = tight_subtree_search(v,rv);
+    if (rv->size < 0) {
+        free(rv);
+        return NULL;
+    }
     rv->par = rv;
     return rv;
 }
@@ -310,7 +316,7 @@ typedef struct STheap_s {
 static subtree_t *STsetFind(Agnode_t *n0)
 {
   subtree_t *s0 = ND_subtree(n0);
-  while  (s0->par && (s0->par != s0)) {
+  while  (s0->par && s0->par != s0) {
     if (s0->par->par) {s0->par = s0->par->par;}  /* path compression for the code weary */
     s0 = s0->par;
   }
@@ -321,10 +327,10 @@ static subtree_t *STsetUnion(subtree_t *s0, subtree_t *s1)
 {
   subtree_t *r0, *r1, *r;
 
-  for (r0 = s0; r0->par && (r0->par != r0); r0 = r0->par);
-  for (r1 = s1; r1->par && (r1->par != r1); r1 = r1->par);
+  for (r0 = s0; r0->par && r0->par != r0; r0 = r0->par);
+  for (r1 = s1; r1->par && r1->par != r1; r1 = r1->par);
   if (r0 == r1) return r0;  /* safety code but shouldn't happen */
-  assert((r0->heap_index > -1) || (r1->heap_index > -1));
+  assert(r0->heap_index > -1 || r1->heap_index > -1);
   if (r1->heap_index == -1) r = r0;
   else if (r0->heap_index == -1) r = r1;
   else if (r1->size < r0->size) r = r0;
@@ -335,8 +341,6 @@ static subtree_t *STsetUnion(subtree_t *s0, subtree_t *s1)
   assert(r->heap_index >= 0);
   return r;
 }
-
-#define INCIDENT(e,treeset)  ((STsetFind(agtail(e),treeset)) != STsetFind(aghead(e),treeset))
 
 /* find tightest edge to another tree incident on the given tree */
 static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *best)
@@ -352,7 +356,7 @@ static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *b
       }
       else {
         if (STsetFind(aghead(e)) != ts) {   // encountered candidate edge
-          if ((best == 0) || (SLACK(e) < SLACK(best))) best = e;
+          if (best == 0 || SLACK(e) < SLACK(best)) best = e;
         }
         /* else ignore non-tree edge between nodes in the same tree */
       }
@@ -365,7 +369,7 @@ static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *b
       }
       else {
         if (STsetFind(agtail(e)) != ts) {
-          if ((best == 0) || (SLACK(e) < SLACK(best))) best = e;
+          if (best == 0 || SLACK(e) < SLACK(best)) best = e;
         }
       }
     }
@@ -375,7 +379,7 @@ static Agedge_t *inter_tree_edge_search(Agnode_t *v, Agnode_t *from, Agedge_t *b
 static Agedge_t *inter_tree_edge(subtree_t *tree)
 {
     Agedge_t *rv;
-    rv = inter_tree_edge_search(tree->rep, (Agnode_t *)0, (Agedge_t *)0);
+    rv = inter_tree_edge_search(tree->rep, NULL, NULL);
     return rv;
 }
 
@@ -390,9 +394,9 @@ void STheapify(STheap_t *heap, int i)
     do {
         left = 2*(i+1)-1;
         right = 2*(i+1);
-        if ((left < heap->size) && (elt[left]->size < elt[i]->size)) smallest = left;
+        if (left < heap->size && elt[left]->size < elt[i]->size) smallest = left;
         else smallest = i;
-        if ((right < heap->size) && (elt[right]->size < elt[smallest]->size)) smallest = right;
+        if (right < heap->size && elt[right]->size < elt[smallest]->size) smallest = right;
         else smallest = i;
         if (smallest != i) {
             subtree_t *temp;
@@ -469,13 +473,15 @@ subtree_t *merge_trees(Agedge_t *e)   /* entering tree edge */
 
   if (t0->heap_index == -1) {   // move t0
     delta = SLACK(e);
-    tree_adjust(t0->rep,(Agnode_t*)0,delta);
+    tree_adjust(t0->rep,NULL,delta);
   }
   else {  // move t1
     delta = -SLACK(e);
-    tree_adjust(t1->rep,0,delta);
+    tree_adjust(t1->rep,NULL,delta);
   }
-  add_tree_edge(e);
+  if (add_tree_edge(e) != 0) {
+    return NULL;
+  }
   rv = STsetUnion(t0,t1);
   
   return rv;
@@ -493,7 +499,7 @@ int feasible_tree(void)
   Agedge_t *ee;
   subtree_t **tree, *tree0, *tree1;
   int i, subtree_count = 0;
-  STheap_t *heap;
+  STheap_t *heap = NULL;
   int error = 0;
 
   /* initialization */
@@ -506,6 +512,10 @@ int feasible_tree(void)
   for (n = GD_nlist(G); n; n = ND_next(n)) {
         if (ND_subtree(n) == 0) {
                 tree[subtree_count] = find_tight_subtree(n);
+                if (tree[subtree_count] == NULL) {
+                    error = 2;
+                    goto end;
+                }
                 subtree_count++;
         }
   }
@@ -519,13 +529,18 @@ int feasible_tree(void)
       break;
     }
     tree1 = merge_trees(ee);
+    if (tree1 == NULL) {
+      error = 2;
+      break;
+    }
     STheapify(heap,tree1->heap_index);
   }
 
+end:
   free(heap);
   for (i = 0; i < subtree_count; i++) free(tree[i]);
   free(tree);
-  if (error) return 1;
+  if (error) return error;
   assert(Tree_edge.size == N_nodes - 1);
   init_cutvalues();
   return 0;
@@ -572,7 +587,7 @@ static void rerank(Agnode_t * v, int delta)
 /* e is the tree edge that is leaving and f is the nontree edge that
  * is entering.  compute new cut values, ranks, and exchange e and f.
  */
-static void 
+static int
 update(edge_t * e, edge_t * f)
 {
     int cutvalue, delta;
@@ -602,12 +617,13 @@ update(edge_t * e, edge_t * f)
     lca = treeupdate(agtail(f), aghead(f), cutvalue, 1);
     if (treeupdate(aghead(f), agtail(f), cutvalue, 0) != lca) {
 	agerr(AGERR, "update: mismatched lca in treeupdates\n");
-	longjmp (jbuf, 1);
+	return 2;
     }
     ED_cutvalue(f) = -cutvalue;
     ED_cutvalue(e) = 0;
     exchange_tree_edges(e, f);
     dfs_range(lca, ND_par(lca), ND_low(lca));
+    return 0;
 }
 
 static void scan_and_normalize(void)
@@ -774,7 +790,7 @@ static int init_graph(graph_t * g)
 	    ED_cutvalue(e) = 0;
 	    ED_tree_index(e) = -1;
 	    if (feasible
-		&& (ND_rank(aghead(e)) - ND_rank(agtail(e)) < ED_minlen(e)))
+		&& ND_rank(aghead(e)) - ND_rank(agtail(e)) < ED_minlen(e))
 		feasible = FALSE;
 	}
 	ND_tree_in(n).list = N_NEW(i + 1, edge_t *);
@@ -848,19 +864,23 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
     else
 	Search_size = SEARCHSIZE;
 
-    if (setjmp (jbuf)) {
-	return 2;
-    }
-
-    if (feasible_tree()) {
-	freeTreeList (g);
-	return 1;
+    {
+	int err = feasible_tree();
+	if (err != 0) {
+	    freeTreeList (g);
+	    return err;
+	}
     }
     while ((e = leave_edge())) {
+	int err;
 	f = enter_edge(e);
-	update(e, f);
+	err = update(e, f);
+	if (err != 0) {
+	    freeTreeList (g);
+	    return err;
+	}
 	iter++;
-	if (Verbose && (iter % 100 == 0)) {
+	if (Verbose && iter % 100 == 0) {
 	    if (iter % 1000 == 100)
 		fputs(ns, stderr);
 	    fprintf(stderr, "%d ", iter);
@@ -1016,7 +1036,7 @@ void tchk(void)
 		fprintf(stderr, "not a tight tree %p", e);
 	}
     }
-    if ((n_cnt != Tree_node.size) || (e_cnt != Tree_edge.size))
+    if (n_cnt != Tree_node.size || e_cnt != Tree_edge.size)
 	fprintf(stderr, "something missing\n");
 }
 
@@ -1136,7 +1156,7 @@ static node_t *checkdfs(graph_t* g, node_t * n)
 	    return w;
 	}
 	else {
-	    if (ND_mark(w) == FALSE) {
+	    if (!ND_mark(w)) {
 		x = checkdfs(g, w);
 		if (x) {
 		    fprintf(stderr,"unwind %lx %s(%lx)\n",
