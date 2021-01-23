@@ -53,25 +53,6 @@ typedef struct {
 #define GORIG(g)    (GDATA(g)->orig)
 #endif
 
-#if 0
-/* ndata is attached to nodes in real graphs.
- * Real nodes also use "builtin" fields:
- *   pos   - position information
- *   width,height     - node dimensions
- *   xsize,ysize      - node dimensions in points
- */
-typedef struct {
-    node_t *dn;			/* points to corresponding derived node,
-				 * which may represent the node or its
-				 * containing cluster. */
-    graph_t *parent;		/* smallest containing cluster */
-} ndata;
-
-#define NDATA(n) ((ndata*)(ND_alg(n)))
-#define DNODE(n) (NDATA(n)->dn)
-#define PARENT(n) (NDATA(n)->parent)
-#endif
-
 /* 
  * Real nodes use "builtin" fields:
  *   ND_pos   - position information

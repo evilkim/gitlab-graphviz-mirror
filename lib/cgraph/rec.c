@@ -91,17 +91,17 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
     Agobj_t *obj;
     Agrec_t *rec;
 
-    obj = (Agobj_t *) arg_obj;
+    obj = arg_obj;
     g = agraphof(obj);
     rec = aggetrec(obj, recname, FALSE);
-    if ((rec == NIL(Agrec_t *)) && (recsize > 0)) {
-	rec = (Agrec_t *) agalloc(g, recsize);
+    if (rec == NIL(Agrec_t *) && recsize > 0) {
+	rec = agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
 	objputrec(g, obj, rec);
     }
     if (mtf)
 	aggetrec(arg_obj, recname, TRUE);
-    return (void *) rec;
+    return rec;
 }
 
 

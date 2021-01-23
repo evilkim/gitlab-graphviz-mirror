@@ -33,17 +33,11 @@
 #define EDGE_TYPE(g) (GD_flags(g) & (7 << 1))
 
 #ifndef streq
-#define streq(a,b)		(*(a)==*(b)&&!strcmp(a,b))
+#define streq(a,b)		(!strcmp(a,b))
 #endif
 
 #define XPAD(d) ((d).x += 4*GAP)
 #define YPAD(d) ((d).y += 2*GAP)
 #define PAD(d)  {XPAD(d); YPAD(d);}
-
-#define OTHERDIR(dir) ((dir == CCW) ? CW : CCW)
-
-#define NEXTSIDE(side, dir) ((dir == CCW) ? \
-		((side & 0x8) ? BOTTOM : (side << 1)) : \
-		((side & 0x1) ? LEFT : (side >> 1)))
 
 #endif

@@ -248,24 +248,6 @@ static char *plog = "%!PS-Adobe-2.0\n\n\
 
 static char *elog = "showpage\n";
 
-/*
-static char* arrow = "/doArrow {\n\
-\t/arrowwidth exch def\n\
-\t/arrowlength exch def\n\
-\tgsave\n\
-\t\t3 1 roll\n\
-\t\ttranslate\n\
-\t\t\trotate\n\
-\t\t\tnewpath\n\
-\t\t\tarrowlength arrowwidth 2 div moveto\n\
-\t\t\t0 0 lineto\n\
-\t\t\tarrowlength arrowwidth -2 div lineto\n\
-\t\tclosepath fill\n\
-\t\tstroke\n\
-\tgrestore\n\
-} def\n";
-*/
-
 static double PSWidth = 550.0;
 static double PSHeight = 756.0;
 
@@ -285,13 +267,6 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 
     fprintf(fp, "%s", plog);
 
-/*
-    if (agisdirected (g) && DoArrow) {
-      do_arrow = 1;
-      fprintf(fp,arrow);
-    }
-    else 
-*/
     do_arrow = 0;
 
     n = agfstnode(g);
@@ -320,8 +295,7 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 
     /* Check for rotation
      */
-    if ((p = agget(g, "rotate")) && (*p != '\0')
-	&& ((angle = atoi(p)) != 0)) {
+    if ((p = agget(g, "rotate")) && *p != '\0' && (angle = atoi(p)) != 0) {
 	fprintf(fp, "306 396 translate\n");
 	fprintf(fp, "%d rotate\n", angle);
 	fprintf(fp, "-306 -396 translate\n");
@@ -338,9 +312,9 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 	if (width > PSWidth) {
 	    if (height > PSHeight) {
 		scale =
-		    (PSWidth / width <
+		    PSWidth / width <
 		     PSHeight / height ? PSWidth / width : PSHeight /
-		     height);
+		     height;
 	    } else
 		scale = PSWidth / width;
 	} else if (height > PSHeight) {

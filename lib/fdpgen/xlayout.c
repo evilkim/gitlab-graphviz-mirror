@@ -105,7 +105,7 @@ static void xinit_params(graph_t* g, int n, xparams * xpms)
 
 static double cool(int t)
 {
-    return (X_T0 * (X_numIters - t)) / X_numIters;
+    return X_T0 * (X_numIters - t) / X_numIters;
 }
 
 #define EPSILON 0.01
@@ -120,7 +120,7 @@ static double dist(pointf p, pointf q)
 
     dx = p.x - q.x;
     dy = p.y - q.y;
-    return (sqrt(dx * dx + dy * dy));
+    return sqrt(dx * dx + dy * dy);
 }
 
 /* bBox:
@@ -150,54 +150,54 @@ static double boxDist(node_t * p, node_t * q)
 
     if (q_ll.x > p_ur.x) {
 	if (q_ll.y > p_ur.y) {
-	    return (dist(p_ur, q_ll));
+	    return dist(p_ur, q_ll);
 	} else if (q_ll.y >= p_ll.y) {
-	    return (q_ll.x - p_ur.x);
+	    return q_ll.x - p_ur.x;
 	} else {
 	    if (q_ur.y >= p_ll.y)
-		return (q_ll.x - p_ur.x);
+		return q_ll.x - p_ur.x;
 	    else {
 		p_ur.y = p_ll.y;	/* p_ur is now lower right */
 		q_ll.y = q_ur.y;	/* q_ll is now upper left */
-		return (dist(p_ur, q_ll));
+		return dist(p_ur, q_ll);
 	    }
 	}
     } else if (q_ll.x >= p_ll.x) {
 	if (q_ll.y > p_ur.y) {
-	    return (q_ll.y - p_ur.x);
+	    return q_ll.y - p_ur.x;
 	} else if (q_ll.y >= p_ll.y) {
 	    return 0.0;
 	} else {
 	    if (q_ur.y >= p_ll.y)
 		return 0.0;
 	    else
-		return (p_ll.y - q_ur.y);
+		return p_ll.y - q_ur.y;
 	}
     } else {
 	if (q_ll.y > p_ur.y) {
 	    if (q_ur.x >= p_ll.x)
-		return (q_ll.y - p_ur.y);
+		return q_ll.y - p_ur.y;
 	    else {
 		p_ur.x = p_ll.x;	/* p_ur is now upper left */
 		q_ll.x = q_ur.x;	/* q_ll is now lower right */
-		return (dist(p_ur, q_ll));
+		return dist(p_ur, q_ll);
 	    }
 	} else if (q_ll.y >= p_ll.y) {
 	    if (q_ur.x >= p_ll.x)
 		return 0.0;
 	    else
-		return (p_ll.x - q_ur.x);
+		return p_ll.x - q_ur.x;
 	} else {
 	    if (q_ur.x >= p_ll.x) {
 		if (q_ur.y >= p_ll.y)
 		    return 0.0;
 		else
-		    return (p_ll.y - q_ur.y);
+		    return p_ll.y - q_ur.y;
 	    } else {
 		if (q_ur.y >= p_ll.y)
-		    return (p_ll.x - q_ur.x);
+		    return p_ll.x - q_ur.x;
 		else
-		    return (dist(p_ll, q_ur));
+		    return dist(p_ll, q_ur);
 	    }
 	}
     }
@@ -219,7 +219,7 @@ static int overlap(node_t * p, node_t * q)
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
     if (ydelta < 0)
 	ydelta = -ydelta;
-    ret = ((xdelta <= (WD2(p) + WD2(q))) && (ydelta <= (HT2(p) + HT2(q))));
+    ret = xdelta <= WD2(p) + WD2(q) && ydelta <= HT2(p) + HT2(q);
     return ret;
 #else
     double dist2, xdelta, ydelta;
@@ -229,7 +229,7 @@ static int overlap(node_t * p, node_t * q)
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
     dist2 = xdelta * xdelta + ydelta * ydelta;
-    return (dist2 <= (din * din));
+    return dist2 <= din * din;
 #endif
 }
 
@@ -350,7 +350,7 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
     if (dist < X_K + din)
 	return;
     dout = dist - din;
-    force = (dout * dout) / ((X_K + din) * dist);
+    force = dout * dout / ((X_K + din) * dist);
 #else
     if (overlap(p, q)) {
 #ifdef DEBUG
@@ -366,7 +366,7 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
     dist = sqrt(xdelta * xdelta + ydelta * ydelta);
     din = RAD(p) + RAD(q);
     dout = dist - din;
-    force = (dout * dout) / ((X_K + din) * dist);
+    force = dout * dout / ((X_K + din) * dist);
 #endif
 #ifdef DEBUG
     if (Verbose == 4) {
@@ -433,8 +433,8 @@ static int adjust(Agraph_t * g, double temp)
 	} else {
 	    /* to avoid sqrt, consider abs(x) + abs(y) */
 	    len = sqrt(len2);
-	    ND_pos(n)[0] += (disp[0] * temp) / len;
-	    ND_pos(n)[1] += (disp[1] * temp) / len;
+	    ND_pos(n)[0] += disp[0] * temp / len;
+	    ND_pos(n)[1] += disp[1] * temp / len;
 	}
     }
     return overlaps;
@@ -475,10 +475,10 @@ static int x_layout(graph_t * g, xparams * pxpms, int tries)
     try = 0;
     xpms = *pxpms;
     K = xpms.K;
-    while (ov && (try < tries)) {
+    while (ov && try < tries) {
 	xinit_params(g, nnodes, &xpms);
 	X_ov = X_C * K2;
-	X_nonov = (nedges*X_ov*2.0)/(nnodes*(nnodes-1));
+	X_nonov = nedges*X_ov*2.0/(nnodes*(nnodes-1));
 #ifdef DEBUG
 	if (Verbose) {
 	    prIndent();
@@ -535,11 +535,11 @@ void fdp_xLayout(graph_t * g, xparams * xpms)
 #endif
         fprintf (stderr, "xLayout ");
     }
-    if (!ovlp || (*ovlp == '\0')) {
+    if (!ovlp || *ovlp == '\0') {
 	ovlp = DFLT_overlap;
     }
     /* look for optional ":" or "number:" */
-    if ((cp = strchr(ovlp, ':')) && ((cp == ovlp) || isdigit(*ovlp))) {
+    if ((cp = strchr(ovlp, ':')) && (cp == ovlp || isdigit(*ovlp))) {
       cp++;
       rest = cp;
       tries = atoi (ovlp);

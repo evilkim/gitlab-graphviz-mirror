@@ -43,6 +43,7 @@
 #include <fdpgen/clusteredges.h>
 #include <fdpgen/dbg.h>
 #include <setjmp.h>
+#include <stddef.h>
 
 static jmp_buf jbuf;
 
@@ -85,7 +86,7 @@ finalCC(graph_t * g, int c_cnt, graph_t ** cc, point * pts, graph_t * rg,
     int margin;
     graph_t **cp = cc;
     point *pp = pts;
-    int isRoot = (rg == infop->rootg);
+    int isRoot = rg == infop->rootg;
     int isEmpty = 0;
 
     /* compute graph bounding box in points */
@@ -187,7 +188,7 @@ static node_t *mkDeriveNode(graph_t * dg, char *name)
 
     dn = agnode(dg, name,1);
     agbindrec(dn, "Agnodeinfo_t", sizeof(Agnodeinfo_t), TRUE);	//node custom data
-    ND_alg(dn) = (void *) NEW(dndata);	/* free in freeDeriveNode */
+    ND_alg(dn) = NEW(dndata);	/* free in freeDeriveNode */
     ND_pos(dn) = N_GNEW(GD_ndim(dg), double);
     /* fprintf (stderr, "Creating %s\n", dn->name); */
     return dn;
@@ -349,7 +350,7 @@ static void chkPos(graph_t* g, node_t* n, layout_info* infop, boxf* bbp)
 	if (g != infop->rootg) {
 	    parent =agparent(g);
 	    pp = agxget(parent, G_coord);
-	    if ((pp == p) || !strcmp(p, pp))
+	    if (pp == p || !strcmp(p, pp))
 		return;
 	}
 	c = '\0';
@@ -421,19 +422,18 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
     graph_t *dg;
     node_t *dn;
     graph_t *subg;
-    char name[100];
     bport_t *pp;
     node_t *n;
     edge_t *de;
     int i, id = 0;
 
-    sprintf(name, "_dg_%d", infop->gid++);
     if (Verbose >= 2)
-	fprintf(stderr, "derive graph %s of %s\n", name, agnameof(g));
+	fprintf(stderr, "derive graph _dg_%d of %s\n", infop->gid, agnameof(g));
+    infop->gid++;
 
-    dg = agopen("derived", Agstrictdirected,NIL(Agdisc_t *));
+    dg = agopen("derived", Agstrictdirected,NULL);
     agbindrec(dg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-    GD_alg(dg) = (void *) NEW(gdata);	/* freed in freeDeriveGraph */
+    GD_alg(dg) = NEW(gdata);	/* freed in freeDeriveGraph */
 #ifdef DEBUG
     GORIG(dg) = g;
 #endif
@@ -482,7 +482,7 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
     /* create derived nodes from remaining nodes */
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (!DNODE(n)) {
-	    if (PARENT(n) && (PARENT(n) != GPARENT(g))) {
+	    if (PARENT(n) && PARENT(n) != GPARENT(g)) {
 		agerr (AGERR, "node \"%s\" is contained in two non-comparable clusters \"%s\" and \"%s\"\n", agnameof(n), agnameof(g), agnameof(PARENT(n)));
 		longjmp (jbuf, 1);
 	    }
@@ -581,8 +581,8 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
  */
 static int ecmp(const void *v1, const void *v2)
 {
-    const erec *e1 = (const erec *) v1;
-    const erec *e2 = (const erec *) v2;
+    const erec *e1 = v1;
+    const erec *e2 = v2;
     if (e1->alpha > e2->alpha)
 	return 1;
     else if (e1->alpha < e2->alpha)
@@ -638,7 +638,7 @@ static erec *getEdgeList(node_t * n, graph_t * g)
 	while (i < deg - 1) {
 	    a = erecs[i].alpha;
 	    j = i + 1;
-	    while ((j < deg) && (erecs[j].alpha == a))
+	    while (j < deg && erecs[j].alpha == a)
 		j++;
 	    if (j == i + 1)
 		i = j;
@@ -703,11 +703,11 @@ genPorts(node_t * n, erec * er, bport_t * pp, int idx, double bnd)
 	delta = -delta;
     }
 
-    ep = (edge_t **) (el = ED_to_virt(e));
+    ep = (edge_t **)ED_to_virt(e);
     for (j = 0; j < ED_count(e); j++, ep++) {
 	el = *ep;
 	pp[i].e = el;
-	pp[i].n = (DNODE(agtail(el)) == n ? agtail(el) : aghead(el));
+	pp[i].n = DNODE(agtail(el)) == n ? agtail(el) : aghead(el);
 	pp[i].alpha = angle;
 	i += inc;
 	angle += delta;
@@ -1001,7 +1001,7 @@ static void init_info(graph_t * g, layout_info * infop)
     infop->G_height = agattr(g, AGRAPH, "height", NULL);
     infop->rootg = g;
     infop->gid = 0;
-    infop->pack.mode = getPackInfo(g, l_node, CL_OFFSET / 2, &(infop->pack));
+    infop->pack.mode = getPackInfo(g, l_node, CL_OFFSET / 2, &infop->pack);
 }
 
 /* mkClusters:
@@ -1029,7 +1029,7 @@ mkClusters (graph_t * g, clist_t* pclist, graph_t* parent)
 	{
 	if (!strncmp(agnameof(subg), "cluster", 7)) {
 	    agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-	    GD_alg(subg) = (void *) NEW(gdata);	/* freed in cleanup_subgs */
+	    GD_alg(subg) = NEW(gdata);	/* freed in cleanup_subgs */
 	    GD_ndim(subg) = GD_ndim(parent);
 	    LEVEL(subg) = LEVEL(parent) + 1;
 	    GPARENT(subg) = parent;
@@ -1050,7 +1050,7 @@ mkClusters (graph_t * g, clist_t* pclist, graph_t* parent)
 static void fdp_init_graph(Agraph_t * g)
 {
     setEdgeType (g, ET_LINE);
-    GD_alg(g) = (void *) NEW(gdata);	/* freed in cleanup_graph */
+    GD_alg(g) = NEW(gdata);	/* freed in cleanup_graph */
     GD_ndim(g) = late_int(g, agattr(g,AGRAPH, "dim", NULL), 2, 2);
     Ndim = GD_ndim(g) = MIN(GD_ndim(g), MAXDIM);
 
@@ -1088,7 +1088,7 @@ fdpSplines (graph_t * g)
 	    if (trySplines)
 		Nop = 2;
 	}
-	if (trySplines || (et != ET_COMPOUND)) {
+	if (trySplines || et != ET_COMPOUND) {
 	    if (HAS_CLUST_EDGE(g)) {
 		agerr(AGWARN,
 		      "splines and cluster edges not supported - using line segments\n");

@@ -27,6 +27,7 @@
 #include <fdpgen/fdp.h>
 #include <fdpgen/grid.h>
 #include <common/macros.h>
+#include <stddef.h>
 
   /* structure for maintaining a free list of cells */
 typedef struct _block {
@@ -100,10 +101,10 @@ static int ijcmpf(Dt_t * d, gridpt * p1, gridpt * p2, Dtdisc_t * disc)
 
     NOTUSED(d);
     NOTUSED(disc);
-    if ((diff = (p1->i - p2->i)))
+    if ((diff = p1->i - p2->i))
 	return diff;
     else
-	return (p1->j - p2->j);
+	return p1->j - p2->j;
 }
 
 static Grid *_grid;		/* hack because can't attach info. to Dt_t */
@@ -114,7 +115,7 @@ static Grid *_grid;		/* hack because can't attach info. to Dt_t */
  */
 static void *newCell(Dt_t * d, void *obj, Dtdisc_t * disc)
 {
-    cell *cellp = (cell *) obj;
+    cell *cellp = obj;
     cell *newp;
 
     NOTUSED(disc);
@@ -148,11 +149,11 @@ static Dtdisc_t gridDisc = {
     sizeof(gridpt),
     offsetof(cell, link),
     (Dtmake_f) newCell,
-    NIL(Dtfree_f),
+    NULL,
     (Dtcompar_f) ijcmpf,
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
+    NULL,
+    NULL,
+    NULL
 };
 
 /* mkGrid:
@@ -184,7 +185,7 @@ void adjustGrid(Grid * g, int nnodes)
     int nsize;
 
     if (nnodes > g->listSize) {
-	nsize = MAX(nnodes, 2 * (g->listSize));
+	nsize = MAX(nnodes, 2 * g->listSize);
 	if (g->listMem)
 	    free(g->listMem);
 	g->listMem = N_GNEW(nsize, node_list);
@@ -255,7 +256,7 @@ cell *findGrid(Grid * g, int i, int j)
 
     key.p.i = i;
     key.p.j = j;
-    return ((cell *) dtsearch(g->data, &key));
+    return (cell *) dtsearch(g->data, &key);
 }
 
 /* gLength:

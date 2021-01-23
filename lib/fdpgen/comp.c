@@ -78,7 +78,7 @@ graph_t **findCComp(graph_t * g, int *cnt, int *pinned)
 	sprintf(name, "cc%s_%d", agnameof(g), c_cnt++ + C_cnt);
 	subg = agsubg(g, name,1);
 	agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-	GD_alg(subg) = (void *) NEW(gdata);
+	GD_alg(subg) = NEW(gdata);
 	PORTS(subg) = pp;
 	NPORTS(subg) = NPORTS(g);
 	for (; pp->n; pp++) {
@@ -99,7 +99,7 @@ graph_t **findCComp(graph_t * g, int *cnt, int *pinned)
 	    sprintf(name, "cc%s_%d", agnameof(g), c_cnt++ + C_cnt);
 	    subg = agsubg(g, name,1);
 		agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);
-	    GD_alg(subg) = (void *) NEW(gdata);
+	    GD_alg(subg) = NEW(gdata);
 	}
 	pinflag = 1;
 	dfs(g, n, subg, marks);
@@ -114,7 +114,7 @@ graph_t **findCComp(graph_t * g, int *cnt, int *pinned)
 	sprintf(name, "cc%s+%d", agnameof(g), c_cnt++ + C_cnt);
 	subg = agsubg(g, name,1);
 	agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-	GD_alg(subg) = (void *) NEW(gdata);
+	GD_alg(subg) = NEW(gdata);
 	dfs(g, n, subg, marks);
 	nodeInduce(subg);
     }

@@ -154,14 +154,13 @@ addGraphObjs(objlist * l, graph_t * g, void *tex, void *hex, expand_t* pm)
     int i;
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	if ((PARENT(n) == g) && (n != tex) && (n != hex)
-	    && !IS_CLUST_NODE(n)) {
+	if (PARENT(n) == g && n != tex && n != hex && !IS_CLUST_NODE(n)) {
 	    addObj(l, makeObstacle(n, pm, FALSE));
 	}
     }
     for (i = 1; i <= GD_n_cluster(g); i++) {
 	sg = GD_clust(g)[i];
-	if ((sg != tex) && (sg != hex)) {
+	if (sg != tex && sg != hex) {
 	    addObj(l, makeClustObs(sg, pm));
 	}
     }
@@ -185,7 +184,7 @@ raiseLevel(objlist * l, int maxlvl, void *ex, int minlvl, graph_t ** gp,
 	ex = g;
 	g = GPARENT(g);
     }
-    *gp = (graph_t *) ex;
+    *gp = ex;
 }
 
 /* objectList:
@@ -266,7 +265,7 @@ int compoundEdges(graph_t * g, expand_t* pm, int edgetype)
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
 	    head = aghead(e);
-	    if ((n == head) && ED_count(e)) {	/* self arc */
+	    if (n == head && ED_count(e)) {	/* self arc */
 		if (!P) {
 		    P = NEW(path);
 		    P->boxes = N_NEW(agnnodes(g) + 20 * 2 * 9, boxf);
@@ -287,9 +286,9 @@ int compoundEdges(graph_t * g, expand_t* pm, int edgetype)
 			expand_t margin = sepFactor(g);
 			int pack = getPack (g, CL_OFFSET, CL_OFFSET); 
 			agerr(AGWARN, "compoundEdges: nodes touch - falling back to straight line edges\n");
-			if ((pack <= pm->x) || (pack <= pm->y))
+			if (pack <= pm->x || pack <= pm->y)
 			    agerr(AGPREV, "pack value %d is smaller than esep (%.03f,%.03f)\n", pack, pm->x, pm->y);
-			else if ((margin.x <= pm->x) || (margin.y <= pm->y))
+			else if (margin.x <= pm->x || margin.y <= pm->y)
 			    agerr(AGPREV, "sep value (%.03f,%.03f) is smaller than esep (%.03f,%.03f)\n",  
 				margin.x, margin.y, pm->x, pm->y);
 			rv = 1;
