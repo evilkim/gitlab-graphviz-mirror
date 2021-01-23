@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Get statistics of a dictionary
 **
@@ -44,7 +45,7 @@ int dtstat(Dt_t* dt, Dtstat_t* ds, int all)
 	UNFLATTEN(dt);
 
 	ds->dt_n = ds->dt_max = 0;
-	ds->dt_count = NIL(int*);
+	ds->dt_count = NULL;
 	ds->dt_size = dtsize(dt);
 	ds->dt_meth = dt->data->type&DT_METHODS;
 
@@ -52,7 +53,7 @@ int dtstat(Dt_t* dt, Dtstat_t* ds, int all)
 		return 0;
 
 	if(dt->data->type&(DT_SET|DT_BAG))
-	{	dthstat(dt->data,ds,NIL(int*));
+	{	dthstat(dt->data,ds,NULL);
 		if(ds->dt_max+1 > Size)
 		{	if(Size > 0)
 				free(Count);
@@ -66,7 +67,7 @@ int dtstat(Dt_t* dt, Dtstat_t* ds, int all)
 	}
 	else if(dt->data->type&(DT_OSET|DT_OBAG))
 	{	if(dt->data->here)
-		{	dttstat(ds,dt->data->here,0,NIL(int*));
+		{	dttstat(ds,dt->data->here,0,NULL);
 			if(ds->dt_n+1 > Size)
 			{	if(Size > 0)
 					free(Count);

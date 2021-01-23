@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Set the IO pointer to a specific location in the stream
 **
@@ -81,7 +82,7 @@ Sfoff_t sfseek(Sfio_t * f, Sfoff_t p, int type)
 
     /* throw away ungetc data */
     if (f->disc == _Sfudisc)
-	(void) sfclose((*_Sfstack) (f, NIL(Sfio_t *)));
+	(void) sfclose((*_Sfstack) (f, NULL));
 
     /* lock the stream for internal manipulations */
     SFLOCK(f, local);

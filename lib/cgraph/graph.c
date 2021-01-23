@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 Agraph_t *Ag_G_global;
 
@@ -97,7 +98,7 @@ int agclose(Agraph_t * g)
     Agnode_t *n, *next_n;
 
     par = agparent(g);
-    if (par == NILgraph && AGDISC(g, mem)->close) {
+    if (par == NULL && AGDISC(g, mem)->close) {
 	/* free entire heap */
 	agmethod_delete(g, g);	/* invoke user callbacks */
 	agfreeid(g, AGRAPH, AGID(g));

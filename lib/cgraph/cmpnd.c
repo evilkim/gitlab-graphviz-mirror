@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 /*
  * provides "compound nodes" on top of base Libgraph.
@@ -92,7 +93,7 @@ static save_e_t stacktop(save_stack_t * stk)
     if (stk->stacksize > 0)
 	rv = stk->mem[stk->stacksize - 1];
     else
-	rv.from = rv.to = NILnode;
+	rv.from = rv.to = NULL;
     return rv;
 }
 
@@ -159,7 +160,7 @@ int agsplice(Agedge_t * e, Agnode_t * target)
     Agsplice_arg_t splice_arg;
 
 
-    if ((e == NILedge) || (e->node == target))
+    if (e == NULL || e->node == target)
 	return FAILURE;
     g = agraphof(e);
     t = AGTAIL(e);
@@ -180,7 +181,7 @@ Agnode_t *agcmpnode(Agraph_t * g, char *name)
     if (n && g && agassociate(n, subg))
 	return n;
     else
-	return NILnode;
+	return NULL;
 }
 
 int agassociate(Agnode_t * n, Agraph_t * sub)
@@ -212,7 +213,7 @@ static void delete_outside_subg(Agraph_t * g, Agnode_t * node,
 	dtdelete(g->n_dict, n);
 
 	graphrec = agbindrec(g, Descriptor_id, sizeof(*graphrec), FALSE);
-	if ((d = graphrec->hidden_node_set) == NIL(Dict_t *)) {
+	if ((d = graphrec->hidden_node_set) == NULL) {
 	    /* use name disc. to permit search for hidden node by name */
 	    d = graphrec->hidden_node_set
 		= agdtopen(g, &Ag_node_name_disc, Dttree);
@@ -240,7 +241,7 @@ int aghide(Agnode_t * cmpnode)
 
     g = agraphof(cmpnode);
     /* skip operation if node is not compound, or hidden */
-    if (agcmpgraph_of(cmpnode) == NILgraph)
+    if (agcmpgraph_of(cmpnode) == NULL)
 	return FAILURE;
     noderec = (Agcmpnode_t *) aggetrec(cmpnode, Descriptor_id, FALSE);
 
@@ -287,8 +288,7 @@ static void insert_outside_subg(Agraph_t * g, Agnode_t * node,
     Agnode_t *n;
     Agcmpgraph_t *graphrec;
 
-    if ((g != subg)
-	&& ((n = agsubnode(g, (Agnode_t *) node, FALSE)) == NILnode)) {
+    if (g != subg && (n = agsubnode(g, (Agnode_t *) node, FALSE)) == NULL) {
 	graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
 	if (graphrec
 	    &&
@@ -316,7 +316,7 @@ int agexpose(Agnode_t * cmpnode)
 
     /* skip if this is not a collapsed subgraph */
     noderec = (Agcmpnode_t *) aggetrec(cmpnode, Descriptor_id, FALSE);
-    if ((noderec == NIL(Agcmpnode_t *) || NOT(noderec->collapsed)))
+    if (noderec == NULL || NOT(noderec->collapsed))
 	return FAILURE;
 
     /* undo aghide (above) in reverse order.  first, expose subgraph */
@@ -358,7 +358,7 @@ Agraph_t *agcmpgraph_of(Agnode_t * n)
     if (noderec && NOT(noderec->collapsed))
 	return noderec->subg;
     else
-	return NILgraph;
+	return NULL;
 }
 
 Agnode_t *agcmpnode_of(Agraph_t * g)
@@ -368,7 +368,7 @@ Agnode_t *agcmpnode_of(Agraph_t * g)
     if (graphrec)
 	return graphrec->node;
     else
-	return NILnode;
+	return NULL;
 }
 
 Agnode_t *agfindhidden(Agraph_t * g, char *name)
@@ -381,5 +381,5 @@ Agnode_t *agfindhidden(Agraph_t * g, char *name)
 	key.name = name;
 	return (Agnode_t *) dtsearch(graphrec->hidden_node_set, &key);
     } else
-	return NILnode;
+	return NULL;
 }

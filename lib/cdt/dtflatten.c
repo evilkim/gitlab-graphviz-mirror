@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Flatten a dictionary into a linked list.
 **	This may be used when many traversals are likely.
@@ -14,7 +15,7 @@ Dtlink_t* dtflatten(Dt_t* dt)
 	if(dt->data->type&DT_FLATTEN )
 		return dt->data->here;
 
-	list = last = NIL(Dtlink_t*);
+	list = last = NULL;
 	if(dt->data->type&(DT_SET|DT_BAG))
 	{	for(ends = (s = dt->data->htab) + dt->data->ntab; s < ends; ++s)
 		{	if((t = *s) )

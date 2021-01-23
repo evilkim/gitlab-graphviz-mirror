@@ -39,6 +39,7 @@
 #include <common/intset.h>
 #include <cdt/cdt.h>
 #include <cgraph/strcasecmp.h>
+#include <stddef.h>
 
 #define DEFAULT_BORDER    1
 #define DEFAULT_CELLPADDING  2
@@ -1553,8 +1554,8 @@ static void sizeArray(htmltbl_t * tbl)
     tbl->heights = N_NEW(tbl->rc + 1, int);
     tbl->widths = N_NEW(tbl->cc + 1, int);
 
-    rowg = agopen("rowg", dir, NIL(Agdisc_t *));
-    colg = agopen("colg", dir, NIL(Agdisc_t *));
+    rowg = agopen("rowg", dir, NULL);
+    colg = agopen("colg", dir, NULL);
     /* Only need GD_nlist */
     agbindrec(rowg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	// graph custom data
     agbindrec(colg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	// graph custom data

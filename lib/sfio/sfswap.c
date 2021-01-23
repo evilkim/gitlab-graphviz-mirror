@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Swap two streams. If the second argument is NULL,
 **	a new stream will be created. Always return the second argument
@@ -29,9 +30,9 @@ Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
 
     if (!f1 || (f1->mode & SF_AVAIL)
 	|| (SFFROZEN(f1) && (f1->mode & SF_PUSH)))
-	return NIL(Sfio_t *);
+	return NULL;
     if (f2 && SFFROZEN(f2) && (f2->mode & SF_PUSH))
-	return NIL(Sfio_t *);
+	return NULL;
     if (f1 == f2)
 	return f2;
 
@@ -46,12 +47,12 @@ Sfio_t *sfswap(Sfio_t * f1, Sfio_t * f2)
     } else {
 	f2 = f1->file == 0 ? sfstdin :
 	    f1->file == 1 ? sfstdout :
-	    f1->file == 2 ? sfstderr : NIL(Sfio_t *);
+	    f1->file == 2 ? sfstderr : NULL;
 	if ((!f2 || !(f2->mode & SF_AVAIL))) {
 	    if (!(f2 = malloc(sizeof(Sfio_t)))) {
 		f1->mode = f1mode;
 		SFOPEN(f1, 0);
-		return NIL(Sfio_t *);
+		return NULL;
 	    }
 
 	    SFCLEAR(f2);

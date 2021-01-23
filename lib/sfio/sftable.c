@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Dealing with $ argument addressing stuffs.
 **
@@ -39,9 +40,9 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
     int argp, argn, maxp, need[FP_INDEX];
 
     if (type < 0)
-	fp = NIL(Fmtpos_t *);
+	fp = NULL;
     else if (!(fp = sffmtpos(f, form, args, -1)))
-	return NIL(Fmtpos_t *);
+	return NULL;
 
     dollar = 0;
     decimal = thousand = 0;
@@ -76,7 +77,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 	}
 
 	flags = dot = 0;
-	t_str = NIL(char *);
+	t_str = NULL;
 	n_str = 0;
 	size = width = precis = base = -1;
 	for (n = 0; n < FP_INDEX; ++n)
@@ -90,7 +91,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 		switch (*form++) {
 		case 0:	/* not balancable, retract */
 		    form = t_str;
-		    t_str = NIL(char *);
+		    t_str = NULL;
 		    n_str = 0;
 		    goto loop_flags;
 		case LEFTP:	/* increasing nested level */
@@ -263,7 +264,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 	    maxp = argp;
 
 	if (dollar && fmt == '!')
-	    return NIL(Fmtpos_t *);
+	    return NULL;
 
 	if (fp && fp[argp].ft.fmt == 0) {
 	    fp[argp].ft.form = (char *) form;
@@ -283,14 +284,14 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
     if (!fp) {			/* constructing position array only */
 	if (!dollar
 	    || !(fp = malloc((maxp + 1) * sizeof(Fmtpos_t))))
-	    return NIL(Fmtpos_t *);
+	    return NULL;
 	for (n = 0; n <= maxp; ++n)
 	    fp[n].ft.fmt = 0;
 	return fp;
     }
 
     /* get value for positions */
-    for (n = 0, ft = NIL(Sffmt_t *); n <= maxp; ++n) {
+    for (n = 0, ft = NULL; n <= maxp; ++n) {
 	if (fp[n].ft.fmt == 0) {	/* gap: pretend it's a 'd' pattern */
 	    fp[n].ft.fmt = 'd';
 	    fp[n].ft.width = 0;
@@ -327,7 +328,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 	    memcpy(&fp[n].ft, ft, sizeof(Sffmt_t));
 	    if (v < 0) {
 		memcpy(ft, &savft, sizeof(Sffmt_t));
-		ft = NIL(Sffmt_t *);
+		ft = NULL;
 	    }
 
 	    if (!(fp[n].ft.flags & SFFMT_VALUE))
@@ -344,7 +345,7 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 		    memcpy(ft, &savft, sizeof(Sffmt_t));
 		fp[n].argv.ft = ft = va_arg(args, Sffmt_t *);
 		if (ft->form)
-		    ft = NIL(Sffmt_t *);
+		    ft = NULL;
 		if (ft)
 		    memcpy(&savft, ft, sizeof(Sffmt_t));
 	    } else if (type > 0)	/* from sfvscanf */

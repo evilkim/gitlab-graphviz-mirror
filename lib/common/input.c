@@ -18,6 +18,7 @@
 #include <xdot/xdot.h>
 #include <cgraph/agxbuf.h>
 #include <cgraph/strcasecmp.h>
+#include <stddef.h>
 
 static char *usageFmt =
     "Usage: %s [-Vv?] [-(GNE)name=val] [-(KTlso)<val>] <dot files>\n";
@@ -591,7 +592,7 @@ graph_t *gvNextInputGraph(GVC_t *gvc)
 #ifdef EXPERIMENTAL_MYFGETS
 	g = agread_usergets(fp, myfgets);
 #else
-	g = agread(fp,NIL(Agdisc_t*));
+	g = agread(fp,NULL);
 #endif
 	if (g) {
 	    gvg_init(gvc, g, fn, gidx++);

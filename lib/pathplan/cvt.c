@@ -11,7 +11,7 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
-
+#include <stddef.h>
 #include <stdio.h>
 #include <pathplan/vis.h>
 
@@ -254,10 +254,10 @@ static ilcoord_t Bezier(ilcoord_t * V, int degree, double t,
 	}
     }
 
-    if (Left != NIL(ilcoord_t *))
+    if (Left != NULL)
 	for (j = 0; j <= degree; j++)
 	    Left[j] = Vtemp[j][0];
-    if (Right != NIL(ilcoord_t *))
+    if (Right != NULL)
 	for (j = 0; j <= degree; j++)
 	    Right[j] = Vtemp[degree - j][j];
     return (Vtemp[degree][0]);

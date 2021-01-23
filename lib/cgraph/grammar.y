@@ -23,6 +23,7 @@
 
 #include <stdio.h>  /* SAFE */
 #include <cghdr.h>	/* SAFE */
+#include <stddef.h>
 extern void aagerror(char *);
 
 #ifdef _WIN32
@@ -105,7 +106,7 @@ static gstack_t *S;
 %%
 
 graph		:  hdr body {freestack(); endgraph();}
-			|  error	{if (G) {freestack(); endgraph(); agclose(G); G = Ag_G_global = NIL(Agraph_t*);}}
+			|  error	{if (G) {freestack(); endgraph(); agclose(G); G = Ag_G_global = NULL;}}
 			|  /* empty */
 			;
 
@@ -143,13 +144,13 @@ rcompound	:	T_edgeop {getedgeitems(1);} simple {getedgeitems(2);} rcompound {$$ 
 
 nodelist	: node | nodelist ',' node ;
 
-node		: atom {appendnode($1,NIL(char*),NIL(char*));}
-            | atom ':' atom {appendnode($1,$3,NIL(char*));}
+node		: atom {appendnode($1,NULL,NULL);}
+            | atom ':' atom {appendnode($1,$3,NULL);}
             | atom ':' atom ':' atom {appendnode($1,$3,$5);}
             ;
 
 attrstmt	:  attrtype optmacroname attrlist {attrstmt($1,$2);}
-			|  graphattrdefs {attrstmt(T_graph,NIL(char*));}
+			|  graphattrdefs {attrstmt(T_graph,NULL);}
 			;
 
 attrtype :	T_graph {$$ = T_graph;}
@@ -158,7 +159,7 @@ attrtype :	T_graph {$$ = T_graph;}
 			;
 
 optmacroname : atom '=' {$$ = $1;}
-			| /* empty */ {$$ = NIL(char*); }
+			| /* empty */ {$$ = NULL; }
 			;
 
 optattr		:	attrlist |  /* empty */ ;
@@ -176,7 +177,7 @@ attritem	: attrassignment | attrmacro ;
 attrassignment	:  atom '=' atom {appendattr($1,$3);}
 			;
 
-attrmacro	:	'@' atom {appendattr($2,NIL(char*));}	/* not yet impl */
+attrmacro	:	'@' atom {appendattr($2,NULL);}	/* not yet impl */
 			;
 
 graphattrdefs : attrassignment
@@ -186,8 +187,8 @@ subgraph	:  optsubghdr {opensubg($1);} body {closesubg();}
 			;
 
 optsubghdr	: T_subgraph atom {$$=$2;}
-			| T_subgraph  {$$=NIL(char*);}
-			| /* empty */ {$$=NIL(char*);}
+			| T_subgraph  {$$=NULL;}
+			| /* empty */ {$$=NULL;}
 			;
 
 optseparator :  ';' | ',' | /*empty*/ ;
@@ -200,9 +201,6 @@ qatom	:  T_qatom {$$ = $1;}
 			|  qatom '+' T_qatom {$$ = concat($1,$3);}
 			;
 %%
-
-#define NILitem  NIL(item*)
-
 
 static item *newitem(int tag, void *p0, char *p1)
 {
@@ -218,10 +216,10 @@ static item *cons_attr(char *name, char *value)
 	{ return newitem(T_atom,name,value); }
 
 static item *cons_list(item *list)
-	{ return newitem(T_list,list,NIL(char*)); }
+	{ return newitem(T_list,list,NULL); }
 
 static item *cons_subg(Agraph_t *subg)
-	{ return newitem(T_subgraph,subg,NIL(char*)); }
+	{ return newitem(T_subgraph,subg,NULL); }
 
 static gstack_t *push(gstack_t *s, Agraph_t *subg) {
 	gstack_t *rv;
@@ -241,7 +239,7 @@ static gstack_t *pop(gstack_t *s)
 
 #ifdef NOTDEF
 static item *cons_edge(Agedge_t *e)
-	{ return newitem(T_edge,e,NIL(char*)); }
+	{ return newitem(T_edge,e,NULL); }
 #endif
 
 static void delete_items(item *ilist)
@@ -261,14 +259,14 @@ static void delete_items(item *ilist)
 #ifdef NOTDEF
 static void initlist(list_t *list)
 {
-	list->first = list->last = NILitem;
+	list->first = list->last = NULL;
 }
 #endif
 
 static void deletelist(list_t *list)
 {
 	delete_items(list->first);
-	list->first = list->last = NILitem;
+	list->first = list->last = NULL;
 }
 
 #ifdef NOTDEF
@@ -276,7 +274,7 @@ static void listins(list_t *list, item *v)
 {
 	v->next = list->first;
 	list->first = v;
-	if (list->last == NILitem) list->last = v;
+	if (list->last == NULL) list->last = v;
 }
 #endif
 
@@ -284,7 +282,7 @@ static void listapp(list_t *list, item *v)
 {
 	if (list->last) list->last->next = v;
 	list->last = v;
-	if (list->first == NILitem) list->first = v;
+	if (list->first == NULL) list->first = v;
 }
 
 
@@ -293,7 +291,7 @@ static void appendattr(char *name, char *value)
 {
 	item		*v;
 
-	assert(value != NIL(char*));
+	assert(value != NULL);
 	v = cons_attr(name,value);
 	listapp(&(S->attrlist),v);
 }
@@ -307,7 +305,7 @@ static void bindattrs(int kind)
 		assert(aptr->tag == T_atom);	/* signifies unbound attr */
 		name = aptr->u.name;
 		if ((kind == AGEDGE) && streq(name,Key)) continue;
-		if ((aptr->u.asym = agattr(S->g,kind,name,NIL(char*))) == NILsym)
+		if ((aptr->u.asym = agattr(S->g,kind,name,NULL)) == NULL)
 			aptr->u.asym = agattr(S->g,kind,name,"");
 		aptr->tag = T_attr;				/* signifies bound attr */
 		agstrfree(G,name);
@@ -353,7 +351,7 @@ static void attrstmt(int tkind, char *macroname)
 	if (macroname) nomacros();
 		/* invoking a macro def */
 	for (aptr = S->attrlist.first; aptr; aptr = aptr->next)
-		if (aptr->str == NIL(char*)) nomacros();
+		if (aptr->str == NULL) nomacros();
 
 	switch(tkind) {
 		case T_graph: kind = AGRAPH; break;
@@ -414,7 +412,7 @@ static void getedgeitems(int x)
 
 	if (S->nodelist.first) {
 		v = cons_list(S->nodelist.first);
-		S->nodelist.first = S->nodelist.last = NILitem;
+		S->nodelist.first = S->nodelist.last = NULL;
 	}
 	else {if (S->subg) v = cons_subg(S->subg); S->subg = 0;}
 	/* else nil append */
@@ -432,7 +430,7 @@ static void endedge(void)
 	bindattrs(AGEDGE);
 
 	/* look for "key" pseudo-attribute */
-	key = NIL(char*);
+	key = NULL;
 	for (aptr = S->attrlist.first; aptr; aptr = aptr->next) {
 		if ((aptr->tag == T_atom) && streq(aptr->u.name,Key))
 			key = aptr->str;
@@ -443,7 +441,7 @@ static void endedge(void)
 		if (p->tag == T_subgraph) {
 			subg = p->u.subg;
 			for (t = agfstnode(subg); t; t = agnxtnode(subg,t))
-				edgerhs(agsubnode(S->g,t,FALSE),NIL(char*),p->next,key);
+				edgerhs(agsubnode(S->g,t,FALSE),NULL,p->next,key);
 		}
 		else {
 			for (tptr = p->u.list; tptr; tptr = tptr->next)
@@ -507,7 +505,7 @@ static void edgerhs(Agnode_t *tail, char *tport, item *hlist, char *key)
 	if (hlist->tag == T_subgraph) {
 		subg = hlist->u.subg;
 		for (head = agfstnode(subg); head; head = agnxtnode(subg,head))
-			newedge(tail,tport,agsubnode(S->g,head,FALSE),NIL(char*),key);
+			newedge(tail,tport,agsubnode(S->g,head,FALSE),NULL,key);
 	}
 	else {
 		for (hptr = hlist->u.list; hptr; hptr = hptr->next)
@@ -519,7 +517,7 @@ static void mkport(Agedge_t *e, char *name, char *val)
 {
 	Agsym_t *attr;
 	if (val) {
-		if ((attr = agattr(S->g,AGEDGE,name,NIL(char*))) == NILsym)
+		if ((attr = agattr(S->g,AGEDGE,name,NULL)) == NULL)
 			attr = agattr(S->g,AGEDGE,name,"");
 		agxset(e,attr,val);
 	}
@@ -551,7 +549,7 @@ static void startgraph(char *name, int directed, int strict)
 {
 	static Agdesc_t	req;	/* get rid of warnings */
 
-	if (G == NILgraph) {
+	if (G == NULL) {
 		SubgraphDepth = 0;
 		req.directed = directed;
 		req.strict = strict;
@@ -562,7 +560,7 @@ static void startgraph(char *name, int directed, int strict)
 		Ag_G_global = G;
 	}
 	S = push(S,G);
-	agstrfree(NIL(Agraph_t*),name);
+	agstrfree(NULL,name);
 }
 
 static void endgraph()
@@ -604,13 +602,13 @@ Agraph_t *agconcat(Agraph_t *g, void *chan, Agdisc_t *disc)
 {
 	aagin = chan;
 	G = g;
-	Ag_G_global = NILgraph;
+	Ag_G_global = NULL;
 	Disc = (disc? disc :  &AgDefaultDisc);
 	aglexinit(Disc, chan);
 	aagparse();
-	if (Ag_G_global == NILgraph) aglexbad();
+	if (Ag_G_global == NULL) aglexbad();
 	return Ag_G_global;
 }
 
-Agraph_t *agread(void *fp, Agdisc_t *disc) {return agconcat(NILgraph,fp,disc); }
+Agraph_t *agread(void *fp, Agdisc_t *disc) {return agconcat(NULL,fp,disc); }
 

@@ -12,11 +12,12 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 /* memory management discipline and entry points */
 static void *memopen(Agdisc_t* disc)
 {
-    return NIL(void *);
+    return NULL;
 }
 
 static void *memalloc(void *heap, size_t request)
@@ -64,7 +65,7 @@ void *agalloc(Agraph_t * g, size_t size)
     void *mem;
 
     mem = AGDISC(g, mem)->alloc(AGCLOS(g, mem), size);
-    if (mem == NIL(void *))
+    if (mem == NULL)
 	 agerr(AGERR,"memory allocation failure");
     return mem;
 }
@@ -79,10 +80,10 @@ void *agrealloc(Agraph_t * g, void *ptr, size_t oldsize, size_t size)
 	else
 	    mem =
 		AGDISC(g, mem)->resize(AGCLOS(g, mem), ptr, oldsize, size);
-	if (mem == NIL(void *))
+	if (mem == NULL)
 	     agerr(AGERR,"memory re-allocation failure");
     } else
-	mem = NIL(void *);
+	mem = NULL;
     return mem;
 }
 

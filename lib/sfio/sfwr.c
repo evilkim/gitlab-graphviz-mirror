@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Write with discipline.
 **
@@ -86,7 +87,7 @@ static ssize_t sfoutput(Sfio_t * f, char *buf, size_t n)
 	/* seek to a rounded boundary within the hole */
 	if (s >= _Sfpage) {
 	    s = (s / _Sfpage) * _Sfpage;
-	    if (SFSK(f, (Sfoff_t) s, SEEK_CUR, NIL(Sfdisc_t *)) < 0)
+	    if (SFSK(f, (Sfoff_t) s, SEEK_CUR, NULL) < 0)
 		break;
 	    w += s;
 	    n -= s;

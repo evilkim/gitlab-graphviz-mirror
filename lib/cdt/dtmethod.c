@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Change search method.
 **
@@ -16,7 +17,7 @@ Dtmethod_t* dtmethod(Dt_t* dt, Dtmethod_t* meth)
 
 	if(disc->eventf &&
 	   (*disc->eventf)(dt,DT_METH,(void*)meth,disc) < 0)
-		return NIL(Dtmethod_t*);
+		return NULL;
 
 	dt->data->minp = 0;
 
@@ -24,15 +25,15 @@ Dtmethod_t* dtmethod(Dt_t* dt, Dtmethod_t* meth)
 	list = dtflatten(dt);
 
 	if(dt->data->type&(DT_LIST|DT_STACK|DT_QUEUE) )
-		dt->data->head = NIL(Dtlink_t*);
+		dt->data->head = NULL;
 	else if(dt->data->type&(DT_SET|DT_BAG) )
 	{	if(dt->data->ntab > 0)
 			(*dt->memoryf)(dt,(void*)dt->data->htab,0,disc);
 		dt->data->ntab = 0;
-		dt->data->htab = NIL(Dtlink_t**);
+		dt->data->htab = NULL;
 	}
 
-	dt->data->here = NIL(Dtlink_t*);
+	dt->data->here = NULL;
 	dt->data->type = (dt->data->type&~(DT_METHODS|DT_FLATTEN)) | meth->type;
 	dt->meth = meth;
 	if(dt->searchf == oldmeth->searchf)

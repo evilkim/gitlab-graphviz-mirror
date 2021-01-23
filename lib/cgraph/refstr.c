@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 /*
  * reference counted strings.
@@ -31,12 +32,12 @@ static Dtdisc_t Refstrdisc = {
     offsetof(refstr_t, s),	/* key */
     -1,				/* size */
     0,				/* link offset */
-    NIL(Dtmake_f),
+    NULL,
     agdictobjfree,
-    NIL(Dtcompar_f),
-    NIL(Dthash_f),
+    NULL,
+    NULL,
     agdictobjmem,
-    NIL(Dtevent_f)
+    NULL
 };
 
 static Dict_t *Refdict_default;
@@ -54,7 +55,7 @@ static Dict_t *refdict(Agraph_t * g)
 	dictref = &(g->clos->strdict);
     else
 	dictref = &Refdict_default;
-    if (*dictref == NIL(Dict_t *)) {
+    if (*dictref == NULL) {
 	*dictref = agdtopen(g, &Refstrdisc, Dttree);
 	HTML_BIT = ((unsigned int) 1) << (sizeof(unsigned int) * 8 - 1);
 	CNT_BITS = ~HTML_BIT;
@@ -82,7 +83,7 @@ static char *refstrbind(Dict_t * strdict, char *s)
     if (r)
 	return r->s;
     else
-	return NIL(char *);
+	return NULL;
 }
 
 char *agstrbind(Agraph_t * g, char *s)
@@ -96,8 +97,8 @@ char *agstrdup(Agraph_t * g, char *s)
     Dict_t *strdict;
     size_t sz;
 
-    if (s == NIL(char *))
-	 return NIL(char *);
+    if (s == NULL)
+	 return NULL;
     strdict = refdict(g);
     r = refsymbind(strdict, s);
     if (r)
@@ -122,8 +123,8 @@ char *agstrdup_html(Agraph_t * g, char *s)
     Dict_t *strdict;
     size_t sz;
 
-    if (s == NIL(char *))
-	 return NIL(char *);
+    if (s == NULL)
+	 return NULL;
     strdict = refdict(g);
     r = refsymbind(strdict, s);
     if (r)
@@ -147,7 +148,7 @@ int agstrfree(Agraph_t * g, char *s)
     refstr_t *r;
     Dict_t *strdict;
 
-    if (s == NIL(char *))
+    if (s == NULL)
 	 return FAILURE;
 
     strdict = refdict(g);
@@ -162,7 +163,7 @@ int agstrfree(Agraph_t * g, char *s)
 	     */
 	}
     }
-    if (r == NIL(refstr_t *))
+    if (r == NULL)
 	return FAILURE;
     return SUCCESS;
 }

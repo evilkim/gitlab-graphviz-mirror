@@ -14,6 +14,7 @@
 
 #include "convert.h"
 #include <ctype.h>
+#include <stddef.h>
 
 #define SMALLBUF    128
 
@@ -73,10 +74,10 @@ static Dtdisc_t nameDisc = {
     offsetof(namev_t, link),
     (Dtmake_f) make_nitem,
     (Dtfree_f) free_nitem,
-    NIL(Dtcompar_f),
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
 typedef struct {
@@ -94,12 +95,12 @@ static Dtdisc_t idDisc = {
     offsetof(idv_t, name),
     -1,
     offsetof(idv_t, link),
-    NIL(Dtmake_f),
+    NULL,
     (Dtfree_f) free_iditem,
-    NIL(Dtcompar_f),
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
 typedef struct {
@@ -411,12 +412,12 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
     Dict_t *view;
     Agsym_t *sym, *psym;
 
-    view = dtview(dict, NIL(Dict_t *));
+    view = dtview(dict, NULL);
     for (sym = (Agsym_t *) dtfirst(dict); sym;
 	 sym = (Agsym_t *) dtnext(dict, sym)) {
 	if (!isGxlGrammar(sym->name)) {
 	    if (EMPTY(sym->defval)) {	/* try to skip empty str (default) */
-		if (view == NIL(Dict_t *))
+		if (view == NULL)
 		    continue;	/* no parent */
 		psym = (Agsym_t *) dtsearch(view, sym);
 		/* assert(psym); */
@@ -456,7 +457,7 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 	    /* gxl attr; check for special cases like composites */
 	    if (strncmp(sym->name, GXL_COMP, GXL_COMP_LEN) == 0) {
 		if (EMPTY(sym->defval)) {
-		    if (view == NIL(Dict_t *))
+		    if (view == NULL)
 			continue;
 		    psym = (Agsym_t *) dtsearch(view, sym);
 		    if (EMPTY(psym->defval))
@@ -527,8 +528,8 @@ writeHdr(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile, int top)
 	free(dynbuf);
 	Level++;
     } else {
-	Tailport = agattr(g, AGEDGE, "tailport", NIL(char *));
-	Headport = agattr(g, AGEDGE, "headport", NIL(char *));
+	Tailport = agattr(g, AGEDGE, "tailport", NULL);
+	Headport = agattr(g, AGEDGE, "headport", NULL);
     }
 
 

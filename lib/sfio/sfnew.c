@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Fundamental function to create a new stream.
 **	The argument flags defines the type of stream and the scheme
@@ -34,29 +35,29 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
     int sflags;
 
     if (!(flags & SF_RDWR))
-	return NIL(Sfio_t *);
+	return NULL;
 
     sflags = 0;
     if ((f = oldf)) {
 	if (flags & SF_EOF) {
-	    oldf = NIL(Sfio_t *);
+	    oldf = NULL;
 	} else if (f->mode & SF_AVAIL) {	/* only allow SF_STATIC to be already closed */
 	    if (!(f->flags & SF_STATIC))
-		return NIL(Sfio_t *);
+		return NULL;
 	    sflags = f->flags;
-	    oldf = NIL(Sfio_t *);
+	    oldf = NULL;
 	} else {		/* reopening an open stream, close it first */
 	    sflags = f->flags;
 
 	    if (((f->mode & SF_RDWR) != f->mode && _sfmode(f, 0, 0) < 0) ||
 		SFCLOSE(f) < 0)
-		return NIL(Sfio_t *);
+		return NULL;
 
 	    if (f->data
 		&& ((flags & SF_STRING) || size != (size_t) SF_UNBOUND)) {
 		if (sflags & SF_MALLOC)
 		    free(f->data);
-		f->data = NIL(uchar *);
+		f->data = NULL;
 	    }
 	    if (!f->data)
 		sflags &= (unsigned short)~SF_MALLOC;
@@ -70,13 +71,13 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
 		if (f->mode & SF_AVAIL) {
 		    sflags = f->flags;
 		} else
-		    f = NIL(Sfio_t *);
+		    f = NULL;
 	    }
 	}
 
 	if (!f) {
 	    if (!(f = malloc(sizeof(Sfio_t))))
-		return NIL(Sfio_t *);
+		return NULL;
 	    SFCLEAR(f);
 	}
     }
@@ -92,7 +93,7 @@ Sfio_t *sfnew(Sfio_t * oldf, void * buf, size_t size, int file,
     f->mode |= SF_INIT;
     if (size != (size_t) SF_UNBOUND) {
 	f->size = size;
-	f->data = size <= 0 ? NIL(uchar *) : (uchar *) buf;
+	f->data = size <= 0 ? NULL : (uchar *) buf;
     }
     f->endb = f->endr = f->endw = f->next = f->data;
 

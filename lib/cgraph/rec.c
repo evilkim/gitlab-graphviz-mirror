@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<stddef.h>
 
 /*
  * run time records
@@ -43,7 +44,7 @@ Agrec_t *aggetrec(void *obj, char *name, int mtf)
 	    break;
 	d = d->next;
 	if (d == first) {
-	    d = NIL(Agrec_t *);
+	    d = NULL;
 	    break;
 	}
     }
@@ -67,7 +68,7 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
     NOTUSED(g);
     newrec = arg;
     firstrec = obj->data;
-    if (firstrec == NIL(Agrec_t *))
+    if (firstrec == NULL)
 	newrec->next = newrec;	/* 0 elts */
     else {
 	if (firstrec->next == firstrec) {
@@ -94,7 +95,7 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
     obj = arg_obj;
     g = agraphof(obj);
     rec = aggetrec(obj, recname, FALSE);
-    if (rec == NIL(Agrec_t *) && recsize > 0) {
+    if (rec == NULL && recsize > 0) {
 	rec = agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
 	objputrec(g, obj, rec);
@@ -112,7 +113,7 @@ static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
     Agrec_t *rec = (Agrec_t *) arg_rec, *newrec;
     if (obj->data == rec) {
 	if (rec->next == rec)
-	    newrec = NIL(Agrec_t *);
+	    newrec = NULL;
 	else
 	    newrec = rec->next;
 	set_data(obj, newrec, FALSE);
@@ -249,5 +250,5 @@ void agrecclose(Agobj_t * obj)
 	    rec = nrec;
 	} while (rec != obj->data);
     }
-    obj->data = NIL(Agrec_t *);
+    obj->data = NULL;
 }

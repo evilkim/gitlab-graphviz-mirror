@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Change discipline.
 **	dt :	dictionary
@@ -12,11 +13,11 @@ static void* dtmemory(Dt_t* dt,void* addr,size_t size,Dtdisc_t* disc)
 	if(addr)
 	{	if(size == 0)
 		{	free(addr);
-			return NIL(void*);
+			return NULL;
 		}
 		else	return realloc(addr,size);
 	}
-	else	return size > 0 ? malloc(size) : NIL(void*);
+	else	return size > 0 ? malloc(size) : NULL;
 }
 
 Dtdisc_t* dtdisc(Dt_t* dt, Dtdisc_t* disc, int type)
@@ -41,7 +42,7 @@ Dtdisc_t* dtdisc(Dt_t* dt, Dtdisc_t* disc, int type)
 	UNFLATTEN(dt);
 
 	if(old->eventf && (*old->eventf)(dt,DT_DISC,(void*)disc,old) < 0)
-		return NIL(Dtdisc_t*);
+		return NULL;
 
 	dt->disc = disc;
 	if(!(dt->memoryf = disc->memoryf) )
@@ -65,14 +66,14 @@ Dtdisc_t* dtdisc(Dt_t* dt, Dtdisc_t* disc, int type)
 	dt_renew:
 		r = dtflatten(dt);
 		dt->data->type &= ~DT_FLATTEN;
-		dt->data->here = NIL(Dtlink_t*);
+		dt->data->here = NULL;
 		dt->data->size = 0;
 
 		if(dt->data->type&(DT_SET|DT_BAG))
 		{	Dtlink_t	**s, **ends;
 			ends = (s = dt->data->htab) + dt->data->ntab;
 			while(s < ends)
-				*s++ = NIL(Dtlink_t*);
+				*s++ = NULL;
 		}
 
 		/* reinsert them */

@@ -30,6 +30,7 @@
 #include <cghdr.h>
 #include <agxbuf.h>
 #include <ctype.h>
+#include <stddef.h>
 // #define YY_BUF_SIZE 128000
 #define GRAPH_EOF_TOKEN		'@'		/* lex class must be defined below */
 	/* this is a workaround for linux flex */
@@ -70,7 +71,7 @@ int gv_isatty_suppression;
 /* buffer for arbitrary length strings (longer than BUFSIZ) */
 static char	*Sbuf,*Sptr,*Send;
 static void beginstr(void) {
-	if (Sbuf == NIL(char*)) {
+	if (Sbuf == NULL) {
 		Sbuf = malloc(BUFSIZ);
 		Send = Sbuf + BUFSIZ;
 	}

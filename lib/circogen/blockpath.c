@@ -16,6 +16,7 @@
 #include	<circogen/edgelist.h>
 #include	<circogen/nodeset.h>
 #include	<circogen/deglist.h>
+#include	<stddef.h>
 
 /* The code below lays out a single block on a circle.
  */
@@ -44,7 +45,7 @@ static Agraph_t *clone_graph(Agraph_t * ing, Agraph_t ** xg)
     clone = agsubg(ing, gname,1);
     agbindrec(clone, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
     sprintf(gname, "_clone_%d", id++);
-    xclone = agopen(gname, ing->desc,NIL(Agdisc_t *));
+    xclone = agopen(gname, ing->desc,NULL);
     for (n = agfstnode(ing); n; n = agnxtnode(ing, n)) {
 	agsubnode(clone,n,1);
 	xn = agnode(xclone, agnameof(n),1);

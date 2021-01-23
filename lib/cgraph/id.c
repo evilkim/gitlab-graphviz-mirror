@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <cgraph/cghdr.h>
 #include <inttypes.h>
+#include <stddef.h>
 
 /* a default ID allocator that works off the shared string lib */
 
@@ -117,7 +118,7 @@ int agmapnametoid(Agraph_t * g, int objtype, char *str,
 
     if (createflag) {
 	/* get a new anonymous ID, and store in the internal map */
-	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, NILstr, result,
+	rv = (int) AGDISC(g, id)->map(AGCLOS(g, id), objtype, NULL, result,
 				createflag);
 	if (rv && str)
 	    aginternalmapinsert(g, objtype, str, *result);

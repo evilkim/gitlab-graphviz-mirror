@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Close a stream. A file stream is synced before closing.
 **
@@ -21,7 +22,7 @@
 int sfclose(Sfio_t * f)
 {
     int local, ex, rv;
-    void *data = NIL(void *);
+    void *data = NULL;
 
     SFMTXSTART(f, -1);
 
@@ -37,7 +38,7 @@ int sfclose(Sfio_t * f)
     while (f->push) {
 	Sfio_t *pop;
 
-	if (!(pop = (*_Sfstack) (f, NIL(Sfio_t *))))
+	if (!(pop = (*_Sfstack) (f, NULL)))
 	    SFMTXRETURN(f, -1);
 	if (sfclose(pop) < 0) {
 	    (*_Sfstack) (f, pop);
@@ -47,7 +48,7 @@ int sfclose(Sfio_t * f)
 
     rv = 0;
     if (f->disc == _Sfudisc)	/* closing the ungetc stream */
-	f->disc = NIL(Sfdisc_t *);
+	f->disc = NULL;
     else if (f->file >= 0) {	/* sync file pointer */
 	f->bits |= SF_ENDING;
 	rv = sfsync(f);
@@ -58,7 +59,7 @@ int sfclose(Sfio_t * f)
     /* raise discipline exceptions */
     if (f->disc
 	&& (ex =
-	    SFRAISE(f, local ? SF_NEW : SF_CLOSING, NIL(void *))) != 0)
+	    SFRAISE(f, local ? SF_NEW : SF_CLOSING, NULL)) != 0)
 	SFMTXRETURN(f, ex);
 
     if (!local && f->pool) {	/* remove from pool */
@@ -83,14 +84,14 @@ int sfclose(Sfio_t * f)
 	    }
 	    f->mode |= SF_LOCK;
 	}
-	f->pool = NIL(Sfpool_t *);
+	f->pool = NULL;
     }
 
     if (f->data && (!local || (f->flags & SF_STRING) || (f->bits & SF_MMAP))) {	/* free buffer */
 	if (f->flags & SF_MALLOC)
 	    data = (void *) f->data;
 
-	f->data = NIL(uchar *);
+	f->data = NULL;
 	f->size = -1;
     }
 
@@ -109,14 +110,14 @@ int sfclose(Sfio_t * f)
 
     /* zap any associated auxiliary buffer */
     free(f->rsrv);
-    f->rsrv = NIL(Sfrsrv_t *);
+    f->rsrv = NULL;
 
     /* delete any associated sfpopen-data */
     if (f->proc)
 	rv = _sfpclose(f);
 
     if (!local) {
-	if (f->disc && (ex = SFRAISE(f, SF_FINAL, NIL(void *))) != 0) {
+	if (f->disc && (ex = SFRAISE(f, SF_FINAL, NULL)) != 0) {
 	    rv = ex;
 	    goto done;
 	}
@@ -124,8 +125,8 @@ int sfclose(Sfio_t * f)
 	if (!(f->flags & SF_STATIC))
 	    free(f);
 	else {
-	    f->disc = NIL(Sfdisc_t *);
-	    f->stdio = NIL(void *);
+	    f->disc = NULL;
+	    f->stdio = NULL;
 	    f->mode = SF_AVAIL;
 	}
     }

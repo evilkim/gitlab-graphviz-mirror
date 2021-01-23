@@ -1,4 +1,5 @@
 #include	<cdt/dthdr.h>
+#include	<stddef.h>
 
 /*	Ordered set/multiset
 **	dt:	dictionary being searched
@@ -25,7 +26,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 	root = dt->data->here;
 	if(!obj)
 	{	if(!root || !(type&(DT_CLEAR|DT_FIRST|DT_LAST)) )
-			return NIL(void*);
+			return NULL;
 
 		if(type&DT_CLEAR) /* delete all objects */
 		{	if(disc->freef || disc->link < 0)
@@ -41,8 +42,8 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 			}
 
 			dt->data->size = 0;
-			dt->data->here = NIL(Dtlink_t*);
-			return NIL(void*);
+			dt->data->here = NULL;
+			return NULL;
 		}
 		else /* computing largest/smallest element */
 		{	if(type&DT_LAST)
@@ -103,7 +104,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 				else
 				{	turn[n] = cmp;	
 					if(!(t = cmp < 0 ? t->left : t->right) )
-						return NIL(void*);
+						return NULL;
 				}
 			}
 
@@ -165,7 +166,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 				}
 				else
 				{	rlink(r,root);
-					root = NIL(Dtlink_t*);
+					root = NULL;
 					break;
 				}
 			}
@@ -192,7 +193,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 				}
 				else
 				{	llink(l,root);
-					root = NIL(Dtlink_t*);
+					root = NULL;
 					break;
 				}
 			}
@@ -229,7 +230,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 		}
 		else if(type&DT_NEXT)
 		{	root->left = link.right;
-			root->right = NIL(Dtlink_t*);
+			root->right = NULL;
 			link.right = root;
 		dt_next:
 			if((root = link.left) )	
@@ -242,7 +243,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 		}
 		else if(type&DT_PREV)
 		{	root->right = link.left;
-			root->left = NIL(Dtlink_t*);
+			root->left = NULL;
 			link.left = root;
 		dt_prev:
 			if((root = link.right) )
@@ -269,7 +270,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 		{	if(dt->meth->type&DT_OSET)
 				goto has_root;
 			else
-			{	root->left = NIL(Dtlink_t*);
+			{	root->left = NULL;
 				root->right = link.left;
 				link.left = root;
 				goto dt_insert;
@@ -283,7 +284,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 					(*dt->memoryf)(dt,(void*)me,0,disc);
 			}
 			else
-			{	me->left = NIL(Dtlink_t*);
+			{	me->left = NULL;
 				me->right = link.left;
 				link.left = me;
 				dt->data->size += 1;
@@ -293,8 +294,8 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 	}
 	else
 	{	/* not found, finish up LEFT and RIGHT trees */
-		r->left = NIL(Dtlink_t*);
-		l->right = NIL(Dtlink_t*);
+		r->left = NULL;
+		l->right = NULL;
 
 		if(type&DT_NEXT)
 			goto dt_next;
@@ -306,7 +307,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 				r = t;
 			r->left = link.right;
 			dt->data->here = link.left;
-			return (type&DT_DELETE) ? obj : NIL(void*);
+			return (type&DT_DELETE) ? obj : NULL;
 		}
 		else if(type&(DT_INSERT|DT_ATTACH))
 		{ dt_insert:
@@ -317,7 +318,7 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 					root = _DTLNK(obj,lk);
 				else
 				{	root = (Dtlink_t*)(*dt->memoryf)
-						(dt,NIL(void*),sizeof(Dthold_t),disc);
+						(dt,NULL,sizeof(Dthold_t),disc);
 					if(root)
 						((Dthold_t*)root)->obj = obj;
 					else if(disc->makef && disc->freef &&
@@ -338,12 +339,12 @@ static void* dttree(Dt_t* dt, void* obj, int type)
 			goto has_root;
 		}
 		else /*if(type&DT_DELETE)*/
-		{	obj = NIL(void*);
+		{	obj = NULL;
 			goto no_root;
 		}
 	}
 
-	return NIL(void*);
+	return NULL;
 }
 
 /* make this method available */

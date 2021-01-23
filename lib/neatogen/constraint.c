@@ -16,6 +16,7 @@
 
 #include <neatogen/neato.h>
 #include <neatogen/adjust.h>
+#include <stddef.h>
 
 /* For precision, scale up before algorithms, then scale down */
 #define SCALE 10   
@@ -46,12 +47,12 @@ static Dtdisc_t constr = {
     offsetof(nitem, val),
     sizeof(int),
     offsetof(nitem, link),
-    NIL(Dtmake_f),
-    NIL(Dtfree_f),
+    NULL,
+    NULL,
     (Dtcompar_f) cmpitem,
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
+    NULL,
+    NULL,
+    NULL
 };
 
 static int distY(box * b1, box * b2)
@@ -214,7 +215,7 @@ static graph_t *mkNConstraintG(graph_t * g, Dt_t * list,
     node_t *n;
     edge_t *e;
     node_t *lastn = NULL;
-    graph_t *cg = agopen("cg", Agstrictdirected, NIL(Agdisc_t *));
+    graph_t *cg = agopen("cg", Agstrictdirected, NULL);
     agbindrec(cg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);  // graph custom data
 
     for (p = (nitem *) dtflatten(list); p;
@@ -296,7 +297,7 @@ static graph_t *mkConstraintG(graph_t * g, Dt_t * list,
     int lcnt, cnt;
     int oldval = -INT_MAX;
     node_t *lastn = NULL;
-    graph_t *cg = agopen("cg", Agstrictdirected, NIL(Agdisc_t *));
+    graph_t *cg = agopen("cg", Agstrictdirected, NULL);
     agbindrec(cg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);  // graph custom data
 
     /* count distinct nodes */
@@ -352,7 +353,7 @@ static graph_t *mkConstraintG(graph_t * g, Dt_t * list,
      * Remaining outedges are immediate right neighbors.
      * FIX: Incremental algorithm to construct trans. reduction?
      */
-    vg = agopen("vg", Agstrictdirected, NIL(Agdisc_t *));
+    vg = agopen("vg", Agstrictdirected, NULL);
     for (p = (nitem *) dtflatten(list); p;
 	 p = (nitem *) dtlink(list, (Dtlink_t *) p)) {
 	n = agnode(vg, agnameof(p->np), 1);  /* FIX */

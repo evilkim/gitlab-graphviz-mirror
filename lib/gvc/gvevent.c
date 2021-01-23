@@ -572,13 +572,13 @@ static void gvevent_read (GVJ_t * job, const char *filename, const char *layout)
 
     gvc = job->gvc;
     if (!filename) {
-	g = agread(stdin,NIL(Agdisc_t *));  // continue processing stdin
+	g = agread(stdin,NULL);  // continue processing stdin
     }
     else {
 	f = fopen(filename, "r");
 	if (!f)
 	   return;   /* FIXME - need some error handling */
-	g = agread(f,NIL(Agdisc_t *));
+	g = agread(f,NULL);
 	fclose(f);
     }
 

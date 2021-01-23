@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 #ifdef _WIN32
 #include	<io.h>
 #endif
@@ -33,14 +34,14 @@ Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
     int fd, oldfd, oflags, sflags;
 
     /* get the control flags */
-    if ((sflags = _sftype(mode, &oflags, NIL(int *))) == 0)
-	return NIL(Sfio_t *);
+    if ((sflags = _sftype(mode, &oflags, NULL)) == 0)
+	return NULL;
 
     /* usually used on the standard streams to change control flags */
 
 #ifndef _WIN32	
     if (f && !file && (f->mode & SF_INIT)) {
-	SFMTXSTART(f, NIL(Sfio_t *));
+	SFMTXSTART(f, NULL);
 
 	if (f->mode & SF_INIT) {	/* paranoia in case another thread snuck in */
 	    if (f->file >= 0 && !(f->flags & SF_STRING) && (oflags &= (O_TEXT | O_BINARY | O_APPEND)) != 0) {	/* set the wanted file access control flags */
@@ -68,7 +69,7 @@ Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
 
 	    SFMTXRETURN(f, f);
 	} else
-	    SFMTXRETURN(f, NIL(Sfio_t *));
+	    SFMTXRETURN(f, NULL);
     }
 
 #endif
@@ -78,7 +79,7 @@ Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
 		  SF_UNBOUND, -1, sflags);
     } else {
 	if (!file)
-	    return NIL(Sfio_t *);
+	    return NULL;
 
 #if _has_oflags			/* open the file */
 	while ((fd = open(file, oflags, SF_CREATMODE)) < 0
@@ -91,7 +92,7 @@ Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
 	if (fd >= 0) {
 	    if ((oflags & (O_CREAT | O_EXCL)) == (O_CREAT | O_EXCL)) {
 		CLOSE(fd);	/* error: file already exists */
-		return NIL(Sfio_t *);
+		return NULL;
 	    }
 	    if (oflags & O_TRUNC) {	/* truncate file */
 		int tf;
@@ -112,11 +113,11 @@ Sfio_t *sfopen(Sfio_t * f, const char *file, const char *mode)
 	}
 #endif
 	if (fd < 0)
-	    return NIL(Sfio_t *);
+	    return NULL;
 
 	/* we may have to reset the file descriptor to its old value */
 	oldfd = f ? f->file : -1;
-	if ((f = sfnew(f, NIL(char *), (size_t) SF_UNBOUND, fd, sflags))
+	if ((f = sfnew(f, NULL, (size_t) SF_UNBOUND, fd, sflags))
 	    && oldfd >= 0)
 	     (void) sfsetfd(f, oldfd);
     }

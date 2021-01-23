@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 #include <stdint.h>
 static char *Version = "\n@(#)sfio (AT&T Labs - kpv) 2001-02-01\0\n";
 
@@ -52,7 +53,7 @@ static void _sfcleanup(void)
     /* set this so that no more buffering is allowed for write streams */
     _Sfexiting = 1001;
 
-    sfsync(NIL(Sfio_t *));
+    sfsync(NULL);
 
     for (p = &_Sfpool; p; p = p->next) {
 	for (n = 0; n < p->n_sf; ++n) {
@@ -62,7 +63,7 @@ static void _sfcleanup(void)
 	    SFLOCK(f, 0);
 
 	    /* let application know that we are leaving */
-	    (void) SFRAISE(f, SF_ATEXIT, NIL(void *));
+	    (void) SFRAISE(f, SF_ATEXIT, NULL);
 
 	    if (f->flags & SF_STRING)
 		continue;
@@ -74,7 +75,7 @@ static void _sfcleanup(void)
 		(void) _sfmode(f, SF_WRITE, 1);
 	    if (((f->bits & SF_MMAP) && f->data) ||
 		((f->mode & SF_WRITE) && f->next == f->data))
-		(void) SFSETBUF(f, NIL(void *), 0);
+		(void) SFSETBUF(f, NULL, 0);
 	    f->mode |= pool;
 
 	    SFOPEN(f, 0);
@@ -153,7 +154,7 @@ Sfrsrv_t *_sfrsrv(Sfio_t * f, ssize_t size)
     if (rsrv && size > 0)
 	rsrv->slen = 0;
 
-    return size >= 0 ? rsrv : NIL(Sfrsrv_t *);
+    return size >= 0 ? rsrv : NULL;
 }
 
 #ifdef SIGPIPE
@@ -181,7 +182,7 @@ int _sfpopen(Sfio_t * f, int fd, int pid, int stdio)
 
     p->pid = pid;
     p->size = p->ndata = 0;
-    p->rdata = NIL(uchar *);
+    p->rdata = NULL;
     p->file = fd;
     p->sigp = (!stdio && pid >= 0 && (f->flags & SF_WRITE)) ? 1 : 0;
 
@@ -209,7 +210,7 @@ int _sfpclose(Sfio_t * f)
 
     if (!(p = f->proc))
 	return -1;
-    f->proc = NIL(Sfproc_t *);
+    f->proc = NULL;
 
     free(p->rdata);
 
@@ -327,7 +328,7 @@ int _sfmode(Sfio_t * f, int wanted, int local)
 	(*_Sfstdsync) (f);
 
     if (f->disc == _Sfudisc && wanted == SF_WRITE &&
-	sfclose((*_Sfstack) (f, NIL(Sfio_t *))) < 0) {
+	sfclose((*_Sfstack) (f, NULL)) < 0) {
 	local = 1;
 	goto err_notify;
     }
@@ -456,7 +457,7 @@ int _sfmode(Sfio_t * f, int wanted, int local)
 
 	f->mode = SF_WRITE | SF_LOCK;
 	if (f->data == f->tiny) {
-	    f->endb = f->data = f->next = NIL(uchar *);
+	    f->endb = f->data = f->next = NULL;
 	    f->size = 0;
 	} else
 	    f->endb = (f->next = f->data) + f->size;

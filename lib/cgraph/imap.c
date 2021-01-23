@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 typedef struct IMapEntry_s {
     Dtlink_t namedict_link;
@@ -72,24 +73,24 @@ static Dtdisc_t LookupByName = {
     0,				/* object ptr is passed as key */
     0,				/* size (ignored) */
     offsetof(IMapEntry_t, namedict_link),
-    NIL(Dtmake_f),
-    NIL(Dtfree_f),
+    NULL,
+    NULL,
     namecmpf,
-    NIL(Dthash_f),
+    NULL,
     agdictobjmem,
-    NIL(Dtevent_f)
+    NULL
 };
 
 static Dtdisc_t LookupById = {
     0,				/* object ptr is passed as key */
     0,				/* size (ignored) */
     offsetof(IMapEntry_t, iddict_link),
-    NIL(Dtmake_f),
-    NIL(Dtfree_f),
+    NULL,
+    NULL,
     idcmpf,
-    NIL(Dthash_f),
+    NULL,
     agdictobjmem,
-    NIL(Dtevent_f)
+    NULL
 };
 
 int aginternalmaplookup(Agraph_t * g, int objtype, char *str,
@@ -127,10 +128,10 @@ void aginternalmapinsert(Agraph_t * g, int objtype, char *str,
 
     if (objtype == AGINEDGE)
 	objtype = AGEDGE;
-    if ((d_name_to_id = g->clos->lookup_by_name[objtype]) == NIL(Dict_t *))
+    if ((d_name_to_id = g->clos->lookup_by_name[objtype]) == NULL)
 	d_name_to_id = g->clos->lookup_by_name[objtype] =
 	    agdtopen(g, &LookupByName, Dttree);
-    if ((d_id_to_name = g->clos->lookup_by_id[objtype]) == NIL(Dict_t *))
+    if ((d_id_to_name = g->clos->lookup_by_id[objtype]) == NULL)
 	d_id_to_name = g->clos->lookup_by_id[objtype] =
 	    agdtopen(g, &LookupById, Dttree);
     dtinsert(d_name_to_id, ent);
@@ -148,7 +149,7 @@ static IMapEntry_t *find_isym(Agraph_t * g, int objtype, IDTYPE id)
 	itemplate.id = id;
 	isym = (IMapEntry_t *) dtsearch(d, &itemplate);
     } else
-	isym = NIL(IMapEntry_t *);
+	isym = NULL;
     return isym;
 }
 
@@ -158,7 +159,7 @@ char *aginternalmapprint(Agraph_t * g, int objtype, IDTYPE id)
 
     if ((isym = find_isym(g, objtype, id)))
 	return isym->str;
-    return NILstr;
+    return NULL;
 }
 
 
@@ -206,7 +207,7 @@ static void closeit(Dict_t ** d)
     for (i = 0; i < 3; i++) {
 	if (d[i]) {
 	    dtclose(d[i]);
-	    d[i] = NIL(Dict_t *);
+	    d[i] = NULL;
 	}
     }
 }

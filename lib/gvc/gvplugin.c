@@ -13,6 +13,7 @@
 
 #include "config.h"
 
+#include	<stddef.h>
 #include	<string.h>
 #include        <sys/types.h>
 #include        <sys/stat.h>
@@ -494,7 +495,7 @@ Agraph_t *gvplugin_graph(GVC_t * gvc)
     char bufa[100], *buf1, *buf2, bufb[100], *p, *q, *lq, *t;
     int api, neededge_loadimage, neededge_device;
 
-    g = agopen("G", Agdirected, NIL(Agdisc_t *));
+    g = agopen("G", Agdirected, NULL);
     agattr(g, AGRAPH, "label", "");
     agattr(g, AGRAPH, "rankdir", "");
     agattr(g, AGRAPH, "rank", "");

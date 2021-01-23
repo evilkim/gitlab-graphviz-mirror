@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 Agnode_t *agfindnode_by_id(Agraph_t * g, IDTYPE id)
 {
@@ -22,7 +23,7 @@ Agnode_t *agfindnode_by_id(Agraph_t * g, IDTYPE id)
     dummy.base.tag.id = id;
     template.node = &dummy;
     sn = (Agsubnode_t *) dtsearch(g->n_id, &template);
-    return sn ? sn->node : NILnode;
+    return sn ? sn->node : NULL;
 }
 
 static Agnode_t *agfindnode_by_name(Agraph_t * g, char *name)
@@ -32,14 +33,14 @@ static Agnode_t *agfindnode_by_name(Agraph_t * g, char *name)
     if (agmapnametoid(g, AGNODE, name, &id, FALSE))
 	return agfindnode_by_id(g, id);
     else
-	return NILnode;
+	return NULL;
 }
 
 Agnode_t *agfstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
     sn = (Agsubnode_t *) dtfirst(g->n_seq);
-    return sn ? sn->node : NILnode;
+    return sn ? sn->node : NULL;
 }
 
 Agnode_t *agnxtnode(Agraph_t * g, Agnode_t * n)
@@ -47,14 +48,14 @@ Agnode_t *agnxtnode(Agraph_t * g, Agnode_t * n)
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
     if (sn) sn = ((Agsubnode_t *) dtnext(g->n_seq, sn));
-    return sn ? sn->node : NILnode;
+    return sn ? sn->node : NULL;
 }
 
 Agnode_t *aglstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
     sn = (Agsubnode_t *) dtlast(g->n_seq);
-    return sn ? sn->node : NILnode;
+    return sn ? sn->node : NULL;
 }
 
 Agnode_t *agprvnode(Agraph_t * g, Agnode_t * n)
@@ -62,7 +63,7 @@ Agnode_t *agprvnode(Agraph_t * g, Agnode_t * n)
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
     if (sn) sn = ((Agsubnode_t *) dtprev(g->n_seq, sn));
-    return sn ? sn->node : NILnode;
+    return sn ? sn->node : NULL;
 }
 
 
@@ -123,7 +124,7 @@ Agnode_t *agidnode(Agraph_t * g, IDTYPE id, int cflag)
     Agnode_t *n;
 
     n = agfindnode_by_id(g, id);
-    if ((n == NILnode) && cflag) {
+    if (n == NULL && cflag) {
 	root = agroot(g);
 	if ((g != root) && ((n = agfindnode_by_id(root, id))))	/*old */
 	    agsubnode(g, n, TRUE);	/* insert locally */
@@ -133,7 +134,7 @@ Agnode_t *agidnode(Agraph_t * g, IDTYPE id, int cflag)
 		installnodetoroot(g, n);
 		initnode(g, n);
 	    } else
-		n = NILnode;	/* allocid for new node failed */
+		n = NULL;	/* allocid for new node failed */
 	}
     }
     /* else return probe result */
@@ -167,7 +168,7 @@ Agnode_t *agnode(Agraph_t * g, char *name, int cflag)
 	return n;
     }
 
-    return NILnode;
+    return NULL;
 }
 
 /* removes image of node and its edges from graph.
@@ -207,7 +208,7 @@ int agdelnode(Agraph_t * g, Agnode_t * n)
 	agrecclose((Agobj_t *) n);
 	agfreeid(g, AGNODE, AGID(n));
     }
-    if (agapply (g, (Agobj_t *) n, (agobjfn_t) agdelnodeimage, NILnode, FALSE) == SUCCESS) {
+    if (agapply (g, (Agobj_t *) n, (agobjfn_t) agdelnodeimage, NULL, FALSE) == SUCCESS) {
 	if (g == agroot(g))
 	    agfree(g, n);
 	return SUCCESS;
@@ -238,7 +239,7 @@ int agrelabel_node(Agnode_t * n, char *newname)
     if (agfindnode_by_name(g, newname))
 	return FAILURE;
     if (agmapnametoid(g, AGNODE, newname, &new_id, TRUE)) {
-	if (agfindnode_by_id(agroot(g), new_id) == NILnode) {
+	if (agfindnode_by_id(agroot(g), new_id) == NULL) {
 	    agfreeid(g, AGNODE, AGID(n));
 	    agapply(g, (Agobj_t *) n, (agobjfn_t) dict_relabel,
 		    (void *) &new_id, FALSE);
@@ -258,9 +259,9 @@ Agnode_t *agsubnode(Agraph_t * g, Agnode_t * n0, int cflag)
     Agnode_t *n;
 
     if (agroot(g) != n0->root)
-	return NILnode;
+	return NULL;
     n = agfindnode_by_id(g, AGID(n0));
-    if ((n == NILnode) && cflag) {
+    if (n == NULL && cflag) {
 	if ((par = agparent(g))) {
 	    n = agsubnode(par, n0, cflag);
 	    installnode(g, n);

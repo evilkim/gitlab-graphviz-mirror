@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 static Agraph_t *Ag_dictop_G;
 
@@ -34,7 +35,7 @@ void *agdictobjmem(Dict_t * dict, void * p, size_t size, Dtdisc_t * disc)
 	else
 	    return malloc(size);
     }
-    return NIL(void *);
+    return NULL;
 }
 
 void agdictobjfree(Dict_t * dict, void * p, Dtdisc_t * disc)
@@ -60,7 +61,7 @@ Dict_t *agdtopen(Agraph_t * g, Dtdisc_t * disc, Dtmethod_t * method)
     Ag_dictop_G = g;
     d = dtopen(disc, method);
     disc->memoryf = memf;
-    Ag_dictop_G = NIL(Agraph_t*);
+    Ag_dictop_G = NULL;
     return d;
 }
 
@@ -75,20 +76,20 @@ int agdtclose(Agraph_t * g, Dict_t * dict)
     Dtmemory_f memf;
     Dtdisc_t *disc;
 
-    disc = dtdisc(dict, NIL(Dtdisc_t *), 0);
+    disc = dtdisc(dict, NULL, 0);
     memf = disc->memoryf;
     disc->memoryf = agdictobjmem;
     Ag_dictop_G = g;
     if (dtclose(dict))
 	return 1;
     disc->memoryf = memf;
-    Ag_dictop_G = NIL(Agraph_t*);
+    Ag_dictop_G = NULL;
     return 0;
 }
 
 void agdtdisc(Agraph_t * g, Dict_t * dict, Dtdisc_t * disc)
 {
-    if (disc && (dtdisc(dict, NIL(Dtdisc_t *), 0) != disc)) {
+    if (disc && dtdisc(dict, NULL, 0) != disc) {
 	dtdisc(dict, disc, 0);
     }
     /* else unchanged, disc is same as old disc */

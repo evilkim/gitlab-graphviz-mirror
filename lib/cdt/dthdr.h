@@ -35,7 +35,7 @@
 #define HINDEX(n,h)	((h)&((n)-1))
 
 #define UNFLATTEN(dt) \
-		((dt->data->type&DT_FLATTEN) ? dtrestore(dt,NIL(Dtlink_t*)) : 0)
+		((dt->data->type&DT_FLATTEN) ? dtrestore(dt,NULL) : 0)
 
 /* tree rotation/linking functions */
 #define rrotate(x,y)	((x)->left  = (y)->right, (y)->right = (x))

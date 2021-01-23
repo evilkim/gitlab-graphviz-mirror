@@ -12,6 +12,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stddef.h>
 
 #define IN_SET FALSE
 #define OUT_SET TRUE
@@ -25,7 +26,7 @@ static Agtag_t Tag;		/* to silence warnings about initialization */
 Agedge_t *agfstout(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
-    Agedge_t *e = NILedge;
+    Agedge_t *e = NULL;
 
     sn = agsubrep(g, n);
     if (sn) {
@@ -41,7 +42,7 @@ Agedge_t *agnxtout(Agraph_t * g, Agedge_t * e)
 {
     Agnode_t *n;
     Agsubnode_t *sn;
-    Agedge_t *f = NILedge;
+    Agedge_t *f = NULL;
 
     n = AGTAIL(e);
     sn = agsubrep(g, n);
@@ -56,7 +57,7 @@ Agedge_t *agnxtout(Agraph_t * g, Agedge_t * e)
 Agedge_t *agfstin(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
-    Agedge_t *e = NILedge;
+    Agedge_t *e = NULL;
 
     sn = agsubrep(g, n);
 	if (sn) {
@@ -71,7 +72,7 @@ Agedge_t *agnxtin(Agraph_t * g, Agedge_t * e)
 {
     Agnode_t *n;
     Agsubnode_t *sn;
-    Agedge_t *f = NILedge;
+    Agedge_t *f = NULL;
 
     n = AGHEAD(e);
     sn = agsubrep(g, n);
@@ -87,7 +88,7 @@ Agedge_t *agfstedge(Agraph_t * g, Agnode_t * n)
 {
     Agedge_t *rv;
     rv = agfstout(g, n);
-    if (rv == NILedge)
+    if (rv == NULL)
 	rv = agfstin(g, n);
     return rv;
 }
@@ -98,7 +99,7 @@ Agedge_t *agnxtedge(Agraph_t * g, Agedge_t * e, Agnode_t * n)
 
     if (AGTYPE(e) == AGOUTEDGE) {
 	rv = agnxtout(g, e);
-	if (rv == NILedge) {
+	if (rv == NULL) {
 	    do {
 		rv = !rv ? agfstin(g, n) : agnxtin(g,rv);
 	    } while (rv && (rv->node == n));
@@ -119,8 +120,8 @@ static Agedge_t *agfindedge_by_key(Agraph_t * g, Agnode_t * t, Agnode_t * h,
     Agedge_t *e, template;
     Agsubnode_t *sn;
 
-    if ((t == NILnode) || (h == NILnode))
-	return NILedge;
+    if (t == NULL || h == NULL)
+	return NULL;
     template.base.tag = key;
     template.node = t;		/* guess that fan-in < fan-out */
     sn = agsubrep(g, h);
@@ -264,9 +265,9 @@ Agedge_t *agidedge(Agraph_t * g, Agnode_t * t, Agnode_t * h,
     Agedge_t *e;
 
     e = agfindedge_by_id(g, t, h, id);
-    if ((e == NILedge) && agisundirected(g))
+    if (e == NULL && agisundirected(g))
 	e = agfindedge_by_id(g, h, t, id);
-    if ((e == NILedge) && cflag && ok_to_make_edge(g, t, h)) {
+    if (e == NULL && cflag && ok_to_make_edge(g, t, h)) {
 	root = agroot(g);
 	if ((g != root) && ((e = agfindedge_by_id(root, t, h, id)))) {
 	    subedge(g, e);	/* old */
@@ -287,7 +288,7 @@ Agedge_t *agedge(Agraph_t * g, Agnode_t * t, Agnode_t * h, char *name,
     int have_id;
 
     have_id = agmapnametoid(g, AGEDGE, name, &my_id, FALSE);
-    if (have_id || ((name == NILstr) && (NOT(cflag) || agisstrict(g)))) {
+    if (have_id || (name == NULL && (NOT(cflag) || agisstrict(g)))) {
 	/* probe for pre-existing edge */
 	Agtag_t key;
 	key = Tag;
@@ -300,13 +301,13 @@ Agedge_t *agedge(Agraph_t * g, Agnode_t * t, Agnode_t * h, char *name,
 
 	/* might already exist locally */
 	e = agfindedge_by_key(g, t, h, key);
-	if ((e == NILedge) && agisundirected(g))
+	if (e == NULL && agisundirected(g))
 	    e = agfindedge_by_key(g, h, t, key);
 	if (e)
 	    return e;
 	if (cflag) {
 	    e = agfindedge_by_key(agroot(g), t, h, key);
-	    if ((e == NILedge) && agisundirected(g))
+	    if (e == NULL && agisundirected(g))
 		e = agfindedge_by_key(agroot(g), h, t, key);
 	    if (e) {
 		subedge(g,e);
@@ -321,7 +322,7 @@ Agedge_t *agedge(Agraph_t * g, Agnode_t * t, Agnode_t * h, char *name,
 	agregister(g, AGEDGE, e); /* register new object in external namespace */
     }
     else
-	e = NILedge;
+	e = NULL;
     return e;
 }
 
@@ -358,7 +359,7 @@ void agdeledgeimage(Agraph_t * g, Agedge_t * e, void *ignored)
 int agdeledge(Agraph_t * g, Agedge_t * e)
 {
     e = AGMKOUT(e);
-    if (agfindedge_by_key(g, agtail(e), aghead(e), AGTAG(e)) == NILedge)
+    if (agfindedge_by_key(g, agtail(e), aghead(e), AGTAG(e)) == NULL)
 	return FAILURE;
 
     if (g == agroot(g)) {
@@ -368,7 +369,7 @@ int agdeledge(Agraph_t * g, Agedge_t * e)
 	agrecclose((Agobj_t *) e);
 	agfreeid(g, AGEDGE, AGID(e));
     }
-    if (agapply (g, (Agobj_t *) e, (agobjfn_t) agdeledgeimage, NILedge, FALSE) == SUCCESS) {
+    if (agapply (g, (Agobj_t *) e, (agobjfn_t) agdeledgeimage, NULL, FALSE) == SUCCESS) {
 	if (g == agroot(g))
 		agfree(g, e);
 	return SUCCESS;
@@ -381,12 +382,12 @@ Agedge_t *agsubedge(Agraph_t * g, Agedge_t * e, int cflag)
     Agnode_t *t, *h;
     Agedge_t *rv;
 
-    rv = NILedge;
+    rv = NULL;
     t = agsubnode(g, AGTAIL(e), cflag);
     h = agsubnode(g, AGHEAD(e), cflag);
     if (t && h) {
 	rv = agfindedge_by_key(g, t, h, AGTAG(e));
-	if (cflag && (rv == NILedge)) {
+	if (cflag && rv == NULL) {
 	installedge(g, e);
 	rv = e;
 	}
@@ -548,6 +549,6 @@ static Agedge_t *agfindedge_by_name(Agraph_t * g, Agnode_t * t,
     if (agmapnametoid(agraphof(t), AGEDGE, name, &id, FALSE))
 	return agfindedge_by_id(g, t, h, id);
     else
-	return NILedge;
+	return NULL;
 }
 #endif
