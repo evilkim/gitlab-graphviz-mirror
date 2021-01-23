@@ -361,7 +361,7 @@ int validQ_int_string(char *to_convert, int *v){
       to_convert == p || // conversion failed (no characters consumed)
       *p != 0
       ) return 0;
-  if (val > INT_MAX || val < INT_MIN) return 0;
+  if (val > (uint64_t)INT_MAX) return 0;
   *v = (int) val;
   return 1;
 }
