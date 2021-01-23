@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /*************************************************************************
  * Copyright (c) 2011 AT&T Intellectual Property 
  * All rights reserved. This program and the accompanying materials
@@ -13,7 +10,7 @@
 
 
 /*
- *  Compile-time and run-time interface between gpr and libexpr
+ *  Compile-time and run-time interface between gvpr and libexpr
  */
 
 #include "config.h"
@@ -32,7 +29,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#define ISEDGE(e) (AGTYPE(e)&2)
+static int isedge(Agobj_t *obj) {
+  return AGTYPE(obj) == AGOUTEDGE || AGTYPE(obj) == AGINEDGE;
+}
+
 #define MIN(a,b)        ((a)<(b)?(a):(b))
 #define MAX(a,b)        ((a)>(b)?(a):(b))
 
@@ -52,17 +52,17 @@
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
-    return read(sffileno((Sfio_t *) chan), buf, bufsize);
+    return read(sffileno(chan), buf, bufsize);
 }
 
 static int ioputstr(void *chan, const char *str)
 {
-    return sfputr((Sfio_t *) chan, str, -1);
+    return sfputr(chan, str, -1);
 }
 
 static int ioflush(void *chan)
 {
-    return sfsync((Sfio_t *) chan);
+    return sfsync(chan);
 }
 
 static Agiodisc_t gprIoDisc = { iofread, ioputstr, ioflush };
@@ -251,7 +251,7 @@ static Agdesc_t xargs(char *args)
 static char *deparse(Expr_t * ex, Exnode_t * n, Sfio_t * sf)
 {
     exdump(ex, n, sf);
-    return (sfstruse(sf));
+    return sfstruse(sf);
 }
 
 /* deref:
@@ -317,7 +317,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		exerror("Current object $ not defined");
 		return 0;
 	    }
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		return deref(pgm, x, ref->next,
 			     (Agobj_t *) AGHEAD((Agedge_t *) objp), state);
 	    else
@@ -328,7 +328,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		exerror("Current object $ not defined");
 		return 0;
 	    }
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		return deref(pgm, x, ref->next,
 			     (Agobj_t *) AGTAIL((Agedge_t *) objp), state);
 	    else
@@ -355,7 +355,7 @@ assignable (Agobj_t *objp, unsigned char* name)
     unsigned char* p = name;
 
     TFA_Init();
-    while ((TFA_State >= 0) && (ch = *p)) {
+    while (TFA_State >= 0 && (ch = *p)) {
         TFA_Advance(ch & ~127 ? 127 : ch);
         p++;
     }
@@ -420,7 +420,7 @@ kindToStr (int kind)
 static char*
 kindOf (Agobj_t* objp)
 {
-    return (kindToStr (agobjkind (objp)));
+    return kindToStr (agobjkind (objp));
 }
 
 /* lookup:
@@ -433,7 +433,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
     if (sym->lex == ID) {
 	switch (sym->index) {
 	case M_head:
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		v->integer = PTR2INT(AGHEAD((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "head of non-edge");
@@ -441,7 +441,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    }
 	    break;
 	case M_tail:
-	    if (ISEDGE(objp))
+	    if (isedge(objp))
 		v->integer = PTR2INT(AGTAIL((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "tail of non-edge");
@@ -477,7 +477,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_X:
 	    if (AGTYPE(objp) == AGNODE) {
-		if (posOf ((Agnode_t *) objp, 0, &(v->floating)))
+		if (posOf ((Agnode_t *) objp, 0, &v->floating))
 		    exerror("no x coordinate for node \"%s\"", agnameof(objp));
 	    } else {
 		exerror("x coordinate of non-node");
@@ -486,7 +486,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_Y:
 	    if (AGTYPE(objp) == AGNODE) {
-		if (posOf ((Agnode_t *) objp, 1, &(v->floating)))
+		if (posOf ((Agnode_t *) objp, 1, &v->floating))
 		    exerror("no y coordinate for node \"%s\"", agnameof(objp));
 	    } else {
 		exerror("x coordinate of non-node");
@@ -678,8 +678,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 
     assert(sym->lex != CONSTANT);
     if (elt == EX_CALL) {
-	args = (Extype_t *) env;
-	state = (Gpr_t *) (disc->user);
+	args = env;
+	state = (Gpr_t *) disc->user;
 	switch (sym->index) {
 	case F_graph:
 	    gp = openG(args[0].string, xargs(args[1].string));
@@ -1245,10 +1245,10 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    if (!objp) {
 		error(ERROR_WARNING, "NULL object passed to delete()");
 		v.integer = 1;
-	    } else if (objp == (Agobj_t *) (state->curgraph)) {
+	    } else if (objp == (Agobj_t *) state->curgraph) {
 		error(ERROR_WARNING, "cannot delete current graph $G");
 		v.integer = 1;
-	    } else if (objp == (Agobj_t *) (state->target)) {
+	    } else if (objp == (Agobj_t *) state->target) {
 		error(ERROR_WARNING, "cannot delete target graph $T");
 		v.integer = 1;
 	    } else if (objp == state->curobj) {
@@ -1506,8 +1506,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	}
 	return v;
     } else if (elt == EX_ARRAY) {
-	args = (Extype_t *) env;
-	state = (Gpr_t *) (disc->user);
+	args = env;
+	state = (Gpr_t *) disc->user;
 	switch (sym->index) {
 	case A_ARGV:
 	    v.string = getArg(args[0].integer, state);
@@ -1519,13 +1519,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	return v;
     }
 
-    state = (Gpr_t *) env;
+    state = env;
     if (ref) {
 	objp = deref(pgm, node, ref, 0, state);
 	if (!objp)
 	    exerror("null reference in expression %s",
 		  deparse(pgm, node, state->tmp));
-    } else if ((sym->lex == ID) && (sym->index <= LAST_V)) {
+    } else if (sym->lex == ID && sym->index <= LAST_V) {
 	switch (sym->index) {
 	case V_this:
 	    v.integer = PTR2INT(state->curobj);
@@ -1607,7 +1607,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
     int iv;
     int rv = 0;
 
-    state = (Gpr_t *) env;
+    state = env;
     if (ref) {
 	objp = deref(pgm, x, ref, 0, state);
 	if (!objp) {
@@ -1615,7 +1615,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 		  ref->symbol->name, deparse(pgm, x, state->tmp));
 	    return -1;
 	}
-    } else if ((MINNAME <= sym->index) && (sym->index <= MAXNAME)) {
+    } else if (MINNAME <= sym->index && sym->index <= MAXNAME) {
 	switch (sym->index) {
 	case V_outgraph:
 	    state->outgraph = INT2PTR(Agraph_t *, v.integer);
@@ -1630,7 +1630,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 	    break;
 	case V_travroot:
 	    np = INT2PTR(Agnode_t *, v.integer);
-	    if (!np || (agroot(np) == state->curgraph))
+	    if (!np || agroot(np) == state->curgraph)
 		state->tvroot = np;
 	    else {
 		error(1, "cannot set $tvroot, node %s not in $G : ignored",
@@ -1639,7 +1639,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 	    break;
 	case V_travnext:
 	    np = INT2PTR(Agnode_t *, v.integer);
-	    if (!np || (agroot(np) == state->curgraph)) {
+	    if (!np || agroot(np) == state->curgraph) {
 		state->tvnext = np;
 		state->flags |= GV_NEXT_SET;
 	    } else {
@@ -1668,15 +1668,15 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 	}
     }
     
-    assignable (objp, (unsigned char*)(sym->name));
+    assignable (objp, (unsigned char*)sym->name);
     return setattr(objp, sym->name, v.string);
 }
 
 static int codePhase;
 
-#define haveGraph    ((1 <= codePhase) && (codePhase <= 4))
-#define haveTarget   ((2 <= codePhase) && (codePhase <= 4))
-#define inWalk       ((2 <= codePhase) && (codePhase <= 3))
+#define haveGraph    (1 <= codePhase && codePhase <= 4)
+#define haveTarget   (2 <= codePhase && codePhase <= 4)
+#define inWalk       (2 <= codePhase && codePhase <= 3)
 
 /* typeChk:
  * Type check input type against implied type of symbol sym.
@@ -1849,7 +1849,7 @@ refval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	}
     } else {
 	if (!typeChkExp(ref, sym)) {
-	    Gpr_t *state = (Gpr_t *) (disc->user);
+	    Gpr_t *state = (Gpr_t *) disc->user;
 	    exerror("type error using %s",
 		    deparse(pgm, node, state->tmp));
 	}
@@ -1931,7 +1931,7 @@ binary(Expr_t * pg, Exnode_t * l, Exnode_t * ex, Exnode_t * r, int arg,
     }
 
     /* l is a graph object; make sure r is also */
-    if (r && (r->type == T_tvtyp))
+    if (r && r->type == T_tvtyp)
 	return -1;
 
     lobjp = INT2PTR(Agobj_t *, l->data.constant.value.integer);
@@ -2105,7 +2105,7 @@ static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
 	    rv = -1;
 	}
 	else {
-	    Gpr_t* state = (Gpr_t *) (disc->user);
+	    Gpr_t* state = (Gpr_t *) disc->user;
 	    x->data.constant.value.string = nameOf(prog, objp, state->tmp);
 	}
     }
@@ -2129,9 +2129,9 @@ convert(Expr_t * prog, Exnode_t * x, int type,
     /* If both types are built-in, let libexpr handle */
     if (BUILTIN(type) && BUILTIN(x->type))
 	return -1;
-    if ((type == T_obj) && (x->type <= T_obj))
+    if (type == T_obj && x->type <= T_obj)
 	ret = 0;		/* trivial cast from specific graph object to T_obj */
-    else if ((type <= T_obj) && (x->type == INTEGER)) {
+    else if (type <= T_obj && x->type == INTEGER) {
 	if (x->data.constant.value.integer == 0)
 	    ret = 0;		/* allow NULL pointer */
     } else if (type == INTEGER) {
@@ -2139,7 +2139,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
     } else if (x->type == T_obj) {
 	/* check dynamic type */
 	if (arg) {
-	    if ((type != FLOATING) && (type <= T_obj))
+	    if (type != FLOATING && type <= T_obj)
 		ret = 0;
 	} else {
 	    objp = INT2PTR(Agobj_t *, x->data.constant.value.integer);
@@ -2153,7 +2153,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 		    ret = 0;
 		break;
 	    case T_edge:
-		if (!objp || ISEDGE(objp))
+		if (!objp || isedge(objp))
 		    ret = 0;
 		break;
 	    }
@@ -2166,7 +2166,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 		    tvtypeToStr (x->data.constant.value.integer);
 	    }
 	}
-    } else if ((type == T_tvtyp) && (x->type == INTEGER)) {
+    } else if (type == T_tvtyp && x->type == INTEGER) {
 	if (arg)
 	    ret = 0;
 	else if (validTVT(x->data.constant.value.integer))
@@ -2190,7 +2190,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 	    }
 	}
     }
-    if (!arg && (ret == 0))
+    if (!arg && ret == 0)
 	x->type = type;
     return ret;
 }
@@ -2301,7 +2301,7 @@ static Exnode_t *compile(Expr_t * prog, char *src, char *input, int line,
     rv = excomp(prog, src, line, 0, sf);
     sfclose(sf);
 
-    if (rv >= 0 && (getErrorErrors() == 0))
+    if (rv >= 0 && getErrorErrors() == 0)
 	e = exexpr(prog, lbl, NiL, kind);
 
     return e;
@@ -2461,7 +2461,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 	}
     }
 
-    if (!(initDisc(state)))
+    if (!initDisc(state))
 	goto finish;
     
     exinit();
@@ -2550,7 +2550,7 @@ freeCompileProg (comp_prog *p)
  */
 int walksGraph(comp_block * p)
 {
-    return (p->walks);
+    return p->walks;
 }
 
 /* usesGraph;
@@ -2559,7 +2559,7 @@ int walksGraph(comp_block * p)
  */
 int usesGraph(comp_prog * p)
 {
-    return (p->flags);
+    return p->flags;
 }
 
 void ptchk(void)
