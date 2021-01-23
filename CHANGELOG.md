@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - CentOS/RHEL 6 is no longer supported
+- Vestiges of Qt4 support have been removed
 
 ### Fixed
 - memory leak in label construction
+- gvedit compilation errors out, but works if manually compiled with qt5 #1862
 
 ## [2.46.0] - 2021-01-18
 

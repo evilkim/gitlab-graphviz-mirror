@@ -2412,7 +2412,7 @@ else
      ],[
 	CXXFLAGS="${CXXFLAGS} -fPIE -fPIC"
      ])
-  AC_CHECK_PROGS(QMAKE,qmake-qt5 qmake-qt4 qmake,false)
+  AC_CHECK_PROGS(QMAKE,qmake-qt5 qmake,false)
   if test "$QMAKE" != "false"; then
     PKG_CHECK_MODULES(QTCORE, [Qt5Core],[
       PKG_CHECK_MODULES(QTGUI, [Qt5Widgets Qt5PrintSupport],[
