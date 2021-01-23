@@ -260,7 +260,6 @@ dot gv
 #root
 #=
 #twopi gv
-#circo gv
 
 #cairo
 #=
