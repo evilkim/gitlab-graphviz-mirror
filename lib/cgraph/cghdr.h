@@ -37,11 +37,7 @@
 #ifdef HAVE_UNISTD_H
 #include	<unistd.h>
 #endif				/* HAVE_UNISTD_H */
-#ifdef DEBUG
 #include <assert.h>
-#else
-#define assert(x)
-#endif
 #include <stdint.h>
 
 #ifndef streq
