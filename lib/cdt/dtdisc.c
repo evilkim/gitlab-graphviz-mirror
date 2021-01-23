@@ -10,6 +10,8 @@
 
 static void* dtmemory(Dt_t* dt,void* addr,size_t size,Dtdisc_t* disc)
 {
+	(void)dt; /* unused */
+	(void)disc; /* unused */
 	if(addr)
 	{	if(size == 0)
 		{	free(addr);

@@ -243,6 +243,8 @@ int agdegree(Agraph_t * g, Agnode_t * n, int want_in, int want_out)
 
 static int agraphidcmpf(Dict_t * d, void *arg0, void *arg1, Dtdisc_t * disc)
 {
+    (void)d; /* unused */
+    (void)disc; /* unused */
     ptrdiff_t	v;
     Agraph_t *sg0, *sg1;
     sg0 = (Agraph_t *) arg0;

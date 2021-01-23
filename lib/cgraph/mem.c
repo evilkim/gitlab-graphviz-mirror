@@ -17,6 +17,7 @@
 /* memory management discipline and entry points */
 static void *memopen(Agdisc_t* disc)
 {
+    (void)disc; /* unused */
     return NULL;
 }
 
