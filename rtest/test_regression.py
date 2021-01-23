@@ -638,3 +638,62 @@ def test_1910():
 
       # run the test
       subprocess.check_call([exe])
+
+def test_1913():
+    '''
+    ALIGN attributes in <BR> tags should be parsed correctly
+    https://gitlab.com/graphviz/graphviz/-/issues/1913
+    '''
+
+    # a template of a trivial graph using an ALIGN attribute
+    graph = 'digraph {{\n' \
+            '  table1[label=<<table><tr><td align="text">hello world' \
+            '<br align="{}"/></td></tr></table>>];\n' \
+            '}}'
+
+    def run(input):
+      '''
+      run Dot with the given input and return its exit status and stderr
+      '''
+      p = subprocess.Popen(['dot', '-Tsvg', '-o', os.devnull],
+        stdin=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+      _, stderr = p.communicate(input)
+      return p.returncode, stderr
+
+    # Graphviz should accept all legal values for this attribute
+    for align in ('left', 'right', 'center'):
+
+      input = align
+      ret, stderr = run(graph.format(input))
+      assert ret == 0
+      assert stderr.strip() == ''
+
+      # these attributes should also be valid when title cased
+      input = '{}{}'.format(align[0].upper(), align[1:])
+      ret, stderr = run(graph.format(input))
+      assert ret == 0
+      assert stderr.strip() == ''
+
+      # similarly, they should be valid when upper cased
+      input = align.upper()
+      ret, stderr = run(graph.format(input))
+      assert ret == 0
+      assert stderr.strip() == ''
+
+    # various invalid things that have the same prefix or suffix as a valid
+    # alignment should be rejected
+    for align in ('lamp', 'deft', 'round', 'might', 'circle', 'venter'):
+
+      input = align
+      _, stderr = run(graph.format(input))
+      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+
+      # these attributes should also fail when title cased
+      input = '{}{}'.format(align[0].upper(), align[1:])
+      _, stderr = run(graph.format(input))
+      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+
+      # similarly, they should fail when upper cased
+      input = align.upper()
+      _, stderr = run(graph.format(input))
+      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr

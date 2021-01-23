@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /*************************************************************************
  * Copyright (c) 2011 AT&T Intellectual Property 
  * All rights reserved. This program and the accompanying materials
@@ -19,6 +16,7 @@
 #include <cdt/cdt.h>
 #include <ctype.h>
 #include <cgraph/strcasecmp.h>
+#include <limits.h>
 
 #ifdef HAVE_EXPAT
 #include <expat.h>
@@ -85,11 +83,6 @@ static void lexerror(const char *name)
 
 typedef int (*attrFn) (void *, char *);
 typedef int (*bcmpfn) (const void *, const void *);
-
-#define MAX_CHAR    (((unsigned char)(~0)) >> 1)
-#define MIN_CHAR    ((signed char)(~MAX_CHAR))
-#define MAX_UCHAR   ((unsigned char)(~0))
-#define MAX_USHORT  ((unsigned short)(~0))
 
 /* Mechanism for automatically processing attributes */
 typedef struct {
@@ -171,19 +164,11 @@ static int portfn(htmldata_t * p, char *v)
 static int stylefn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c;
     char* tk;
     char* buf = strdup (v);
     for (tk = strtok (buf, DELIM); tk; tk = strtok (NULL, DELIM)) {
-	c = (char) toupper(*tk);
-	if (c == 'R') {
-	    if (!strcasecmp(tk + 1, "OUNDED")) p->style |= ROUNDED;
-	    else if (!strcasecmp(tk + 1, "ADIAL")) p->style |= RADIAL;
-	    else {
-		agerr(AGWARN, "Illegal value %s for STYLE - ignored\n", tk);
-		rv = 1;
-	    }
-	}
+	if (!strcasecmp(tk, "ROUNDED")) p->style |= ROUNDED;
+	else if (!strcasecmp(tk, "RADIAL")) p->style |= RADIAL;
 	else if(!strcasecmp(tk,"SOLID")) p->style &= ~(DOTTED|DASHED);
 	else if(!strcasecmp(tk,"INVISIBLE") || !strcasecmp(tk,"INVIS")) p->style |= INVISIBLE;
 	else if(!strcasecmp(tk,"DOTTED")) p->style |= DOTTED;
@@ -252,7 +237,7 @@ static int borderfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "BORDER", 0, MAX_UCHAR, &u))
+    if (doInt(v, "BORDER", 0, UCHAR_MAX, &u))
 	return 1;
     p->border = (unsigned char) u;
     p->flags |= BORDER_SET;
@@ -263,7 +248,7 @@ static int cellpaddingfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLPADDING", 0, MAX_UCHAR, &u))
+    if (doInt(v, "CELLPADDING", 0, UCHAR_MAX, &u))
 	return 1;
     p->pad = (unsigned char) u;
     p->flags |= PAD_SET;
@@ -274,7 +259,7 @@ static int cellspacingfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLSPACING", MIN_CHAR, MAX_CHAR, &u))
+    if (doInt(v, "CELLSPACING", SCHAR_MIN, SCHAR_MAX, &u))
 	return 1;
     p->space = (signed char) u;
     p->flags |= SPACE_SET;
@@ -285,7 +270,7 @@ static int cellborderfn(htmltbl_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "CELLSBORDER", 0, MAX_CHAR, &u))
+    if (doInt(v, "CELLSBORDER", 0, SCHAR_MAX, &u))
 	return 1;
     p->cb = (unsigned char) u;
     return 0;
@@ -314,10 +299,9 @@ static int rowsfn(htmltbl_t * p, char *v)
 static int fixedsizefn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*(unsigned char *) v);
-    if ((c == 'T') && !strcasecmp(v + 1, "RUE"))
+    if (!strcasecmp(v, "TRUE"))
 	p->flags |= FIXED_FLAG;
-    else if ((c != 'F') || strcasecmp(v + 1, "ALSE")) {
+    else if (strcasecmp(v, "FALSE")) {
 	agerr(AGWARN, "Illegal value %s for FIXEDSIZE - ignored\n", v);
 	rv = 1;
     }
@@ -327,12 +311,11 @@ static int fixedsizefn(htmldata_t * p, char *v)
 static int valignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'B') && !strcasecmp(v + 1, "OTTOM"))
+    if (!strcasecmp(v, "BOTTOM"))
 	p->flags |= VALIGN_BOTTOM;
-    else if ((c == 'T') && !strcasecmp(v + 1, "OP"))
+    else if (!strcasecmp(v, "TOP"))
 	p->flags |= VALIGN_TOP;
-    else if ((c != 'M') || strcasecmp(v + 1, "IDDLE")) {
+    else if (strcasecmp(v, "MIDDLE")) {
 	agerr(AGWARN, "Illegal value %s for VALIGN - ignored\n", v);
 	rv = 1;
     }
@@ -342,12 +325,11 @@ static int valignfn(htmldata_t * p, char *v)
 static int halignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= HALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= HALIGN_RIGHT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER")) {
+    else if (strcasecmp(v, "CENTER")) {
 	agerr(AGWARN, "Illegal value %s for ALIGN - ignored\n", v);
 	rv = 1;
     }
@@ -357,14 +339,13 @@ static int halignfn(htmldata_t * p, char *v)
 static int cell_halignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= HALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= HALIGN_RIGHT;
-    else if ((c == 'T') && !strcasecmp(v + 1, "EXT"))
+    else if (!strcasecmp(v, "TEXT"))
 	p->flags |= HALIGN_TEXT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER"))
+    else if (strcasecmp(v, "CENTER"))
 	rv = 1;
     if (rv)
 	agerr(AGWARN, "Illegal value %s for ALIGN in TD - ignored\n", v);
@@ -374,12 +355,11 @@ static int cell_halignfn(htmldata_t * p, char *v)
 static int balignfn(htmldata_t * p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'L') && !strcasecmp(v + 1, "EFT"))
+    if (!strcasecmp(v, "LEFT"))
 	p->flags |= BALIGN_LEFT;
-    else if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    else if (!strcasecmp(v, "RIGHT"))
 	p->flags |= BALIGN_RIGHT;
-    else if ((c != 'C') || strcasecmp(v + 1, "ENTER"))
+    else if (strcasecmp(v, "CENTER"))
 	rv = 1;
     if (rv)
 	agerr(AGWARN, "Illegal value %s for BALIGN in TD - ignored\n", v);
@@ -390,7 +370,7 @@ static int heightfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "HEIGHT", 0, MAX_USHORT, &u))
+    if (doInt(v, "HEIGHT", 0, USHRT_MAX, &u))
 	return 1;
     p->height = (unsigned short) u;
     return 0;
@@ -400,7 +380,7 @@ static int widthfn(htmldata_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "WIDTH", 0, MAX_USHORT, &u))
+    if (doInt(v, "WIDTH", 0, USHRT_MAX, &u))
 	return 1;
     p->width = (unsigned short) u;
     return 0;
@@ -410,7 +390,7 @@ static int rowspanfn(htmlcell_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "ROWSPAN", 0, MAX_USHORT, &u))
+    if (doInt(v, "ROWSPAN", 0, USHRT_MAX, &u))
 	return 1;
     if (u == 0) {
 	agerr(AGWARN, "ROWSPAN value cannot be 0 - ignored\n");
@@ -424,7 +404,7 @@ static int colspanfn(htmlcell_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "COLSPAN", 0, MAX_USHORT, &u))
+    if (doInt(v, "COLSPAN", 0, USHRT_MAX, &u))
 	return 1;
     if (u == 0) {
 	agerr(AGWARN, "COLSPAN value cannot be 0 - ignored\n");
@@ -450,7 +430,7 @@ static int ptsizefn(textfont_t * p, char *v)
 {
     long u;
 
-    if (doInt(v, "POINT-SIZE", 0, MAX_UCHAR, &u))
+    if (doInt(v, "POINT-SIZE", 0, UCHAR_MAX, &u))
 	return 1;
     p->size = (double) u;
     return 0;
@@ -471,12 +451,11 @@ static int scalefn(htmlimg_t * p, char *v)
 static int alignfn(int *p, char *v)
 {
     int rv = 0;
-    char c = (char) toupper(*v);
-    if ((c == 'R') && !strcasecmp(v + 1, "IGHT"))
+    if (!strcasecmp(v, "RIGHT"))
 	*p = 'r';
-    else if ((c == 'L') || !strcasecmp(v + 1, "EFT"))
+    else if (!strcasecmp(v, "LEFT"))
 	*p = 'l';
-    else if ((c == 'C') || strcasecmp(v + 1, "ENTER")) 
+    else if (!strcasecmp(v, "CENTER"))
 	*p = 'n';
     else {
 	agerr(AGWARN, "Illegal value %s for ALIGN - ignored\n", v);
@@ -638,8 +617,7 @@ static void startElement(void *user, const char *name, char **atts)
 	htmllval.tbl = mkTbl(atts);
 	state.inCell = 0;
 	state.tok = T_table;
-    } else if ((strcasecmp(name, "TR") == 0)
-	       || (strcasecmp(name, "TH") == 0)) {
+    } else if (strcasecmp(name, "TR") == 0 || strcasecmp(name, "TH") == 0) {
 	state.inCell = 0;
 	state.tok = T_row;
     } else if (strcasecmp(name, "TD") == 0) {
@@ -692,8 +670,7 @@ static void endElement(void *user, const char *name)
     if (strcasecmp(name, "TABLE") == 0) {
 	state.tok = T_end_table;
 	state.inCell = 1;
-    } else if ((strcasecmp(name, "TR") == 0)
-	       || (strcasecmp(name, "TH") == 0)) {
+    } else if (strcasecmp(name, "TR") == 0 || strcasecmp(name, "TH") == 0) {
 	state.tok = T_end_row;
     } else if (strcasecmp(name, "TD") == 0) {
 	state.tok = T_end_cell;
@@ -830,7 +807,7 @@ static char *eatComment(char *p)
     s--;			/* move back to '\0' or '>' */
     if (*s) {
 	char *t = s - 2;
-	if ((t < p) || strncmp(t, "--", 2)) {
+	if (t < p || strncmp(t, "--", 2)) {
 	    agerr(AGWARN, "Unclosed comment\n");
 	    state.warn = 1;
 	}
@@ -848,10 +825,10 @@ static char *findNext(char *s, agxbuf* xb)
     char c;
 
     if (*s == '<') {
-	if ((*t == '!') && !strncmp(t + 1, "--", 2))
+	if (!strncmp(t, "!--", 3))
 	    t = eatComment(t + 3);
 	else
-	    while (*t && (*t != '>'))
+	    while (*t && *t != '>')
 		t++;
 	if (*t != '>') {
 	    agerr(AGWARN, "Label closed before end of HTML element\n");
@@ -860,8 +837,8 @@ static char *findNext(char *s, agxbuf* xb)
 	    t++;
     } else {
 	t = s;
-	while ((c = *t) && (c != '<')) {
-	    if ((c == '&') && (*(t+1) != '#')) {
+	while ((c = *t) && c != '<') {
+	    if (c == '&' && *(t+1) != '#') {
 		t = scanEntity(t + 1, xb);
 	    }
 	    else {
@@ -1054,7 +1031,7 @@ int htmllex()
 	if ((llen = agxblen(&state.lb)))
 	    rv = XML_Parse(state.parser, agxbuse(&state.lb),llen, 0);
 	else
-	    rv = XML_Parse(state.parser, s, len, (len ? 0 : 1));
+	    rv = XML_Parse(state.parser, s, len, len ? 0 : 1);
 	if (rv == XML_STATUS_ERROR) {
 	    if (!state.error) {
 		agerr(AGERR, "%s in line %d \n",
