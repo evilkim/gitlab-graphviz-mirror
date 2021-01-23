@@ -50,10 +50,5 @@ public:
 	inline double position() const {
 		return block->posn+offset;
 	}
-	//double position() const;
-	~Variable(void){
-		in.clear();
-		out.clear();
-	}
 };
 #endif // SEEN_REMOVEOVERLAP_VARIABLE_H

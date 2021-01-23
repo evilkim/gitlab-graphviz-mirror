@@ -28,7 +28,6 @@
 class Variable;
 class Constraint;
 template <class T> class PairingHeap;
-class StupidPriorityQueue;
 
 class Block
 {
