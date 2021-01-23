@@ -10,7 +10,7 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
@@ -336,16 +336,16 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 			varmap[vs[i]]->out.insert(varmap[r]);
 		}
 	}
-	while(graph.size()>0) {
+	while(!graph.empty()) {
 		node *u=NULL;
 		vector<node*>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
 			u=*i;
-			if(u->in.size()==0) {
+			if(u->in.empty()) {
 				break;
 			}
 		}
-		if(i==graph.end() && graph.size()>0) {
+		if(i==graph.end() && !graph.empty()) {
 			//cycle found!
 			return true;
 		} else {
@@ -393,16 +393,16 @@ bool VPSC::blockGraphIsCyclic() {
 			c=b->findMinOutConstraint();
 		}
 	}
-	while(graph.size()>0) {
+	while(!graph.empty()) {
 		node *u=NULL;
 		vector<node*>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
 			u=*i;
-			if(u->in.size()==0) {
+			if(u->in.empty()) {
 				break;
 			}
 		}
-		if(i==graph.end() && graph.size()>0) {
+		if(i==graph.end() && !graph.empty()) {
 			//cycle found!
 			return true;
 		} else {

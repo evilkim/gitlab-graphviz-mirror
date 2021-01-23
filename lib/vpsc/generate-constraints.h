@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  * \brief Functions to automatically generate constraints for the rectangular
  * node overlap removal problem.
@@ -13,13 +10,12 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H
-#define SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H
+#pragma once
 #include <iostream>
 
 class Rectangle {	
@@ -76,12 +72,9 @@ private:
 };
 
 
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 
 // returns number of constraints generated
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists);
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs);
-
-
-#endif // SEEN_REMOVEOVERLAP_GENERATE_CONSTRAINTS_H

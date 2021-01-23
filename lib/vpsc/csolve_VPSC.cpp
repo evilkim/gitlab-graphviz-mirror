@@ -9,7 +9,7 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
@@ -24,7 +24,6 @@
 #include <cstdlib>
 #include <cassert>
 #include <vpsc/csolve_VPSC.h>
-extern "C" {
 Variable* newVariable(int id, double desiredPos, double weight) {
 	return new Variable(id,desiredPos,weight);
 }
@@ -143,5 +142,4 @@ int getRightVarID(Constraint *c){
 }
 double getSeparation(Constraint *c){
 	return c->gap;
-}
 }

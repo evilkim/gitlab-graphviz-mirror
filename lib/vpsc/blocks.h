@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  * \brief A block structure defined over the variables
  *
@@ -16,14 +13,13 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
 
-#ifndef SEEN_REMOVEOVERLAP_BLOCKS_H
-#define SEEN_REMOVEOVERLAP_BLOCKS_H
+#pragma once
 
 #define LOGFILE "cRectangleOverlap.log"
 
@@ -31,8 +27,8 @@
 #include <list>
 
 class Block;
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 /**
  * A block structure defined over the variables such that each block contains
  * 1 or more variables, with the invariant that all constraints inside a block
@@ -42,7 +38,7 @@ class Blocks : public std::set<Block*>
 {
 public:
 	Blocks(const int n, Variable *vs[]);
-	~Blocks(void);
+	~Blocks();
 	void mergeLeft(Block *r);
 	void mergeRight(Block *l);
 	void split(Block *b, Block *&l, Block *&r, Constraint *c);
@@ -57,4 +53,3 @@ private:
 };
 
 extern long blockTimeCtr;
-#endif // SEEN_REMOVEOVERLAP_BLOCKS_H

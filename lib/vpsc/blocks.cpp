@@ -13,7 +13,7 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
@@ -27,9 +27,7 @@ using std::ios;
 using std::ofstream;
 using std::set;
 using std::vector;
-using std::iterator;
 using std::list;
-using std::copy;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
 	#define RECTANGLE_OVERLAP_LOGGING 0
@@ -43,7 +41,7 @@ Blocks::Blocks(const int n, Variable *vs[]) : vs(vs),nvs(n) {
 		insert(new Block(vs[i]));
 	}
 }
-Blocks::~Blocks(void)
+Blocks::~Blocks()
 {
 	blockTimeCtr=0;
 	for(set<Block*>::iterator i=begin();i!=end();i++) {
@@ -62,7 +60,7 @@ list<Variable*> *Blocks::totalOrder() {
 		vs[i]->visited=false;
 	}
 	for(int i=0;i<nvs;i++) {
-		if(vs[i]->in.size()==0) {
+		if(vs[i]->in.empty()) {
 			dfsVisit(vs[i],order);
 		}
 	}

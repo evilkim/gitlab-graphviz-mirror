@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  *
  * Authors:
@@ -11,22 +8,21 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
-#ifndef SEEN_REMOVEOVERLAP_VARIABLE_H
-#define SEEN_REMOVEOVERLAP_VARIABLE_H
+#pragma once
 
 #include <vector>
 #include <iostream>
 class Block;
-class Constraint;
+struct Constraint;
 #include <vpsc/block.h>
 
 typedef std::vector<Constraint*> Constraints;
-class Variable
+struct Variable
 {
 	friend std::ostream& operator <<(std::ostream &os, const Variable &v);
 public:
@@ -51,4 +47,3 @@ public:
 		return block->posn+offset;
 	}
 };
-#endif // SEEN_REMOVEOVERLAP_VARIABLE_H

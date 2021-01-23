@@ -9,7 +9,7 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
@@ -23,6 +23,7 @@
 #include <vpsc/constraint.h>
 #include <fstream>
 #include <vpsc/blocks.h>
+#include <vector>
 using std::ios;
 using std::ofstream;
 
@@ -57,10 +58,11 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 		vs[i]=new Variable(i,0,1);
 	}
 	Constraint **cs;
-	double *oldX = new double[n];
+	std::vector<double> oldX;
+	oldX.reserve(n);
 	int m=generateXConstraints(n,rs,vs,cs,true);
 	for(int i=0;i<n;i++) {
-		oldX[i]=vs[i]->desiredPosition;
+		oldX.push_back(vs[i]->desiredPosition);
 	}
 	VPSC vpsc_x(n,vs,m,cs);
 	if (RECTANGLE_OVERLAP_LOGGING) {
@@ -89,7 +91,6 @@ void removeRectangleOverlap(int n, Rectangle *rs[], double xBorder, double yBord
 		rs[i]->moveCentreY(vs[i]->position());
 		rs[i]->moveCentreX(oldX[i]);
 	}
-	delete [] oldX;
 	for(int i = 0; i < m; ++i) {
 		delete cs[i];
 	}

@@ -1,6 +1,3 @@
-/* $Id$ $Revision$ */
-/* vim:set shiftwidth=4 ts=8: */
-
 /**
  * \brief A block is a group of variables that must be moved together to improve
  * the goal function without violating already active constraints.
@@ -14,19 +11,18 @@
  * This version is released under the CPL (Common Public License) with
  * the Graphviz distribution.
  * A version is also available under the LGPL as part of the Adaptagrams
- * project: http://sourceforge.net/projects/adaptagrams.  
+ * project: https://github.com/mjwybrow/adaptagrams.  
  * If you make improvements or bug fixes to this code it would be much
  * appreciated if you could also contribute those changes back to the
  * Adaptagrams repository.
  */
 
-#ifndef SEEN_REMOVEOVERLAP_BLOCK_H
-#define SEEN_REMOVEOVERLAP_BLOCK_H
+#pragma once
 
 #include <vector>
 #include <iostream>
-class Variable;
-class Constraint;
+struct Variable;
+struct Constraint;
 template <class T> class PairingHeap;
 
 class Block
@@ -38,7 +34,7 @@ public:
 	double weight;
 	double wposn;
 	Block(Variable *v=NULL);
-	~Block(void);
+	~Block();
 	Constraint* findMinLM();
 	Constraint* findMinLMBetween(Variable* lv, Variable* rv);
 	Constraint* findMinInConstraint();
@@ -72,5 +68,3 @@ private:
 	void addVariable(Variable *v);
 	void setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in);
 };
-
-#endif // SEEN_REMOVEOVERLAP_BLOCK_H
