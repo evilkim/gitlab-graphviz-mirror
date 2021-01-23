@@ -3311,7 +3311,7 @@ static field_t *parse_reclbl(node_t * n, int LR, int flag, char *text)
 		    tsp--;
 		*tsp = '\000';
 		fp->lp =
-		    make_label((void *) n, strdup(text),
+		    make_label(n, text,
 			       (lbl->html ? LT_HTML : LT_NONE),
 			       lbl->fontsize, lbl->fontname,
 			       lbl->fontcolor);
