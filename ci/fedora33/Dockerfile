@@ -59,7 +59,6 @@ ocaml \
 perl-ExtUtils-Embed \
 # Language extension gv_php
 php-devel \
-# Language extension gv_python & gv_python2
 # Language extension gv_python3
 python3-devel \
 # Language extension gv_R
