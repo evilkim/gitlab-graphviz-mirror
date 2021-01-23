@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Vestiges of Qt4 support have been removed
 - C++11 support is now required of the C++ compiler used to build Graphviz
 - C99 support is now required of the C compiler used to build Graphviz
+- Question about userout() function in agerror.c #1924
 
 ### Fixed
 - memory leak in label construction
