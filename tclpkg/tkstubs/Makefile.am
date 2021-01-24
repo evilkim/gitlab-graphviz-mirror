@@ -1,4 +1,3 @@
-# $Id$ $Revision$
 # Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS = @TCL_CFLAGS@ @TK_CFLAGS@ @TCL_INCLUDES@  @TK_INCLUDES@ @TK_XINCLUDES@

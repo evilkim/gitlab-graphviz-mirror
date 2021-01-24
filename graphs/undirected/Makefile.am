@@ -1,4 +1,3 @@
-# $Id$ $Revision$
 ## Process this file with automake to produce Makefile.in
 
 GRAPHS = ER.gv ngk10_4.gv process.gv Heawood.gv Petersen.gv
