@@ -2071,13 +2071,8 @@ static boxf makeregularend(boxf b, int side, double y)
 }
 
 #ifndef DONT_WANT_ANY_ENDPOINT_PATH_REFINEMENT
-void refineregularends(left, right, endp, dir, b, boxes, boxnp)
-edge_t *left, *right;
-pathend_t *endp;
-int dir;
-box b;
-box *boxes;
-int *boxnp;
+void refineregularends(edge_t *left, edge_t *right, pathend_t *endp, int dir,
+  box b, box *boxes, int *boxnp)
 {
     splines *lspls, *rspls;
     point pp, cp;
@@ -2300,9 +2295,7 @@ static void recover_slack(edge_t * e, path * p)
     }
 }
 
-static void resize_vn(vn, lx, cx, rx)
-node_t *vn;
-int lx, cx, rx;
+static void resize_vn(node_t *vn, int lx, int cx, int rx)
 {
     ND_coord(vn).x = cx;
     ND_lw(vn) = cx - lx, ND_rw(vn) = rx - cx;
@@ -2486,9 +2479,7 @@ neighbor(graph_t* g, node_t *vn, edge_t *ie, edge_t *oe, int dir)
     return rv;
 }
 
-static boolean pathscross(n0, n1, ie1, oe1)
-node_t *n0, *n1;
-edge_t *ie1, *oe1;
+static boolean pathscross(node_t *n0, node_t *n1, edge_t *ie1, edge_t *oe1)
 {
     edge_t *e0, *e1;
     node_t *na, *nb;
