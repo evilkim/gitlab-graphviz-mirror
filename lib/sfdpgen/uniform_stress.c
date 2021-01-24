@@ -51,9 +51,6 @@ UniformStressSmoother UniformStressSmoother_new(int dim, SparseMatrix A, real *x
   /* Lw and Lwd have diagonals */
   sm->Lw = SparseMatrix_new(m, m, A->nz + m, MATRIX_TYPE_REAL, FORMAT_CSR);
   sm->Lwd = SparseMatrix_new(m, m, A->nz + m, MATRIX_TYPE_REAL, FORMAT_CSR);
-  iw = sm->Lw->ia; jw = sm->Lw->ja;
-  id = sm->Lwd->ia; jd = sm->Lwd->ja;
-  w = (real*) sm->Lw->a; d = (real*) sm->Lwd->a;
 
   if (!(sm->Lw) || !(sm->Lwd)) {
     StressMajorizationSmoother_delete(sm);
