@@ -48,14 +48,23 @@ struct slist {
     char buf[1];
 };
 
-#define N_NEW(n,t)  calloc((n),sizeof(t))
+static void *gcalloc(size_t nmemb, size_t size)
+{
+    char *rv = calloc(nmemb, size);
+    if (rv == NULL) {
+	fprintf(stderr, "out of memory\n");
+	exit(EXIT_FAILURE);
+    }
+    return rv;
+}
+
 /* Round x up to next multiple of y, which is a power of 2 */
 #define ROUND2(x,y) (((x) + ((y)-1)) & ~((y)-1))
 
 static void pushString(slist ** stk, const char *s)
 {
     int sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
-    slist *sp = N_NEW(sz, char);
+    slist *sp = gcalloc(sz, sizeof(char));
     strcpy(sp->buf, s);
     sp->next = *stk;
     *stk = sp;
@@ -604,7 +613,7 @@ static void endElementHandler(void *userData, const char *name)
 	    if (len <= SMALLBUF) {
 		name = buf;
 	    } else {
-		name = dynbuf = N_NEW(len, char);
+		name = dynbuf = gcalloc(len, sizeof(char));
 		strcpy(name, GXL_COMP);
 	    }
 	    strcpy(name + sizeof(GXL_COMP) - 1,
