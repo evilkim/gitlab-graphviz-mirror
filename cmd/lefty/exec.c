@@ -946,7 +946,6 @@ static void err (int errnum, int level, Tobj co, int ci) {
 
     if (level > Eerrlevel || !errdo)
         return;
-    s = "";
     fprintf (stderr, "runtime error: %s\n", errnam[errnum]);
     if (!co)
         return;
@@ -955,11 +954,17 @@ static void err (int errnum, int level, Tobj co, int ci) {
     if (!sinfop[(si = sinfoi - 1)].fco && si > 0)
         si--;
     if (Eshowbody > 0) {
-        if (co == sinfop[si].fco)
+        if (co == sinfop[si].fco) {
             s = Scfull (co, 0, ci);
-        else if (co == sinfop[si].co)
+            printbody (s, Eshowbody);
+            free (s);
+        } else if (co == sinfop[si].co) {
             s = Scfull (co, TCgetfp (co, 0), ci);
-        printbody (s, Eshowbody), free (s);
+            printbody (s, Eshowbody);
+            free (s);
+        } else {
+            printbody ("", Eshowbody);
+        }
         if (Estackdepth == 1) {
             fprintf (stderr, "\n");
             errdo = FALSE;
