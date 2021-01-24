@@ -48,7 +48,6 @@ struct slist {
     char buf[1];
 };
 
-#define NEW(t)      malloc(sizeof(t))
 #define N_NEW(n,t)  calloc((n),sizeof(t))
 /* Round x up to next multiple of y, which is a power of 2 */
 #define ROUND2(x,y) (((x) + ((y)-1)) & ~((y)-1))
@@ -151,7 +150,9 @@ static Dtdisc_t nameDisc = {
 
 static userdata_t *genUserdata(void)
 {
-    userdata_t *user = NEW(userdata_t);
+    userdata_t *user = malloc(sizeof(userdata_t));
+    if (user == NULL)
+	return NULL;
     agxbinit(&(user->xml_attr_name), NAMEBUF, 0);
     agxbinit(&(user->xml_attr_value), SMALLBUF, 0);
     agxbinit(&(user->composite_buffer), SMALLBUF, 0);
@@ -668,6 +669,11 @@ Agraph_t *gxl_to_gv(FILE * gxlFile)
     int done;
     userdata_t *udata = genUserdata();
     XML_Parser parser = XML_ParserCreate(NULL);
+
+    if (udata == NULL) {
+	fprintf(stderr, "out of memory\n");
+	exit(1);
+    }
 
     XML_SetUserData(parser, udata);
     XML_SetElementHandler(parser, startElementHandler, endElementHandler);
