@@ -2485,8 +2485,8 @@ static boolean pathscross(node_t *n0, node_t *n1, edge_t *ie1, edge_t *oe1)
     node_t *na, *nb;
     int order, cnt;
 
-    order = (ND_order(n0) > ND_order(n1));
-    if ((ND_out(n0).size != 1) && (ND_out(n1).size != 1))
+    order = ND_order(n0) > ND_order(n1);
+    if (ND_out(n0).size != 1 && ND_out(n1).size != 1)
 	return FALSE;
     e1 = oe1;
     if (ND_out(n0).size == 1 && e1) {
@@ -2496,10 +2496,10 @@ static boolean pathscross(node_t *n0, node_t *n1, edge_t *ie1, edge_t *oe1)
 		break;
 	    if (order != (ND_order(na) > ND_order(nb)))
 		return TRUE;
-	    if ((ND_out(na).size != 1) || (ND_node_type(na) == NORMAL))
+	    if (ND_out(na).size != 1 || ND_node_type(na) == NORMAL)
 		break;
 	    e0 = ND_out(na).list[0];
-	    if ((ND_out(nb).size != 1) || (ND_node_type(nb) == NORMAL))
+	    if (ND_out(nb).size != 1 || ND_node_type(nb) == NORMAL)
 		break;
 	    e1 = ND_out(nb).list[0];
 	}
@@ -2512,10 +2512,10 @@ static boolean pathscross(node_t *n0, node_t *n1, edge_t *ie1, edge_t *oe1)
 		break;
 	    if (order != (ND_order(na) > ND_order(nb)))
 		return TRUE;
-	    if ((ND_in(na).size != 1) || (ND_node_type(na) == NORMAL))
+	    if (ND_in(na).size != 1 || ND_node_type(na) == NORMAL)
 		break;
 	    e0 = ND_in(na).list[0];
-	    if ((ND_in(nb).size != 1) || (ND_node_type(nb) == NORMAL))
+	    if (ND_in(nb).size != 1 || ND_node_type(nb) == NORMAL)
 		break;
 	    e1 = ND_in(nb).list[0];
 	}
