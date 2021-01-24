@@ -1891,11 +1891,14 @@ int make_map_internal(int exclude_random, int include_OK_points,
     xran = MALLOC(sizeof(real)*(*nrandom + 4)*dim2);
     nz = 0;
     if (INCLUDE_OK_POINTS){
-      int *grouping2;
       nzok0 = nzok = *nrandom - 1;/* points that are within tolerance of real or artificial points */
-      grouping2 = MALLOC(sizeof(int)*(n + *nrandom));
-      memcpy(grouping2, grouping, sizeof(int)*n);
-      grouping = grouping2;
+      if (grouping == grouping0) {
+        int *grouping2 = MALLOC(sizeof(int)*(n + *nrandom));
+        memcpy(grouping2, grouping, sizeof(int)*n);
+        grouping = grouping2;
+      } else {
+        grouping = REALLOC(grouping, sizeof(int)*(n + *nrandom));
+      }
     }
     nn = n;
 

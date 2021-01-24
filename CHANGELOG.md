@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - gvedit compilation errors out, but works if manually compiled with qt5 #1862
 - incorrect HTML BR attribute parsing code #1913
 - broken overflow checks in RectArea #1906
+- various memory leaks !1699
 
 ## [2.46.0] - 2021-01-18
 

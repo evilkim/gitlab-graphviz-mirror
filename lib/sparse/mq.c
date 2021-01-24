@@ -471,9 +471,19 @@ static Multilevel_MQ_Clustering Multilevel_MQ_Clustering_establish(Multilevel_MQ
     SparseMatrix_delete(R0);
     P = SparseMatrix_transpose(R);
     B = SparseMatrix_multiply(R, A);
-    if (!B) goto RETURN;
+    if (!B) {
+        FREE(deg_intra_new);
+        FREE(wgt_new);
+        FREE(dout_new);
+        goto RETURN;
+    }
     cA = SparseMatrix_multiply(B, P); 
-    if (!cA) goto RETURN;
+    if (!cA) {
+        FREE(deg_intra_new);
+        FREE(wgt_new);
+        FREE(dout_new);
+        goto RETURN;
+    }
     SparseMatrix_delete(B);
     grid->P = P;
     grid->R = R;
