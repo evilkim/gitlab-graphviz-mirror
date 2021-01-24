@@ -2486,7 +2486,7 @@ static boolean pathscross(node_t *n0, node_t *n1, edge_t *ie1, edge_t *oe1)
     int order, cnt;
 
     order = (ND_order(n0) > ND_order(n1));
-    if ((ND_out(n0).size != 1) && (ND_out(n0).size != 1))
+    if ((ND_out(n0).size != 1) && (ND_out(n1).size != 1))
 	return FALSE;
     e1 = oe1;
     if (ND_out(n0).size == 1 && e1) {
