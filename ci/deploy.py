@@ -118,23 +118,25 @@ def main(args: [str]) -> int:
   if options.version is None:
     options.version = gv_version
 
-  tarball = f'graphviz-{gv_version}.tar.gz'
-  if not os.path.exists(tarball):
-    log.error(f'source {tarball} not found')
-    return -1
-
-  # generate a checksum for the source tarball
-  log.info(f'MD5 summing {tarball}')
-  checksum = f'{tarball}.md5'
-  with open(checksum, 'wt') as f:
-    with open(tarball, 'rb') as data:
-      f.write(f'{hashlib.md5(data.read()).hexdigest()}  {tarball}\n')
-
   # list of assets we have uploaded
   assets: [str] = []
 
-  assets.append(upload(package_version, tarball))
-  assets.append(upload(package_version, checksum))
+  for tarball in (f'graphviz-{gv_version}.tar.gz',
+                  f'graphviz-{gv_version}.tar.xz'):
+
+    if not os.path.exists(tarball):
+      log.error(f'source {tarball} not found')
+      return -1
+
+    # generate a checksum for the source tarball
+    log.info(f'MD5 summing {tarball}')
+    checksum = f'{tarball}.md5'
+    with open(checksum, 'wt') as f:
+      with open(tarball, 'rb') as data:
+        f.write(f'{hashlib.md5(data.read()).hexdigest()}  {tarball}\n')
+
+    assets.append(upload(package_version, tarball))
+    assets.append(upload(package_version, checksum))
 
   for stem, _, leaves in os.walk('Packages'):
     for leaf in leaves:
