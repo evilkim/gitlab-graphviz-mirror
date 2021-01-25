@@ -215,7 +215,6 @@ constrained_majorization_new(CMajEnv * e, float *b, float **coords,
 
 	    /* reorder block by levels, and within levels by "relaxed" desired position */
 	    block_len = 0;
-	    first_next_level = 0;
 	    for (i = left; i < right; i = first_next_level) {
 		level = lev[ordering[i]];
 		if (level == num_levels) {
