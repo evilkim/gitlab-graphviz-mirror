@@ -1626,14 +1626,6 @@ static void mincross_step(graph_t * g, int pass)
 	reverse = TRUE;
     else
 	reverse = FALSE;
-    if (pass % 2) {
-	r = GD_maxrank(g) - 1;
-	dir = -1;
-    } /* up pass */
-    else {
-	r = 1;
-	dir = 1;
-    }				/* down pass */
 
     if (pass % 2 == 0) {	/* down pass */
 	first = GD_minrank(g) + 1;
