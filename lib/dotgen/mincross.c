@@ -843,7 +843,6 @@ static int mincross(graph_t * g, int startpass, int endpass, int doBalance)
 		save_best(g);
 		best_cross = cur_cross;
 	    }
-	    trying = 0;
 	} else {
 	    maxthispass = MaxIter;
 	    if (cur_cross > best_cross)
