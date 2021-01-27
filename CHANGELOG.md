@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - typo in pathcross #1926
 - Out-of-bounds write caused by incorrect error handling of malloc in genUserdata #1928
 - Offer .tar.xz files too #454
+- Header file graphviz_version.h has no include guards #1929
 
 ## [2.46.0] - 2021-01-18
 

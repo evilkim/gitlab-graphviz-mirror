@@ -1,3 +1,4 @@
+#pragma once
 #define GVPLUGIN_CONFIG_FILE "config@GRAPHVIZ_PLUGIN_VERSION@"
 #define GVPLUGIN_VERSION @GRAPHVIZ_PLUGIN_VERSION@
 #define PACKAGE_BUGREPORT "http://www.graphviz.org/"
