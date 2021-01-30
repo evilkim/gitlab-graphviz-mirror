@@ -719,7 +719,6 @@ def test_1913():
       _, stderr = run(graph.format(input))
       assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
 
-@pytest.mark.xfail(strict=True)
 def test_1931():
     '''
     New lines within strings should not be discarded during parsing

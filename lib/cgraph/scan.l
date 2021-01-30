@@ -201,7 +201,7 @@ ID		({NAME}|{NUMBER})
 %x hstring
 %%
 {GRAPH_EOF_TOKEN}		return(EOF);
-<INITIAL,comment,qstring>\n	line_num++;
+<INITIAL,comment>\n	line_num++;
 "/*"					BEGIN(comment);
 <comment>[^*\n]*		/* eat anything not a '*' */
 <comment>"*"+[^*/\n]*	/* eat up '*'s not followed by '/'s */
@@ -226,6 +226,7 @@ ID		({NAME}|{NUMBER})
 <qstring>[\\]["]		addstr ("\"");
 <qstring>[\\][\\]		addstr ("\\\\");
 <qstring>[\\][\n]		line_num++; /* ignore escaped newlines */
+<qstring>[\n]			addstr ("\n"); line_num++;
 <qstring>([^"\\\n]*|[\\])		addstr(aagtext);
 [<]						BEGIN(hstring); html_nest = 1; beginstr();
 <hstring>[>]			html_nest--; if (html_nest) addstr(aagtext); else {BEGIN(INITIAL); endstr_html(); return (T_qatom);}
