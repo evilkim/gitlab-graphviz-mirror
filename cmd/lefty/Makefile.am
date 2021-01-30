@@ -1,4 +1,3 @@
-# $Id$ $Revision$
 ## Process this file with automake to produce Makefile.in
 
 SUBDIRS = ws os dot2l examples

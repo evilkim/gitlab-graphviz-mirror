@@ -1,4 +1,3 @@
-# $Id$ $Revision$
 ## Process this file with automake to produce Makefile.in
 
 EXPR_VERSION="4:0:0"

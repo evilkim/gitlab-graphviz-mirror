@@ -1,4 +1,3 @@
-/* $id: shapes.c,v 1.82 2007/12/24 04:50:36 ellson Exp $ $Revision$ */
 /* vim:set shiftwidth=4 ts=8: */
 
 /*************************************************************************
@@ -8,7 +7,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: See CVS logs. Details at http://www.graphviz.org/
+ * Contributors: Details at http://www.graphviz.org/
  *************************************************************************/
 
 /* This code is derived from the Java implementation by Luc Maisonobe */

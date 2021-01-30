@@ -1,4 +1,3 @@
-/* $Id$Revision: */
 /* vim:set shiftwidth=4 ts=8: */
 
 /*************************************************************************
@@ -8,7 +7,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: See CVS logs. Details at http://www.graphviz.org/
+ * Contributors: Details at http://www.graphviz.org/
  *************************************************************************/
 
 #ifndef ORTHO_H

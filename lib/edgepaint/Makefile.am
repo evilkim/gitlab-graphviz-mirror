@@ -1,4 +1,3 @@
-# $Id$Revision: 
 ## Process this file with automake to produce Makefile.in
 
 LAB_GAMUT_VERSION="1:0:0"

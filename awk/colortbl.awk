@@ -6,7 +6,7 @@
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
-# * Contributors: See CVS logs. Details at http://www.graphviz.org/
+# * Contributors: Details at http://www.graphviz.org/
 # *************************************************************************/
 
 function rgb_to_hsv(r,g,b) {
