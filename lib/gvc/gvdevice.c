@@ -395,7 +395,7 @@ void gvprintf(GVJ_t * job, const char *format, ...)
     {
 	va_list argp2;
 	va_copy(argp2, argp);
-	len = vsnprintf((char *)buf, BUFSIZ, format, argp2);
+	len = vsnprintf(buf, BUFSIZ, format, argp2);
 	va_end(argp2);
     }
     if (len < 0) {

@@ -378,7 +378,7 @@ char *el(GVJ_t* job, char *template, ...)
 	va_list arglist;
 
 	va_start(arglist, template);
-	len = vsnprintf((char *)buf, BUFSIZ, template, arglist);
+	len = vsnprintf(buf, BUFSIZ, template, arglist);
 	if (len < 0) {
 		job->common->errorfn("pov renderer:el - %s\n", strerror(errno));
 		str = strdup ("");
