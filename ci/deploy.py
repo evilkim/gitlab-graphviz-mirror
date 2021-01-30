@@ -102,12 +102,6 @@ def main(args: [str]) -> int:
     log.error('release-cli not found')
     return -1
 
-  # the generic package version has to be \d+.\d+.\d+ but it does not need to
-  # correspond to the release version (which may not conform to this pattern if
-  # this is a dev release), so generate a compliant generic package version
-  package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
-  log.info(f'using generated generic package version {package_version}')
-
   # retrieve version name left by prior CI tasks
   log.info('reading VERSION')
   with open('VERSION') as f:
@@ -117,6 +111,12 @@ def main(args: [str]) -> int:
   # if we were not passed an explicit version, use the one from the VERSION file
   if options.version is None:
     options.version = gv_version
+
+  # the generic package version has to be \d+.\d+.\d+ but it does not need to
+  # correspond to the release version (which may not conform to this pattern if
+  # this is a dev release), so generate a compliant generic package version
+  package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
+  log.info(f'using generated generic package version {package_version}')
 
   # list of assets we have uploaded
   assets: [str] = []
