@@ -383,12 +383,7 @@ void gvdevice_finalize(GVJ_t * job)
 	gvdevice_close(job);
     }
 }
-/* gvprintf:
- * Unless vsnprintf is available, this function is unsafe due to the fixed buffer size.
- * It should only be used when the caller is sure the input will not
- * overflow the buffer. In particular, it should be avoided for
- * input coming from users.
- */
+
 void gvprintf(GVJ_t * job, const char *format, ...)
 {
     char buf[BUFSIZ];
@@ -397,7 +392,6 @@ void gvprintf(GVJ_t * job, const char *format, ...)
     char* bp = buf;
 
     va_start(argp, format);
-#ifdef HAVE_VSNPRINTF
     {
 	va_list argp2;
 	va_copy(argp2, argp);
@@ -416,9 +410,6 @@ void gvprintf(GVJ_t * job, const char *format, ...)
 	bp = gmalloc(len + 1);
 	len = vsprintf(bp, format, argp);
     }
-#else
-    len = vsprintf((char *)buf, format, argp);
-#endif
     va_end(argp);
 
     gvwrite(job, bp, len);

@@ -99,8 +99,7 @@ static int dia_fputs(char *s)
  * Note that this function is unsafe due to the fixed buffer size.
  * It should only be used when the caller is sure the input will not
  * overflow the buffer. In particular, it should be avoided for
- * input coming from users. Also, if vsnprintf is available, the
- * code should check for return values to use it safely.
+ * input coming from users.
  */
 static int dia_printf(const char *format, ...)
 {
@@ -109,11 +108,7 @@ static int dia_printf(const char *format, ...)
     int len;
 
     va_start(argp, format);
-#ifdef HAVE_VSNPRINTF
     (void) vsnprintf(buf, sizeof(buf), format, argp);
-#else
-    (void) vsprintf(buf, format, argp);
-#endif
     va_end(argp);
     len = strlen(buf);
 
