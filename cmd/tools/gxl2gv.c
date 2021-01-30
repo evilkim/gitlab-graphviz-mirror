@@ -48,15 +48,23 @@ struct slist {
     char buf[1];
 };
 
-#define NEW(t)      malloc(sizeof(t))
-#define N_NEW(n,t)  calloc((n),sizeof(t))
+static void *gcalloc(size_t nmemb, size_t size)
+{
+    char *rv = calloc(nmemb, size);
+    if (rv == NULL) {
+	fprintf(stderr, "out of memory\n");
+	exit(EXIT_FAILURE);
+    }
+    return rv;
+}
+
 /* Round x up to next multiple of y, which is a power of 2 */
 #define ROUND2(x,y) (((x) + ((y)-1)) & ~((y)-1))
 
 static void pushString(slist ** stk, const char *s)
 {
     int sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
-    slist *sp = N_NEW(sz, char);
+    slist *sp = gcalloc(sz, sizeof(char));
     strcpy(sp->buf, s);
     sp->next = *stk;
     *stk = sp;
@@ -123,7 +131,9 @@ typedef struct {
 
 static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 {
-    namev_t *np = NEW(namev_t);
+    namev_t *np = malloc(sizeof(namev_t));
+    if (np == NULL)
+	return NULL;
     np->name = objp->name;
     np->unique_name = 0;
     return np;
@@ -149,7 +159,9 @@ static Dtdisc_t nameDisc = {
 
 static userdata_t *genUserdata(void)
 {
-    userdata_t *user = NEW(userdata_t);
+    userdata_t *user = malloc(sizeof(userdata_t));
+    if (user == NULL)
+	return NULL;
     agxbinit(&(user->xml_attr_name), NAMEBUF, 0);
     agxbinit(&(user->xml_attr_value), SMALLBUF, 0);
     agxbinit(&(user->composite_buffer), SMALLBUF, 0);
@@ -601,7 +613,7 @@ static void endElementHandler(void *userData, const char *name)
 	    if (len <= SMALLBUF) {
 		name = buf;
 	    } else {
-		name = dynbuf = N_NEW(len, char);
+		name = dynbuf = gcalloc(len, sizeof(char));
 		strcpy(name, GXL_COMP);
 	    }
 	    strcpy(name + sizeof(GXL_COMP) - 1,
@@ -666,6 +678,11 @@ Agraph_t *gxl_to_gv(FILE * gxlFile)
     int done;
     userdata_t *udata = genUserdata();
     XML_Parser parser = XML_ParserCreate(NULL);
+
+    if (udata == NULL) {
+	fprintf(stderr, "out of memory\n");
+	exit(1);
+    }
 
     XML_SetUserData(parser, udata);
     XML_SetElementHandler(parser, startElementHandler, endElementHandler);
