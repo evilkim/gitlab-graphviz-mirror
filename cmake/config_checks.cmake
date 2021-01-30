@@ -35,7 +35,6 @@ check_function_exists( setenv           HAVE_SETENV         )
 check_function_exists( setmode          HAVE_SETMODE        )
 check_function_exists( sincos           HAVE_SINCOS         )
 check_function_exists( srand48          HAVE_SRAND48        )
-check_function_exists( vsnprintf        HAVE_VSNPRINTF      )
 
 # Type checks
 # The function check_size_type also checks if the type exists
