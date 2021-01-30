@@ -114,9 +114,14 @@ def main(args: [str]) -> int:
 
   # the generic package version has to be \d+.\d+.\d+ but it does not need to
   # correspond to the release version (which may not conform to this pattern if
-  # this is a dev release), so generate a compliant generic package version
-  package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
-  log.info(f'using generated generic package version {package_version}')
+  # this is a dev release)
+  if re.match(r'\d+\.\d+\.\d+$', options.version) is None:
+    # generate a compliant version
+    package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
+  else:
+    # we can use a version corresponding to the release version
+    package_version = options.version
+  log.info(f'using generic package version {package_version}')
 
   # list of assets we have uploaded
   assets: [str] = []
