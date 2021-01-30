@@ -11,7 +11,9 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <cgraph/cghdr.h>
 
 #define MAX(a,b)	((a)>(b)?(a):(b))
@@ -64,17 +66,27 @@ char *aglasterr()
 static void
 userout (agerrlevel_t level, const char *fmt, va_list args)
 {
-    static char* buf;
-    static int bufsz = 1024;
-    char* np;
-    int n;
-
-    if (!buf) {
-	buf = malloc(bufsz);
-	if (!buf) {
-	    fputs("userout: could not allocate memory\n", stderr );
+    // find out how much space we need to construct this string
+    size_t bufsz;
+    {
+	va_list args2;
+	va_copy(args2, args);
+	int rc = vsnprintf(NULL, 0, fmt, args2);
+	va_end(args2);
+	if (rc < 0) {
+	    va_end(args);
+	    fprintf(stderr, "%s: vsnprintf failure\n", __func__);
 	    return;
 	}
+	bufsz = (size_t)rc + 1; // account for NUL terminator
+    }
+
+    // allocate a buffer for the string
+    char *buf = malloc(bufsz);
+    if (buf == NULL) {
+	va_end(args);
+	fprintf(stderr, "%s: could not allocate memory\n", __func__);
+	return;
     }
 
     if (level != AGPREV) {
@@ -82,21 +94,19 @@ userout (agerrlevel_t level, const char *fmt, va_list args)
 	usererrf (": ");
     }
 
-    while (1) {
-	n = vsnprintf(buf, bufsz, fmt, args);
-	if ((n > -1) && (n < bufsz)) {
-	    usererrf (buf);
-	    break;
-	}
-	bufsz = MAX(bufsz*2,n+1);
-	if ((np = realloc(buf, bufsz)) == NULL) {
-	    fputs("userout: could not allocate memory\n", stderr );
-	    free(buf);
-	    return;
-	}
-	buf = np;
-    }
+    // construct the full error in our buffer
+    int rc = vsnprintf(buf, bufsz, fmt, args);
     va_end(args);
+    if (rc < 0) {
+	free(buf);
+	fprintf(stderr, "%s: vsnprintf failure\n", __func__);
+	return;
+    }
+
+    // yield our constructed error
+    (void)usererrf(buf);
+
+    free(buf);
 }
 
 static int agerr_va(agerrlevel_t level, const char *fmt, va_list args)

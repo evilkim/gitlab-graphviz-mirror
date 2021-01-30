@@ -310,7 +310,11 @@ dnl checks for compilers
 
 AM_PROG_CC_C_O
 AC_PROG_CC_C99
+if test "x$ac_cv_prog_cc_c99" = "xno"; then
+  AC_MSG_ERROR([C compiler does not support C99])
+fi
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX_11(noext,mandatory)
 AC_PROG_OBJC
 
 AC_C_INLINE
@@ -2408,11 +2412,7 @@ if test "x$with_qt" != "xyes"; then
 else
 
   # required for linking with QT5
-  AX_CHECK_COMPILE_FLAG([-std=c++11], [
-	CXXFLAGS="${CXXFLAGS} -fPIE -fPIC -std=c++11"
-     ],[
-	CXXFLAGS="${CXXFLAGS} -fPIE -fPIC"
-     ])
+  CXXFLAGS="${CXXFLAGS} -fPIE -fPIC"
   AC_CHECK_PROGS(QMAKE,qmake-qt5 qmake,false)
   if test "$QMAKE" != "false"; then
     PKG_CHECK_MODULES(QTCORE, [Qt5Core],[

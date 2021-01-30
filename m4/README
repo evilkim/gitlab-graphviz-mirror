@@ -5,6 +5,6 @@ The file: glib-gettext.m4 was obtained from glib2-devel (go figure!)
 
 They are used in graphviz to avoid requiring gettext be installed.
 
-
-The file ax_check_compile_flag.m4 was obtained from 
-    http://gnu.mirrors.hoobly.com/autoconf-archive/autoconf-archive-2018.03.13.tar.xz
+The files ax_cxx_compile_stdcxx.m4 and ax_cxx_compile_stdcxx_11.m4 were obtained
+from commit efa6f204a6124e882abbbc6e056c91edfdc30555 of
+    https://git.savannah.gnu.org/git/autoconf-archive.git

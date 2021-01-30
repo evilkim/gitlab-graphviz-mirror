@@ -173,6 +173,13 @@ add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 # =========================== Compiler configuration ===========================
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     # MSVC warning C4996 mostly fires on completely valid code. The changes
     # proposed in the warning text often seriously compromise the code
