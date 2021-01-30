@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - broken overflow checks in RectArea #1906
 - various memory leaks !1699
 - Fix bad free in lefty !1709
+- typo in pathcross #1926
 
 ## [2.46.0] - 2021-01-18
 
