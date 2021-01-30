@@ -52,8 +52,8 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     '--upload-file', path, target], stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT, universal_newlines=True)
   log.info('Curl response:')
-  for i, line in enumerate(proc.stdout.split('\n')):
-    log.info(f' {(i + 1):3}: {line}')
+  for i, line in enumerate(proc.stdout.split('\n'), 1):
+    log.info(f' {i:3}: {line}')
   proc.check_returncode()
 
   resp = proc.stdout.split('\n')[-1]
@@ -93,8 +93,8 @@ def main(args: [str]) -> int:
   if os.path.exists('/etc/os-release'):
     with open('/etc/os-release') as f:
       log.info('/etc/os-release:')
-      for i, line in enumerate(f):
-        log.info(f' {i + 1}: {line[:-1]}')
+      for i, line in enumerate(f, 1):
+        log.info(f' {i}: {line[:-1]}')
 
   # bail out early if we do not have release-cli to avoid uploading assets that
   # become orphaned when we fail to create the release
