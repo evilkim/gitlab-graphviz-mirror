@@ -24,8 +24,8 @@ def test_vmalloc():
       if platform.system() == 'Windows':
         subprocess.check_call(['cl', '-I', lib, '-nologo', src, '-Fe:', dst])
       else:
-        subprocess.check_call([os.environ.get('CC', 'cc'), '-Wall', '-Wextra',
-          '-Werror', '-I', lib, '-o', dst, src])
+        subprocess.check_call([os.environ.get('CC', 'cc'), '-std=gnu99',
+          '-Wall', '-Wextra', '-Werror', '-I', lib, '-o', dst, src])
 
       # run the unit tests
       subprocess.check_call([dst])
