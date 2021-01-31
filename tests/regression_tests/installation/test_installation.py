@@ -1,8 +1,14 @@
 import pytest
+import shutil
 import subprocess
 import os
 
-def test_installation():
+@pytest.mark.parametrize('tool', ['dot', 'dot_builtins'])
+def test_installation(tool: str):
+
+    if shutil.which(tool) is None:
+      pytext.skip(f'{tool} not available')
+
     expected_version = os.environ.get('GV_VERSION')
 
     # If $GV_VERSION is not set, run the CI step that derives it. This will fail
@@ -15,7 +21,7 @@ def test_installation():
 
     actual_version_string = subprocess.check_output(
         [
-            'dot',
+            tool,
             '-V',
         ],
         universal_newlines=True,
