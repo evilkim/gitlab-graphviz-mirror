@@ -13,6 +13,7 @@ portable-source:
         - ./autogen.sh
         - ./configure --enable-man-pdfs
         - make dist
+        - make dist-xz
     artifacts:
         when: on_success
         expire_in: 1 week
@@ -21,6 +22,7 @@ portable-source:
             - DATE
             - COLLECTION
             - graphviz-*.tar.gz
+            - graphviz-*.tar.xz
     except:
         - tags
 

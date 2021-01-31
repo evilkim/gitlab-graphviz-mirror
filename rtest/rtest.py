@@ -18,8 +18,10 @@ import argparse
 import atexit
 import pathlib
 
-TESTFILE = 'tests.txt'                # Test specifications
-GRAPHDIR = 'graphs'                   # Directory of input graphs and data
+TESTFILE = os.path.join(os.path.dirname(__file__), 'tests.txt')
+                                      # Test specifications
+GRAPHDIR = os.path.join(os.path.dirname(__file__), 'graphs')
+                                      # Directory of input graphs and data
 OUTDIR = 'ndata'                      # Directory for test output
 OUTHTML = 'nhtml'                     # Directory for html test report
 REFDIR = os.environ.get('REFDIR', '') # Directory for expected test output
