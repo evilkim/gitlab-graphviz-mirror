@@ -21,14 +21,13 @@
  * @returns 0 on success
  */
 int vmclear(Vmalloc_t *vm) {
-  size_t i;
 
-  /* free all allocated pointers */
-  for (i = 0; i < vm->size; ++i) {
+  // free all allocated pointers
+  for (size_t i = 0; i < vm->size; ++i) {
     free(vm->allocated[i]);
   }
 
-  /* reset our metadata */
+  // reset our metadata
   free(vm->allocated);
   vm->allocated = NULL;
   vm->size = vm->capacity = 0;
