@@ -122,7 +122,6 @@ map_path(node_t * from, node_t * to, edge_t * orig, edge_t * ve, int type)
 	    }
 	}
 	if (ND_rank(to) - ND_rank(from) > 1) {
-	    e = ve;
 	    if (agtail(ve) != from) {
 		ED_to_virt(orig) = NULL;
 		e = ED_to_virt(orig) = virtual_edge(from, aghead(ve), orig);

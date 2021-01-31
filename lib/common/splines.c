@@ -834,7 +834,6 @@ static void selfBottom (edge_t* edges[], int ind, int cnt,
 
     stepx = (sizex / 2.) / cnt;
     stepx = MAX(stepx,2.);
-    pointn = 0;
     np = ND_coord(n);
     tp = ED_tail_port(e).p;
     tp.x += np.x;
@@ -905,7 +904,6 @@ selfTop (edge_t* edges[], int ind, int cnt, double sizex, double stepy,
 
     stepx = (sizex / 2.) / cnt;
     stepx = MAX(stepx, 2.);
-    pointn = 0;
     np = ND_coord(n);
     tp = ED_tail_port(e).p;
     tp.x += np.x;
@@ -1010,7 +1008,6 @@ selfRight (edge_t* edges[], int ind, int cnt, double stepx, double sizey,
 
     stepy = (sizey / 2.) / cnt;
     stepy = MAX(stepy, 2.);
-    pointn = 0;
     np = ND_coord(n);
     tp = ED_tail_port(e).p;
     tp.x += np.x;
@@ -1083,7 +1080,6 @@ selfLeft (edge_t* edges[], int ind, int cnt, double stepx, double sizey,
 
     stepy = (sizey / 2.) / cnt;
     stepy = MAX(stepy,2.);
-    pointn = 0;
     np = ND_coord(n);
     tp = ED_tail_port(e).p;
     tp.x += np.x;

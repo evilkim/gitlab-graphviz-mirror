@@ -716,7 +716,6 @@ extoken_fn(Expr_t* ex)
 		b = 1;
 		n = 0;
 		po = 0;
-		t = 0;
 		for (c = t = lex(ex);; c = lex(ex))
 		{
 			switch (c)

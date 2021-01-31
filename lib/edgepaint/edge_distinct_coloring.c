@@ -202,7 +202,6 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
   if (Verbose)
     fprintf(stderr,"cos = %f, nz2 = %d\n", cos_critical, nz2);
   /* now find edge collision */
-  nz = 0;
   B = SparseMatrix_new(nz2, nz2, 1, MATRIX_TYPE_REAL, FORMAT_COORD);
 
   if (Import_dot_splines(g, &ne, &xsplines)){

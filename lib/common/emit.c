@@ -540,7 +540,6 @@ parseSegs (char* clrs, int nseg, colorsegs_t** psegs)
     }
     
     /* Make sure last positive segment is followed by a sentinel. */
-    nseg = 0;
     for (i = cnum-1; i >= 0; i--) {
 	if (s[i].t > 0) break;
     }

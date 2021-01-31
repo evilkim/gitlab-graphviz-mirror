@@ -277,7 +277,6 @@ static char *scan_num (char *p) {
         *q++ = *z++;
     }
     if ((*z == '.') && (saw_rp == FALSE)) {
-        saw_rp = TRUE;
         *q++ = *z++;
         while (isdigit (*z)) {
             saw_digit = TRUE;

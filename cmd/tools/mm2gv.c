@@ -320,7 +320,6 @@ static Agraph_t *makeDotGraph(SparseMatrix A, char *name, int dim,
 	}
     }
 
-    i = 0;
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	i = ND_id(n);
 	for (j = ia[i]; j < ia[i + 1]; j++) {

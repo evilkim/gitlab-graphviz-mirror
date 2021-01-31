@@ -1970,7 +1970,6 @@ SparseMatrix SparseMatrix_coordinate_form_add_entries(SparseMatrix A, int nentri
   assert(A->format == FORMAT_COORD);
   if (nentries <= 0) return A;
   nz = A->nz;
-  nzmax = A->nzmax;
 
   if (nz + nentries >= A->nzmax){
     nzmax = nz + nentries;

@@ -135,7 +135,6 @@ void GFXinit (void) {
     gfxnoden = GFXNODEINCR;
     for (ni = 0; ni < gfxnoden; ni++)
         gfxnodes[ni].inuse = FALSE;
-    ni = 0;
     gpp = Marrayalloc ((long) GPINCR * GPSIZE);
     gpn = GPINCR;
     wattrp = Marrayalloc ((long) WATTRINCR * WATTRSIZE);
