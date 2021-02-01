@@ -80,8 +80,5 @@
     <ClCompile Include="strmatch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="strton.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
