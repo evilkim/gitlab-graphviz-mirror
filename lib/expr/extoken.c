@@ -619,11 +619,6 @@ extoken_fn(Expr_t* ex)
 				}
 				else
 					exlval.integer = strtoll(s, &e, b);
-				if (*e)
-				{
-					*--e = 1;
-					exlval.integer *= strton(e, &e, NiL, 0);
-				}
 			}
 			exunlex(ex, c);
 			if (*e || isalpha(c) || c == '_' || c == '$')
