@@ -79,7 +79,6 @@ libSM-devel \
 libXaw-devel \
 tk-devel \
 # Test utilities
-python-pytest \
 && rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-py-1.4.32-2.el7.noarch.rpm \
 && rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-pytest-2.9.2-4.el7.noarch.rpm \
 && alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \

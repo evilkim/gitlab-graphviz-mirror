@@ -77,7 +77,6 @@ ruby-dev \
 # Language extension gv_tcl
 tcl-dev \
 # Test utilities
-python-pytest \
 python3-pytest \
 # Clean up
 && rm -rf /var/lib/apt/lists/*

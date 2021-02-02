@@ -67,7 +67,6 @@ libSM-devel \
 libXaw-devel \
 tk-devel \
 # Test utilities
-python2-pytest \
 python3-pytest \
 # Clean up
 && yum clean all && rm -rf /var/cache/yum
