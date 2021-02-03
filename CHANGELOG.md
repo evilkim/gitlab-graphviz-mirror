@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- The edges in JSON output are ordered now !1728
+
 ### Fixed
 - typos in gpcanvas.c #1927
 

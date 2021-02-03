@@ -33,6 +33,8 @@
 #include <gvc/gvio.h>
 #include <gvc/gvcint.h>
 
+#include <common/memory.h>
+
 typedef enum {
 	FORMAT_JSON,
 	FORMAT_JSON0,
@@ -460,6 +462,22 @@ static int write_subgs(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
     return 1;
 }
 
+static int agseqasc(Agedge_t **lhs, Agedge_t **rhs)
+{
+    Agedge_t *e1 = *lhs;
+    Agedge_t *e2 = *rhs;
+
+    if (AGSEQ(e1) < AGSEQ(e2)) {
+        return -1;
+    }
+    else if (AGSEQ(e1) > AGSEQ(e2)) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
 static void write_edge(Agedge_t * e, GVJ_t * job, int top, state_t* sp)
 {
     if (top) {
@@ -484,39 +502,49 @@ static void write_edge(Agedge_t * e, GVJ_t * job, int top, state_t* sp)
 
 static int write_edges(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
 {
-    Agnode_t* np;
-    Agedge_t* ep;
+    size_t count = 0;
     int not_first = 0;
 
-    np = agfstnode(g);
-    if (!np) return 0;
-    ep = NULL;
-    /* find a first edge */
-    for (; np; np = agnxtnode(g,np)) {
-	for (ep = agfstout(g, np); ep; ep = agnxtout(g,ep)) {
-	    if (ep) break;
-	}
-	if (ep) break;
+    for (Agnode_t *np = agfstnode(g); np; np = agnxtnode(g, np)) {
+        for (Agedge_t *ep = agfstout(g, np); ep; ep = agnxtout(g, ep)) {
+            ++count;
+        }
     }
-    if (!ep) return 0;
+
+    if (count == 0) {
+        return 0;
+    }
+
+    Agedge_t **edges = gcalloc(count, sizeof(Agedge_t *));
+
+    size_t i = 0;
+    for (Agnode_t *np = agfstnode(g); np; np = agnxtnode(g, np)) {
+        for (Agedge_t *ep = agfstout(g, np); ep; ep = agnxtout(g, ep)) {
+            edges[i] = ep;
+            ++i;
+        }
+    }
+
+    qsort(edges, count, sizeof(Agedge_t *), (qsort_cmpf)agseqasc);
 
     gvputs(job, ",\n");
     indent(job, sp->Level++);
     gvputs(job, "\"edges\": [\n");
     if (!top)
         indent(job, sp->Level);
-    for (; np; np = agnxtnode(g,np)) {
-	for (ep = agfstout(g, np); ep; ep = agnxtout(g,ep)) {
-	    if (not_first) 
-                if (top)
-		    gvputs(job, ",\n");
-                else
-		    gvputs(job, ",");
-	    else
-		not_first = 1;
-	    write_edge(ep, job, top, sp);
-	}
+    for (size_t j = 0; j < count; ++j) {
+        if (not_first)
+            if (top)
+                gvputs(job, ",\n");
+            else
+                gvputs(job, ",");
+        else
+            not_first = 1;
+        write_edge(edges[j], job, top, sp);
     }
+
+    free(edges);
+
     sp->Level--;
     gvputs(job, "\n");
     indent(job, sp->Level);

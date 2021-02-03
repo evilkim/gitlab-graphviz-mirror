@@ -1,5 +1,4 @@
 import json
-import pytest
 import subprocess
 
 def test_json_node_order():
@@ -35,7 +34,6 @@ def test_json_node_order():
     # the nodes should appear in the order in which they were seen in the input
     assert nodes == ['1', '2', '4', '5', '7', '6', '3', '8']
 
-@pytest.mark.xfail(strict=True)
 def test_json_edge_order():
     '''
     test that edges appear in JSON output in the same order as they were input
