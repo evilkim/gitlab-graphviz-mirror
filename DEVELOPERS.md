@@ -54,6 +54,8 @@ See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/master/gen_ve
 
 ### Instructions
 
+#### Creating the release
+
 1. Check that the
 [master pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=master)
 is green
@@ -118,6 +120,8 @@ is green
    The “deployment” CI task will also create a Git tag for the version, e.g.
    `2.44.1`.
 
+#### Returning to the development series
+
 1. Create a new local branch and name it e.g. `return-to-<version>-dev`
 
    Example: `return-to-2.45-dev`
@@ -143,6 +147,29 @@ is green
 1. Wait until the pipeline has run for your new branch and check that it's green
 
 1. Create a merge request
+
+1. Merge the merge request
+
+#### Updating the website
+
+1. Fork the
+   [Graphviz website repository](https://gitlab.com/graphviz/graphviz.gitlab.io)
+   if you do not already have a fork of it
+
+1. Checkout the latest master branch
+
+1. Create a local branch
+
+1. Update the download pages, download.md and download/source/index.md, with
+   details of the new release
+
+1. Commit this to your local branch
+
+1. Push this to a branch in your fork
+
+1. Create a merge request
+
+1. Wait for CI to pass
 
 1. Merge the merge request
 
