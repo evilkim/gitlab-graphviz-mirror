@@ -699,11 +699,11 @@ int GPbitblt (
             bitmap->u.bits + 3 * ((int) bitmap->size.x * (br.o.y + y) + br.o.x)
         );
         for (x = 0; x < bs.x; x++) {
-            hi = (*s >> 4) & 15, lo = *s++ && 15;
+            hi = (*s >> 4) & 15, lo = *s++ & 15;
             fprintf (FP, "%x%x", hi, lo);
-            hi = (*s >> 4) & 15, lo = *s++ && 15;
+            hi = (*s >> 4) & 15, lo = *s++ & 15;
             fprintf (FP, "%x%x", hi, lo);
-            hi = (*s >> 4) & 15, lo = *s++ && 15;
+            hi = (*s >> 4) & 15, lo = *s++ & 15;
             fprintf (FP, "%x%x", hi, lo);
         }
         fprintf (FP, "\n");

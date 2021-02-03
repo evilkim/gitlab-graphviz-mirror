@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- typos in gpcanvas.c #1927
+
 ## [2.46.0] - 2021-02-13
 
 ### Added
