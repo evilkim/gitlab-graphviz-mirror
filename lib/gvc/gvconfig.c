@@ -25,7 +25,6 @@
 #define GLOB_ABORTED    2   /* Read error.  */
 #define GLOB_NOMATCH    3   /* No matches found.  */
 #define GLOB_NOSORT     4
-#define DMKEY "Software\\Microsoft" //key to look for library dir
 typedef struct {
     int gl_pathc;           /* count of total paths so far */
     int gl_matchc;          /* count of paths matching pattern */
