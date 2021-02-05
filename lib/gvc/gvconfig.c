@@ -14,8 +14,9 @@
 
 #include <gvc/gvconfig.h>
 
+#include <ctype.h>
+#include <stdbool.h>
 #include	<string.h>
-#include    <regex.h>
 
 #ifdef ENABLE_LTDL
 #include	<sys/types.h>
@@ -360,39 +361,107 @@ char * gvconfig_libdir(GVC_t * gvc)
 #endif
 
 #ifdef ENABLE_LTDL
+// does this path look like a Graphviz plugin of our version?
+static bool is_plugin(const char *filepath) {
+
+    if (filepath == NULL) {
+	return false;
+    }
+
+    // shared library suffix to strip before looking for version number
+#if defined(DARWIN_DYLIB)
+    static const char SUFFIX[] = ".dylib";
+#elif defined(__MINGW32__) || defined(__CYGWIN__) || defined(_WIN32)
+    static const char SUFFIX[] = ".dll";
+#else
+    static const char SUFFIX[] = "";
+#endif
+
+    // does this filename end with the expected suffix?
+    size_t len = strlen(filepath);
+    if (len < strlen(SUFFIX)
+        || strcmp(filepath + len - strlen(SUFFIX), SUFFIX) != 0) {
+	return false;
+    }
+    len -= strlen(SUFFIX);
+
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
+    // Windows libraries do not have a version in the filename
+
+#elif defined(GVPLUGIN_VERSION)
+    // turn GVPLUGIN_VERSION into a string
+    #define STRINGIZE_(x) #x
+    #define STRINGIZE(x) STRINGIZE_(x)
+    static const char VERSION[] = STRINGIZE(GVPLUGIN_VERSION);
+    #undef STRINGIZE
+    #undef STRINGIZE_
+
+    // does this filename contain the expected version?
+    if (len < strlen(VERSION)
+        || strncmp(filepath + len - strlen(VERSION), VERSION,
+          strlen(VERSION)) != 0) {
+	return false;
+    }
+    len -= strlen(VERSION);
+
+#else
+    // does this filename have a version?
+    if (len == 0 || !isdigit(filepath[len - 1])) {
+	return false;
+    }
+    while (len > 0 && isdigit(filepath[len - 1])) {
+	--len;
+    }
+
+#endif
+
+    // ensure the remainder conforms to what we expect of a shared library
+#if defined(DARWIN_DYLIB)
+    if (len < 2 || isdigit(filepath[len - 2]) || filepath[len - 1] != '.') {
+	return false;
+    }
+#elif defined(__MINGW32__) || defined(__CYGWIN__)
+    if (len < 2 || isdigit(filepath[len - 2]) || filepath[len - 1] != '-') {
+	return false;
+    }
+#elif defined(_WIN32)
+    if (len < 1 || isdigit(filepath[len - 1])) {
+	return false;
+    }
+#elif ((defined(__hpux__) || defined(__hpux)) && !(defined(__ia64)))
+    static const char SL[] = ".sl.";
+    if (len < strlen(SL)
+        || strncmp(filepath + len - strlen(SL), SL, strlen(SL)) != 0) {
+	return false;
+    }
+#else
+    static const char SO[] = ".so.";
+    if (len < strlen(SO)
+        || strncmp(filepath + len - strlen(SO), SO, strlen(SO)) != 0) {
+	return false;
+    }
+#endif
+
+    return true;
+}
+
 static void config_rescan(GVC_t *gvc, char *config_path)
 {
     FILE *f = NULL;
     glob_t globbuf;
-    char *config_glob, *config_re, *path, *libdir;
-    int i, rc, re_status;
+    char *config_glob, *path, *libdir;
+    int i, rc;
     gvplugin_library_t *library;
-    regex_t re;
-#ifndef _WIN32
-    char *plugin_glob = "libgvplugin_*";
-#endif
 #if defined(DARWIN_DYLIB)
-    char *plugin_re_beg = "[^0-9]\\.";
-    char *plugin_re_end = "\\.dylib$";
+    char *plugin_glob = "libgvplugin_*";
 #elif defined(__MINGW32__)
 	char *plugin_glob = "libgvplugin_*";
-	char *plugin_re_beg = "[^0-9]-";
-    char *plugin_re_end = "\\.dll$"; 
 #elif defined(__CYGWIN__)
-    plugin_glob = "cyggvplugin_*";
-    char *plugin_re_beg = "[^0-9]-";
-    char *plugin_re_end = "\\.dll$"; 
+    char *plugin_glob = "cyggvplugin_*";
 #elif defined(_WIN32)
     char *plugin_glob = "gvplugin_*";
-    char *plugin_re_beg = "[^0-9]";
-    char *plugin_re_end = "\\.dll$"; 
-#elif ((defined(__hpux__) || defined(__hpux)) && !(defined(__ia64)))
-    char *plugin_re_beg = "\\.sl\\.";
-    char *plugin_re_end = "$"; 
 #else
-    /* Everyone else */
-    char *plugin_re_beg = "\\.so\\.";
-    char *plugin_re_end= "$";
+    char *plugin_glob = "libgvplugin_*";
 #endif
 
     if (config_path) {
@@ -411,20 +480,6 @@ static void config_rescan(GVC_t *gvc, char *config_path)
 
     libdir = gvconfig_libdir(gvc);
 
-    config_re = gmalloc(strlen(plugin_re_beg) + 20 + strlen(plugin_re_end) + 1);
-
-#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
-    sprintf(config_re,"%s%s", plugin_re_beg, plugin_re_end);
-#elif defined(GVPLUGIN_VERSION)
-    sprintf(config_re,"%s%d%s", plugin_re_beg, GVPLUGIN_VERSION, plugin_re_end);
-#else
-    sprintf(config_re,"%s[0-9]+%s", plugin_re_beg, plugin_re_end);
-#endif
-
-    if (regcomp(&re, config_re, REG_EXTENDED|REG_NOSUB) != 0) {
-	agerr(AGERR,"cannot compile regular expression %s", config_re);
-    }
-
     config_glob = gmalloc(strlen(libdir) + 1 + strlen(plugin_glob) + 1);
     strcpy(config_glob, libdir);
 	strcat(config_glob, DIRSEP);
@@ -439,8 +494,7 @@ static void config_rescan(GVC_t *gvc, char *config_path)
 #endif
     if (rc == 0) {
 	for (i = 0; i < globbuf.gl_pathc; i++) {
-	    re_status = regexec(&re, globbuf.gl_pathv[i], (size_t) 0, NULL, 0);
-	    if (re_status == 0) {
+	    if (is_plugin(globbuf.gl_pathv[i])) {
 		library = gvplugin_library_load(gvc, globbuf.gl_pathv[i]);
 		if (library) {
 		    gvconfig_plugin_install_from_library(gvc, globbuf.gl_pathv[i], library);
@@ -449,8 +503,7 @@ static void config_rescan(GVC_t *gvc, char *config_path)
 	}
 	/* rescan with all libs loaded to check cross dependencies */
 	for (i = 0; i < globbuf.gl_pathc; i++) {
-	    re_status = regexec(&re, globbuf.gl_pathv[i], (size_t) 0, NULL, 0);
-	    if (re_status == 0) {
+	    if (is_plugin(globbuf.gl_pathv[i])) {
 		library = gvplugin_library_load(gvc, globbuf.gl_pathv[i]);
 		if (library) {
 		    path = strrchr(globbuf.gl_pathv[i],DIRSEP[0]);
@@ -462,10 +515,8 @@ static void config_rescan(GVC_t *gvc, char *config_path)
 	    }
 	}
     }
-    regfree(&re);
     globfree(&globbuf);
     free(config_glob);
-    free(config_re);
     if (f)
 	fclose(f);
 }
