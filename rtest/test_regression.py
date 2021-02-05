@@ -718,3 +718,32 @@ def test_1913():
       input = align.upper()
       _, stderr = run(graph.format(input))
       assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+
+def test_1931():
+    '''
+    New lines within strings should not be discarded during parsing
+
+    '''
+
+    # a graph with \n inside of strings
+    graph = 'graph {\n'                 \
+            '  node1 [label="line 1\n'  \
+            'line 2\n'                  \
+            '"];\n'                     \
+            '  node2 [label="line 3\n'  \
+            'line 4"];\n'                \
+            '  node1 -- node2\n'        \
+            '  node2 -- "line 5\n'      \
+            'line 6"\n'                 \
+            '}'
+
+    # ask Graphviz to process this to dot output
+    p = subprocess.Popen(['dot', '-Txdot'], stdin=subprocess.PIPE,
+      stdout=subprocess.PIPE, universal_newlines=True)
+    xdot, _ = p.communicate(graph)
+    assert p.returncode == 0
+
+    # all new lines in strings should have been preserved
+    assert 'line 1\nline 2\n' in xdot
+    assert 'line 3\nline 4' in xdot
+    assert 'line 5\nline 6' in xdot
