@@ -135,7 +135,7 @@ static Agdatadict_t *agmakedatadict(Agraph_t * g)
 static Agsym_t *agdictsym(Dict_t * dict, char *name)
 {
     Agsym_t key;
-    key.name = (char *) name;
+    key.name = name;
     return dtsearch(dict, &key);
 }
 
