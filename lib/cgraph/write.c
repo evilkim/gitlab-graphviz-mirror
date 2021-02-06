@@ -242,7 +242,7 @@ static int write_dict(Agraph_t * g, iochan_t * ofile, char *name,
 	view = dtview(dict, NULL);
     else
 	view = 0;
-    for (sym = (Agsym_t *) dtfirst(dict); sym;
+    for (sym = dtfirst(dict); sym;
 	 sym = (Agsym_t *) dtnext(dict, sym)) {
 	if (EMPTY(sym->defval) && !sym->print) {	/* try to skip empty str (default) */
 	    if (view == NULL)
@@ -408,7 +408,7 @@ static int not_default_attrs(Agraph_t * g, Agnode_t * n)
 
     NOTUSED(g);
     if ((data = agattrrec(n))) {
-	for (sym = (Agsym_t *) dtfirst(data->dict); sym;
+	for (sym = dtfirst(data->dict); sym;
 	     sym = (Agsym_t *) dtnext(data->dict, sym)) {
 	    if (data->str[sym->id] != sym->defval)
 		return TRUE;
@@ -474,7 +474,7 @@ static int write_nondefault_attrs(void *obj, iochan_t * ofile,
     data = agattrrec(obj);
     g = agraphof(obj);
     if (data)
-	for (sym = (Agsym_t *) dtfirst(defdict); sym;
+	for (sym = dtfirst(defdict); sym;
 	     sym = (Agsym_t *) dtnext(defdict, sym)) {
 	    if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
 		if (Tailport && (sym->id == Tailport->id))

@@ -1136,7 +1136,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		if (expr->data.generate.array->op == DYNAMIC)
 		{
 			n = expr->data.generate.index->type == STRING;
-			for (assoc = (Exassoc_t*)dtfirst((Dt_t*)expr->data.generate.array->data.variable.symbol->local.pointer); assoc; assoc = (Exassoc_t*)dtnext((Dt_t*)expr->data.generate.array->data.variable.symbol->local.pointer, assoc))
+			for (assoc = dtfirst((Dt_t*)expr->data.generate.array->data.variable.symbol->local.pointer); assoc; assoc = (Exassoc_t*)dtnext((Dt_t*)expr->data.generate.array->data.variable.symbol->local.pointer, assoc))
 			{
 				v.integer++;
 				if (n)

@@ -542,7 +542,7 @@ dumpChanG (channel* cp, int v)
     if (dtsize(adj) == 0) continue;
     putSeg (stderr, cp->seg_list[k]);
     fputs (" ->\n", stderr);
-    for (ip = (intitem*)dtfirst(adj); ip; ip = (intitem*)dtnext(adj, ip)) {
+    for (ip = dtfirst(adj); ip; ip = (intitem*)dtnext(adj, ip)) {
       fputs ("     ", stderr);
       putSeg (stderr, cp->seg_list[ip->id]);
       fputs ("\n", stderr);

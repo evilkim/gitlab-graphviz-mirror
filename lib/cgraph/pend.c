@@ -241,7 +241,7 @@ static void cb(Dict_t * dict, int callback_kind)
     Agcbstack_t *stack;
 
     if (dict)
-	while ((pcb = (pending_cb_t *) dtfirst(dict))) {
+	while ((pcb = dtfirst(dict))) {
 	    g = pcb->g;
 	    stack = g->clos->cb;
 	    switch (callback_kind) {

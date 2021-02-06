@@ -30,7 +30,7 @@ Agedge_t *agfstout(Agraph_t * g, Agnode_t * n)
     sn = agsubrep(g, n);
     if (sn) {
 		dtrestore(g->e_seq, sn->out_seq);
-		e = (Agedge_t *) dtfirst(g->e_seq);
+		e = dtfirst(g->e_seq);
 		sn->out_seq = dtextract(g->e_seq);
 	}
     return e;
@@ -61,7 +61,7 @@ Agedge_t *agfstin(Agraph_t * g, Agnode_t * n)
     sn = agsubrep(g, n);
 	if (sn) {
 		dtrestore(g->e_seq, sn->in_seq);
-		e = (Agedge_t *) dtfirst(g->e_seq);
+		e = dtfirst(g->e_seq);
 		sn->in_seq = dtextract(g->e_seq);
 	}
     return e;

@@ -71,7 +71,7 @@ Agraph_t *agsubg(Agraph_t * g, char *name, int cflag)
 
 Agraph_t *agfstsubg(Agraph_t * g)
 {
-    return (Agraph_t *) dtfirst(g->g_dict);
+    return dtfirst(g->g_dict);
 }
 
 Agraph_t *agnxtsubg(Agraph_t * subg)

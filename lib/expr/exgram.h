@@ -1025,7 +1025,7 @@ excomp(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 	p->eof = eof;
 	if (expr.statics)
 	{
-		for (v = (Exid_t*)dtfirst(p->symbols); v; v = (Exid_t*)dtnext(p->symbols, v))
+		for (v = dtfirst(p->symbols); v; v = (Exid_t*)dtnext(p->symbols, v))
 			if (v->isstatic)
 			{
 				dtdelete(p->symbols, v);

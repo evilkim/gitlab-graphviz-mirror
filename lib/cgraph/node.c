@@ -38,7 +38,7 @@ static Agnode_t *agfindnode_by_name(Agraph_t * g, char *name)
 Agnode_t *agfstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
-    sn = (Agsubnode_t *) dtfirst(g->n_seq);
+    sn = dtfirst(g->n_seq);
     return sn ? sn->node : NULL;
 }
 
