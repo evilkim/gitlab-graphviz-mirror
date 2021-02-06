@@ -26,7 +26,6 @@
 #cmakedefine HAVE_GETENV
 #cmakedefine HAVE_LRAND48
 #cmakedefine HAVE_MALLINFO
-#cmakedefine HAVE_MALLOPT
 #cmakedefine HAVE_MSTATS
 #cmakedefine HAVE_SETENV
 #cmakedefine HAVE_SETMODE
