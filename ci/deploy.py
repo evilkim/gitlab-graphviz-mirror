@@ -52,8 +52,8 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     '--upload-file', path, target], stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT, universal_newlines=True)
   log.info('Curl response:')
-  for i, line in enumerate(proc.stdout.split('\n')):
-    log.info(f' {(i + 1):3}: {line}')
+  for i, line in enumerate(proc.stdout.split('\n'), 1):
+    log.info(f' {i:3}: {line}')
   proc.check_returncode()
 
   resp = proc.stdout.split('\n')[-1]
@@ -93,20 +93,14 @@ def main(args: [str]) -> int:
   if os.path.exists('/etc/os-release'):
     with open('/etc/os-release') as f:
       log.info('/etc/os-release:')
-      for i, line in enumerate(f):
-        log.info(f' {i + 1}: {line[:-1]}')
+      for i, line in enumerate(f, 1):
+        log.info(f' {i}: {line[:-1]}')
 
   # bail out early if we do not have release-cli to avoid uploading assets that
   # become orphaned when we fail to create the release
   if not shutil.which('release-cli'):
     log.error('release-cli not found')
     return -1
-
-  # the generic package version has to be \d+.\d+.\d+ but it does not need to
-  # correspond to the release version (which may not conform to this pattern if
-  # this is a dev release), so generate a compliant generic package version
-  package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
-  log.info(f'using generated generic package version {package_version}')
 
   # retrieve version name left by prior CI tasks
   log.info('reading VERSION')
@@ -117,6 +111,17 @@ def main(args: [str]) -> int:
   # if we were not passed an explicit version, use the one from the VERSION file
   if options.version is None:
     options.version = gv_version
+
+  # the generic package version has to be \d+.\d+.\d+ but it does not need to
+  # correspond to the release version (which may not conform to this pattern if
+  # this is a dev release)
+  if re.match(r'\d+\.\d+\.\d+$', options.version) is None:
+    # generate a compliant version
+    package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
+  else:
+    # we can use a version corresponding to the release version
+    package_version = options.version
+  log.info(f'using generic package version {package_version}')
 
   # list of assets we have uploaded
   assets: [str] = []
