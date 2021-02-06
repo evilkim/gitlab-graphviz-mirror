@@ -210,7 +210,7 @@ static void vmapAdd(Dt_t * map, int i, int j)
 static int vMap(Dt_t * map, int i)
 {
     Ipair *ip;
-    ip = (Ipair *) dtmatch(map, &i);
+    ip = dtmatch(map, &i);
     return ip->j;
 }
 

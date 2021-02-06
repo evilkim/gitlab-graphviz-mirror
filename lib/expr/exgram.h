@@ -629,7 +629,7 @@ qualify(Exref_t* ref, Exid_t* sym)
 		ref = ref->next;
 	sfprintf(expr.program->tmp, "%s.%s", ref->symbol->name, sym->name);
 	s = exstash(expr.program->tmp, NiL);
-	if (!(x = (Exid_t*)dtmatch(expr.program->symbols, s)))
+	if (!(x = dtmatch(expr.program->symbols, s)))
 	{
 		if ((x = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
 		{

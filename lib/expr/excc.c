@@ -698,7 +698,7 @@ excc(Excc_t* cc, const char* name, Exid_t* sym, int type)
 	if (!cc)
 		return -1;
 	if (!sym)
-		sym = name ? (Exid_t*)dtmatch(cc->expr->symbols, name) : &cc->expr->main;
+		sym = name ? dtmatch(cc->expr->symbols, name) : &cc->expr->main;
 	if (sym && sym->lex == PROCEDURE && sym->value)
 	{
 		t = extype(type);

@@ -643,14 +643,14 @@ static Dtdisc_t intDisc = {
 
 static int lookup (Dt_t* map, char* name)
 {
-    intm* ip = (intm*)dtmatch(map, name);    
+    intm* ip = dtmatch(map, name);
     if (ip) return ip->v;
     else return -1;
 }
  
 static void insert (Dt_t* map, char* name, int v)
 {
-    intm* ip = (intm*)dtmatch(map, name);    
+    intm* ip = dtmatch(map, name);
 
     if (ip) {
 	if (ip->v != v)

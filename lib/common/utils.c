@@ -1078,7 +1078,7 @@ static item *mapEdge(Dt_t * map, edge_t * e)
 
     key[0] = agtail(e);
     key[1] = aghead(e);
-    return (item *) dtmatch(map, &key);
+    return dtmatch(map, &key);
 }
 
 /* checkCompound:
