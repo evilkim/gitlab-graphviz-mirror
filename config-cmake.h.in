@@ -1,6 +1,5 @@
 // Include headers
 #cmakedefine HAVE_FCNTL_H
-#cmakedefine HAVE_MALLOC_H
 #cmakedefine HAVE_SEARCH_H
 #cmakedefine HAVE_STAT_H
 #cmakedefine HAVE_STRINGS_H
