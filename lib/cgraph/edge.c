@@ -47,7 +47,7 @@ Agedge_t *agnxtout(Agraph_t * g, Agedge_t * e)
     sn = agsubrep(g, n);
     if (sn) {
 		dtrestore(g->e_seq, sn->out_seq);
-		f = (Agedge_t *) dtnext(g->e_seq, e);
+		f = dtnext(g->e_seq, e);
 		sn->out_seq = dtextract(g->e_seq);
 	}
     return f;

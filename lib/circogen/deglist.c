@@ -147,7 +147,7 @@ void printDeglist(deglist_t * dl)
     degitem *ip;
     node_t *np;
     fprintf(stderr, " dl:\n");
-    for (ip = dtfirst(dl); ip; ip = (degitem *) dtnext(dl, ip)) {
+    for (ip = dtfirst(dl); ip; ip = dtnext(dl, ip)) {
 	np = ip->np;
 	if (np)
 	    fprintf(stderr, " (%d)", ip->deg);

@@ -46,7 +46,7 @@ Agnode_t *agnxtnode(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
-    if (sn) sn = ((Agsubnode_t *) dtnext(g->n_seq, sn));
+    if (sn) sn = dtnext(g->n_seq, sn);
     return sn ? sn->node : NULL;
 }
 

@@ -412,8 +412,7 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
     Agsym_t *sym, *psym;
 
     view = dtview(dict, NULL);
-    for (sym = dtfirst(dict); sym;
-	 sym = (Agsym_t *) dtnext(dict, sym)) {
+    for (sym = dtfirst(dict); sym; sym = dtnext(dict, sym)) {
 	if (!isGxlGrammar(sym->name)) {
 	    if (EMPTY(sym->defval)) {	/* try to skip empty str (default) */
 		if (view == NULL)
@@ -619,8 +618,7 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
     }
     data = (Agattr_t *) agattrrec(obj);
     if (data) {
-	for (sym = dtfirst(defdict); sym;
-	     sym = (Agsym_t *) dtnext(defdict, sym)) {
+	for (sym = dtfirst(defdict); sym; sym = dtnext(defdict, sym)) {
 	    if (!isGxlGrammar(sym->name)) {
 		if ((AGTYPE(obj) == AGINEDGE)
 		    || (AGTYPE(obj) == AGOUTEDGE)) {

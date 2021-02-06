@@ -111,8 +111,7 @@ int sizeNodeset(nodeset_t * ns)
 void printNodeset(nodeset_t * ns)
 {
     nsitem_t *ip;
-    for (ip = dtfirst(ns); ip;
-	 ip = (nsitem_t *) dtnext(ns, ip)) {
+    for (ip = dtfirst(ns); ip; ip = dtnext(ns, ip)) {
 	fprintf(stderr, "%s", agnameof(ip->np));
     }
     fputs("\n", stderr);

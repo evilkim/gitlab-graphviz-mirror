@@ -732,7 +732,7 @@ exdump(Expr_t* expr, Exnode_t* node, Sfio_t* sp)
 	if (node)
 		gen(cc, node);
 	else
-		for (sym = dtfirst(expr->symbols); sym; sym = (Exid_t*)dtnext(expr->symbols, sym))
+		for (sym = dtfirst(expr->symbols); sym; sym = dtnext(expr->symbols, sym))
 			if (sym->lex == PROCEDURE && sym->value)
 			{
 				sfprintf(sp, "%s:\n", sym->name);

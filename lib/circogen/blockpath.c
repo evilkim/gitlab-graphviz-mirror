@@ -424,8 +424,7 @@ static int count_all_crossings(nodelist_t * list, Agraph_t * subg)
 		Agedge_t *ep;
 
 		for (eitem = dtfirst(openEdgeList); eitem;
-		     eitem =
-		     (edgelistitem *) dtnext(openEdgeList, eitem)) {
+		     eitem = dtnext(openEdgeList, eitem)) {
 		    ep = eitem->edge;
 		    if (EDGEORDER(ep) > EDGEORDER(e)) {
 			if ((aghead(ep) != n) && (agtail(ep) != n))

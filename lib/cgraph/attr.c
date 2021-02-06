@@ -94,8 +94,7 @@ static void agcopydict(Dict_t * src, Dict_t * dest, Agraph_t * g, int kind)
     Agsym_t *sym, *newsym;
 
     assert(dtsize(dest) == 0);
-    for (sym = dtfirst(src); sym;
-	 sym = (Agsym_t *) dtnext(src, sym)) {
+    for (sym = dtfirst(src); sym; sym = dtnext(src, sym)) {
 	newsym = agnewsym(g, sym->name, sym->defval, sym->id, kind);
 	newsym->print = sym->print;
 	newsym->fixed = sym->fixed;
@@ -197,8 +196,7 @@ static Agrec_t *agmakeattrs(Agraph_t * context, void *obj)
 	    sz = MINATTR;
 	rec->str = agalloc(agraphof(obj), (size_t) sz * sizeof(char *));
 	/* doesn't call agxset() so no obj-modified callbacks occur */
-	for (sym = dtfirst(datadict); sym;
-	     sym = (Agsym_t *) dtnext(datadict, sym))
+	for (sym = dtfirst(datadict); sym; sym = dtnext(datadict, sym))
 	    rec->str[sym->id] = agstrdup(agraphof(obj), sym->defval);
     } else {
 	assert(rec->dict == datadict);
@@ -348,7 +346,7 @@ Agsym_t *agnxtattr(Agraph_t * g, int kind, Agsym_t * attr)
 
     if ((d = agdictof(g, kind))) {
 	if (attr)
-	    rv = (Agsym_t *) dtnext(d, attr);
+	    rv = dtnext(d, attr);
 	else
 	    rv = dtfirst(d);
     } else

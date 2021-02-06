@@ -245,7 +245,7 @@ mkText(void)
     if (cnt) {
 	int i = 0;
 	hft->spans = N_NEW(cnt,htextspan_t);	
-    	for(fl=dtfirst(ispan); fl; fl=(fspan *)dtnext(ispan,fl)) {
+    	for(fl=dtfirst(ispan); fl; fl=dtnext(ispan,fl)) {
     	    hft->spans[i] = fl->lp;
     	    i++;
     	}
