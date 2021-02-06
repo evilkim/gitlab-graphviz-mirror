@@ -212,12 +212,6 @@ centos8-build:
         - linux
     image: "graphviz/graphviz:centos8"
 
-fedora31-build:
-    <<: *rpm_build_definition
-    tags:
-        - linux
-    image: "graphviz/graphviz:fedora31"
-
 fedora32-build:
     <<: *rpm_build_definition
     tags:
@@ -306,7 +300,7 @@ centos7-cmake-build:
         - linux
     image: "graphviz/graphviz:centos7"
 
-fedora31-cmake-build:
+fedora32-cmake-build:
     <<: *rpm_build_definition
     before_script:
         - export build_system="cmake"
@@ -316,7 +310,7 @@ fedora31-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "graphviz/graphviz:fedora31"
+    image: "graphviz/graphviz:fedora32"
 
 macos-cmake-build:
     <<: *macos_build_definition
@@ -466,19 +460,6 @@ centos8-test:
         - linux
     image: "graphviz/graphviz:centos8"
 
-fedora31-test:
-    <<: *test_definition
-    before_script:
-        - export build_system="autotools"
-    needs:
-        - job: portable-source
-          artifacts: true
-        - job: "fedora31-build"
-          artifacts: true
-    tags:
-        - linux
-    image: "graphviz/graphviz:fedora31"
-
 fedora32-test:
     <<: *test_definition
     before_script:
@@ -563,7 +544,7 @@ centos7-cmake-test:
         - linux
     image: "graphviz/graphviz:centos7"
 
-fedora31-cmake-test:
+fedora32-cmake-test:
     <<: *test_definition
     before_script:
         - export build_system="cmake"
@@ -571,11 +552,11 @@ fedora31-cmake-test:
     needs:
         - job: portable-source
           artifacts: true
-        - job: "fedora31-cmake-build"
+        - job: "fedora32-cmake-build"
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:fedora31"
+    image: "graphviz/graphviz:fedora32"
 
 macos-cmake-test:
     <<: *test_definition
