@@ -19,7 +19,7 @@ static Agraph_t *agfindsubg_by_id(Agraph_t * g, IDTYPE id)
 
     agdtdisc(g, g->g_dict, &Ag_subgraph_id_disc);
     AGID(&template) = id;
-    return (Agraph_t *) dtsearch(g->g_dict, &template);
+    return dtsearch(g->g_dict, &template);
 }
 
 static Agraph_t *localsubg(Agraph_t * g, IDTYPE id)

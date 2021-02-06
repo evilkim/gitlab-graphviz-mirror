@@ -417,7 +417,7 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 	    if (EMPTY(sym->defval)) {	/* try to skip empty str (default) */
 		if (view == NULL)
 		    continue;	/* no parent */
-		psym = (Agsym_t *) dtsearch(view, sym);
+		psym = dtsearch(view, sym);
 		/* assert(psym); */
 		if (EMPTY(psym->defval))
 		    continue;	/* also empty in parent */
@@ -457,7 +457,7 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 		if (EMPTY(sym->defval)) {
 		    if (view == NULL)
 			continue;
-		    psym = (Agsym_t *) dtsearch(view, sym);
+		    psym = dtsearch(view, sym);
 		    if (EMPTY(psym->defval))
 			continue;
 		}

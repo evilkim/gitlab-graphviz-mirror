@@ -246,7 +246,7 @@ static int write_dict(Agraph_t * g, iochan_t * ofile, char *name,
 	if (EMPTY(sym->defval) && !sym->print) {	/* try to skip empty str (default) */
 	    if (view == NULL)
 		continue;	/* no parent */
-	    psym = (Agsym_t *) dtsearch(view, sym);
+	    psym = dtsearch(view, sym);
 	    assert(psym);
 	    if (EMPTY(psym->defval) && psym->print)
 		continue;	/* also empty in parent */

@@ -71,7 +71,7 @@ static refstr_t *refsymbind(Dict_t * strdict, char *s)
 {
     refstr_t key, *r;
     key.s = s;
-    r = (refstr_t *) dtsearch(strdict, &key);
+    r = dtsearch(strdict, &key);
     return r;
 }
 

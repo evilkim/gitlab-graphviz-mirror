@@ -139,7 +139,7 @@ static pending_cb_t *lookup(Dict_t * dict, Agobj_t * obj)
     pending_cb_t key, *rv;
 
     key.key = genkey(obj);
-    rv = (pending_cb_t *) dtsearch(dict, &key);
+    rv = dtsearch(dict, &key);
     return rv;
 }
 

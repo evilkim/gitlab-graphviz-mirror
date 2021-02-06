@@ -102,7 +102,7 @@ void removeDeglist(deglist_t * list, Agnode_t * n)
     Agnode_t *prev;
 
     key.deg = DEGREE(n);
-    ip = (degitem *) dtsearch(list, &key);
+    ip = dtsearch(list, &key);
     assert(ip);
     if (ip->np == n) {
 	ip->np = ND_next(n);

@@ -136,7 +136,7 @@ static Agsym_t *agdictsym(Dict_t * dict, char *name)
 {
     Agsym_t key;
     key.name = (char *) name;
-    return (Agsym_t *) dtsearch(dict, &key);
+    return dtsearch(dict, &key);
 }
 
 /* look up attribute in local dictionary with no view pathing */

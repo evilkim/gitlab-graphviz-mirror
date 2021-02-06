@@ -21,7 +21,7 @@ Agnode_t *agfindnode_by_id(Agraph_t * g, IDTYPE id)
 
     dummy.base.tag.id = id;
     template.node = &dummy;
-    sn = (Agsubnode_t *) dtsearch(g->n_id, &template);
+    sn = dtsearch(g->n_id, &template);
     return sn ? sn->node : NULL;
 }
 

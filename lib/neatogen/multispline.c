@@ -148,7 +148,7 @@ static int findMap(Dt_t * map, int a, int b)
     }
     it.a[0] = a;
     it.a[1] = b;
-    ip = (item *) dtsearch(map, &it);
+    ip = dtsearch(map, &it);
     assert(ip);
     return ip->t;
 }
