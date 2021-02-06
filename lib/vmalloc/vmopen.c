@@ -17,9 +17,8 @@
  * @returns A newly allocated Vmalloc or NULL on failure
  */
 Vmalloc_t *vmopen(void) {
-  Vmalloc_t *vm;
 
-  vm = calloc(1, sizeof(*vm));
+  Vmalloc_t *vm = calloc(1, sizeof(*vm));
   if (vm == NULL) {
     return NULL;
   }

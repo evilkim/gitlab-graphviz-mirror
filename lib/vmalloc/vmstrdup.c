@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /*************************************************************************
  * Copyright (c) 2011 AT&T Intellectual Property 
  * All rights reserved. This program and the accompanying materials
@@ -10,7 +8,7 @@
  * Contributors: Details at http://www.graphviz.org/
  *************************************************************************/
 
-
+#include <stddef.h>
 #include <string.h>
 #include	<vmalloc/vmhdr.h>
 /*
@@ -19,11 +17,14 @@
 
 char *vmstrdup(Vmalloc_t * v, const char *s)
 {
-    char *t;
-    int n;
 
-    return ((t =
-	     vmalloc(v, n =
-		     strlen(s) + 1)) ? (char *) memcpy(t, s,
-						       n) : (char *) 0);
+  size_t len = strlen(s) + 1;
+  char *t = vmalloc(v, len);
+  if (t == NULL) {
+    return NULL;
+  }
+
+  memcpy(t, s, len);
+
+  return t;
 }

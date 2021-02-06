@@ -22,16 +22,15 @@
 static bool make_space(Vmalloc_t *vm) {
 
   if (vm->size == vm->capacity) {
-    void **p;
 
-    /* expand our allocation storage */
+    // expand our allocation storage
     size_t c = vm->capacity == 0 ? 1 : vm->capacity * 2;
-    p = realloc(vm->allocated, sizeof(vm->allocated[0]) * c);
+    void **p = realloc(vm->allocated, sizeof(vm->allocated[0]) * c);
     if (p == NULL) {
       return false;
     }
 
-    /* save the new array */
+    // save the new array
     vm->allocated = p;
     vm->capacity = c;
   }
@@ -46,13 +45,12 @@ static bool make_space(Vmalloc_t *vm) {
  * @returns Memory fulfilling the allocation request or NULL on failure
  */
 void *bestalloc(Vmalloc_t *vm, size_t size) {
-  void *p;
 
   if (!make_space(vm)) {
     return NULL;
   }
 
-  p = malloc(size);
+  void *p = malloc(size);
   if (p == NULL) {
     return NULL;
   }
@@ -70,29 +68,28 @@ void *bestalloc(Vmalloc_t *vm, size_t size) {
  * @returns 0 on success
  */
 int bestfree(Vmalloc_t *vm, void *data) {
-  size_t i;
 
-  if (!data) { /* ANSI-ism */
+  if (!data) { // ANSI-ism
     return 0;
   }
 
-  /* find the pointer we previously allocated */
-  for (i = 0; i < vm->size; ++i) {
+  // find the pointer we previously allocated
+  for (size_t i = 0; i < vm->size; ++i) {
     if (vm->allocated[i] == data) {
 
-      /* clear this slot */
+      // clear this slot
       size_t extent = sizeof(vm->allocated[0]) * (vm->size - i - 1);
       memmove(vm->allocated + i, vm->allocated + i + 1, extent);
       --vm->size;
 
-      /* give this back to the underlying allocator */
+      // give this back to the underlying allocator
       free(data);
 
       return 0;
     }
   }
 
-  /* we did not find this pointer; free() of something we did not allocate */
+  // we did not find this pointer; free() of something we did not allocate
   return -1;
 }
 
@@ -104,29 +101,28 @@ int bestfree(Vmalloc_t *vm, void *data) {
  * @returns Pointer to the newly resized area or NULL on failure
  */
 void *bestresize(Vmalloc_t *vm, void *data, size_t size) {
-  size_t i;
 
   if (!data) {
     return bestalloc(vm, size);
   }
 
-  /* find the pointer we previously allocated */
-  for (i = 0; i < vm->size; ++i) {
+  // find the pointer we previously allocated
+  for (size_t i = 0; i < vm->size; ++i) {
     if (vm->allocated[i] == data) {
 
-      /* resize the allocation */
+      // resize the allocation
       void *p = realloc(data, size);
       if (p == NULL) {
         return p;
       }
 
-      /* save the updated pointer */
+      // save the updated pointer
       vm->allocated[i] = p;
 
       return p;
     }
   }
 
-  /* the pointer the caller gave us was not allocated by us */
+  // the pointer the caller gave us was not allocated by us
   return NULL;
 }

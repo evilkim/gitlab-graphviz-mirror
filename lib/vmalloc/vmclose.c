@@ -18,15 +18,14 @@
  * @returns 0 on success
  */
 int vmclose(Vmalloc_t *vm) {
-  int r;
 
-  /* clear the region */
-  r = vmclear(vm);
+  // clear the region
+  int r = vmclear(vm);
   if (r != 0) {
     return r;
   }
 
-  /* free the allocator itself */
+  // free the allocator itself
   free(vm);
 
   return 0;

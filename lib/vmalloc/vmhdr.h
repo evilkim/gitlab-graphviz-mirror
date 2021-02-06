@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /*************************************************************************
  * Copyright (c) 2011 AT&T Intellectual Property 
  * All rights reserved. This program and the accompanying materials
@@ -10,12 +8,11 @@
  * Contributors: Details at http://www.graphviz.org/
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _VMHDR_H
-#define _VMHDR_H	1
 
 /*	Common types, and macros for vmalloc functions.
 **
@@ -29,7 +26,6 @@ void *bestalloc(Vmalloc_t * vm, size_t size);
 int bestfree(Vmalloc_t * vm, void * data);
 void *bestresize(Vmalloc_t * vm, void * data, size_t size);
 
-#endif				/* _VMHDR_H */
 #ifdef __cplusplus
 }
 #endif
