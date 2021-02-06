@@ -371,14 +371,14 @@ char *el(GVJ_t* job, char *template, ...)
 	va_end(arglist);
 
 	return str;
-#elif defined(HAVE_VSNPRINTF)
+#else
 	char buf[BUFSIZ];
 	int len;
 	char *str;
 	va_list arglist;
 
 	va_start(arglist, template);
-	len = vsnprintf((char *)buf, BUFSIZ, template, arglist);
+	len = vsnprintf(buf, BUFSIZ, template, arglist);
 	if (len < 0) {
 		job->common->errorfn("pov renderer:el - %s\n", strerror(errno));
 		str = strdup ("");
@@ -395,9 +395,6 @@ char *el(GVJ_t* job, char *template, ...)
 	va_end(arglist);
 
 	return str;
-#else
-/* Dummy function that will never be used */
-	return strdup(""); 
 #endif
 }
 
@@ -916,16 +913,12 @@ gvdevice_features_t device_features_pov = {
 };
 
 gvplugin_installed_t gvrender_pov_types[] = {
-#ifdef HAVE_VSNPRINTF
 	{FORMAT_POV, "pov", 1, &pov_engine, &render_features_pov},
-#endif
 	{0, NULL, 0, NULL, NULL}
 };
 
 gvplugin_installed_t gvdevice_pov_types[] = {
-#ifdef HAVE_VSNPRINTF
 	{FORMAT_POV, "pov:pov", 1, NULL, &device_features_pov},
-#endif
 	{0, NULL, 0, NULL, NULL}
 };
 

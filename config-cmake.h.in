@@ -32,7 +32,6 @@
 #cmakedefine HAVE_SETMODE
 #cmakedefine HAVE_SINCOS
 #cmakedefine HAVE_SRAND48
-#cmakedefine HAVE_VSNPRINTF
 
 // Types
 #cmakedefine HAVE_SSIZE_T
