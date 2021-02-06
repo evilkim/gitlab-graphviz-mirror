@@ -466,7 +466,7 @@ LIBS=$save_LIBS
 
 # Checks for library functions
 AC_CHECK_FUNCS([lrand48 drand48 srand48 setmode setenv getenv \
-	cbrt mallinfo mstats getpagesize \
+	cbrt mstats getpagesize \
   ftruncate lseek64 stat64 vfork unlink waitpid select])
 
 AC_REPLACE_FUNCS([strcasestr])
