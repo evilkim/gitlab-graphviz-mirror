@@ -53,7 +53,7 @@ Agnode_t *agnxtnode(Agraph_t * g, Agnode_t * n)
 Agnode_t *aglstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
-    sn = (Agsubnode_t *) dtlast(g->n_seq);
+    sn = dtlast(g->n_seq);
     return sn ? sn->node : NULL;
 }
 
