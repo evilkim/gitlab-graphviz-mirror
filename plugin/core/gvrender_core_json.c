@@ -613,8 +613,6 @@ static Dtdisc_t intDisc = {
     0
 };
 
-#define NEW(t)          calloc(1,sizeof(t))
-
 static int lookup (Dt_t* map, char* name)
 {
     intm* ip = (intm*)dtmatch(map, name);    
@@ -631,7 +629,7 @@ static void insert (Dt_t* map, char* name, int v)
 	    agerr(AGWARN, "Duplicate cluster name \"%s\"\n", name);
 	return;
     }
-    ip = NEW(intm);
+    ip = calloc(1, sizeof(intm));
     ip->id = strdup(name);
     ip->v = v;
     dtinsert (map, ip);
