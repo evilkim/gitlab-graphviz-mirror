@@ -1173,7 +1173,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			for (assoc = dtlast((Dt_t *) expr->data.generate.array->
 						   data.variable.symbol->local.
 						   pointer); assoc;
-		 		assoc = (Exassoc_t *) dtprev((Dt_t *) expr->data.generate.array->
+		 		assoc = dtprev((Dt_t *) expr->data.generate.array->
 						  data.variable.symbol->local.pointer,
 						  assoc)) {
 				v.integer++;

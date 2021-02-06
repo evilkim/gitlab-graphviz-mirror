@@ -61,7 +61,7 @@ Agnode_t *agprvnode(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
-    if (sn) sn = ((Agsubnode_t *) dtprev(g->n_seq, sn));
+    if (sn) sn = dtprev(g->n_seq, sn);
     return sn ? sn->node : NULL;
 }
 
