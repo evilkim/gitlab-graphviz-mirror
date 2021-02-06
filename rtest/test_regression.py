@@ -749,3 +749,34 @@ def test_1931():
     assert 'line 1\nline 2\n' in xdot
     assert 'line 3\nline 4' in xdot
     assert 'line 5\nline 6' in xdot
+
+def test_package_version():
+    '''
+    The graphviz_version.h header should define a non-empty PACKAGE_VERSION
+    '''
+
+    # FIXME: Remove skip when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+    if os.getenv('build_system') == 'msbuild':
+      pytest.skip('Windows MSBuild release does not contain any header files (#1777)')
+
+    # find co-located test source
+    c_src = (Path(__file__).parent / 'check-package-version.c').resolve()
+    assert c_src.exists(), 'missing test case'
+
+    # create some scratch space to work in
+    with tempfile.TemporaryDirectory() as tmp:
+
+      # compile our test code
+      exe = Path(tmp) / 'a.exe'
+      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
+      if platform.system() == 'Windows':
+          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
+            rt_lib_option])
+      else:
+          cc = os.environ.get('CC', 'cc')
+          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe])
+
+      # run the test
+      subprocess.check_call([exe])
