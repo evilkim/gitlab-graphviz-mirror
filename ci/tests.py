@@ -104,13 +104,13 @@ def test_existence(binary: str):
   # https://gitlab.com/graphviz/graphviz/-/issues/1839 is fixed
   if os_id in ['centos', 'fedora'] and binary == 'dot_builtins':
     check_that_tool_does_not_exist(binary, os_id)
-    pytest.skip('dot_builtins is not installed for ' + os_id + ' (#1839)')
+    pytest.skip(f'dot_builtins is not installed for {os_id} (#1839)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1835 is fixed
   if os_id in ['ubuntu', 'centos'] and binary == 'mingle':
     check_that_tool_does_not_exist(binary, os_id)
-    pytest.skip('mingle is not built for ' + os_id + ' (#1835)')
+    pytest.skip(f'mingle is not built for {os_id} (#1835)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1834 is fixed
@@ -124,14 +124,14 @@ def test_existence(binary: str):
   if os.getenv('build_system') == 'cmake':
     if binary in tools_not_built_with_cmake:
       check_that_tool_does_not_exist(binary, os_id)
-      pytest.skip(binary + ' is not built with CMake (#1753 & #1836)')
+      pytest.skip(f'{binary} is not built with CMake (#1753 & #1836)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1837 is fixed
   if os.getenv('build_system') == 'msbuild':
     if binary in tools_not_built_with_msbuild:
       check_that_tool_does_not_exist(binary, os_id)
-      pytest.skip(binary + ' is not built with MSBuild (#1837)')
+      pytest.skip(f'{binary} is not built with MSBuild (#1837)')
 
   # FIXME: Remove skip when
   # https://gitlab.com/graphviz/graphviz/-/issues/1854 is fixed
@@ -139,14 +139,10 @@ def test_existence(binary: str):
     if platform.system() == 'Darwin':
       if binary in tools_not_built_with_autotools_on_macos:
         check_that_tool_does_not_exist(binary, os_id)
-        pytest.skip(binary + ' is not built with autotools on macOS (#1854)')
+        pytest.skip(f'{binary} is not built with autotools on macOS (#1854)')
 
   assert shutil.which(binary) is not None
 
 def check_that_tool_does_not_exist(tool, os_id):
-    assert shutil.which(tool) is None, '{} has been resurrected in the {} ' \
-    'build on {}. Please remove skip.'.format(
-        tool,
-        os.getenv('build_system'),
-        os_id
-    )
+    assert shutil.which(tool) is None, f'{tool} has been resurrected in the ' \
+      f'{os.getenv("build_system")} build on {os_id}. Please remove skip.'

@@ -54,7 +54,7 @@ import shutil
 def test_tools(tool):
 
     if shutil.which(tool) is None:
-      pytest.skip('{} not available'.format(tool))
+      pytest.skip(f'{tool} not available')
 
     # FIXME: Remove skip when
     # https://gitlab.com/graphviz/graphviz/-/issues/1829 is fixed
@@ -81,7 +81,7 @@ def test_tools(tool):
         universal_newlines=True,
     )
     assert re.match('usage', output, flags=re.IGNORECASE) is not None, \
-      tool +' -? did not show usage'
+      f'{tool} -? did not show usage'
 
     # Test unsupported option
     returncode = subprocess.call(
@@ -89,4 +89,4 @@ def test_tools(tool):
         env=environ_copy,
     )
 
-    assert returncode != 0, tool + ' accepted unsupported option -$'
+    assert returncode != 0, f'{tool} accepted unsupported option -$'

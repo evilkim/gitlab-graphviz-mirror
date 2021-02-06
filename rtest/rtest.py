@@ -36,9 +36,9 @@ CRASH_CNT = 0
 DIFF_CNT = 0
 TOT_CNT = 0
 TESTTYPES = {}
-TMPINFILE = 'tmp{}.gv'.format(os.getpid())
-TMPFILE1 = 'tmpnew{}'.format(os.getpid())
-TMPFILE2 = 'tmpref{}'.format(os.getpid())
+TMPINFILE = f'tmp{os.getpid()}.gv'
+TMPFILE1 = f'tmpnew{os.getpid()}'
+TMPFILE2 = f'tmpref{os.getpid()}'
 
 # Read single line, storing it in LINE.
 # Returns the line on success, else returns None
@@ -148,36 +148,35 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
   elif F == 'png':
     # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1788 is fixed
     if os.environ.get('build_system') == 'cmake':
-      print('Warning: Skipping PNG image comparison for test {0}:{1} : format: '
-            '{2} because CMake builds does not contain the diffimg '
-            'utility (#1788)'
-            .format(testname, subtest_index, fmt),
+      print(f'Warning: Skipping PNG image comparison for test {testname}:'
+            f'{subtest_index} : format: {fmt} because CMake builds does not '
+             'contain the diffimg utility (#1788)',
             file=sys.stderr)
       return
     returncode = subprocess.call(
-      [DIFFIMG, FILE1, FILE2, os.path.join(OUTHTML, 'dif_' + OUTFILE)],
+      [DIFFIMG, FILE1, FILE2, os.path.join(OUTHTML, f'dif_{OUTFILE}')],
     )
     if returncode != 0:
       with open(os.path.join(OUTHTML, 'index.html'), mode='a') as fd:
         fd.write('<p>\n')
-        shutil.copyfile(FILE2, os.path.join(OUTHTML, 'old_' + OUTFILE))
-        fd.write('<img src="old_{}" width="192" height="192">\n'.format(OUTFILE))
-        shutil.copyfile(FILE1, os.path.join(OUTHTML, 'new_' + OUTFILE))
-        fd.write('<img src="new_{}" width="192" height="192">\n'.format(OUTFILE))
-        fd.write('<img src="dif_{}" width="192" height="192">\n'.format(OUTFILE))
+        shutil.copyfile(FILE2, os.path.join(OUTHTML, f'old_{OUTFILE}'))
+        fd.write(f'<img src="old_{OUTFILE}" width="192" height="192">\n')
+        shutil.copyfile(FILE1, os.path.join(OUTHTML, f'new_{OUTFILE}'))
+        fd.write(f'<img src="new_{OUTFILE}" width="192" height="192">\n')
+        fd.write(f'<img src="dif_{OUTFILE}" width="192" height="192">\n')
     else:
-      os.unlink(os.path.join(OUTHTML, 'dif_' + OUTFILE))
+      os.unlink(os.path.join(OUTHTML, f'dif_{OUTFILE}'))
   else:
     returncode = subprocess.call(
       ['diff', '--strip-trailing-cr', FILE2, FILE1],
       stdout=subprocess.DEVNULL,
     )
   if returncode != 0:
-    print('Test {0}:{1} : == Failed == {2}'.format(testname, subtest_index, OUTFILE), file=sys.stderr)
+    print(f'Test {testname}:{subtest_index} : == Failed == {OUTFILE}', file=sys.stderr)
     DIFF_CNT += 1
   else:
     if VERBOSE:
-      print('Test {0}:{1} : == OK == {2}'.format(testname, subtest_index, OUTFILE), file=sys.stderr)
+      print(f'Test {testname}:{subtest_index} : == OK == {OUTFILE}', file=sys.stderr)
 
 # Generate output file name given 3 parameters.
 #   testname layout format
@@ -189,7 +188,7 @@ def genOutname(name, alg, fmt):
   fmt_split = fmt.split(':')
   if len(fmt_split) >= 2:
     F = fmt_split[0]
-    XFMT = '_' + '_'.join(fmt_split[1:])
+    XFMT = f'_{"_".join(fmt_split[1:])}'
   else:
     F=fmt
     XFMT=''
@@ -202,7 +201,7 @@ def genOutname(name, alg, fmt):
   else:
     TESTTYPES[IDX]= j + 1
     J = str(j)
-  OUTFILE = name + '_' + alg + XFMT + J + '.' + F
+  OUTFILE = f'{name}_{alg}{XFMT}{J}.{F}'
   return OUTFILE
 
 def doTest(TEST):
@@ -215,7 +214,7 @@ def doTest(TEST):
     return
   GRAPH = TEST['GRAPH']
   if GRAPH == '=':
-    INFILE = os.path.join(GRAPHDIR, TESTNAME + '.gv')
+    INFILE = os.path.join(GRAPHDIR, f'{TESTNAME}.gv')
   elif GRAPH.startswith('graph') or GRAPH.startswith('digraph'):
     with open(TMPINFILE, mode='w') as fd:
       fd.write(GRAPH)
@@ -223,7 +222,7 @@ def doTest(TEST):
   elif os.path.splitext(GRAPH)[1] == '.gv':
     INFILE = os.path.join(GRAPHDIR, GRAPH)
   else:
-    print('Unknown graph spec, test {} - ignoring'.format(TESTNAME),
+    print(f'Unknown graph spec, test {TESTNAME} - ignoring',
           file=sys.stderr)
     return
 
@@ -233,8 +232,8 @@ def doTest(TEST):
     OUTPATH = os.path.join(OUTDIR, OUTFILE)
     KFLAGS = SUBTEST['ALG']
     TFLAGS = SUBTEST['FMT']
-    if KFLAGS: KFLAGS = '-K{}'.format(KFLAGS)
-    if TFLAGS: TFLAGS = '-T{}'.format(TFLAGS)
+    if KFLAGS: KFLAGS = f'-K{KFLAGS}'
+    if TFLAGS: TFLAGS = f'-T{TFLAGS}'
     testcmd = [DOT]
     if KFLAGS: testcmd += [KFLAGS]
     if TFLAGS: testcmd += [TFLAGS]
@@ -247,9 +246,8 @@ def doTest(TEST):
     # fixed
     if os.environ.get('build_system') == 'cmake' and \
        SUBTEST['FMT'] == 'png:gd':
-      print('Skipping test {0}:{1} : format {2} because CMake builds '
-            'does not support format png:gd (#1786)'
-            .format(TESTNAME, i, SUBTEST['FMT']),
+      print(f'Skipping test {TESTNAME}:{i} : format {SUBTEST["FMT"]} because '
+             'CMake builds does not support format png:gd (#1786)',
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1269 is
@@ -257,10 +255,9 @@ def doTest(TEST):
     if platform.system() == 'Windows' and \
        os.environ.get('build_system') == 'msbuild' and \
        '-Goverlap=false' in SUBTEST['FLAGS']:
-      print('Skipping test {0}:{1} : with flag -Goverlap=false because it fails '
-            'with Windows MSBuild builds which are not built with '
-            'triangulation library (#1269)'
-            .format(TESTNAME, i),
+      print(f'Skipping test {TESTNAME}:{i} : with flag -Goverlap=false because '
+             'it fails with Windows MSBuild builds which are not built with '
+             'triangulation library (#1269)',
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1787 is
@@ -269,18 +266,16 @@ def doTest(TEST):
        os.environ.get('build_system') == 'msbuild' and \
        os.environ.get('configuration') == 'Debug' and \
        TESTNAME == 'user_shapes':
-      print('Skipping test {0}:{1} : using shapefile because it fails '
-            'with Windows MSBuild Debug builds (#1787)'
-            .format(TESTNAME, i),
+      print(f'Skipping test {TESTNAME}:{i} : using shapefile because it fails '
+             'with Windows MSBuild Debug builds (#1787)',
             file=sys.stderr)
       continue
     # FIXME: Remove when https://gitlab.com/graphviz/graphviz/-/issues/1790 is
     # fixed
     if platform.system() == 'Windows' and \
        TESTNAME == 'ps_user_shapes':
-      print('Skipping test {0}:{1} : using PostScript shapefile because it '
-            'fails with Windows builds (#1790)'
-            .format(TESTNAME, i),
+      print(f'Skipping test {TESTNAME}:{i} : using PostScript shapefile '
+             'because it fails with Windows builds (#1790)',
             file=sys.stderr)
       continue
 
@@ -297,14 +292,14 @@ def doTest(TEST):
 
     if RVAL != 0 or not os.path.exists(OUTPATH):
       CRASH_CNT += 1
-      print('Test {0}:{1} : == Layout failed =='.format(TESTNAME, i), file=sys.stderr)
-      print('  ' + ' '.join(testcmd), file=sys.stderr)
+      print(f'Test {TESTNAME}:{i} : == Layout failed ==', file=sys.stderr)
+      print(f'  {" ".join(testcmd)}', file=sys.stderr)
     elif GENERATE:
       continue
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
       doDiff(OUTFILE, OUTDIR, REFDIR, TESTNAME, i, SUBTEST['FMT'])
     else:
-      print('Test {0}:{1} : == No file {2}/{3} for comparison =='.format(TESTNAME, i, REFDIR, OUTFILE), file=sys.stderr)
+      print(f'Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} for comparison ==', file=sys.stderr)
 
   # clear TESTTYPES
   TESTTYPES = {}
@@ -361,14 +356,14 @@ if args.testfile:
   if os.path.exists(args.testfile):
     TESTFILE = args.testfile
   else:
-    print('Test file {0} does not exist'.format(args.testfile), file=sys.stderr)
+    print(f'Test file {args.testfile} does not exist', file=sys.stderr)
     sys.exit(1)
 
 # Check environment and initialize
 
 if not NOOP:
   if not os.path.isdir(REFDIR):
-    print('Test data directory {0} does not exist'.format(REFDIR),
+    print(f'Test data directory {REFDIR} does not exist',
           file=sys.stderr)
     sys.exit(1)
 
@@ -384,13 +379,13 @@ if not DOT:
   print('Could not find a value for DOT', file=sys.stderr)
   sys.exit(1)
 if not os.path.isfile(DOT) or not os.access(DOT, os.X_OK):
-  print('{0} program is not executable'.format(DOT))
+  print(f'{DOT} program is not executable')
   sys.exit(1)
 
 if not GENERATE:
   if DIFFIMG:
     if not os.path.isfile(DIFFIMG) or not os.access(DIFFIMG, os.X_OK):
-      print('{0} program is not executable'.format(DIFFIMG))
+      print(f'{DIFFIMG} program is not executable')
       sys.exit(1)
   else:
     print('Could not find a value for DIFFIMG', file=sys.stderr)
@@ -408,13 +403,11 @@ while True:
      break
   doTest(TEST)
 if NOOP:
-  print('No. tests: ' + str(TOT_CNT), file=sys.stderr)
+  print(f'No. tests: {TOT_CNT}', file=sys.stderr)
 elif GENERATE:
-  print('No. tests: ' + str(TOT_CNT) + ' Layout failures: ' + str(CRASH_CNT), file=sys.stderr)
+  print(f'No. tests: {TOT_CNT} Layout failures: {CRASH_CNT}', file=sys.stderr)
 else:
-  print('No. tests: ' +
-        str(TOT_CNT) + ' Layout failures: ' +
-        str(CRASH_CNT) + ' Changes: ' +
-        str(DIFF_CNT), file=sys.stderr)
+  print(f'No. tests: {TOT_CNT} Layout failures: {CRASH_CNT} Changes: '
+        f'{DIFF_CNT}', file=sys.stderr)
 EXIT_STATUS = CRASH_CNT + DIFF_CNT
 sys.exit(EXIT_STATUS)

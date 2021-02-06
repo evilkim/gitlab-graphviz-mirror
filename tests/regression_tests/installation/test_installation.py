@@ -1,6 +1,7 @@
 import pytest
 import subprocess
 import os
+from pathlib import Path
 
 def test_installation():
     expected_version = os.environ.get('GV_VERSION')
@@ -9,7 +10,7 @@ def test_installation():
     # if the user is in a snapshot directory without Git installed, but assume
     # they can live with that.
     if expected_version is None:
-        ROOT = os.path.join(os.path.dirname(__file__), '../../..')
+        ROOT = Path(__file__).parent.parent.parent.parent
         expected_version = subprocess.check_output(['python3',
           'gen_version.py'], cwd=ROOT, universal_newlines=True).strip()
 
@@ -24,5 +25,5 @@ def test_installation():
     try:
         actual_version = actual_version_string.split()[4]
     except IndexError:
-        pytest.fail('Malformed version string: {0}'.format(actual_version_string))
+        pytest.fail(f'Malformed version string: {actual_version_string}')
     assert actual_version == expected_version

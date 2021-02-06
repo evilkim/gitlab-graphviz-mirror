@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 import platform
 import shutil
@@ -20,7 +21,7 @@ import tempfile
 # for all platforms and fail the test if there are differences.
 
 def test_regression_subset_differences():
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    os.chdir(Path(__file__).resolve().parent)
     subprocess.check_call(['python3', 'rtest.py', 'tests_subset.txt'])
 
 # Secondly, run all tests but ignore differences and fail the test
@@ -28,7 +29,7 @@ def test_regression_subset_differences():
 # output in rtest/nhtml/index.html for review.
 
 def test_regression_failure():
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    os.chdir(Path(__file__).resolve().parent)
     result = subprocess.Popen(['python3', 'rtest.py'], stderr=subprocess.PIPE,
                               universal_newlines=True)
     text = result.communicate()[1]
@@ -44,8 +45,8 @@ def test_165():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '165.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '165.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to translate it to xdot
     output = subprocess.check_output(['dot', '-Txdot', input],
@@ -66,8 +67,8 @@ def test_165_2():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '165_2.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '165_2.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to translate it to xdot
     output = subprocess.check_output(['dot', '-Txdot', input],
@@ -88,8 +89,8 @@ def test_165_3():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '165_3.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '165_3.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to translate it to xdot
     output = subprocess.check_output(['dot', '-Txdot', input],
@@ -110,8 +111,8 @@ def test_167():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '167.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent /  '167.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # process this with dot
     ret = subprocess.call(['dot', '-Tpdf', '-o', os.devnull, input])
@@ -128,11 +129,12 @@ def test_793():
 
     # create a non-writable directory
     with tempfile.TemporaryDirectory() as tmp:
-      os.chmod(tmp, os.stat(tmp).st_mode & ~stat.S_IWRITE)
+      t = Path(tmp)
+      t.chmod(t.stat().st_mode & ~stat.S_IWRITE)
 
       # ask the VRML back end to handle a simple graph, using the above as the
       # current working directory
-      p = subprocess.Popen(['dot', '-Tvrml', '-o', os.devnull], cwd=tmp)
+      p = subprocess.Popen(['dot', '-Tvrml', '-o', os.devnull], cwd=t)
       p.communicate('digraph { a -> b; }')
 
     # Graphviz should not have caused a segfault
@@ -145,8 +147,8 @@ def test_1221():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1221.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1221.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # process this with dot
     subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
@@ -158,8 +160,8 @@ def test_1314():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1314.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1314.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to process it, which should fail
     try:
@@ -177,8 +179,8 @@ def test_1411():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1411.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1411.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # process it with Graphviz (should fail)
     p = subprocess.Popen(['dot', '-Tsvg', '-o', os.devnull, input],
@@ -197,8 +199,8 @@ def test_1436():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1436.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1436.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to process it, which should generate a segfault if this bug
     # has been reintroduced
@@ -212,8 +214,8 @@ def test_1444():
     '''
 
     # locate the first of our associated tests
-    input1 = os.path.join(os.path.dirname(__file__), '1444.dot')
-    assert os.path.exists(input1), 'unexpectedly missing test case'
+    input1 = Path(__file__).parent / '1444.dot'
+    assert input1.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to process it
     p = subprocess.Popen(['dot', '-Tsvg', input1], stdout=subprocess.PIPE,
@@ -225,8 +227,8 @@ def test_1444():
     assert stderr.strip() == '', 'emitted an error for a legal graph'
 
     # now locate our second variant, that simply has the attributes swapped
-    input2 = os.path.join(os.path.dirname(__file__), '1444-2.dot')
-    assert os.path.exists(input2), 'unexpectedly missing test case'
+    input2 = Path(__file__).parent / '1444-2.dot'
+    assert input2.exists(), 'unexpectedly missing test case'
 
     # process it identically
     p = subprocess.Popen(['dot', '-Tsvg', input2], stdout=subprocess.PIPE,
@@ -268,7 +270,7 @@ def test_1594():
     # locate our associated test case in this directory
 # FIXME: remove cwd workaround when
 # https://gitlab.com/graphviz/graphviz/-/issues/1780 is fixed
-#    input = os.path.join(os.path.dirname(__file__), '1594.gvpr')
+#    input = Path(__file__).parent / '1594.gvpr'
     input = '1594.gvpr'
 
     # run GVPR with our (malformed) input program
@@ -288,8 +290,8 @@ def test_1676():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1676.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1676.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # run Graphviz with this input
     ret = subprocess.call(['dot', '-Tsvg', '-o', os.devnull, input])
@@ -304,8 +306,8 @@ def test_1724():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1724.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1724.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # run Graphviz with this input
     ret = subprocess.call(['dot', '-Tsvg', '-o', os.devnull, input])
@@ -324,14 +326,14 @@ def test_1767():
       pytest.skip('Windows MSBuild release does not contain any header files (#1777)')
 
     # find co-located test source
-    c_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.c'))
-    assert os.path.exists(c_src), 'missing test case'
+    c_src = (Path(__file__).parent / '1767.c').resolve()
+    assert c_src.exists(), 'missing test case'
 
     # create some scratch space to work in
     with tempfile.TemporaryDirectory() as tmp:
 
       # compile our test code
-      exe = os.path.join(tmp, 'a.exe')
+      exe = Path(tmp) / 'a.exe'
       rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
 
       if platform.system() == 'Windows':
@@ -343,8 +345,8 @@ def test_1767():
             '-lgvc'])
 
       # find our co-located dot input
-      dot = os.path.abspath(os.path.join(os.path.dirname(__file__), '1767.dot'))
-      assert os.path.exists(dot), 'missing test case'
+      dot = (Path(__file__).parent / '1767.dot').resolve()
+      assert dot.exists(), 'missing test case'
 
       # run the test
       stdout = subprocess.check_output([exe, dot], universal_newlines=True)
@@ -368,8 +370,8 @@ def test_1783():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1783.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1783.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # run Graphviz with this input
     ret = subprocess.call(['dot', '-Tsvg', '-o', os.devnull, input])
@@ -413,8 +415,8 @@ def test_1845():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1845.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1845.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # generate a multipage PS file from this input
     subprocess.check_call(['dot', '-Tps', '-o', os.devnull, input])
@@ -429,8 +431,8 @@ def test_1865():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1865.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1865.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # fdp should not crash when processing this file
     subprocess.check_call(['fdp', '-o', os.devnull, input])
@@ -478,31 +480,31 @@ def test_1898():
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1898.dot')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / '1898.dot'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask Graphviz to process it, which should generate a segfault if this bug
     # has been reintroduced
     subprocess.check_call(['dot', '-Tsvg', '-o', os.devnull, input])
 
 # root directory of this checkout
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = Path(__file__).parent.parent.resolve()
 
 # find all HTML files
 html = set()
 for (prefix, _, files) in os.walk(ROOT):
   for name in files:
-    if os.path.splitext(name)[-1].lower() in ('.htm', '.html'):
-      html.add(os.path.join(prefix, name))
+    if Path(name).suffix.lower() in ('.htm', '.html'):
+      html.add(Path(prefix) / name)
 
 @pytest.mark.parametrize('src', html)
 @pytest.mark.skipif(shutil.which('xmllint') is None, reason='xmllint not found')
-def test_html(src: str):
+def test_html(src: Path):
 
   # Files that we know currently fail this test. If you fix one of these files,
   # remove it from this list.
   # See https://gitlab.com/graphviz/graphviz/-/issues/1861
-  FAILING = frozenset(os.path.join(ROOT, x) for x in (
+  FAILING = frozenset(ROOT / x for x in (
     'doc/FAQ.html',
     'doc/info/colors.html',
     'doc/info/output.html',
@@ -514,14 +516,14 @@ def test_html(src: str):
 
   # ensure this test fails if one of the above files is moved/deleted, to prompt
   # developers to update the list
-  assert all(os.path.exists(x) for x in FAILING), 'missing file in FAILING list'
+  assert all(x.exists() for x in FAILING), 'missing file in FAILING list'
 
   # FIXME: the macOS Autotools CI build installs to a target within the source
   # tree, so we need to avoid picking up duplicating copies of the FAILING list
   # that are present there
   if platform.system() == 'Darwin' and \
       os.environ.get('build_system') == 'autotools' and \
-      src.startswith(os.path.join(ROOT, 'build')):
+      (ROOT / 'build') in src.parents:
     pytest.skip('skipping installed copied of source file')
 
   # validate the file
@@ -550,8 +552,8 @@ def test_1869(variant: int):
     '''
 
     # locate our associated test case in this directory
-    input = os.path.join(os.path.dirname(__file__), '1869-{}.gml'.format(variant))
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / f'1869-{variant}.gml'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # ask gml2gv to translate it to DOT
     output = subprocess.check_output(['gml2gv', input],
@@ -568,8 +570,8 @@ def test_1906():
     '''
 
     # one of the rtest graphs is sufficient to provoke this
-    input = os.path.join(os.path.dirname(__file__), 'graphs/root.gv')
-    assert os.path.exists(input), 'unexpectedly missing test case'
+    input = Path(__file__).parent / 'graphs/root.gv'
+    assert input.exists(), 'unexpectedly missing test case'
 
     # use Circo to translate it to DOT
     p = subprocess.Popen(['dot', '-Kcirco', '-Tgv', '-o', os.devnull, input],
@@ -606,8 +608,8 @@ def test_1909():
     '''
 
     # locate our associated test case in this directory
-    prog = os.path.join(os.path.dirname(__file__), '1909.gvpr')
-    graph = os.path.join(os.path.dirname(__file__), '1909.dot')
+    prog = Path(__file__).parent / '1909.gvpr'
+    graph = Path(__file__).parent / '1909.dot'
 
     # run GVPR with the given input
     p = subprocess.Popen(['gvpr', '-c', '-f', prog, graph],
@@ -640,14 +642,14 @@ def test_1910():
       pytest.skip('Windows MSBuild release does not contain any header files (#1777)')
 
     # find co-located test source
-    c_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '1910.c'))
-    assert os.path.exists(c_src), 'missing test case'
+    c_src = (Path(__file__).parent / '1910.c').resolve()
+    assert c_src.exists(), 'missing test case'
 
     # create some scratch space to work in
     with tempfile.TemporaryDirectory() as tmp:
 
       # compile our test code
-      exe = os.path.join(tmp, 'a.exe')
+      exe = Path(tmp) / 'a.exe'
       rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
 
       if platform.system() == 'Windows':
@@ -690,7 +692,7 @@ def test_1913():
       assert stderr.strip() == ''
 
       # these attributes should also be valid when title cased
-      input = '{}{}'.format(align[0].upper(), align[1:])
+      input = f'{align[0].upper()}{align[1:]}'
       ret, stderr = run(graph.format(input))
       assert ret == 0
       assert stderr.strip() == ''
@@ -707,17 +709,17 @@ def test_1913():
 
       input = align
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
       # these attributes should also fail when title cased
-      input = '{}{}'.format(align[0].upper(), align[1:])
+      input = f'{align[0].upper()}{align[1:]}'
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
       # similarly, they should fail when upper cased
       input = align.upper()
       _, stderr = run(graph.format(input))
-      assert 'Warning: Illegal value {} for ALIGN - ignored'.format(input) in stderr
+      assert f'Warning: Illegal value {input} for ALIGN - ignored' in stderr
 
 def test_1931():
     '''

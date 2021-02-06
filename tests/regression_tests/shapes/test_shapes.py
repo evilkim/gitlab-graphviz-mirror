@@ -2,9 +2,10 @@ import pytest
 
 from subprocess import Popen, PIPE
 import os.path, sys
+from pathlib import Path
 
 # Import helper function to compare graphs from tests/regressions_tests
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from regression_test_helpers import compare_graphs
 
 shapes = [
@@ -79,17 +80,17 @@ output_types = [
 ]
 
 def generate_shape_graph(shape, output_type):
-    if not os.path.exists('output'):
-        os.makedirs('output')
+    if not Path('output').exists():
+        Path('output').mkdir(parents=True)
 
-    output_file = 'output/' + shape + '.' + output_type
+    output_file = Path('output') / f'{shape}.{output_type}'
     process = Popen(['dot', '-T' + output_type, '-o', output_file], stdin=PIPE)
 
-    input_graph = 'graph G { a [label="" shape=' + shape + '] }'
+    input_graph = f'graph G {{ a [label="" shape={shape}] }}'
     process.communicate(input = input_graph.encode('utf_8'))
 
     if process.wait() != 0:
-        print('An error occurred while generating: ' + output_file)
+        print(f'An error occurred while generating: {output_file}')
         exit(1)
 
     if output_type == 'svg':
@@ -112,6 +113,6 @@ class Test_File():
         'shape,output_type', [(shape, output_type) for shape in shapes for output_type in output_types]
     )
     def test_shape(self, shape, output_type):
-        os.chdir(os.path.dirname(os.path.realpath(__file__)))
+        os.chdir(Path(__file__).resolve().parent)
         generate_shape_graph(shape, output_type)
         assert compare_graphs(shape, output_type)
