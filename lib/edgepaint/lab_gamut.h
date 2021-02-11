@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 /*visual studio*/
-#if defined(_WIN32) && !defined(LAB_GAMUT_EXPORTS)
+#if defined(_MSC_VER) && !defined(LAB_GAMUT_EXPORTS)
 #define extern __declspec(dllimport)
 #endif
 /*end visual studio*/

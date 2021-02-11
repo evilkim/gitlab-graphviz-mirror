@@ -14,7 +14,7 @@
 #define ATT_GRAPHPVT_H 1
 #define _BLD_cgraph 1
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   ifdef EXPORT_CGHDR
 #       define CGHDR_API __declspec(dllexport)
 #   else

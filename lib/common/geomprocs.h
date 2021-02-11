@@ -23,7 +23,7 @@ extern "C" {
 
 #include "geom.h"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef GVDLL
 #define extern __declspec(dllexport)
 #else

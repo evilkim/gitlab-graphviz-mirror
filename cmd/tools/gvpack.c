@@ -29,7 +29,7 @@
 #include <pack/pack.h>
 
 /*visual studio*/
-#if defined(_WIN32)
+#ifdef _MSC_VER
 #define extern __declspec(dllimport)
 #endif
 /*end visual studio*/

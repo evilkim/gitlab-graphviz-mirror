@@ -17,7 +17,7 @@ extern "C" {
 #ifndef GVPR_H
 #define GVPR_H
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   ifdef EXPORT_GVPR
 #       define GVPR_API __declspec(dllexport)
 #   else

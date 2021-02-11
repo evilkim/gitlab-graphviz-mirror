@@ -92,7 +92,7 @@ static gvplugin_api_t apis[] = {
 extern "C" {
 #endif
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   define GVPLUGIN_GDIPLUS_API __declspec(dllexport)
 #else
 #   define GVPLUGIN_GDIPLUS_API

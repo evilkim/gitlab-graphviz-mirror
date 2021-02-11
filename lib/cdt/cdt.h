@@ -15,7 +15,7 @@ extern "C" {
 #include <stddef.h>	/* size_t */
 #include <string.h>
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   ifdef EXPORT_CDT
 #       define CDT_API __declspec(dllexport)
 #   else

@@ -20,7 +20,7 @@ static gvplugin_api_t apis[] = {
 };
 
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   define GVPLUGIN_DOT_LAYOUT_API __declspec(dllexport)
 #else
 #   define GVPLUGIN_DOT_LAYOUT_API

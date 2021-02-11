@@ -57,7 +57,7 @@ typedef unsigned int packval_t;
     } pack_info;
 
 /*visual studio*/
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifndef GVC_EXPORTS
 #define extern __declspec(dllimport)
 #endif

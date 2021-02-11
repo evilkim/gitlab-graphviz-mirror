@@ -289,7 +289,7 @@ static void gdgen_missingfont(char *err, char *fontreq)
 /* fontsize at which text is rendered by a simple line */
 #define FONTSIZE_TOO_SMALL 1.5
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #   define GD_IMPORT __declspec(dllimport)
 #else
 #   define GD_IMPORT extern

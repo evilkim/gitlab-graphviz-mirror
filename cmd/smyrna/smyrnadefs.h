@@ -18,7 +18,7 @@
 #include "windows.h"
 #endif
 #endif
-#ifdef	_WIN32			//this  is needed on _WIN32 to get libglade see the callback
+#ifdef	_MSC_VER			//this  is needed on MSVC to get libglade see the callback
 #define _BB  __declspec(dllexport)
 #else
 #define _BB
@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-#ifdef	_WIN32			//this is needed on _WIN32 to get libglade see the callback
+#ifdef	_MSC_VER			//this is needed on MSC_VER to get libglade see the callback
 #define _BB  __declspec(dllexport)
 #else
 #define _BB
