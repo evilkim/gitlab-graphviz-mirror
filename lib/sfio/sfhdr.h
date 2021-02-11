@@ -56,6 +56,7 @@ extern "C" {
 #undef  HAVE_SYS_IOCTL_H
 #endif
 
+#include	<limits.h>
 #include	<stdlib.h>
 #include	<string.h>
 #include	<stdint.h>
@@ -349,10 +350,6 @@ extern "C" {
 #define LEFTP		'('
 #define RIGHTP		')'
 #define QUOTE		'\''
-
-#ifndef CHAR_BIT
-#define CHAR_BIT	8
-#endif
 
 #define FMTSET(ft, frm,ags, fv, sz, flgs, wid,pr,bs, ts,ns) \
 	((ft->form = (char*)frm), va_copy(ft->args,ags), \
