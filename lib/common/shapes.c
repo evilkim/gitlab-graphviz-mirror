@@ -3340,7 +3340,7 @@ static field_t *parse_reclbl(node_t * n, int LR, int flag, char *text)
 		    reclblp++;
 		}
 	    }
-	    /* falling through ... */
+	    /* fall through */
 	default:
 	  dotext:
 	    if ((mode & HASTABLE) && *reclblp != ' ')
