@@ -62,7 +62,7 @@ extern "C" {
 #ifndef vmfree
 #define vmfree(vm,d)		(*(_VM_(vm)->meth.freef))((vm),(void*)(d))
 #endif
-#define vmnewof(v,p,t,n,x)	(t*)vmresize((v), (p), sizeof(t)*(n)+(x))
+#define vmnewof(v,p,t,n,x)	vmresize((v), (p), sizeof(t)*(n)+(x))
 #ifdef __cplusplus
 }
 #endif
