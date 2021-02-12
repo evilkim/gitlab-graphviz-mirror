@@ -23,9 +23,7 @@
 #include <errno.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#ifdef _WIN32
+#elif defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #endif
