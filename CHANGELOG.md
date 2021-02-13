@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.46.0] - 2021-02-13
+
 ### Added
 - Support for building against Guile 2.2
 - Portable source is now also offered as a .tar.xz
@@ -1335,7 +1337,8 @@ March 13, 2000: Use AM_PROG_LIBTOOL instead of AC_PROG_LIBTOOL
    in configure.in.  John Ellson <ellson@graphviz.org>
 ```
 
-[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.46.0...master
+[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.46.1...master
+[2.46.1]: https://gitlab.com/graphviz/graphviz/compare/2.46.0...2.46.1
 [2.46.0]: https://gitlab.com/graphviz/graphviz/compare/2.44.1...2.46.0
 [2.44.1]: https://gitlab.com/graphviz/graphviz/compare/2.44.0...2.44.1
 [2.44.0]: https://gitlab.com/graphviz/graphviz/compare/2.42.4...2.44.0
