@@ -333,11 +333,12 @@ then
   # Enable specific warning flags not included by -Wall or -Wextra
   CFLAGS="${CFLAGS} -Wmissing-include-dirs -Wswitch-default -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs"
 
- # if C99, then enable additional warnings
+  # Enable additional C99 warnings
+  CFLAGS="${CFLAGS} -Wtrampolines -Wlogical-op"
 # if [test "${ac_cv_prog_cc_c99}" != "no"]
 # then
     # FIXME - not available on centos[56]: gcc-4.1.2, gcc-4.4.7
-    # CFLAGS="${CFLAGS} -Wdouble-promotion -Wtrampolines -Wlogical-op"
+    # CFLAGS="${CFLAGS} -Wdouble-promotion"
 #  fi
 fi
 # Workaround for native compilers
