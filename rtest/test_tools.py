@@ -1,10 +1,16 @@
 import os
+from pathlib import Path
 import platform
 import pytest
 import re
 import shutil
 import subprocess
 import shutil
+
+try:
+  import pylint
+except ImportError:
+  pylint = None
 
 @pytest.mark.parametrize('tool', [
     'acyclic',
@@ -90,3 +96,50 @@ def test_tools(tool):
     )
 
     assert returncode != 0, f'{tool} accepted unsupported option -$'
+
+# root directory of this checkout
+ROOT = Path(__file__).parent.parent.resolve()
+
+# find all Python files
+pys = set()
+for (prefix, _, files) in os.walk(ROOT):
+  for name in files:
+    if Path(name).suffix.lower() == '.py':
+      pys.add(Path(prefix) / name)
+
+@pytest.mark.parametrize('py', pys)
+@pytest.mark.skipif(pylint is None, reason='pylint unavailable')
+def test_pylint_errors(py: Path):
+  '''
+  Check all Python scripts for errors
+  '''
+
+  # files that may fail because they have an import that may not be installed
+  WAIVER = frozenset(ROOT / x for x in (
+    # files expecting to import 'gv' or using Python 2 syntax
+    'dot.demo/gv_test.py',
+    'tclpkg/gv/examples/layout.py',
+    'tclpkg/gv/examples/simple.py',
+    'tclpkg/gv/demo/modgraph.py',
+    'tclpkg/gv/gv.py',
+    'tclpkg/gv/test.py',
+
+    'doc/infosrc/jconvert.py', # expects to imporrt 'json2html'
+    'doc/infosrc/templates.py', # expects to import 'jinja2'
+  ))
+
+  # ensure this test fails if one of the above files is moved/deleted, to prompt
+  # developers to update the list
+  assert all(x.exists() for x in WAIVER), 'missing file in WAIVER list'
+
+  import pylint.epylint
+
+  # scan the given file
+  errors, _ = pylint.epylint.py_run(f'"{py}" --errors-only', return_std=True)
+
+  # do not check pass/fail if this file is waived
+  if py in WAIVER:
+    pytest.skip(f'pylint errors waived in {py}')
+
+  # otherwise, expect it to succeed
+  assert errors.getvalue() == ''
