@@ -17,7 +17,7 @@
 
 /**********************************************************
 *      Written by Tim Dwyer for the graphviz package      *
-*                http://www.graphviz.org/                 *
+*                  https://graphviz.org                   *
 *                                                         *
 **********************************************************/
 
