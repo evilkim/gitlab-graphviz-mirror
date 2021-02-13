@@ -393,6 +393,7 @@ def test_1813():
       env=environ_copy,
       universal_newlines=True)
 
+    # pylint: disable=unsupported-membership-test
     assert 'Usage' in output, 'gvedit -? did not show usage'
 
 @pytest.mark.skipif(shutil.which('lefty') is None, reason='Lefty not available')
@@ -406,6 +407,7 @@ def test_1818():
       stderr=subprocess.STDOUT,
       universal_newlines=True)
 
+    # pylint: disable=unsupported-membership-test
     assert 'Usage' in output, 'lefty -? did not show usage'
 
 def test_1845():
@@ -559,7 +561,9 @@ def test_1869(variant: int):
     output = subprocess.check_output(['gml2gv', input],
       universal_newlines=True)
 
+    # pylint: disable=unsupported-membership-test
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
+    # pylint: disable=unsupported-membership-test
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
 def test_1906():
