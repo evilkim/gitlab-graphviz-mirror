@@ -76,7 +76,6 @@ ruby-dev \
 # Language extension gv_tcl
 tcl-dev \
 # Test utilities
-python-pytest \
 python3-pytest \
 ksh \
 # Clean up
