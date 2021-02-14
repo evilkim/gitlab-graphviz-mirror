@@ -7,6 +7,7 @@ RUN apt-get update -y \
 && apt-get install --no-install-recommends -y \
 # Development tools
 build-essential \
+cmake \
 git \
 pkg-config \
 autoconf \
