@@ -17,7 +17,7 @@ import shutil
 import stat
 import subprocess
 import sys
-from typing import Optional
+from typing import List, Optional
 
 # logging output stream, setup in main()
 log = None
@@ -62,7 +62,7 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
 
   return target
 
-def main(args: [str]) -> int:
+def main(args: List[str]) -> int:
 
   # setup logging to print to stderr
   global log
@@ -124,7 +124,7 @@ def main(args: [str]) -> int:
   log.info(f'using generic package version {package_version}')
 
   # list of assets we have uploaded
-  assets: [str] = []
+  assets: List[str] = []
 
   for tarball in (f'graphviz-{gv_version}.tar.gz',
                   f'graphviz-{gv_version}.tar.xz'):
