@@ -588,13 +588,20 @@ deployment:
     only:
         - master@graphviz/graphviz
 
-build-docker:
+.docker_build_template: &docker_build_definition
   image: docker:stable
   services:
     - docker:dind
-  stage: build_docker_images
-  script:
+  before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  stage: build_docker_images
+  # do not re-run this job for new Git tags of previously seen commits
+  except:
+    - tags
+
+docker_build_centos7:
+  <<: *docker_build_definition
+  script:
     - cd ci/centos7
     - docker build -t $CI_REGISTRY/graphviz/graphviz:centos7 .
     - docker push $CI_REGISTRY/graphviz/graphviz:centos7
@@ -603,6 +610,87 @@ build-docker:
         - master@graphviz/graphviz
     changes:
       - ci/centos7/Dockerfile
-  # prevent it re-running on tagged commits
-  except:
-    - tags
+
+docker_build_centos8:
+  <<: *docker_build_definition
+  script:
+    - cd ci/centos8
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:centos8 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:centos8
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/centos8/Dockerfile
+
+docker_build_fedora32:
+  <<: *docker_build_definition
+  script:
+    - cd ci/fedora32
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:fedora32 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:fedora32
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/fedora32/Dockerfile
+
+docker_build_fedora33:
+  <<: *docker_build_definition
+  script:
+    - cd ci/fedora33
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:fedora33 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:fedora33
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/fedora33/Dockerfile
+
+docker_build_ubuntu-18.04:
+  <<: *docker_build_definition
+  script:
+    - cd ci/ubuntu-18.04
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:ubuntu-18.04 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:ubuntu-18.04
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/ubuntu-18.04/Dockerfile
+
+docker_build_ubuntu-19.10:
+  <<: *docker_build_definition
+  script:
+    - cd ci/ubuntu-19.10
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:ubuntu-19.10 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:ubuntu-19.10
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/ubuntu-19.10/Dockerfile
+
+docker_build_ubuntu-20.04:
+  <<: *docker_build_definition
+  script:
+    - cd ci/ubuntu-20.04
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:ubuntu-20.04 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:ubuntu-20.04
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/ubuntu-20.04/Dockerfile
+
+docker_build_ubuntu-20.10:
+  <<: *docker_build_definition
+  script:
+    - cd ci/ubuntu-20.10
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:ubuntu-20.10 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:ubuntu-20.10
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/ubuntu-20.10/Dockerfile
