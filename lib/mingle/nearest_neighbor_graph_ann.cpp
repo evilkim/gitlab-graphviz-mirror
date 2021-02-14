@@ -36,17 +36,15 @@ static void sortPtsX(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
   ANNpoint p;
   ANNcoord x, y;
-  int i, j;
+  int i;
   for (i = 0; i < n; i++){
-    for (j = 0; j < dim; j++){
-      p = pts[i];
-      if (p[0] < p[2] || (p[0] == p[2] && p[1] < p[3])) continue;
-      x = p[0]; y = p[1];
-      p[0] = p[2];
-      p[1] = p[3];
-      p[2] = x;
-      p[3] = y;
-    }
+    p = pts[i];
+    if (p[0] < p[2] || (p[0] == p[2] && p[1] < p[3])) continue;
+    x = p[0]; y = p[1];
+    p[0] = p[2];
+    p[1] = p[3];
+    p[2] = x;
+    p[3] = y;
   }
 }
 
@@ -54,17 +52,15 @@ static void sortPtsY(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
   ANNpoint p;
   ANNcoord x, y;
-  int i, j;
+  int i;
   for (i = 0; i < n; i++){
-    for (j = 0; j < dim; j++){
-      p = pts[i];
-      if (p[1] < p[3] || (p[1] == p[3] && p[0] < p[2])) continue;
-      x = p[0]; y = p[1];
-      p[0] = p[2];
-      p[1] = p[3];
-      p[2] = x;
-      p[3] = y;
-    }
+    p = pts[i];
+    if (p[1] < p[3] || (p[1] == p[3] && p[0] < p[2])) continue;
+    x = p[0]; y = p[1];
+    p[0] = p[2];
+    p[1] = p[3];
+    p[2] = x;
+    p[3] = y;
   }
 }
 
