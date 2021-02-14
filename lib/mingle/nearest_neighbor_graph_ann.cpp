@@ -17,6 +17,7 @@
 
 #include <ANN/ANN.h>					// ANN declarations
 #include <mingle/nearest_neighbor_graph_ann.h>
+#include <utility>
 #include <vector>
 
 static const int dim = 4; // dimension
@@ -35,32 +36,24 @@ static void printPt(ostream &out, ANNpoint p)			// print point
 static void sortPtsX(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
   ANNpoint p;
-  ANNcoord x, y;
   int i;
   for (i = 0; i < n; i++){
     p = pts[i];
     if (p[0] < p[2] || (p[0] == p[2] && p[1] < p[3])) continue;
-    x = p[0]; y = p[1];
-    p[0] = p[2];
-    p[1] = p[3];
-    p[2] = x;
-    p[3] = y;
+    std::swap(p[0], p[2]);
+    std::swap(p[1], p[3]);
   }
 }
 
 static void sortPtsY(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
   ANNpoint p;
-  ANNcoord x, y;
   int i;
   for (i = 0; i < n; i++){
     p = pts[i];
     if (p[1] < p[3] || (p[1] == p[3] && p[0] < p[2])) continue;
-    x = p[0]; y = p[1];
-    p[0] = p[2];
-    p[1] = p[3];
-    p[2] = x;
-    p[3] = y;
+    std::swap(p[0], p[2]);
+    std::swap(p[1], p[3]);
   }
 }
 
