@@ -24,7 +24,6 @@
 #define GLOB_ABORTED    2   /* Read error.  */
 #define GLOB_NOMATCH    3   /* No matches found.  */
 #define GLOB_NOSORT     4
-#define DMKEY "Software\\Microsoft" //key to look for library dir
 #endif
 
 #include <regex.h>
