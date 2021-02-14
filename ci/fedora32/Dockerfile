@@ -1,4 +1,3 @@
-# Touch the file to force a rebuild in CI
 FROM fedora:32
 # Development tools
 RUN yum -y groupinstall 'Development Tools' \
