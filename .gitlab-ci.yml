@@ -9,7 +9,7 @@ portable-source:
     stage: source
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
     script:
         - ./autogen.sh
         - ./configure --enable-man-pdfs
@@ -205,31 +205,31 @@ centos7-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
 
 centos8-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:centos8"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos8"
 
 fedora32-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
 
 fedora33-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:fedora33"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora33"
 
 ubuntu18-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
 
 ubuntu20-04-debug-build:
     <<: *deb_build_definition
@@ -238,19 +238,19 @@ ubuntu20-04-debug-build:
         - export CXXFLAGS="-DDEBUG"
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
 
 ubuntu20-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
 
 ubuntu20-10-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
 
 macos-autotools-build:
     <<: *macos_build_definition
@@ -269,7 +269,7 @@ ubuntu18-04-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
 
 ubuntu20-10-cmake-build:
     <<: *deb_build_definition
@@ -281,7 +281,7 @@ ubuntu20-10-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
 
 centos7-cmake-build:
     <<: *rpm_build_definition
@@ -293,7 +293,7 @@ centos7-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
 
 fedora32-cmake-build:
     <<: *rpm_build_definition
@@ -305,7 +305,7 @@ fedora32-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
 
 macos-cmake-build:
     <<: *macos_build_definition
@@ -388,7 +388,7 @@ ubuntu18-04-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
 
 ubuntu20-04-test:
     <<: *test_definition
@@ -401,7 +401,7 @@ ubuntu20-04-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
 
 ubuntu20-10-test:
     <<: *test_definition
@@ -414,7 +414,7 @@ ubuntu20-10-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
 
 centos7-test:
     <<: *test_definition
@@ -427,7 +427,7 @@ centos7-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
 
 centos8-test:
     <<: *test_definition
@@ -440,7 +440,7 @@ centos8-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:centos8"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos8"
 
 fedora32-test:
     <<: *test_definition
@@ -453,7 +453,7 @@ fedora32-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
 
 fedora33-test:
     <<: *test_definition
@@ -466,7 +466,7 @@ fedora33-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:fedora33"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora33"
 
 macos-autotools-test:
     <<: *test_definition
@@ -494,7 +494,7 @@ ubuntu18-04-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
 
 ubuntu20-10-cmake-test:
     <<: *test_definition
@@ -508,7 +508,7 @@ ubuntu20-10-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
 
 centos7-cmake-test:
     <<: *test_definition
@@ -524,7 +524,7 @@ centos7-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
 
 fedora32-cmake-test:
     <<: *test_definition
@@ -538,7 +538,7 @@ fedora32-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
 
 macos-cmake-test:
     <<: *test_definition
