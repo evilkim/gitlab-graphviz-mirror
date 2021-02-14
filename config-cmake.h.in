@@ -1,6 +1,5 @@
 // Include headers
 #cmakedefine HAVE_FCNTL_H
-#cmakedefine HAVE_MALLOC_H
 #cmakedefine HAVE_SEARCH_H
 #cmakedefine HAVE_STAT_H
 #cmakedefine HAVE_STRINGS_H
@@ -25,9 +24,6 @@
 #cmakedefine HAVE_GETPAGESIZE
 #cmakedefine HAVE_GETENV
 #cmakedefine HAVE_LRAND48
-#cmakedefine HAVE_MALLINFO
-#cmakedefine HAVE_MALLOPT
-#cmakedefine HAVE_MSTATS
 #cmakedefine HAVE_SETENV
 #cmakedefine HAVE_SETMODE
 #cmakedefine HAVE_SINCOS
