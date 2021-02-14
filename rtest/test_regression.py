@@ -505,7 +505,6 @@ def test_html(src: Path):
   # remove it from this list.
   # See https://gitlab.com/graphviz/graphviz/-/issues/1861
   FAILING = frozenset(ROOT / x for x in (
-    'doc/info/shapes.html',
     'doc/internal_todo.html',
     'lib/inkpot/data/types.html',
     'macosx/graphviz.help/graphviz.html',
