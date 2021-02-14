@@ -1,3 +1,4 @@
+# Touch the file to force a rebuild
 FROM centos:7
 
 # Development tools
