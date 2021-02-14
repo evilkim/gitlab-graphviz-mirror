@@ -2223,7 +2223,7 @@ static int
 matchval(Expr_t * pgm, Exnode_t * xstr, const char *str, Exnode_t * xpat,
 	 const char *pat, void *env, Exdisc_t * disc)
 {
-    return strgrpmatch(str, pat, NiL, 0,
+    return strgrpmatch(str, pat, NULL, 0,
 		       STR_MAXIMAL | STR_LEFT | STR_RIGHT);
 }
 
@@ -2311,7 +2311,7 @@ static Exnode_t *compile(Expr_t * prog, char *src, char *input, int line,
     sfclose(sf);
 
     if (rv >= 0 && getErrorErrors() == 0)
-	e = exexpr(prog, lbl, NiL, kind);
+	e = exexpr(prog, lbl, NULL, kind);
 
     return e;
 }

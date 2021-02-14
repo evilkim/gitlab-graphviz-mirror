@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <expr/exlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #if !defined(TRACE_lex) && _BLD_DEBUG
@@ -482,7 +483,7 @@ extoken_fn(Expr_t* ex)
 					{
 						if (extoken_fn(ex) != STRING)
 							exerror("#%s: string argument expected", s);
-						else if (!expush(ex, exlval.string, 1, NiL, NiL))
+						else if (!expush(ex, exlval.string, 1, NULL, NULL))
 						{
 							setcontext(ex);
 							goto again;
@@ -518,7 +519,7 @@ extoken_fn(Expr_t* ex)
 				sfputc(ex->tmp, c);
 			}
 			ex->input->nesting--;
-			s = exstash(ex->tmp, NiL);
+			s = exstash(ex->tmp, NULL);
 			if (q == '"' || (ex->disc->flags & EX_CHARSTRING))
 			{
 				if (!(exlval.string = vmstrdup(ex->vm, s)))
@@ -572,8 +573,8 @@ extoken_fn(Expr_t* ex)
 				if (c == '#')
 				{
 					sfputc(ex->tmp, c);
-					/* s = exstash(ex->tmp, NiL); */
-					/* b = strtol(s, NiL, 10); */
+					/* s = exstash(ex->tmp, NULL); */
+					/* b = strtol(s, NULL, 10); */
 					do
 					{
 						sfputc(ex->tmp, c);
@@ -606,7 +607,7 @@ extoken_fn(Expr_t* ex)
 					}
 				}
 			}
-			s = exstash(ex->tmp, NiL);
+			s = exstash(ex->tmp, NULL);
 			if (q == FLOATING)
 				exlval.floating = strtod(s, &e);
 			else
@@ -635,8 +636,8 @@ extoken_fn(Expr_t* ex)
 				while (isalnum(c = lex(ex)) || c == '_' || c == '$')
 					sfputc(ex->tmp, c);
 				exunlex(ex, c);
-				s = exstash(ex->tmp, NiL);
-				/* v = expr.declare ? dtview(ex->symbols, NiL) : (Dt_t*)0; FIX */
+				s = exstash(ex->tmp, NULL);
+				/* v = expr.declare ? dtview(ex->symbols, NULL) : (Dt_t*)0; FIX */
 				v = (Dt_t*)0;
 				exlval.id = dtmatch(ex->symbols, s);
 				if (v)
@@ -868,7 +869,7 @@ extoken_fn(Expr_t* ex)
 			}
 			break;
 		}
-		(*ex->disc->reff)(ex, NiL, exlval.id, NiL, exstash(ex->tmp, NiL), 0, ex->disc);
+		(*ex->disc->reff)(ex, NULL, exlval.id, NULL, exstash(ex->tmp, NULL), 0, ex->disc);
 
 						/*..INDENT*/
 					}
