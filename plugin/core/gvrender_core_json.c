@@ -399,33 +399,6 @@ static void write_subg(Agraph_t * g, GVJ_t * job, state_t* sp)
     }
 }
 
-/*
-static int write_subgs(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
-{
-    Agraph_t* sg;
-    int not_first = 0;
-
-    sg = agfstsubg(g);
-    if (!sg) return 0;
-   
-    gvputs(job, ",\n");
-    indent(job, sp->Level++);
-    gvputs(job, "\"subgraphs\": [\n");
-    for (; sg; sg = agnxtsubg(sg)) {
-	if (not_first) 
-	    gvputs(job, ",\n");
-	else
-	    not_first = 1;
-	write_subg (sg, job, top, sp);
-    }
-    sp->Level--;
-    gvputs(job, "\n");
-    indent(job, sp->Level);
-    gvputs(job, "]");
-    return 1;
-}
-*/
-
 static int write_subgs(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
 {
     Agraph_t* sg;
