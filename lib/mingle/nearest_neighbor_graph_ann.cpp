@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------
 
 #include <ANN/ANN.h>					// ANN declarations
+#include <mingle/nearest_neighbor_graph_ann.h>
 #include <vector>
 
 int                             dim                             = 4;                    // dimension
@@ -67,9 +68,6 @@ static void sortPtsY(int n, ANNpointArray pts){
     }
   }
 }
-
-
-extern "C" void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0);
 
 void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0){
 
