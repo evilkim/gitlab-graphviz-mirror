@@ -1,11 +1,10 @@
 FROM centos:8
 
 # Development tools
-RUN yum -y groupinstall 'Development Tools'
-RUN dnf config-manager --set-enabled powertools
-
+RUN yum -y groupinstall 'Development Tools' \
+&& dnf config-manager --set-enabled powertools \
 # Centos build utilities
-RUN yum -y install \
+&& yum -y install \
 libtool-ltdl-devel \
 libedit-devel \
 ksh \

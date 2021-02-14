@@ -1,20 +1,17 @@
 FROM centos:7
 
 # Development tools
-RUN yum -y groupinstall 'Development Tools'
-
-RUN yum install -y \
+RUN yum -y groupinstall 'Development Tools' \
+&& yum install -y \
 # Install epel-release rpm (Needed for cmake3. Must be a separate step)
 https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-12.noarch.rpm \
 # Install ius-release rpm (Needed for git version 2. Must be a separate step)
 https://repo.ius.io/ius-release-el7.rpm \
-&& yum clean all && rm -rf /var/cache/yum
-
+&& yum clean all && rm -rf /var/cache/yum \
 # Remove old version of git
-RUN yum -y remove git
-
+&& yum -y remove git \
 # Centos build utilities
-RUN yum -y install \
+&& yum -y install \
 libtool-ltdl-devel \
 libedit-devel \
 ksh \
