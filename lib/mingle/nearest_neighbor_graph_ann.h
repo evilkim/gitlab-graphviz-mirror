@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0);
+void nearest_neighbor_graph_ann(int nPts, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0);
 
 #ifdef __cplusplus
 }
