@@ -15,13 +15,9 @@
 //		File:			get_nearest_neighb_graph.cpp
 //----------------------------------------------------------------------
 
-#include <cstdlib>						// C standard library
-#include <cstdio>						// C I/O (for sscanf)
-#include <cstring>						// string manipulation
-#include <fstream>						// file I/O
 #include <ANN/ANN.h>					// ANN declarations
+#include <vector>
 
-using namespace std;					// make std:: accessible
 int                             dim                             = 4;                    // dimension
 
 
@@ -92,9 +88,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   */
 
   ANNpointArray		dataPts;				// data points
-  ANNidxArray			nnIdx;					// near neighbor indices
-  ANNdistArray		dists;					// near neighbor distances
-  ANNkd_tree*			kdTree;					// search structure
   
   double *xx;
   int *irn, *jcn;
@@ -107,8 +100,8 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
 
   dataPts = annAllocPts(nPts, dim);			// allocate data points
-  nnIdx = new ANNidx[k];						// allocate near neigh indices
-  dists = new ANNdist[k];						// allocate near neighbor dists
+  std::vector<ANNidx> nnIdx(k);						// allocate near neighbor indices
+  std::vector<ANNdist> dists(k);					// allocate near neighbor dists
 
   for (int i = 0; i < nPts; i++){
     xx =  dataPts[i];
@@ -118,16 +111,16 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   //========= graph when sort based on x ========
   nz = 0;
   sortPtsX(nPts, dataPts);
-  kdTree = new ANNkd_tree(					// build search structure
+  ANNkd_tree kdTree(					// build search structure
 			  dataPts,					// the data points
 			  nPts,						// number of points
 			  dim);						// dimension of space
   for (int ip = 0; ip < nPts; ip++){
-    kdTree->annkSearch(						// search
+    kdTree.annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
-		       nnIdx,							// nearest neighbors (returned)
-		       dists,							// distance (returned)
+		       nnIdx.data(),						// nearest neighbors (returned)
+		       dists.data(),						// distance (returned)
 		       eps);							// error bound
 
     for (int i = 0; i < k; i++) {			// print summary
@@ -146,16 +139,16 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
 
   //========= graph when sort based on y ========
   sortPtsY(nPts, dataPts);
-  kdTree = new ANNkd_tree(					// build search structure
+  kdTree = ANNkd_tree(					// build search structure
 			  dataPts,					// the data points
 			  nPts,						// number of points
 			  dim);						// dimension of space
   for (int ip = 0; ip < nPts; ip++){
-    kdTree->annkSearch(						// search
+    kdTree.annkSearch(						// search
 		       dataPts[ip],						// query point
 		       k,								// number of near neighbors
-		       nnIdx,							// nearest neighbors (returned)
-		       dists,							// distance (returned)
+		       nnIdx.data(),						// nearest neighbors (returned)
+		       dists.data(),						// distance (returned)
 		       eps);							// error bound
       
     for (int i = 0; i < k; i++) {			// print summary
@@ -166,10 +159,6 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
       // cout << ip << "--" << nnIdx[i] << " [len = " << dists[i]<< ", weight = \"" << 1./(dists[i]) << "\", wt = \"" << 1./(dists[i]) << "\"]\n";
     }
   }
-    
-  delete [] nnIdx;							// clean things up
-  delete [] dists;
-  delete kdTree;
     
   *nz0 = nz;
     
