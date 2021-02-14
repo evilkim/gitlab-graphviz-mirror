@@ -19,8 +19,7 @@
 #include <mingle/nearest_neighbor_graph_ann.h>
 #include <vector>
 
-int                             dim                             = 4;                    // dimension
-
+static const int dim = 4; // dimension
 
 /*
 static void printPt(ostream &out, ANNpoint p)			// print point
