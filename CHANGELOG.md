@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - The edges in JSON output are ordered now !1728
+- remove regex usage #1919
+- RxSpencer is no longer a dependency on Windows
 
 ### Fixed
 - Fix gvpr -? to actually print usage and exit non-zero

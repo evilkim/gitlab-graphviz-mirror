@@ -94,7 +94,6 @@ endif ()
 
 if (WIN32)
     # Find Windows specific dependencies
-    find_package(RxSpencer REQUIRED)
 
     # Find DLLs on Windows
     find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
