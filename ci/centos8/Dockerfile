@@ -1,3 +1,4 @@
+# Touch the file to force a rebuild in CI
 FROM centos:8
 
 # Development tools
