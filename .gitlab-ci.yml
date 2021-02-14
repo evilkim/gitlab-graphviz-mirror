@@ -240,12 +240,6 @@ ubuntu20-04-debug-build:
         - linux
     image: "graphviz/graphviz:ubuntu-20.04"
 
-ubuntu19-10-build:
-    <<: *deb_build_definition
-    tags:
-        - linux
-    image: "graphviz/graphviz:ubuntu-19.10"
-
 ubuntu20-04-build:
     <<: *deb_build_definition
     tags:
@@ -395,19 +389,6 @@ ubuntu18-04-test:
     tags:
         - linux
     image: "graphviz/graphviz:ubuntu-18.04"
-
-ubuntu19-10-test:
-    <<: *test_definition
-    before_script:
-        - export build_system="autotools"
-    needs:
-        - job: portable-source
-          artifacts: true
-        - job: "ubuntu19-10-build"
-          artifacts: true
-    tags:
-        - linux
-    image: "graphviz/graphviz:ubuntu-19.10"
 
 ubuntu20-04-test:
     <<: *test_definition
@@ -658,18 +639,6 @@ docker_build_ubuntu-18.04:
         - master@graphviz/graphviz
     changes:
       - ci/ubuntu-18.04/Dockerfile
-
-docker_build_ubuntu-19.10:
-  <<: *docker_build_definition
-  script:
-    - cd ci/ubuntu-19.10
-    - docker build -t $CI_REGISTRY/graphviz/graphviz:ubuntu-19.10 .
-    - docker push $CI_REGISTRY/graphviz/graphviz:ubuntu-19.10
-  only:
-    refs:
-        - master@graphviz/graphviz
-    changes:
-      - ci/ubuntu-19.10/Dockerfile
 
 docker_build_ubuntu-20.04:
   <<: *docker_build_definition
