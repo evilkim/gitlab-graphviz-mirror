@@ -39,7 +39,7 @@ SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, double *x, doubl
 #ifdef HAVE_ANN
   nearest_neighbor_graph_ann(nPts, num_neigbors, eps, x, &nz, &irn, &jcn, &val);
 
-  A = SparseMatrix_from_coordinate_arrays(nz, nPts, nPts, irn, jcn, (void *) val, MATRIX_TYPE_REAL, sizeof(real));
+  A = SparseMatrix_from_coordinate_arrays(nz, nPts, nPts, irn, jcn, val, MATRIX_TYPE_REAL, sizeof(real));
 #else
   A = NULL;
 #endif
