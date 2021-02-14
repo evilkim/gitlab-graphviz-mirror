@@ -255,7 +255,7 @@ cell *findGrid(Grid * g, int i, int j)
 
     key.p.i = i;
     key.p.j = j;
-    return (cell *) dtsearch(g->data, &key);
+    return dtsearch(g->data, &key);
 }
 
 /* gLength:

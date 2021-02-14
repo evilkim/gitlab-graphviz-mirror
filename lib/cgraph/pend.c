@@ -139,7 +139,7 @@ static pending_cb_t *lookup(Dict_t * dict, Agobj_t * obj)
     pending_cb_t key, *rv;
 
     key.key = genkey(obj);
-    rv = (pending_cb_t *) dtsearch(dict, &key);
+    rv = dtsearch(dict, &key);
     return rv;
 }
 
@@ -241,7 +241,7 @@ static void cb(Dict_t * dict, int callback_kind)
     Agcbstack_t *stack;
 
     if (dict)
-	while ((pcb = (pending_cb_t *) dtfirst(dict))) {
+	while ((pcb = dtfirst(dict))) {
 	    g = pcb->g;
 	    stack = g->clos->cb;
 	    switch (callback_kind) {

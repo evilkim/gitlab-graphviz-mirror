@@ -30,7 +30,7 @@ Agedge_t *agfstout(Agraph_t * g, Agnode_t * n)
     sn = agsubrep(g, n);
     if (sn) {
 		dtrestore(g->e_seq, sn->out_seq);
-		e = (Agedge_t *) dtfirst(g->e_seq);
+		e = dtfirst(g->e_seq);
 		sn->out_seq = dtextract(g->e_seq);
 	}
     return e;
@@ -47,7 +47,7 @@ Agedge_t *agnxtout(Agraph_t * g, Agedge_t * e)
     sn = agsubrep(g, n);
     if (sn) {
 		dtrestore(g->e_seq, sn->out_seq);
-		f = (Agedge_t *) dtnext(g->e_seq, e);
+		f = dtnext(g->e_seq, e);
 		sn->out_seq = dtextract(g->e_seq);
 	}
     return f;
@@ -61,7 +61,7 @@ Agedge_t *agfstin(Agraph_t * g, Agnode_t * n)
     sn = agsubrep(g, n);
 	if (sn) {
 		dtrestore(g->e_seq, sn->in_seq);
-		e = (Agedge_t *) dtfirst(g->e_seq);
+		e = dtfirst(g->e_seq);
 		sn->in_seq = dtextract(g->e_seq);
 	}
     return e;
@@ -130,12 +130,12 @@ static Agedge_t *agfindedge_by_key(Agraph_t * g, Agnode_t * t, Agnode_t * h,
 	if (t != h) {
 #endif
 	    dtrestore(g->e_id, sn->in_id);
-	    e = (Agedge_t *) dtsearch(g->e_id, &template);
+	    e = dtsearch(g->e_id, &template);
 	    sn->in_id = dtextract(g->e_id);
 #if 0
 	} else {			/* self edge */
 	    dtrestore(g->e_id, sn->out_id);
-	    e = (Agedge_t *) dtsearch(g->e_id, &template);
+	    e = dtsearch(g->e_id, &template);
 	    sn->out_id = dtextract(g->e_id);
 	}
 #endif

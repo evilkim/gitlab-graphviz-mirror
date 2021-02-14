@@ -102,7 +102,7 @@ void removeDeglist(deglist_t * list, Agnode_t * n)
     Agnode_t *prev;
 
     key.deg = DEGREE(n);
-    ip = (degitem *) dtsearch(list, &key);
+    ip = dtsearch(list, &key);
     assert(ip);
     if (ip->np == n) {
 	ip->np = ND_next(n);
@@ -130,7 +130,7 @@ Agnode_t *firstDeglist(deglist_t * list)
     degitem *ip;
     Agnode_t *np;
 
-    ip = (degitem *) dtfirst(list);
+    ip = dtfirst(list);
     if (ip) {
 	np = ip->np;
 	ip->np = ND_next(np);
@@ -147,7 +147,7 @@ void printDeglist(deglist_t * dl)
     degitem *ip;
     node_t *np;
     fprintf(stderr, " dl:\n");
-    for (ip = (degitem *) dtfirst(dl); ip; ip = (degitem *) dtnext(dl, ip)) {
+    for (ip = dtfirst(dl); ip; ip = dtnext(dl, ip)) {
 	np = ip->np;
 	if (np)
 	    fprintf(stderr, " (%d)", ip->deg);

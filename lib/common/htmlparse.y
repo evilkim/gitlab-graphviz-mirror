@@ -245,7 +245,7 @@ mkText(void)
     if (cnt) {
 	int i = 0;
 	hft->spans = N_NEW(cnt,htextspan_t);	
-    	for(fl=(fspan *)dtfirst(ispan); fl; fl=(fspan *)dtnext(ispan,fl)) {
+    	for(fl=dtfirst(ispan); fl; fl=dtnext(ispan,fl)) {
     	    hft->spans[i] = fl->lp;
     	    i++;
     	}
@@ -285,7 +285,7 @@ static void setCell (htmlcell_t* cp, void* obj, int kind)
 {
   pitem*     sp = NEW(pitem);
   htmltbl_t* tbl = HTMLstate.tblstack;
-  pitem*     rp = (pitem*)dtlast (tbl->u.p.rows);
+  pitem*     rp = dtlast (tbl->u.p.rows);
   Dt_t*      row = rp->u.rp;
   sp->u.cp = cp;
   dtinsert (row, sp);

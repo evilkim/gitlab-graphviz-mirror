@@ -104,7 +104,7 @@ int aginternalmaplookup(Agraph_t * g, int objtype, char *str,
     if ((d = g->clos->lookup_by_name[objtype])) {
 	if ((search_str = agstrbind(g, str))) {
 	    template.str = search_str;
-	    sym = (IMapEntry_t *) dtsearch(d, &template);
+	    sym = dtsearch(d, &template);
 	    if (sym) {
 		*result = sym->id;
 		return TRUE;
@@ -146,7 +146,7 @@ static IMapEntry_t *find_isym(Agraph_t * g, int objtype, IDTYPE id)
 	objtype = AGEDGE;
     if ((d = g->clos->lookup_by_id[objtype])) {
 	itemplate.id = id;
-	isym = (IMapEntry_t *) dtsearch(d, &itemplate);
+	isym = dtsearch(d, &itemplate);
     } else
 	isym = NULL;
     return isym;

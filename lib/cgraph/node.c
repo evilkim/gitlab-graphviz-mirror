@@ -21,7 +21,7 @@ Agnode_t *agfindnode_by_id(Agraph_t * g, IDTYPE id)
 
     dummy.base.tag.id = id;
     template.node = &dummy;
-    sn = (Agsubnode_t *) dtsearch(g->n_id, &template);
+    sn = dtsearch(g->n_id, &template);
     return sn ? sn->node : NULL;
 }
 
@@ -38,7 +38,7 @@ static Agnode_t *agfindnode_by_name(Agraph_t * g, char *name)
 Agnode_t *agfstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
-    sn = (Agsubnode_t *) dtfirst(g->n_seq);
+    sn = dtfirst(g->n_seq);
     return sn ? sn->node : NULL;
 }
 
@@ -46,14 +46,14 @@ Agnode_t *agnxtnode(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
-    if (sn) sn = ((Agsubnode_t *) dtnext(g->n_seq, sn));
+    if (sn) sn = dtnext(g->n_seq, sn);
     return sn ? sn->node : NULL;
 }
 
 Agnode_t *aglstnode(Agraph_t * g)
 {
     Agsubnode_t *sn;
-    sn = (Agsubnode_t *) dtlast(g->n_seq);
+    sn = dtlast(g->n_seq);
     return sn ? sn->node : NULL;
 }
 
@@ -61,7 +61,7 @@ Agnode_t *agprvnode(Agraph_t * g, Agnode_t * n)
 {
     Agsubnode_t *sn;
     sn = agsubrep(g, n);
-    if (sn) sn = ((Agsubnode_t *) dtprev(g->n_seq, sn));
+    if (sn) sn = dtprev(g->n_seq, sn);
     return sn ? sn->node : NULL;
 }
 

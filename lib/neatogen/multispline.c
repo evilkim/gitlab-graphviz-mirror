@@ -148,7 +148,7 @@ static int findMap(Dt_t * map, int a, int b)
     }
     it.a[0] = a;
     it.a[1] = b;
-    ip = (item *) dtsearch(map, &it);
+    ip = dtsearch(map, &it);
     assert(ip);
     return ip->t;
 }
@@ -210,7 +210,7 @@ static void vmapAdd(Dt_t * map, int i, int j)
 static int vMap(Dt_t * map, int i)
 {
     Ipair *ip;
-    ip = (Ipair *) dtmatch(map, &i);
+    ip = dtmatch(map, &i);
     return ip->j;
 }
 

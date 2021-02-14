@@ -638,7 +638,7 @@ extoken_fn(Expr_t* ex)
 				s = exstash(ex->tmp, NiL);
 				/* v = expr.declare ? dtview(ex->symbols, NiL) : (Dt_t*)0; FIX */
 				v = (Dt_t*)0;
-				exlval.id = (Exid_t*)dtmatch(ex->symbols, s);
+				exlval.id = dtmatch(ex->symbols, s);
 				if (v)
 					dtview(ex->symbols, v);
 				if (!exlval.id)

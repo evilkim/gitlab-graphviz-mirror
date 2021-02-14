@@ -291,7 +291,7 @@ static void insert_outside_subg(Agraph_t * g, Agnode_t * node,
 	graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
 	if (graphrec
 	    &&
-	    ((n = (Agnode_t *) dtsearch(graphrec->hidden_node_set, node))))
+	    ((n = dtsearch(graphrec->hidden_node_set, node))))
 	    dtinsert(g->n_dict, n);
 
 	subglist = agsubglist(g);
@@ -378,7 +378,7 @@ Agnode_t *agfindhidden(Agraph_t * g, char *name)
     graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
     if (graphrec) {
 	key.name = name;
-	return (Agnode_t *) dtsearch(graphrec->hidden_node_set, &key);
+	return dtsearch(graphrec->hidden_node_set, &key);
     } else
 	return NULL;
 }

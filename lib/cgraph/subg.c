@@ -19,7 +19,7 @@ static Agraph_t *agfindsubg_by_id(Agraph_t * g, IDTYPE id)
 
     agdtdisc(g, g->g_dict, &Ag_subgraph_id_disc);
     AGID(&template) = id;
-    return (Agraph_t *) dtsearch(g->g_dict, &template);
+    return dtsearch(g->g_dict, &template);
 }
 
 static Agraph_t *localsubg(Agraph_t * g, IDTYPE id)
@@ -71,7 +71,7 @@ Agraph_t *agsubg(Agraph_t * g, char *name, int cflag)
 
 Agraph_t *agfstsubg(Agraph_t * g)
 {
-    return (Agraph_t *) dtfirst(g->g_dict);
+    return dtfirst(g->g_dict);
 }
 
 Agraph_t *agnxtsubg(Agraph_t * subg)
@@ -79,7 +79,7 @@ Agraph_t *agnxtsubg(Agraph_t * subg)
     Agraph_t *g;
 
     g = agparent(subg);
-    return g? (Agraph_t *) dtnext(g->g_dict, subg) : 0;
+    return g? dtnext(g->g_dict, subg) : 0;
 }
 
 Agraph_t *agparent(Agraph_t * g)

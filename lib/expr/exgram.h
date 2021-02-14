@@ -629,7 +629,7 @@ qualify(Exref_t* ref, Exid_t* sym)
 		ref = ref->next;
 	sfprintf(expr.program->tmp, "%s.%s", ref->symbol->name, sym->name);
 	s = exstash(expr.program->tmp, NiL);
-	if (!(x = (Exid_t*)dtmatch(expr.program->symbols, s)))
+	if (!(x = dtmatch(expr.program->symbols, s)))
 	{
 		if ((x = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
 		{
@@ -1025,7 +1025,7 @@ excomp(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 	p->eof = eof;
 	if (expr.statics)
 	{
-		for (v = (Exid_t*)dtfirst(p->symbols); v; v = (Exid_t*)dtnext(p->symbols, v))
+		for (v = dtfirst(p->symbols); v; v = dtnext(p->symbols, v))
 			if (v->isstatic)
 			{
 				dtdelete(p->symbols, v);
