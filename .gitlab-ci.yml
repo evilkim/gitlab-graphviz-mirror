@@ -1,4 +1,5 @@
 stages:
+    - build_docker_images
     - source
     - build
     - test
@@ -586,3 +587,22 @@ deployment:
     # do not run this job for MRs, developer’s forks, etc.
     only:
         - master@graphviz/graphviz
+
+build-docker:
+  image: docker:stable
+  services:
+    - docker:dind
+  stage: build_docker_images
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd ci/centos7
+    - docker build -t $CI_REGISTRY/graphviz/graphviz:centos7 .
+    - docker push $CI_REGISTRY/graphviz/graphviz:centos7
+  only:
+    refs:
+        - master@graphviz/graphviz
+    changes:
+      - ci/centos7/Dockerfile
+  # prevent it re-running on tagged commits
+  except:
+    - tags
