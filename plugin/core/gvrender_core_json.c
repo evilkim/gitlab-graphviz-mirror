@@ -308,7 +308,6 @@ static void write_xdots (char * val, GVJ_t * job, state_t* sp)
 {
     xdot* cmds;
     int i;
-    int not_first = 0;
 
     if (!val || *val == '\0') return;
 
@@ -322,10 +321,8 @@ static void write_xdots (char * val, GVJ_t * job, state_t* sp)
     indent(job, sp->Level++);
     gvputs(job, "[\n");
     for (i = 0; i < cmds->cnt; i++) {
-	if (not_first) 
+	if (i > 0)
 	    gvputs(job, ",\n");
-	else
-	    not_first = 1;
 	write_xdot (cmds->ops+i, job, sp);
     }
     sp->Level--;
@@ -397,7 +394,6 @@ static void write_subg(Agraph_t * g, GVJ_t * job, state_t* sp)
 static int write_subgs(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
 {
     Agraph_t* sg;
-    int not_first = 0;
 
     sg = agfstsubg(g);
     if (!sg) return 0;
@@ -410,15 +406,14 @@ static int write_subgs(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
 	gvputs(job, "\"subgraphs\": [\n");
 	indent(job, sp->Level);
     }
+    const char *separator = "";
     for (; sg; sg = agnxtsubg(sg)) {
-	if (not_first) 
-	    gvputs(job, ",\n");
-	else
-	    not_first = 1;
+	gvputs(job, separator);
         if (top)
 	    write_subg (sg, job, sp);
 	else
 	    gvprintf(job, "%d", GD_gid(sg));
+	separator = ",\n";
     }
     if (!top) {
 	sp->Level--;
@@ -471,7 +466,6 @@ static void write_edge(Agedge_t * e, GVJ_t * job, int top, state_t* sp)
 static int write_edges(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
 {
     size_t count = 0;
-    int not_first = 0;
 
     for (Agnode_t *np = agfstnode(g); np; np = agnxtnode(g, np)) {
         for (Agedge_t *ep = agfstout(g, np); ep; ep = agnxtout(g, ep)) {
@@ -501,13 +495,12 @@ static int write_edges(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
     if (!top)
         indent(job, sp->Level);
     for (size_t j = 0; j < count; ++j) {
-        if (not_first)
+        if (j > 0) {
             if (top)
                 gvputs(job, ",\n");
             else
                 gvputs(job, ",");
-        else
-            not_first = 1;
+        }
         write_edge(edges[j], job, top, sp);
     }
 
@@ -543,7 +536,6 @@ static void write_node(Agnode_t * n, GVJ_t * job, int top, state_t* sp)
 static int write_nodes(Agraph_t * g, GVJ_t * job, int top, int has_subgs, state_t* sp)
 {
     Agnode_t* n;
-    int not_first = 0;
 
     n = agfstnode(g);
     if (!n) {
@@ -567,16 +559,12 @@ static int write_nodes(Agraph_t * g, GVJ_t * job, int top, int has_subgs, state_
 	gvputs(job, "\"nodes\": [\n");
 	indent(job, sp->Level);
     }
+    const char *separator = "";
     for (; n; n = agnxtnode(g, n)) {
 	if (IS_CLUST_NODE(n)) continue;
-	if (not_first) 
-            if (top)
-	        gvputs(job, ",\n");
-            else
-	        gvputs(job, ",");
-	else
-	    not_first = 1;
+	gvputs(job, separator);
 	write_node (n, job, top, sp);
+	separator = top ? ",\n" : ",";
     }
     sp->Level--;
     gvputs(job, "\n");
