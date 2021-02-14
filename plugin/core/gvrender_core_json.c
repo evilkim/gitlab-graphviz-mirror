@@ -213,23 +213,20 @@ static void write_xdot (xdot_op * op, GVJ_t * job, state_t* sp)
     switch (op->kind) {
     case xd_filled_ellipse :
     case xd_unfilled_ellipse :
-	gvprintf(job, "\"op\": \"%c\",\n", 
-	    (op->kind == xd_filled_ellipse ? 'E' : 'e')); 
+	gvprintf(job, "\"op\": \"%c\",\n", op->kind == xd_filled_ellipse ? 'E' : 'e');
  	indent(job, sp->Level);
 	gvprintf(job, "\"rect\": [%.03f,%.03f,%.03f,%.03f]\n", 
 	    op->u.ellipse.x, op->u.ellipse.y, op->u.ellipse.w, op->u.ellipse.h);
 	break;
     case xd_filled_polygon :
     case xd_unfilled_polygon :
-	gvprintf(job, "\"op\": \"%c\",\n",
-	    (op->kind == xd_filled_polygon ? 'P' : 'p')); 
+	gvprintf(job, "\"op\": \"%c\",\n", op->kind == xd_filled_polygon ? 'P' : 'p');
  	indent(job, sp->Level);
 	write_polyline (job, &op->u.polygon);
 	break;
     case xd_filled_bezier :
     case xd_unfilled_bezier :
-	gvprintf(job, "\"op\": \"%c\",\n",
-	    (op->kind == xd_filled_bezier ? 'B' : 'b')); 
+	gvprintf(job, "\"op\": \"%c\",\n", op->kind == xd_filled_bezier ? 'B' : 'b');
  	indent(job, sp->Level);
 	write_polyline (job, &op->u.bezier);
 	break;
@@ -244,8 +241,8 @@ static void write_xdot (xdot_op * op, GVJ_t * job, state_t* sp)
 	gvprintf(job, "\"pt\": [%.03f,%.03f],\n", op->u.text.x, op->u.text.y); 
  	indent(job, sp->Level);
 	gvprintf(job, "\"align\": \"%c\",\n",
-	    (op->u.text.align == xd_left? 'l' : 
-	    (op->u.text.align == xd_center ? 'c' : 'r'))); 
+	    op->u.text.align == xd_left? 'l' :
+	    (op->u.text.align == xd_center ? 'c' : 'r'));
  	indent(job, sp->Level);
 	gvprintf(job, "\"width\": %.03f,\n", op->u.text.width); 
  	indent(job, sp->Level);
@@ -253,8 +250,7 @@ static void write_xdot (xdot_op * op, GVJ_t * job, state_t* sp)
 	break;
     case xd_fill_color :
     case xd_pen_color :
-	gvprintf(job, "\"op\": \"%c\",\n", 
-	    (op->kind == xd_fill_color ? 'C' : 'c')); 
+	gvprintf(job, "\"op\": \"%c\",\n", op->kind == xd_fill_color ? 'C' : 'c');
  	indent(job, sp->Level);
 	gvprintf(job, "\"grad\": \"none\",\n"); 
  	indent(job, sp->Level);
@@ -262,8 +258,7 @@ static void write_xdot (xdot_op * op, GVJ_t * job, state_t* sp)
 	break;
     case xd_grad_pen_color :
     case xd_grad_fill_color :
-	gvprintf(job, "\"op\": \"%c\",\n", 
-	    (op->kind == xd_grad_fill_color ? 'C' : 'c')); 
+	gvprintf(job, "\"op\": \"%c\",\n", op->kind == xd_grad_fill_color ? 'C' : 'c');
  	indent(job, sp->Level);
 	if (op->u.grad_color.type == xd_none) {
 	    gvprintf(job, "\"grad\": \"none\",\n"); 
@@ -315,7 +310,7 @@ static void write_xdots (char * val, GVJ_t * job, state_t* sp)
     int i;
     int not_first = 0;
 
-    if (!val || (*val == '\0')) return;
+    if (!val || *val == '\0') return;
 
     cmds = parseXDot(val);
     if (!cmds) {
@@ -342,10 +337,10 @@ static void write_xdots (char * val, GVJ_t * job, state_t* sp)
 
 static int isXDot (char* name)
 {
-  return ((*name++ == '_') &&
+  return *name++ == '_' &&
           (streq(name,"draw_") || streq(name,"ldraw_") ||
           streq(name,"hdraw_") || streq(name,"tdraw_") ||
-          streq(name,"hldraw_") || streq(name,"tldraw_")));
+          streq(name,"hldraw_") || streq(name,"tldraw_"));
 }
 
 static void write_attrs(Agobj_t * obj, GVJ_t * job, state_t* sp)
@@ -358,7 +353,7 @@ static void write_attrs(Agobj_t * obj, GVJ_t * job, state_t* sp)
 
     for (; sym; sym = agnxtattr(g, type, sym)) {
 	if (!(attrval = agxget(obj, sym))) continue;
-	if ((*attrval == '\0') && !streq(sym->name, "label")) continue;
+	if (*attrval == '\0' && !streq(sym->name, "label")) continue;
 	gvputs(job, ",\n");
 	indent(job, sp->Level);
 	gvprintf(job, "\"%s\": ", stoj(sym->name, sp));
@@ -380,9 +375,9 @@ static void write_hdr(Agraph_t * g, GVJ_t * job, int top, state_t* sp)
     if (top) {
 	gvputs(job, ",\n");
 	indent(job, sp->Level);
-	gvprintf(job, "\"directed\": %s,\n", (agisdirected(g)?"true":"false"));
+	gvprintf(job, "\"directed\": %s,\n", agisdirected(g)?"true":"false");
 	indent(job, sp->Level);
-	gvprintf(job, "\"strict\": %s", (agisstrict(g)?"true":"false"));
+	gvprintf(job, "\"strict\": %s", agisstrict(g)?"true":"false");
     }
 }
 
@@ -726,8 +721,8 @@ static void json_end_graph(GVJ_t *job)
 
     set_attrwf(g, TRUE, FALSE);
     sp.Level = 0;
-    sp.isLatin = (GD_charset(g) == CHAR_LATIN1);
-    sp.doXDot = ((job->render.id == FORMAT_JSON) || (job->render.id == FORMAT_XDOT_JSON));
+    sp.isLatin = GD_charset(g) == CHAR_LATIN1;
+    sp.doXDot = job->render.id == FORMAT_JSON || job->render.id == FORMAT_XDOT_JSON;
     sp.Attrs_not_written_flag = 0;
     write_graph(g, job, TRUE, &sp);
     /* agwrite(g, (FILE*)job); */
