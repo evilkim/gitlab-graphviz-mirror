@@ -11,9 +11,6 @@
 #include "config.h"
 
 #ifdef HAVE_ANN
-//----------------------------------------------------------------------
-//		File:			get_nearest_neighb_graph.cpp
-//----------------------------------------------------------------------
 
 #include <ANN/ANN.h>					// ANN declarations
 #include <mingle/nearest_neighbor_graph_ann.h>
