@@ -373,28 +373,28 @@ one would process the graph and generate two output files:
 dot -Timap -ox.map -Tgif -ox.gif x.gv
 </PRE>
 and then refer to it in a web page:
-<XMP>
-<A HREF="x.map"><IMG SRC="x.gif" ismap="ismap" /></A>
-</XMP>
+<PRE>
+&lt;A HREF="x.map"&gt;&lt;IMG SRC="x.gif" ismap="ismap" /&gt;&lt;/A&gt;
+</PRE>
 For client-side maps, one again generates two output files:
 <PRE>
 dot -Tcmapx -ox.map -Tgif -ox.gif x.gv
 </PRE>
 and uses the HTML
-<XMP>
-<IMG SRC="x.gif" USEMAP="#mainmap" />
+<PRE>
+&lt;IMG SRC="x.gif" USEMAP="#mainmap" /&gt;
 ... [content of x.map] ...
-</XMP>
+</PRE>
 Note that the name given in the USEMAP attribute must be the same
 as the ID attribute of the MAP element. The Graphviz renderer
 uses the name of the graph as the ID. Thus, in the example above,
 where the graph's name is <CODE>mainmap</CODE>, we have <CODE>USEMAP="#mainmap"</CODE>
 in the IMG attribute, and x.map will look like
-<XMP>
-<map id="mainmap" name="mainmap">
+<PRE>
+&lt;map id="mainmap" name="mainmap"&gt;
 ... 
-</map>
-</XMP>
+&lt;/map&gt;
+</PRE>
 <P>
 <A HREF=attrs.html#d:URL>URLs</A> can be attached to the root
 graph, nodes and edges. If a node has a URL, clicking in the node
