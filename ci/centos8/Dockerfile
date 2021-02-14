@@ -3,7 +3,7 @@ FROM centos:8
 
 # Development tools
 RUN yum -y groupinstall 'Development Tools'
-RUN dnf config-manager --set-enabled PowerTools
+RUN dnf config-manager --set-enabled powertools
 
 # Centos build utilities
 RUN yum -y install \
