@@ -136,7 +136,8 @@ void nearest_neighbor_graph_ann(int nPts, int k, double eps, double *x, int *nz0
   }
     
   *nz0 = nz;
-    
+
+  annDeallocPts(dataPts);
   annClose();									// done with ANN
 
 

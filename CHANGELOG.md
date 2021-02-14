@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - memory leak in libmingle
 - private inheritance in IncVPSC #1874
 - broken sorting in nearest_neighbor_graph_ann.cpp #1938
+- memory leak in ANN bridge
 
 ## [2.46.0] - 2021-02-13
 
