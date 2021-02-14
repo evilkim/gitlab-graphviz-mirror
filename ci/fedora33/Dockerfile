@@ -1,4 +1,3 @@
-# Touch the file to force a rebuild in CI
 FROM fedora:33
 
 # Development tools
