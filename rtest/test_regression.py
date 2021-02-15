@@ -719,6 +719,40 @@ def test_1931():
     assert 'line 3\nline 4' in xdot
     assert 'line 5\nline 6' in xdot
 
+@pytest.mark.parametrize('cmd,section',
+  (('acyclic',  1), ('bcomps',     1), ('ccomps', 1), ('cdt',       3),
+   ('cgraph',   3), ('dijkstra',   1), ('dot',    1), ('gc',        1),
+   ('gml2gv',   1), ('graphml2gv', 1), ('gvc',    3), ('gvcolor',   1),
+   ('gvgen',    1), ('gvpack',     1), ('gxl2gv', 1), ('mm2gv',     1),
+   ('nop',      1), ('osage',      1), ('pack',   3), ('patchwork', 1),
+   ('pathplan', 3), ('sccmap',     1), ('tred',   1), ('unflatten', 1),
+   ('xdot',     3)))
+@pytest.mark.skipif(shutil.which('man') is None, reason='man not found')
+def test_1936(cmd: str, section: int):
+    '''
+    Test man pages are accessible
+    https://gitlab.com/graphviz/graphviz/-/issues/1936
+    '''
+
+    # lookup the man page
+    ret = subprocess.call(['man', f'-s{section}', cmd],
+      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    # man pages in section 1 are actual commands, so should only be accessible
+    # if we have built and installed the corresponding command
+    if section == 1:
+      if shutil.which(cmd) is None:
+        assert ret != 0, \
+          f'man page for {cmd} accessible even when {cmd} is not installed'
+        return
+
+    # FIXME: all man pages are currently installed into section 3 in the CMake
+    # build system
+    if os.environ.get('build_system') == 'cmake' and section == 1:
+      return
+
+    assert ret == 0, f'man page for {cmd} not accessible'
+
 def test_package_version():
     '''
     The graphviz_version.h header should define a non-empty PACKAGE_VERSION
