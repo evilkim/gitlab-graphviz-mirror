@@ -43,7 +43,7 @@ private:
 	bool blockGraphIsCyclic();
 };
 
-struct IncVPSC : private VPSC {
+struct IncVPSC : VPSC {
 public:
 	unsigned splitCnt;
 	void satisfy();

@@ -34,7 +34,7 @@ VPSC* newVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
 	return new VPSC(n,vs,m,cs);
 }
 VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
-	return (VPSC*)new IncVPSC(n,vs,m,cs);
+	return new IncVPSC(n,vs,m,cs);
 }
 
 int genXConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs,int transitiveClosure) {
