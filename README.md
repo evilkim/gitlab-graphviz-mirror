@@ -11,6 +11,7 @@ See doc/build.html within the source tree or https://graphviz.org/doc/build.html
 ## master GIT Repository
 
 The master GIT Repository for graphviz can be found at:
+
 * https://gitlab.com/graphviz/graphviz/
 
 ## Support
@@ -31,7 +32,7 @@ The Graphviz layout programs take descriptions of graphs in a simple text langua
 
 Graphviz has many useful features for concrete diagrams, such as options for colors, fonts, tabular node layouts, line styles, hyperlinks, and custom shapes.
 
-In practice, graphs are usually generated from an external data sources, but they can also be created and edited manually, either as raw text files or within a graphical editor. (Graphviz was not intended to be a Visio replacement, so it is probably frustrating to try to use it that way.) 
+In practice, graphs are usually generated from an external data sources, but they can also be created and edited manually, either as raw text files or within a graphical editor. (Graphviz was not intended to be a Visio replacement, so it is probably frustrating to try to use it that way.)
 
 ## Contacts
 

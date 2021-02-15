@@ -76,7 +76,7 @@ is green
     for the version links to the GitLab commit comparisons to work.
 
     Example (from
-    https://gitlab.com/graphviz/graphviz/-/commit/5e0d3b1841b7e358274c916b52276d251eabef3d#ab09011fa121d0a2bb9fa4ca76094f2482b902b7):
+    [commit 5e0d3b1841b7e358274c916b52276d251eabef3d](https://gitlab.com/graphviz/graphviz/-/commit/5e0d3b1841b7e358274c916b52276d251eabef3d#ab09011fa121d0a2bb9fa4ca76094f2482b902b7)):
 
     ```diff
      ## [Unreleased]
@@ -84,6 +84,7 @@ is green
     +## [2.44.1] - 2020-06-29
     +
     ```
+
     ```diff
     -[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.0...master
     +[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.1...master
