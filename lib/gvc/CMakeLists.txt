@@ -58,6 +58,7 @@ target_link_libraries(gvc PUBLIC
     cdt
     cgraph
     label
+    pack
     pathplan
     xdot
     ${EXPAT_LIBRARIES}

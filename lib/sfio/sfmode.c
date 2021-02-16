@@ -13,6 +13,9 @@
 #include	<sfio/sfhdr.h>
 #include	<stddef.h>
 #include <stdint.h>
+#ifndef _WIN32
+#include <sys/wait.h>
+#endif
 static char *Version = "\n@(#)sfio (AT&T Labs - kpv) 2001-02-01\0\n";
 
 /*	Functions to set a given stream to some desired mode
