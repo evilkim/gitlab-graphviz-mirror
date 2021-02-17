@@ -18,6 +18,7 @@
  */
 
 #include <ast/ast.h>
+#include <limits.h>
 
 int chrtoi(const char *s)
 {

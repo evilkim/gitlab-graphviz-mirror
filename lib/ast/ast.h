@@ -28,9 +28,6 @@ extern "C" {
 #ifndef PATH_MAX
 #define PATH_MAX    1024
 #endif
-#ifndef CHAR_BIT
-#define CHAR_BIT    8
-#endif
 
 #define PATH_PHYSICAL   01
 #define PATH_DOTDOT 02

@@ -452,7 +452,7 @@ switch_item	:	case_list statement_list
 				sw->lastcase = $$;
 				n = sw->cur - sw->base;
 				sw->cur = sw->base;
-				$$->data.select.constant = (Extype_t**)exalloc(expr.program, (n + 1) * sizeof(Extype_t*));
+				$$->data.select.constant = exalloc(expr.program, (n + 1) * sizeof(Extype_t*));
 				memcpy($$->data.select.constant, sw->base, n * sizeof(Extype_t*));
 				$$->data.select.constant[n] = 0;
 			}
