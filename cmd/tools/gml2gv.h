@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 #include <stdio.h>
 #include <cgraph/cgraph.h>
 

@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /*************************************************************************
  * Copyright (c) 2015 AT&T Intellectual Property 
  * All rights reserved. This program and the accompanying materials
