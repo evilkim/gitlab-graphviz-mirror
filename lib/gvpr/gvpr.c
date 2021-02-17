@@ -186,17 +186,17 @@ static int parseArgs(char *s, int argc, char ***argv)
 #define LISTSEP ':'
 #endif
 
-static Sfio_t*
-concat (char* pfx, char* sfx, char** sp)
+static char*
+concat (char* pfx, char* sfx)
 {
-    Sfio_t *pathp;
-    if (!(pathp = sfstropen())) {
-	error(ERROR_ERROR, "Could not open buffer");
+    char *sp = malloc(strlen(pfx) + strlen(sfx) + 1);
+    if (sp == NULL) {
+	error(ERROR_ERROR, "Out of memory");
 	return 0;
     }
-    sfprintf(pathp, "%s%s", pfx, sfx);
-    *sp = sfstruse(pathp);
-    return pathp;
+    strcpy(sp, pfx);
+    strcat(sp, sfx);
+    return sp;
 }
 
 /* resolve:
@@ -215,7 +215,7 @@ static char *resolve(char *arg, int Verbose)
     char c;
     char *fname = 0;
     Sfio_t *fp;
-    Sfio_t *pathp = NULL;
+    char *pathp = NULL;
     size_t sz;
 
 #ifdef WIN32_DLL
@@ -230,10 +230,10 @@ static char *resolve(char *arg, int Verbose)
 	path = getenv("GPRPATH");  // deprecated
     if (path && (c = *path)) {
 	if (c == LISTSEP) {
-	    pathp = concat(DFLT_GVPRPATH, path, &path); 
+	    pathp = path = concat(DFLT_GVPRPATH, path);
 	}
 	else if ((c = path[strlen(path)-1]) == LISTSEP) {
-	    pathp = concat(path, DFLT_GVPRPATH, &path); 
+	    pathp = path = concat(path, DFLT_GVPRPATH);
 	}
     }
     else
@@ -272,8 +272,7 @@ static char *resolve(char *arg, int Verbose)
 	error(ERROR_ERROR, "Could not find file \"%s\" in GVPRPATH", arg);
 
     sfclose(fp);
-    if (pathp)
-	sfclose(pathp);
+    free(pathp);
     if (Verbose)
 	fprintf (stderr, "file %s resolved to %s\n", arg, fname);
     return fname;
