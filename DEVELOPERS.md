@@ -18,6 +18,8 @@ who will be affected by a new Graphviz release.
   [@RedBaron2 on Github](https://github.com/RedBaron2)
 * [Debian](https://packages.debian.org/sid/graphviz),
   [Laszlo Boszormenyi (GCS) on Debian](https://qa.debian.org/developer.php?login=gcs%40debian.org)
+* [Fedora](https://src.fedoraproject.org/rpms/graphviz),
+  [Jaroslav Škarvada](https://src.fedoraproject.org/user/jskarvad)
 * [FreeBSD](https://svnweb.freebsd.org/ports/head/graphics/graphviz/),
   dinoex@FreeBSD.org
 * [Homebrew](https://formulae.brew.sh/formula/graphviz#default),
