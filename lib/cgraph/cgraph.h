@@ -25,7 +25,7 @@ extern "C" {
 #       define CGRAPH_API __declspec(dllimport)
 #   endif
 #else
-#   define CGRAPH_API extern
+#   define CGRAPH_API /* nothing */
 #endif
 
 #ifndef FALSE
@@ -191,11 +191,11 @@ struct Agdisc_s {		/* user's discipline */
 
 	/* default resource disciplines */
 
-CGRAPH_API Agmemdisc_t AgMemDisc;
-CGRAPH_API Agiddisc_t AgIdDisc;
-CGRAPH_API Agiodisc_t AgIoDisc;
+CGRAPH_API extern Agmemdisc_t AgMemDisc;
+CGRAPH_API extern Agiddisc_t AgIdDisc;
+CGRAPH_API extern Agiodisc_t AgIoDisc;
 
-CGRAPH_API Agdisc_t AgDefaultDisc;
+CGRAPH_API extern Agdisc_t AgDefaultDisc;
 
 struct Agdstate_s {
     void *mem;
@@ -422,10 +422,10 @@ CGRAPH_API agusererrf agseterrf(agusererrf);
 #define TAILPORT_ID		"tailport"
 #define HEADPORT_ID		"headport"
 
-CGRAPH_API Agdesc_t Agdirected;
-CGRAPH_API Agdesc_t Agstrictdirected;
-CGRAPH_API Agdesc_t Agundirected;
-CGRAPH_API Agdesc_t Agstrictundirected;
+CGRAPH_API extern Agdesc_t Agdirected;
+CGRAPH_API extern Agdesc_t Agstrictdirected;
+CGRAPH_API extern Agdesc_t Agundirected;
+CGRAPH_API extern Agdesc_t Agstrictundirected;
 
 /* fast graphs */
 void agflatten(Agraph_t * g, int flag);
