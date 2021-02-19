@@ -65,7 +65,6 @@ extern "C" {
 #ifndef GVC_EXPORTS
 __declspec(dllimport) lt_symlist_t lt_preloaded_symbols[];
 #else
-//__declspec(dllexport) lt_symlist_t lt_preloaded_symbols[];
 #if !defined(LTDL_H)
 lt_symlist_t lt_preloaded_symbols[];
 #endif
