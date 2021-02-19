@@ -26,13 +26,10 @@
 #include <ingraphs/ingraphs.h>
 #include <pack/pack.h>
 
-/*visual studio*/
 #if defined(_WIN32)
-#define extern __declspec(dllimport)
+  __declspec(dllimport)
 #endif
-/*end visual studio*/
 extern gvplugin_library_t gvplugin_neato_layout_LTX_library;
-#undef extern
 
 lt_symlist_t lt_preloaded_symbols[] = {
 #if defined(_WIN32)
