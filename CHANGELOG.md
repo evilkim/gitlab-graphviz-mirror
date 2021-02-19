@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The edges in JSON output are ordered now !1728
 - remove regex usage #1919
 - RxSpencer is no longer a dependency on Windows
+- gvmap.sh is compatible with POSIX shells in addition to ksh
 
 ### Fixed
 - Fix gvpr -? to actually print usage and exit non-zero

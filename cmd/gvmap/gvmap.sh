@@ -1,4 +1,4 @@
-#!/usr/bin/env ksh
+#!/bin/sh
 
 # Script for gvmap pipeline
 # Use -A to add flags for gvmap; e.g., -Ae results in gvmap -e
