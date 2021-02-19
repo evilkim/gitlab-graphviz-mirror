@@ -259,16 +259,18 @@ extern "C" {
      extern ssize_t _Sfi;
 
 #if defined(_BLD_sfio) && defined(GVDLL)
-#define extern	__declspec(dllexport)
+#define EXTERN	__declspec(dllexport)
+#else
+#define EXTERN /* nothing */
 #endif
 /* standard in/out/err streams */
-    extern Sfio_t *sfstdin;
-    extern Sfio_t *sfstdout;
-    extern Sfio_t *sfstderr;
-    extern Sfio_t _Sfstdin;
-    extern Sfio_t _Sfstdout;
-    extern Sfio_t _Sfstderr;
-#undef extern
+    EXTERN extern Sfio_t *sfstdin;
+    EXTERN extern Sfio_t *sfstdout;
+    EXTERN extern Sfio_t *sfstderr;
+    EXTERN extern Sfio_t _Sfstdin;
+    EXTERN extern Sfio_t _Sfstdout;
+    EXTERN extern Sfio_t _Sfstderr;
+#undef EXTERN
 
 #if defined(_DLL) && defined(_DLL_INDIRECT_DATA)
 /* The Uwin shared library environment requires these to be defined
