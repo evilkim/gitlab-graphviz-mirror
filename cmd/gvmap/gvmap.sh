@@ -10,7 +10,6 @@
 # parts will be separated during option processing.
 
 LAYOUT=sfdp
-trap 'rm -f $TMPFILE1 $TMPFILE2 $TMPINFILE errout; exit' 0 1 2 3 15
 OPTSTR="vVA:[gvmap flags]G:[attr=val]E:[attr=val]N:[attr=val]g:[attr=val]e:[attr=val]n:[attr=val]K:[layout]T:[output format]o:[outfile]"
 FLAGS1=
 FLAGS2=
