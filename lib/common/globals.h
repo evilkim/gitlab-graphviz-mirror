@@ -22,59 +22,63 @@ extern "C" {
 #ifndef __CYGWIN__
 #if defined(GVDLL)
 #if !defined(_BLD_gvc)
-#define extern	__declspec(dllimport)
+#define DECLSPEC	__declspec(dllimport)
 #else
-#define extern __declspec(dllexport)
+#define DECLSPEC __declspec(dllexport)
 #endif
 #endif
 #endif
 /*visual studio*/
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#define extern __declspec(dllimport)
+#define DECLSPEC __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+
+#ifndef DECLSPEC
+#define DECLSPEC /* nothing */
+#endif
 
 #ifndef EXTERN
 #define EXTERN extern
 #endif
 
-    EXTERN char *Version;
-    EXTERN char **Files;	/* from command line */
-    EXTERN const char **Lib;		/* from command line */
-    EXTERN char *CmdName;
-    EXTERN char *Gvfilepath;  /* Per-process path of files allowed in image attributes (also ps libs) */
-    EXTERN char *Gvimagepath; /* Per-graph path of files allowed in image attributes  (also ps libs) */
+    DECLSPEC EXTERN char *Version;
+    DECLSPEC EXTERN char **Files;	/* from command line */
+    DECLSPEC EXTERN const char **Lib;		/* from command line */
+    DECLSPEC EXTERN char *CmdName;
+    DECLSPEC EXTERN char *Gvfilepath;  /* Per-process path of files allowed in image attributes (also ps libs) */
+    DECLSPEC EXTERN char *Gvimagepath; /* Per-graph path of files allowed in image attributes  (also ps libs) */
 
-    EXTERN unsigned char Verbose;
-    EXTERN unsigned char Reduce;
-    EXTERN int MemTest;
-    EXTERN char *HTTPServerEnVar;
-    EXTERN int graphviz_errors;
-    EXTERN int Nop;
-    EXTERN double PSinputscale;
-    EXTERN int Show_cnt;
-    EXTERN char** Show_boxes;	/* emit code for correct box coordinates */
-    EXTERN int CL_type;		/* NONE, LOCAL, GLOBAL */
-    EXTERN unsigned char Concentrate;	/* if parallel edges should be merged */
-    EXTERN double Epsilon;	/* defined in input_graph */
-    EXTERN int MaxIter;
-    EXTERN int Ndim;
-    EXTERN int State;		/* last finished phase */
-    EXTERN int EdgeLabelsDone;	/* true if edge labels have been positioned */
-    EXTERN double Initial_dist;
-    EXTERN double Damping;
-    EXTERN int Y_invert;	/* invert y in dot & plain output */
-    EXTERN int GvExitOnUsage;   /* gvParseArgs() should exit on usage or error */
+    DECLSPEC EXTERN unsigned char Verbose;
+    DECLSPEC EXTERN unsigned char Reduce;
+    DECLSPEC EXTERN int MemTest;
+    DECLSPEC EXTERN char *HTTPServerEnVar;
+    DECLSPEC EXTERN int graphviz_errors;
+    DECLSPEC EXTERN int Nop;
+    DECLSPEC EXTERN double PSinputscale;
+    DECLSPEC EXTERN int Show_cnt;
+    DECLSPEC EXTERN char** Show_boxes;	/* emit code for correct box coordinates */
+    DECLSPEC EXTERN int CL_type;		/* NONE, LOCAL, GLOBAL */
+    DECLSPEC EXTERN unsigned char Concentrate;	/* if parallel edges should be merged */
+    DECLSPEC EXTERN double Epsilon;	/* defined in input_graph */
+    DECLSPEC EXTERN int MaxIter;
+    DECLSPEC EXTERN int Ndim;
+    DECLSPEC EXTERN int State;		/* last finished phase */
+    DECLSPEC EXTERN int EdgeLabelsDone;	/* true if edge labels have been positioned */
+    DECLSPEC EXTERN double Initial_dist;
+    DECLSPEC EXTERN double Damping;
+    DECLSPEC EXTERN int Y_invert;	/* invert y in dot & plain output */
+    DECLSPEC EXTERN int GvExitOnUsage;   /* gvParseArgs() should exit on usage or error */
 
-    EXTERN Agsym_t
+    DECLSPEC EXTERN Agsym_t
 	*G_activepencolor, *G_activefillcolor,
 	*G_visitedpencolor, *G_visitedfillcolor,
 	*G_deletedpencolor, *G_deletedfillcolor,
 	*G_ordering, *G_peripheries, *G_penwidth,
 	*G_gradientangle, *G_margin;
-    EXTERN Agsym_t
+    DECLSPEC EXTERN Agsym_t
 	*N_height, *N_width, *N_shape, *N_color, *N_fillcolor,
 	*N_activepencolor, *N_activefillcolor,
 	*N_selectedpencolor, *N_selectedfillcolor,
@@ -86,7 +90,7 @@ extern "C" {
 	*N_skew, *N_distortion, *N_fixed, *N_imagescale, *N_imagepos, *N_layer,
 	*N_group, *N_comment, *N_vertices, *N_z,
 	*N_penwidth, *N_gradientangle;
-    EXTERN Agsym_t
+    DECLSPEC EXTERN Agsym_t
 	*E_weight, *E_minlen, *E_color, *E_fillcolor,
 	*E_activepencolor, *E_activefillcolor,
 	*E_selectedpencolor, *E_selectedfillcolor,
@@ -104,12 +108,10 @@ extern "C" {
 	*E_tailclip, *E_headclip,
 	*E_penwidth;
 
-    extern struct fdpParms_s* fdp_parms;
+    DECLSPEC extern struct fdpParms_s* fdp_parms;
 
 #undef EXTERN
-#ifdef extern
-#undef extern
-#endif
+#undef DECLSPEC
 
 #ifdef __cplusplus
 }
