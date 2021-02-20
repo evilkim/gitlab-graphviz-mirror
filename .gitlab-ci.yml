@@ -585,8 +585,10 @@ deployment:
     - tags
   script:
     - cd ci/$IMAGE
-    # Build and push with git commit SHA tag
-    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA .
+    # fetches the :latest image (not failing if image is not found) for caching
+    - docker pull $CI_REGISTRY/graphviz/graphviz/$IMAGE:latest || true
+    # Build and push with git commit SHA tag, reusing layers from the :latest image if possible
+    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY/graphviz/graphviz/$IMAGE:latest .
     - docker push     $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, push to :latest tag
     - docker tag $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY/graphviz/graphviz:latest
