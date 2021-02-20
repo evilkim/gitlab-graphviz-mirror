@@ -7,6 +7,10 @@ stages:
     - deploy
 
 portable-source:
+    # Doesn't have to wait for all the previous stages, only a docker image of
+    # ubuntu-18.04 is required
+    needs:
+      - docker_build_ubuntu-18.04
     stage: source
     tags:
         - linux
