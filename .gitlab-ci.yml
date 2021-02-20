@@ -1,5 +1,6 @@
 stages:
     - build_docker_images
+    - push_docker_images
     - source
     - build
     - test
@@ -598,7 +599,7 @@ deployment:
     only:
         - master@graphviz/graphviz
 
-.docker_build_template: &docker_build_definition
+.docker_template: &docker_definition
   image: docker:stable
   services:
     - docker:dind
@@ -608,10 +609,13 @@ deployment:
     # $CI_JOB_TOKEN is documented at
     # https://docs.gitlab.com/ee/user/project/new_ci_build_permissions_model.html#job-token
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-  stage: build_docker_images
   # do not re-run this job for new Git tags of previously seen commits
   except:
     - tags
+
+.docker_build_template: &docker_build_definition
+  <<: *docker_definition
+  stage: build_docker_images
   script:
     - cd ci/$IMAGE
     # fetches the :latest image (not failing if image is not found) for caching
@@ -619,12 +623,18 @@ deployment:
     # Build and push with git commit SHA tag, reusing layers from the :latest image if possible
     - docker build -t $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY_IMAGE/$IMAGE:latest .
     - docker push     $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
+
+.docker_push_template: &docker_push_definition
+  stage: push_docker_images
+  only:
+    refs:
+      # Only master should be pushed to :latest, not unmerged merge-requests.
+      - master@graphviz/graphviz
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, push to :latest tag
     - docker tag $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/$IMAGE:latest
     - docker push     $CI_REGISTRY_IMAGE/$IMAGE:latest
-  only:
-    refs:
-        - master@graphviz/graphviz
 
 docker_build_centos7:
   <<: *docker_build_definition
@@ -658,5 +668,40 @@ docker_build_ubuntu-20.04:
 
 docker_build_ubuntu-20.10:
   <<: *docker_build_definition
+  variables:
+    IMAGE: ubuntu-20.10
+
+docker_push_centos7:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: centos7
+
+docker_push_centos8:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: centos8
+
+docker_push_fedora32:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: fedora32
+
+docker_push_fedora33:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: fedora33
+
+docker_push_ubuntu-18.04:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: ubuntu-18.04
+
+docker_push_ubuntu-20.04:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: ubuntu-20.04
+
+docker_push_ubuntu-20.10:
+  <<: *docker_push_definition
   variables:
     IMAGE: ubuntu-20.10
