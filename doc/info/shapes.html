@@ -250,17 +250,17 @@ by the <A HREF=attrs.html#d:width><TT>width</TT></A> and
 <A HREF=attrs.html#d:height><TT>height</TT></A> attributes, and the shape
 is used for edge termination, but both the shape and label sizes are used
 preventing node overlap. For example, the following graph
-<XMP>
+<PRE>
 digraph G {
   { 
     node [margin=0 fontcolor=blue fontsize=32 width=0.5 shape=circle style=filled]
     b [fillcolor=yellow fixedsize=true label="a very long label"]
     d [fixedsize=shape label="an even longer label"]
   }
-  a -> {c d}
-  b -> {c d}
+  a -&gt; {c d}
+  b -&gt; {c d}
 }
-</XMP>
+</PRE>
 yields the figure<BR>
 <IMG SRC=fixed.gif>
 <P>
@@ -305,7 +305,7 @@ its <A HREF=attrs.html#d:label><TT>label</TT></A>,
 which has the following schema:
   <TABLE>
   <TR><TD ALIGN=right><I>rlabel</I><TD>=<TD><I>field</I> ( '|' <I>field</I> )*</TR>
-  <TR><TD ALIGN=right>where <I>field</I><TD>=<TD>fieldId</I> or '{' <I>rlabel</I> '}'</TR>
+  <TR><TD ALIGN=right>where <I>field</I><TD>=<TD><I>fieldId</I> or '{' <I>rlabel</I> '}'</TR>
   <TR><TD ALIGN=right>and <I>fieldId</I><TD>=<TD> [ '&lt;' <I>string</I> '&gt;'] [ <I>string</I> ]</TR>
   </TABLE>
 Braces, vertical bars and angle brackets must be escaped with
@@ -338,24 +338,24 @@ corresponding to horizontal layouts, the top-level fields are
 displayed vertically.
 <P>
 As an example of a record node, the dot input
-<XMP>
+<PRE>
 digraph structs {
     node [shape=record];
-    struct1 [label="<f0> left|<f1> mid&#92; dle|<f2> right"];
-    struct2 [label="<f0> one|<f1> two"];
-    struct3 [label="hello&#92;nworld |{ b |{c|<here> d|e}| f}| g | h"];
-    struct1:f1 -> struct2:f0;
-    struct1:f2 -> struct3:here;
+    struct1 [label="&lt;f0&gt; left|&lt;f1&gt; mid&amp;#92; dle|&lt;f2&gt; right"];
+    struct2 [label="&lt;f0&gt; one|&lt;f1&gt; two"];
+    struct3 [label="hello&amp;#92;nworld |{ b |{c|&lt;here&gt; d|e}| f}| g | h"];
+    struct1:f1 -&gt; struct2:f0;
+    struct1:f2 -&gt; struct3:here;
 }
-</XMP>
+</PRE>
 
 yields the figure<BR>
 <IMG SRC=record.gif>
 <P>
 If we add the line
-<XMP>
+<PRE>
     rankdir=LR
-</XMP>
+</PRE>
 we get the layout<BR>
 <IMG SRC=record2.gif>
 <P>
@@ -382,15 +382,15 @@ whatever color is the current graph or cluster background color.
 Note that <TT>point</TT> shapes are always filled.
 <P>
 Thus, the code
-<XMP>
+<PRE>
 digraph G {
   rankdir=LR
   node [shape=box, color=blue]
   node1 [style=filled] 
   node2 [style=filled, fillcolor=red] 
-  node0 -> node1 -> node2
+  node0 -&gt; node1 -&gt; node2
 }
-</XMP>
+</PRE>
 yields the figure<BR>
 <IMG SRC=fill.gif>
 
@@ -416,7 +416,7 @@ Also, prior to 26 April 2005, the rounded and filled styles were
 mutually exclusive.
 <P>
 As an example of rounding, dot uses the graph
-<XMP>
+<PRE>
 digraph R {
   rankdir=LR
   node [style=rounded]
@@ -424,9 +424,9 @@ digraph R {
   node2 [fillcolor=yellow, style="rounded,filled", shape=diamond]
   node3 [shape=record, label="{ a | b | c }"]
 
-  node1 -> node2 -> node3
+  node1 -&gt; node2 -&gt; node3
 }
-</XMP>
+</PRE>
 to produce the figure<BR>
 <IMG SRC=round.gif>
 <DT><A NAME=d:dashed></A><TT>dashed</TT>
@@ -1165,36 +1165,36 @@ abutting or even collinear. The user can usual get around this by increasing
 the border size or the spacing, or turning off the table border.
 <P>
 As an example of HTML labels, the dot input 
-<XMP>
+<PRE>
 digraph structs {
     node [shape=plaintext]
-    struct1 [label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-  <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
-</TABLE>>];
-    struct2 [label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-  <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
-</TABLE>>];
-    struct3 [label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-  <TR>
-    <TD ROWSPAN="3">hello<BR/>world</TD>
-    <TD COLSPAN="3">b</TD>
-    <TD ROWSPAN="3">g</TD>
-    <TD ROWSPAN="3">h</TD>
-  </TR>
-  <TR>
-    <TD>c</TD><TD PORT="here">d</TD><TD>e</TD>
-  </TR>
-  <TR>
-    <TD COLSPAN="3">f</TD>
-  </TR>
-</TABLE>>];
-    struct1:f1 -> struct2:f0;
-    struct1:f2 -> struct3:here;
+    struct1 [label=&lt;
+&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;
+  &lt;TR&gt;&lt;TD&gt;left&lt;/TD&gt;&lt;TD PORT="f1"&gt;mid dle&lt;/TD&gt;&lt;TD PORT="f2"&gt;right&lt;/TD&gt;&lt;/TR&gt;
+&lt;/TABLE&gt;&gt;];
+    struct2 [label=&lt;
+&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;
+  &lt;TR&gt;&lt;TD PORT="f0"&gt;one&lt;/TD&gt;&lt;TD&gt;two&lt;/TD&gt;&lt;/TR&gt;
+&lt;/TABLE&gt;&gt;];
+    struct3 [label=&lt;
+&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"&gt;
+  &lt;TR&gt;
+    &lt;TD ROWSPAN="3"&gt;hello&lt;BR/&gt;world&lt;/TD&gt;
+    &lt;TD COLSPAN="3"&gt;b&lt;/TD&gt;
+    &lt;TD ROWSPAN="3"&gt;g&lt;/TD&gt;
+    &lt;TD ROWSPAN="3"&gt;h&lt;/TD&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TD&gt;c&lt;/TD&gt;&lt;TD PORT="here"&gt;d&lt;/TD&gt;&lt;TD&gt;e&lt;/TD&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TD COLSPAN="3"&gt;f&lt;/TD&gt;
+  &lt;/TR&gt;
+&lt;/TABLE&gt;&gt;];
+    struct1:f1 -&gt; struct2:f0;
+    struct1:f2 -&gt; struct3:here;
 }
-</XMP>
+</PRE>
 produces the HTML analogue of the record example above<BR>
 <IMG SRC=html1.gif>
 <P>
@@ -1223,21 +1223,21 @@ various non-convex shapes. For example, a <tt>tee-shaped</tt> node
 <IMG SRC=tee.gif>
 <P>
 can be produced using
-<XMP>
+<PRE>
   tee [shape=none margin=0 label=
-    <<table border="0" cellspacing="0" cellborder="1">
-     <tr>
-      <td width="9" height="9" fixedsize="true" style="invis"></td>
-      <td width="9" height="9" fixedsize="true" sides="ltr"></td>
-      <td width="9" height="9" fixedsize="true" style="invis"></td>
-     </tr>
-     <tr>
-      <td width="9" height="9" fixedsize="true" sides="tlb"></td>
-      <td width="9" height="9" fixedsize="true" sides="b"></td>
-      <td width="9" height="9" fixedsize="true" sides="brt"></td>
-     </tr>
-    </table>>]
-</XMP>
+    &lt;&lt;table border="0" cellspacing="0" cellborder="1"&gt;
+     &lt;tr&gt;
+      &lt;td width="9" height="9" fixedsize="true" style="invis"&gt;&lt;/td&gt;
+      &lt;td width="9" height="9" fixedsize="true" sides="ltr"&gt;&lt;/td&gt;
+      &lt;td width="9" height="9" fixedsize="true" style="invis"&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+      &lt;td width="9" height="9" fixedsize="true" sides="tlb"&gt;&lt;/td&gt;
+      &lt;td width="9" height="9" fixedsize="true" sides="b"&gt;&lt;/td&gt;
+      &lt;td width="9" height="9" fixedsize="true" sides="brt"&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+    &lt;/table&gt;&gt;]
+</PRE>
 <H2><A NAME=epsf>User-defined Nodes</A></H2>
 
 There is a third type of node shape which is specified by the user.

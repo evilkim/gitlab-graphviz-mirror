@@ -501,42 +501,12 @@ for (prefix, _, files) in os.walk(ROOT):
 @pytest.mark.skipif(shutil.which('xmllint') is None, reason='xmllint not found')
 def test_html(src: Path):
 
-  # Files that we know currently fail this test. If you fix one of these files,
-  # remove it from this list.
-  # See https://gitlab.com/graphviz/graphviz/-/issues/1861
-  FAILING = frozenset(ROOT / x for x in (
-    'doc/info/colors.html',
-    'doc/info/output.html',
-    'doc/info/shapes.html',
-    'doc/internal_todo.html',
-    'lib/inkpot/data/types.html',
-    'macosx/graphviz.help/graphviz.html',
-  ))
-
-  # ensure this test fails if one of the above files is moved/deleted, to prompt
-  # developers to update the list
-  assert all(x.exists() for x in FAILING), 'missing file in FAILING list'
-
-  # FIXME: the macOS Autotools CI build installs to a target within the source
-  # tree, so we need to avoid picking up duplicating copies of the FAILING list
-  # that are present there
-  if platform.system() == 'Darwin' and \
-      os.environ.get('build_system') == 'autotools' and \
-      (ROOT / 'build') in src.parents:
-    pytest.skip('skipping installed copied of source file')
-
   # validate the file
   p = subprocess.Popen(['xmllint', '--nonet', '--noout', '--html', '--valid',
     src], stderr=subprocess.PIPE, universal_newlines=True)
   _, stderr = p.communicate()
 
-  # If this is expected to fail, demand that it does so. This way the test will
-  # fail if someone fixes the file, prompting them to update this test.
-  if src in FAILING:
-    assert p.returncode != 0 or stderr != ''
-    return
-
-  # otherwise, expect it to succeed
+  # expect it to succeed
   assert p.returncode == 0
   assert stderr == ''
 
