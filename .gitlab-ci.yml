@@ -629,7 +629,9 @@ deployment:
   only:
     refs:
       # Only master should be pushed to :latest, not unmerged merge-requests.
-      - master@graphviz/graphviz
+      # It's ok for this to run on other repos (not just graphviz/graphviz) as
+      # they have their own container registries.
+      - master
   script:
     - docker pull $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, push to :latest tag
