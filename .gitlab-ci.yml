@@ -581,13 +581,15 @@ deployment:
     - tags
   script:
     - cd ci/$IMAGE
-    - docker build -t $CI_REGISTRY/graphviz/graphviz:$IMAGE .
-    - docker push $CI_REGISTRY/graphviz/graphviz:$IMAGE
+    # Build and push with git commit SHA
+    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
+    - docker push     $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
+    # Re-tag, backwards compatibility for the tests which are still using graphviz/graphviz:image-name
+    - docker tag $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY/graphviz/graphviz:$IMAGE
+    - docker push     $CI_REGISTRY/graphviz/graphviz:$IMAGE
   only:
     refs:
         - master@graphviz/graphviz
-    changes:
-      - ci/$IMAGE/Dockerfile
 
 docker_build_centos7:
   <<: *docker_build_definition
