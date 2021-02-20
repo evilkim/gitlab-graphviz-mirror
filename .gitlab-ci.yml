@@ -102,15 +102,6 @@ portable-source:
             metrics: metrics.txt
     except:
         - tags
-    # Most submitters don't have access to the macOS runners, and if they try
-    # to run macOS pipeline jobs, the jobs will hang forever.  This variable is
-    # only set on repos that have access to macOS runners, in GitLab repo
-    # settings.
-    # https://gitlab.com/graphviz/graphviz/-/settings/ci_cd
-    only:
-        variables:
-          - $CI_ENABLE_MACOS
-
 
 .build_template: &windows_build_definition
     stage: build
@@ -520,14 +511,6 @@ macos-autotools-test:
           artifacts: true
     tags:
         - macos
-    # Most submitters don't have access to the macOS runners, and if they try
-    # to run macOS pipeline jobs, the jobs will hang forever.  This variable is
-    # only set on repos that have access to macOS runners, in GitLab repo
-    # settings.
-    # https://gitlab.com/graphviz/graphviz/-/settings/ci_cd
-    only:
-        variables:
-          - $CI_ENABLE_MACOS
 
 ubuntu18-04-cmake-test:
     <<: *linux_test_definition
@@ -604,14 +587,6 @@ macos-cmake-test:
           artifacts: true
     tags:
         - macos
-    # Most submitters don't have access to the macOS runners, and if they try
-    # to run macOS pipeline jobs, the jobs will hang forever.  This variable is
-    # only set on repos that have access to macOS runners, in GitLab repo
-    # settings.
-    # https://gitlab.com/graphviz/graphviz/-/settings/ci_cd
-    only:
-        variables:
-          - $CI_ENABLE_MACOS
 
 deployment:
     stage: deploy
