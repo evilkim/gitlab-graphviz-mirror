@@ -582,7 +582,7 @@ deployment:
   script:
     - cd ci/$IMAGE
     # Build and push with git commit SHA
-    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
+    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA .
     - docker push     $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, backwards compatibility for the tests which are still using graphviz/graphviz:image-name
     - docker tag $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY/graphviz/graphviz:$IMAGE
