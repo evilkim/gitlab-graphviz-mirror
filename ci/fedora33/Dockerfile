@@ -1,5 +1,7 @@
 FROM fedora:33
 
+COPY requirements.txt ./requirements.txt
+
 # Development tools
 RUN yum -y groupinstall 'Development Tools' \
 && yum -y install rpm-build \
@@ -71,6 +73,10 @@ libXaw-devel \
 libglade2-devel \
 mono-core \
 # Test utilities
-python-pytest \
+python3-pip \
+python3-setuptools \
+# install Python dependencies
+&& python3 -m pip install --user --upgrade pip \
+&& python3 -m pip install --user --requirement requirements.txt \
 # Clean up
-&& yum clean all && rm -rf /var/cache/yum \
+&& yum clean all && rm -rf /var/cache/yum

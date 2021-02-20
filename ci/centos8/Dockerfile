@@ -1,5 +1,7 @@
 FROM centos:8
 
+COPY requirements.txt ./requirements.txt
+
 # Development tools
 RUN yum -y groupinstall 'Development Tools' \
 && dnf config-manager --set-enabled powertools \
@@ -66,6 +68,10 @@ libSM-devel \
 libXaw-devel \
 tk-devel \
 # Test utilities
-python3-pytest \
+python3-pip \
+python3-setuptools \
+# install Python dependencies
+&& python3 -m pip install --user --upgrade pip \
+&& python3 -m pip install --user --requirement requirements.txt \
 # Clean up
 && yum clean all && rm -rf /var/cache/yum

@@ -1,5 +1,7 @@
 FROM centos:7
 
+COPY requirements.txt ./requirements.txt
+
 # Development tools
 RUN yum -y groupinstall 'Development Tools' \
 && yum install -y \
@@ -76,12 +78,16 @@ libSM-devel \
 libXaw-devel \
 tk-devel \
 # Test utilities
+python3-pip \
+python3-setuptools \
 && rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-py-1.4.32-2.el7.noarch.rpm \
-&& rpm --install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/p/python36-pytest-2.9.2-4.el7.noarch.rpm \
 && alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \
 --slave /usr/local/bin/ctest ctest /usr/bin/ctest3 \
 --slave /usr/local/bin/cpack cpack /usr/bin/cpack3 \
 --slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake3 \
 --family cmake \
+# install Python dependencies
+&& python3 -m pip install --user --upgrade pip \
+&& python3 -m pip install --user --requirement requirements.txt \
 # Clean up
 && yum clean all && rm -rf /var/cache/yum
