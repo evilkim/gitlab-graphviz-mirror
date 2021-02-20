@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef INK_H
-#define INK_H
+#pragma once
 
 #include <mingle/edge_bundling.h>
 
@@ -33,5 +32,3 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
 double ink1(pedge e);
 
 extern double ink_count;
-
-#endif /* INK_H */

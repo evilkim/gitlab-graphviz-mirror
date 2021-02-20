@@ -15,13 +15,13 @@
 #include <mingle/nearest_neighbor_graph_ann.h>
 #include <mingle/nearest_neighbor_graph.h>
 
-SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, int dim, double *x, double eps){
+SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, double *x, double eps){
   /* Gives a nearest neighbor graph of a list of dim-dimendional points. The result is a sparse matrix
      of nPts x nPts, with num_neigbors entries per row.
 
     nPts: number of points
     num_neigbors: number of neighbors needed
-    dim: dimension
+    dim: dimension == 4
     eps: error tolerance
     x: nPts*dim vector. The i-th point is x[i*dim : i*dim + dim - 1]
 
@@ -37,9 +37,9 @@ SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, int dim, double 
   val =  MALLOC(sizeof(double)*nPts*k*2);
 
 #ifdef HAVE_ANN
-  nearest_neighbor_graph_ann(nPts, dim, num_neigbors, eps, x, &nz, &irn, &jcn, &val);
+  nearest_neighbor_graph_ann(nPts, num_neigbors, eps, x, &nz, &irn, &jcn, &val);
 
-  A = SparseMatrix_from_coordinate_arrays(nz, nPts, nPts, irn, jcn, (void *) val, MATRIX_TYPE_REAL, sizeof(real));
+  A = SparseMatrix_from_coordinate_arrays(nz, nPts, nPts, irn, jcn, val, MATRIX_TYPE_REAL, sizeof(real));
 #else
   A = NULL;
 #endif

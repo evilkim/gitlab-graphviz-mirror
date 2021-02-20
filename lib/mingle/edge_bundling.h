@@ -7,8 +7,8 @@
  *
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
-#ifndef EDGE_BUNDLING_H
-#define EDGE_BUNDLING_H
+
+#pragma once
 
 #include <sparse/SparseMatrix.h>
 
@@ -38,8 +38,3 @@ pedge pedge_double(pedge e);
 
 /* flip the polyline so that last point becomes the first, second last the second, etc*/
 pedge pedge_flip(pedge e);
-
-
-#endif /* EDGE_BUNDLING_H */
-
-

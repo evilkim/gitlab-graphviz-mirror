@@ -446,7 +446,7 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 
     }
 
-    A_mid = nearest_neighbor_graph(ne, MIN(nneighbors, ne), 4, xx, eps);
+    A_mid = nearest_neighbor_graph(ne, MIN(nneighbors, ne), xx, eps);
 
     agglomerative_ink_bundling_internal(dim, A_mid, mid_edges, nneighbors, recurse_level, MAX_RECURSE_LEVEL, angle_param, angle, open_gl, current_ink, ink00, flag);
     SparseMatrix_delete(A_mid);

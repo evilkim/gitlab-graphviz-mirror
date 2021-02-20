@@ -8,9 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef NEAREST_NEIGHBOR_GRAPH_H
-#define NEAREST_NEIGHBOR_GRAPH_H
+#pragma once
 
-SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, int dim, double *x, double eps);
-
-#endif /* NEAREST_NEIGHBOR_GRAPH_H */
+SparseMatrix nearest_neighbor_graph(int nPts, int num_neigbors, double *x, double eps);

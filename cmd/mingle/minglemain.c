@@ -459,7 +459,7 @@ bundle (Agraph_t* g, opts_t* opts)
 	if (Verbose)
 		fprintf(stderr,"n = %d nz = %d\n",A->m, nz);
 
-	B = nearest_neighbor_graph(nz, MIN(opts->nneighbors, nz), dim, xx, eps);
+	B = nearest_neighbor_graph(nz, MIN(opts->nneighbors, nz), xx, eps);
 
 	SparseMatrix_delete(A);
 	A = B;

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef AGGLOMERATIVE_BUNDLING_H
-#define AGGLOMERATIVE_BUNDLING_H
+#pragma once
 
 typedef struct Agglomerative_Ink_Bundling_struct *Agglomerative_Ink_Bundling;
 
@@ -30,5 +29,3 @@ struct Agglomerative_Ink_Bundling_struct {
 };
 
 pedge* agglomerative_ink_bundling(int dim, SparseMatrix A, pedge* edges, int nneighbor, int max_recursion, real angle_param, real angle, int open_gl, int *flag);
-
-#endif /* AGGLOMERATIVE_BUNDLING_H */

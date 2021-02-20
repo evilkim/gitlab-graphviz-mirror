@@ -11,15 +11,13 @@
 #include "config.h"
 
 #ifdef HAVE_ANN
-//----------------------------------------------------------------------
-//		File:			get_nearest_neighb_graph.cpp
-//----------------------------------------------------------------------
 
 #include <ANN/ANN.h>					// ANN declarations
+#include <mingle/nearest_neighbor_graph_ann.h>
+#include <utility>
 #include <vector>
 
-int                             dim                             = 4;                    // dimension
-
+static const int dim = 4; // dimension
 
 /*
 static void printPt(ostream &out, ANNpoint p)			// print point
@@ -34,44 +32,25 @@ static void printPt(ostream &out, ANNpoint p)			// print point
 
 static void sortPtsX(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
-  ANNpoint p;
-  ANNcoord x, y;
-  int i, j;
-  for (i = 0; i < n; i++){
-    for (j = 0; j < dim; j++){
-      p = pts[i];
-      if (p[0] < p[2] || (p[0] == p[2] && p[1] < p[3])) continue;
-      x = p[0]; y = p[1];
-      p[0] = p[2];
-      p[1] = p[3];
-      p[2] = x;
-      p[3] = y;
-    }
+  for (int i = 0; i < n; i++){
+    ANNpoint p = pts[i];
+    if (p[0] < p[2] || (p[0] == p[2] && p[1] < p[3])) continue;
+    std::swap(p[0], p[2]);
+    std::swap(p[1], p[3]);
   }
 }
 
 static void sortPtsY(int n, ANNpointArray pts){
   /* sort so that edges always go from left to right in x-doordinate */
-  ANNpoint p;
-  ANNcoord x, y;
-  int i, j;
-  for (i = 0; i < n; i++){
-    for (j = 0; j < dim; j++){
-      p = pts[i];
-      if (p[1] < p[3] || (p[1] == p[3] && p[0] < p[2])) continue;
-      x = p[0]; y = p[1];
-      p[0] = p[2];
-      p[1] = p[3];
-      p[2] = x;
-      p[3] = y;
-    }
+  for (int i = 0; i < n; i++){
+    ANNpoint p = pts[i];
+    if (p[1] < p[3] || (p[1] == p[3] && p[0] < p[2])) continue;
+    std::swap(p[0], p[2]);
+    std::swap(p[1], p[3]);
   }
 }
 
-
-extern "C" void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0);
-
-void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0){
+void nearest_neighbor_graph_ann(int nPts, int k, double eps, double *x, int *nz0, int **irn0, int **jcn0, double **val0){
 
   /* Gives a nearest neighbor graph is a list of dim-dimendional points. The connectivity is in irn/jcn, and the distance in val.
      
@@ -87,29 +66,22 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
     note that there could be repeates
   */
 
-  ANNpointArray		dataPts;				// data points
-  
-  double *xx;
-  int *irn, *jcn;
-  double *val;
-  int nz;
-  
-  irn = *irn0;
-  jcn = *jcn0;
-  val = *val0;
+  int *irn = *irn0;
+  int *jcn = *jcn0;
+  double *val = *val0;
 
 
-  dataPts = annAllocPts(nPts, dim);			// allocate data points
+  ANNpointArray dataPts = annAllocPts(nPts, dim);			// allocate data points
   std::vector<ANNidx> nnIdx(k);						// allocate near neighbor indices
   std::vector<ANNdist> dists(k);					// allocate near neighbor dists
 
   for (int i = 0; i < nPts; i++){
-    xx =  dataPts[i];
+    double *xx =  dataPts[i];
     for (int j = 0; j < dim; j++) xx[j] = x[i*dim + j];
   }
 
   //========= graph when sort based on x ========
-  nz = 0;
+  int nz = 0;
   sortPtsX(nPts, dataPts);
   ANNkd_tree kdTree(					// build search structure
 			  dataPts,					// the data points
@@ -161,7 +133,8 @@ void nearest_neighbor_graph_ann(int nPts, int dim, int k, double eps, double *x,
   }
     
   *nz0 = nz;
-    
+
+  annDeallocPts(dataPts);
   annClose();									// done with ANN
 
 
