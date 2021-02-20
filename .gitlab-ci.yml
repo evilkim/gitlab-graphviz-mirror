@@ -297,7 +297,7 @@ ubuntu20-10-cmake-build:
     tags:
         - linux
     variables:
-      image: ubuntu-20.10
+      IMAGE: ubuntu-20.10
 
 centos7-cmake-build:
     <<: *rpm_build_definition
