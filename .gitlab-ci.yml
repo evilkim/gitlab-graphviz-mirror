@@ -631,6 +631,10 @@ deployment:
 .docker_push_template: &docker_push_definition
   <<: *docker_definition
   stage: push_docker_images
+  variables:
+    # Docker pull and push doesn't need GitLab to clone the source code.
+    # Skipping code checkout should speed up execution a little.
+    GIT_STRATEGY: none
   only:
     refs:
       # Only master should be pushed to :latest, not unmerged merge-requests.
