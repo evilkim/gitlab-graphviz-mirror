@@ -622,9 +622,6 @@ deployment:
     # Re-tag, push to :latest tag
     - docker tag $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/$IMAGE:latest
     - docker push     $CI_REGISTRY_IMAGE/$IMAGE:latest
-    # Re-tag, backwards compatibility for the tests which are still using graphviz/graphviz:image-name
-    - docker tag $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$IMAGE
-    - docker push     $CI_REGISTRY_IMAGE:$IMAGE
   only:
     refs:
         - master@graphviz/graphviz
