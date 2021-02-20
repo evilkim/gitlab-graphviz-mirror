@@ -574,7 +574,11 @@ deployment:
   services:
     - docker:dind
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # Docker prefers passwords passed on stdin rather than as arguments,
+    # presumably because stdin isn't visible to other processes.
+    # $CI_JOB_TOKEN is documented at
+    # https://docs.gitlab.com/ee/user/project/new_ci_build_permissions_model.html#job-token
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
   stage: build_docker_images
   # do not re-run this job for new Git tags of previously seen commits
   except:
