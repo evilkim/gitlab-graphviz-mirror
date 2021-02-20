@@ -9,7 +9,7 @@ portable-source:
     stage: source
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
     script:
         - ./autogen.sh
         - ./configure --enable-man-pdfs
@@ -205,31 +205,31 @@ centos7-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY_IMAGE:centos7"
 
 centos8-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos8"
+    image: "$CI_REGISTRY_IMAGE:centos8"
 
 fedora32-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY_IMAGE:fedora32"
 
 fedora33-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora33"
+    image: "$CI_REGISTRY_IMAGE:fedora33"
 
 ubuntu18-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
 
 ubuntu20-04-debug-build:
     <<: *deb_build_definition
@@ -238,19 +238,19 @@ ubuntu20-04-debug-build:
         - export CXXFLAGS="-DDEBUG"
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
 
 ubuntu20-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
 
 ubuntu20-10-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
 
 macos-autotools-build:
     <<: *macos_build_definition
@@ -269,7 +269,7 @@ ubuntu18-04-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
 
 ubuntu20-10-cmake-build:
     <<: *deb_build_definition
@@ -281,7 +281,7 @@ ubuntu20-10-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
 
 centos7-cmake-build:
     <<: *rpm_build_definition
@@ -293,7 +293,7 @@ centos7-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY_IMAGE:centos7"
 
 fedora32-cmake-build:
     <<: *rpm_build_definition
@@ -305,7 +305,7 @@ fedora32-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY_IMAGE:fedora32"
 
 macos-cmake-build:
     <<: *macos_build_definition
@@ -388,7 +388,7 @@ ubuntu18-04-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
 
 ubuntu20-04-test:
     <<: *test_definition
@@ -401,7 +401,7 @@ ubuntu20-04-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
 
 ubuntu20-10-test:
     <<: *test_definition
@@ -414,7 +414,7 @@ ubuntu20-10-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
 
 centos7-test:
     <<: *test_definition
@@ -427,7 +427,7 @@ centos7-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY_IMAGE:centos7"
 
 centos8-test:
     <<: *test_definition
@@ -440,7 +440,7 @@ centos8-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos8"
+    image: "$CI_REGISTRY_IMAGE:centos8"
 
 fedora32-test:
     <<: *test_definition
@@ -453,7 +453,7 @@ fedora32-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY_IMAGE:fedora32"
 
 fedora33-test:
     <<: *test_definition
@@ -466,7 +466,7 @@ fedora33-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora33"
+    image: "$CI_REGISTRY_IMAGE:fedora33"
 
 macos-autotools-test:
     <<: *test_definition
@@ -494,7 +494,7 @@ ubuntu18-04-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
 
 ubuntu20-10-cmake-test:
     <<: *test_definition
@@ -508,7 +508,7 @@ ubuntu20-10-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:ubuntu-20.10"
+    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
 
 centos7-cmake-test:
     <<: *test_definition
@@ -524,7 +524,7 @@ centos7-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:centos7"
+    image: "$CI_REGISTRY_IMAGE:centos7"
 
 fedora32-cmake-test:
     <<: *test_definition
@@ -538,7 +538,7 @@ fedora32-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY/graphviz/graphviz:fedora32"
+    image: "$CI_REGISTRY_IMAGE:fedora32"
 
 macos-cmake-test:
     <<: *test_definition
@@ -586,16 +586,16 @@ deployment:
   script:
     - cd ci/$IMAGE
     # fetches the :latest image (not failing if image is not found) for caching
-    - docker pull $CI_REGISTRY/graphviz/graphviz/$IMAGE:latest || true
+    - docker pull $CI_REGISTRY_IMAGE/$IMAGE:latest || true
     # Build and push with git commit SHA tag, reusing layers from the :latest image if possible
-    - docker build -t $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY/graphviz/graphviz/$IMAGE:latest .
-    - docker push     $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA
+    - docker build -t $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY_IMAGE/$IMAGE:latest .
+    - docker push     $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, push to :latest tag
-    - docker tag $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY/graphviz/graphviz:latest
-    - docker push     $CI_REGISTRY/graphviz/graphviz:latest
+    - docker tag $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+    - docker push     $CI_REGISTRY_IMAGE:latest
     # Re-tag, backwards compatibility for the tests which are still using graphviz/graphviz:image-name
-    - docker tag $CI_REGISTRY/graphviz/graphviz/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY/graphviz/graphviz:$IMAGE
-    - docker push     $CI_REGISTRY/graphviz/graphviz:$IMAGE
+    - docker tag $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$IMAGE
+    - docker push     $CI_REGISTRY_IMAGE:$IMAGE
   only:
     refs:
         - master@graphviz/graphviz
