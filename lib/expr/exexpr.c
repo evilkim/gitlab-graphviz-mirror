@@ -18,6 +18,7 @@
  */
 
 #include <expr/exlib.h>
+#include <stddef.h>
 
 /*
  * return the expression for name or sym coerced to type
@@ -33,7 +34,7 @@ exexpr(Expr_t* ex, const char* name, Exid_t* sym, int type)
 		if (sym && sym->lex == PROCEDURE && sym->value)
 		{
 			if (type != DELETE_T)
-				return excast(ex, sym->value->data.procedure.body, type, NiL, 0);
+				return excast(ex, sym->value->data.procedure.body, type, NULL, 0);
 			exfreenode(ex, sym->value);
 			sym->lex = NAME;
 			sym->value = 0;

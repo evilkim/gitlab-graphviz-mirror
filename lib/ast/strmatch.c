@@ -53,6 +53,7 @@
 #include <ast/ast.h>
 #include <ctype.h>
 #include <ast/hashkey.h>
+#include <stddef.h>
 #include <string.h>
 
 #if _hdr_wchar && _lib_wctype && _lib_iswctype
@@ -277,7 +278,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 		if (!(p = gobble(mp, subp, 0, &g, !r)))
 		    RETURN(0);
 		if (pc == '*' || pc == '?' || (pc == '+' && oldp == r)) {
-		    if (onematch(mp, g, s, p, e, NiL, flags))
+		    if (onematch(mp, g, s, p, e, NULL, flags))
 			RETURN(1);
 		    if (!sc || !getsource(s, e)) {
 			mp->current.groups = oldg;
@@ -393,7 +394,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 		p = oldp;
 		for (;;) {
 		    if ((n || pc == sc)
-			&& onematch(mp, g, olds, p, e, NiL, flags))
+			&& onematch(mp, g, olds, p, e, NULL, flags))
 			RETURN(1);
 		    if (!sc)
 			RETURN(0);
@@ -701,7 +702,7 @@ grpmatch(Match_t * mp, int g, char *s, char *p, char *e,
 	  flags);
 #endif
     do {
-	for (a = p; onematch(mp, g, s, a, e, NiL, flags); a++)
+	for (a = p; onematch(mp, g, s, a, e, NULL, flags); a++)
 	    if (*(a = mp->next_p) != '&')
 		RETURN(1);
     } while ((p = gobble(mp, p, '|', &g, 1)));
@@ -774,5 +775,5 @@ int strgrpmatch(const char *b, const char *p, int *sub, int n, int flags)
 
 int strmatch(const char *s, const char *p)
 {
-    return strgrpmatch(s, p, NiL, 0, STR_MAXIMAL | STR_LEFT | STR_RIGHT);
+    return strgrpmatch(s, p, NULL, 0, STR_MAXIMAL | STR_LEFT | STR_RIGHT);
 }

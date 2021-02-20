@@ -18,6 +18,7 @@
  */
 
 #include <ast/ast.h>
+#include <stddef.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -141,7 +142,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 
 char *fmtesq(const char *as, const char *qs)
 {
-    return fmtquote(as, NiL, qs, strlen(as), 0);
+    return fmtquote(as, NULL, qs, strlen(as), 0);
 }
 
 /*
@@ -150,5 +151,5 @@ char *fmtesq(const char *as, const char *qs)
 
 char *fmtesc(const char *as)
 {
-    return fmtquote(as, NiL, NiL, strlen(as), 0);
+    return fmtquote(as, NULL, NULL, strlen(as), 0);
 }

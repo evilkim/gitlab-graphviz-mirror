@@ -246,7 +246,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			fmt->value = exeval(fmt->expr, node, fmt->env);
 		else
 		{
-			node = excast(fmt->expr, node, to, NiL, 0);
+			node = excast(fmt->expr, node, to, NULL, 0);
 			fmt->value = exeval(fmt->expr, node, fmt->env);
 			node->data.operand.left = 0;
 			exfree(fmt->expr, node);
@@ -287,7 +287,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		else
 		{
 			sfprintf(fmt->tmp, "%.*s", dp->n_str, dp->t_str);
-			txt = exstash(fmt->tmp, NiL);
+			txt = exstash(fmt->tmp, NULL);
 		}
 	}
 	else
@@ -347,7 +347,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	case 't':
 	case 'T':
 		if ((tm = *((Sflong_t*)vp)) == -1)
-			tm = time(NiL);
+			tm = time(NULL);
         if (!txt)
             txt = "%?%K";
         s = fmtbuf(TIME_LEN);
@@ -395,7 +395,7 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 	if (!sp)
 	{
 		v = eval(ex, expr->data.print.descriptor, env);
-		if (v.integer < 0 || v.integer >= elementsof(ex->file) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NiL, NiL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
+		if (v.integer < 0 || v.integer >= elementsof(ex->file) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NULL, NULL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
 		{
 			exerror("printf: %d: invalid descriptor", v.integer);
 			return -1;
@@ -519,7 +519,7 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 		}
 		else
 			v.integer = 0;
-		if ((v.integer < 0) || (v.integer >= elementsof(ex->file)) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NiL, NiL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
+		if ((v.integer < 0) || (v.integer >= elementsof(ex->file)) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NULL, NULL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
 		{
 			exerror("scanf: %d: invalid descriptor", v.integer);
 			return 0;
@@ -1268,7 +1268,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		v.integer = prints(ex, expr, env, sfstdout);
 		return v;
 	case PRINTF:
-		v.integer = print(ex, expr, env, NiL);
+		v.integer = print(ex, expr, env, NULL);
 		return v;
 	case RETURN:
 		ex->loopret = eval(ex, x, env);
@@ -1277,7 +1277,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		return ex->loopret;
 	case SCANF:
 	case SSCANF:
-		v.integer = scan(ex, expr, env, NiL);
+		v.integer = scan(ex, expr, env, NULL);
 		return v;
 	case SPRINTF:
 		print(ex, expr, env, ex->tmp);

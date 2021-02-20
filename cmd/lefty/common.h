@@ -96,8 +96,17 @@ void term (void);
 char *buildpath (char *, int);
 char *buildcommand (char *, char *, int, int, char *);
 void warning (char *, int, char *, char *, ...);
-void panic1 (char *, int, char *, char *, ...);
-void panic2 (char *, int, char *, char *, ...);
+
+#ifdef __GNUC__
+  // FIXME: use _Noreturn for all compilers when we move to C11
+  #define NORETURN __attribute__((noreturn))
+#else
+  #define NORETURN /* nothing */
+#endif
+NORETURN void panic1 (char *, int, char *, char *, ...);
+NORETURN void panic2 (char *, int, char *, char *, ...);
+#undef NORETURN
+
 #endif /* _COMMON_H */
 
 #ifdef __cplusplus

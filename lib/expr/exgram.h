@@ -222,7 +222,7 @@ static Exnode_t *exnewsplit(Expr_t * p, int op, Exid_t* dyn, Exnode_t * s, Exnod
 	if (seps && (seps->type != STRING))
             exerror("third argument to %s must have string type, not %s", 
 		exopname(op), extypename(p, seps->type));
-	ss = exnewnode(p, op, 0, INTEGER, NiL, NiL);
+	ss = exnewnode(p, op, 0, INTEGER, NULL, NULL);
 	ss->data.split.array = dyn;
 	ss->data.split.string = s;
 	ss->data.split.seps = seps;
@@ -253,7 +253,7 @@ static Exnode_t *exnewsub(Expr_t * p, Exnode_t * args, int op) {
 	    repl = 0;
 	if (args)
 	    exerror("too many arguments to sub operator");
-	ss = exnewnode(p, op, 0, STRING, NiL, NiL);
+	ss = exnewnode(p, op, 0, STRING, NULL, NULL);
 	ss->data.string.base = base;
 	ss->data.string.pat = pat;
 	ss->data.string.repl = repl;
@@ -283,7 +283,7 @@ static Exnode_t *exnewsubstr(Expr_t * p, Exnode_t * args) {
 	    repl = 0;
 	if (args)
 	    exerror("too many arguments to substr operator");
-	ss = exnewnode(p, SUBSTR, 0, STRING, NiL, NiL);
+	ss = exnewnode(p, SUBSTR, 0, STRING, NULL, NULL);
 	ss->data.string.base = base;
 	ss->data.string.pat = pat;
 	ss->data.string.repl = repl;
@@ -360,7 +360,7 @@ static Exnode_t *exprint(Expr_t * p, Exid_t * ex, Exnode_t * args) {
 		    exstringOf(p, arg->data.operand.left);
 	    arg = arg->data.operand.right;
 	}
-	pr = exnewnode(p, ex->index, 1, ex->type, args, NiL);
+	pr = exnewnode(p, ex->index, 1, ex->type, args, NULL);
 	return pr;
 }
 
@@ -395,7 +395,7 @@ static Exnode_t *makeVar(Expr_t * prog, Exid_t * s, Exnode_t * idx,
 	else
 	    kind = STRING;
 
-	nn = exnewnode(prog, ID, 0, kind, NiL, NiL);
+	nn = exnewnode(prog, ID, 0, kind, NULL, NULL);
 	nn->data.variable.symbol = sym;
 	nn->data.variable.reference = refs;
 	nn->data.variable.index = 0;
@@ -405,7 +405,7 @@ static Exnode_t *makeVar(Expr_t * prog, Exid_t * s, Exnode_t * idx,
 	else if (expr.program->disc->reff)
 	    (*expr.program->disc->reff) (prog, nn,
 					 nn->data.variable.symbol, refs,
-					 NiL, EX_SCALAR, prog->disc);
+					 NULL, EX_SCALAR, prog->disc);
 
 	return nn;
 }
@@ -469,7 +469,7 @@ excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 		if (EXTERNAL(t2t) && !p->disc->convertf)
 			exerror("cannot convert %s to %s", extypename(p, x->type), extypename(p, type));
 		if (x->op != CONSTANT) {
-			Exid_t *sym = (xref ? xref->data.variable.symbol : NiL);
+			Exid_t *sym = (xref ? xref->data.variable.symbol : NULL);
 			if (EXTERNAL(t2t)) {
 				int a = (arg ? arg : 1);
 		    	if ((*p->disc->convertf) (p, x, type, sym, a, p->disc) < 0) {
@@ -505,7 +505,7 @@ excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 				if ((*p->disc->convertf)(p, x, type, xref->data.variable.symbol, arg, p->disc) < 0)
 					exerror("%s: cannot cast constant %s to %s", xref->data.variable.symbol->name, extypename(p, x->type), extypename(p, type));
 			}
-			else if ((*p->disc->convertf)(p, x, type, NiL, arg, p->disc) < 0)
+			else if ((*p->disc->convertf)(p, x, type, NULL, arg, p->disc) < 0)
 				exerror("cannot cast constant %s to %s", extypename(p, x->type), extypename(p, type));
 			break;
 		case F2I:
@@ -543,78 +543,6 @@ excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 	return x;
 }
 
-#if 0
-
-/*
- * convert value v from type from to type to
- * string data placed in buf
- */
-
-Extype_t
-exconvert(Expr_t* p, Extype_t v, int from, int to, char* buf, size_t size)
-{
-	int	t2t;
-	int		n;
-	Exnode_t	tmp;
-
-	if (from && (t2t = TYPECAST(from, to)))
-	{
-		if (EXTERNAL(t2t) && !p->disc->convertf)
-			exerror("cannot cast %s to %s", TYPENAME(from), TYPENAME(to));
-		switch (t2t)
-		{
-		case F2X:
-		case I2X:
-		case S2X:
-		case X2F:
-		case X2I:
-		case X2S:
-			tmp.type = from;
-			tmp.name = "*INTERNAL*";
-			tmp.data.constant.value = v;
-			if ((*p->disc->convertf)(p, &tmp, to, NiL, -1, p->disc) < 0)
-				exerror("cannot convert %s to %s", TYPENAME(from), TYPENAME(to));
-			if (t2t == X2S)
-			{
-				n = strlen(tmp.data.constant.value.string);
-				if (n >= size)
-					n = size - 1;
-				memcpy(buf, tmp.data.constant.value.string, n);
-				buf[n] = 0;
-				vmfree(p->vm, tmp.data.constant.value.string);
-				tmp.data.constant.value.string = buf;
-			}
-			return tmp.data.constant.value;
-		case F2I:
-			v.integer = (type == UNSIGNED) ? (Sfulong_t)v.floating : v.floating;
-			break;
-		case F2S:
-			sfsprintf(buf, size, "%g", v.floating);
-			v.string = buf;
-			break;
-		case I2F:
-			v.floating = (from == UNSIGNED) ? (Sfulong_t)v.integer : v.integer;
-			break;
-		case I2S:
-			sfsprintf(buf, size, "%I*d", sizeof(v.integer), v.integer);
-			v.string = buf;
-			break;
-		case S2F:
-			v.floating = *v.string != 0;
-			break;
-		case S2I:
-			v.integer = *v.string != 0;
-			break;
-		default:
-			exerror("internal error: %d: unknown conversion op", t2t);
-			break;
-		}
-	}
-	return v;
-}
-
-#endif
-
 /*
  * force ref . sym qualification
  */
@@ -628,7 +556,7 @@ qualify(Exref_t* ref, Exid_t* sym)
 	while (ref->next)
 		ref = ref->next;
 	sfprintf(expr.program->tmp, "%s.%s", ref->symbol->name, sym->name);
-	s = exstash(expr.program->tmp, NiL);
+	s = exstash(expr.program->tmp, NULL);
 	if (!(x = dtmatch(expr.program->symbols, s)))
 	{
 		if ((x = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
@@ -659,7 +587,7 @@ call(Exref_t* ref, Exid_t* fun, Exnode_t* args)
 	Exnode_t*	x;
 	int		num;
 
-	x = exnewnode(expr.program, ID, 0, 0, NiL, NiL);
+	x = exnewnode(expr.program, ID, 0, 0, NULL, NULL);
 	t = fun->type;
 	x->data.variable.symbol = fun = QUALIFY(ref, fun);
 	x->data.variable.reference = ref;
@@ -674,7 +602,7 @@ call(Exref_t* ref, Exid_t* fun, Exnode_t* args)
 		}
 		num++;
 		if (type != args->data.operand.left->type)
-			args->data.operand.left = excast(expr.program, args->data.operand.left, type, NiL, num);
+			args->data.operand.left = excast(expr.program, args->data.operand.left, type, NULL, num);
 		args = args->data.operand.right;
 		N(t);
 	}
@@ -909,7 +837,7 @@ expush(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 			in->close = 0;
 		else if (name)
 		{
-			if (!(s = pathfind(name, p->disc->lib, p->disc->type, buf, sizeof(buf))) || !(in->fp = sfopen(NiL, s, "r")))
+			if (!(s = pathfind(name, p->disc->lib, p->disc->type, buf, sizeof(buf))) || !(in->fp = sfopen(NULL, s, "r")))
 			{
 				exerror("%s: file not found", name);
 				in->bp = in->sp = "";

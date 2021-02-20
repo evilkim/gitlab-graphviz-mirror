@@ -24,6 +24,7 @@
 
 #include <ast/ast.h>
 #include <ast/error.h>
+#include <stddef.h>
 #include <string.h>
 #include <errno.h>
 
@@ -91,7 +92,7 @@ void error(int level, const char *s, ...)
     va_list ap;
 
     va_start(ap, s);
-    errorv(NiL, level, s, ap);
+    errorv(NULL, level, s, ap);
     va_end(ap);
 }
 
