@@ -9,7 +9,7 @@ portable-source:
     stage: source
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
+    image: "$CI_REGISTRY_IMAGE/ubuntu-18.04:$CI_COMMIT_SHA"
     script:
         - ./autogen.sh
         - ./configure --enable-man-pdfs
@@ -46,6 +46,7 @@ portable-source:
             metrics: metrics.txt
     except:
         - tags
+    image: "$CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA"
 
 .build_template: &deb_build_definition
     stage: build
@@ -66,6 +67,7 @@ portable-source:
             metrics: metrics.txt
     except:
         - tags
+    image: "$CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA"
 
 .build_template: &macos_build_definition
     stage: build
@@ -201,35 +203,44 @@ portable-source:
     except:
         - tags
 
+.linux_test_template: &linux_test_definition
+    <<: *test_definition
+    image: "$CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA"
+
 centos7-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos7"
+    variables:
+      IMAGE: centos7
 
 centos8-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos8"
+    variables:
+      IMAGE: centos8
 
 fedora32-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora32"
+    variables:
+      IMAGE: fedora32
 
 fedora33-build:
     <<: *rpm_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora33"
+    variables:
+      IMAGE: fedora33
 
 ubuntu18-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
+    variables:
+      IMAGE: ubuntu-18.04
 
 ubuntu20-04-debug-build:
     <<: *deb_build_definition
@@ -238,19 +249,22 @@ ubuntu20-04-debug-build:
         - export CXXFLAGS="-DDEBUG"
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
+    variables:
+      IMAGE: ubuntu-20.04
 
 ubuntu20-04-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
+    variables:
+      IMAGE: ubuntu-20.04
 
 ubuntu20-10-build:
     <<: *deb_build_definition
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
+    variables:
+      IMAGE: ubuntu-20.10
 
 macos-autotools-build:
     <<: *macos_build_definition
@@ -269,7 +283,8 @@ ubuntu18-04-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
+    variables:
+      IMAGE: ubuntu-18.04
 
 ubuntu20-10-cmake-build:
     <<: *deb_build_definition
@@ -281,7 +296,8 @@ ubuntu20-10-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
+    variables:
+      image: ubuntu-20.10
 
 centos7-cmake-build:
     <<: *rpm_build_definition
@@ -293,7 +309,8 @@ centos7-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos7"
+    variables:
+      IMAGE: centos7
 
 fedora32-cmake-build:
     <<: *rpm_build_definition
@@ -305,7 +322,8 @@ fedora32-cmake-build:
         - echo experimental > COLLECTION
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora32"
+    variables:
+      IMAGE: fedora32
 
 macos-cmake-build:
     <<: *macos_build_definition
@@ -378,7 +396,7 @@ meta-data:
         - tags
 
 ubuntu18-04-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -388,10 +406,11 @@ ubuntu18-04-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
+    variables:
+      IMAGE: ubuntu-18.04
 
 ubuntu20-04-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -401,10 +420,11 @@ ubuntu20-04-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.04"
+    variables:
+      IMAGE: ubuntu-20.04
 
 ubuntu20-10-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -414,10 +434,11 @@ ubuntu20-10-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
+    variables:
+      IMAGE: ubuntu-20.10
 
 centos7-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -427,10 +448,11 @@ centos7-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos7"
+    variables:
+      IMAGE: centos7
 
 centos8-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -440,10 +462,11 @@ centos8-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos8"
+    variables:
+      IMAGE: centos8
 
 fedora32-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -453,10 +476,11 @@ fedora32-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora32"
+    variables:
+      IMAGE: fedora32
 
 fedora33-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="autotools"
     needs:
@@ -466,7 +490,8 @@ fedora33-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora33"
+    variables:
+      IMAGE: fedora33
 
 macos-autotools-test:
     <<: *test_definition
@@ -483,7 +508,7 @@ macos-autotools-test:
         - macos
 
 ubuntu18-04-cmake-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
         - echo experimental > COLLECTION
@@ -494,10 +519,11 @@ ubuntu18-04-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-18.04"
+    variables:
+      IMAGE: ubuntu-18.04
 
 ubuntu20-10-cmake-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
         - echo experimental > COLLECTION
@@ -508,10 +534,11 @@ ubuntu20-10-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:ubuntu-20.10"
+    variables:
+      IMAGE: ubuntu-20.10
 
 centos7-cmake-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
         - echo experimental > COLLECTION
@@ -524,10 +551,11 @@ centos7-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:centos7"
+    variables:
+      IMAGE: centos7
 
 fedora32-cmake-test:
-    <<: *test_definition
+    <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
         - echo experimental > COLLECTION
@@ -538,7 +566,8 @@ fedora32-cmake-test:
           artifacts: true
     tags:
         - linux
-    image: "$CI_REGISTRY_IMAGE:fedora32"
+    variables:
+      IMAGE: fedora32
 
 macos-cmake-test:
     <<: *test_definition
