@@ -625,6 +625,7 @@ deployment:
     - docker push     $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
 
 .docker_push_template: &docker_push_definition
+  <<: *docker_definition
   stage: push_docker_images
   only:
     refs:
