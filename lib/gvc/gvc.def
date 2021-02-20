@@ -110,8 +110,6 @@ G_deletedpencolor
 G_ordering    
 G_penwidth    
 G_peripheries    
-G_selectedfillcolor    
-G_selectedpencolor    
 G_visitedfillcolor    
 G_visitedpencolor    
 gcalloc
@@ -235,7 +233,6 @@ newPM
 newPS    
 nodeInduce    
 Nop    
-Output_file_name    
 yDir    
 overlap_edge    
 overlap_label    
@@ -276,13 +273,10 @@ Show_boxes
 Show_cnt    
 simpleSplineRoute
 sizeOf    
-specificFlags    
-specificItems    
 spline_at_y    
 start_timer    
 State    
 strdup_and_subst_obj    
-Syntax_errors    
 test_toggle    
 textfont_dict_open
 textfont_dict_close

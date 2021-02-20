@@ -44,8 +44,6 @@ extern "C" {
     EXTERN char **Files;	/* from command line */
     EXTERN const char **Lib;		/* from command line */
     EXTERN char *CmdName;
-    EXTERN char *specificFlags;
-    EXTERN char *specificItems;
     EXTERN char *Gvfilepath;  /* Per-process path of files allowed in image attributes (also ps libs) */
     EXTERN char *Gvimagepath; /* Per-graph path of files allowed in image attributes  (also ps libs) */
 
@@ -53,11 +51,9 @@ extern "C" {
     EXTERN unsigned char Reduce;
     EXTERN int MemTest;
     EXTERN char *HTTPServerEnVar;
-    EXTERN char *Output_file_name;
     EXTERN int graphviz_errors;
     EXTERN int Nop;
     EXTERN double PSinputscale;
-    EXTERN int Syntax_errors;
     EXTERN int Show_cnt;
     EXTERN char** Show_boxes;	/* emit code for correct box coordinates */
     EXTERN int CL_type;		/* NONE, LOCAL, GLOBAL */
@@ -74,7 +70,6 @@ extern "C" {
 
     EXTERN Agsym_t
 	*G_activepencolor, *G_activefillcolor,
-	*G_selectedpencolor, *G_selectedfillcolor,
 	*G_visitedpencolor, *G_visitedfillcolor,
 	*G_deletedpencolor, *G_deletedfillcolor,
 	*G_ordering, *G_peripheries, *G_penwidth,
