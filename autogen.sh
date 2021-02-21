@@ -4,9 +4,9 @@ if ! GRAPHVIZ_VERSION=$( python3 gen_version.py ) ; then
     echo "Error: Failed to set version" >&2
     exit 1
 fi
-GRAPHVIZ_VERSION_MAJOR=$( echo $GRAPHVIZ_VERSION | sed 's/\([^\.]*\).*/\1/' )
-GRAPHVIZ_VERSION_MINOR=$( echo $GRAPHVIZ_VERSION | sed 's/[^\.]*\.\([^\.]*\).*/\1/' )
-GRAPHVIZ_VERSION_PATCH=$( echo $GRAPHVIZ_VERSION | sed 's/[^\.]*\.[^\.]*\.//' )
+GRAPHVIZ_VERSION_MAJOR=$( python3 gen_version.py --major )
+GRAPHVIZ_VERSION_MINOR=$( python3 gen_version.py --minor )
+GRAPHVIZ_VERSION_PATCH=$( python3 gen_version.py --patch )
 
 if ! GRAPHVIZ_GIT_DATE=$( python3 gen_version.py --committer-date-iso ) ; then
     echo "Error: Failed to set date" >&2
