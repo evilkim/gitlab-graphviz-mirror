@@ -94,8 +94,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz | sed "s/\(.*\)/#define BUILDDATE \"\1\"/" &gt; $(SolutionDir)windows\include\builddate.h
-python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &gt; $(SolutionDir)windows\include\version.h
+      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz --definition &gt; $(SolutionDir)windows\include\builddate.h
+python3 $(SolutionDir)gen_version.py --definition &gt; $(SolutionDir)windows\include\version.h
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -115,8 +115,8 @@ python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &g
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz | sed "s/\(.*\)/#define BUILDDATE \"\1\"/" &gt; $(SolutionDir)windows\include\builddate.h
-python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &gt; $(SolutionDir)windows\include\version.h
+      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz --definition &gt; $(SolutionDir)windows\include\builddate.h
+python3 $(SolutionDir)gen_version.py --definition &gt; $(SolutionDir)windows\include\version.h
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -132,8 +132,8 @@ python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &g
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz | sed "s/\(.*\)/#define BUILDDATE \"\1\"/" &gt; $(SolutionDir)windows\include\builddate.h
-python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &gt; $(SolutionDir)windows\include\version.h
+      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz --definition &gt; $(SolutionDir)windows\include\builddate.h
+python3 $(SolutionDir)gen_version.py --definition &gt; $(SolutionDir)windows\include\version.h
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -153,8 +153,8 @@ python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &g
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz | sed "s/\(.*\)/#define BUILDDATE \"\1\"/" &gt; $(SolutionDir)windows\include\builddate.h
-python3 $(SolutionDir)gen_version.py | sed "s/\(.*\)/#define VERSION \"\1\"/" &gt; $(SolutionDir)windows\include\version.h
+      <Command>python3 $(SolutionDir)gen_version.py --committer-date-graphviz --definition &gt; $(SolutionDir)windows\include\builddate.h
+python3 $(SolutionDir)gen_version.py --definition &gt; $(SolutionDir)windows\include\version.h
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
