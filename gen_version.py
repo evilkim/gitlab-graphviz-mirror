@@ -90,12 +90,13 @@ if not patch_version.isnumeric() or args.date_format:
         print('Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.', file=sys.stderr)
         committer_date = '0'
 
+if not patch_version.isnumeric():
+    # Non-numerical patch version; add committer date
+    patch_version += '.' + committer_date
+
 if args.date_format:
     print(committer_date)
 elif args.collection:
     print(collection)
 else:
-    if not patch_version.isnumeric():
-        # Non-numerical patch version; add committer date
-        patch_version += '.' + committer_date
     print('{0}.{1}.{2}'.format(major_version, minor_version, patch_version))
