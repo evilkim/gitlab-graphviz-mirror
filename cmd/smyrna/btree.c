@@ -11,13 +11,9 @@
  *************************************************************************/
 
 #include "btree.h"
-#ifdef _WIN32
-#include <regex_win32.h>
-#else
-#include <regex.h>
-#endif
 
 #include <common/memory.h>
+#include <string.h>
 
 btree_node *new_node(char *attribute, char *regex, float min, float max)
 {
@@ -310,7 +306,6 @@ int evaluate_filter_atom(char *string, btree_node * Nodes[], char *op)
 
 int evaluate_expresions(tv_node * TV_Node, btree_node * n)
 {
-    regex_t preg;
     char *data;
     int i = 0;
     int ii = 0;
@@ -335,12 +330,10 @@ int evaluate_expresions(tv_node * TV_Node, btree_node * n)
 	    agget(view->Topview->Nodes[TV_Node->index].Node, n->attr_name);
 //fprintf(stderr,"  = %s\n", data);
 	if (data) {
-	    regcomp(&preg, n->regex, REG_NOSUB);
-	    if (regexec(&preg, data, 0, 0, 0) == 0)
+	    if (strstr(data, n->regex) != NULL)
 		n->value = 1;
 	    else
 		n->value = 0;
-	    regfree(&preg);
 	} else
 	    n->value = 1;	//no attribute return 1
     } else

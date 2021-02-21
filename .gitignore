@@ -22,9 +22,6 @@ CMakeCache.txt
 /VERSION
 /COLLECTION
 
-lib/rxspencer/re
-lib/rxspencer/*.oo
-
 cmd/gvedit/moc_csettings.cpp
 cmd/gvedit/moc_imageviewer.cpp
 cmd/gvedit/moc_mainwindow.cpp
@@ -100,7 +97,6 @@ cmd/gvedit/attrs.txt
 cmd/gvedit/.qmake.stash
 cmd/gvedit/moc_predefs.h
 cmd/smyrna/gui/.dirstamp
-lib/rxspencer/regex.h
 tclpkg/**/pkgIndex.tcl
 tclpkg/gv/runtime.h
 tclpkg/gv/SWIGTYPE*

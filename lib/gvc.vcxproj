@@ -69,7 +69,7 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
-      <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c
@@ -100,7 +100,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
-      <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;rxspencer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c

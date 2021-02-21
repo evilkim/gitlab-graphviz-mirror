@@ -46,7 +46,6 @@ target_include_directories(gvc PRIVATE
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${LTDL_INCLUDE_DIRS}
-    ${RxSpencer_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvc PRIVATE
@@ -62,7 +61,6 @@ target_link_libraries(gvc PUBLIC
     pathplan
     xdot
     ${EXPAT_LIBRARIES}
-    ${RxSpencer_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${MATH_LIB}
 )

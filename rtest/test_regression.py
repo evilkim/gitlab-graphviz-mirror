@@ -749,3 +749,20 @@ def test_package_version():
 
       # run the test
       subprocess.check_call([exe])
+
+def test_user_shapes():
+    '''
+    Graphviz should understand how to embed a custom SVG image as a node’s shape
+    '''
+
+    # find our collocated test case
+    input = Path(__file__).parent / 'usershape.dot'
+    assert input.exists(), 'unexpectedly missing test case'
+
+    # ask Graphviz to translate this to SVG
+    output = subprocess.check_output(['dot', '-Tsvg', input],
+      cwd=os.path.dirname(__file__), universal_newlines=True)
+
+    # the external SVG should have been parsed and is now referenced
+    assert '<image xlink:href="usershape.svg" width="62px" height="44px" ' in \
+      output

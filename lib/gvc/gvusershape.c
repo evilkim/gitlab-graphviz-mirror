@@ -26,7 +26,6 @@
 #define GLOB_NOSORT     4
 #endif
 
-#include <regex.h>
 #include <common/types.h>
 #include <common/logic.h>
 #include <common/memory.h>
@@ -164,8 +163,46 @@ static unsigned int svg_units_convert(double n, char *u)
     return 0;
 }
 
-static char* svg_attr_value_re = "([a-z][a-zA-Z]*)=\"([^\"]*)\"";
-static regex_t re, *pre = NULL;
+typedef struct {
+  size_t key_start;
+  size_t key_extent;
+  size_t value_start;
+  size_t value_extent;
+} match_t;
+
+static int find_attribute(const char *s, match_t *result) {
+
+  // look for an attribute string matching ([a-z][a-zA-Z]*)="([^"]*)"
+  for (size_t i = 0; s[i] != '\0'; ) {
+    if (s[i] >= 'a' && s[i] <= 'z') {
+      result->key_start = i;
+      result->key_extent = 1;
+      ++i;
+      while ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
+        ++i;
+        ++result->key_extent;
+      }
+      if (s[i] == '=' && s[i + 1] == '"') {
+        i += 2;
+        result->value_start = i;
+        result->value_extent = 0;
+        while (s[i] != '"' && s[i] != '\0') {
+          ++i;
+          ++result->value_extent;
+        }
+        if (s[i] == '"') {
+          // found a valid attribute
+          return 0;
+        }
+      }
+    } else {
+      ++i;
+    }
+  }
+
+  // no attribute found
+  return -1;
+}
 
 static void svg_size (usershape_t *us)
 {
@@ -175,28 +212,19 @@ static void svg_size (usershape_t *us)
     char *attribute, *value, *re_string;
     char line[200];
     boolean wFlag = FALSE, hFlag = FALSE;
-#define RE_NMATCH 4
-    regmatch_t re_pmatch[RE_NMATCH];
-
-    /* compile on first use */
-    if (! pre) {
-        if (regcomp(&re, svg_attr_value_re, REG_EXTENDED) != 0) {
-	    agerr(AGERR,"cannot compile regular expression %s", svg_attr_value_re);
-    	}
-	pre = &re;
-    }
 
     fseek(us->f, 0, SEEK_SET);
     while (fgets(line, sizeof(line), us->f) != NULL && (!wFlag || !hFlag)) {
 	re_string = line;
-	while (regexec(&re, re_string, RE_NMATCH, re_pmatch, 0) == 0) {
-	    re_string[re_pmatch[1].rm_eo] = '\0';
-	    re_string[re_pmatch[2].rm_eo] = '\0';
-	    attribute = re_string + re_pmatch[1].rm_so;
-	    value = re_string + re_pmatch[2].rm_so;
-    	    re_string += re_pmatch[0].rm_eo + 1;
+	match_t match;
+	while (find_attribute(re_string, &match) == 0) {
+	    re_string[match.value_start + match.value_extent] = '\0';
+	    attribute = re_string + match.key_start;
+	    value = re_string + match.value_start;
+	    re_string += match.value_start + match.value_extent + 1;
 
-	    if (strcmp(attribute,"width") == 0) {
+	    if (match.key_extent == strlen("width") &&
+	        strncmp(attribute, "width", match.key_extent) == 0) {
 	        if (sscanf(value, "%lf%2s", &n, u) == 2) {
 	            w = svg_units_convert(n, u);
 	            wFlag = TRUE;
@@ -208,7 +236,8 @@ static void svg_size (usershape_t *us)
 		if (hFlag)
 		    break;
 	    }
-	    else if (strcmp(attribute,"height") == 0) {
+	    else if (match.key_extent == strlen("height") &&
+	             strncmp(attribute, "height", match.key_extent) == 0) {
 	        if (sscanf(value, "%lf%2s", &n, u) == 2) {
 	            h = svg_units_convert(n, u);
 	            hFlag = TRUE;
@@ -220,7 +249,8 @@ static void svg_size (usershape_t *us)
                 if (wFlag)
 		    break;
 	    }
-	    else if (strcmp(attribute,"viewBox") == 0
+	    else if (match.key_extent == strlen("viewBox")
+	      && strncmp(attribute, "viewBox", match.key_extent) == 0
 	      && sscanf(value, "%lf %lf %lf %lf", &x0,&y0,&x1,&y1) == 4) {
 		w = x1 - x0 + 1;
 		h = y1 - y0 + 1;
