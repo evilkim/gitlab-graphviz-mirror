@@ -67,6 +67,9 @@ parser.add_argument('--patch',
                     action='store_const',
                     const='patch',
                     help='Print patch version')
+parser.add_argument('--definition',
+                    action='store_true',
+                    help='Print a C-style preprocessor #define')
 
 args = parser.parse_args()
 
@@ -110,14 +113,33 @@ if not patch_version.isnumeric():
     patch_version += '.' + committer_date
 
 if args.date_format:
-    print(committer_date)
+    if args.definition:
+        print(f'#define BUILDDATE "{committer_date}"')
+    else:
+        print(committer_date)
 elif args.collection:
-    print(collection)
+    if args.definition:
+        print(f'#define COLLECTION "{collection}"')
+    else:
+        print(collection)
 elif args.component == 'major':
-    print(major_version)
+    if args.definition:
+        print(f'#define VERSION_MAJOR "{major_version}"')
+    else:
+        print(major_version)
 elif args.component == 'minor':
-    print(minor_version)
+    if args.definition:
+        print(f'#define VERSION_MINOR "{minor_version}"')
+    else:
+        print(minor_version)
 elif args.component == 'patch':
-    print(patch_version)
+    if args.definition:
+        print(f'#define VERSION_PATCH "{patch_version}"')
+    else:
+        print(patch_version)
 else:
-    print('{0}.{1}.{2}'.format(major_version, minor_version, patch_version))
+    if args.definition:
+        print(f'#define VERSION "{major_version}.{minor_version}.'
+              f'{patch_version}"')
+    else:
+        print(f'{major_version}.{minor_version}.{patch_version}')
