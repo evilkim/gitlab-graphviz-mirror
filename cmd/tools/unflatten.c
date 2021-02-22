@@ -15,6 +15,7 @@
  */
 #include "config.h"
 
+#include    <stdbool.h>
 #include    <stdio.h>
 #include    <stdlib.h>
 #include    <string.h>
@@ -26,7 +27,7 @@
 
 #include <getopt.h>
 
-static int Do_fans = 0;
+static bool Do_fans = false;
 static int MaxMinlen = 0;
 static int ChainLimit = 0;
 static int ChainSize = 0;
@@ -51,12 +52,12 @@ static int myoutdegree(Agnode_t *n)
 	return rv;
 }
 
-static int isleaf(Agnode_t * n)
+static bool isleaf(Agnode_t * n)
 {
     return myindegree(n) + myoutdegree(n) == 1;
 }
 
-static int ischainnode(Agnode_t * n)
+static bool ischainnode(Agnode_t * n)
 {
     return myindegree(n) == 1 && myoutdegree(n) == 1;
 }
@@ -171,7 +172,7 @@ static char **scanargs(int argc, char **argv)
     while ((c = getopt(argc, argv, ":fl:c:o:")) != -1) {
 	switch (c) {
 	case 'f':
-	    Do_fans = 1;
+	    Do_fans = true;
 	    break;
 	case 'l':
 	    ival = atoi(optarg);
