@@ -53,12 +53,12 @@ static int myoutdegree(Agnode_t *n)
 
 static int isleaf(Agnode_t * n)
 {
-    return ((myindegree(n) + myoutdegree(n)) == 1);
+    return myindegree(n) + myoutdegree(n) == 1;
 }
 
 static int ischainnode(Agnode_t * n)
 {
-    return ((myindegree(n) == 1) && myoutdegree(n) == 1);
+    return myindegree(n) == 1 && myoutdegree(n) == 1;
 }
 
 static void adjustlen(Agedge_t * e, Agsym_t * sym, int newlen)
@@ -110,7 +110,7 @@ static void transform(Agraph_t * g)
 		if (isleaf(agtail(e))) {
 		    str = agxget(e, m_ix);
 		    if (str[0] == 0) {
-			adjustlen(e, m_ix, (cnt % MaxMinlen) + 1);
+			adjustlen(e, m_ix, cnt % MaxMinlen + 1);
 			cnt++;
 		    }
 		}
@@ -121,7 +121,7 @@ static void transform(Agraph_t * g)
 		if (isleaf(e->node) || (Do_fans && ischainnode(e->node))) {
 		    str = agxget(e, m_ix);
 		    if (str[0] == 0)
-			adjustlen(e, m_ix, (cnt % MaxMinlen) + 1);
+			adjustlen(e, m_ix, cnt % MaxMinlen + 1);
 		    cnt++;
 		}
 	    }
@@ -159,7 +159,7 @@ static FILE *openFile(char *name, char *mode)
 		cmd, name, modestr);
 	exit(-1);
     }
-    return (fp);
+    return fp;
 }
 
 static char **scanargs(int argc, char **argv)
@@ -204,7 +204,7 @@ static char **scanargs(int argc, char **argv)
 	    break;
 	}
     }
-    if (Do_fans && (MaxMinlen < 1))
+    if (Do_fans && MaxMinlen < 1)
 	fprintf(stderr, "%s: Warning: -f requires -l flag\n", cmd);
     argv += optind;
     argc -= optind;
