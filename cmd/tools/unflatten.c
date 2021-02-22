@@ -63,7 +63,7 @@ static int ischainnode(Agnode_t * n)
 
 static void adjustlen(Agedge_t * e, Agsym_t * sym, int newlen)
 {
-    char buf[10];
+    char buf[12];
 
     sprintf(buf, "%d", newlen);
     agxset(e, sym, buf);

@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - broken sorting in nearest_neighbor_graph_ann.cpp #1938
 - memory leak in ANN bridge
 - gvpr on Windows does not support absolute paths #1780
+- buffer overflow in unflatten
 
 ## [2.46.1] - 2021-02-13
 
