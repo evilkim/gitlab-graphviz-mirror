@@ -65,7 +65,7 @@ static void adjustlen(Agedge_t * e, Agsym_t * sym, int newlen)
 {
     char buf[12];
 
-    sprintf(buf, "%d", newlen);
+    snprintf(buf, sizeof(buf), "%d", newlen);
     agxset(e, sym, buf);
 }
 
