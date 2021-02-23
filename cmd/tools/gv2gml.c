@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /**********************************************************
 *      This software is part of the graphviz package      *
 *                  https://graphviz.org                   *

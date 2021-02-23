@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=8 ts=8: */
-
 /**********************************************************
 *            Copyright (c) 2011 Andy Jeutter              *
 *            AKA HallerHarry at gmx.de                    *

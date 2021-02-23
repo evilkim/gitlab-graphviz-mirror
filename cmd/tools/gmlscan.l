@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
   /* By default, Flex emits a lexer using symbols prefixed with "yy". Graphviz
    * contains multiple Flex-generated lexers, so we alter this prefix to avoid
    * symbol clashes.

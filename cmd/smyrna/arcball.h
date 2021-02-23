@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=8: */
-
 /** KempoApi: The Turloc Toolkit *****************************/
 /** *    *                                                  **/
 /** **  **  Filename: ArcBall.h                             **/

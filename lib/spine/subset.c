@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=4 */
-
 #include <spine/spinehdr.h>
 #include <stdlib.h>
 #include <spine/subset.h>

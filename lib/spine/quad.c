@@ -1,5 +1,3 @@
-/* vim:set shiftwidth=4 ts=4: */
-
 #include <stdlib.h>
 #include <assert.h>
 
