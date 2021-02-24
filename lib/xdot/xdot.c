@@ -533,7 +533,7 @@ static void printString(char *p, pf print, void *info)
 {
     char buf[30];
 
-    sprintf(buf, " %d -", (int) strlen(p));
+    sprintf(buf, " %zu -", strlen(p));
     print(buf, info);
     print(p, info);
 }

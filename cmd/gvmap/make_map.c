@@ -648,16 +648,16 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
   if (np > 0){
     /* figure out the size needed */
     if (fill >= 0){/* poly*/
-      ret += snprintf(buf, sizeof(buf), " c %d -%s C %d -%s P %d ",(int) strlen(cstring), cstring, (int) strlen(cstring), cstring, np);
+      ret += snprintf(buf, sizeof(buf), " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
     } else {/* line*/
       assert(line_width >= 0);
       if (line_width > 0){
 	sprintf(swidth,"%f",line_width);
 	len_swidth = strlen(swidth);
 	sprintf(swidth,"S %d -setlinewidth(%f)",len_swidth+14, line_width);
-	ret += snprintf(buf, sizeof(buf), " c %d -%s %s L %d ",(int) strlen(cstring), cstring, swidth, np);
+	ret += snprintf(buf, sizeof(buf), " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
       } else {
-	ret += snprintf(buf, sizeof(buf), " c %d -%s L %d ",(int) strlen(cstring), cstring, np);
+	ret += snprintf(buf, sizeof(buf), " c %zu -%s L %d ", strlen(cstring), cstring, np);
       }
     }
     for (i = 0; i < np; i++){
@@ -671,15 +671,15 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
 
     /* do the actual string */
     if (fill >= 0){
-      ret = sprintf(&((*sbuff)[*len]), " c %d -%s C %d -%s P %d ",(int) strlen(cstring), cstring, (int) strlen(cstring), cstring, np);
+      ret = sprintf(&((*sbuff)[*len]), " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
     } else {
       if (line_width > 0){
         sprintf(swidth,"%f",line_width);
         len_swidth = strlen(swidth);
         sprintf(swidth,"S %d -setlinewidth(%f)",len_swidth+14, line_width);
-	ret = sprintf(&((*sbuff)[*len]), " c %d -%s %s L %d ",(int) strlen(cstring), cstring, swidth, np);
+	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
       } else {
-	ret = sprintf(&((*sbuff)[*len]), " c %d -%s L %d ",(int) strlen(cstring), cstring, np);
+	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s L %d ", strlen(cstring), cstring, np);
       }
     }
     (*len) += ret;
