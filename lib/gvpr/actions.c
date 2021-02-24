@@ -65,7 +65,6 @@ int indexOf(char *s1, char *s2)
 int rindexOf(char *s1, char *s2)
 {
     char c1 = *s2;
-    char c;
     char *p;
     size_t len1 = strlen(s1);
     size_t len2 = strlen(s2);
@@ -76,8 +75,7 @@ int rindexOf(char *s1, char *s2)
 	return -1;
     p = s1 + (len1 - len2);
     while (p >= s1) {
-	c = *p;
-	if ((c == c1) && (strncmp(p+1, s2+1, len2-1) == 0))
+	if (strncmp(p, s2, len2) == 0)
 	    return (p - s1);
 	else
 	    p--;
