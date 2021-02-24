@@ -1146,10 +1146,3 @@ void freeXDotColor (xdot_color* cp)
 	free (cp->u.ring.stops);
     }
 }
-
-#if 0
-static void execOp(xdot_op * op, int param)
-{
-    op->drawfunc(op, param);
-}
-#endif
