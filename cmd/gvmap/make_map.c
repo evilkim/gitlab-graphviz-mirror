@@ -26,7 +26,6 @@
 #else /* not SINGLE */
 #define REAL double
 #endif /* not SINGLE */
-/* #include "triangle.h" */
 
 #include <edgepaint/lab.h>
 #include <edgepaint/node_distinct_coloring.h>
