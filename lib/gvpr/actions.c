@@ -944,8 +944,8 @@ static char *canontoken(char *str)
 static char* fullColor (char* prefix, char* str)
 {
     static char *fulls;
-    static int allocated;
-    int len = strlen (prefix) + strlen (str) + 3;
+    static size_t allocated;
+    size_t len = strlen (prefix) + strlen (str) + 3;
 
     if (len >= allocated) {
 	allocated = len + 10;
