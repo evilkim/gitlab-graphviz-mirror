@@ -434,7 +434,7 @@ void panic2 (char *file, int line, char *func, char *fmt, ...) {
 int gprintf (const char *fmt, ...) {
     va_list args;
     char buf[10240];
-    int l;
+    size_t l;
 
     va_start(args, fmt);
     vsprintf (buf, fmt, args);
