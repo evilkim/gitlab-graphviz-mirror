@@ -914,9 +914,9 @@ static int colorcmpf(const void *p0, const void *p1)
 static char *canontoken(char *str)
 {
     static unsigned char *canon;
-    static int allocated;
+    static size_t allocated;
     unsigned char c, *p, *q;
-    int len;
+    size_t len;
 
     p = (unsigned char *) str;
     len = strlen(str);
