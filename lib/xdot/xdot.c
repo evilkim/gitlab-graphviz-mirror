@@ -192,15 +192,15 @@ static char *parseString(char *s, char **sp)
     char *c;
     char *p;
     s = parseInt(s, &i);
-    if (!s || (i <= 0)) return 0;
-    while (*s && (*s != '-')) s++;
+    if (!s || i <= 0) return 0;
+    while (*s && *s != '-') s++;
     if (*s) s++;
     else {
 	return 0;
     }
     c = N_NEW(i + 1, char);
     p = c;
-    while ((i > 0) && *s) {
+    while (i > 0 && *s) {
 	*p++ = *s++;
 	i--;
     }
@@ -434,7 +434,7 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 	ops = (char*)(x->ops);
 	bufsz = initcnt + XDBSIZE;
 	ops = realloc(ops, bufsz * sz);
-	memset(ops + (initcnt*sz), '\0', (bufsz - initcnt)*sz);
+	memset(ops + initcnt*sz, '\0', (bufsz - initcnt)*sz);
     }
 
     while ((s = parseOp(&op, s, fns, &error))) {
@@ -442,9 +442,9 @@ xdot *parseXDotFOn (char *s, drawfunc_t fns[], int sz, xdot* x)
 	    oldsz = bufsz;
 	    bufsz *= 2;
 	    ops = realloc(ops, bufsz * sz);
-	    memset(ops + (oldsz*sz), '\0', (bufsz - oldsz)*sz);
+	    memset(ops + oldsz*sz, '\0', (bufsz - oldsz)*sz);
 	}
-	*(xdot_op *) (ops + (x->cnt * sz)) = op;
+	*(xdot_op *) (ops + x->cnt * sz) = op;
 	x->cnt++;
     }
     if (error)
@@ -848,7 +848,7 @@ static void _printXDot(xdot * x, pf print, void *info, print_op ofn)
     char *base = (char *) (x->ops);
     for (i = 0; i < x->cnt; i++) {
 	op = (xdot_op *) (base + i * x->sz);
-	ofn(op, print, info, (i < x->cnt - 1));
+	ofn(op, print, info, i < x->cnt - 1);
     }
 }
 
