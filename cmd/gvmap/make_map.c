@@ -641,28 +641,28 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
 			int fill, int close, char *cstring){
   int i;
   int ret = 0;
-  char buf[10000];
   char swidth[10000];
   size_t len_swidth;
 
   if (np > 0){
     /* figure out the size needed */
     if (fill >= 0){/* poly*/
-      ret += snprintf(buf, sizeof(buf), " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
+      ret += snprintf(NULL, 0, " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
     } else {/* line*/
       assert(line_width >= 0);
       if (line_width > 0){
 	sprintf(swidth,"%f",line_width);
 	len_swidth = strlen(swidth);
 	sprintf(swidth,"S %zu -setlinewidth(%f)",len_swidth+14, line_width);
-	ret += snprintf(buf, sizeof(buf), " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
+	ret += snprintf(NULL, 0, " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
       } else {
-	ret += snprintf(buf, sizeof(buf), " c %zu -%s L %d ", strlen(cstring), cstring, np);
+	ret += snprintf(NULL, 0, " c %zu -%s L %d ", strlen(cstring), cstring, np);
       }
     }
     for (i = 0; i < np; i++){
-      ret += sprintf(buf, " %f %f",xp[i], yp[i]);
+      ret += snprintf(NULL, 0, " %f %f",xp[i], yp[i]);
     }
+    ++ret; // account for terminating '\0'
 
     if (*len + ret > *len_max - 1){
       *len_max = *len_max + MAX(100, 0.2*(*len_max)) + ret;
