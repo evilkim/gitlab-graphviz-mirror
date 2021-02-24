@@ -18,6 +18,7 @@
 #include <ast/ast.h>
 #include <gvpr/compile.h>
 #include <ast/sfstr.h>
+#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -66,11 +67,13 @@ int rindexOf(char *s1, char *s2)
     char c1 = *s2;
     char c;
     char *p;
-    int len1 = strlen(s1);
-    int len2 = strlen(s2);
+    size_t len1 = strlen(s1);
+    size_t len2 = strlen(s2);
 
     if (c1 == '\0')
 	return (len1);
+    if (len2 > len1)
+	return -1;
     p = s1 + (len1 - len2);
     while (p >= s1) {
 	c = *p;
