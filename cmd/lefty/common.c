@@ -10,6 +10,7 @@
 
 /* Lefteris Koutsofios - AT&T Labs Research */
 
+#include <stdbool.h>
 #include "common.h"
 
 int warnflag;
@@ -56,9 +57,9 @@ static char *cmdp;
 
 static char *lpathp;
 
-static void pathAppend(char* s, int addSep)
+static void pathAppend(char* s, bool addSep)
 {
-    int newlen = leftypathlen + strlen(s) + addSep;
+    int newlen = leftypathlen + strlen(s) + (addSep ? 1 : 0);
 
     if (newlen >= leftypathsz) {
 	leftypathsz = newlen + 1024;
@@ -110,10 +111,10 @@ int init (char *aout) {
         panic1 (POS, "init", "leftypath malloc failed");
     leftypath[0] = 0;
     if ((s1 = getenv ("LEFTYPATH"))) {
-	pathAppend (s1, 1);
+	pathAppend (s1, true);
     }
     if (*aout) {
-	pathAppend (aout, 1);
+	pathAppend (aout, true);
     }
     for (k = 0; k < 2; k++) {
         if (k == 0)
@@ -123,19 +124,19 @@ int init (char *aout) {
         while (s1) {
             if ((s2 = strchr (s1, PATHSEP)))
                 c = *s2, *s2 = 0;
-            pathAppend (s1, 0);
-            pathAppend (PATHLEFTY, 0);
+            pathAppend (s1, false);
+            pathAppend (PATHLEFTY, false);
             if (s2) {
                 *s2 = c, s1 = s2 + 1;
-                pathAppend ("", 1);
+                pathAppend ("", true);
             } else
                 s1 = NULL;
         }
         if (leftypath[0])
-            pathAppend ("", 1);
+            pathAppend ("", true);
     }
     if (leftdatadir) {    /* support a compile-time path as last resort */
-	pathAppend (leftdatadir, 1);
+	pathAppend (leftdatadir, true);
     }
     if (!(leftyoptions = getenv ("LEFTYOPTIONS")))
         leftyoptions = "";
