@@ -1027,14 +1027,15 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 {
     static hsvrgbacolor_t *last;
     static unsigned char *canon;
-    static int allocated;
+    static size_t allocated;
     unsigned char *p, *q;
     hsvrgbacolor_t fake;
     unsigned char c;
     double H, S, V, A, R, G, B;
     double C, M, Y, K;
     unsigned int r, g, b, a;
-    int len, rc;
+    size_t len;
+    int rc;
 
     color->type = target_type;
 
