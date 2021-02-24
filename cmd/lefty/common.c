@@ -11,12 +11,13 @@
 /* Lefteris Koutsofios - AT&T Labs Research */
 
 #include <stdbool.h>
+#include <stddef.h>
 #include "common.h"
 
 int warnflag;
 char *leftypath, *leftyoptions, *shellpath;
-static int leftypathsz;
-static int leftypathlen;
+static size_t leftypathsz;
+static size_t leftypathlen;
 jmp_buf exitljbuf;
 int idlerunmode;
 fd_set inputfds;
@@ -59,7 +60,7 @@ static char *lpathp;
 
 static void pathAppend(char* s, bool addSep)
 {
-    int newlen = leftypathlen + strlen(s) + (addSep ? 1 : 0);
+    size_t newlen = leftypathlen + strlen(s) + (addSep ? 1 : 0);
 
     if (newlen >= leftypathsz) {
 	leftypathsz = newlen + 1024;
