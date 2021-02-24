@@ -380,11 +380,7 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
     Constraint **csol, **csolptr;
     int i, j, mol = 0;
     int n = e->nv + e->nldv;
-#ifdef _WIN32
     boxf* bb = N_GNEW (n, boxf);
-#else
-    boxf bb[n];
-#endif
     boolean genclusters = opt->clusters->nclusters > 0;
     if (genclusters) {
 	/* n is the number of real variables, not dummy cluster vars */
@@ -411,22 +407,12 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 	    opt->gap.y / 2.0;
     }
     if (genclusters) {
-#ifdef _WIN32
 	Constraint ***cscl = N_GNEW(opt->clusters->nclusters + 1, Constraint**);
 	int* cm = N_GNEW(opt->clusters->nclusters + 1, int);
-#else
-	Constraint **cscl[opt->clusters->nclusters + 1];
-	int cm[opt->clusters->nclusters + 1];
-#endif
 	for (i = 0; i < opt->clusters->nclusters; i++) {
 	    int cn = opt->clusters->clustersizes[i];
-#ifdef _WIN32
 	    Variable** cvs = N_GNEW(cn + 2, Variable*);
 	    boxf* cbb = N_GNEW(cn + 2, boxf);
-#else
-	    Variable *cvs[cn + 2];
-	    boxf cbb[cn + 2];
-#endif
 	    /* compute cluster bounding bb */
 	    boxf container;
 	    container.LL.x = container.LL.y = DBL_MAX;
@@ -454,21 +440,14 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 		cm[i] = genYConstraints(cn + 2, cbb, cvs, &cscl[i]);
 	    }
 	    mol += cm[i];
-#ifdef _WIN32
 	    free (cvs);
 	    free (cbb);
-#endif
 	}
 	/* generate top level constraints */
 	{
 	    int cn = opt->clusters->ntoplevel + opt->clusters->nclusters;
-#ifdef _WIN32
 	    Variable** cvs = N_GNEW(cn,Variable*);
 	    boxf* cbb = N_GNEW(cn, boxf);
-#else
-	    Variable *cvs[cn];
-	    boxf cbb[cn];
-#endif
 	    for (i = 0; i < opt->clusters->ntoplevel; i++) {
 		int iv = opt->clusters->toplevel[i];
 		cvs[i] = e->vs[iv];
@@ -530,10 +509,8 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 		deleteVariable(cvs[i]);
 	    }
 	    mol += cm[opt->clusters->nclusters];
-#ifdef _WIN32
 	    free (cvs);
 	    free (cbb);
-#endif
 	}
 	csolptr = csol = newConstraints(mol);
 	for (i = 0; i < opt->clusters->nclusters + 1; i++) {
@@ -543,10 +520,8 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 	    }
 	    deleteConstraints(0, cscl[i]);
 	}
-#ifdef _WIN32
 	free (cscl);
 	free (cm);
-#endif
     } else {
 	if (k == 0) {
 	    mol = genXConstraints(n, bb, e->vs, &csol, transitiveClosure);
@@ -600,9 +575,7 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 			   e->m);
     }
 #endif
-#ifdef _WIN32
     free (bb);
-#endif
 }
 
 /*

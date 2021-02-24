@@ -623,11 +623,7 @@ boolean gvusershape_file_access(usershape_t *us)
 	    agerr(AGWARN, "Filename \"%s\" is unsafe\n", us->name);
 	    return FALSE;
 	}
-#ifndef _WIN32
-	us->f = fopen(fn, "r");
-#else
 	us->f = fopen(fn, "rb");
-#endif
 	if (us->f == NULL) {
 	    agerr(AGWARN, "%s while opening %s\n", strerror(errno), fn);
 	    return FALSE;
