@@ -1,14 +1,21 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
+import argparse
 import json
-from json2html import *
+
+from json2html import json2html
+
 
 def main():
-  with open(sys.argv[1]) as inf:
-    inputs = inf.read()
-  input = json.loads(inputs)
-  output = json2html.convert(json = input, table_attributes="class=\"jsontable\"")
-  with open(sys.argv[2], 'w') as outf:
-    outf.write(output)
+    parser = argparse.ArgumentParser(description="Converts a json file to a html file")
+    parser.add_argument("input", type=argparse.FileType("rt"), help="Input file")
+    parser.add_argument("output", type=argparse.FileType("wt"), help="Output file")
+    args = parser.parse_args()
 
-main()
+    json_input = json.load(args.input)
+    html_output = json2html.convert(json=json_input, table_attributes='class="jsontable"')
+    args.output.write(html_output)
+
+
+if __name__ == "__main__":
+    main()
