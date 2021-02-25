@@ -510,7 +510,7 @@ fedora33-test:
 macos-autotools-test:
     <<: *test_definition
     before_script:
-        - pip3 install pytest
+        - python3 -m pip install --requirement requirements.txt
         - export build_system="autotools"
         - echo experimental > COLLECTION
     needs:
@@ -594,7 +594,7 @@ fedora32-cmake-test:
 macos-cmake-test:
     <<: *test_definition
     before_script:
-        - pip3 install pytest
+        - python3 -m pip install --requirement requirements.txt
         - export build_system="cmake"
         - echo experimental > COLLECTION
     needs:
@@ -740,3 +740,11 @@ docker_push_ubuntu-20.10:
   <<: *docker_push_definition
   variables:
     IMAGE: ubuntu-20.10
+
+lint_pylint:
+  image: "$CI_REGISTRY_IMAGE/ubuntu-20.10:$CI_COMMIT_SHA"
+  stage: test
+  needs:
+    - docker_build_ubuntu-20.10
+  script:
+    - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero
