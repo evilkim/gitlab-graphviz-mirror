@@ -25,9 +25,6 @@
 #include <stdio.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#ifdef _WIN32
-#define strdup _strdup
-#endif
 
 #ifdef __cplusplus
 extern "C" {

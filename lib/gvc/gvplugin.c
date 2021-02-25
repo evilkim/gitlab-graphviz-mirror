@@ -36,10 +36,6 @@
 #include	<common/const.h>
 #include <cgraph/strcasecmp.h>
 
-#ifdef _WIN32
-#define strdup(x) _strdup(x)
-#endif
-
 /*
  * Define an apis array of name strings using an enumerated api_t as index.
  * The enumerated type is defined gvplugin.h.  The apis array is
