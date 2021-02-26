@@ -211,7 +211,7 @@ portable-source:
         - export GV_VERSION=$( cat VERSION )
         - export OS_ID=$( cat OS_ID )
         - find /usr/share/man
-        - man --where --all grep
+        - man --where --all xdot
         - python3 -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
     artifacts:
         reports:
