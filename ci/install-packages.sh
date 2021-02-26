@@ -95,12 +95,14 @@ else
         apt install ./${DIR}/os/${ARCH}/libgraphviz4_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/libgraphviz-dev_${GV_VERSION}-1_amd64.deb
         apt install ./${DIR}/os/${ARCH}/graphviz_${GV_VERSION}-1_amd64.deb
+        apt install ./${DIR}/os/${ARCH}/graphviz-doc_${GV_VERSION}-1_all.deb
     elif [ "${ID}" = "Darwin" ]; then
         tar xf ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}-${ARCH}.tar.gz
         cp -rp build/* /usr/local
     else
         rpm --install --force \
             ${DIR}/os/${ARCH}/graphviz-${GV_VERSION}*.rpm \
+            ${DIR}/os/${ARCH}/graphviz-doc-${GV_VERSION}*.rpm \
             ${DIR}/os/${ARCH}/graphviz-libs-${GV_VERSION}*.rpm \
             ${DIR}/os/${ARCH}/graphviz-devel-${GV_VERSION}*.rpm \
             ${DIR}/os/${ARCH}/graphviz-plugins-core-${GV_VERSION}*.rpm \
