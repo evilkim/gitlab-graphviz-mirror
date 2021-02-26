@@ -1,4 +1,4 @@
-#!/usr/bin/env ksh
+#!/bin/sh
 
 # Script for gvmap pipeline
 # Use -A to add flags for gvmap; e.g., -Ae results in gvmap -e
@@ -10,8 +10,8 @@
 # parts will be separated during option processing.
 
 LAYOUT=sfdp
-trap 'rm -f $TMPFILE1 $TMPFILE2 $TMPINFILE errout; exit' 0 1 2 3 15
-OPTSTR="vVA:[gvmap flags]G:[attr=val]E:[attr=val]N:[attr=val]g:[attr=val]e:[attr=val]n:[attr=val]K:[layout]T:[output format]o:[outfile]"
+OPTSTR="vVA:G:E:N:g:e:n:K:T:o:"
+USAGE="Usage: gvmap [-vV] [-A gvmap flags] [-G attr=val] [-E attr=val] [-N attr=val] [-g attr=val] [-e attr=val] [-n attr=val] [-K layout] [-T output format] [-o outfile]"
 FLAGS1=
 FLAGS2=
 FLAGS3=
@@ -60,42 +60,43 @@ do
       FLAGS3="$FLAGS3 -o$OPTARG"
     ;;
   :)
-    print -u 2 $OPTARG requires a value
+    printf '%s requires a value\n' "$OPTARG" >&2
     exit 2
     ;;
   \? )
-    if [[ "$OPTARG" == '?' ]]
+    if [ "$OPTARG" = "?" ]
     then
-      (getopts -a gvmap "$OPTSTR" x '-?')
+      printf '%s\n' "$USAGE"
       exit 0
     else
-      print -u 2 "gvmap: unknown flag $OPTARG"
-      getopts -a gvmap "$OPTSTR" x '-?'
+      printf  'gvmap: unknown flag %s\n' "$OPTARG" >&2
+      printf '%s\n' "$USAGE"
+      exit 2
     fi
     ;;
   esac
 done
 shift $((OPTIND-1))
 
-if [[ $# == 0 ]]
+if [ $# -eq 0 ]
 then
-  if [[ -n $VERBOSE ]]
+  if [ -n "$VERBOSE" ]
   then
-    print -u 2 "$LAYOUT -Goverlap=prism $FLAGS1 | gvmap $FLAGS2 | neato -n2 $FLAGS3"
+    printf '%s -Goverlap=prism %s | gvmap %s | neato -n2 %s\n' "$LAYOUT" "$FLAGS1" "$FLAGS2" "$FLAGS3" >&2
   fi
   $LAYOUT -Goverlap=prism $FLAGS1 | gvmap $FLAGS2 | neato -n2 $FLAGS3
 else
   while (( $# > 0 ))
   do
-    if [[ -f $1 ]]
+    if [ -f "$1" ]
     then
-      if [[ -n $VERBOSE ]]
+      if [ -n "$VERBOSE" ]
       then
-        print -u 2 "$LAYOUT -Goverlap=prism $FLAGS1 $1 | gvmap $FLAGS2 | neato -n2 $FLAGS3"
+        printf '%s -Goverlap=prism %s %s | gvmap %s | neato -n2 %s\n' "$LAYOUT" "$FLAGS1" "$1" "$FLAGS2" "$FLAGS3" >&2
       fi
       $LAYOUT -Goverlap=prism $FLAGS1 $1 | gvmap $FLAGS2 | neato -n2 $FLAGS3
     else
-      print -u 2 "gvmap: unknown input file $1 - ignored"
+      printf 'gvmap: unknown input file %s - ignored\n' "$1" >&2
     fi
     shift
   done
