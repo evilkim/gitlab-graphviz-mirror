@@ -223,6 +223,11 @@ portable-source:
 
 centos7-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_centos7
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -230,6 +235,11 @@ centos7-build:
 
 centos8-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_centos8
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -237,6 +247,11 @@ centos8-build:
 
 fedora32-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_fedora32
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -244,6 +259,11 @@ fedora32-build:
 
 fedora33-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_fedora33
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -251,6 +271,11 @@ fedora33-build:
 
 ubuntu18-04-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-18.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -258,6 +283,11 @@ ubuntu18-04-build:
 
 ubuntu20-04-debug-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-20.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     before_script:
         - export CFLAGS="-DDEBUG"
         - export CXXFLAGS="-DDEBUG"
@@ -268,6 +298,11 @@ ubuntu20-04-debug-build:
 
 ubuntu20-04-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-20.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -275,6 +310,11 @@ ubuntu20-04-build:
 
 ubuntu20-10-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-20.10
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     tags:
         - linux
     variables:
@@ -282,6 +322,9 @@ ubuntu20-10-build:
 
 macos-autotools-build:
     <<: *macos_build_definition
+    needs:
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="autotools"
     tags:
@@ -289,6 +332,11 @@ macos-autotools-build:
 
 ubuntu18-04-cmake-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-18.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -302,6 +350,11 @@ ubuntu18-04-cmake-build:
 
 ubuntu20-10-cmake-build:
     <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-20.10
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -315,6 +368,11 @@ ubuntu20-10-cmake-build:
 
 centos7-cmake-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_centos7
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -328,6 +386,11 @@ centos7-cmake-build:
 
 fedora32-cmake-build:
     <<: *rpm_build_definition
+    needs:
+        - job: docker_build_fedora32
+          artifacts: false
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -341,6 +404,9 @@ fedora32-cmake-build:
 
 macos-cmake-build:
     <<: *macos_build_definition
+    needs:
+        - job: portable-source
+          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
