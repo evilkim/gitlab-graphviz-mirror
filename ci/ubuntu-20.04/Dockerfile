@@ -62,6 +62,8 @@ guile-2.2-dev \
 # Language extension gv_lua
 lua5.3 \
 liblua5.3-dev \
+# for testing man page installations
+man-db \
 # Language extension gv_ocaml
 ocaml \
 # Language extension gv_perl

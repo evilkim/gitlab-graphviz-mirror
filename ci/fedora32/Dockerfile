@@ -53,6 +53,8 @@ guile-devel \
 java-devel \
 # Language extension gv_lua
 lua-devel \
+# for testing man page installations
+man-db \
 # Language extension gv_ocaml
 ocaml \
 # Language extension gv_perl
