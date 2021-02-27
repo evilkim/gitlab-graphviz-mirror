@@ -386,39 +386,24 @@ def test_1767():
     c_src = (Path(__file__).parent / '1767.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
+    # find our co-located dot input
+    dot = (Path(__file__).parent / '1767.dot').resolve()
+    assert dot.exists(), 'missing test case'
 
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+    ret, stdout, _ = run_c(c_src, [dot], link=['cgraph', 'gvc'])
+    assert ret == 0
 
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe, '-lcgraph',
-            '-lgvc'])
-
-      # find our co-located dot input
-      dot = (Path(__file__).parent / '1767.dot').resolve()
-      assert dot.exists(), 'missing test case'
-
-      # run the test
-      stdout = subprocess.check_output([exe, dot], universal_newlines=True)
-
-      # FIXME: uncomment this when #1767 is fixed
-      # assert stdout == 'Loaded graph:clusters\n' \
-      #                  'cluster_0 contains 5 nodes\n' \
-      #                  'cluster_1 contains 1 nodes\n' \
-      #                  'cluster_2 contains 3 nodes\n' \
-      #                  'cluster_3 contains 3 nodes\n' \
-      #                  'Loaded graph:clusters\n' \
-      #                  'cluster_0 contains 5 nodes\n' \
-      #                  'cluster_1 contains 1 nodes\n' \
-      #                  'cluster_2 contains 3 nodes\n' \
-      #                  'cluster_3 contains 3 nodes\n'
+    # FIXME: uncomment this when #1767 is fixed
+    # assert stdout == 'Loaded graph:clusters\n' \
+    #                  'cluster_0 contains 5 nodes\n' \
+    #                  'cluster_1 contains 1 nodes\n' \
+    #                  'cluster_2 contains 3 nodes\n' \
+    #                  'cluster_3 contains 3 nodes\n' \
+    #                  'Loaded graph:clusters\n' \
+    #                  'cluster_0 contains 5 nodes\n' \
+    #                  'cluster_1 contains 1 nodes\n' \
+    #                  'cluster_2 contains 3 nodes\n' \
+    #                  'cluster_3 contains 3 nodes\n'
 
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 @pytest.mark.skipif(platform.system() != 'Windows',
@@ -681,22 +666,9 @@ def test_1910():
     c_src = (Path(__file__).parent / '1910.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
-
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
-
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
-
-      # run the test
-      subprocess.check_call([exe])
+    # run the test
+    ret, _, _ = run_c(c_src, link=['cgraph', 'gvc'])
+    assert ret == 0
 
 def test_1913():
     '''
@@ -800,22 +772,9 @@ def test_package_version():
     c_src = (Path(__file__).parent / 'check-package-version.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
-
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
-
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe])
-
-      # run the test
-      subprocess.check_call([exe])
+    # run the test
+    ret, _, _ = run_c(c_src)
+    assert ret == 0
 
 def test_user_shapes():
     '''
