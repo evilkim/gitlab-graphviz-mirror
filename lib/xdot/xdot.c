@@ -728,19 +728,18 @@ static void jsonPolyline(xdot_polyline * p, pf print, void *info)
 
 static void jsonString(char *p, pf print, void *info)
 {
-    unsigned char c, buf[BUFSIZ];
-    agxbuf xb;
+    char c;
 
-    agxbinit(&xb, BUFSIZ, buf);
-    agxbputc(&xb, '"');
+    print("\"", info);
     while ((c = *p++)) {
-	if (c == '"') agxbput("\\\"", &xb);
-	else if (c == '\\') agxbput("\\\\", &xb);
-	else agxbputc(&xb, c);
+	if (c == '"') print("\\\"", info);
+	else if (c == '\\') print("\\\\", info);
+	else {
+		char buf[2] = { c, '\0' };
+		print(buf, info);
+	}
     }
-    agxbputc(&xb, '"');
-    print(agxbuse(&xb), info);
-    agxbfree(&xb);
+    print("\"", info);
 }
 
 static void jsonXDot_Op(xdot_op * op, pf print, void *info, int more)
