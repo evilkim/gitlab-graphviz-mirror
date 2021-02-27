@@ -792,3 +792,39 @@ def test_user_shapes():
     # the external SVG should have been parsed and is now referenced
     assert '<image xlink:href="usershape.svg" width="62px" height="44px" ' in \
       output
+
+def test_xdot_json():
+    '''
+    check the output of xdot’s JSON API
+    '''
+
+    # find our collocated C helper
+    c_src = Path(__file__).parent / 'xdot2json.c'
+
+    # some valid xdot commands to process
+    input = 'c 9 -#fffffe00 C 7 -#ffffff P 4 0 0 0 36 54 36 54 0'
+
+    # ask our C helper to process this
+    try:
+        ret, output, err = run_c(c_src, input=input, link=['xdot'])
+    except subprocess.CalledProcessError:
+        # FIXME: Remove this try-catch when
+        # https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+        if os.getenv('build_system') == 'msbuild':
+            pytest.skip('Windows MSBuild release does not contain any header '
+                        'files (#1777)')
+        raise
+    assert ret == 0
+    assert err == ''
+
+    if os.getenv('build_system') == 'msbuild':
+        pytest.fail('Windows MSBuild unexpectedly passed compilation of a '
+                    'Graphviz header. Remove the above try-catch? (#1777)')
+
+    # confirm the output was what we expected
+    assert output == '[\n'                                                   \
+                     '{c : "#fffffe00"},\n'                                  \
+                     '{C : "#ffffff"},\n'                                    \
+                     '{P : [0.000000,0.000000,0.000000,36.000000,54.000000,' \
+                       '36.000000,54.000000,0.000000]}\n'                    \
+                     ']\n'
