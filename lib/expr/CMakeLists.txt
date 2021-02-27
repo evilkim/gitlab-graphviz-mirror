@@ -8,7 +8,8 @@ BISON_TARGET(
 add_custom_command(
     OUTPUT exparse.c
     MAIN_DEPENDENCY y.tab.c
-    COMMAND sed -e "s/fprintf/sfprintf/g" -e "s/FILE/Sfio_t/g" -e "s/stderr/sfstderr/g" ${CMAKE_CURRENT_BINARY_DIR}/y.tab.c > exparse.c
+    COMMAND ${CMAKE_COMMAND}
+    ARGS -P ${CMAKE_CURRENT_SOURCE_DIR}/exparse-replacements.cmake
 )
 
 if (WIN32)

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove regex usage #1919
 - RxSpencer is no longer a dependency on Windows
 - gvmap.sh is compatible with POSIX shells in addition to ksh
+- sed is no longer a build dependency on Windows
 
 ### Fixed
 - Fix gvpr -? to actually print usage and exit non-zero

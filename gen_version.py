@@ -52,6 +52,24 @@ parser.add_argument('--collection',
                     help='Print collection ("stable" or "development") '
                     'instead of version'
 )
+parser.add_argument('--major',
+                    dest='component',
+                    action='store_const',
+                    const='major',
+                    help='Print major version')
+parser.add_argument('--minor',
+                    dest='component',
+                    action='store_const',
+                    const='minor',
+                    help='Print minor version')
+parser.add_argument('--patch',
+                    dest='component',
+                    action='store_const',
+                    const='patch',
+                    help='Print patch version')
+parser.add_argument('--definition',
+                    action='store_true',
+                    help='Print a C-style preprocessor #define')
 
 args = parser.parse_args()
 
@@ -90,12 +108,38 @@ if not patch_version.isnumeric() or args.date_format:
         print('Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.', file=sys.stderr)
         committer_date = '0'
 
+if not patch_version.isnumeric():
+    # Non-numerical patch version; add committer date
+    patch_version += '.' + committer_date
+
 if args.date_format:
-    print(committer_date)
+    if args.definition:
+        print(f'#define BUILDDATE "{committer_date}"')
+    else:
+        print(committer_date)
 elif args.collection:
-    print(collection)
+    if args.definition:
+        print(f'#define COLLECTION "{collection}"')
+    else:
+        print(collection)
+elif args.component == 'major':
+    if args.definition:
+        print(f'#define VERSION_MAJOR "{major_version}"')
+    else:
+        print(major_version)
+elif args.component == 'minor':
+    if args.definition:
+        print(f'#define VERSION_MINOR "{minor_version}"')
+    else:
+        print(minor_version)
+elif args.component == 'patch':
+    if args.definition:
+        print(f'#define VERSION_PATCH "{patch_version}"')
+    else:
+        print(patch_version)
 else:
-    if not patch_version.isnumeric():
-        # Non-numerical patch version; add committer date
-        patch_version += '.' + committer_date
-    print('{0}.{1}.{2}'.format(major_version, minor_version, patch_version))
+    if args.definition:
+        print(f'#define VERSION "{major_version}.{minor_version}.'
+              f'{patch_version}"')
+    else:
+        print(f'{major_version}.{minor_version}.{patch_version}')
