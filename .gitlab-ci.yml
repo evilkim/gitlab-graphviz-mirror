@@ -126,7 +126,7 @@ portable-source:
             $TARGET_ARCH = "x86";
           }
         # Retrieve submodules, dependencies are stored there.
-        - git submodule update --init
+        - git submodule update --init --depth 1
         # Install and set PATH
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
