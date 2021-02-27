@@ -736,7 +736,6 @@ static void jsonString(char *p, pf print, void *info)
     while ((c = *p++)) {
 	if (c == '"') agxbput("\\\"", &xb);
 	else if (c == '\\') agxbput("\\\\", &xb);
-	/* else if (c > 127) handle UTF-8 */
 	else agxbputc(&xb, c);
     }
     agxbputc(&xb, '"');
