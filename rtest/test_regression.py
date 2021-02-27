@@ -8,7 +8,7 @@ import os
 import re
 import stat
 import tempfile
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -73,6 +73,27 @@ def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
         raise
 
     return dst
+
+def run_c(src: Path, args: [str] = [], input: str = '', link: List[str] = []) \
+  -> Tuple[int, str, str]:
+    '''
+    compile and run a C program
+    '''
+
+    # create some temporary space to work in
+    with tempfile.TemporaryDirectory() as tmp:
+
+        # output filename to write our compiled code to
+        exe = Path(tmp) / 'a.exe'
+
+        # compile the program
+        compile_c(src, link, exe)
+
+        # run it
+        p = subprocess.run([exe] + args, input=input, stdout=subprocess.PIPE,
+          stderr=subprocess.PIPE, universal_newlines=True)
+
+        return p.returncode, p.stdout, p.stderr
 
 def test_165():
     '''
