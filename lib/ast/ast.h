@@ -62,8 +62,8 @@ extern "C" {
 #define elementsof(x)   (sizeof(x)/sizeof(x[0]))
 #define newof(p,t,n,x)  ((p)?(t*)realloc((char*)(p),sizeof(t)*(n)+(x)):(t*)calloc(1,sizeof(t)*(n)+(x)))
 #define oldof(p,t,n,x)  ((p)?(t*)realloc((char*)(p),sizeof(t)*(n)+(x)):(t*)malloc(sizeof(t)*(n)+(x)))
-#define streq(a,b)  (*(a)==*(b)&&!strcmp(a,b))
-#define strneq(a,b,n)     (*(a)==*(b)&&!strncmp(a,b,n))
+#define streq(a,b)  (!strcmp(a,b))
+#define strneq(a,b,n)     (!strncmp(a,b,n))
 #define memzero(b,n)    memset(b,0,n)
 
     extern char *pathpath(char *, const char *, const char *, int);

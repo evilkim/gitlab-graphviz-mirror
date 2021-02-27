@@ -127,7 +127,7 @@ static void myagxset(void *obj, Agsym_t *a, char *val)
     int len;
     char *hs;
 
-    if (a->name[0] == 'l' && val[0] == '<' && strcmp(a->name, "label") == 0) {
+    if (strcmp(a->name, "label") == 0 && val[0] == '<') {
         len = strlen(val);
         if (val[len-1] == '>') {
             hs = strdup(val+1);
