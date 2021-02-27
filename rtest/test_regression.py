@@ -8,6 +8,7 @@ import os
 import re
 import stat
 import tempfile
+from typing import List, Optional
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -37,6 +38,41 @@ def test_regression_failure():
     assert "Layout failures: 0" in text
 # FIXME: re-enable when all tests pass on all platforms
 #    assert result.returncode == 0
+
+def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
+  -> Path:
+    '''
+    compile a C program
+    '''
+
+    # if the user did not give us destination, use a temporary path
+    if dst is None:
+        _, dst = tempfile.mkstemp('.exe')
+
+    if platform.system() == 'Windows':
+        # determine which runtime library option we need
+        rtflag = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
+        # construct an invocation of MSVC
+        args = ['cl', src, '-Fe:', dst, '-nologo', rtflag]
+        if len(link) > 0:
+            args += ['-link'] + [f'{l}.lib' for l in link]
+
+    else:
+        # construct an invocation of the default C compiler
+        cc = os.environ.get('CC', 'cc')
+        args = [cc, '-std=c99', src, '-o', dst]
+        if len(link) > 0:
+            args += [f'-l{l}' for l in link]
+
+    # compile the program
+    try:
+        subprocess.check_call(args)
+    except subprocess.CalledProcessError:
+        dst.unlink(missing_ok=True)
+        raise
+
+    return dst
 
 def test_165():
     '''
