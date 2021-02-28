@@ -715,8 +715,8 @@ deployment:
     # fetches the :latest image (not failing if image is not found) for caching
     - docker pull $CI_REGISTRY_IMAGE/$IMAGE:latest || true
     # Build and push with git commit SHA tag, reusing layers from the :latest image if possible
-    - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY_IMAGE/$IMAGE:latest -f ci/$IMAGE/Dockerfile --build-arg BUILDKIT_INLINE_CACHE=1 .
-    - docker push $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
+    - docker build -t $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA --cache-from $CI_REGISTRY_IMAGE/$IMAGE:latest -f ci/$IMAGE/Dockerfile .
+    - docker push     $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
 
 .docker_push_template: &docker_push_definition
   <<: *docker_definition
