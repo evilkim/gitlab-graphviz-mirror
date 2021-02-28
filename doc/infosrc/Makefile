@@ -15,7 +15,6 @@
 # The main products are web pages:
 #    arrows.html  - arrow_grammar
 #    colors.html  - color_names svgcolor_names brewer_colors
-#    command.html - raw HTML
 #    lang.html    - grammar
 #    shapes.html  - shapelist, html_grammar
 #
@@ -83,7 +82,7 @@ A2GIF= aa_box.gif aa_lbox.gif aa_rbox.gif aa_obox.gif aa_olbox.gif aa_orbox.gif\
 
 GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
-HTML = colors.html command.html lang.html shapes.html \
+HTML = colors.html lang.html shapes.html \
        arrows.html schema.html
 MISC = graphviz_json_schema.json w3data.js
 INSTALL_FILES = $(HTML) $(DOTS) $(SGIF) $(AGIF) $(A2GIF) $(MGIF) $(XGIF) $(MPNG) $(MISC)
