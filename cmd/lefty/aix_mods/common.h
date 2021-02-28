@@ -53,8 +53,6 @@ extern "C" {
 #define CHARSRC 0
 #define FILESRC 1
 
-/*#define M_PI 3.14159265358979323846 */
-
     extern int warnflag;
     extern char *leftypath, *leftyoptions, *shellpath;
     extern jmp_buf exitljbuf;
