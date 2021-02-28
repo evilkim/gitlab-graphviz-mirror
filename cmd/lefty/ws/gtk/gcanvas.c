@@ -107,7 +107,7 @@ int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    break;
 #ifdef FEATURE_GMAP
 	case G_ATTRMODE:
-	    if (Strcmp("gmap", attrp[ai].u.t) == 0) {
+	    if (strcmp("gmap", attrp[ai].u.t) == 0) {
 		gmapmode = TRUE;
 	    } else {
 		Gerr(POS, G_ERRBADATTRVALUE, attrp[ai].u.t);
@@ -211,7 +211,7 @@ int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
     for (ai = 0; ai < attrn; ai++) {
 	switch (attrp[ai].id) {
 	case G_ATTRCURSOR:
-	    if (Strcmp(attrp[ai].u.t, "default") == 0) {
+	    if (strcmp(attrp[ai].u.t, "default") == 0) {
 		curcursori = -1;
 	    }
 	    break;
@@ -269,7 +269,7 @@ int GCsetwidgetattr(Gwidget_t * widget, int attrn, Gwattr_t * attrp)
 	case G_ATTRBORDERWIDTH:
 	    break;
 	case G_ATTRCURSOR:
-	    if (Strcmp(attrp[ai].u.t, "watch") == 0) {
+	    if (strcmp(attrp[ai].u.t, "watch") == 0) {
 		gdk_window_set_cursor(widget->w->window,
 				      gdk_cursor_new(GDK_WATCH));
 	    } else {
@@ -651,7 +651,7 @@ static GdkFont *findfont(char *name, int size)
 
     sprintf(&Gbufp[0], name, size);
     for (fi = 0; fi < Gfontn; fi++)
-	if (Strcmp(&Gbufp[0], Gfontp[fi].name) == 0)
+	if (strcmp(&Gbufp[0], Gfontp[fi].name) == 0)
 	    return Gfontp[fi].font;
 
     if (!(font = gdk_font_load(&Gbufp[0]))) {
