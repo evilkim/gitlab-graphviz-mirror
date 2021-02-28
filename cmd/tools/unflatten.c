@@ -15,6 +15,7 @@
  */
 #include "config.h"
 
+#include    <stdbool.h>
 #include    <stdio.h>
 #include    <stdlib.h>
 #include    <string.h>
@@ -26,7 +27,7 @@
 
 #include <getopt.h>
 
-static int Do_fans = 0;
+static bool Do_fans = false;
 static int MaxMinlen = 0;
 static int ChainLimit = 0;
 static int ChainSize = 0;
@@ -51,21 +52,21 @@ static int myoutdegree(Agnode_t *n)
 	return rv;
 }
 
-static int isleaf(Agnode_t * n)
+static bool isleaf(Agnode_t * n)
 {
-    return ((myindegree(n) + myoutdegree(n)) == 1);
+    return myindegree(n) + myoutdegree(n) == 1;
 }
 
-static int ischainnode(Agnode_t * n)
+static bool ischainnode(Agnode_t * n)
 {
-    return ((myindegree(n) == 1) && myoutdegree(n) == 1);
+    return myindegree(n) == 1 && myoutdegree(n) == 1;
 }
 
 static void adjustlen(Agedge_t * e, Agsym_t * sym, int newlen)
 {
-    char buf[10];
+    char buf[12];
 
-    sprintf(buf, "%d", newlen);
+    snprintf(buf, sizeof(buf), "%d", newlen);
     agxset(e, sym, buf);
 }
 
@@ -110,7 +111,7 @@ static void transform(Agraph_t * g)
 		if (isleaf(agtail(e))) {
 		    str = agxget(e, m_ix);
 		    if (str[0] == 0) {
-			adjustlen(e, m_ix, (cnt % MaxMinlen) + 1);
+			adjustlen(e, m_ix, cnt % MaxMinlen + 1);
 			cnt++;
 		    }
 		}
@@ -121,7 +122,7 @@ static void transform(Agraph_t * g)
 		if (isleaf(e->node) || (Do_fans && ischainnode(e->node))) {
 		    str = agxget(e, m_ix);
 		    if (str[0] == 0)
-			adjustlen(e, m_ix, (cnt % MaxMinlen) + 1);
+			adjustlen(e, m_ix, cnt % MaxMinlen + 1);
 		    cnt++;
 		}
 	    }
@@ -159,7 +160,7 @@ static FILE *openFile(char *name, char *mode)
 		cmd, name, modestr);
 	exit(-1);
     }
-    return (fp);
+    return fp;
 }
 
 static char **scanargs(int argc, char **argv)
@@ -171,7 +172,7 @@ static char **scanargs(int argc, char **argv)
     while ((c = getopt(argc, argv, ":fl:c:o:")) != -1) {
 	switch (c) {
 	case 'f':
-	    Do_fans = 1;
+	    Do_fans = true;
 	    break;
 	case 'l':
 	    ival = atoi(optarg);
@@ -204,7 +205,7 @@ static char **scanargs(int argc, char **argv)
 	    break;
 	}
     }
-    if (Do_fans && (MaxMinlen < 1))
+    if (Do_fans && MaxMinlen < 1)
 	fprintf(stderr, "%s: Warning: -f requires -l flag\n", cmd);
     argv += optind;
     argc -= optind;
@@ -219,7 +220,7 @@ static char **scanargs(int argc, char **argv)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char **argv)
