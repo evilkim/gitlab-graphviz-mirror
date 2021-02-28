@@ -14,11 +14,6 @@
  *
  */
 
-#ifdef _WIN32
-#include "windows.h"
-#include "shlwapi.h"
-#endif
-
 #include <gvpr/gprstate.h>
 #include <ast/error.h>
 #include <ast/sfstr.h>
@@ -135,12 +130,3 @@ void closeGPRState(Gpr_t* state)
     free (state->dp);
     free (state);
 }
-
-#ifdef WIN32_DLL
-int pathisrelative (char* path)
-{
-    return PathIsRelative(path);
-
-}
-#endif
-
