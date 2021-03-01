@@ -19,6 +19,7 @@
 #include <ast/error.h>
 #include <cgraph/agxbuf.h>
 #include <gvpr/parse.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -150,7 +151,7 @@ static int skipWS(Sfio_t * str)
 {
     int c;
 
-    while (1) {
+    while (true) {
 	c = readc(str, 0);
 	if (!isspace(c)) {
 	    return c;
@@ -164,7 +165,7 @@ static int skipWS(Sfio_t * str)
  */
 static void parseID(Sfio_t * str, int c, char *buf, size_t bsize)
 {
-    int more = 1;
+    bool more = true;
     char *ptr = buf;
     char *eptr = buf + (bsize - 1);
 
@@ -172,14 +173,14 @@ static void parseID(Sfio_t * str, int c, char *buf, size_t bsize)
     while (more) {
 	c = readc(str, 0);
 	if (c < 0)
-	    more = 0;
+	    more = false;
 	if (isalpha(c) || c == '_') {
 	    if (ptr == eptr)
-		more = 0;
+		more = false;
 	    else
 		*ptr++ = c;
 	} else {
-	    more = 0;
+	    more = false;
 	    unreadc(str, c);
 	}
     }
@@ -267,7 +268,7 @@ static int endBracket(Sfio_t * ins, agxbuf * outs, char bc, char ec)
 {
     int c;
 
-    while (1) {
+    while (true) {
 	c = readc(ins, outs);
 	if (c < 0 || c == ec)
 	    return c;
@@ -461,7 +462,7 @@ parse_prog *parseProg(char *input, int isFile)
     char *mode;
     char *guard = NULL;
     char *action = NULL;
-    int more;
+    bool more;
     parse_block *blocklist = 0;
     case_info *edgelist = 0;
     case_info *nodelist = 0;
@@ -503,7 +504,7 @@ parse_prog *parseProg(char *input, int isFile)
     }
     
     begg_stmt = 0;
-    more = 1;
+    more = true;
     while (more) {
 	switch (parseCase(str, &guard, &gline, &action, &line)) {
 	case Begin:
@@ -531,7 +532,7 @@ parse_prog *parseProg(char *input, int isFile)
 	    bindAction(EndG, action, line, &prog->endg_stmt, &prog->l_endg);
 	    break;
 	case Eof:
-	    more = 0;
+	    more = false;
 	    break;
 	case Node:
 	    nodel = addCase(nodel, guard, gline, action, line, &n_nstmts);
@@ -544,7 +545,7 @@ parse_prog *parseProg(char *input, int isFile)
 		edgelist = edgel;
 	    break;
 	case Error:		/* to silence warnings */
-	    more = 0;
+	    more = false;
 	    break;
 	}
     }
