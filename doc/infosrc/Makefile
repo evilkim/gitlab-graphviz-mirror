@@ -148,11 +148,9 @@ shapes : shapelist mkshapes.sh
 shapes.html : shapes mkshhtml.py html.html record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist
 	./mkshhtml.py html.html < shapelist > shapes.html
 
-lang.html : grammar lang.1 lang.2 mklang
+lang.html : grammar mklang mklang.py
 	./mklang grammar gramtmp
-	cat lang.1 > lang.html
-	cat gramtmp >> lang.html
-	cat lang.2 >> lang.html
+	./mklang.py gramtmp > lang.html
 	rm gramtmp
 
 arrows.html : arrow_grammar arrows.1 arrows.2 mkarrowtbl.sh mklang $(AGIF) $(A2GIF)
