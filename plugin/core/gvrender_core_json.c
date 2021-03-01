@@ -82,7 +82,7 @@ static char* stoj (char* ins, state_t* sp)
     char* s;
     char* input;
     static agxbuf xb;
-    unsigned char c;
+    char c;
 
     if (sp->isLatin)
 	input = latin1ToUTF8 (ins);
