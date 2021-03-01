@@ -225,8 +225,7 @@ static case_t parseKind(Sfio_t * str)
 	cs = Node;
     }
     if (cs == Error)
-	error(ERROR_ERROR, "unexpected keyword \"%s\", line %d", buf,
-	      kwLine);
+	error(ERROR_ERROR, "unexpected keyword \"%s\", line %d", buf, kwLine);
     return cs;
 }
 
@@ -414,8 +413,7 @@ static case_info *addCase(case_info * last, char *guard, int gline,
 
     if (!guard && !action) {
 	error(ERROR_WARNING,
-	      "Case with neither guard nor action, line %d - ignored",
-	      kwLine);
+	      "Case with neither guard nor action, line %d - ignored", kwLine);
 	return last;
     }
 
@@ -509,8 +507,7 @@ parse_prog *parseProg(char *input, int isFile)
     while (more) {
 	switch (parseCase(str, &guard, &gline, &action, &line)) {
 	case Begin:
-	    bindAction(Begin, action, line, &(prog->begin_stmt),
-		       &(prog->l_begin));
+	    bindAction(Begin, action, line, &prog->begin_stmt, &prog->l_begin);
 	    break;
 	case BeginG:
 	    if (action && (begg_stmt || nodelist || edgelist)) { /* non-empty block */
@@ -528,12 +525,10 @@ parse_prog *parseProg(char *input, int isFile)
 	    bindAction(BeginG, action, line, &begg_stmt, &l_beging);
 	    break;
 	case End:
-	    bindAction(End, action, line, &prog->end_stmt,
-		       &prog->l_end);
+	    bindAction(End, action, line, &prog->end_stmt, &prog->l_end);
 	    break;
 	case EndG:
-	    bindAction(EndG, action, line, &prog->endg_stmt,
-		       &prog->l_endg);
+	    bindAction(EndG, action, line, &prog->endg_stmt, &prog->l_endg);
 	    break;
 	case Eof:
 	    more = 0;
