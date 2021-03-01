@@ -114,19 +114,15 @@ sdlshapes.ps : sdlshapes.dot
 sdlshapes.png : sdlshapes.ps
 	./ps_to_png.sh sdlshapes.ps sdlshapes.png
 
-colors.html : colors.1 colors.n ../../lib/common/color_names ../../lib/common/svgcolor_names ../../lib/common/brewer_colors mkcolors.awk brewer.awk svg.awk
+colors.html : ../../lib/common/color_names ../../lib/common/svgcolor_names ../../lib/common/brewer_colors mkcolors.awk brewer.awk svg.awk mkcolors.py
 	mkdir -p colortmp
 	awk -f brewer.awk ../../lib/common/brewer_colors
-	cat colors.1 > colors.html
-	awk -f mkcolors.awk ../../lib/common/color_names >> colors.html
-	echo '<H2><A NAME="svg">The SVG color scheme</A></H2>' >> colors.html
+	awk -f mkcolors.awk ../../lib/common/color_names > x11_colors.html
 	awk -f svg.awk ../../lib/common/svgcolor_names > svg
-	awk -f mkcolors.awk svg >> colors.html
-	rm -rf svg
-	echo '<H2><A NAME="brewer">Brewer color schemes</A></H2>' >> colors.html
-	(for f in $$(ls colortmp); do awk -f mkcolors.awk -s colortmp/$$f >> colors.html; done)
-	cat colors.n >> colors.html
-	rm -rf colortmp
+	awk -f mkcolors.awk svg > svg_colors.html
+	(for f in $$(ls colortmp); do awk -f mkcolors.awk -s colortmp/$$f; done) > brewer_colors.html
+	./mkcolors.py x11_colors.html svg_colors.html brewer_colors.html > colors.html
+	rm -rf svg colortmp x11_colors.html svg_colors.html brewer_colors.html
 
 
 schema.html : jconvert.py graphviz_json_schema.json
@@ -193,7 +189,7 @@ distclean : clean
 EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkshapes.sh mkstyles.sh mktapers.sh \
              mkarrowtbl.sh mkshhtml.py \
 	           ps_to_png.sh arrow_grammar grammar html_grammar \
-             shapelist colors.1 colors.n \
+             shapelist \
              shapes.1 shapes.2 shapes.3 lang.1 lang.2 arrows.1 arrows.2 \
              brewer.awk mkcolors.awk svg.awk sz.awk \
              colorlist.dot html1.dot html4.dot round.dot constraint.dot \
