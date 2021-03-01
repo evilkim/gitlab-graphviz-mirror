@@ -211,25 +211,18 @@ static case_t parseKind(Sfio_t * str)
 
     kwLine = lineno;
     parseID(str, c, buf, BSIZE);
-    switch (c) {
-    case 'B':
-	if (strcmp(buf, "BEGIN") == 0)
-	    cs = Begin;
-	if (strcmp(buf, "BEG_G") == 0)
-	    cs = BeginG;
-	break;
-    case 'E':
-	if (buf[1] == '\0')
-	    cs = Edge;
-	if (strcmp(buf, "END") == 0)
-	    cs = End;
-	if (strcmp(buf, "END_G") == 0)
-	    cs = EndG;
-	break;
-    case 'N':
-	if (buf[1] == '\0')
-	    cs = Node;
-	break;
+    if (strcmp(buf, "BEGIN") == 0) {
+	cs = Begin;
+    } else if (strcmp(buf, "BEG_G") == 0) {
+	cs = BeginG;
+    } else if (strcmp(buf, "E") == 0) {
+	cs = Edge;
+    } else if (strcmp(buf, "END") == 0) {
+	cs = End;
+    } else if (strcmp(buf, "END_G") == 0) {
+	cs = EndG;
+    } else if (strcmp(buf, "N") == 0) {
+	cs = Node;
     }
     if (cs == Error)
 	error(ERROR_ERROR, "unexpected keyword \"%s\", line %d", buf,
