@@ -132,21 +132,14 @@ colors.html : colors.1 colors.n ../../lib/common/color_names ../../lib/common/sv
 schema.html : jconvert.py graphviz_json_schema.json
 	./jconvert.py graphviz_json_schema.json schema.html
 
-html.html : html.1 html_grammar html.2 html.3 html1.gif html2.gif html3.gif html4.gif mklang
-	./mklang html_grammar gramtmp
-	cat html.1 > html.html
-	cat gramtmp >> html.html
-	cat html.2 >> html.html
-	cat html1.dot >> html.html
-	cat html.3 >> html.html
-	rm gramtmp
-
 shapes : shapelist mkshapes.sh
 	./mkshapes.sh
 	touch shapes
  
-shapes.html : shapes mkshhtml.py html.html record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist
-	./mkshhtml.py html.html < shapelist > shapes.html
+shapes.html : shapes mkshhtml.py record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist html_grammar html1.gif html2.gif html3.gif html4.gif mklang
+	./mklang html_grammar gramtmp
+	./mkshhtml.py gramtmp html1.dot < shapelist > shapes.html
+	rm gramtmp
 
 lang.html : grammar lang.1 lang.2 mklang
 	./mklang grammar gramtmp
@@ -191,7 +184,7 @@ $(SPLINEPNG) : mksplines.sh
 
 .PHONY: clean
 clean :
-	rm -f mklang sdlshapes.ps sdlshapes.ppm html.html
+	rm -f mklang sdlshapes.ps sdlshapes.ppm
 
 .PHONY: distclean
 distclean : clean
@@ -203,7 +196,6 @@ EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkshapes.sh mkstyles.sh mktapers.sh \
              mkarrowtbl.sh mkshhtml.py \
 	           ps_to_png.sh arrow_grammar grammar html_grammar \
              shapelist colors.1 colors.n \
-             html.1 html.2 html1.dot html.3 \
              shapes.1 shapes.2 shapes.3 lang.1 lang.2 arrows.1 arrows.2 \
              brewer.awk mkcolors.awk svg.awk sz.awk \
              colorlist.dot html1.dot html4.dot round.dot constraint.dot \
