@@ -422,7 +422,7 @@ static case_info *addCase(case_info * last, char *guard, int gline,
     item = newof(0, case_info, 1, 0);
     item->guard = guard;
     item->action = action;
-    item->next = 0;
+    item->next = NULL;
     if (guard)
 	item->gstart = gline;
     if (action)
@@ -463,12 +463,12 @@ parse_prog *parseProg(char *input, int isFile)
     char *guard = NULL;
     char *action = NULL;
     bool more;
-    parse_block *blocklist = 0;
-    case_info *edgelist = 0;
-    case_info *nodelist = 0;
-    parse_block *blockl = 0;
-    case_info *edgel = 0;
-    case_info *nodel = 0;
+    parse_block *blocklist = NULL;
+    case_info *edgelist = NULL;
+    case_info *nodelist = NULL;
+    parse_block *blockl = NULL;
+    case_info *edgel = NULL;
+    case_info *nodel = NULL;
     int n_blocks = 0;
     int n_nstmts = 0;
     int n_estmts = 0;
@@ -481,7 +481,7 @@ parse_prog *parseProg(char *input, int isFile)
     prog = newof(0, parse_prog, 1, 0);
     if (!prog) {
 	error(ERROR_ERROR, "parseProg: out of memory");
-	return 0;
+	return NULL;
     }
 
     if (isFile) {
@@ -490,7 +490,7 @@ parse_prog *parseProg(char *input, int isFile)
 	
     } else {
 	mode = "rs";
-	prog->source = 0;	/* command line */
+	prog->source = NULL;	/* command line */
     }
 
     str = sfopen(0, input, mode);
@@ -500,10 +500,10 @@ parse_prog *parseProg(char *input, int isFile)
 	else
 	    error(ERROR_ERROR, "parseProg : unable to create sfio stream");
 	free (prog);
-	return 0;
+	return NULL;
     }
     
-    begg_stmt = 0;
+    begg_stmt = NULL;
     more = true;
     while (more) {
 	switch (parseCase(str, &guard, &gline, &action, &line)) {
@@ -520,8 +520,8 @@ parse_prog *parseProg(char *input, int isFile)
 
 		/* reset values */
 		n_nstmts = n_estmts = 0;
-		edgel = nodel = edgelist = nodelist = 0;
-		begg_stmt = 0;
+		edgel = nodel = edgelist = nodelist = NULL;
+		begg_stmt = NULL;
 	    }
 	    bindAction(BeginG, action, line, &begg_stmt, &l_beging);
 	    break;
@@ -565,7 +565,7 @@ parse_prog *parseProg(char *input, int isFile)
 
     if (getErrorErrors ()) {
 	freeParseProg (prog);
-	prog = 0;
+	prog = NULL;
     }
 
     return prog;
