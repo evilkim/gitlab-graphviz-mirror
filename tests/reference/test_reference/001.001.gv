@@ -1,0 +1,5 @@
+graph G {
+	node [label="\N"];
+	graph [bb="0,0,54,36"];
+	a [label="", shape=none, pos="27,18", width="0.75", height="0.50"];
+}
