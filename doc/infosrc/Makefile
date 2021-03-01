@@ -15,7 +15,6 @@
 # The main products are web pages:
 #    arrows.html  - arrow_grammar
 #    colors.html  - color_names svgcolor_names brewer_colors
-#    lang.html    - grammar
 #    shapes.html  - shapelist, html_grammar
 #
 # The files listed after each give the main data files used to
@@ -82,7 +81,7 @@ A2GIF= aa_box.gif aa_lbox.gif aa_rbox.gif aa_obox.gif aa_olbox.gif aa_orbox.gif\
 
 GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
-HTML = colors.html lang.html shapes.html \
+HTML = colors.html grammar.html shapes.html \
        arrows.html schema.html
 MISC = graphviz_json_schema.json w3data.js
 INSTALL_FILES = $(HTML) $(DOTS) $(SGIF) $(AGIF) $(A2GIF) $(MGIF) $(XGIF) $(MPNG) $(MISC)
@@ -148,10 +147,8 @@ shapes : shapelist mkshapes.sh
 shapes.html : shapes mkshhtml.py html.html record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist
 	./mkshhtml.py html.html < shapelist > shapes.html
 
-lang.html : grammar mklang mklang.py
-	./mklang grammar gramtmp
-	./mklang.py gramtmp > lang.html
-	rm gramtmp
+grammar.html : grammar mklang
+	./mklang grammar grammar.html
 
 arrows.html : arrow_grammar arrows.1 arrows.2 mkarrowtbl.sh mklang $(AGIF) $(A2GIF)
 	./mklang arrow_grammar gramtmp
@@ -193,7 +190,7 @@ clean :
 
 .PHONY: distclean
 distclean : clean
-	rm -f colors.html shapes.html lang.html arrows.html schema.html
+	rm -f colors.html shapes.html grammar.html arrows.html schema.html
 	rm -f $(A2GIF) $(AGIF) $(SGIF) $(MPJG) $(MGIF) $(MPNG) $(XGIF) shapes
 	(for s in $$(cat shapelist); do rm -f $$s.gif; done)
 
