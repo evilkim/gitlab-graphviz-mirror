@@ -84,7 +84,7 @@ GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
 HTML = colors.html lang.html shapes.html \
        arrows.html schema.html
-MISC = graphviz_json_schema.json w3data.js
+MISC = graphviz_json_schema.json
 INSTALL_FILES = $(HTML) $(DOTS) $(SGIF) $(AGIF) $(A2GIF) $(MGIF) $(XGIF) $(MPNG) $(MISC)
 
 .SUFFIXES: .gv .gif .dot .png
