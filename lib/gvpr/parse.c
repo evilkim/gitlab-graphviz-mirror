@@ -173,7 +173,7 @@ static void parseID(Sfio_t * str, int c, char *buf, size_t bsize)
 	c = readc(str, 0);
 	if (c < 0)
 	    more = 0;
-	if (isalpha(c) || (c == '_')) {
+	if (isalpha(c) || c == '_') {
 	    if (ptr == eptr)
 		more = 0;
 	    else
@@ -270,7 +270,7 @@ static int endBracket(Sfio_t * ins, agxbuf * outs, char bc, char ec)
 
     while (1) {
 	c = readc(ins, outs);
-	if ((c < 0) || (c == ec))
+	if (c < 0 || c == ec)
 	    return c;
 	else if (c == bc) {
 	    agxbputc(outs, (char) c);
@@ -279,7 +279,7 @@ static int endBracket(Sfio_t * ins, agxbuf * outs, char bc, char ec)
 		return c;
 	    else
 		agxbputc(outs, (char) c);
-	} else if ((c == '\'') || (c == '"')) {
+	} else if (c == '\'' || c == '"') {
 	    agxbputc(outs, (char) c);
 	    if (endString(ins, outs, c)) return -1;
 	} else
@@ -419,7 +419,7 @@ static case_info *addCase(case_info * last, char *guard, int gline,
 	return last;
     }
 
-    *cnt = (*cnt) + 1;
+    ++(*cnt);
     item = newof(0, case_info, 1, 0);
     item->guard = guard;
     item->action = action;
@@ -528,12 +528,12 @@ parse_prog *parseProg(char *input, int isFile)
 	    bindAction(BeginG, action, line, &begg_stmt, &l_beging);
 	    break;
 	case End:
-	    bindAction(End, action, line, &(prog->end_stmt),
-		       &(prog->l_end));
+	    bindAction(End, action, line, &prog->end_stmt,
+		       &prog->l_end);
 	    break;
 	case EndG:
-	    bindAction(EndG, action, line, &(prog->endg_stmt),
-		       &(prog->l_endg));
+	    bindAction(EndG, action, line, &prog->endg_stmt,
+		       &prog->l_endg);
 	    break;
 	case Eof:
 	    more = 0;
