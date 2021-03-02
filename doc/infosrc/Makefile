@@ -81,8 +81,14 @@ A2GIF= aa_box.gif aa_lbox.gif aa_rbox.gif aa_obox.gif aa_olbox.gif aa_orbox.gif\
 
 GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
-HTML = colors.html grammar.html shapes.html \
-       arrows.html schema.html
+HTML = colors.html \
+	grammar.html \
+	shapes.html \
+	arrows.html \
+	schema.html \
+	brewer_colors.html \
+	svg_colors.html \
+	x11_colors.html
 MISC = graphviz_json_schema.json
 INSTALL_FILES = $(HTML) $(DOTS) $(SGIF) $(AGIF) $(A2GIF) $(MGIF) $(XGIF) $(MPNG) $(MISC)
 
@@ -113,16 +119,20 @@ sdlshapes.ps : sdlshapes.dot
 sdlshapes.png : sdlshapes.ps
 	./ps_to_png.sh sdlshapes.ps sdlshapes.png
 
-colors.html : ../../lib/common/color_names ../../lib/common/svgcolor_names ../../lib/common/brewer_colors mkcolors.awk brewer.awk svg.awk mkcolors.py
+x11_colors.html : mkcolors.awk ../../lib/common/color_names
+	awk -f mkcolors.awk ../../lib/common/color_names > x11_colors.html
+
+svg_colors.html : mkcolors.awk svg.awk ../../lib/common/svgcolor_names
+	awk -f svg.awk ../../lib/common/svgcolor_names | awk -f mkcolors.awk > svg_colors.html
+
+brewer_colors.html : mkcolors.awk brewer.awk ../../lib/common/brewer_colors
 	mkdir -p colortmp
 	awk -f brewer.awk ../../lib/common/brewer_colors
-	awk -f mkcolors.awk ../../lib/common/color_names > x11_colors.html
-	awk -f svg.awk ../../lib/common/svgcolor_names > svg
-	awk -f mkcolors.awk svg > svg_colors.html
 	(for f in $$(ls colortmp); do awk -f mkcolors.awk -s colortmp/$$f; done) > brewer_colors.html
-	./mkcolors.py x11_colors.html svg_colors.html brewer_colors.html > colors.html
-	rm -rf svg colortmp x11_colors.html svg_colors.html brewer_colors.html
+	rm -rf colortmp
 
+colors.html : mkcolors.py x11_colors.html svg_colors.html brewer_colors.html
+	./mkcolors.py x11_colors.html svg_colors.html brewer_colors.html > colors.html
 
 schema.html : jconvert.py graphviz_json_schema.json
 	./jconvert.py graphviz_json_schema.json schema.html
@@ -179,7 +189,7 @@ clean :
 
 .PHONY: distclean
 distclean : clean
-	rm -f colors.html shapes.html grammar.html arrows.html schema.html
+	rm -f $(HTML)
 	rm -f $(A2GIF) $(AGIF) $(SGIF) $(MPJG) $(MGIF) $(MPNG) $(XGIF) shapes
 	(for s in $$(cat shapelist); do rm -f $$s.gif; done)
 
