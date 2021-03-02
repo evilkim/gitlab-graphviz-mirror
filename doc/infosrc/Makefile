@@ -85,6 +85,8 @@ HTML = \
 	shapes.html \
 	arrows.html \
 	schema.html \
+	arrow_grammar.html \
+	arrow_table.html \
 	brewer_colors.html \
 	svg_colors.html \
 	x11_colors.html
@@ -145,13 +147,14 @@ shapes.html : shapes mkshhtml.py record.gif record2.gif sdlshapes.png templates/
 grammar.html : grammar mklang
 	./mklang grammar grammar.html
 
-arrows.html : arrow_grammar arrows.1 arrows.2 mkarrowtbl.sh mklang $(AGIF) $(A2GIF)
-	./mklang arrow_grammar gramtmp
-	cat arrows.1 > arrows.html
-	cat gramtmp >> arrows.html
-	cat arrows.2 >> arrows.html
-	./mkarrowtbl.sh $(A2GIF) >> arrows.html
-	rm gramtmp
+arrow_grammar.html: mklang arrow_grammar
+	./mklang arrow_grammar arrow_grammar.html
+
+arrow_table.html: mkarrowtbl.sh $(A2GIF)
+	./mkarrowtbl.sh $(A2GIF) >> arrow_table.html
+
+arrows.html : mkarrowshtml.py arrow_grammar.html arrow_table.html $(AGIF)
+	./mkarrowshtml.py arrow_grammar.html arrow_table.html  > arrows.html
 
 mklang : mklang.y
 	yacc mklang.y
