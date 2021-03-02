@@ -128,7 +128,7 @@ svg_colors.html : mkcolors.awk svg.awk ../../lib/common/svgcolor_names
 brewer_colors.html : mkcolors.awk brewer.awk ../../lib/common/brewer_colors
 	mkdir -p colortmp
 	awk -f brewer.awk ../../lib/common/brewer_colors
-	(for f in $$(ls colortmp); do awk -f mkcolors.awk -s colortmp/$$f; done) > brewer_colors.html
+	(for f in $$(ls colortmp); do awk -f mkcolors.awk --single-line colortmp/$$f; done) > brewer_colors.html
 	rm -rf colortmp
 
 colors.html : mkcolors.py x11_colors.html svg_colors.html brewer_colors.html

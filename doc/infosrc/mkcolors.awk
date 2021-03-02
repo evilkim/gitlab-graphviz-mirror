@@ -15,7 +15,7 @@ function putColor (n, r, g, b, v)
 }
 BEGIN {
   colorsPerRow = 5;
-  if (ARGV[1] == "-s") {
+  if (ARGV[1] == "--single-line") {
     ARGV[1] = "";
     name = ARGV[2];
     singleRow = 1;
