@@ -22,9 +22,6 @@ function closeLine
   echo "  </TR>"
 }
 
-echo "<CENTER>"
-echo "<TABLE>"
-
 while (( $# > 0 ))
 do
   ARROW=${1%.*}        # abc_arrowname
@@ -50,9 +47,3 @@ do
 done
 
 closeLine
-
-echo "</TABLE>"
-echo "</CENTER>"
-echo "</BODY>"
-echo "</HTML>"
-
