@@ -14,7 +14,6 @@
 #
 # The main products are web pages:
 #    arrows.html  - arrow_grammar
-#    colors.html  - color_names svgcolor_names brewer_colors
 #    shapes.html  - shapelist, html_grammar
 #
 # The files listed after each give the main data files used to
@@ -81,7 +80,7 @@ A2GIF= aa_box.gif aa_lbox.gif aa_rbox.gif aa_obox.gif aa_olbox.gif aa_orbox.gif\
 
 GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
-HTML = colors.html \
+HTML = \
 	grammar.html \
 	shapes.html \
 	arrows.html \
@@ -130,9 +129,6 @@ brewer_colors.html : mkcolors.awk brewer.awk ../../lib/common/brewer_colors
 	awk -f brewer.awk ../../lib/common/brewer_colors
 	(for f in $$(ls colortmp); do awk -f mkcolors.awk --single-line colortmp/$$f; done) > brewer_colors.html
 	rm -rf colortmp
-
-colors.html : mkcolors.py x11_colors.html svg_colors.html brewer_colors.html
-	./mkcolors.py x11_colors.html svg_colors.html brewer_colors.html > colors.html
 
 schema.html : jconvert.py graphviz_json_schema.json
 	./jconvert.py graphviz_json_schema.json schema.html
