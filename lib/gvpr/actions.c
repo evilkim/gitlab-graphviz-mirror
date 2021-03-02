@@ -18,6 +18,7 @@
 #include <ast/ast.h>
 #include <gvpr/compile.h>
 #include <ast/sfstr.h>
+#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -54,22 +55,8 @@ Agraph_t *sameG(void *p1, void *p2, char *fn, char *msg)
  */
 int indexOf(char *s1, char *s2)
 {
-    char c1 = *s2;
-    char c;
-    char *p;
-    int len2;
-
-    if (c1 == '\0')
-	return 0;
-    p = s1;
-    len2 = strlen(s2) - 1;
-    while ((c = *p++)) {
-	if (c != c1)
-	    continue;
-	if (strncmp(p, s2 + 1, len2) == 0)
-	    return ((p - s1) - 1);
-    }
-    return -1;
+    char *s = strstr(s1, s2);
+    return s == NULL ? -1 : (int)(s1 - s);
 }
 
 /* rindexOf:
@@ -78,18 +65,18 @@ int indexOf(char *s1, char *s2)
 int rindexOf(char *s1, char *s2)
 {
     char c1 = *s2;
-    char c;
     char *p;
-    int len1 = strlen(s1);
-    int len2 = strlen(s2);
+    size_t len1 = strlen(s1);
+    size_t len2 = strlen(s2);
 
     if (c1 == '\0')
 	return (len1);
+    if (len2 > len1)
+	return -1;
     p = s1 + (len1 - len2);
     while (p >= s1) {
-	c = *p;
-	if ((c == c1) && (strncmp(p+1, s2+1, len2-1) == 0))
-	    return (p - s1);
+	if (strncmp(p, s2, len2) == 0)
+	    return p - s1;
 	else
 	    p--;
     }
@@ -184,7 +171,7 @@ Agobj_t *copy(Agraph_t * g, Agobj_t * obj)
     int kind = AGTYPE(obj);
     char *name;
 
-    if ((kind != AGRAPH) && !g) {
+    if (kind != AGRAPH && !g) {
 	exerror("NULL graph with non-graph object in copy()");
 	return 0;
     }
@@ -243,7 +230,7 @@ static Agraph_t *cloneSubg(Agraph_t * tgt, Agraph_t * g, Dt_t* emap)
     Agedge_t *newe;
     char* name;
 
-    ng = (Agraph_t *) (copy(tgt, OBJ(g)));
+    ng = (Agraph_t *) copy(tgt, OBJ(g));
     if (!ng)
 	return 0;
     for (t = agfstnode(g); t; t = agnxtnode(g, t)) {
@@ -361,7 +348,7 @@ Agraph_t *cloneG(Agraph_t * g, char* name)
 {
     Agraph_t* ng;
 
-    if (!name || (*name == '\0'))
+    if (!name || *name == '\0')
 	name = agnameof (g);
     ng = openG(name, g->desc);
     if (ng) {
@@ -388,7 +375,7 @@ Agobj_t *clone(Agraph_t * g, Agobj_t * obj)
     int kind = AGTYPE(obj);
     char *name;
 
-    if ((kind != AGRAPH) && !g) {
+    if (kind != AGRAPH && !g) {
 	exerror("NULL graph with non-graph object in clone()");
 	return 0;
     }
@@ -534,7 +521,7 @@ int lockGraph(Agraph_t * g, int v)
     oldv = data->lock & 1;
     if (v > 0)
 	data->lock |= 1;
-    else if ((v == 0) && oldv) {
+    else if (v == 0 && oldv) {
 	if (data->lock & 2)
 	    agclose(g);
 	else
@@ -692,7 +679,7 @@ int closeFile(Expr_t * ex, int fd)
 {
     int rv;
 
-    if ((0 <= fd) && (fd <= 2)) {
+    if (0 <= fd && fd <= 2) {
 	exerror("closeF: cannot close standard stream %d", fd);
 	return -1;
     }
@@ -722,7 +709,7 @@ char *readLine(Expr_t * ex, int fd)
 	return "";
     }
     tmps = sfstropen();
-    while (((c = sfgetc(sp)) > 0) && (c != '\n'))
+    while ((c = sfgetc(sp)) > 0 && c != '\n')
 	sfputc(tmps, c);
     if (c == '\n')
 	sfputc(tmps, c);
@@ -927,9 +914,9 @@ static int colorcmpf(const void *p0, const void *p1)
 static char *canontoken(char *str)
 {
     static unsigned char *canon;
-    static int allocated;
+    static size_t allocated;
     unsigned char c, *p, *q;
-    int len;
+    size_t len;
 
     p = (unsigned char *) str;
     len = strlen(str);
@@ -939,7 +926,7 @@ static char *canontoken(char *str)
 	if (!canon)
 	    return NULL;
     }
-    q = (unsigned char *) canon;
+    q = canon;
     while ((c = *p++)) {
 	/* if (isalnum(c) == FALSE) */
 	    /* continue; */
@@ -957,8 +944,8 @@ static char *canontoken(char *str)
 static char* fullColor (char* prefix, char* str)
 {
     static char *fulls;
-    static int allocated;
-    int len = strlen (prefix) + strlen (str) + 3;
+    static size_t allocated;
+    size_t len = strlen (prefix) + strlen (str) + 3;
 
     if (len >= allocated) {
 	allocated = len + 10;
@@ -1040,14 +1027,15 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 {
     static hsvrgbacolor_t *last;
     static unsigned char *canon;
-    static int allocated;
+    static size_t allocated;
     unsigned char *p, *q;
     hsvrgbacolor_t fake;
     unsigned char c;
     double H, S, V, A, R, G, B;
     double C, M, Y, K;
     unsigned int r, g, b, a;
-    int len, rc;
+    size_t len;
+    int rc;
 
     color->type = target_type;
 
@@ -1058,8 +1046,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     /* test for rgb value such as: "#ff0000"
        or rgba value such as "#ff000080" */
     a = 255;			/* default alpha channel value=opaque in case not supplied */
-    if ((*p == '#')
-	&& (sscanf((char *) p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3)) {
+    if (*p == '#'
+	&& sscanf((char *) p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3) {
 	switch (target_type) {
 	case HSVA_DOUBLE:
 	    R = (double) r / 255.0;
@@ -1109,7 +1097,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     }
 
     /* test for hsv value such as: ".6,.5,.3" */
-    if (((c = *p) == '.') || isdigit(c)) {
+    if ((c = *p) == '.' || isdigit(c)) {
 	int cnt;
 	len = strlen((char*)p);
 	if (len >= allocated) {
@@ -1186,22 +1174,19 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     fake.name = resolveColor(str);
     if (!fake.name)
 	return COLOR_MALLOC_FAIL;
-    if ((last == NULL)
-	|| (last->name[0] != fake.name[0])
-	|| (strcmp(last->name, fake.name))) {
-	last = (hsvrgbacolor_t *) bsearch((void *) &fake,
-				      (void *) color_lib,
-				      sizeof(color_lib) /
-				      sizeof(hsvrgbacolor_t), sizeof(fake),
-				      colorcmpf);
+    if (last == NULL
+	|| last->name[0] != fake.name[0]
+	|| strcmp(last->name, fake.name)) {
+	last = bsearch(&fake, color_lib, sizeof(color_lib) / sizeof(hsvrgbacolor_t),
+	               sizeof(fake), colorcmpf);
     }
     if (last != NULL) {
 	switch (target_type) {
 	case HSVA_DOUBLE:
-	    color->u.HSVA[0] = ((double) last->h) / 255.0;
-	    color->u.HSVA[1] = ((double) last->s) / 255.0;
-	    color->u.HSVA[2] = ((double) last->v) / 255.0;
-	    color->u.HSVA[3] = ((double) last->a) / 255.0;
+	    color->u.HSVA[0] = (double) last->h / 255.0;
+	    color->u.HSVA[1] = (double) last->s / 255.0;
+	    color->u.HSVA[2] = (double) last->v / 255.0;
+	    color->u.HSVA[3] = (double) last->a / 255.0;
 	    break;
 	case RGBA_BYTE:
 	    color->u.rgba[0] = last->r;
@@ -1280,7 +1265,7 @@ char *colorx (Expr_t* ex, char* incolor, char* fmt, Sfio_t* fp)
     int rc;
     int alpha;
 
-    if ((*fmt == '\0') || (*incolor == '\0'))
+    if (*fmt == '\0' || *incolor == '\0')
 	return "";
     if (*fmt == 'R') {
 	type = RGBA_BYTE;

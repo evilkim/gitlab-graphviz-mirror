@@ -437,21 +437,6 @@ int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
     return 0;
 }
 
-
-/**
-*  Create a new copy of a string s.  strdup() is a common routine, but
-*  not part of ANSI C, so it is included here.  Used by mm_typecode_to_str().
-*
-*/
-/* part of gcc
-char *strdup(const char *s)
-{
-	int len = strlen(s);
-	char *s2 = (char *) malloc((len+1)*sizeof(char));
-	return strcpy(s2, s);
-}
-*/
-
 char *mm_typecode_to_str(MM_typecode matcode)
 {
     char buffer[MM_MAX_LINE_LENGTH];
