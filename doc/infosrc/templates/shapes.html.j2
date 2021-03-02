@@ -31,21 +31,39 @@ the node attributes
 
 <H2><A NAME=polygon>Polygon-based Nodes</A></H2>
 The possible polygon-based shapes are displayed below.
-<TABLE ALIGN=CENTER>
-{% for row in rows %}
-  <TR ALIGN=CENTER>
-  {% for shape in row %}
-    <TD><IMG SRC={{shape}}.gif>
-  {% endfor %}
-  </TR>
-  <TR ALIGN=CENTER>
-  {% for shape in row %}
-    <TD><A NAME=d:{{shape}}>{{shape}}</A>
-  {% endfor %}
-  </TR>
+<P>
+<style>
+.gv-shape {
+  display: inline-block;
+  margin: 0; /* override default figure rendering */
+}
+/* Jump through some hoops to align images and text */
+.gv-shape-img-container {
+  height: 90px;
+  width: 150px;
+  position: relative; /* for vertical-bottom horizontal-center aligning image */
+}
+.gv-shape-img {
+  margin: auto;
+  position: absolute; /* use parent as reference frame */
+  bottom: 0; /* move to bottom */
+  left: 0; /* horizontal-center */
+  right: 0; /* horizontal-center */
+  margin: 0 auto;
+}
+.gv-shape-caption {
+  text-align: center;
+}
+</style>
+{% for shape in shapes %}
+<figure class="gv-shape">
+  <div class="gv-shape-img-container">
+    <img src="{{shape}}.gif" class="gv-shape-img">
+  </div>
+  <figcaption class="gv-shape-caption"><code id="d:{{shape}}">{{shape}}</code></figcaption>
+</figure>
 {% endfor %}
-
-</TABLE>
+<P>
 As the figures suggest, the shapes <TT>rect</TT> and <TT>rectangle</TT> are synonyms for <TT>box</TT>, and <TT>none</TT> is a synonym for <TT>plaintext</TT>.
 The shape <TT>plain</TT> is similar to these two, except that it also enforces 
 <TT>width=0 height=0 margin=0</TT>, which guarantees that the actual size of the node is entirely determined by the label.
