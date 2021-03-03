@@ -76,6 +76,13 @@ def checksum(path: str) -> Generator[str, None, None]:
       f.write(f'{hashlib.md5(data.read()).hexdigest()}  {path}\n')
   yield check
 
+  log.info(f'SHA256 summing {path}')
+  check = f'{path}.sha256'
+  with open(check, 'wt') as f:
+    with open(path, 'rb') as data:
+      f.write(f'{hashlib.sha256(data.read()).hexdigest()}  {path}\n')
+  yield check
+
 def main(args: List[str]) -> int:
 
   # setup logging to print to stderr
