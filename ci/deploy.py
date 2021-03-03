@@ -83,6 +83,18 @@ def checksum(path: str) -> Generator[str, None, None]:
       f.write(f'{hashlib.sha256(data.read()).hexdigest()}  {path}\n')
   yield check
 
+def is_macos_artifact(path: str) -> bool:
+  '''
+  is this a deployment artifact for macOS?
+  '''
+  return re.search(r'\bDarwin\b', path) is not None
+
+def is_windows_artifact(path: str) -> bool:
+  '''
+  is this a deployment artifact for Windows?
+  '''
+  return re.search(r'\bWindows\b', path) is not None
+
 def main(args: List[str]) -> int:
 
   # setup logging to print to stderr
@@ -170,6 +182,12 @@ def main(args: List[str]) -> int:
       os.chmod(path, mode & ~stat.S_IRWXO & ~stat.S_IWGRP & ~stat.S_IXGRP)
 
       assets.append(upload(package_version, path, path[len('Packages/'):]))
+
+      # if this is a standalone Windows or macOS package, also provide
+      # checksum(s)
+      if is_macos_artifact(path) or is_windows_artifact(path):
+        for c in checksum(path):
+          assets.append(upload(package_version, c, c[len('Packages/'):]))
 
   # we only create Gitlab releases for stable version numbers
   if not options.force:
