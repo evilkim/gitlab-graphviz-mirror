@@ -24,10 +24,6 @@ extern "C" {
 #include <cgraph/cgraph.h>
 #include <cgraph/cghdr.h>
 
-#ifdef _WIN32
-#define strdup(x) _strdup(x)
-#endif
-
     extern void gv_to_gxl(Agraph_t *, FILE *);
 #ifdef HAVE_EXPAT
     extern Agraph_t *gxl_to_gv(FILE *);
