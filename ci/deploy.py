@@ -17,7 +17,7 @@ import shutil
 import stat
 import subprocess
 import sys
-from typing import List, Optional
+from typing import Generator, List, Optional
 
 # logging output stream, setup in main()
 log = None
@@ -61,6 +61,20 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     raise Exception(f'upload failed: {resp}')
 
   return target
+
+def checksum(path: str) -> Generator[str, None, None]:
+  '''
+  generate checksum(s) for the given file
+  '''
+
+  assert os.path.exists(path)
+
+  log.info(f'MD5 summing {path}')
+  check = f'{path}.md5'
+  with open(check, 'wt') as f:
+    with open(path, 'rb') as data:
+      f.write(f'{hashlib.md5(data.read()).hexdigest()}  {path}\n')
+  yield check
 
 def main(args: List[str]) -> int:
 
@@ -133,15 +147,10 @@ def main(args: List[str]) -> int:
       log.error(f'source {tarball} not found')
       return -1
 
-    # generate a checksum for the source tarball
-    log.info(f'MD5 summing {tarball}')
-    checksum = f'{tarball}.md5'
-    with open(checksum, 'wt') as f:
-      with open(tarball, 'rb') as data:
-        f.write(f'{hashlib.md5(data.read()).hexdigest()}  {tarball}\n')
-
+    # accrue the source tarball and accompanying checksum(s)
     assets.append(upload(package_version, tarball))
-    assets.append(upload(package_version, checksum))
+    for check in checksum(tarball):
+      assets.append(upload(package_version, check))
 
   for stem, _, leaves in os.walk('Packages'):
     for leaf in leaves:
