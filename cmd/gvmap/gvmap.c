@@ -525,7 +525,7 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
      contiguous so we move point positions to improve contiguity */
   if (graph && improve_contiguity_n) {
     for (i = 0; i < improve_contiguity_n; i++){
-      improve_contiguity(n, dim, grouping, poly_point_map, x, graph, width);
+      improve_contiguity(n, dim, grouping, poly_point_map, x, graph);
       nart = nart0;
       nrandom = nr0;
       make_map_from_rectangle_groups(exclude_random, pm->include_OK_points,

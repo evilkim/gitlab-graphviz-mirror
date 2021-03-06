@@ -26,7 +26,7 @@ int make_map_from_point_groups(int exclude_random, int include_OK_points, int n,
 			       SparseMatrix *country_graph, int *flag);
 
 
-void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_map, real *x, SparseMatrix graph, real *label_sizes);
+void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_map, real *x, SparseMatrix graph);
 
 
 #if 0
