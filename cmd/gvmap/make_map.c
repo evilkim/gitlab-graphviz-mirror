@@ -346,9 +346,6 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
       ret = sprintf(&((*sbuff)[*len]), " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
     } else {
       if (line_width > 0){
-        sprintf(swidth,"%f",line_width);
-        len_swidth = strlen(swidth);
-        sprintf(swidth,"S %zu -setlinewidth(%f)",len_swidth+14, line_width);
 	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
       } else {
 	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s L %d ", strlen(cstring), cstring, np);
