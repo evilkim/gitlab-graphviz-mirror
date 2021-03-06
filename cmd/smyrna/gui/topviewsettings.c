@@ -88,7 +88,7 @@ static int get_color_button_widget_to_attribute(char *attribute,
 						Agraph_t * g)
 {
     GdkColor color;
-    char *buf = N_GNEW(256, char);
+    char buf[256];
     attribute=attribute +13;
 
     gtk_color_button_get_color((GtkColorButton *)
@@ -99,7 +99,6 @@ static int get_color_button_widget_to_attribute(char *attribute,
 	    (int) ((float) color.green / 65535.0 * 255.0),
 	    (int) ((float) color.blue / 65535.0 * 255.0));
     agattr(g, AGRAPH, attribute, buf);
-    free(buf);
     return 1;
 }
 static int get_text_widget_to_attribute(char *attribute, char *widget_name,
