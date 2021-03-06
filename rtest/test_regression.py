@@ -8,6 +8,7 @@ import os
 import re
 import stat
 import tempfile
+from typing import List, Optional, Tuple
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -37,6 +38,62 @@ def test_regression_failure():
     assert "Layout failures: 0" in text
 # FIXME: re-enable when all tests pass on all platforms
 #    assert result.returncode == 0
+
+def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
+  -> Path:
+    '''
+    compile a C program
+    '''
+
+    # if the user did not give us destination, use a temporary path
+    if dst is None:
+        _, dst = tempfile.mkstemp('.exe')
+
+    if platform.system() == 'Windows':
+        # determine which runtime library option we need
+        rtflag = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+
+        # construct an invocation of MSVC
+        args = ['cl', src, '-Fe:', dst, '-nologo', rtflag]
+        if len(link) > 0:
+            args += ['-link'] + [f'{l}.lib' for l in link]
+
+    else:
+        # construct an invocation of the default C compiler
+        cc = os.environ.get('CC', 'cc')
+        args = [cc, '-std=c99', src, '-o', dst]
+        if len(link) > 0:
+            args += [f'-l{l}' for l in link]
+
+    # compile the program
+    try:
+        subprocess.check_call(args)
+    except subprocess.CalledProcessError:
+        dst.unlink(missing_ok=True)
+        raise
+
+    return dst
+
+def run_c(src: Path, args: [str] = [], input: str = '', link: List[str] = []) \
+  -> Tuple[int, str, str]:
+    '''
+    compile and run a C program
+    '''
+
+    # create some temporary space to work in
+    with tempfile.TemporaryDirectory() as tmp:
+
+        # output filename to write our compiled code to
+        exe = Path(tmp) / 'a.exe'
+
+        # compile the program
+        compile_c(src, link, exe)
+
+        # run it
+        p = subprocess.run([exe] + args, input=input, stdout=subprocess.PIPE,
+          stderr=subprocess.PIPE, universal_newlines=True)
+
+        return p.returncode, p.stdout, p.stderr
 
 def test_165():
     '''
@@ -329,39 +386,24 @@ def test_1767():
     c_src = (Path(__file__).parent / '1767.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
+    # find our co-located dot input
+    dot = (Path(__file__).parent / '1767.dot').resolve()
+    assert dot.exists(), 'missing test case'
 
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
+    ret, stdout, _ = run_c(c_src, [dot], link=['cgraph', 'gvc'])
+    assert ret == 0
 
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe, '-lcgraph',
-            '-lgvc'])
-
-      # find our co-located dot input
-      dot = (Path(__file__).parent / '1767.dot').resolve()
-      assert dot.exists(), 'missing test case'
-
-      # run the test
-      stdout = subprocess.check_output([exe, dot], universal_newlines=True)
-
-      # FIXME: uncomment this when #1767 is fixed
-      # assert stdout == 'Loaded graph:clusters\n' \
-      #                  'cluster_0 contains 5 nodes\n' \
-      #                  'cluster_1 contains 1 nodes\n' \
-      #                  'cluster_2 contains 3 nodes\n' \
-      #                  'cluster_3 contains 3 nodes\n' \
-      #                  'Loaded graph:clusters\n' \
-      #                  'cluster_0 contains 5 nodes\n' \
-      #                  'cluster_1 contains 1 nodes\n' \
-      #                  'cluster_2 contains 3 nodes\n' \
-      #                  'cluster_3 contains 3 nodes\n'
+    # FIXME: uncomment this when #1767 is fixed
+    # assert stdout == 'Loaded graph:clusters\n' \
+    #                  'cluster_0 contains 5 nodes\n' \
+    #                  'cluster_1 contains 1 nodes\n' \
+    #                  'cluster_2 contains 3 nodes\n' \
+    #                  'cluster_3 contains 3 nodes\n' \
+    #                  'Loaded graph:clusters\n' \
+    #                  'cluster_0 contains 5 nodes\n' \
+    #                  'cluster_1 contains 1 nodes\n' \
+    #                  'cluster_2 contains 3 nodes\n' \
+    #                  'cluster_3 contains 3 nodes\n'
 
 @pytest.mark.skipif(shutil.which('gvpr') is None, reason='GVPR not available')
 @pytest.mark.skipif(platform.system() != 'Windows',
@@ -624,22 +666,9 @@ def test_1910():
     c_src = (Path(__file__).parent / '1910.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
-
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
-
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option, '-link', 'cgraph.lib', 'gvc.lib'])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, c_src, '-o', exe, '-lcgraph', '-lgvc'])
-
-      # run the test
-      subprocess.check_call([exe])
+    # run the test
+    ret, _, _ = run_c(c_src, link=['cgraph', 'gvc'])
+    assert ret == 0
 
 def test_1913():
     '''
@@ -743,22 +772,9 @@ def test_package_version():
     c_src = (Path(__file__).parent / 'check-package-version.c').resolve()
     assert c_src.exists(), 'missing test case'
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
-
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      rt_lib_option = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
-
-      if platform.system() == 'Windows':
-          subprocess.check_call(['cl', c_src, '-Fe:', exe, '-nologo',
-            rt_lib_option])
-      else:
-          cc = os.environ.get('CC', 'cc')
-          subprocess.check_call([cc, '-std=c99', c_src, '-o', exe])
-
-      # run the test
-      subprocess.check_call([exe])
+    # run the test
+    ret, _, _ = run_c(c_src)
+    assert ret == 0
 
 def test_user_shapes():
     '''
@@ -776,3 +792,39 @@ def test_user_shapes():
     # the external SVG should have been parsed and is now referenced
     assert '<image xlink:href="usershape.svg" width="62px" height="44px" ' in \
       output
+
+def test_xdot_json():
+    '''
+    check the output of xdot’s JSON API
+    '''
+
+    # find our collocated C helper
+    c_src = Path(__file__).parent / 'xdot2json.c'
+
+    # some valid xdot commands to process
+    input = 'c 9 -#fffffe00 C 7 -#ffffff P 4 0 0 0 36 54 36 54 0'
+
+    # ask our C helper to process this
+    try:
+        ret, output, err = run_c(c_src, input=input, link=['xdot'])
+    except subprocess.CalledProcessError:
+        # FIXME: Remove this try-catch when
+        # https://gitlab.com/graphviz/graphviz/-/issues/1777 is fixed
+        if os.getenv('build_system') == 'msbuild':
+            pytest.skip('Windows MSBuild release does not contain any header '
+                        'files (#1777)')
+        raise
+    assert ret == 0
+    assert err == ''
+
+    if os.getenv('build_system') == 'msbuild':
+        pytest.fail('Windows MSBuild unexpectedly passed compilation of a '
+                    'Graphviz header. Remove the above try-catch? (#1777)')
+
+    # confirm the output was what we expected
+    assert output == '[\n'                                                   \
+                     '{c : "#fffffe00"},\n'                                  \
+                     '{C : "#ffffff"},\n'                                    \
+                     '{P : [0.000000,0.000000,0.000000,36.000000,54.000000,' \
+                       '36.000000,54.000000,0.000000]}\n'                    \
+                     ']\n'
