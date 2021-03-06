@@ -933,11 +933,9 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
     case SM_SCHEME_MAXENT:{
 #ifdef GVIEWER
       if (Gviewer){
-	char *lab;
-	lab = MALLOC(sizeof(char)*100);
+	char lab[100];
 	sprintf(lab,"maxent. alpha=%10.2g, iter=%d",stress_maxent_data_get_alpha(sm->data), iter);
 	gviewer_set_label(lab);
-	FREE(lab);
       }
 #endif
       stress_maxent_augment_rhs_fast(sm, dim, x, y, &flag);
@@ -952,11 +950,9 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
     case SM_SCHEME_STRESS:{
 #ifdef GVIEWER
       if (Gviewer){
-	char *lab;
-	lab = MALLOC(sizeof(char)*100);
+	char lab[100];
 	sprintf(lab,"pmds(k), iter=%d", iter);
 	gviewer_set_label(lab);
-	FREE(lab);
       }
 #endif
     }
