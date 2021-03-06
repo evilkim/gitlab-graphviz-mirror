@@ -671,11 +671,11 @@ prTriGraph (router_t* rtr, int n)
         pointf b = pts[rtr->tris[3*i+1]];
         pointf c = pts[rtr->tris[3*i+2]];
 	psTri (a, b,c);
-	sprintf (buf, "%d", i);
+	snprintf(buf, sizeof(buf), "%d", i);
         psTxt (buf, nodes[i].ctr);
     }
     for (i=rtr->tn;i < n; i++) {
-	sprintf (buf, "%d", i);
+	snprintf(buf, sizeof(buf), "%d", i);
         psTxt (buf, nodes[i].ctr);
     }
     psColor ("1 0 0");

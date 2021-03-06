@@ -84,8 +84,8 @@ Test(command_line, dash_V_output,
 	gvParseArgs(Gvc, argc, argv);
 
 	char expected_stderr[100];
-	sprintf(expected_stderr, "dot - graphviz version %s (%s)\n",
-				PACKAGE_VERSION, BUILDDATE);
+	snprintf(expected_stderr, sizeof(expected_stderr),
+	         "dot - graphviz version %s (%s)\n", PACKAGE_VERSION, BUILDDATE);
 
 	cr_assert_stderr_eq_str(expected_stderr);
 }
@@ -119,8 +119,8 @@ Test(command_line, dash_Vrandom_output,
 	gvParseArgs(Gvc, argc, argv);
 
 	char expected_stderr[100];
-	sprintf(expected_stderr, "dot - graphviz version %s (%s)\n",
-				PACKAGE_VERSION, BUILDDATE);
+	snprintf(expected_stderr, sizeof(expected_stderr),
+	         "dot - graphviz version %s (%s)\n", PACKAGE_VERSION, BUILDDATE);
 
 	cr_assert_stderr_eq_str(expected_stderr);
 }
@@ -154,9 +154,8 @@ Test(command_line, dash_randomV_output,
 	gvParseArgs(Gvc, argc, argv);
 
 	char expected_stderr[2000];
-		sprintf(expected_stderr, "Error: dot: option -r unrecognized\n"
-				"\n"
-				"%s", usage_info);
+	snprintf(expected_stderr, sizeof(expected_stderr),
+	         "Error: dot: option -r unrecognized\n\n%s", usage_info);
 
 	cr_assert_stderr_eq_str(expected_stderr);
 }
@@ -222,8 +221,8 @@ Test(command_line, dash_V_questionmark_output,
 	gvParseArgs(Gvc, argc, argv);
 
 	char expected_stderr[100];
-	sprintf(expected_stderr, "dot - graphviz version %s (%s)\n",
-				PACKAGE_VERSION, BUILDDATE);
+	snprintf(expected_stderr, sizeof(expected_stderr),
+	         "dot - graphviz version %s (%s)\n", PACKAGE_VERSION, BUILDDATE);
 
 	cr_assert_stderr_eq_str(expected_stderr);
 }

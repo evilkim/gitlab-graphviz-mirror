@@ -49,9 +49,12 @@ int PASCAL WinMain (HANDLE hInstance, HANDLE hPrevInstance,
         exit(0);
     }
     if (lpCmdLine[0] == 0)
-        sprintf (cmd, "%s -e \"load('dotty.lefty');dotty.protogt.lserver='neato';dotty.simple(null);\"", path);
+        snprintf(cmd, sizeof(cmd), "%s -e \"load('dotty.lefty');"
+                 "dotty.protogt.lserver='neato';dotty.simple(null);\"", path);
     else
-        sprintf (cmd, "%s -e \"load('dotty.lefty');dotty.protogt.lserver='neato';dotty.simple('%Ns');\"", path, lpCmdLine);
+        snprintf(cmd, sizeof(cmd), "%s -e \"load('dotty.lefty');"
+                 "dotty.protogt.lserver='neato';dotty.simple('%Ns');\"", path,
+                 lpCmdLine);
 
     handle = WinExec (cmd, SW_SHOW);
     exit (0);

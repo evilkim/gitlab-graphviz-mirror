@@ -94,7 +94,7 @@ static int get_color_button_widget_to_attribute(char *attribute,
     gtk_color_button_get_color((GtkColorButton *)
 			       glade_xml_get_widget(xml, widget_name),
 			       &color);
-    sprintf(buf, "#%02x%02x%02x",
+    snprintf(buf, sizeof(buf), "#%02x%02x%02x",
 	    (int) ((float) color.red / 65535.0 * 255.0),
 	    (int) ((float) color.green / 65535.0 * 255.0),
 	    (int) ((float) color.blue / 65535.0 * 255.0));
@@ -171,7 +171,7 @@ static int get_checkbox_widget_to_attribute(char *attribute,
     value = (int) gtk_toggle_button_get_active((GtkToggleButton *)
 					       glade_xml_get_widget(xml,
 								    widget_name));
-    sprintf(buf, "%d", value);
+    snprintf(buf, sizeof(buf), "%d", value);
     agattr(g, AGRAPH, attribute, buf);
    return 1;
 }
@@ -207,7 +207,7 @@ static int get_spinbtn_widget_to_attribute(char *attribute,
     value = (float) gtk_spin_button_get_value((GtkSpinButton *)
 					      glade_xml_get_widget(xml,
 								   widget_name));
-    sprintf(buf, "%f", value);
+    snprintf(buf, sizeof(buf), "%f", value);
     agattr(g, AGRAPH, attribute, buf);
     return 1;
 }
@@ -222,7 +222,7 @@ static int get_scalebtn_widget_to_attribute(char *attribute,
     value = (float) gtk_range_get_value((GtkRange *)
 					glade_xml_get_widget(xml,
 							     widget_name));
-    sprintf(buf, "%f", value);
+    snprintf(buf, sizeof(buf), "%f", value);
     agattr(g, AGRAPH, attribute, buf);
     return 1;
 }
@@ -286,7 +286,7 @@ static int get_combobox_widget_to_attribute(char *attribute,
 	gtk_combo_box_get_active((GtkComboBox *)
 				 glade_xml_get_widget(xml, widget_name));
 
-    sprintf(buf, "%d", value);
+    snprintf(buf, sizeof(buf), "%d", value);
     agattr(g, AGRAPH, attribute, buf);
     /* printf ("%s %f \n",attribute,value); */
     return 1;

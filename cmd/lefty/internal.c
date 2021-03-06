@@ -485,14 +485,14 @@ int Iconcat (int argc, lvar_t *argv) {
         case T_INTEGER:
             if (bufi + 50 > bufn)
                 growbufp (bufi + 50);
-            sprintf (buf2, "%ld", Tgetinteger (ao));
+            snprintf(buf2, sizeof(buf2), "%ld", Tgetinteger (ao));
             for (s = buf2; *s; s++)
                 bufp[bufi++] = *s;
             break;
         case T_REAL:
             if (bufi + 50 > bufn)
                 growbufp (bufi + 50);
-            sprintf (buf2, "%f", Tgetreal (ao));
+            snprintf(buf2, sizeof(buf2), "%f", Tgetreal (ao));
             for (s = buf2; *s; s++)
                 bufp[bufi++] = *s;
             break;
@@ -520,11 +520,11 @@ int Iquote (int argc, lvar_t *argv) {
         s = Tgetstring (so);
         break;
     case T_INTEGER:
-        sprintf (buf2, "%ld", Tgetinteger (so));
+        snprintf(buf2, sizeof(buf2), "%ld", Tgetinteger (so));
         s = &buf2[0];
         break;
     case T_REAL:
-        sprintf (buf2, "%f", Tgetreal (so));
+        snprintf(buf2, sizeof(buf2), "%f", Tgetreal (so));
         s = &buf2[0];
         break;
     }

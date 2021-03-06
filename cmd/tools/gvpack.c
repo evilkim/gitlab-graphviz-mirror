@@ -529,7 +529,7 @@ static void redoBB(Agraph_t * g, char *s, Agsym_t * G_bb, point delta)
 	bb.LL.y += delta.y;
 	bb.UR.x += delta.x;
 	bb.UR.y += delta.y;
-	sprintf(buf, "%d,%d,%d,%d", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
+	snprintf(buf, sizeof(buf), "%d,%d,%d,%d", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
 	agxset(g, G_bb->index, buf);
     }
 }

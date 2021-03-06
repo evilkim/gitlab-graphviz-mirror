@@ -890,7 +890,7 @@ XParseColor(
 	}
 	i /= 3;
 
-	sprintf(fmt, "%%%dx%%%dx%%%dx", i, i, i);
+	snprintf(fmt, sizeof(fmt), "%%%dx%%%dx%%%dx", i, i, i);
 	if (sscanf(spec+1, fmt, &red, &green, &blue) != 3) {
 	    return 0;
 	}

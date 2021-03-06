@@ -66,7 +66,7 @@ createOneBlock(Agraph_t * g, circ_state * state)
     block_t *bp;
     Agnode_t* n;
 
-    sprintf(name, "_block_%d", state->blockCount++);
+    snprintf(name, sizeof(name), "_block_%d", state->blockCount++);
     subg = agsubg(g, name, 1);
     bp = mkBlock(subg);
 

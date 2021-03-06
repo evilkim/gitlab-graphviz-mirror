@@ -71,7 +71,7 @@ static graph_t *create_test_graph(void)
 
     /* Add nodes */
     for (j = 0; j < NUMNODES; j++) {
-	sprintf(name, "%d", j);
+	snprintf(name, sizeof(name), "%d", j);
 	node[j] = agnode(g, name, 1);
 	agbindrec(node[j], "Agnodeinfo_t", sizeof(Agnodeinfo_t), TRUE);	//node custom data
     }

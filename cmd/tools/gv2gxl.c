@@ -277,7 +277,7 @@ static char *createGraphId(Dt_t * ids)
     char buf[SMALLBUF];
 
     do {
-	sprintf(buf, "G_%d", graphIdCounter++);
+	snprintf(buf, sizeof(buf), "G_%d", graphIdCounter++);
     } while (idexists(ids, buf));
     return addid(ids, buf);
 }
@@ -288,7 +288,7 @@ static char *createNodeId(Dt_t * ids)
     char buf[SMALLBUF];
 
     do {
-	sprintf(buf, "N_%d", nodeIdCounter++);
+	snprintf(buf, sizeof(buf), "N_%d", nodeIdCounter++);
     } while (idexists(ids, buf));
     return addid(ids, buf);
 }

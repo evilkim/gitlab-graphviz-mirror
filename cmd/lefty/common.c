@@ -308,7 +308,7 @@ char *buildcommand (char *path, char *host, int infd, int outfd, char *fmt) {
                 if (infd == -1)
                     buf[0] = '%', buf[1] = 'd', buf[2] = '\000';
                 else
-                    sprintf (buf, "%d", infd);
+                    snprintf(buf, sizeof(buf), "%d", infd);
                 s1++;
                 if (bufi + strlen (buf) >= CMDINCR)
                     return NULL;
@@ -319,7 +319,7 @@ char *buildcommand (char *path, char *host, int infd, int outfd, char *fmt) {
                 if (outfd == -1)
                     buf[0] = '%', buf[1] = 'd', buf[2] = '\000';
                 else
-                    sprintf (buf, "%d", outfd);
+                    snprintf(buf, sizeof(buf), "%d", outfd);
                 s1++;
                 if (bufi + strlen (buf) >= CMDINCR)
                     return NULL;

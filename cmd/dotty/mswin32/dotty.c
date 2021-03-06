@@ -62,15 +62,13 @@ int APIENTRY WinMain (
         exit(0);
     }
     if (lpCmdLine[0] == 0)
-        sprintf (
-	    cmd, "%s -e \"load('dotty.lefty');%sdotty.init();dotty.createviewandgraph(null,'file',null,null);txtview('off');\"",
-	    path, lneato
-        );
+        snprintf(cmd, sizeof(cmd), "%s -e \"load('dotty.lefty');%sdotty.init();"
+                 "dotty.createviewandgraph(null,'file',null,null);"
+                 "txtview('off');\"", path, lneato);
     else
-        sprintf (
-	    cmd, "%s -e \"load('dotty.lefty');%sdotty.init();dotty.createviewandgraph('%Ns','file',null,null);txtview('off');\"",
-            path, lneato, lpCmdLine
-        );
+        snprintf(cmd, sizeof(cmd), "%s -e \"load('dotty.lefty');%sdotty.init();"
+                 "dotty.createviewandgraph('%Ns','file',null,null);"
+                 "txtview('off');\"", path, lneato, lpCmdLine);
 
     CreateProcess (
         NULL,   // No module name (use command line). 

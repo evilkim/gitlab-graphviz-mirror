@@ -428,7 +428,7 @@ tclGdCreateCmd(Tcl_Interp * interp, int argc, Tcl_Obj * CONST objv[])
 	    im = gdImageCreate(w, h);
 	if (im == NULL) {
 	    char buf[255];
-	    sprintf(buf, "GD unable to allocate %d X %d image", w, h);
+	    snprintf(buf, sizeof(buf), "GD unable to allocate %d X %d image", w, h);
 	    Tcl_SetResult(interp, buf, TCL_VOLATILE);
 	    return TCL_ERROR;
 	}
@@ -440,7 +440,7 @@ tclGdCreateCmd(Tcl_Interp * interp, int argc, Tcl_Obj * CONST objv[])
 	im = gdImageCreateTrueColor(w, h);
 	if (im == NULL) {
 	    char buf[255];
-	    sprintf(buf, "GD unable to allocate %d X %d image", w, h);
+	    snprintf(buf, sizeof(buf), "GD unable to allocate %d X %d image", w, h);
 	    Tcl_SetResult(interp, buf, TCL_VOLATILE);
 	    return TCL_ERROR;
 	}

@@ -677,9 +677,9 @@ void gv_postprocess(Agraph_t * g, int allowTranslation)
     if (Show_boxes) {
 	char buf[BUFSIZ];
 	if (Flip)
-	    sprintf(buf, M2, Offset.x, Offset.y, Offset.x, Offset.y);
+	    snprintf(buf, sizeof(buf), M2, Offset.x, Offset.y, Offset.x, Offset.y);
 	else
-	    sprintf(buf, M1, Offset.y, Offset.x, Offset.y, Offset.x,
+	    snprintf(buf, sizeof(buf), M1, Offset.y, Offset.x, Offset.y, Offset.x,
 		    -Offset.x, -Offset.y);
 	Show_boxes[0] = strdup(buf);
     }

@@ -38,10 +38,10 @@ static Agraph_t *clone_graph(Agraph_t * ing, Agraph_t ** xg)
     char gname[SMALLBUF];
     static int id = 0;
 
-    sprintf(gname, "_clone_%d", id++);
+    snprintf(gname, sizeof(gname), "_clone_%d", id++);
     clone = agsubg(ing, gname,1);
     agbindrec(clone, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
-    sprintf(gname, "_clone_%d", id++);
+    snprintf(gname, sizeof(gname), "_clone_%d", id++);
     xclone = agopen(gname, ing->desc,NULL);
     for (n = agfstnode(ing); n; n = agnxtnode(ing, n)) {
 	agsubnode(clone,n,1);
@@ -360,7 +360,7 @@ static Agraph_t *spanning_tree(Agraph_t * g)
     char gname[SMALLBUF];
     static int id = 0;
 
-    sprintf(gname, "_span_%d", id++);
+    snprintf(gname, sizeof(gname), "_span_%d", id++);
     tree = agsubg(g, gname,1);
     agbindrec(tree, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
 

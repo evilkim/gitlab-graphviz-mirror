@@ -437,14 +437,14 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   } else {
     g = agopen ("G", Agdirected, 0);
   }
-  sprintf (buf, "%f", 1.0);
+  snprintf(buf, sizeof(buf), "%f", 1.0);
 
   label_string = strcpy(label_string, name);
   label_string = strcat(label_string, ". ");
-  sprintf (buf, "%d", A->m);
+  snprintf(buf, sizeof(buf), "%d", A->m);
   label_string = strcat(label_string, buf);
   label_string = strcat(label_string, " nodes, ");
-  sprintf (buf, "%d", A->nz);
+  snprintf(buf, sizeof(buf), "%d", A->nz);
   label_string = strcat(label_string, buf);
   /*  label_string = strcat(label_string, " edges. Created by Yifan Hu");*/
   label_string = strcat(label_string, " edges.");
@@ -492,7 +492,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
     sym3 = agattr(g, AGEDGE, "wt", ""); 
   }
   for (i = 0; i < A->m; i++) {
-    sprintf (buf, "%d", i);
+    snprintf(buf, sizeof(buf), "%d", i);
     n = mkNode (g, buf);
     ND_id(n) = i;
     arr[i] = n;
@@ -552,36 +552,36 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
       if (val){
 	switch (A->type){
 	case MATRIX_TYPE_REAL:
-	  sprintf (buf, "%f", ((real*)A->a)[j]);
+	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[j]);
 	  break;
 	case MATRIX_TYPE_INTEGER:
-	  sprintf (buf, "%d", ((int*)A->a)[j]);
+	  snprintf(buf, sizeof(buf), "%d", ((int*)A->a)[j]);
 	  break;
 	case MATRIX_TYPE_COMPLEX:/* take real part as weight */
-	  sprintf (buf, "%f", ((real*)A->a)[2*j]);
+	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[2*j]);
 	  break;
 	}
 	if (with_color) {
           if (i != ja[j]){
-            sprintf (buf2, "%s", hue2rgb(.65*color[j], cstring));
+            snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
           } else {
-            sprintf (buf2, "#000000");
+            snprintf(buf2, sizeof(buf2), "#000000");
           }
         }
       } else {
-	sprintf (buf, "%f", 1.);
+	snprintf(buf, sizeof(buf), "%f", 1.);
         if (with_color) {
           if (i != ja[j]){
-            sprintf (buf2, "%s", hue2rgb(.65*color[j], cstring));
+            snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
           } else {
-            sprintf (buf2, "#000000");
+            snprintf(buf2, sizeof(buf2), "#000000");
           }
         }
      }
       e = agedge (g, n, h, NULL, 1);
       if (with_color) {
 	agxset (e, sym2, buf2);
-	sprintf (buf2, "%f", color[j]);
+	snprintf(buf2, sizeof(buf2), "%f", color[j]);
 	agxset (e, sym3, buf2);
       }
     }
@@ -693,7 +693,7 @@ Agraph_t* assign_random_edge_color(Agraph_t* g){
   sym2 = agattr(g, AGEDGE, "color", ""); 
   for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
     for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
-      sprintf (buf2, "%s", hue2rgb(0.65*drand(), cstring));
+      snprintf(buf2, sizeof(buf2), "%s", hue2rgb(0.65*drand(), cstring));
       agxset (ep, sym2, buf2);
     }
   }
@@ -901,7 +901,7 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
     for (i = 0; i < nnodes; i++) (*clusters)[i]++;/* make into 1 based */
     for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
       i = ND_id(n);
-      sprintf(scluster,"%d",(*clusters)[i]);
+      snprintf(scluster, sizeof(scluster), "%d", (*clusters)[i]);
       agxset(n,clust_sym,scluster);
     }
     MIN_GRPS = 1;

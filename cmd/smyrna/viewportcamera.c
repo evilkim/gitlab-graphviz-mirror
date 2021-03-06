@@ -140,7 +140,7 @@ static int show_camera_settings(viewport_camera * c)
 {
 
     char buf[50];
-    sprintf(buf, "Camera:%i", c->index);
+    snprintf(buf, sizeof(buf), "Camera:%i", c->index);
     gtk_label_set_text((GtkLabel *)
 		       glade_xml_get_widget(xml, "dlgcameralabel1"), buf);
     gtk_spin_button_set_value((GtkSpinButton *)
@@ -279,7 +279,7 @@ void attach_camera_widget(ViewInfo * view)
 					  (GLfloat) PANEL_PADDING)) -
 	    (GLfloat) CAMERA_BUTTON_HEIGHT;
 	x = PANEL_PADDING;
-	sprintf(buf, "CAM%i", ind + 1);
+	snprintf(buf, sizeof(buf), "CAM%i", ind + 1);
 	b = glCompButtonNew((GLfloat) x, (GLfloat) y,
 			    (GLfloat) CAMERA_BUTTON_WIDTH,
 			    (GLfloat) CAMERA_BUTTON_HEIGHT, buf, '\0', 0,

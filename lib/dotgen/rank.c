@@ -845,7 +845,7 @@ static void weak(graph_t * g, node_t * t, node_t * h, edge_t * orig)
 	}
     }
     if (!e) {
-	sprintf (buf, "_weak_%d", id++);
+	snprintf(buf, sizeof(buf), "_weak_%d", id++);
 	v = makeXnode(g, buf);
 	e = agedge(g, v, t, 0, 1);
 	f = agedge(g, v, h, 0, 1);

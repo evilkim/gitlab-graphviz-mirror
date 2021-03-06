@@ -507,20 +507,22 @@ int colorCvt(gvcolor_t *ocolor, gvcolor_t *ncolor)
     s = buf;
     switch (ocolor->type) {
     case HSVA_DOUBLE :
-	sprintf (buf, "%.03f %.03f %.03f %.03f", 
+	snprintf(buf, sizeof(buf), "%.03f %.03f %.03f %.03f",
 	    ocolor->u.HSVA[0], ocolor->u.HSVA[1], ocolor->u.HSVA[2], ocolor->u.HSVA[3]);
 	break;
     case RGBA_BYTE :
-	sprintf (buf, "#%02x%02x%02x%02x", 
+	snprintf(buf, sizeof(buf), "#%02x%02x%02x%02x",
 	    ocolor->u.rgba[0], ocolor->u.rgba[1], ocolor->u.rgba[2], ocolor->u.rgba[3]);
 	break;
     case RGBA_WORD:
 	rgba_wordToByte (ocolor->u.rrggbbaa, rgba);
-	sprintf (buf, "#%02x%02x%02x%02x", rgba[0], rgba[1], rgba[2], rgba[3]);
+	snprintf(buf, sizeof(buf), "#%02x%02x%02x%02x", rgba[0], rgba[1], rgba[2],
+	         rgba[3]);
 	break;
     case RGBA_DOUBLE:
 	rgba_dblToByte (ocolor->u.RGBA, rgba);
-	sprintf (buf, "#%02x%02x%02x%02x", rgba[0], rgba[1], rgba[2], rgba[3]);
+	snprintf(buf, sizeof(buf), "#%02x%02x%02x%02x", rgba[0], rgba[1], rgba[2],
+	         rgba[3]);
 	break;
     case COLOR_STRING:
 	s = ocolor->u.string;

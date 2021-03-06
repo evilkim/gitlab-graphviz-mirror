@@ -640,7 +640,8 @@ inkpot_status_t inkpot_write_rgba16 ( inkpot_t *inkpot )
 
     rc = inkpot_get_rgba_i ( inkpot, rgba );
     if (rc == INKPOT_SUCCESS) {
-        len = sprintf(buf, "%04x%04x%04x%04x", rgba[0], rgba[1], rgba[2], rgba[3]);
+        len = snprintf(buf, sizeof(buf), "%04x%04x%04x%04x", rgba[0], rgba[1],
+                       rgba[2], rgba[3]);
 	assert(len==16);
         inkpot->write_disc.writer(inkpot->write_closure, buf, len);
     }
@@ -656,7 +657,8 @@ inkpot_status_t inkpot_write_rgb16 ( inkpot_t *inkpot )
 
     rc = inkpot_get_rgba_i ( inkpot, rgba );
     if (rc == INKPOT_SUCCESS) {
-        len = sprintf(buf, "%04x%04x%04x", rgba[0], rgba[1], rgba[2]);
+        len = snprintf(buf, sizeof(buf), "%04x%04x%04x", rgba[0], rgba[1],
+                       rgba[2]);
 	assert(len==12);
         inkpot->write_disc.writer(inkpot->write_closure, buf, len);
     }
@@ -672,7 +674,8 @@ inkpot_status_t inkpot_write_rgba8 ( inkpot_t *inkpot )
 
     rc = inkpot_get_rgba_i ( inkpot, rgba );
     if (rc == INKPOT_SUCCESS) {
-        len = sprintf(buf, "%02x%02x%02x%02x", rgba[0]>>8, rgba[1]>>8, rgba[2]>>8, rgba[3]>>8);
+        len = snprintf(buf, sizeof(buf), "%02x%02x%02x%02x", rgba[0]>>8,
+                       rgba[1]>>8, rgba[2]>>8, rgba[3]>>8);
 	assert(len==8);
         inkpot->write_disc.writer(inkpot->write_closure, buf, len);
     }
@@ -688,7 +691,7 @@ inkpot_status_t inkpot_write_rgb8 ( inkpot_t *inkpot )
 
     rc = inkpot_get_rgba_i ( inkpot, rgba );
     if (rc == INKPOT_SUCCESS) {
-        len = sprintf(buf, "%02x%02x%02x", rgba[0]>>8, rgba[1]>>8, rgba[2]>>8);
+        len = snprintf(buf, "%02x%02x%02x", rgba[0]>>8, rgba[1]>>8, rgba[2]>>8);
 	assert(len==6);
         inkpot->write_disc.writer(inkpot->write_closure, buf, len);
     }

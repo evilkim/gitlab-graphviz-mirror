@@ -1103,7 +1103,7 @@ static char* dump_node (node_t* n)
     static char buf[50];
 
     if (ND_node_type(n)) {
-	sprintf(buf, "%p", n);
+	snprintf(buf, sizeof(buf), "%p", n);
 	return buf;
     }
     else

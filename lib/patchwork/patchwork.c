@@ -207,7 +207,7 @@ static void finishNode(node_t * n)
     if (N_fontsize) {
 	char* str = agxget(n, N_fontsize);
 	if (*str == '\0') {
-	    sprintf (buf, "%.03f", ND_ht(n)*0.7); 
+	    snprintf(buf, sizeof(buf), "%.03f", ND_ht(n)*0.7);
 	    agxset(n, N_fontsize, buf);
 	}
     }

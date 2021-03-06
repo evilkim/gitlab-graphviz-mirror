@@ -450,7 +450,7 @@ Agraph_t *compOf(Agraph_t * g, Agnode_t * n)
     for (np = agfstnode(g); np; np = agnxtnode(g, np))
 	CCUNMARK(np);
 
-    sprintf(name, "_cc_%d", id++);
+    snprintf(name, sizeof(name), "_cc_%d", id++);
     cg = openSubg(g, name);
     cc_dfs(g, cg, n);
 

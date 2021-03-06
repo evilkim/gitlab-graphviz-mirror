@@ -759,7 +759,8 @@ attr_list *load_attr_list(Agraph_t * g)
     sel_edge = edgeCnt;
     sel_graph = 1;
 
-    sprintf(buf, "%d Nodes and %d edges selected", nodeCnt, edgeCnt);
+    snprintf(buf, sizeof(buf), "%d Nodes and %d edges selected", nodeCnt,
+             edgeCnt);
     gtk_label_set_text((GtkLabel *) glade_xml_get_widget(xml, "label124"),
 		       buf);
     gtk_entry_set_text((GtkEntry *) glade_xml_get_widget(xml, "txtAttr"),

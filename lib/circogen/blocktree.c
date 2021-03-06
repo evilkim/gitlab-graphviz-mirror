@@ -22,7 +22,7 @@ static Agraph_t *makeBlockGraph(Agraph_t * g, circ_state * state)
     char name[SMALLBUF];
     Agraph_t *subg;
 
-    sprintf(name, "_block_%d", state->blockCount++);
+    snprintf(name, sizeof(name), "_block_%d", state->blockCount++);
     subg = agsubg(g, name,1);
     agbindrec(subg, "Agraphinfo_t", sizeof(Agraphinfo_t), TRUE);	//node custom data
     return subg;

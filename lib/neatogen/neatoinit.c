@@ -989,7 +989,7 @@ setSeed (graph_t * G, int dflt, long* seedp)
 #else
 	    seed = (unsigned) getpid() ^ (unsigned) time(NULL);
 #endif
-	    sprintf(smallbuf, "%ld", seed);
+	    snprintf(smallbuf, sizeof(smallbuf), "%ld", seed);
 	    agset(G, "start", smallbuf);
 	}
 	*seedp = seed;
@@ -1376,7 +1376,7 @@ static void addZ (Agraph_t* g)
 
     if ((Ndim >= 3) && N_z) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	    sprintf(buf, "%lf", POINTS_PER_INCH * (ND_pos(n)[2]));
+	    snprintf(buf, sizeof(buf), "%lf", POINTS_PER_INCH * (ND_pos(n)[2]));
 	    agxset(n, N_z, buf);
 	}
     }

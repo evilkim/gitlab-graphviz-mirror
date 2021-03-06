@@ -54,10 +54,10 @@ char *obj2cmd (void *obj) {
     static char buf[32];
 
     switch (AGTYPE(obj)) {
-        case AGRAPH: sprintf(buf,"graph%p",obj); break;
-        case AGNODE: sprintf(buf,"node%p",obj); break;
+        case AGRAPH:    snprintf(buf, sizeof(buf), "graph%p", obj); break;
+        case AGNODE:    snprintf(buf, sizeof(buf), "node%p",  obj); break;
         case AGINEDGE: 
-        case AGOUTEDGE: sprintf(buf,"edge%p",obj); break;
+        case AGOUTEDGE: snprintf(buf, sizeof(buf), "edge%p",  obj); break;
     }
     return buf;
 }
@@ -251,11 +251,11 @@ void tcldot_layout(GVC_t *gvc, Agraph_t * g, char *engine)
  * doesn't yet include margins, scaling or page sizes because
  * those depend on the renderer being used. */
     if (GD_drawing(g)->landscape)
-	sprintf(buf, "%d %d %d %d",
+	snprintf(buf, sizeof(buf), "%d %d %d %d",
 		ROUND(GD_bb(g).LL.y), ROUND(GD_bb(g).LL.x),
 		ROUND(GD_bb(g).UR.y), ROUND(GD_bb(g).UR.x));
     else
-	sprintf(buf, "%d %d %d %d",
+	snprintf(buf, sizeof(buf), "%d %d %d %d",
 		ROUND(GD_bb(g).LL.x), ROUND(GD_bb(g).LL.y),
 		ROUND(GD_bb(g).UR.x), ROUND(GD_bb(g).UR.y));
     if (!(a = agattr(g, AGRAPH, "bb", NULL))) 
