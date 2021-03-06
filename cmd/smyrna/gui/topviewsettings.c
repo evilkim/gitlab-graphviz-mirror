@@ -208,7 +208,6 @@ static int get_spinbtn_widget_to_attribute(char *attribute,
 					      glade_xml_get_widget(xml,
 								   widget_name));
     sprintf(buf, "%f", value);
-    //      agattr(
     agattr(g, AGRAPH, attribute, buf);
     return 1;
 }
@@ -224,7 +223,6 @@ static int get_scalebtn_widget_to_attribute(char *attribute,
 					glade_xml_get_widget(xml,
 							     widget_name));
     sprintf(buf, "%f", value);
-    //      agattr(
     agattr(g, AGRAPH, attribute, buf);
     return 1;
 }
