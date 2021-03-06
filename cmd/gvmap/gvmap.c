@@ -260,15 +260,6 @@ init(int argc, char **argv, params_t* pm)
     case 'Q':
       pm->clusterMethod = CLUSTERING_MQ;
       break;
-#if 0
-    case 'q':
-      if ((sscanf(optarg,"%d",&r) > 0) && r >=0 && r <=OUT_PROCESSING){
-        pm->whatout = r;
-      } else {
-        usage(cmd,1);
-      }
-      break;
-#endif
     case 's':
       if ((sscanf(optarg,"%lf",&s) > 0)){
         pm->shore_depth_tol = s;
@@ -401,56 +392,6 @@ init(int argc, char **argv, params_t* pm)
     pm->outfile = stdout;
 }
 
-#if 0
-static void get_graph_node_attribute(Agraph_t* g, char *tag, char *format, size_t len, void *x_default_val, int *nn, void *x, int *flag){
-  /* read a node attribute. Example
-     {real x0[2];
-     real *x = NULL;
-
-     x0[0] = x0[1] = 0.;
-     get_graph_node_attribute(g, "pos", "%lf,%lf", sizeof(real)*2, x0, &n, &x, &flag)
-
-     or, do not supply x0 if you want error flagged when pos tag is not available:
-
-     get_graph_node_attribute(g, "pos", "%lf,%lf", sizeof(real)*2, NULL, &n, x, &flag);
-
-     assert(!flag);
-     FREE(x);
-     }
-  */
-  Agnode_t* n;
-  int nnodes;
-
-
-  *flag = 0;
-
-  if (!g) {
-    *flag = -1;
-    return;
-  }
-
-  nnodes = agnnodes (g);
-  *nn = nnodes;
-  for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
-    if (agget(n, tag)){
-      if (strcmp(format,"%s") == 0){
-	strcpy(x, agget(n, tag));
-      } else {
-	sscanf(agget(n, tag), format, x);
-      }
-
-    } else if (x_default_val){
-      memcpy(x, x_default_val, len);
-    } else {
-      *flag = -1;
-      return;
-    }
-    x += len;
-  }
-
-}
-#endif
-
 static int
 validateCluster (int n, int* grouping, int clust_num)
 {
@@ -483,16 +424,6 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
   int nart, nrandom;
 
   exclude_random = TRUE;
-#if 0
-  if (argc >= 2) {
-    fp = fopen(argv[1],"r");
-    graph = SparseMatrix_import_matrix_market(fp, FORMAT_CSR);
-  }
-
-  if (whatout == OUT_M){
-    printf("Show[{");
-  }
-#endif
 
 
 #ifdef TIME
@@ -551,81 +482,9 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
     
   }
 
-#if 0
-  if (whatout == OUT_DOT){
-#endif
     Dot_SetClusterColor(g, rgb_r,  rgb_g,  rgb_b, grouping);
     plot_dot_map(g, n, dim, x, polys, poly_lines, pm->line_width, pm->line_color, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, pm->opacity,
            pm->plot_label, pm->bg_color, (pm->plotedges?graph:NULL), pm->outfile);
-#if 0
-    }
-    goto RETURN;
-  }
-
-  if (whatout == OUT_PROCESSING){
-    if (plotedges){
-      plot_processing_map(g, n, dim, x, polys, poly_lines, line_width, nverts, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, plot_label, bg_color, graph);
-    } else {
-      plot_processing_map(g, n, dim, x, polys, poly_lines, line_width, nverts, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, plot_label, bg_color, NULL);
-    }
-
-    goto RETURN;
-  }
-
-  if (whatout == OUT_PS){
-    if (plotedges){
-      plot_ps_map(n, dim, x, polys, poly_lines, line_width, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, plot_label, bg_color, graph);
-    } else {
-      plot_ps_map(n, dim, x, polys, poly_lines, line_width, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, plot_label, bg_color, NULL);
-    }
-
-    goto RETURN;
-  }
-
-
-  if (whatout == OUT_M_COUNTRY_GRAPH){
-    SparseMatrix_print("(*country graph=*)",country_graph);
-    goto RETURN;
-    
-  }
-
-  
-  /*plot_polys(FALSE, polys, x_poly, polys_groups, rgb_r, rgb_g, rgb_b);*/
-  if (whatout == OUT_M){
-    plot_polys(FALSE, polys, x_poly, polys_groups, NULL, NULL, NULL);
-    printf(",");
-
-    plot_polys(TRUE, poly_lines, x_poly, polys_groups, NULL, NULL, NULL);
- 
-    if (show_points){
-      if (show_points == POINTS_ALL){
-	printf(",");
-	plot_points(n + nart + nrandom - 4, dim, xcombined);
-      } else if (show_points == POINTS_LABEL){
-	printf(",");
-	plot_points(n + nart - 4, dim, xcombined);
-      } else if (show_points == POINTS_RANDOM){
-	printf(",");
-	plot_points(MAX(1,nrandom - 4), dim, xcombined+dim*(n+nart));
-      } else {
-	assert(0);
-      }
-    }
-    if (plotedges){
-      printf(",");
-      plot_edges(n, dim, x, graph);
-    }
-    
-    if (labels){
-      printf(",");
-      plot_labels(n, dim, xcombined, labels);
-    }
-    
-    printf("}]\n");
-  }
-
- RETURN:
-#endif
   SparseMatrix_delete(polys);
   SparseMatrix_delete(poly_lines);
   SparseMatrix_delete(poly_point_map);
