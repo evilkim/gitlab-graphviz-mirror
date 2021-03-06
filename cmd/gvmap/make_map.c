@@ -323,8 +323,7 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
     } else {/* line*/
       assert(line_width >= 0);
       if (line_width > 0){
-	sprintf(swidth,"%f",line_width);
-	len_swidth = strlen(swidth);
+	len_swidth = (size_t)snprintf(NULL, 0, "%f", line_width);
 	sprintf(swidth,"S %zu -setlinewidth(%f)",len_swidth+14, line_width);
 	ret += snprintf(NULL, 0, " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
       } else {
