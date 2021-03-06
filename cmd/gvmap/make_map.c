@@ -389,7 +389,7 @@ static void processing_polygon(FILE *f, int np, float *xp, float *yp, real line_
   }
 }
 
-static void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, char *cstring){
+static void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, real line_width, int fill, int is_river, int np, float *xp, float *yp, char *cstring){
   if (use_line){
     if (is_river){
       /*river*/
@@ -441,17 +441,17 @@ void plot_dot_polygons(char **sbuff, int *len, int *len_max, real line_width, ch
 	if (r && g && b) {
 	  rgb2hex(r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]], cstring, opacity);
 	}
-	dot_one_poly(sbuff, len, len_max, use_line, line_width, fill, close, is_river, np, xp, yp, cstring);
+	dot_one_poly(sbuff, len, len_max, use_line, line_width, fill, is_river, np, xp, yp, cstring);
 	np = 0;/* start a new polygon */
       } 
       xp[np] = x_poly[2*ja[j]]; yp[np++] = x_poly[2*ja[j]+1];
     }
     if (use_line) {
-      dot_one_poly(sbuff, len, len_max, use_line, line_width, fill, close, is_river, np, xp, yp, line_color);
+      dot_one_poly(sbuff, len, len_max, use_line, line_width, fill, is_river, np, xp, yp, line_color);
     } else {
       /* why set fill to polys_groups[i]?*/
-      //dot_one_poly(sbuff, len, len_max, use_line, polys_groups[i], polys_groups[i], close, is_river, np, xp, yp, cstring);
-      dot_one_poly(sbuff, len, len_max, use_line, -1, 1, close, is_river, np, xp, yp, cstring);
+      //dot_one_poly(sbuff, len, len_max, use_line, polys_groups[i], polys_groups[i], is_river, np, xp, yp, cstring);
+      dot_one_poly(sbuff, len, len_max, use_line, -1, 1, is_river, np, xp, yp, cstring);
     }
   }
   FREE(xp);
