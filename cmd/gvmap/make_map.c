@@ -296,7 +296,7 @@ static void plot_dot_edges(FILE *f, SparseMatrix A){
   }
 }
 
-void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, real *width, float *fsz){
+static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, real *width, float *fsz){
   int i;
 
   for (i = 0; i < n; i++){
