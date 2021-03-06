@@ -389,7 +389,7 @@ static void processing_polygon(FILE *f, int np, float *xp, float *yp, real line_
   }
 }
 
-void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, char *cstring){
+static void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, char *cstring){
   if (use_line){
     if (is_river){
       /*river*/
