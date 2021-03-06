@@ -401,7 +401,7 @@ static void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, rea
   }
 }
 
-void processing_one_poly(FILE *f, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, 
+static void processing_one_poly(FILE *f, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, 
 		      float rr, float gg, float bb){
   if (use_line){
     if (is_river){
