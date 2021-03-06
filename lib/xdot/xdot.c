@@ -506,16 +506,16 @@ static void printRect(xdot_rect * r, pf print, void *info)
 {
     char buf[128];
 
-    sprintf(buf, " %.02f", r->x);
+    snprintf(buf, sizeof(buf), " %.02f", r->x);
     trim(buf);
     print(buf, info);
-    sprintf(buf, " %.02f", r->y);
+    snprintf(buf, sizeof(buf), " %.02f", r->y);
     trim(buf);
     print(buf, info);
-    sprintf(buf, " %.02f", r->w);
+    snprintf(buf, sizeof(buf), " %.02f", r->w);
     trim(buf);
     print(buf, info);
-    sprintf(buf, " %.02f", r->h);
+    snprintf(buf, sizeof(buf), " %.02f", r->h);
     trim(buf);
     print(buf, info);
 }
@@ -525,13 +525,13 @@ static void printPolyline(xdot_polyline * p, pf print, void *info)
     int i;
     char buf[512];
 
-    sprintf(buf, " %d", p->cnt);
+    snprintf(buf, sizeof(buf), " %d", p->cnt);
     print(buf, info);
     for (i = 0; i < p->cnt; i++) {
-	sprintf(buf, " %.02f", p->pts[i].x);
+	snprintf(buf, sizeof(buf), " %.02f", p->pts[i].x);
 	trim(buf);
 	print(buf, info);
-	sprintf(buf, " %.02f", p->pts[i].y);
+	snprintf(buf, sizeof(buf), " %.02f", p->pts[i].y);
 	trim(buf);
 	print(buf, info);
     }
@@ -541,7 +541,7 @@ static void printString(char *p, pf print, void *info)
 {
     char buf[30];
 
-    sprintf(buf, " %zu -", strlen(p));
+    snprintf(buf, sizeof(buf), " %zu -", strlen(p));
     print(buf, info);
     print(p, info);
 }
@@ -550,7 +550,7 @@ static void printInt(int i, pf print, void *info)
 {
     char buf[30];
 
-    sprintf(buf, " %d", i);
+    snprintf(buf, sizeof(buf), " %d", i);
     print(buf, info);
 }
 
@@ -559,9 +559,9 @@ static void printFloat(float f, pf print, void *info, int space)
     char buf[128];
 
     if (space)
-	sprintf(buf, " %.02f", f);
+	snprintf(buf, sizeof(buf), " %.02f", f);
     else
-	sprintf(buf, "%.02f", f);
+	snprintf(buf, sizeof(buf), "%.02f", f);
     trim (buf);
     print(buf, info);
 }
@@ -716,7 +716,8 @@ static void jsonRect(xdot_rect * r, pf print, void *info)
 {
     char buf[128];
 
-    sprintf(buf, "[%.06f,%.06f,%.06f,%.06f]", r->x, r->y, r->w, r->h);
+    snprintf(buf, sizeof(buf), "[%.06f,%.06f,%.06f,%.06f]", r->x, r->y, r->w,
+             r->h);
     print(buf, info);
 }
 
@@ -727,7 +728,7 @@ static void jsonPolyline(xdot_polyline * p, pf print, void *info)
 
     print("[", info);
     for (i = 0; i < p->cnt; i++) {
-	sprintf(buf, "%.06f,%.06f", p->pts[i].x, p->pts[i].y);
+	snprintf(buf, sizeof(buf), "%.06f,%.06f", p->pts[i].x, p->pts[i].y);
 	print(buf, info);
 	if (i < p->cnt-1) print(",", info);
     }
