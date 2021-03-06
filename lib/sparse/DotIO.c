@@ -24,49 +24,6 @@ typedef struct {
 
 #define ND_id(n)  (((Agnodeinfo_t*)((n)->base.data))->id)
 
-#if 0
-static void
-posStr (int len_buf, char* buf, int dim, real* x, double sc)
-{
-  char s[1000];
-  int i;
-  int len = 0;
-
-  buf[0] = '\0';
-  for (i = 0; i < dim; i++){
-    if (i < dim - 1){
-      sprintf(s,"%f,",sc*x[i]);
-    } else {
-      sprintf(s,"%f",sc*x[i]);
-    }
-    len += strlen(s);
-    assert(len < len_buf);
-    buf = strcat(buf, s);
-  } 
-}
-
-static void 
-attach_embedding (Agraph_t* g, int dim, double sc, real *x)
-{
-  Agsym_t* sym = agattr(g, AGNODE, "pos", NULL); 
-  Agnode_t* n;
-#define SLEN 1024
-  char buf[SLEN];
-  int i = 0;
-
-  if (!sym)
-    sym = agattr (g, AGNODE, "pos", "");
-
-  for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
-    assert (i == ND_id(n));
-    posStr (SLEN, buf, dim, x + i*dim, sc);
-    agxset (n, sym, buf);
-    i++;
-  }
-  
-}
-#endif
-
 static void color_string(int slen, char *buf, int dim, real *color){
   if (dim > 3 || dim < 1){
     fprintf(stderr,"can only 1, 2 or 3 dimensional color space. with color value between 0 to 1\n");
