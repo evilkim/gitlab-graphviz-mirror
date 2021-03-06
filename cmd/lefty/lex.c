@@ -12,6 +12,7 @@
 
 #include "common.h"
 #include "lex.h"
+#include <string.h>
 
 int Ltok;
 char Lstrtok[MAXTOKEN];
@@ -237,7 +238,7 @@ static int gtok (void) {
 static int sgetc (void) {
     if (seeneof)
         return EOF;
-    if (*ucp == '\000') {
+    if (strcmp(ucp, "") == 0) {
         if (lsrc == CHARSRC) {
             seeneof = TRUE;
             linenum++;

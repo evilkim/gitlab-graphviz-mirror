@@ -12,6 +12,7 @@
 #include "common.h"
 #include "g.h"
 #include "gcommon.h"
+#include <string.h>
 
 #define WCU widget->u.c
 #define WINDOW widget->u.c->window
@@ -646,7 +647,7 @@ static GdkFont *findfont(char *name, int size)
     GdkFont *font;
     int fi, n, i;
 
-    if (name[0] == '\000')
+    if (strcmp(name, "") == 0)
 	return Gfontp[0].font;
 
     sprintf(&Gbufp[0], name, size);

@@ -28,6 +28,7 @@
 #include "gmap2l.h"
 #endif
 #include "internal.h"
+#include <string.h>
 #ifndef FEATURE_MS
 #include <sys/time.h>
 #endif
@@ -404,7 +405,7 @@ int Isplit (int argc, lvar_t *argv) {
     qflag = (argc == 3) ? FALSE : TRUE;
     sp = Tgetstring (so);
     s = Tgetstring (fo);
-    if (s[0] == '\\' && s[1] == 'n')
+    if (strncmp(s, "\\n", 2) == 0)
         fc = '\n';
     else
         fc = s[0];
@@ -616,7 +617,7 @@ int Iload (int argc, lvar_t *argv) {
     Tobj co;
 
     if ((fn = Tgetstring (argv[0].o))) {
-        if (fn[0] == '-' && fn[1] == '\000')
+        if (strcmp(fn, "-") == 0)
             fp = stdin;
         else {
             fp = NULL;

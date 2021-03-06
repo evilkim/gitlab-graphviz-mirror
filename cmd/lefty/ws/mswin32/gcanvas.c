@@ -14,6 +14,7 @@
 #include "g.h"
 #include "gcommon.h"
 #include "mem.h"
+#include <string.h>
 
 #define WCU widget->u.c
 #define WINDOW widget->u.c->window
@@ -761,7 +762,7 @@ static HFONT findfont (char *name, int size) {
     HFONT font;
     int fi;
 
-    if (name[0] == '\000')
+    if (strcmp(name, "") == 0)
         return Gfontp[0].font;
 
     sprintf (&Gbufp[0], name, size);

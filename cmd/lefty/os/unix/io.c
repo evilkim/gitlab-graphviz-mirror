@@ -18,6 +18,7 @@
 #include "mem.h"
 #include <fcntl.h>
 #include <signal.h>
+#include <string.h>
 #include <sys/wait.h>
 #ifndef HAVE_TERMIOS_H
 #include <termio.h>
@@ -418,7 +419,7 @@ static void pipeopen (char *cmd, FILE **ifp, FILE **ofp, int *pidp) {
     case 0:
         close (p1[0]), close (p2[1]);
         for (s = cmd; *s; s++)
-            if (*s == '%' && *(s + 1) && *(s + 1) == 'd') {
+            if (strncmp(s, "%d", 2) == 0) {
                 sprintf (cmd2, cmd, p2[0], p1[1]);
                 execl (shell, shbname, "-c", cmd2, NULL);
                 panic2 (POS, "pipeopen", "child cannot exec: %s\n", cmd2);

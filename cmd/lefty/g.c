@@ -14,6 +14,7 @@
 #include "g.h"
 #include "gcommon.h"
 #include "mem.h"
+#include <string.h>
 
 Gwidget_t *Gwidgets;
 int Gwidgetn;
@@ -587,7 +588,7 @@ int Gtext (
         return -1;
     }
     widget = &Gwidgets[wi];
-    if (string[0] == '\000')
+    if (strcmp(string, "") == 0)
         return 0;
     n = unpackstring (string);
     if (!justs[0] || !justs[1])
@@ -622,7 +623,7 @@ int Ggettextsize (int wi, char *string, char *fn, double fs, Gsize_t *gsp) {
         Gerr (POS, G_ERRNOTACANVAS, wi);
         return -1;
     }
-    if (string[0] == '\000') {
+    if (strcmp(string, "") == 0) {
         gsp->x = gsp->y = 0.0;
         return 0;
     }

@@ -13,6 +13,7 @@
 #include "common.h"
 #include "g.h"
 #include "gcommon.h"
+#include <string.h>
 
 #define WBU widget->u.b
 
@@ -80,7 +81,7 @@ int GBcreatewidget (
             return -1;
         }
     }
-    if (!s || s[0] == '\000') {
+    if (!s || strcmp(s, "") == 0) {
         ADD2ARGS (XtNwidth, ps.x);
         ADD2ARGS (XtNheight, ps.y);
     } else {

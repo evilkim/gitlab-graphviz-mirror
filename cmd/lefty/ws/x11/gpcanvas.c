@@ -14,6 +14,7 @@
 #include "g.h"
 #include "gcommon.h"
 #include "mem.h"
+#include <string.h>
 
 #define PSDPI 300.0
 #define PSMAXPIXW (8.0  * PSDPI)
@@ -515,7 +516,7 @@ int GPtext (
 static char *findfont (char *name) {
     char *font;
 
-    if (name[0] == '\000' || strcmp (name, "default") == 0)
+    if (strcmp(name, "") == 0 || strcmp (name, "default") == 0)
         font = "Times-Roman";
     else
         font = name;
