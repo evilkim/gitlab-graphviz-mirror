@@ -8,21 +8,22 @@
  * Contributors: See CVS logs. Details at http://www.graphviz.org/
  *************************************************************************/
 
+#include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
 static int openF(char *fname)
 {
-    char buf[BUFSIZ];
     int fd = open(fname, O_RDONLY);
 
     if (fd < 0) {
-	sprintf(buf, "Could not open %s for reading\n", fname);
-	perror(buf);
+	fprintf(stderr, "Could not open %s for reading: %s\n\n", fname,
+	        strerror(errno));
 	exit(1);
     }
     return fd;
