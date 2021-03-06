@@ -459,50 +459,6 @@ static void plot_dot_polygons(char **sbuff, int *len, int *len_max, real line_wi
 
 }
 
-void plot_processing_polygons(FILE *f, real line_width, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b){
-  int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly,first;
-  int np = 0, maxlen = 0;
-  float *xp, *yp;
-  int fill = -1, close = 1;
-  int is_river = FALSE;
-  int use_line = (line_width >= 0);
-  float rr = 0, gg = 0, bb = 0;
-
-  for (i = 0; i < npolys; i++) maxlen = MAX(maxlen, ia[i+1]-ia[i]);
-
-  xp = MALLOC(sizeof(float)*maxlen);
-  yp = MALLOC(sizeof(float)*maxlen);
-
-  if (Verbose) fprintf(stderr,"npolys = %d\n",npolys);
-  first = abs(a[0]); ipoly = first + 1;
-  for (i = 0; i < npolys; i++){
-    np = 0;
-    for (j = ia[i]; j < ia[i+1]; j++){
-      assert(ja[j] < nverts && ja[j] >= 0);
-      if (abs(a[j]) != ipoly){/* the first poly, or a hole */
-	ipoly = abs(a[j]);
-	is_river = (a[j] < 0);
-	if (r && g && b) {
-	  rr = r[polys_groups[i]]; gg = g[polys_groups[i]]; bb = b[polys_groups[i]];
-	}
-	  processing_one_poly(f, use_line, line_width, fill, close, is_river, np, xp, yp, rr, gg, bb);
-	np = 0;/* start a new polygon */
-      } 
-      xp[np] = x_poly[2*ja[j]]; yp[np++] = x_poly[2*ja[j]+1];
-    }
-    if (use_line) {
-      processing_one_poly(f, use_line, line_width, fill, close, is_river, np, xp, yp, rr, gg, bb);
-    } else {
-      /* why set fill to polys_groups[i]?*/
-      processing_one_poly(f,  use_line, -1, 1, close, is_river, np, xp, yp, rr, gg, bb);
-    }
-  }
-  FREE(xp);
-  FREE(yp);
-
-}
-
-
 void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels, real *width,
 		  float *fsz, float *r, float *g, float *b, char* opacity, char *plot_label, real *bg_color, SparseMatrix A, FILE* f){
   /* if graph object exist, we just modify some attributes, otherwise we dump the whole graph */
