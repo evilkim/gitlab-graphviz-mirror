@@ -360,7 +360,7 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
 
   }
 }
-static void processing_polygon(FILE *f, int np, float *xp, float *yp, real line_width, int fill, int close, 
+static void processing_polygon(FILE *f, int np, float *xp, float *yp, real line_width, int fill,
 			       float rr, float gg, float bb){
   int i;
 
@@ -408,9 +408,9 @@ void processing_one_poly(FILE *f, int use_line, real line_width, int fill, int c
       /*river*/
     } else {
     }
-    processing_polygon(f, np, xp, yp, line_width, fill, close, rr, gg, bb);
+    processing_polygon(f, np, xp, yp, line_width, fill, rr, gg, bb);
   } else {
-    processing_polygon(f, np, xp, yp, line_width, fill, close, rr, gg, bb);
+    processing_polygon(f, np, xp, yp, line_width, fill, rr, gg, bb);
   }
 }
 
