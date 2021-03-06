@@ -136,9 +136,7 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="btree.h" />
     <ClInclude Include="draw.h" />
-    <ClInclude Include="filter.h" />
     <ClInclude Include="glexpose.h" />
     <ClInclude Include="glmotion.h" />
     <ClInclude Include="gltemplate.h" />
@@ -161,7 +159,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     <ClInclude Include="support.h" />
     <ClInclude Include="topfisheyeview.h" />
     <ClInclude Include="topview.h" />
-    <ClInclude Include="topviewdata.h" />
     <ClInclude Include="topviewdefs.h" />
     <ClInclude Include="trackball.h" />
     <ClInclude Include="tvnodes.h" />

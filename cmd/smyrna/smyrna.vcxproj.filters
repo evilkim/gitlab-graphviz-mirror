@@ -21,9 +21,6 @@
     <ClInclude Include="gui\beacon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="btree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gui\callbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -31,9 +28,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="draw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gui\filterscallbacks.h">
@@ -85,9 +79,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="topview.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="topviewdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="topviewdefs.h">
