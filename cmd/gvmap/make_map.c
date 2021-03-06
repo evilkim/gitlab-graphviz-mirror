@@ -296,7 +296,7 @@ static void plot_dot_edges(FILE *f, SparseMatrix A){
   }
 }
 
-static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, real *width, float *fsz){
+static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, float *fsz){
   int i;
 
   for (i = 0; i < n; i++){
@@ -548,7 +548,7 @@ void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, Spa
   }
 
   /* nodes */
-  if (!gr && labels) plot_dot_labels(f, n, dim, x, labels, width, fsz);
+  if (!gr && labels) plot_dot_labels(f, n, dim, x, labels, fsz);
   /* edges */
   if (!gr && A) plot_dot_edges(f, A);
 
