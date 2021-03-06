@@ -604,17 +604,9 @@ char *cat_string(char *s1, char *s2){
 }
 
 static char *cat_string3(char *s1, char *s2, char *s3, int id){
-  char *s;
-  char sid[1000];
-  sprintf(sid,"%d",id);
-  s = malloc(sizeof(char)*(strlen(s1)+strlen(s2)+strlen(s3)+strlen(sid)+1+3));
-  strcpy(s,s1);
-  strcat(s,"|");
-  strcat(s,s2);
-  strcat(s,"|");
-  strcat(s,s3);
-  strcat(s,"|");
-  strcat(s,sid);
+  size_t len = (size_t)snprintf(NULL, 0, "%s|%s|%s|%d", s1, s2, s3, id) + 1;
+  char *s = malloc(sizeof(char) * len);
+  snprintf(s, len, "%s|%s|%s|%d", s1, s2, s3, id);
   return s;
 }
 
