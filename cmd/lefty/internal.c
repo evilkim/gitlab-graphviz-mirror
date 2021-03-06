@@ -418,7 +418,7 @@ int Isplit (int argc, lvar_t *argv) {
             Tinsi (rtno, rtni++, Tstring (sp2));
             *(sp2 + 1) = tc;
         }
-    } else if (qflag && (fc == ' ' || fc == '	')) {
+    } else if (qflag && (fc == ' ' || fc == '\t')) {
         while (*sp == fc)
             sp++;
         while (*sp) {
