@@ -422,7 +422,7 @@ static void processstr (char *buf) {
         return;
     s = strdup (s);
     for (i = 0, s1 = s; *s1; ) {
-        for (; *s1 && *s1 == ' '; s1++)
+        for (; *s1 == ' '; s1++)
             ;
         if (!*s1)
             break;
