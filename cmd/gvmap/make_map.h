@@ -29,11 +29,11 @@ int make_map_from_point_groups(int exclude_random, int include_OK_points, int n,
 void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_map, real *x, SparseMatrix graph);
 
 
-#if 0
 void plot_polys(int use_line, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b);
 void plot_points(int n, int dim, real *x);
 void plot_edges(int n, int dim, real *x, SparseMatrix A);
 void plot_labels(int n, int dim, real *x, char **labels);
+#if 0
 void plot_ps_map(int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, real *x_poly, int *polys_groups, char **labels, real *width,
 		 float *fsz, float *r, float *g, float *b, char *plot_label, real *bg_color, SparseMatrix A);
 #endif
