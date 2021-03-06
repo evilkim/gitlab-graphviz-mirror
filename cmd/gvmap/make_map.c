@@ -281,7 +281,7 @@ void plot_polys(int use_line, SparseMatrix polys, real *x_poly, int *polys_group
   printf("}]}]");
 }
 
-static void plot_dot_edges(FILE *f, SparseMatrix A, int dim, real *x){
+static void plot_dot_edges(FILE *f, SparseMatrix A){
   int i, *ia, *ja, j;
 
   
@@ -550,7 +550,7 @@ void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, Spa
   /* nodes */
   if (!gr && labels) plot_dot_labels(f, n, dim, x, labels, width, fsz);
   /* edges */
-  if (!gr && A) plot_dot_edges(f, A, dim, x);
+  if (!gr && A) plot_dot_edges(f, A);
 
   /* background color + plot label?*/
 
