@@ -313,8 +313,7 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
 			int fill, int close, char *cstring){
   int i;
   int ret = 0;
-  char swidth[10000];
-  size_t len_swidth;
+  size_t len_swidth = 0;
 
   if (np > 0){
     /* figure out the size needed */
@@ -324,8 +323,8 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
       assert(line_width >= 0);
       if (line_width > 0){
 	len_swidth = (size_t)snprintf(NULL, 0, "%f", line_width);
-	sprintf(swidth,"S %zu -setlinewidth(%f)",len_swidth+14, line_width);
-	ret += snprintf(NULL, 0, " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
+	ret += snprintf(NULL, 0, " c %zu -%s S %zu -setlinewidth(%f) L %d ",
+	                strlen(cstring), cstring, len_swidth + 14, line_width, np);
       } else {
 	ret += snprintf(NULL, 0, " c %zu -%s L %d ", strlen(cstring), cstring, np);
       }
@@ -345,7 +344,8 @@ static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp,
       ret = sprintf(&((*sbuff)[*len]), " c %zu -%s C %zu -%s P %d ", strlen(cstring), cstring, strlen(cstring), cstring, np);
     } else {
       if (line_width > 0){
-	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s %s L %d ", strlen(cstring), cstring, swidth, np);
+	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s S %zu -setlinewidth(%f) L %d ",
+	              strlen(cstring), cstring, len_swidth + 14, line_width, np);
       } else {
 	ret = sprintf(&((*sbuff)[*len]), " c %zu -%s L %d ", strlen(cstring), cstring, np);
       }
