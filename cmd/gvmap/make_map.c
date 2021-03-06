@@ -643,7 +643,7 @@ void plot_edges(int n, int dim, real *x, SparseMatrix A){
   printf("}(* end of edges of the graph*)]");
 
 }
-static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, SparseMatrix *poly_point_map, int GRP_RANDOM, int GRP_BBOX){
+static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, int GRP_RANDOM, int GRP_BBOX){
   /* form a graph each vertex is a group (a country), and a vertex is connected to another if the two countryes shares borders.
    since the group ID may not be contigous (e.g., only groups 2,3,5, -1), we will return NULL if one of the group has non-positive ID! */
   int *ia, *ja;
@@ -1271,7 +1271,7 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
     ============================================================*/
   get_polygon_solids(exclude_random, nt, E, ncomps, comps_ptr, comps, groups, mask, *x_poly, polys, polys_groups, GRP_RANDOM, GRP_BBOX);
 
-  B = get_country_graph(n, E, groups, poly_point_map, GRP_RANDOM, GRP_BBOX);
+  B = get_country_graph(n, E, groups, GRP_RANDOM, GRP_BBOX);
   *country_graph = B;
 
   FREE(groups);
