@@ -310,7 +310,7 @@ static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, flo
 }
 
 static void dot_polygon(char **sbuff, int *len, int *len_max, int np, float *xp, float *yp, real line_width,  
-			int fill, int close, char *cstring){
+			int fill, char *cstring){
   int i;
   int ret = 0;
   size_t len_swidth = 0;
@@ -395,9 +395,9 @@ void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, real line_
       /*river*/
     } else {
     }
-    dot_polygon(sbuff, len, len_max, np, xp, yp, line_width, fill, close, cstring);
+    dot_polygon(sbuff, len, len_max, np, xp, yp, line_width, fill, cstring);
   } else {
-    dot_polygon(sbuff, len, len_max, np, xp, yp, line_width, fill, close, cstring);
+    dot_polygon(sbuff, len, len_max, np, xp, yp, line_width, fill, cstring);
   }
 }
 
