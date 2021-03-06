@@ -53,18 +53,6 @@ extern "C" {
 #define CHARSRC 0
 #define FILESRC 1
 
-/*#define M_PI 3.14159265358979323846 */
-
-#ifndef REALSTRCMP
-#define Strcmp(s1, s2) ( \
-    *(s1) == *(s2) ? ( \
-        (*s1) ? strcmp ((s1) + 1, (s2) + 1) : 0 \
-    ) : (*(s1) < *(s2) ? -1 : 1) \
-)
-#else
-#define Strcmp(s1, s2) strcmp ((s1), (s2))
-#endif
-
     extern int warnflag;
     extern char *leftypath, *leftyoptions, *shellpath;
     extern jmp_buf exitljbuf;

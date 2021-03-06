@@ -24,7 +24,7 @@ Tobj Ttrue, Tfalse;
 #define ISEQRK(rk, ko) \
     (T_ISNUMBER (ko) && Tgetnumber (ko) == (rk))
 #define ISEQSK(sk, ko) \
-    (T_ISSTRING (ko)  && Strcmp (((Tstring_t *) (ko))->s, (sk)) == 0)
+    (T_ISSTRING (ko)  && strcmp (((Tstring_t *) (ko))->s, (sk)) == 0)
 
 #define GETIKINDEX(tp, ik) (unsigned long) ik  % tp->ln
 #define GETRKINDEX(tp, rk) (unsigned long) rk  % tp->ln

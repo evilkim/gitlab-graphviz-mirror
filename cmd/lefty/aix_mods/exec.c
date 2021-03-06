@@ -836,7 +836,7 @@ static int orderop(Tobj v1o, Ctype_t op, Tobj v2o)
     }
     t1 = Tgettype(v1o), t2 = Tgettype(v2o);
     if (t1 == T_STRING && t2 == T_STRING) {
-	r = Strcmp(Tgetstring(v1o), Tgetstring(v2o));
+	r = strcmp(Tgetstring(v1o), Tgetstring(v2o));
     } else if (t1 == T_INTEGER && t2 == T_INTEGER) {
 	i1 = Tgetinteger(v1o), i2 = Tgetinteger(v2o);
 	r = (i1 == i2) ? 0 : ((i1 < i2) ? -1 : 1);

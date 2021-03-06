@@ -1174,9 +1174,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     fake.name = resolveColor(str);
     if (!fake.name)
 	return COLOR_MALLOC_FAIL;
-    if (last == NULL
-	|| last->name[0] != fake.name[0]
-	|| strcmp(last->name, fake.name)) {
+    if (last == NULL || strcmp(last->name, fake.name)) {
 	last = bsearch(&fake, color_lib, sizeof(color_lib) / sizeof(hsvrgbacolor_t),
 	               sizeof(fake), colorcmpf);
     }

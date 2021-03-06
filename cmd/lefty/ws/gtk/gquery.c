@@ -29,11 +29,11 @@ int GQcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
     for (ai = 0; ai < attrn; ai++) {
 	switch (attrp[ai].id) {
 	case G_ATTRMODE:
-	    if (Strcmp("string", attrp[ai].u.t) == 0)
+	    if (strcmp("string", attrp[ai].u.t) == 0)
 		WQU->mode = G_QWSTRING;
-	    else if (Strcmp("file", attrp[ai].u.t) == 0)
+	    else if (strcmp("file", attrp[ai].u.t) == 0)
 		WQU->mode = G_QWFILE;
-	    else if (Strcmp("choice", attrp[ai].u.t) == 0)
+	    else if (strcmp("choice", attrp[ai].u.t) == 0)
 		WQU->mode = G_QWCHOICE;
 	    else {
 		Gerr(POS, G_ERRBADATTRVALUE, attrp[ai].u.t);
