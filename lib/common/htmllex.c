@@ -735,7 +735,7 @@ static void characterData(void *user, const char *s, int length)
 	    c = *s++;
 	    if (c >= ' ') {
 		cnt++;
-		agxbputc(state.xb, c);
+		agxbputc(state.xb, (char)c);
 	    }
 	}
 	if (cnt) state.tok = T_string;

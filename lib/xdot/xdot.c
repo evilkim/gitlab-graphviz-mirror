@@ -23,8 +23,6 @@ typedef struct {
     int dyna;			/* true if buffer is malloc'ed */
 } agxbuf;
 
-#define agxbputc(X,C) ((((X)->ptr >= (X)->eptr) ? agxbmore(X,1) : 0), \
-          (void)(*(X)->ptr++ = ((unsigned char)C)))
 #define agxbuse(X) (agxbputc(X,'\0'),(char*)((X)->ptr = (X)->buf))
 
 static void agxbinit(agxbuf * xb, unsigned int hint, unsigned char *init)
@@ -75,6 +73,16 @@ static int agxbput(char *s, agxbuf * xb)
     memcpy(xb->ptr, s, ssz);
     xb->ptr += ssz;
     return ssz;
+}
+
+static int agxbputc(agxbuf * xb, char c) {
+  if (xb->ptr >= xb->eptr) {
+    if (agxbmore(xb, 1) != 0) {
+      return -1;
+    }
+  }
+  *xb->ptr++ = (unsigned char)c;
+  return 0;
 }
 
 /* agxbfree:

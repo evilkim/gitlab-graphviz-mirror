@@ -420,7 +420,7 @@ static void copyUpper (agxbuf* xb, char* s)
     int c;
 
     while ((c = *s++))
-	(void)agxbputc (xb, toupper(c));
+	(void)agxbputc (xb, (char)toupper(c));
 }
 
 /* Returns the font corresponding to a Graphviz PS font.
