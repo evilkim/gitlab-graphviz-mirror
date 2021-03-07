@@ -17,7 +17,9 @@
 #include <ast/ast.h>
 #include <ast/sfstr.h>
 #include <ast/error.h>
+#include <cgraph/agxbuf.h>
 #include <gvpr/parse.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -68,7 +70,7 @@ static int eol (Sfio_t * str)
  * If a newline is seen in comment and ostr
  * is non-null, add newline to ostr.
  */
-static int readc(Sfio_t * str, Sfio_t * ostr)
+static int readc(Sfio_t * str, agxbuf * ostr)
 {
     int c;
     int cc;
@@ -93,7 +95,7 @@ static int readc(Sfio_t * str, Sfio_t * ostr)
 		case '\n':
 		    lineno++;
 		    if (ostr)
-			sfputc(ostr, c);
+			agxbputc(ostr, c);
 		    break;
 		case '*':
 		    switch (cc = sfgetc(str)) {
@@ -103,7 +105,7 @@ static int readc(Sfio_t * str, Sfio_t * ostr)
 		    case '\n':
 			lineno++;
 			if (ostr)
-			    sfputc(ostr, cc);
+			    agxbputc(ostr, cc);
 			break;
 		    case '*':
 			sfungetc(str, cc);
@@ -149,7 +151,7 @@ static int skipWS(Sfio_t * str)
 {
     int c;
 
-    while (1) {
+    while (true) {
 	c = readc(str, 0);
 	if (!isspace(c)) {
 	    return c;
@@ -163,7 +165,7 @@ static int skipWS(Sfio_t * str)
  */
 static void parseID(Sfio_t * str, int c, char *buf, size_t bsize)
 {
-    int more = 1;
+    bool more = true;
     char *ptr = buf;
     char *eptr = buf + (bsize - 1);
 
@@ -171,14 +173,14 @@ static void parseID(Sfio_t * str, int c, char *buf, size_t bsize)
     while (more) {
 	c = readc(str, 0);
 	if (c < 0)
-	    more = 0;
-	if (isalpha(c) || (c == '_')) {
+	    more = false;
+	if (isalpha(c) || c == '_') {
 	    if (ptr == eptr)
-		more = 0;
+		more = false;
 	    else
 		*ptr++ = c;
 	} else {
-	    more = 0;
+	    more = false;
 	    unreadc(str, c);
 	}
     }
@@ -210,29 +212,21 @@ static case_t parseKind(Sfio_t * str)
 
     kwLine = lineno;
     parseID(str, c, buf, BSIZE);
-    switch (c) {
-    case 'B':
-	if (strcmp(buf, "BEGIN") == 0)
-	    cs = Begin;
-	if (strcmp(buf, "BEG_G") == 0)
-	    cs = BeginG;
-	break;
-    case 'E':
-	if (buf[1] == '\0')
-	    cs = Edge;
-	if (strcmp(buf, "END") == 0)
-	    cs = End;
-	if (strcmp(buf, "END_G") == 0)
-	    cs = EndG;
-	break;
-    case 'N':
-	if (buf[1] == '\0')
-	    cs = Node;
-	break;
+    if (strcmp(buf, "BEGIN") == 0) {
+	cs = Begin;
+    } else if (strcmp(buf, "BEG_G") == 0) {
+	cs = BeginG;
+    } else if (strcmp(buf, "E") == 0) {
+	cs = Edge;
+    } else if (strcmp(buf, "END") == 0) {
+	cs = End;
+    } else if (strcmp(buf, "END_G") == 0) {
+	cs = EndG;
+    } else if (strcmp(buf, "N") == 0) {
+	cs = Node;
     }
     if (cs == Error)
-	error(ERROR_ERROR, "unexpected keyword \"%s\", line %d", buf,
-	      kwLine);
+	error(ERROR_ERROR, "unexpected keyword \"%s\", line %d", buf, kwLine);
     return cs;
 }
 
@@ -241,14 +235,14 @@ static case_t parseKind(Sfio_t * str)
  * up to and including a terminating character ec
  * that is not escaped with a back quote.
  */
-static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
+static int endString(Sfio_t * ins, agxbuf * outs, char ec)
 {
     int sline = lineno;
     int c;
 
     while ((c = sfgetc(ins)) != ec) {
 	if (c == '\\') {
-	    sfputc(outs, c);
+	    agxbputc(outs, c);
 	    c = sfgetc(ins);
 	}
 	if (c < 0) {
@@ -257,9 +251,9 @@ static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
 	}
 	if (c == '\n')
 	    lineno++;
-	sfputc(outs, (char) c);
+	agxbputc(outs, (char) c);
     }
-    sfputc(outs, c);
+    agxbputc(outs, c);
     return 0;
 }
 
@@ -270,26 +264,26 @@ static int endString(Sfio_t * ins, Sfio_t * outs, char ec)
  * is ignored. Since matching bc-ec pairs might nest,
  * the function is called recursively.
  */
-static int endBracket(Sfio_t * ins, Sfio_t * outs, char bc, char ec)
+static int endBracket(Sfio_t * ins, agxbuf * outs, char bc, char ec)
 {
     int c;
 
-    while (1) {
+    while (true) {
 	c = readc(ins, outs);
-	if ((c < 0) || (c == ec))
+	if (c < 0 || c == ec)
 	    return c;
 	else if (c == bc) {
-	    sfputc(outs, (char) c);
+	    agxbputc(outs, (char) c);
 	    c = endBracket(ins, outs, bc, ec);
 	    if (c < 0)
 		return c;
 	    else
-		sfputc(outs, (char) c);
-	} else if ((c == '\'') || (c == '"')) {
-	    sfputc(outs, (char) c);
+		agxbputc(outs, (char) c);
+	} else if (c == '\'' || c == '"') {
+	    agxbputc(outs, (char) c);
 	    if (endString(ins, outs, c)) return -1;
 	} else
-	    sfputc(outs, (char) c);
+	    agxbputc(outs, (char) c);
     }
 }
 
@@ -298,7 +292,7 @@ static int endBracket(Sfio_t * ins, Sfio_t * outs, char bc, char ec)
  *  returning <string>
  * As a side-effect, set startLine to beginning of content.
  */
-static char *parseBracket(Sfio_t * str, Sfio_t * buf, int bc, int ec)
+static char *parseBracket(Sfio_t * str, agxbuf * buf, int bc, int ec)
 {
     int c;
 
@@ -319,19 +313,19 @@ static char *parseBracket(Sfio_t * str, Sfio_t * buf, int bc, int ec)
 	return 0;
     }
     else
-	return strdup(sfstruse(buf));
+	return agxbdisown(buf);
 }
 
 /* parseAction:
  */
-static char *parseAction(Sfio_t * str, Sfio_t * buf)
+static char *parseAction(Sfio_t * str, agxbuf * buf)
 {
     return parseBracket(str, buf, '{', '}');
 }
 
 /* parseGuard:
  */
-static char *parseGuard(Sfio_t * str, Sfio_t * buf)
+static char *parseGuard(Sfio_t * str, agxbuf * buf)
 {
     return parseBracket(str, buf, '[', ']');
 }
@@ -354,7 +348,8 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
 {
     case_t kind;
 
-    Sfio_t *buf = sfstropen();
+    agxbuf buf;
+    agxbinit(&buf, 0, NULL);
 
     kind = parseKind(str);
     switch (kind) {
@@ -362,17 +357,17 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
     case BeginG:
     case End:
     case EndG:
-	*action = parseAction(str, buf);
+	*action = parseAction(str, &buf);
 	*aline = startLine;
 	if (getErrorErrors ())
 	    kind = Error;
 	break;
     case Edge:
     case Node:
-	*guard = parseGuard(str, buf);
+	*guard = parseGuard(str, &buf);
 	*gline = startLine;
 	if (!getErrorErrors ()) {
-	    *action = parseAction(str, buf);
+	    *action = parseAction(str, &buf);
 	    *aline = startLine;
 	}
 	if (getErrorErrors ())
@@ -383,7 +378,7 @@ parseCase(Sfio_t * str, char **guard, int *gline, char **action,
 	break;
     }
 
-    sfstrclose(buf);
+    agxbfree(&buf);
     return kind;
 }
 
@@ -419,16 +414,15 @@ static case_info *addCase(case_info * last, char *guard, int gline,
 
     if (!guard && !action) {
 	error(ERROR_WARNING,
-	      "Case with neither guard nor action, line %d - ignored",
-	      kwLine);
+	      "Case with neither guard nor action, line %d - ignored", kwLine);
 	return last;
     }
 
-    *cnt = (*cnt) + 1;
+    ++(*cnt);
     item = newof(0, case_info, 1, 0);
     item->guard = guard;
     item->action = action;
-    item->next = 0;
+    item->next = NULL;
     if (guard)
 	item->gstart = gline;
     if (action)
@@ -468,13 +462,13 @@ parse_prog *parseProg(char *input, int isFile)
     char *mode;
     char *guard = NULL;
     char *action = NULL;
-    int more;
-    parse_block *blocklist = 0;
-    case_info *edgelist = 0;
-    case_info *nodelist = 0;
-    parse_block *blockl = 0;
-    case_info *edgel = 0;
-    case_info *nodel = 0;
+    bool more;
+    parse_block *blocklist = NULL;
+    case_info *edgelist = NULL;
+    case_info *nodelist = NULL;
+    parse_block *blockl = NULL;
+    case_info *edgel = NULL;
+    case_info *nodel = NULL;
     int n_blocks = 0;
     int n_nstmts = 0;
     int n_estmts = 0;
@@ -487,7 +481,7 @@ parse_prog *parseProg(char *input, int isFile)
     prog = newof(0, parse_prog, 1, 0);
     if (!prog) {
 	error(ERROR_ERROR, "parseProg: out of memory");
-	return 0;
+	return NULL;
     }
 
     if (isFile) {
@@ -496,7 +490,7 @@ parse_prog *parseProg(char *input, int isFile)
 	
     } else {
 	mode = "rs";
-	prog->source = 0;	/* command line */
+	prog->source = NULL;	/* command line */
     }
 
     str = sfopen(0, input, mode);
@@ -506,16 +500,15 @@ parse_prog *parseProg(char *input, int isFile)
 	else
 	    error(ERROR_ERROR, "parseProg : unable to create sfio stream");
 	free (prog);
-	return 0;
+	return NULL;
     }
     
-    begg_stmt = 0;
-    more = 1;
+    begg_stmt = NULL;
+    more = true;
     while (more) {
 	switch (parseCase(str, &guard, &gline, &action, &line)) {
 	case Begin:
-	    bindAction(Begin, action, line, &(prog->begin_stmt),
-		       &(prog->l_begin));
+	    bindAction(Begin, action, line, &prog->begin_stmt, &prog->l_begin);
 	    break;
 	case BeginG:
 	    if (action && (begg_stmt || nodelist || edgelist)) { /* non-empty block */
@@ -527,21 +520,19 @@ parse_prog *parseProg(char *input, int isFile)
 
 		/* reset values */
 		n_nstmts = n_estmts = 0;
-		edgel = nodel = edgelist = nodelist = 0;
-		begg_stmt = 0;
+		edgel = nodel = edgelist = nodelist = NULL;
+		begg_stmt = NULL;
 	    }
 	    bindAction(BeginG, action, line, &begg_stmt, &l_beging);
 	    break;
 	case End:
-	    bindAction(End, action, line, &(prog->end_stmt),
-		       &(prog->l_end));
+	    bindAction(End, action, line, &prog->end_stmt, &prog->l_end);
 	    break;
 	case EndG:
-	    bindAction(EndG, action, line, &(prog->endg_stmt),
-		       &(prog->l_endg));
+	    bindAction(EndG, action, line, &prog->endg_stmt, &prog->l_endg);
 	    break;
 	case Eof:
-	    more = 0;
+	    more = false;
 	    break;
 	case Node:
 	    nodel = addCase(nodel, guard, gline, action, line, &n_nstmts);
@@ -554,7 +545,7 @@ parse_prog *parseProg(char *input, int isFile)
 		edgelist = edgel;
 	    break;
 	case Error:		/* to silence warnings */
-	    more = 0;
+	    more = false;
 	    break;
 	}
     }
@@ -574,7 +565,7 @@ parse_prog *parseProg(char *input, int isFile)
 
     if (getErrorErrors ()) {
 	freeParseProg (prog);
-	prog = 0;
+	prog = NULL;
     }
 
     return prog;

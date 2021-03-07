@@ -24,6 +24,7 @@
 #endif
 #include "builddate.h"
 #include <gvpr/gprstate.h>
+#include <cgraph/agxbuf.h>
 #include <cgraph/cgraph.h>
 #include <common/globals.h>
 #include <ingraphs/ingraphs.h>
@@ -212,7 +213,7 @@ static char *resolve(char *arg, int Verbose)
     char *cp;
     char c;
     char *fname = 0;
-    Sfio_t *fp;
+    agxbuf fp;
     char *pathp = NULL;
     size_t sz;
 
@@ -234,10 +235,7 @@ static char *resolve(char *arg, int Verbose)
 	path = DFLT_GVPRPATH;
     if (Verbose)
 	fprintf (stderr, "PATH: %s\n", path);
-    if (!(fp = sfstropen())) {
-	error(ERROR_ERROR, "Could not open buffer");
-	return 0;
-    }
+    agxbinit(&fp, 0, NULL);
 
     while (*path && !fname) {
 	if (*path == LISTSEP) {	/* skip colons */
@@ -247,15 +245,14 @@ static char *resolve(char *arg, int Verbose)
 	cp = strchr(path, LISTSEP);
 	if (cp) {
 	    sz = (size_t) (cp - path);
-	    sfwrite(fp, path, sz);
+	    agxbput_n(&fp, path, sz);
 	    path = cp + 1;	/* skip past current colon */
 	} else {
-	    sz = sfprintf(fp, path);
+	    sz = agxbput(&fp, path);
 	    path += sz;
 	}
-	sfputc(fp, PATHSEP);
-	sfprintf(fp, arg);
-	s = sfstruse(fp);
+	agxbprint(&fp, "%c%s", PATHSEP, arg);
+	s = agxbuse(&fp);
 
 	if (access(s, R_OK) == 0) {
 	    fname = strdup(s);
@@ -265,7 +262,7 @@ static char *resolve(char *arg, int Verbose)
     if (!fname)
 	error(ERROR_ERROR, "Could not find file \"%s\" in GVPRPATH", arg);
 
-    sfclose(fp);
+    agxbfree(&fp);
     free(pathp);
     if (Verbose)
 	fprintf (stderr, "file %s resolved to %s\n", arg, fname);
