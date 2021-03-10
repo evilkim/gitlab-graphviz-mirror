@@ -93,7 +93,7 @@ def is_windows_artifact(path: str) -> bool:
   '''
   is this a deployment artifact for Windows?
   '''
-  return re.search(r'\bWindows\b', path) is not None
+  return re.search(r'\bwindows\b', path) is not None
 
 def main(args: List[str]) -> int:
 
