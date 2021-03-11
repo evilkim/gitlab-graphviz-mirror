@@ -202,7 +202,7 @@ double *lab_gamut_from_file(char *gamut_file, const char *lightness, int *n){
 
 
 double *lab_gamut(const char *lightness, int *n){
-  /* give a list of n points  in the file defining the LAB color gamut. return NULL if the mgamut file is not found.
+  /* give a list of n points  in the file defining the LAB color gamut.
      lightness is a string of the form 0,70, or NULL.
    */
   double *xx, *x;
