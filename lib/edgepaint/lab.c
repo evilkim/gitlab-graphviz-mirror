@@ -207,7 +207,7 @@ double *lab_gamut(const char *lightness, int *n){
    */
   double *xx, *x;
 
-  int l1 = 0, l2 = 70, m, i;
+  int l1 = 0, l2 = 70;
 
 
   if (lightness && sscanf(lightness, "%d,%d", &l1, &l2) == 2){
@@ -222,21 +222,27 @@ double *lab_gamut(const char *lightness, int *n){
   if (Verbose)
     fprintf(stderr,"LAB color lightness range = %d,%d\n", l1, l2);
 
-  m = lab_gamut_data_size; 
-
   if (Verbose)
-    fprintf(stderr,"size of lab gamut = %d\n", m);
+    fprintf(stderr,"size of lab gamut = %d\n", lab_gamut_data_size);
+
+  // each L* value can be paired with 256 a* values and 256 b* values, so
+  // compute the maximum number of doubles we will need to span the space
+  size_t m = ((size_t)l2 - (size_t)l1 + 1) * 256 * 256 * 3;
 
   x = malloc(sizeof(double)*m);
   xx = x;
   *n = 0;
-  for (i = 0; i < m; i += 3){
+  for (size_t i = 0; i < (size_t)lab_gamut_data_size; i += 4){
     if (lab_gamut_data[i] >= l1 && lab_gamut_data[i] <= l2){
-      xx[0] = lab_gamut_data[i];
-      xx[1] = lab_gamut_data[i+1];
-      xx[2] = lab_gamut_data[i+2];
-      xx += 3;
-      (*n)++;
+      int b_lower = lab_gamut_data[i + 2];
+      int b_upper = lab_gamut_data[i + 3];
+      for (int b = b_lower; b <= b_upper; ++b) {
+        xx[0] = lab_gamut_data[i];
+        xx[1] = lab_gamut_data[i+1];
+        xx[2] = b;
+        xx += 3;
+        (*n)++;
+      }
     }
   }
 

@@ -21,6 +21,16 @@ extern "C" {
 #endif
 /*end visual studio*/
 
+/** lookup table for the visible spectrum of the CIELAB color space
+ *
+ * This table is entries of 4-tuples of the form (L*, a*, b* lower bound,
+ * b* upper bound). A plain lookup table and/or the use of structs is avoided to
+ * save memory during compilation. Without this, MSVC ~2019 exhausts memory in
+ * CI.
+ *
+ * More information about CIELAB:
+ *   https://en.wikipedia.org/wiki/CIELAB_color_space
+ */
 extern const signed char lab_gamut_data[];
 extern int lab_gamut_data_size;
 
