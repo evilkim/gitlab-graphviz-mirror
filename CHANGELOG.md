@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Windows build thinks xdg-open can be used to open a web browser #1954
 - lab_gamut_data misses a value #1974
+- xdot man page does not document some functions #1957
 
 ## [2.47.0] - 2021-03-15
 

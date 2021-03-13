@@ -151,6 +151,7 @@ xdot* parseXDotFOn (char*, drawfunc_t opfns[], int sz, xdot*);
 xdot* parseXDot (char*);
 char* sprintXDot (xdot*);
 void fprintXDot (FILE*, xdot*);
+void jsonXDot (FILE*, xdot*);
 void freeXDot (xdot*);
 int statXDot (xdot*, xdot_stats*);
 
@@ -269,6 +270,11 @@ with \fIxdot_op\fP having kind \fIxd_grad_pen_color\fP or
 .PP
 For an application that handles its own parsing of xdot, the library
 provides three helper functions.
+.PP
+.SS "  void jsonXDot(FILE * fp, xdot * x)"
+Translate a given \fIxdot\fP object to a JSON representation. This functionality
+is currently considered experimental and the format of the JSON output may not
+be stable across Graphviz releases.
 .PP
 .SS "  xdot_grad_type colorTypeXDot (char *str)"
 returns the color type described by the input string.
