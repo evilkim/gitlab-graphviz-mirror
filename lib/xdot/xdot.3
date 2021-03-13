@@ -147,6 +147,7 @@ typedef struct {
 } xdot_stats;
 
 xdot* parseXDotF (char*, drawfunc_t opfns[], int sz);
+xdot* parseXDotFOn (char*, drawfunc_t opfns[], int sz, xdot*);
 xdot* parseXDot (char*);
 char* sprintXDot (xdot*);
 void fprintXDot (FILE*, xdot*);
@@ -242,6 +243,9 @@ size \fIsz\fP.
 If \fIopfns\fP is non-zero, it is taken to be any array of functions
 indexed by \fIxop_kind\fP. During parsing, the \fIdrawfunc\fP member
 of \fIxop_op\fP will be set to the corresponding function in \fIopfns\fP.
+.PP
+.SS "  xdot* parseXDotFOn (char *str, drawfunc_t* opfns, int sz, xdot* x)"
+The same as \fIparseXDotF\fP, but append to the given \fIxdot\fP object \fIx\fP.
 .PP
 .SS "  xdot* parseXDot (char *str)"
 This is equivalent to \fIparseXDotF(str, 0, 0)\fP .
