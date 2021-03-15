@@ -413,7 +413,7 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     /* Write first point in line */
     count++;
     PF2P(A[0], p);
-    gvprintf(job, "  %d %d", p.x, p.y);
+    gvprintf(job, "move to (%d, %d)", p.x, p.y);
     /* write subsequent points */
     for (i = 0; i + 3 < n; i += 3) {
         V[0] = V[3];
@@ -425,14 +425,10 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
             count++;
             pf = Bezier (V, 3, (double) step / BEZIERSUBDIVISION, NULL, NULL);
 	    PF2P(pf, p);
-            gvprintf(job, " %d %d", p.x, p.y);
+            gvprintf(job, "; spline to (%d, %d)", p.x, p.y);
         }
     }
 
-    gvputs(job, "\n");
-    for (i = 0; i < count; i++) {
-        gvprintf(job, " %d", i % (count + 1) ? 1 : 0);   /* -1 on all */
-    }
     gvputs(job, "\n");
 }
 
