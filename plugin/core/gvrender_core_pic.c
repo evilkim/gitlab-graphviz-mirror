@@ -135,11 +135,15 @@ static void picptarray(GVJ_t *job, pointf * A, int n, int close)
 
     for (i = 0; i < n; i++) {
 	PF2P(A[i],p);
-        gvprintf(job, " %d %d", p.x, p.y);
+        if (i == 0) {
+            gvprintf(job, "move to (%d, %d)", p.x, p.y);
+        } else {
+            gvprintf(job, "; line to (%d, %d)", p.x, p.y);
+        }
     }
     if (close) {
 	PF2P(A[0],p);
-        gvprintf(job, " %d %d", p.x, p.y);
+        gvprintf(job, "; line to (%d, %d)", p.x, p.y);
     }
     gvputs(job, "\n");
 }
