@@ -56,7 +56,7 @@ static double Fontscale;
   The first approach is used here.
 */
 
-static const char *EscComment = ".\\\" ";       /* troff comment */
+static const char EscComment[] = "# ";       /* PIC comment */
 static const char picgen_msghdr[] = "dot pic plugin: ";
 
 static void unsupported(char *s)
