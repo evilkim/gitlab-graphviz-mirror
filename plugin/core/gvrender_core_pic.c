@@ -380,7 +380,7 @@ static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
     /* A[] contains 2 points: the center and corner. */
 
     gvprintf(job,
-		"ellipse attrs%d %swid %.5f ht %.5f at (%.5f,%.5f);\n", 1,
+		"ellipse attrs0 %swid %.5f ht %.5f at (%.5f,%.5f);\n",
 		filled ? "fill " : "",
 		PS2INCH(2*(A[1].x - A[0].x)),
 		PS2INCH(2*(A[1].y - A[0].y)),
