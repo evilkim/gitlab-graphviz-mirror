@@ -4,9 +4,6 @@
 #include "builddate.h"
 #include "version.h"
 
-/* Command to open a browser on a URL */
-#define BROWSER "xdg-open"
-
 #define HAVE_ARGZ_APPEND 0
 
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
