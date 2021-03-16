@@ -87,7 +87,6 @@
     <ClInclude Include="edgelist.h" />
     <ClInclude Include="nodelist.h" />
     <ClInclude Include="nodeset.h" />
-    <ClInclude Include="stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="block.c" />
