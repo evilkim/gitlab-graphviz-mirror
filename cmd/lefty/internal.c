@@ -28,6 +28,7 @@
 #include "gmap2l.h"
 #endif
 #include "internal.h"
+#include <string.h>
 #ifndef FEATURE_MS
 #include <sys/time.h>
 #endif
@@ -404,7 +405,7 @@ int Isplit (int argc, lvar_t *argv) {
     qflag = (argc == 3) ? FALSE : TRUE;
     sp = Tgetstring (so);
     s = Tgetstring (fo);
-    if (s[0] == '\\' && s[1] == 'n')
+    if (strncmp(s, "\\n", 2) == 0)
         fc = '\n';
     else
         fc = s[0];
@@ -417,7 +418,7 @@ int Isplit (int argc, lvar_t *argv) {
             Tinsi (rtno, rtni++, Tstring (sp2));
             *(sp2 + 1) = tc;
         }
-    } else if (qflag && (fc == ' ' || fc == '	')) {
+    } else if (qflag && (fc == ' ' || fc == '\t')) {
         while (*sp == fc)
             sp++;
         while (*sp) {
@@ -484,14 +485,14 @@ int Iconcat (int argc, lvar_t *argv) {
         case T_INTEGER:
             if (bufi + 50 > bufn)
                 growbufp (bufi + 50);
-            sprintf (buf2, "%ld", Tgetinteger (ao));
+            snprintf(buf2, sizeof(buf2), "%ld", Tgetinteger (ao));
             for (s = buf2; *s; s++)
                 bufp[bufi++] = *s;
             break;
         case T_REAL:
             if (bufi + 50 > bufn)
                 growbufp (bufi + 50);
-            sprintf (buf2, "%f", Tgetreal (ao));
+            snprintf(buf2, sizeof(buf2), "%f", Tgetreal (ao));
             for (s = buf2; *s; s++)
                 bufp[bufi++] = *s;
             break;
@@ -519,11 +520,11 @@ int Iquote (int argc, lvar_t *argv) {
         s = Tgetstring (so);
         break;
     case T_INTEGER:
-        sprintf (buf2, "%ld", Tgetinteger (so));
+        snprintf(buf2, sizeof(buf2), "%ld", Tgetinteger (so));
         s = &buf2[0];
         break;
     case T_REAL:
-        sprintf (buf2, "%f", Tgetreal (so));
+        snprintf(buf2, sizeof(buf2), "%f", Tgetreal (so));
         s = &buf2[0];
         break;
     }
@@ -616,7 +617,7 @@ int Iload (int argc, lvar_t *argv) {
     Tobj co;
 
     if ((fn = Tgetstring (argv[0].o))) {
-        if (fn[0] == '-' && fn[1] == '\000')
+        if (strcmp(fn, "-") == 0)
             fp = stdin;
         else {
             fp = NULL;

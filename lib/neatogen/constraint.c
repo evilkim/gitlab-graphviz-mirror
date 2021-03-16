@@ -467,10 +467,10 @@ static void constrainY(graph_t* g, nitem* nlist, int nnodes, intersectfn ifn,
 	node_t *n;
 	edge_t *e;
 	for (n = agfstnode(cg); n; n = agnxtnode(cg, n)) {
-	    sprintf(buf, "%d", ND_rank(n));
+	    snprintf(buf, sizeof(buf), "%d", ND_rank(n));
 	    agxset(n, rksym, buf);
 	    for (e = agfstedge(cg, n); e; e = agnxtedge(cg, e, n)) {
-		sprintf(buf, "%d", ED_minlen(e));
+		snprintf(buf, sizeof(buf), "%d", ED_minlen(e));
 		agxset(e, mlsym, buf);
 	    }
 	}

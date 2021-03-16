@@ -86,11 +86,11 @@ static char* nname(node_t* v)
         static char buf[1000];
 	if (ND_node_type(v)) {
 		if (ND_ranktype(v) == CLUSTER)
-			sprintf (buf, "v%s_%p", agnameof(ND_clust(v)), v);
+			snprintf(buf, sizeof(buf), "v%s_%p", agnameof(ND_clust(v)), v);
 		else
-			sprintf (buf, "v_%p", v);
+			snprintf(buf, sizeof(buf), "v_%p", v);
 	} else
-		sprintf (buf, "%s", agnameof(v));
+		snprintf(buf, sizeof(buf), "%s", agnameof(v));
 	return buf;
 }
 static void dumpg (graph_t* g)
@@ -302,7 +302,7 @@ checkLabelOrder (graph_t* g)
 	    u = rk->v[j];
 	    if ((e = (edge_t*)ND_alg(u))) {
 		if (!lg) lg = agopen ("lg", Agstrictdirected, 0);
-		sprintf (buf, "%d", j);
+		snprintf(buf, sizeof(buf), "%d", j);
 		n = agnode(lg, buf, 1);
 		agbindrec(n, "info", sizeof(info_t), 1);
 		lo = ND_order(aghead(ND_out(u).list[0]));

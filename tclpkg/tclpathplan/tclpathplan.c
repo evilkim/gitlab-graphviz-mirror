@@ -126,9 +126,9 @@ static void dgsprintxy(Tcl_DString * result, int npts, point p[])
     if (npts != 1)
 	Tcl_DStringStartSublist(result);
     for (i = 0; i < npts; i++) {
-	sprintf(buf, "%g", p[i].x);
+	snprintf(buf, sizeof(buf), "%g", p[i].x);
 	Tcl_DStringAppendElement(result, buf);
-	sprintf(buf, "%g", p[i].y);
+	snprintf(buf, sizeof(buf), "%g", p[i].y);
 	Tcl_DStringAppendElement(result, buf);
     }
     if (npts != 1)
@@ -195,7 +195,7 @@ void triangle_callback(void *vgparg, point pqr[])
 /*	    TBL_ENTRY((tblHeader_pt)vgpaneTable, (ubyte_pt)vgp));*/
 
     if (vgp->triangle_cmd) {
-	sprintf(vbuf, "vgpane%lu",
+	snprintf(vbuf, sizeof(vbuf), "vgpane%lu",
 		(uint64_t) (((ubyte_pt) vgp - (vgpaneTable->bodyPtr))
 				 / (vgpaneTable->entrySize)));
 	expandPercentsEval(vgp->interp, vgp->triangle_cmd, vbuf, 3, pqr);
@@ -391,9 +391,9 @@ static void appendpoint(Tcl_Interp * interp, point p)
 {
     char buf[30];
 
-    sprintf(buf, "%g", p.x);
+    snprintf(buf, sizeof(buf), "%g", p.x);
     Tcl_AppendElement(interp, buf);
-    sprintf(buf, "%g", p.y);
+    snprintf(buf, sizeof(buf), "%g", p.y);
     Tcl_AppendElement(interp, buf);
 }
 
@@ -527,7 +527,7 @@ vgpanecmd(ClientData clientData, Tcl_Interp * interp, int argc,
 	/* determine the polygons (if any) that contain the point */
 	for (i = 0; i < vgp->Npoly; i++) {
 	    if (in_poly(vgp->poly[i].boundary, p)) {
-		sprintf(vbuf, "%d", vgp->poly[i].id);
+		snprintf(vbuf, sizeof(vbuf), "%d", vgp->poly[i].id);
 		Tcl_AppendElement(interp, vbuf);
 	    }
 	}
@@ -568,14 +568,14 @@ vgpanecmd(ClientData clientData, Tcl_Interp * interp, int argc,
 	if (result != TCL_OK)
 	    return result;
 
-	sprintf(vbuf, "%d", polyid);
+	snprintf(vbuf, sizeof(vbuf), "%d", polyid);
 	Tcl_AppendResult(interp, vbuf, (char *) NULL);
 	return TCL_OK;
 
     } else if ((c == 'l') && (strncmp(argv[1], "list", length) == 0)) {
 	/* return list of polygon ids */
 	for (i = 0; i < vgp->Npoly; i++) {
-	    sprintf(vbuf, "%d", vgp->poly[i].id);
+	    snprintf(vbuf, sizeof(vbuf), "%d", vgp->poly[i].id);
 	    Tcl_AppendElement(interp, vbuf);
 	}
 	return TCL_OK;

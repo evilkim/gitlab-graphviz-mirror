@@ -17,6 +17,7 @@
 #include "str.h"
 #include "exec.h"
 #include "internal.h"
+#include <string.h>
 
 static lvar_t *lvarp;
 static int lvarn, llvari, flvari;
@@ -989,7 +990,7 @@ static void printbody (char *s, int mode) {
     }
     c = '\000';
     for (s1 = s; *s1; s1++)
-        if (*s1 == '>' && *(s1 + 1) && *(s1 + 1) == '>')
+        if (strncmp(s1, ">>", 2) == 0)
             break;
     if (!*s1)
         return;

@@ -90,7 +90,7 @@ static void auto_output_filename(GVJ_t *job)
     size_t len;
 
     if (job->graph_index)
-        sprintf(gidx, ".%d", job->graph_index + 1);
+        snprintf(gidx, sizeof(gidx), ".%d", job->graph_index + 1);
     else
         gidx[0] = '\0';
     if (!(fn = job->input_filename))

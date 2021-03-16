@@ -131,8 +131,8 @@ tok = name;
             tok = "none";
         } else {
 //            colorxlate(name, &color, RGBA_BYTE);
-            sprintf(buf, "#%02x%02x%02x",
-                    color.u.rgba[0], color.u.rgba[1], color.u.rgba[2]);
+            snprintf(buf, sizeof(buf), "#%02x%02x%02x",
+                     color.u.rgba[0], color.u.rgba[1], color.u.rgba[2]);
             tok = buf;
         }
     }

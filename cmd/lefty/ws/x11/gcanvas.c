@@ -17,6 +17,7 @@
 #ifdef FEATURE_GMAP
 #include <gmap.h>
 #endif
+#include <string.h>
 
 #define WCU widget->u.c
 #define WINDOW widget->u.c->window
@@ -866,7 +867,7 @@ static XFontStruct *findfont (char *name, int size) {
     XFontStruct *font;
     int fi, n, i;
 
-    if (name[0] == '\000')
+    if (strcmp(name, "") == 0)
         return Gfontp[0].font;
 
     sprintf (&Gbufp[0], name, size);

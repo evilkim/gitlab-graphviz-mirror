@@ -884,7 +884,7 @@ static void movenode(void *obj, float dx, float dy)
 
     if ((AGTYPE(obj) == AGNODE) && (pos = agattrsym(obj, "pos"))) {
 	sscanf(agxget(obj, pos), "%lf,%lf", &x, &y);
-	sprintf(buf, "%lf,%lf", x - dx, y - dy);
+	snprintf(buf, sizeof(buf), "%lf,%lf", x - dx, y - dy);
 	agxset(obj, pos, buf);
     }
 }

@@ -373,7 +373,7 @@ void D2Lwritegraph (int ioi, Tobj graph, int flag) {
             if ((to = Tfinds (edge, "attr")))
                 writeattr (ioi, to, buf);
             if (flag) {
-                sprintf (buf, "\t\tid = %d", i);
+                snprintf(buf, sizeof(buf), "\t\tid = %d", i);
                 IOwriteline (ioi, buf);
             }
             IOwriteline (ioi, "\t]");

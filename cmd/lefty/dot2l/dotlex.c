@@ -16,6 +16,7 @@ typedef void *Tobj;
 #include "dot2l.h"
 #include "leftyio.h"
 #include "triefa.c"
+#include <string.h>
 
 static int syntax_errors;
 static int lexer_fd;
@@ -67,7 +68,7 @@ int yylex (void) {
 
     /* get a nonempty lex buffer */
     do {
-        if ((lexptr == NULL) || (lexptr[0] == '\0'))
+        if ((lexptr == NULL) || strcmp(lexptr, "") == 0)
             if ((lexptr = lex_gets (0)) == NULL) {
                 if (in_comment)
                     fprintf (
@@ -78,7 +79,7 @@ int yylex (void) {
                 return EOF;
             }
         lexptr = skip_wscomments (lexptr);
-    } while (lexptr[0] == '\0');
+    } while (strcmp(lexptr, "") == 0);
 
     /* scan quoted strings */
     if (lexptr[0] == '\"') {
@@ -249,7 +250,7 @@ static char *scan_token (char *p) {
     char *q;
 
     q = lexbuf;
-    if (!p || *p == '\0')
+    if (!p || strcmp(p, "") == 0)
         return NULL;
     while (isalnum (*p) || (*p == '_') || (!isascii (*p)))
         *q++ = *p++;
@@ -307,7 +308,7 @@ static char *quoted_string (char *p) {
         }
         *q++ = *p++;
     }
-    if (*p == '\0')
+    if (strcmp(p, "") == 0)
         yyerror ("string ran past end of line", "");
     else
         p++;

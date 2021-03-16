@@ -1191,11 +1191,11 @@ int GFXdisplaymenu (int argc, lvar_t *argv) {
             entries[0] = Tgetstring (meo);
             break;
         case T_INTEGER:
-            sprintf (buf, "%d", (int) Tgetnumber (meo));
+            snprintf(buf, sizeof(buf), "%d", (int) Tgetnumber (meo));
             entries[0] = &buf[0];
             break;
         case T_REAL:
-            sprintf (buf, "%f", Tgetnumber (meo));
+            snprintf(buf, sizeof(buf), "%f", Tgetnumber (meo));
             entries[0] = &buf[0];
             break;
         }

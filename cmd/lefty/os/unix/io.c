@@ -18,6 +18,7 @@
 #include "mem.h"
 #include <fcntl.h>
 #include <signal.h>
+#include <string.h>
 #include <sys/wait.h>
 #ifndef HAVE_TERMIOS_H
 #include <termio.h>
@@ -381,9 +382,9 @@ static int findpty (int *fd) {
 
     for (majorp = ptymajor; *majorp; majorp++) {
         for (minorp = ptyminor; *minorp; minorp++) {
-            sprintf (pty, "/dev/pty%c%c", *majorp, *minorp);
+            snprintf(pty, sizeof(pty), "/dev/pty%c%c", *majorp, *minorp);
             if ((fd[0] = open (pty, O_RDWR)) >= 0) {
-                sprintf (tty, "/dev/tty%c%c", *majorp, *minorp);
+                snprintf(tty, sizeof(tty), "/dev/tty%c%c", *majorp, *minorp);
                 if ((fd[1] = open (tty, O_RDWR)) >= 0) {
 #ifndef HAVE_TERMIOS_H
                     ioctl (fd[1], TCGETA, &tio);
@@ -418,8 +419,8 @@ static void pipeopen (char *cmd, FILE **ifp, FILE **ofp, int *pidp) {
     case 0:
         close (p1[0]), close (p2[1]);
         for (s = cmd; *s; s++)
-            if (*s == '%' && *(s + 1) && *(s + 1) == 'd') {
-                sprintf (cmd2, cmd, p2[0], p1[1]);
+            if (strncmp(s, "%d", 2) == 0) {
+                snprintf(cmd2, sizeof(cmd2), cmd, p2[0], p1[1]);
                 execl (shell, shbname, "-c", cmd2, NULL);
                 panic2 (POS, "pipeopen", "child cannot exec: %s\n", cmd2);
             }

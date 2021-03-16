@@ -543,15 +543,13 @@ void spring_electrical_embedding_fast(int dim, SparseMatrix A0, spring_electrica
 
 #ifdef GVIEWER
     if (Gviewer){
-      char *lab;
-      lab = MALLOC(sizeof(char)*100);
-      sprintf(lab,"sfdp, iter=%d", iter);
+      char lab[100];
+      snprintf(lab, sizeof(lab), "sfdp, iter=%d", iter);
       gviewer_set_label(lab);
       gviewer_reset_graph_coord(A, dim, x);
       drawScene();
       gviewer_dump_current_frame();
       //if ((adaptive_cooling && iter%100 == 0) || (!adaptive_cooling && iter%10 == 0)) gviewer_dump_current_frame();
-      FREE(lab);
     }
 #endif
 
@@ -1030,15 +1028,14 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 #endif
 #ifdef GVIEWER
     if (Gviewer){
-      char *lab;
-      lab = MALLOC(sizeof(char)*100);
-      sprintf(lab,"sfdp, adaptive_cooling = %d iter=%d", adaptive_cooling, iter);
+      char lab[100];
+      snprintf(lab, sizeof(lab), "sfdp, adaptive_cooling = %d iter=%d",
+               adaptive_cooling, iter);
       gviewer_set_label(lab);
       gviewer_reset_graph_coord(A, dim, x);
       drawScene();
       gviewer_dump_current_frame();
       //if ((adaptive_cooling && iter%100 == 0) || (!adaptive_cooling && iter%10 == 0)) gviewer_dump_current_frame();
-      FREE(lab);
     }
 #endif
 

@@ -24,49 +24,6 @@ typedef struct {
 
 #define ND_id(n)  (((Agnodeinfo_t*)((n)->base.data))->id)
 
-#if 0
-static void
-posStr (int len_buf, char* buf, int dim, real* x, double sc)
-{
-  char s[1000];
-  int i;
-  int len = 0;
-
-  buf[0] = '\0';
-  for (i = 0; i < dim; i++){
-    if (i < dim - 1){
-      sprintf(s,"%f,",sc*x[i]);
-    } else {
-      sprintf(s,"%f",sc*x[i]);
-    }
-    len += strlen(s);
-    assert(len < len_buf);
-    buf = strcat(buf, s);
-  } 
-}
-
-static void 
-attach_embedding (Agraph_t* g, int dim, double sc, real *x)
-{
-  Agsym_t* sym = agattr(g, AGNODE, "pos", NULL); 
-  Agnode_t* n;
-#define SLEN 1024
-  char buf[SLEN];
-  int i = 0;
-
-  if (!sym)
-    sym = agattr (g, AGNODE, "pos", "");
-
-  for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
-    assert (i == ND_id(n));
-    posStr (SLEN, buf, dim, x + i*dim, sc);
-    agxset (n, sym, buf);
-    i++;
-  }
-  
-}
-#endif
-
 static void color_string(int slen, char *buf, int dim, real *color){
   if (dim > 3 || dim < 1){
     fprintf(stderr,"can only 1, 2 or 3 dimensional color space. with color value between 0 to 1\n");
@@ -480,14 +437,14 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   } else {
     g = agopen ("G", Agdirected, 0);
   }
-  sprintf (buf, "%f", 1.0);
+  snprintf(buf, sizeof(buf), "%f", 1.0);
 
   label_string = strcpy(label_string, name);
   label_string = strcat(label_string, ". ");
-  sprintf (buf, "%d", A->m);
+  snprintf(buf, sizeof(buf), "%d", A->m);
   label_string = strcat(label_string, buf);
   label_string = strcat(label_string, " nodes, ");
-  sprintf (buf, "%d", A->nz);
+  snprintf(buf, sizeof(buf), "%d", A->nz);
   label_string = strcat(label_string, buf);
   /*  label_string = strcat(label_string, " edges. Created by Yifan Hu");*/
   label_string = strcat(label_string, " edges.");
@@ -535,7 +492,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
     sym3 = agattr(g, AGEDGE, "wt", ""); 
   }
   for (i = 0; i < A->m; i++) {
-    sprintf (buf, "%d", i);
+    snprintf(buf, sizeof(buf), "%d", i);
     n = mkNode (g, buf);
     ND_id(n) = i;
     arr[i] = n;
@@ -595,36 +552,36 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
       if (val){
 	switch (A->type){
 	case MATRIX_TYPE_REAL:
-	  sprintf (buf, "%f", ((real*)A->a)[j]);
+	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[j]);
 	  break;
 	case MATRIX_TYPE_INTEGER:
-	  sprintf (buf, "%d", ((int*)A->a)[j]);
+	  snprintf(buf, sizeof(buf), "%d", ((int*)A->a)[j]);
 	  break;
 	case MATRIX_TYPE_COMPLEX:/* take real part as weight */
-	  sprintf (buf, "%f", ((real*)A->a)[2*j]);
+	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[2*j]);
 	  break;
 	}
 	if (with_color) {
           if (i != ja[j]){
-            sprintf (buf2, "%s", hue2rgb(.65*color[j], cstring));
+            snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
           } else {
-            sprintf (buf2, "#000000");
+            snprintf(buf2, sizeof(buf2), "#000000");
           }
         }
       } else {
-	sprintf (buf, "%f", 1.);
+	snprintf(buf, sizeof(buf), "%f", 1.);
         if (with_color) {
           if (i != ja[j]){
-            sprintf (buf2, "%s", hue2rgb(.65*color[j], cstring));
+            snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
           } else {
-            sprintf (buf2, "#000000");
+            snprintf(buf2, sizeof(buf2), "#000000");
           }
         }
      }
       e = agedge (g, n, h, NULL, 1);
       if (with_color) {
 	agxset (e, sym2, buf2);
-	sprintf (buf2, "%f", color[j]);
+	snprintf(buf2, sizeof(buf2), "%f", color[j]);
 	agxset (e, sym3, buf2);
       }
     }
@@ -647,17 +604,9 @@ char *cat_string(char *s1, char *s2){
 }
 
 static char *cat_string3(char *s1, char *s2, char *s3, int id){
-  char *s;
-  char sid[1000];
-  sprintf(sid,"%d",id);
-  s = malloc(sizeof(char)*(strlen(s1)+strlen(s2)+strlen(s3)+strlen(sid)+1+3));
-  strcpy(s,s1);
-  strcat(s,"|");
-  strcat(s,s2);
-  strcat(s,"|");
-  strcat(s,s3);
-  strcat(s,"|");
-  strcat(s,sid);
+  size_t len = (size_t)snprintf(NULL, 0, "%s|%s|%s|%d", s1, s2, s3, id) + 1;
+  char *s = malloc(sizeof(char) * len);
+  snprintf(s, len, "%s|%s|%s|%d", s1, s2, s3, id);
   return s;
 }
 
@@ -744,7 +693,7 @@ Agraph_t* assign_random_edge_color(Agraph_t* g){
   sym2 = agattr(g, AGEDGE, "color", ""); 
   for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
     for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
-      sprintf (buf2, "%s", hue2rgb(0.65*drand(), cstring));
+      snprintf(buf2, sizeof(buf2), "%s", hue2rgb(0.65*drand(), cstring));
       agxset (ep, sym2, buf2);
     }
   }
@@ -952,7 +901,7 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
     for (i = 0; i < nnodes; i++) (*clusters)[i]++;/* make into 1 based */
     for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
       i = ND_id(n);
-      sprintf(scluster,"%d",(*clusters)[i]);
+      snprintf(scluster, sizeof(scluster), "%d", (*clusters)[i]);
       agxset(n,clust_sym,scluster);
     }
     MIN_GRPS = 1;

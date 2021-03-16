@@ -281,7 +281,7 @@ static char *NAME(node_t * n)
     static char buf[20];
     if (ND_node_type(n) == NORMAL)
 	return agnameof(n);
-    sprintf(buf, "V%p", n);
+    snprintf(buf, sizeof(buf), "V%p", n);
     return buf;
 }
 

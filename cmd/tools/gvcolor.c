@@ -221,7 +221,7 @@ static void color(Agraph_t * g)
 	    s = Defcolor[1];
 	    b = Defcolor[2];
 	}
-	sprintf(buf, "%f %f %f", h, s, b);
+	snprintf(buf, sizeof(buf), "%f %f %f", h, s, b);
 	agset(n, "color", buf);
     }
     free (nlist);

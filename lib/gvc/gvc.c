@@ -66,13 +66,13 @@ int gvLayout(GVC_t *gvc, graph_t *g, const char *engine)
  * doesn't yet include margins, scaling or page sizes because
  * those depend on the renderer being used. */
     if (GD_drawing(g)->landscape)
-        sprintf(buf, "%d %d %d %d",
-                ROUND(GD_bb(g).LL.y), ROUND(GD_bb(g).LL.x),
-                ROUND(GD_bb(g).UR.y), ROUND(GD_bb(g).UR.x));
+        snprintf(buf, sizeof(buf), "%d %d %d %d",
+                 ROUND(GD_bb(g).LL.y), ROUND(GD_bb(g).LL.x),
+                 ROUND(GD_bb(g).UR.y), ROUND(GD_bb(g).UR.x));
     else
-        sprintf(buf, "%d %d %d %d",
-                ROUND(GD_bb(g).LL.x), ROUND(GD_bb(g).LL.y),
-                ROUND(GD_bb(g).UR.x), ROUND(GD_bb(g).UR.y));
+        snprintf(buf, sizeof(buf), "%d %d %d %d",
+                 ROUND(GD_bb(g).LL.x), ROUND(GD_bb(g).LL.y),
+                 ROUND(GD_bb(g).UR.x), ROUND(GD_bb(g).UR.y));
     agsafeset(g, "bb", buf, "");
 
     return 0;

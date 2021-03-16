@@ -1376,7 +1376,7 @@ static char *nToName(int c)
     if (c < sizeof(nnames) / sizeof(char *))
 	return nnames[c];
 
-    sprintf(name, "%d", c);
+    snprintf(name, sizeof(name), "%d", c);
     return name;
 }
 

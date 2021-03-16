@@ -446,7 +446,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 	    Agraph_t *subg;
 	    if (isAnonGraph((char *) id)) {
 		static int anon_id = 1;
-		sprintf(buf, "%%%d", anon_id++);
+		snprintf(buf, sizeof(buf), "%%%d", anon_id++);
 		id = buf;
 	    }
 	    subg = agsubg(G, (char *) id, 1);

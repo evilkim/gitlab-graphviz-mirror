@@ -269,11 +269,11 @@ attach_phase_attrs (Agraph_t * g, int maxphase)
 
     for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
 	if (maxphase >= 1) {
-	    sprintf(buf, "%d", ND_rank(n));
+	    snprintf(buf, sizeof(buf), "%d", ND_rank(n));
 	    ag_xset(n,rk,buf);
 	}
 	if (maxphase >= 2) {
-	    sprintf(buf, "%d", ND_order(n));
+	    snprintf(buf, sizeof(buf), "%d", ND_order(n));
 	    ag_xset(n,order,buf);
 	}
     }

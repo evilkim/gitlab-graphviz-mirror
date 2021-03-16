@@ -240,59 +240,6 @@ static v_data *makeGraph(Agraph_t* gg, int *nedges)
     return graph;
 }
 
-
-
-
-#if 0
-static v_data *makeGraph_old(topview * tv, int *nedges)
-{
-    int i;
-    int ne = tv->Edgecount;	/* upper bound */
-    int nv = tv->Nodecount;
-    v_data *graph = N_NEW(nv, v_data);
-    int *edges = N_NEW(2 * ne + nv, int);	/* reserve space for self loops */
-    float *ewgts = N_NEW(2 * ne + nv, float);
-    Agnode_t *np;
-    Agedge_t *ep;
-    Agraph_t *g = NULL;
-    int i_nedges;
-
-    ne = 0;
-    for (i = 0; i < nv; i++) {
-	graph[i].edges = edges++;	/* reserve space for the self loop */
-	graph[i].ewgts = ewgts++;
-#ifdef STYLES
-	graph[i].styles = NULL;
-#endif
-	i_nedges = 1;		/* one for the self */
-
-	np = tv->Nodes[i].Node;
-	if (!g)
-	    g = agraphof(np);
-	for (ep = agfstedge(g, np); ep; ep = agnxtedge(g, ep, np))
-	{
-	    Agnode_t *vp;
-	    Agnode_t *tp = agtail(ep);
-	    Agnode_t *hp = aghead(ep);
-	    assert(hp != tp);
-	    /* FIX: handle multiedges */
-	    vp = (tp == np ? hp : tp);
-	    ne++;
-	    i_nedges++;
-	    *edges++ = ((temp_node_record *) AGDATA(vp))->TVref;
-	    *ewgts++ = 1;
-	}
-
-	graph[i].nedges = i_nedges;
-	graph[i].edges[0] = i;
-	graph[i].ewgts[0] = 1 - i_nedges;
-    }
-    ne /= 2;			/* each edge counted twice */
-    *nedges = ne;
-    return graph;
-}
-#endif
-
 static void refresh_old_values(topview * t)
 {
     int level, v;
@@ -407,33 +354,6 @@ void prepare_topological_fisheye(Agraph_t* g,topview * t)
 
 }
 
-#if 0
-/*
-	draws all level 0 nodes and edges, during animation
-*/
-void printalllevels(topview * t)
-{
-    int level, v;
-    Hierarchy *hp = t->fisheyeParams.h;
-    glPointSize(5);
-    glBegin(GL_POINTS);
-    for (level = 0; level < hp->nlevels; level++) {
-	for (v = 0; v < hp->nvtxs[level]; v++) {
-	    ex_vtx_data *gg = hp->geom_graphs[level];
-	    if (gg[v].active_level == level) {
-		double x0, y0;
-		get_temp_coords(t, level, v, &x0, &y0);
-		glColor3f((GLfloat) (hp->nlevels - level) /
-			  (GLfloat) hp->nlevels,
-			  (GLfloat) level / (GLfloat) hp->nlevels, 0);
-		glVertex3f((GLfloat) x0, (GLfloat) y0, (GLfloat) 0);
-	    }
-	}
-    }
-    glEnd();
-}
-#endif
-
 static void drawtopfishnodes(topview * t)
 {
     glCompColor srcColor;
@@ -495,52 +415,6 @@ static void drawtopfishnodes(topview * t)
 
 }
 
-#if 0
-static void drawtopfishnodelabels(topview * t)
-{
-    int v, finenodes, focusnodes;
-    char buf[512];
-    char *str;
-    Hierarchy *hp = t->fisheyeParams.h;
-    finenodes = focusnodes = 0;
-    str =
-	agget(view->g[view->activeGraph],
-	      "topologicalfisheyelabelfinenodes");
-    if (strcmp(str, "1") == 0) {
-	finenodes = 1;
-    }
-    str =
-	agget(view->g[view->activeGraph], "topologicalfisheyelabelfocus");
-    if (strcmp(str, "1") == 0) {
-	focusnodes = 1;
-    }
-    if ((finenodes) || (focusnodes)) {
-	for (v = 0; v < hp->nvtxs[0]; v++) {
-	    ex_vtx_data *gg = hp->geom_graphs[0];
-	    if (gg[v].active_level == 0) {
-		if (view->Topview->Nodes[v].Label)
-		    strcpy(buf, view->Topview->Nodes[v].Label);
-		else
-		    sprintf(buf, "%d", v);
-
-		if ((v == t->fisheyeParams.fs->foci_nodes[0]) && (focusnodes)) {
-		    glColor4f((float) 0, (float) 0, (float) 1, (float) 1);
-		    glprintfglut(GLUT_BITMAP_HELVETICA_18,
-				 gg[v].physical_x_coord,
-				 gg[v].physical_y_coord, 0, buf);
-		} else if (finenodes) {
-		    glColor4f(0, 0, 0, 1);
-		    glprintfglut(GLUT_BITMAP_HELVETICA_10,
-				 gg[v].physical_x_coord,
-				 gg[v].physical_y_coord, 0, buf);
-		}
-	    }
-
-	}
-    }
-
-}
-#endif
 static void drawtopfishedges(topview * t)
 {
     glCompColor srcColor;
@@ -714,39 +588,6 @@ int get_temp_coords(topview * t, int level, int v, double *coord_x,
     }
     return 1;
 }
-
-
-
-/*  In loop,
- *  update fs.
- *    For example, if user clicks mouse at (p.x,p.y) to pick a single new focus,
- *      int closest_fine_node;
- *      find_closest_active_node(hierarchy, p.x, p.y, &closest_fine_node);
- *      fs->num_foci = 1;
- *      fs->foci_nodes[0] = closest_fine_node;
- *      fs->x_foci[0] = hierarchy->geom_graphs[cur_level][closest_fine_node].x_coord;
- *      fs->y_foci[0] = hierarchy->geom_graphs[cur_level][closest_fine_node].y_coord;
- *  set_active_levels(hierarchy, fs->foci_nodes, fs->num_foci);
- *  positionAllItems(hierarchy, fs, parms)
- */
-
-#if 0
-void infotopfisheye(topview * t, float *x, float *y, float *z)
-{
-
-    Hierarchy *hp = t->fisheyeParams.h;
-    int closest_fine_node;
-    find_closest_active_node(hp, *x, *y, &closest_fine_node);
-
-
-
-
-/*		hp->geom_graphs[0][closest_fine_node].x_coord;
-	    hp->geom_graphs[0][closest_fine_node].y_coord;*/
-}
-#endif
-
-
 
 void changetopfishfocus(topview * t, float *x, float *y,
 			float *z, int num_foci)
