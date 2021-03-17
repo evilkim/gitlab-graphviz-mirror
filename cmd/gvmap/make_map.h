@@ -20,12 +20,6 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points, in
 				   int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, 
 				   SparseMatrix *country_graph, int highlight_cluster, int *flag);
 
-int make_map_from_point_groups(int exclude_random, int include_OK_points, int n, int dim, real *x, int *grouping, SparseMatrix graph, real bounding_box_margin[], int *nrandom,
-			       real shore_depth_tol, real edge_bridge_tol, real **xcombined, int *nverts, real **x_poly, 
-			       int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, 
-			       SparseMatrix *country_graph, int *flag);
-
-
 void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_map, real *x, SparseMatrix graph);
 
 
