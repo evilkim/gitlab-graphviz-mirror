@@ -1236,8 +1236,7 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
 
 }
 
-
-int make_map_internal(int exclude_random, int include_OK_points,
+static int make_map_internal(int exclude_random, int include_OK_points,
 		      int n, int dim, real *x0, int *grouping0, SparseMatrix graph, real bounding_box_margin[], int *nrandom, int nedgep, 
 		      real shore_depth_tol, real edge_bridge_tol, real **xcombined, int *nverts, real **x_poly, 
 		      int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map,
