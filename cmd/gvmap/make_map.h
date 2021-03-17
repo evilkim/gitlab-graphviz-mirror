@@ -22,7 +22,6 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points, in
 
 void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_map, real *x, SparseMatrix graph);
 
-void plot_edges(int n, int dim, real *x, SparseMatrix A);
 void plot_labels(int n, int dim, real *x, char **labels);
 
 void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels, float *fsz, float *r, float *g, float *b, char* opacity, SparseMatrix A, FILE*);
