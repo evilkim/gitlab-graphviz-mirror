@@ -331,12 +331,8 @@ static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_w
   }
 }
 
-static void dot_one_poly(agxbuf *sbuff, int use_line, real line_width, int fill, int np, float *xp, float *yp, char *cstring){
-  if (use_line){
-    dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
-  } else {
-    dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
-  }
+static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np, float *xp, float *yp, char *cstring){
+  dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
 }
 
 static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b, char *opacity){
@@ -363,16 +359,16 @@ static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, 
 	if (r && g && b) {
 	  rgb2hex(r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]], cstring, opacity);
 	}
-	dot_one_poly(sbuff, use_line, line_width, fill, np, xp, yp, cstring);
+	dot_one_poly(sbuff, line_width, fill, np, xp, yp, cstring);
 	np = 0;/* start a new polygon */
       } 
       xp[np] = x_poly[2*ja[j]]; yp[np++] = x_poly[2*ja[j]+1];
     }
     if (use_line) {
-      dot_one_poly(sbuff, use_line, line_width, fill, np, xp, yp, line_color);
+      dot_one_poly(sbuff, line_width, fill, np, xp, yp, line_color);
     } else {
       /* why set fill to polys_groups[i]?*/
-      dot_one_poly(sbuff, use_line, -1, 1, np, xp, yp, cstring);
+      dot_one_poly(sbuff, -1, 1, np, xp, yp, cstring);
     }
   }
   FREE(xp);
