@@ -237,49 +237,6 @@ static SparseMatrix matrix_add_entry(SparseMatrix A, int i, int j, int val){
   return SparseMatrix_coordinate_form_add_entries(A, 1, &i1, &j1, &val);
 }
 
-
-
-void plot_polys(int use_line, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b){
-  int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly = -1, max_grp,
-    min_grp;
-
-
-  min_grp = max_grp = polys_groups[0];
-  for (i = 0; i < npolys; i++) {
-    max_grp = MAX(polys_groups[i], max_grp);
-    min_grp = MIN(polys_groups[i], min_grp);
-  }
-  if (max_grp == min_grp) max_grp++;
-  if (Verbose) fprintf(stderr,"npolys = %d\n",npolys);
-  printf("Graphics[{");
-  for (i = 0; i < npolys; i++){
-    for (j = ia[i]; j < ia[i+1]; j++){
-      assert(ja[j] < nverts && ja[j] >= 0);
-      if (a[j] != ipoly){/* the first poly, or a hole */
-	ipoly = a[j];
-	if (ipoly != a[0]) printf("}],");
-	if (use_line){
-	  printf("Black,");
-	  printf("Line[{");
-	} else {
-	  /*printf("Hue[%f],",0.6*(polys_groups[i]/(real) (max_grp-min_grp)));*/
-	  if (r && g && b){
-	    printf("RGBColor[%f,%f,%f],",r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]]);
-	  } else {
-	    printf("Hue[%f],",(polys_groups[i]-min_grp)/(real) max_grp-min_grp);
-	  }
-	  printf("Polygon[{");
-	}
-
-      } else {
-	if (j > ia[i]) printf(",");
-      }
-      printf("{%f,%f}",x_poly[2*ja[j]],x_poly[2*ja[j]+1]);
-    }
-  }
-  printf("}]}]");
-}
-
 static void plot_dot_edges(FILE *f, SparseMatrix A){
   int i, *ia, *ja, j;
 
