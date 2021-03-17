@@ -34,7 +34,7 @@ void plot_points(int n, int dim, real *x);
 void plot_edges(int n, int dim, real *x, SparseMatrix A);
 void plot_labels(int n, int dim, real *x, char **labels);
 
-void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels, float *fsz, float *r, float *g, float *b, char* opacity, real *bg_color, SparseMatrix A, FILE*);
+void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels, float *fsz, float *r, float *g, float *b, char* opacity, SparseMatrix A, FILE*);
 
 void map_optimal_coloring(int seed, SparseMatrix A, float *rgb_r,  float *rgb_g, float *rgb_b);
 void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMatrix A, real accuracy, int seed, float **rgb_r, float **rgb_g, float **rgb_b);
