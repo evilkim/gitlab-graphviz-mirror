@@ -190,8 +190,6 @@ static void normal(real v[], real normal[]){
   return;
 }
 
-
-
 static void triangle_center(real x[], real y[], real z[], real c[]){
   /* find the "center" c, which is the intersection of the 3 vectors that are normal to each
      of the edges respectively, and which passes through the center of the edges respectively
@@ -268,7 +266,7 @@ void plot_polys(int use_line, SparseMatrix polys, real *x_poly, int *polys_group
 	  if (r && g && b){
 	    printf("RGBColor[%f,%f,%f],",r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]]);
 	  } else {
-	    printf("Hue[%f],",((polys_groups[i]-min_grp)/(real) (max_grp-min_grp)));
+	    printf("Hue[%f],",(polys_groups[i]-min_grp)/(real) max_grp-min_grp);
 	  }
 	  printf("Polygon[{");
 	}
@@ -455,7 +453,7 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   A = SparseMatrix_new(n, n, 1, MATRIX_TYPE_INTEGER, FORMAT_COORD);
   for (i = 0; i < ntri; i++) {
     for (j = 0; j < 3; j++) {
-      ((*T)[i]).vertices[j] = trilist[i * 3 + j];
+      (*T)[i].vertices[j] = trilist[i * 3 + j];
     }
     i0 = (*T)[i].vertices[0]; i1 = (*T)[i].vertices[1]; i2 = (*T)[i].vertices[2];
 
@@ -512,18 +510,6 @@ void plot_points(int n, int dim, real *x){
   }
   printf("}]");
 
-  /*
-  printf(",");
-  for (i = 0; i < n; i++){
-    printf("Text[%d,{",i);
-    for (j = 0; j < 2; j++) {
-      printf("%f",x[i*dim+j]);
-      if (j == 0) printf(",");
-    }
-    printf("}]");
-    if (i < n - 1) printf(",");
-  }
-  */
   printf("}]");
 
 }
@@ -654,10 +640,10 @@ static void get_poly_lines(int exclude_random, int nt, SparseMatrix graph, Spars
 
   for (i = 0; i < nt; i++) mask[i] = -1;
   /* loop over every point in each connected component */
-  elist = MALLOC(sizeof(int)*(nt)*edim);
+  elist = MALLOC(sizeof(int)*nt*edim);
   tlist = MALLOC(sizeof(int)*nt*2);
   *poly_lines = SparseMatrix_new(ncomps, nt, 1, MATRIX_TYPE_INTEGER, FORMAT_COORD);
-  *polys_groups = MALLOC(sizeof(int)*(ncomps));
+  *polys_groups = MALLOC(sizeof(int)*ncomps);
 
   for (i = 0; i < nt; i++) elist[i*edim + 2] = 0;
   nz = ie[E->m] - ie[0];
@@ -832,17 +818,11 @@ static void cycle_print(int head, int *cycle, int *edge_table){
     cur = next;
   }
   fprintf(stderr, "%d--%d\n",edge_head(cur),edge_tail(cur));
-
-
-
-
-
-
 }
 
 static int same_edge(int ecur, int elast, int *edge_table){
-  return ((edge_head(ecur) == edge_head(elast) && edge_tail(ecur) == edge_tail(elast))
-	  || (edge_head(ecur) == edge_tail(elast) && edge_tail(ecur) == edge_head(elast)));
+  return (edge_head(ecur) == edge_head(elast) && edge_tail(ecur) == edge_tail(elast))
+	  || (edge_head(ecur) == edge_tail(elast) && edge_tail(ecur) == edge_head(elast));
 }
 
 static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_ptr, int *comps,
@@ -923,7 +903,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
   ie = half_edges->ia;
   je = half_edges->ja;
   e = (int*) half_edges->a;
-  elist = MALLOC(sizeof(int)*(nt)*3);
+  elist = MALLOC(sizeof(int)*nt*3);
   for (i = 0; i < nt; i++) elist[i*edim + 2] = 0;
 
   *polys = SparseMatrix_new(ncomps, nt, 1, MATRIX_TYPE_INTEGER, FORMAT_COORD);
@@ -1092,8 +1072,6 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
     /* unset edge_map */
   }
 
-
-
   B = SparseMatrix_from_coordinate_format_not_compacted(*polys, SUM_REPEATED_NONE);
   SparseMatrix_delete(*polys);
   *polys = B;
@@ -1150,8 +1128,8 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
     /* connected components are such that  the random points and the bounding box 4 points forms the last
      remaining components */
     for (i = ncomps - 1; i >= 0; i--) {
-      if ((groups[comps[comps_ptr[i]]] != GRP_RANDOM) &&
-	  (groups[comps[comps_ptr[i]]] != GRP_BBOX)) break;
+      if (groups[comps[comps_ptr[i]]] != GRP_RANDOM &&
+	  groups[comps[comps_ptr[i]]] != GRP_BBOX) break;
     }
     ncomps = i + 1;
     if (Verbose) fprintf(stderr,"ncomps = %d\n",ncomps);
@@ -1167,11 +1145,10 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
   *x_poly = MALLOC(sizeof(real)*dim*nt);
   for (i = 0; i < nt; i++){
     for (j = 0; j < dim; j++){
-      (*x_poly)[i*dim+j] = (Tp[i]).center[j];
+      (*x_poly)[i*dim+j] = Tp[i].center[j];
     }
   }
   
-
   /*============================================================
 
     polygon outlines 
@@ -1191,7 +1168,6 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
 
   FREE(groups);
   FREE(mask);
-
 }
 
 static int make_map_internal(int exclude_random, int include_OK_points,
@@ -1230,8 +1206,8 @@ static int make_map_internal(int exclude_random, int include_OK_points,
       xmin[j] = MIN(xmin[j], x[i*dim+j]);
     }
   }
-  boxsize[0] = (xmax[0] - xmin[0]);
-  boxsize[1] = (xmax[1] - xmin[1]);
+  boxsize[0] = xmax[0] - xmin[0];
+  boxsize[1] = xmax[1] - xmin[1];
   area = boxsize[0]*boxsize[1];
 
   if (*nrandom == 0) {
@@ -1441,7 +1417,7 @@ static int make_map_internal(int exclude_random, int include_OK_points,
 	grouping[i] = 2;
       }
       memcpy(*xcombined, xtemp, n*dim*sizeof(real));
-      *nrandom = *nrandom + n - nh;/* count everything except cluster HIGHLIGHT_SET as random */
+      *nrandom += n - nh;/* count everything except cluster HIGHLIGHT_SET as random */
       n = nh;
       if (Verbose) fprintf(stderr,"nh = %d\n",nh);
       FREE(xtemp);
@@ -1451,16 +1427,6 @@ static int make_map_internal(int exclude_random, int include_OK_points,
   get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E, flag);
   get_polygons(exclude_random, n, *nrandom, dim2, graph, grouping, nt, Tp, E, nverts, x_poly, npolys, poly_lines, polys, polys_groups,
 	       poly_point_map, country_graph, flag);
-  /*
-  {
-    plot_voronoi(n + *nrandom, E, Tp);
-    printf("(*voronoi*),");
-    
-  }
-*/
-
-
-
 
   SparseMatrix_delete(E);
   FREE(Tp);
@@ -1469,7 +1435,6 @@ static int make_map_internal(int exclude_random, int include_OK_points,
   if (x != x0) FREE(x);
   return 0;
 }
-
 
 int make_map_from_point_groups(int exclude_random, int include_OK_points,
 			       int n, int dim, real *x, int *grouping, SparseMatrix graph, real bounding_box_margin[], int *nrandom,
@@ -1539,7 +1504,6 @@ int make_map_from_point_groups(int exclude_random, int include_OK_points,
 
   plot_points(n + *nrandom, dim, *xcombined);
 
-
   printf(",");
   plot_polys(TRUE, *poly_lines, *x_poly, *polys_groups, NULL, NULL, NULL);
 
@@ -1560,7 +1524,6 @@ static void add_point(int *n, int igrp, real **x, int *nmax, real point[], int *
   (*x)[(*n)*2+1] = point[1];
   (*groups)[*n] = igrp;
   (*n)++;
-
 }
 
 static void get_boundingbox(int n, int dim, real *x, real *width, real *bbox){
@@ -1575,7 +1538,6 @@ static void get_boundingbox(int n, int dim, real *x, real *width, real *bbox){
     bbox[3] = MAX(bbox[3], x[i*dim + 1] + width[i*dim+1]);
   }
 }
-
 
 int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
 				   int n, int dim, real *x, real *sizes, 
@@ -1851,5 +1813,4 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
   }
 
   return res;
-
 }
