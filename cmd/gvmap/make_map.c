@@ -331,12 +331,8 @@ static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_w
   }
 }
 
-static void dot_one_poly(agxbuf *sbuff, int use_line, real line_width, int fill, int is_river, int np, float *xp, float *yp, char *cstring){
+static void dot_one_poly(agxbuf *sbuff, int use_line, real line_width, int fill, int np, float *xp, float *yp, char *cstring){
   if (use_line){
-    if (is_river){
-      /*river*/
-    } else {
-    }
     dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
   } else {
     dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
@@ -348,7 +344,6 @@ static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, 
   int np = 0, maxlen = 0;
   float *xp, *yp;
   int fill = -1;
-  int is_river = FALSE;
   char cstring[] = "#aaaaaaff";
   int use_line = (line_width >= 0);
   
@@ -365,20 +360,19 @@ static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, 
       assert(ja[j] < nverts && ja[j] >= 0);
       if (abs(a[j]) != ipoly){/* the first poly, or a hole */
 	ipoly = abs(a[j]);
-	is_river = (a[j] < 0);
 	if (r && g && b) {
 	  rgb2hex(r[polys_groups[i]], g[polys_groups[i]], b[polys_groups[i]], cstring, opacity);
 	}
-	dot_one_poly(sbuff, use_line, line_width, fill, is_river, np, xp, yp, cstring);
+	dot_one_poly(sbuff, use_line, line_width, fill, np, xp, yp, cstring);
 	np = 0;/* start a new polygon */
       } 
       xp[np] = x_poly[2*ja[j]]; yp[np++] = x_poly[2*ja[j]+1];
     }
     if (use_line) {
-      dot_one_poly(sbuff, use_line, line_width, fill, is_river, np, xp, yp, line_color);
+      dot_one_poly(sbuff, use_line, line_width, fill, np, xp, yp, line_color);
     } else {
       /* why set fill to polys_groups[i]?*/
-      dot_one_poly(sbuff, use_line, -1, 1, is_river, np, xp, yp, cstring);
+      dot_one_poly(sbuff, use_line, -1, 1, np, xp, yp, cstring);
     }
   }
   FREE(xp);
