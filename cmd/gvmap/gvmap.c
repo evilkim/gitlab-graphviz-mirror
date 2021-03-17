@@ -43,7 +43,6 @@ typedef struct {
     int nrandom; 
     int show_points; 
     real bbox_margin[2]; 
-    int whatout;
     int useClusters;
     int clusterMethod;
     int plotedges;
@@ -224,14 +223,12 @@ init(int argc, char **argv, params_t* pm)
   pm->useClusters = 0;
   pm->clusterMethod = CLUSTERING_MODULARITY;
   pm->plotedges = 0;
-  pm->whatout = 0;
   pm->show_points = 0;
   pm->color_scheme = COLOR_SCHEME_PASTEL; 
   pm->line_width = 0;
   pm->plot_label = NULL;
   pm->bg_color = NULL;
   pm->improve_contiguity_n = 0;
-  pm->whatout = OUT_DOT;
   pm->nart = -1;
   pm->color_optimize = 1;
   pm->maxcluster = 0;

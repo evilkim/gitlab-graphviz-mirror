@@ -28,7 +28,6 @@ void map_optimal_coloring(int seed, SparseMatrix A, float *rgb_r,  float *rgb_g,
 void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMatrix A, real accuracy, int seed, float **rgb_r, float **rgb_g, float **rgb_b);
 
 enum {POLY_LINE_REAL_EDGE, POLY_LINE_NOT_REAL_EDGE};
-enum {OUT_PS = 1, OUT_M = 0, OUT_M_COUNTRY_GRAPH = 2, OUT_DOT = 3, OUT_PROCESSING = 4};
 #define neighbor(t, i, edim, elist) elist[(edim)*(t)+i]
 #define edge_head(e) edge_table[2*(e)]
 #define edge_tail(e) edge_table[2*(e)+1]
