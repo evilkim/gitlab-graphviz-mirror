@@ -432,27 +432,6 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   return;
 }
 
-
-
-void plot_labels(int n, int dim, real *x, char **labels){
-  int i, j;
-
-  printf("Graphics[{");
-
-  for (i = 0; i < n; i++){
-    printf("Text[\"%s\",{",labels[i]);
-    for (j = 0; j < 2; j++) {
-      printf("%f",x[i*dim+j]);
-      if (j == 0) printf(",");
-    }
-    printf("}]");
-    if (i < n - 1) printf(",\n");
-  }
-  printf("}]");
-
-
-}
-
 static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, int GRP_RANDOM, int GRP_BBOX){
   /* form a graph each vertex is a group (a country), and a vertex is connected to another if the two countryes shares borders.
    since the group ID may not be contigous (e.g., only groups 2,3,5, -1), we will return NULL if one of the group has non-positive ID! */
