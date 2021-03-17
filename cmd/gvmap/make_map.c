@@ -1238,7 +1238,7 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
 
 static int make_map_internal(int exclude_random, int include_OK_points,
 		      int n, int dim, real *x0, int *grouping0, SparseMatrix graph, real bounding_box_margin[], int *nrandom, int nedgep, 
-		      real shore_depth_tol, real edge_bridge_tol, real **xcombined, int *nverts, real **x_poly, 
+		      real shore_depth_tol, real **xcombined, int *nverts, real **x_poly, 
 		      int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map,
 		      SparseMatrix *country_graph, int highlight_cluster, int *flag){
 
@@ -1574,7 +1574,7 @@ int make_map_from_point_groups(int exclude_random, int include_OK_points,
   int highlight_cluster = FALSE;
   /* get poly outlines */
   res = make_map_internal(exclude_random, include_OK_points, n, dim, x, grouping, graph, bounding_box_margin, nrandom, nedgep,
-		  shore_depth_tol, edge_bridge_tol, xcombined, nverts, x_poly, 
+		  shore_depth_tol, xcombined, nverts, x_poly, 
 			  npolys, poly_lines, polys, polys_groups, poly_point_map, country_graph, highlight_cluster, flag);
 
   printf("Show[{");
@@ -1715,7 +1715,7 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
 
   if (!sizes){
     return make_map_internal(exclude_random, include_OK_points, n, dim, x, grouping, graph, bounding_box_margin, nrandom, nedgep, 
-			    shore_depth_tol, edge_bridge_tol, xcombined, nverts, x_poly, 
+			    shore_depth_tol, xcombined, nverts, x_poly, 
 			     npolys, poly_lines, polys, polys_groups, poly_point_map, country_graph, highlight_cluster, flag);
   } else {
 
@@ -1885,7 +1885,7 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
     }
 
     res = make_map_internal(exclude_random, include_OK_points, N, dim, X, groups, graph, bounding_box_margin, nrandom, nedgep, 
-			    shore_depth_tol, edge_bridge_tol, xcombined, nverts, x_poly, 
+			    shore_depth_tol, xcombined, nverts, x_poly, 
 			    npolys, poly_lines, polys, polys_groups, poly_point_map, country_graph, highlight_cluster, flag);
     if (graph != graph0) SparseMatrix_delete(graph);
     FREE(groups); 
