@@ -887,7 +887,7 @@ static int same_edge(int ecur, int elast, int *edge_table){
 	  || (edge_head(ecur) == edge_tail(elast) && edge_tail(ecur) == edge_head(elast)));
 }
 
-static void get_polygon_solids(int exclude_random, int nt, SparseMatrix E, int ncomps, int *comps_ptr, int *comps, 
+static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_ptr, int *comps,
 			       int *groups, int *mask, real *x_poly, SparseMatrix *polys, int **polys_groups,
 			       int GRP_RANDOM, int GRP_BBOX){
   /*============================================================
@@ -1227,7 +1227,7 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
     polygon solids
 
     ============================================================*/
-  get_polygon_solids(exclude_random, nt, E, ncomps, comps_ptr, comps, groups, mask, *x_poly, polys, polys_groups, GRP_RANDOM, GRP_BBOX);
+  get_polygon_solids(nt, E, ncomps, comps_ptr, comps, groups, mask, *x_poly, polys, polys_groups, GRP_RANDOM, GRP_BBOX);
 
   B = get_country_graph(n, E, groups, GRP_RANDOM, GRP_BBOX);
   *country_graph = B;
