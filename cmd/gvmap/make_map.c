@@ -401,20 +401,6 @@ static void dot_one_poly(char **sbuff, int *len, int *len_max, int use_line, rea
   }
 }
 
-static void processing_one_poly(FILE *f, int use_line, real line_width, int fill, int close, int is_river, int np, float *xp, float *yp, 
-		      float rr, float gg, float bb){
-  if (use_line){
-    if (is_river){
-      /*river*/
-    } else {
-    }
-    processing_polygon(f, np, xp, yp, line_width, fill, rr, gg, bb);
-  } else {
-    processing_polygon(f, np, xp, yp, line_width, fill, rr, gg, bb);
-  }
-}
-
-
 static void plot_dot_polygons(char **sbuff, int *len, int *len_max, real line_width, char *line_color, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b, char *opacity){
   int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly,first;
   int np = 0, maxlen = 0;
