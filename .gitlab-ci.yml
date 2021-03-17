@@ -813,4 +813,13 @@ lint_pylint:
   needs:
     - docker_build_ubuntu-20.10
   script:
-    - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero
+    - logfile=`mktemp`
+    - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero |& tee $logfile
+    - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CEW][[:digit:]]{4}\>' $logfile`" > metrics.txt
+    - rm $logfile
+    - cat metrics.txt
+  artifacts:
+    when: on_success
+    expire_in: 1 week
+    reports:
+        metrics: metrics.txt
