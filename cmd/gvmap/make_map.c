@@ -452,24 +452,6 @@ void plot_labels(int n, int dim, real *x, char **labels){
 
 
 }
-void plot_points(int n, int dim, real *x){
-  int i, j;
-
-  printf("Graphics[{Point[{");
-  for (i = 0; i < n; i++){
-    printf("{");
-    for (j = 0; j < 2; j++) {
-      printf("%f",x[i*dim+j]);
-      if (j == 0) printf(",");
-    }
-    printf("}");
-    if (i < n - 1) printf(",");
-  }
-  printf("}]");
-
-  printf("}]");
-
-}
 
 void plot_edges(int n, int dim, real *x, SparseMatrix A){
   int i, j, k;
