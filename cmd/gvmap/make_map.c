@@ -377,7 +377,7 @@ static void plot_dot_polygons(char **sbuff, int *len, int *len_max, real line_wi
   int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly,first;
   int np = 0, maxlen = 0;
   float *xp, *yp;
-  int fill = -1, close = 1;
+  int fill = -1;
   int is_river = FALSE;
   char cstring[] = "#aaaaaaff";
   int use_line = (line_width >= 0);
