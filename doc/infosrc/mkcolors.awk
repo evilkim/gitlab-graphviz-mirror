@@ -8,10 +8,10 @@ function putColor (n, r, g, b, v)
 {
   if (length(n) > 4) p = "";
   else p = "&nbsp;&nbsp;&nbsp;";
-  printf ("<td bgcolor=\"#%02x%02x%02x\"><a title=\"#%02x%02x%02x\">",r,g,b,r,g,b); 
+  printf ("<td bgcolor=\"#%02x%02x%02x\" title=\"#%02x%02x%02x\">",r,g,b,r,g,b); 
   if (v < 0.51) printf ("<font color=\"white\">%s%s%s</font>", p,n,p);
   else printf ("%s%s%s", p,n,p);
-  printf ("</a></td>\n");
+  printf ("</td>\n");
 }
 BEGIN {
   colorsPerRow = 5;
