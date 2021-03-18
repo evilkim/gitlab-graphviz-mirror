@@ -19,6 +19,7 @@
 #include <common/utils.h>
 #include <gvc/gvplugin_device.h>
 #include <gvc/gvio.h>
+#include <math.h>
 
 #include "gvplugin_pango.h"
 
@@ -130,7 +131,7 @@ static void cairogen_begin_page(GVJ_t * job)
         case FORMAT_PNG:
         default:
 	    if (job->width >= CAIRO_XMAX || job->height >= CAIRO_YMAX) {
-		double scale = MIN((double)CAIRO_XMAX / job->width,
+		double scale = fmin((double)CAIRO_XMAX / job->width,
 			(double)CAIRO_YMAX / job->height);
 		job->width *= scale;
 		job->height *= scale;
