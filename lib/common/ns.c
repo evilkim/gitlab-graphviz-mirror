@@ -704,9 +704,14 @@ static void TB_balance(void)
          if (streq(s,"min")) adj = 1;
          else if (streq(s,"max")) adj = 2;
          if (adj) for (n = GD_nlist(G); n; n = ND_next(n))
-              if (ND_node_type(n) == NORMAL)
-                if (ND_out(n).size == 0)
-                   ND_rank(n) = ((adj == 1)? Minrank : Maxrank);
+              if (ND_node_type(n) == NORMAL) {
+                if (ND_in(n).size == 0 && adj == 1) {
+                   ND_rank(n) = Minrank;
+                }
+                if (ND_out(n).size == 0 && adj == 2) {
+                   ND_rank(n) = Maxrank;
+                }
+              }
     }
     for (ii = 0, n = GD_nlist(G); n; ii++, n = ND_next(n)) {
       Tree_node.list[ii] = n;
