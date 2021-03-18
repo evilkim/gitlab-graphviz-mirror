@@ -13,7 +13,6 @@
 #    This also relies on the python package json2html.
 #
 # The main products are web pages:
-#    arrows.html  - arrow_grammar
 #    shapes.html  - shapelist, html_grammar
 #
 # The files listed after each give the main data files used to
@@ -83,7 +82,6 @@ DOTS = html2.gv html3.gv html4.gv tee.gv
 HTML = \
 	grammar.html \
 	shapes.html \
-	arrows.html \
 	schema.html \
 	arrow_grammar.html \
 	arrow_table.html \
@@ -153,9 +151,6 @@ arrow_grammar.html: mklang arrow_grammar
 arrow_table.html: mkarrowtbl.sh $(A2GIF)
 	./mkarrowtbl.sh $(A2GIF) >> arrow_table.html
 
-arrows.html : mkarrowshtml.py arrow_grammar.html arrow_table.html $(AGIF)
-	./mkarrowshtml.py arrow_grammar.html arrow_table.html  > arrows.html
-
 mklang : mklang.y
 	yacc mklang.y
 	cc -o mklang y.tab.c
@@ -196,7 +191,7 @@ EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkshapes.sh mkstyles.sh mktapers.sh \
              mkarrowtbl.sh mkshhtml.py \
 	           ps_to_png.sh arrow_grammar grammar html_grammar \
              shapelist \
-             shapes.1 shapes.2 shapes.3 lang.1 lang.2 arrows.1 arrows.2 \
+             shapes.1 shapes.2 shapes.3 lang.1 lang.2 \
              brewer.awk mkcolors.awk svg.awk sz.awk \
              colorlist.dot html1.dot html4.dot round.dot constraint.dot \
              html2.dot mrecord.dot sdlshapes.dot fill.dot html3.dot record.dot \
