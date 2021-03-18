@@ -259,7 +259,7 @@ static void cairogen_textspan(GVJ_t * job, pointf p, textspan_t * span)
     pointf A[2];
 
     cairo_set_dash (cr, dashed, 0, 0.0);  /* clear any dashing */
-    cairogen_set_color(cr, &(obj->pencolor));
+    cairogen_set_color(cr, &obj->pencolor);
 
     switch (span->just) {
     case 'r':
@@ -278,10 +278,10 @@ static void cairogen_textspan(GVJ_t * job, pointf p, textspan_t * span)
     cairo_move_to (cr, p.x, -p.y);
     cairo_save(cr);
     cairo_scale(cr, POINTS_PER_INCH / FONT_DPI, POINTS_PER_INCH / FONT_DPI);
-    pango_cairo_show_layout(cr, (PangoLayout*)(span->layout));
+    pango_cairo_show_layout(cr, (PangoLayout*)span->layout);
     cairo_restore(cr);
 
-    if ((span->font) && (span->font->flags & HTML_OL)) {
+    if (span->font && (span->font->flags & HTML_OL)) {
 	A[0].x = p.x;
 	A[1].x = p.x + span->size.x;
 	A[1].y = A[0].y = p.y;
@@ -301,7 +301,6 @@ static void cairogen_set_penstyle(GVJ_t *job, cairo_t *cr)
 	cairo_set_dash (cr, dashed, 0, 0.0);
     }
     cairo_set_line_width (cr, obj->penwidth);
-
 }
 
 static void cairo_gradient_fill (cairo_t* cr, obj_state_t* obj, int filled, pointf* A, int n)
@@ -368,14 +367,14 @@ if (ry < RMIN) ry = RMIN;
 
     cairo_set_matrix(cr, &matrix);
 
-    if (filled == GRADIENT || filled == (RGRADIENT)) {
+    if (filled == GRADIENT || filled == RGRADIENT) {
 	cairo_gradient_fill (cr, obj, filled, A, 2);
     }
     else if (filled) {
-	cairogen_set_color(cr, &(obj->fillcolor));
+	cairogen_set_color(cr, &obj->fillcolor);
 	cairo_fill_preserve(cr);
     }
-    cairogen_set_color(cr, &(obj->pencolor));
+    cairogen_set_color(cr, &obj->pencolor);
     cairo_stroke(cr);
 }
 
@@ -392,14 +391,14 @@ cairogen_polygon(GVJ_t * job, pointf * A, int n, int filled)
     for (i = 1; i < n; i++)
     cairo_line_to(cr, A[i].x, -A[i].y);
     cairo_close_path(cr);
-    if (filled == GRADIENT || filled == (RGRADIENT)) {
+    if (filled == GRADIENT || filled == RGRADIENT) {
 	cairo_gradient_fill (cr, obj, filled, A, n);
     }
     else if (filled) {
-	cairogen_set_color(cr, &(obj->fillcolor));
+	cairogen_set_color(cr, &obj->fillcolor);
 	cairo_fill_preserve(cr);
     }
-    cairogen_set_color(cr, &(obj->pencolor));
+    cairogen_set_color(cr, &obj->pencolor);
     cairo_stroke(cr);
 }
 
@@ -421,14 +420,14 @@ cairogen_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     for (i = 1; i < n; i += 3)
 	cairo_curve_to(cr, A[i].x, -A[i].y, A[i + 1].x, -A[i + 1].y,
 		       A[i + 2].x, -A[i + 2].y);
-    if (filled == GRADIENT || filled == (RGRADIENT)) {
+    if (filled == GRADIENT || filled == RGRADIENT) {
 	cairo_gradient_fill (cr, obj, filled, A, n);
     }
     else if (filled) {
-	cairogen_set_color(cr, &(obj->fillcolor));
+	cairogen_set_color(cr, &obj->fillcolor);
 	cairo_fill_preserve(cr);
     }
-    cairogen_set_color(cr, &(obj->pencolor));
+    cairogen_set_color(cr, &obj->pencolor);
     cairo_stroke(cr);
 }
 
@@ -444,7 +443,7 @@ cairogen_polyline(GVJ_t * job, pointf * A, int n)
     cairo_move_to(cr, A[0].x, -A[0].y);
     for (i = 1; i < n; i++)
 	cairo_line_to(cr, A[i].x, -A[i].y);
-    cairogen_set_color(cr, &(obj->pencolor));
+    cairogen_set_color(cr, &obj->pencolor);
     cairo_stroke(cr);
 }
 

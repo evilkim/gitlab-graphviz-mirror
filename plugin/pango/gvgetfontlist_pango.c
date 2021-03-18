@@ -37,11 +37,11 @@ char* strcasestr (const char *str, const char *pat)
     endp = str + slen - plen;
     p0 = toupper (p0);
     do {
-        while ((str <= endp) && (p0 != toupper(*str))) str++;
+        while (str <= endp && p0 != toupper(*str)) str++;
         if (str > endp) return NULL;
         pp = pat;
         sp = ++str;
-        while ((pc = *pp++) && (toupper(pc) == toupper(*sp))) sp++;
+        while ((pc = *pp++) && toupper(pc) == toupper(*sp)) sp++;
     } while (pc);
     return (char*)(str-1);
 }
@@ -292,7 +292,7 @@ display_available_fonts(availfont_t* gv_af_p)
 
 /* Displays the Graphviz PS font name, system available font name and associated faces */
     for (size_t j = 0; j < GV_FONT_LIST_SIZE; j++) {
-	if ((gv_af_p[j].faces == 0) || (gv_af_p[j].fontname == NULL)) {
+	if (gv_af_p[j].faces == 0 || gv_af_p[j].fontname == NULL) {
 	    fprintf (stderr, "ps font = %s not available\n", gv_ps_fontdefs[j].fontname);
 	    continue;
 	}
@@ -408,7 +408,7 @@ static availfont_t *gv_get_ps_fontlist(PangoFontMap * fontmap)
     display_available_fonts(gv_af_p);
 #endif
 /* Free the Graphviz PS font definitions */
-    return (gv_af_p);
+    return gv_af_p;
 }
 
 static void copyUpper (agxbuf* xb, char* s)
