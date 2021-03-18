@@ -6,11 +6,9 @@ function value (r, g, b) {
 }
 function putColor (n, r, g, b, v)
 {
-  if (length(n) > 4) p = "";
-  else p = "&nbsp;&nbsp;&nbsp;";
   printf ("<td bgcolor=\"#%02x%02x%02x\" title=\"#%02x%02x%02x\">",r,g,b,r,g,b); 
-  if (v < 0.51) printf ("<font color=\"white\">%s%s%s</font>", p,n,p);
-  else printf ("%s%s%s", p,n,p);
+  if (v < 0.51) printf ("<font color=\"white\">%s</font>", n);
+  else printf ("%s", n);
   printf ("</td>\n");
 }
 BEGIN {
@@ -28,7 +26,7 @@ BEGIN {
     sub(".*/","",name);
     printf ("%s color scheme<BR>\n", name);
   }
-  printf ("<table border=\"1\" align=\"center\">\n");
+  printf ("<table border=\"1\" align=\"center\" class=\"gv-colors\">\n");
 }
 {
   if (singleRow) idx = NR;
