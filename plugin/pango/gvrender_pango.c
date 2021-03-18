@@ -224,6 +224,11 @@ static void cairogen_begin_anchor(GVJ_t *job, char *url, char *tooltip, char *ta
     char *buf;
     size_t buf_len;
 
+    // suppress unused parameter warnings
+    (void)tooltip;
+    (void)target;
+    (void)id;
+
     if (url && obj->url_map_p) {
        p0x = obj->url_map_p[0].x;
        p0y = -obj->url_map_p[0].y;
@@ -405,6 +410,10 @@ cairogen_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     obj_state_t *obj = job->obj;
     cairo_t *cr = job->context;
     int i;
+
+    // suppress unused parameter warnings
+    (void)arrow_at_start;
+    (void)arrow_at_end;
 
     cairogen_set_penstyle(job, cr);
 
