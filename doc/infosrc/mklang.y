@@ -29,16 +29,16 @@ nonTerm (char* s)
 static void
 gen (char* name, term_t* ts)
 {
-    fprintf (outf, "<TR>\n  <TD ALIGN=RIGHT>");
+    fprintf (outf, "<TR>\n  <TD ALIGN=\"RIGHT\">");
     nonTerm (name);
-    fprintf (outf, "</TD>\n  <TD ALIGN=LEFT>:</TD>\n  <TD ALIGN=LEFT>");
+    fprintf (outf, "</TD>\n  <TD ALIGN=\"LEFT\">:</TD>\n  <TD ALIGN=\"LEFT\">");
     xlate (ts);
     fprintf (outf, "</TD>\n</TR>\n");
 
     for (ts = ts->next; ts; ts = ts->next) {
-	fprintf (outf, "<TR>\n  <TD ALIGN=RIGHT></TD>\n  <TD ALIGN=LEFT>|</TD>\n  <TD ALIGN=LEFT>");
-	xlate (ts);
-	fprintf (outf, "</TD>\n</TR>\n");
+        fprintf (outf, "<TR>\n  <TD ALIGN=\"RIGHT\"></TD>\n  <TD ALIGN=\"LEFT\">|</TD>\n  <TD ALIGN=\"LEFT\">");
+        xlate (ts);
+        fprintf (outf, "</TD>\n</TR>\n");
     }
 }
 
