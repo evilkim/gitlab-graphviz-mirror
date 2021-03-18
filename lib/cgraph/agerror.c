@@ -39,16 +39,12 @@ agerrlevel_t agseterr(agerrlevel_t lvl)
 
 char *aglasterr()
 {
-    long endpos;
-    long len;
-    char *buf;
-
     if (!agerrout)
 	return 0;
     fflush(agerrout);
-    endpos = ftell(agerrout);
-    len = endpos - aglast;
-    buf = malloc(len + 1);
+    long endpos = ftell(agerrout);
+    size_t len = (size_t)(endpos - aglast);
+    char *buf = malloc(len + 1);
     fseek(agerrout, aglast, SEEK_SET);
     fread(buf, sizeof(char), len, agerrout);
     buf[len] = '\0';
