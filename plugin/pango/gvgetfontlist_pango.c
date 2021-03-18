@@ -253,8 +253,7 @@ static PostscriptAlias postscript_alias[] = {
 static void gv_flist_free_af(availfont_t* gv_af_p)
 {
     for (size_t i = 0; i < GV_FONT_LIST_SIZE; i++) {
-	if (gv_af_p[i].fontname)
-	    free(gv_af_p[i].fontname);
+	free(gv_af_p[i].fontname);
     }
     free(gv_af_p);
 }
