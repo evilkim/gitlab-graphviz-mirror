@@ -114,7 +114,7 @@ static int agerr_va(agerrlevel_t level, const char *fmt, va_list args)
 
     /* store this error level */
     agerrno = lvl;
-    agmaxerr = MAX(agmaxerr, agerrno);
+    agmaxerr = MAX(agmaxerr, (int)agerrno);
 
     /* We report all messages whose level is bigger than the user set agerrlevel
      * Setting agerrlevel to AGMAX turns off immediate error reporting.
