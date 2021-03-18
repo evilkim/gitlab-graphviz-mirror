@@ -14,10 +14,10 @@ CURRA="xxxx"
 function closeLine
 {
   echo "  </TR>"
-  echo "  <TR ALIGN=CENTER>"
+  echo "  <TR ALIGN=\"CENTER\">"
   for (( I=0;I<CNT;I++ ))
   do
-    echo "    <TD>${AS[$I]}"
+    echo "    <TD>${AS[$I]}</TD>"
   done
   echo "  </TR>"
 }
@@ -36,13 +36,13 @@ do
       closeLine
       (( CNT=0 ))
     fi
-    echo "  <TR ALIGN=CENTER>"
+    echo "  <TR ALIGN=\"CENTER\">"
     CURRA=$A
     (( LCNT++ ))
   fi
   AS[$CNT]=$A
   (( CNT++ ))
-  echo "    <TD><IMG SRC=\"$1\">"
+  echo "    <TD><IMG SRC=\"$1\"></TD>"
   shift
 done
 

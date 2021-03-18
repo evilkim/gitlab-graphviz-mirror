@@ -149,7 +149,7 @@ arrow_grammar.html: mklang arrow_grammar
 	./mklang arrow_grammar arrow_grammar.html
 
 arrow_table.html: mkarrowtbl.sh $(A2GIF)
-	./mkarrowtbl.sh $(A2GIF) >> arrow_table.html
+	./mkarrowtbl.sh $(A2GIF) > arrow_table.html
 
 mklang : mklang.y
 	yacc mklang.y
