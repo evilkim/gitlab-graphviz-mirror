@@ -117,7 +117,7 @@ void clip_line(Edge * e)
 	    x2 = e->c - e->b * y2;
 	}
 
-	if (((x1 > pxmax) & (x2 > pxmax)) | ((x1 < pxmin) & (x2 < pxmin)))
+	if ((x1 > pxmax && x2 > pxmax) || (x1 < pxmin && x2 < pxmin))
 	    return;
 	if (x1 > pxmax) {
 	    x1 = pxmax;
@@ -166,7 +166,7 @@ void clip_line(Edge * e)
 	    y2 = e->c - e->a * x2;
 	}
 
-	if (((y1 > pymax) & (y2 > pymax)) | ((y1 < pymin) & (y2 < pymin)))
+	if ((y1 > pymax && y2 > pymax) || (y1 < pymin && y2 < pymin))
 	    return;
 	if (y1 > pymax) {
 	    y1 = pymax;
