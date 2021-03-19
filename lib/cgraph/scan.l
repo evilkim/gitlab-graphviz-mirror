@@ -109,8 +109,7 @@ storeFileName (char* fname, int len)
     static char* buf;
 
     if (len > cnt) {
-	if (cnt) buf = (char*)realloc (buf, len+1);
-	else buf = (char*)malloc (len+1);
+	buf = (char*)realloc (buf, len+1);
 	cnt = len;
     }
     strcpy (buf, fname);
