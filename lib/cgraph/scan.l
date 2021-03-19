@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (c) 2011 AT&T Intellectual Property 
+ * Copyright (c) 2011 AT&T Intellectual Property
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,7 +45,7 @@ void agreadline(int n) { line_num = n; }
    */
 void agsetfile(char* f) { InputFile = f; line_num = 1; }
 
-/* There is a hole here, because switching channels 
+/* There is a hole here, because switching channels
  * requires pushing back whatever was previously read.
  * There probably is a right way of doing this.
  */
@@ -80,7 +80,7 @@ static void addstr(char *src) {
 	char	c;
 	if (Sptr > Sbuf) Sptr--;
 	do {
-		do {c = *Sptr++ = *src++;} while (c && (Sptr < Send));
+		do {c = *Sptr++ = *src++;} while (c && Sptr < Send);
 		if (c) {
 			long	sz = Send - Sbuf;
 			long	off = Sptr - Sbuf;
@@ -128,12 +128,12 @@ static void ppDirective (void)
 
     if (strncmp(s, "line", 4) == 0) s += 4;
     r = sscanf(s, "%d %1[\"]%n", &lineno, buf, &cnt);
-    if (r > 0) { /* got line number */ 
+    if (r > 0) { /* got line number */
 	line_num = lineno - 1;
 	if (r > 1) { /* saw quote */
 	    char* p = s + cnt;
 	    char* e = p;
-	    while (*e && (*e != '"')) e++; 
+	    while (*e && *e != '"') e++;
 	    if (e != p && *e == '"') {
  		*e = '\0';
 		storeFileName (p, e-p);
@@ -150,7 +150,7 @@ static int twoDots(void)
 {
     int i;
     for (i = aagleng-2; i >= 0; i--) {
-	if (((unsigned char)aagtext[i]) == '.')
+	if ((unsigned char)aagtext[i] == '.')
 	    return 1;
     }
     return 0;
@@ -163,7 +163,7 @@ static int twoDots(void)
  */
 static int chkNum(void) {
     unsigned char c = (unsigned char)aagtext[aagleng-1];   /* last character */
-    if ((!isdigit(c) && (c != '.')) || ((c == '.') && twoDots())) {  /* c is letter */
+    if ((!isdigit(c) && c != '.') || (c == '.' && twoDots())) {  /* c is letter */
 	char* fname;
 
 	if (InputFile)
@@ -230,9 +230,9 @@ ID		({NAME}|{NUMBER})
 <hstring>[<]			html_nest++; addstr(aagtext);
 <hstring>[\n]			addstr(aagtext); line_num++; /* add newlines */
 <hstring>([^><\n]*)		addstr(aagtext);
-.						return (aagtext[0]);
+.						return aagtext[0];
 %%
- 
+
 void aagerror(char *str)
 {
 	unsigned char	xbuf[BUFSIZ];
