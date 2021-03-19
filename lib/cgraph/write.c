@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>		/* need sprintf() */
 #include <ctype.h>
@@ -640,7 +641,7 @@ static int write_body(Agraph_t * g, iochan_t * ofile)
     return 0;
 }
 
-static void set_attrwf(Agraph_t * g, int toplevel, int value)
+static void set_attrwf(Agraph_t * g, bool toplevel, bool value)
 {
     Agraph_t *subg;
     Agnode_t *n;
@@ -648,7 +649,7 @@ static void set_attrwf(Agraph_t * g, int toplevel, int value)
 
     AGATTRWF(g) = value;
     for (subg = agfstsubg(g); subg; subg = agnxtsubg(subg)) {
-	set_attrwf(subg, FALSE, value);
+	set_attrwf(subg, false, value);
     }
     if (toplevel) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
@@ -672,7 +673,7 @@ int agwrite(Agraph_t * g, void *ofile)
 	if ((len == 0) || (len >= MIN_OUTPUTLINE))
 	    Max_outputline = len;
     }
-    set_attrwf(g, TRUE, FALSE);
+    set_attrwf(g, true, false);
     CHKRV(write_hdr(g, ofile, TRUE));
     CHKRV(write_body(g, ofile));
     CHKRV(write_trl(g, ofile));
