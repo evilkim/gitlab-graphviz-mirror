@@ -223,12 +223,9 @@ conjugate_gradient_mkernel(float *A, float *x, float *b, int n,
 	    beta = r_r_new / r_r;
 	    r_r = r_r_new;
 
-	    {
-		size_t j;
-		for (j = 0; j < (size_t)n; ++j) {
+		for (size_t j = 0; j < (size_t)n; ++j) {
 			p[j] = (float)beta * p[j] + r[j];
 		}
-	    }
 	}
     }
 
