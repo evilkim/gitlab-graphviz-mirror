@@ -18,8 +18,8 @@
 
 %{
 
-#include <stdio.h>  /* SAFE */
-#include <cghdr.h>	/* SAFE */
+#include <stdio.h>
+#include <cghdr.h>
 #include <stddef.h>
 extern void aagerror(char *);
 
