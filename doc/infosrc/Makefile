@@ -81,6 +81,7 @@ GIF = $(SGIF) $(AGIF) $(MGIF) $(A2GIF) $(XGIF)
 DOTS = html2.gv html3.gv html4.gv tee.gv
 HTML = \
 	grammar.html \
+	html_grammar.html \
 	shapes.html \
 	schema.html \
 	arrow_grammar.html \
@@ -137,10 +138,11 @@ shapes : shapelist mkshapes.sh
 	./mkshapes.sh
 	touch shapes
  
-shapes.html : shapes mkshhtml.py record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist html_grammar html1.gif html2.gif html3.gif html4.gif mklang
-	./mklang html_grammar gramtmp
-	./mkshhtml.py gramtmp html1.dot < shapelist > shapes.html
-	rm gramtmp
+html_grammar.html : mklang html_grammar
+	./mklang html_grammar html_grammar.html
+
+shapes.html : shapes mkshhtml.py record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist html_grammar.html html1.gif html2.gif html3.gif html4.gif
+	./mkshhtml.py html_grammar.html html1.dot < shapelist > shapes.html
 
 grammar.html : grammar mklang
 	./mklang grammar grammar.html
