@@ -53,7 +53,7 @@ vconfig_t *Pobsopen(Ppoly_t ** obs, int n_obs)
     /* get storage */
     n = 0;
     for (poly_i = 0; poly_i < n_obs; poly_i++)
-	n = n + obs[poly_i]->pn;
+	n += obs[poly_i]->pn;
     rv->P = mymalloc(n * sizeof(Ppoint_t));
     rv->start = mymalloc((n_obs + 1) * sizeof(int));
     rv->next = mymalloc(n * sizeof(int));

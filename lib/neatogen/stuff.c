@@ -50,7 +50,7 @@ double **new_array(int m, int n, double ival)
     mem = N_NEW(m * n, double);
     for (i = 0; i < m; i++) {
 	rv[i] = mem;
-	mem = mem + n;
+	mem += n;
 	for (j = 0; j < n; j++)
 	    rv[i][j] = ival;
     }

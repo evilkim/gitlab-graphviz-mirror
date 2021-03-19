@@ -84,7 +84,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
 	    if (PSinputscale > 0.0) {
 		int i;
 		for (i = 0; i < Ndim; i++)
-		    pvec[i] = pvec[i] / PSinputscale;
+		    pvec[i] /= PSinputscale;
 	    }
 	    if (Ndim > 2) {
 		if (N_z && (p = agxget(np, N_z)) && (sscanf(p,"%lf",&z) == 1)) {

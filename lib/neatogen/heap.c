@@ -55,7 +55,7 @@ void PQinsert(Halfedge * he, Site * v, double offset)
     }
     he->PQnext = last->PQnext;
     last->PQnext = he;
-    PQcount += 1;
+    ++PQcount;
 }
 
 void PQdelete(Halfedge * he)
@@ -67,7 +67,7 @@ void PQdelete(Halfedge * he)
 	while (last->PQnext != he)
 	    last = last->PQnext;
 	last->PQnext = he->PQnext;
-	PQcount -= 1;
+	--PQcount;
 	deref(he->vertex);
 	he->vertex = (Site *) NULL;
     }

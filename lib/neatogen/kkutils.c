@@ -159,7 +159,7 @@ split_by_place(double *place, int *nodes, int first, int last, int *middle)
      * notice that always left>first, because of its initialization
      */
     if (place[nodes[left]] > place_val)
-	left = left - 1;
+	--left;
     *middle = left;
     nodes[first] = nodes[left];
     nodes[left] = val;

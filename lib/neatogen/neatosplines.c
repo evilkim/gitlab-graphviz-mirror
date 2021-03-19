@@ -52,7 +52,7 @@ make_barriers(Ppoly_t ** poly, int npoly, int pp, int qp,
 	    continue;
 	if (i == qp)
 	    continue;
-	n = n + poly[i]->pn;
+	n += poly[i]->pn;
     }
     bar = N_GNEW(n, Pedge_t);
     b = 0;
@@ -1023,10 +1023,10 @@ static boolean _neato_set_aspect(graph_t * g)
 	    /* handle case where one or more dimensions is too big */
 	    if ((xf < 1.0) || (yf < 1.0)) {
 		if (xf < yf) {
-		    yf = yf / xf;
+		    yf /= xf;
 		    xf = 1.0;
 		} else {
-		    xf = xf / yf;
+		    xf /= yf;
 		    yf = 1.0;
 		}
 	    }
@@ -1070,8 +1070,8 @@ static boolean _neato_set_aspect(graph_t * g)
 	 * allocate it in the root graph and the connected components. 
 	 */
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	    ND_pos(n)[0] = ND_pos(n)[0] * xf;
-	    ND_pos(n)[1] = ND_pos(n)[1] * yf;
+	    ND_pos(n)[0] *= xf;
+	    ND_pos(n)[1] *= yf;
 	}
 	scaleBB(g, xf, yf);
         return TRUE;
