@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <pathplan/vis.h>
 
 typedef Ppoint_t ilcoord_t;
@@ -34,7 +34,7 @@ static void *mymalloc(size_t newsize)
     if (newsize > 0)
 	rv = malloc(newsize);
     else
-	rv = (void *) 0;
+	rv = NULL;
     return rv;
 }
 
