@@ -124,19 +124,9 @@ static Agedge_t *agfindedge_by_key(Agraph_t * g, Agnode_t * t, Agnode_t * h,
     sn = agsubrep(g, h);
     if (!sn) e = 0;
     else {
-#if 0
-	if (t != h) {
-#endif
 	    dtrestore(g->e_id, sn->in_id);
 	    e = dtsearch(g->e_id, &template);
 	    sn->in_id = dtextract(g->e_id);
-#if 0
-	} else {			/* self edge */
-	    dtrestore(g->e_id, sn->out_id);
-	    e = dtsearch(g->e_id, &template);
-	    sn->out_id = dtextract(g->e_id);
-	}
-#endif
     }
     return e;
 }

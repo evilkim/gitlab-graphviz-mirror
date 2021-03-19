@@ -361,23 +361,6 @@ constrained_majorization_new(CMajEnv * e, float *b, float **coords,
 		 * Note that it is enough to reorder the level where 
 		 * the split was done
 		 */
-#if 0
-		int max_in_level, min_in_level;
-
-		level = lev[best_i];
-		if (level == num_levels) {
-		    /* last_level */
-		    max_in_level = MIN(right, n);
-		} else {
-		    max_in_level = MIN(right, levels[level]);
-		}
-		if (level == 0) {
-		    /* first level */
-		    min_in_level = MAX(left, 0);
-		} else {
-		    min_in_level = MAX(left, levels[level - 1]);
-		}
-#endif
 		for (i = left; i < right; i++) {
 		    ordering[i] = block[i - left];
 		}
@@ -558,21 +541,6 @@ int constrained_majorization_gradient_projection(CMajEnv * e,
 	}
 	computeHierarchyBoundaries(place, e->n, ordering, levels,
 				   num_levels, hierarchy_boundaries);
-#if 0
-	if (num_levels)
-	    qsort((int *) ordering, (size_t) levels[0], sizeof(int),
-		  compare_incr);
-	for (i = 0; i < num_levels; i++) {
-	    int endOfLevel = i == num_levels - 1 ? e->n : levels[i + 1];
-	    /* ensure monotic increase in position within levels */
-	    qsort((int *) ordering + levels[i],
-		  (size_t) endOfLevel - levels[i], sizeof(int),
-		  compare_incr);
-	    /* If there are overlapping levels find offending nodes and place at average position */
-	    int l = ordering[levels[i] - 1], u = ordering[levels[i]];
-	    /* assert(place[l]+levels_gap<=place[u]+0.00001); */
-	}
-#endif
 #ifdef CONMAJ_LOGGING
 	double stress = 0;
 	for (i = 0; i < e->n; i++) {
@@ -693,9 +661,6 @@ constrained_majorization_new_with_gaps(CMajEnv * e, float *b,
 		    total_gap += levels_gap;
 		}
 		node = ordering[right];
-#if 0
-		if (place[node] != target_place)
-#endif
 		    /* not sure if this is better than 'place[node]!=target_place' */
 		    if (fabs(place[node] - target_place) > 1e-9) {
 			break;
@@ -909,23 +874,6 @@ constrained_majorization_new_with_gaps(CMajEnv * e, float *b,
 		 * Note that it is enough to reorder the level where 
 		 * the split was done
 		 */
-#if 0
-		int max_in_level, min_in_level;
-
-		level = lev[best_i];
-		if (level == num_levels) {
-		    /* last_level */
-		    max_in_level = MIN(right, n);
-		} else {
-		    max_in_level = MIN(right, levels[level]);
-		}
-		if (level == 0) {
-		    /* first level */
-		    min_in_level = MAX(left, 0);
-		} else {
-		    min_in_level = MAX(left, levels[level - 1]);
-		}
-#endif
 		for (i = left; i < right; i++) {
 		    ordering[i] = block[i - left];
 		}

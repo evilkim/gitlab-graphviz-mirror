@@ -522,22 +522,10 @@ node_t *choose_node(graph_t * G, int nG)
     double m, max;
     node_t *choice, *np;
     static int cnt = 0;
-#if 0
-    double e;
-    static double save_e = MAXDOUBLE;
-#endif
 
     cnt++;
     if (GD_move(G) >= MaxIter)
 	return NULL;
-#if 0
-    if ((cnt % 100) == 0) {
-	e = total_e(G, nG);
-	if (e - save_e > 0)
-	    return NULL;
-	save_e = e;
-    }
-#endif
     max = 0.0;
     choice = NULL;
     for (i = 0; i < nG; i++) {
@@ -560,12 +548,6 @@ node_t *choose_node(graph_t * G, int nG)
 	    if (cnt % 1000 == 0)
 		fprintf(stderr, "\n");
 	}
-#if 0
-	e = total_e(G, nG);
-	if (fabs((e - save_e) / save_e) < 1e-5) {
-	    choice = NULL;
-	}
-#endif
     }
     return choice;
 }
