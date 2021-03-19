@@ -93,8 +93,8 @@ static Ppoint_t recPt(double x, double y, pointf c, expand_t* m)
 {
     Ppoint_t p;
 
-    p.x = (x * m->x) + c.x;
-    p.y = (y * m->y) + c.y;
+    p.x = x * m->x + c.x;
+    p.y = y * m->y + c.y;
     return p;
 }
 
@@ -223,7 +223,7 @@ void makeSelfArcs(path * P, edge_t * e, int stepx)
 {
     int cnt = ED_count(e);
 
-    if ((cnt == 1) || Concentrate) {
+    if (cnt == 1 || Concentrate) {
 	edge_t *edges1[1];
 	edges1[0] = e;
 	makeSelfEdge(P, edges1, 0, 1, stepx, stepx, &sinfo);
@@ -496,9 +496,9 @@ void makeSpline(graph_t* g, edge_t * e, Ppoly_t ** obs, int npoly, boolean chkPt
     pp = qp = POLYID_NONE;
     if (chkPts)
 	for (i = 0; i < npoly; i++) {
-	    if ((pp == POLYID_NONE) && in_poly(*obs[i], p))
+	    if (pp == POLYID_NONE && in_poly(*obs[i], p))
 		pp = i;
-	    if ((qp == POLYID_NONE) && in_poly(*obs[i], q))
+	    if (qp == POLYID_NONE && in_poly(*obs[i], q))
 		qp = i;
 	}
 
@@ -541,7 +541,7 @@ static int _spline_edges(graph_t * g, expand_t* pmargin, int edgetype)
     int cnt, i = 0, npoly;
     vconfig_t *vconfig = 0;
     path *P = NULL;
-    int useEdges = (Nop > 1);
+    int useEdges = Nop > 1;
     int legal = 0;
 
 #ifdef HAVE_GTS
@@ -579,7 +579,7 @@ static int _spline_edges(graph_t * g, expand_t* pmargin, int edgetype)
     /* route edges  */
     if (Verbose)
 	fprintf(stderr, "Creating edges using %s\n",
-	    (legal && (edgetype == ET_ORTHO)) ? "orthogonal lines" :
+	    (legal && edgetype == ET_ORTHO) ? "orthogonal lines" :
 	    (vconfig ? (edgetype == ET_SPLINE ? "splines" : "polylines") : 
 		"line segments"));
     if (vconfig) {
@@ -591,7 +591,7 @@ static int _spline_edges(graph_t * g, expand_t* pmargin, int edgetype)
 	}
     }
 #ifdef ORTHO
-    else if (legal && (edgetype == ET_ORTHO)) {
+    else if (legal && edgetype == ET_ORTHO) {
 	orthoEdges (g, 0);
 	useEdges = 1;
     }
@@ -616,9 +616,9 @@ static int _spline_edges(graph_t * g, expand_t* pmargin, int edgetype)
 		makeSelfArcs(P, e, GD_nodesep(g->root));
 	    } else if (vconfig) { /* ET_SPLINE or ET_PLINE */
 #ifdef HAVE_GTS
-		if ((ED_count(e) > 1) || BOUNDARY_PORT(e)) {
+		if (ED_count(e) > 1 || BOUNDARY_PORT(e)) {
 		    int fail = 0;
-		    if ((ED_path(e).pn == 2) && !BOUNDARY_PORT(e))
+		    if (ED_path(e).pn == 2 && !BOUNDARY_PORT(e))
 			     /* if a straight line can connect the ends */
 			makeStraightEdge(g, e, edgetype, &sinfo);
 		    else { 
@@ -703,7 +703,7 @@ splineEdges(graph_t * g, int (*edgefn) (graph_t *, expand_t*, int),
     map = dtopen(&edgeItemDisc, Dtoset);
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
-	    if ((Nop > 1 && ED_spl(e))) {
+	    if (Nop > 1 && ED_spl(e)) {
 		/* If Nop > 1 (use given edges) and e has a spline, it
  		 * should have its own equivalence class.
 		 */
@@ -824,11 +824,11 @@ static void scaleEdge(edge_t * e, double xf, double yf)
     for (i = 0; i < ED_spl(e)->size; i++) {
 	pt = bez->list;
 	for (j = 0; j < bez->size; j++) {
-	    if ((i == 0) && (j == 0)) {
+	    if (i == 0 && j == 0) {
 		pt->x += delt.x;
 		pt->y += delt.y;
 	    }
-	    else if ((i == ED_spl(e)->size-1) && (j == bez->size-1)) {
+	    else if (i == ED_spl(e)->size-1 && j == bez->size-1) {
 		pt->x += delh.x;
 		pt->y += delh.y;
 	    }
@@ -1013,7 +1013,7 @@ static boolean _neato_set_aspect(graph_t * g)
 	    xf = (double) GD_drawing(g)->size.x / GD_bb(g).UR.x;
 	    yf = (double) GD_drawing(g)->size.y / GD_bb(g).UR.y;
 	    /* handle case where one or more dimensions is too big */
-	    if ((xf < 1.0) || (yf < 1.0)) {
+	    if (xf < 1.0 || yf < 1.0) {
 		if (xf < yf) {
 		    yf /= xf;
 		    xf = 1.0;
@@ -1027,14 +1027,14 @@ static boolean _neato_set_aspect(graph_t * g)
 		return translated;
 	    xf = (double) GD_drawing(g)->size.x / GD_bb(g).UR.x;
 	    yf = (double) GD_drawing(g)->size.y / GD_bb(g).UR.y;
-	    if ((xf > 1.0) && (yf > 1.0)) {
+	    if (xf > 1.0 && yf > 1.0) {
 		double scale = MIN(xf, yf);
 		xf = yf = scale;
 	    } else
 		return translated;
 	} else if (GD_drawing(g)->ratio_kind == R_VALUE) {
 	    desired = GD_drawing(g)->ratio;
-	    actual = (GD_bb(g).UR.y) / (GD_bb(g).UR.x);
+	    actual = GD_bb(g).UR.y / GD_bb(g).UR.x;
 	    if (actual < desired) {
 		yf = desired / actual;
 		xf = 1.0;
@@ -1087,8 +1087,8 @@ boolean neato_set_aspect(graph_t * g)
 	/* setting aspect ratio only makes sense on root graph */
     moved = _neato_set_aspect(g);
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	ND_coord(n).x = POINTS_PER_INCH * (ND_pos(n)[0]);
-	ND_coord(n).y = POINTS_PER_INCH * (ND_pos(n)[1]);
+	ND_coord(n).x = POINTS_PER_INCH * ND_pos(n)[0];
+	ND_coord(n).y = POINTS_PER_INCH * ND_pos(n)[1];
     }
     return moved;
 }
