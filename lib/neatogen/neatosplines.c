@@ -448,14 +448,6 @@ getPath(edge_t * e, vconfig_t * vconfig, int chkPts, Ppoly_t ** obs,
     if (chkPts) {
 	pp = ND_lim(agtail(e));
 	qp = ND_lim(aghead(e));
-/*
-	for (i = 0; i < npoly; i++) {
-	    if ((pp == POLYID_NONE) && in_poly(*obs[i], p))
-		pp = i;
-	    if ((qp == POLYID_NONE) && in_poly(*obs[i], q))
-		qp = i;
-	}
-*/
     }
     Pobspath(vconfig, p, pp, q, qp, &line);
     return line;
