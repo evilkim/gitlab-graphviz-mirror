@@ -77,11 +77,11 @@ void *getfree(Freelist * fl)
     }
     t = fl->head;
     fl->head = t->nextfree;
-    return ((void *) t);
+    return t;
 }
 
 void makefree(void *curr, Freelist * fl)
 {
     ((Freenode *) curr)->nextfree = fl->head;
-    fl->head = (Freenode *) curr;
+    fl->head = curr;
 }
