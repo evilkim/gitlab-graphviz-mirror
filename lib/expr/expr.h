@@ -306,7 +306,6 @@ extern void		exstatement(Expr_t*);
 extern int		extoken_fn(Expr_t*);
 extern char*		exstring(Expr_t *, char *);
 extern void*		exstralloc(Expr_t *, void *, size_t);
-extern int		exstrfree(Expr_t *, void *);
 extern char*		extype(int);
 extern Extype_t		exzero(int);
 extern char*	exopname(int);

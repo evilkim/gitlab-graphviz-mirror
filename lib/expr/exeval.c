@@ -1889,12 +1889,3 @@ void *exstralloc(Expr_t * ex, void *p, size_t sz)
 {
     return vmresize(ex->ve, p, sz);
 }
-
-/* exstrfree:
- * Free memory obtained from exstralloc.
- */
-int exstrfree(Expr_t * ex, void *p)
-{
-    return vmfree(ex->ve, p);
-}
-
