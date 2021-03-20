@@ -56,7 +56,7 @@ static char *_agstrcanon(char *arg, char *buf)
     char *s, *p;
     unsigned char uc;
     int cnt = 0, dotcnt = 0;
-    int needs_quotes = FALSE;
+    bool needs_quotes = false;
     int maybe_num;
     int backslash_pending = FALSE;
     static const char *tokenlist[]	/* must agree with scan.l */
@@ -75,28 +75,28 @@ static char *_agstrcanon(char *arg, char *buf)
     while (uc) {
 	if (uc == '\"') {
 	    *p++ = '\\';
-	    needs_quotes = TRUE;
+	    needs_quotes = true;
 	} 
 	else if (maybe_num) {
 	    if (uc == '-') {
 		if (cnt) {
 		    maybe_num = FALSE;
-		    needs_quotes = TRUE;
+		    needs_quotes = true;
 		}
 	    }
 	    else if (uc == '.') {
 		if (dotcnt++) {
 		    maybe_num = FALSE;
-		    needs_quotes = TRUE;
+		    needs_quotes = true;
 		}
 	    }
 	    else if (!isdigit(uc)) {
 		maybe_num = FALSE;
-		needs_quotes = TRUE;
+		needs_quotes = true;
 	    }
 	}
 	else if (!ISALNUM(uc))
-	    needs_quotes = TRUE;
+	    needs_quotes = true;
 	*p++ = (char) uc;
 	uc = *(unsigned char *) s++;
 	cnt++;
@@ -108,14 +108,14 @@ static char *_agstrcanon(char *arg, char *buf)
             if (uc && backslash_pending && !(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
         	*p++ = '\\';
         	*p++ = '\n';
-        	needs_quotes = TRUE;
+        	needs_quotes = true;
         	backslash_pending = FALSE;
 		cnt = 0;
             } else if (uc && (cnt >= Max_outputline)) {
         	if (!(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
 	            *p++ = '\\';
     	            *p++ = '\n';
-	            needs_quotes = TRUE;
+	            needs_quotes = true;
 		    cnt = 0;
         	} else {
                     backslash_pending = TRUE;
