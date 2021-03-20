@@ -92,7 +92,7 @@ typedef enum {
     xop_bezier,
     xop_polyline,       xop_text,
     xop_fill_color,     xop_pen_color, xop_font, xop_style, xop_image,
-    xop_grad_fill_color,     xop_grad_pen_color,
+    xop_grad_color,
     xop_fontchar
 } xop_kind; 
     
@@ -128,11 +128,32 @@ typedef struct {
     int flags;
 } xdot;
 
+typedef struct {
+    int cnt;  /* no. of xdot ops */
+    int n_ellipse;
+    int n_polygon;
+    int n_polygon_pts;
+    int n_polyline;
+    int n_polyline_pts;
+    int n_bezier;
+    int n_bezier_pts;
+    int n_text;
+    int n_font;
+    int n_style;
+    int n_color;
+    int n_image;
+    int n_gradcolor;
+    int n_fontchar;
+} xdot_stats;
+
 xdot* parseXDotF (char*, drawfunc_t opfns[], int sz);
+xdot* parseXDotFOn (char*, drawfunc_t opfns[], int sz, xdot*);
 xdot* parseXDot (char*);
 char* sprintXDot (xdot*);
 void fprintXDot (FILE*, xdot*);
+void jsonXDot (FILE*, xdot*);
 void freeXDot (xdot*);
+int statXDot (xdot*, xdot_stats*);
 
 xdot_grad_type colorType (char*);
 xdot_color* parseXDotColor (char*);
@@ -141,7 +162,7 @@ void freeXDotColor (xdot_color*);
 .fi
 .SH DESCRIPTION
 \fIlibxdot\fP provides support for parsing and deparsing
-graphical operations specificed by the \fIxdot\fP language.
+graphical operations specified by the \fIxdot\fP language.
 .SS "Types"
 .PP
 .SS "  xdot"
@@ -224,6 +245,9 @@ If \fIopfns\fP is non-zero, it is taken to be any array of functions
 indexed by \fIxop_kind\fP. During parsing, the \fIdrawfunc\fP member
 of \fIxop_op\fP will be set to the corresponding function in \fIopfns\fP.
 .PP
+.SS "  xdot* parseXDotFOn (char *str, drawfunc_t* opfns, int sz, xdot* x)"
+The same as \fIparseXDotF\fP, but append to the given \fIxdot\fP object \fIx\fP.
+.PP
 .SS "  xdot* parseXDot (char *str)"
 This is equivalent to \fIparseXDotF(str, 0, 0)\fP .
 .PP
@@ -247,6 +271,11 @@ with \fIxdot_op\fP having kind \fIxd_grad_pen_color\fP or
 For an application that handles its own parsing of xdot, the library
 provides three helper functions.
 .PP
+.SS "  void jsonXDot(FILE * fp, xdot * x)"
+Translate a given \fIxdot\fP object to a JSON representation. This functionality
+is currently considered experimental and the format of the JSON output may not
+be stable across Graphviz releases.
+.PP
 .SS "  xdot_grad_type colorTypeXDot (char *str)"
 returns the color type described by the input string.
 .PP
@@ -256,6 +285,11 @@ the result in \fIclr\fP. It returns NULL on failure.
 .PP
 .SS "  void freeXDotColor (xdot_color* cp)"
 This frees the resources associated with a value of type \fIxdot_color\fP.
+.PP
+.SS "  int statXDot (xdot *x, xdot_stats *sp)"
+This function is provided for retrieving various statistics about an \fIxdot\fP
+object. Returns 0 on success and populates the output parameter \fIsp\fP with
+counts of various entities in the \fIxdot\fP object.
 
 .SH BUGS
 Although some small checking is done on the \fIsz\fP argument to
