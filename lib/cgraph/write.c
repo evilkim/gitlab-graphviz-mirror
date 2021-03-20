@@ -282,7 +282,7 @@ static int write_dicts(Agraph_t * g, iochan_t * ofile, int top)
 static int write_hdr(Agraph_t * g, iochan_t * ofile, int top)
 {
     char *name, *sep, *kind, *strict;
-    int root = 0;
+    bool root = false;
     bool hasName = true;
 
     Attrs_not_written_flag = AGATTRWF(g);
@@ -290,7 +290,7 @@ static int write_hdr(Agraph_t * g, iochan_t * ofile, int top)
     if (NOT(top) && agparent(g))
 	kind = "sub";
     else {
-	root = 1;
+	root = true;
 	if (g->desc.directed)
 	    kind = "di";
 	else
