@@ -58,6 +58,11 @@ See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/main/gen_vers
 
 #### Creating the release
 
+1. Search the issue tracker for
+   [anything tagged with the release-blocker label](https://gitlab.com/graphviz/graphviz/-/issues?label_name=release+blocker).
+   If there are any such open issues, you cannot make a new release. Resolve
+   these first.
+
 1. Check that the
 [main pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=main)
 is green
