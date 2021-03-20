@@ -58,7 +58,7 @@ static char *_agstrcanon(char *arg, char *buf)
     int cnt = 0, dotcnt = 0;
     bool needs_quotes = false;
     int maybe_num;
-    int backslash_pending = FALSE;
+    bool backslash_pending = false;
     static const char *tokenlist[]	/* must agree with scan.l */
 	= { "node", "edge", "strict", "graph", "digraph", "subgraph",
 	NULL
@@ -109,7 +109,7 @@ static char *_agstrcanon(char *arg, char *buf)
         	*p++ = '\\';
         	*p++ = '\n';
         	needs_quotes = true;
-        	backslash_pending = FALSE;
+        	backslash_pending = false;
 		cnt = 0;
             } else if (uc && (cnt >= Max_outputline)) {
         	if (!(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
@@ -118,7 +118,7 @@ static char *_agstrcanon(char *arg, char *buf)
 	            needs_quotes = true;
 		    cnt = 0;
         	} else {
-                    backslash_pending = TRUE;
+                    backslash_pending = true;
         	}
 	    }
 	}
