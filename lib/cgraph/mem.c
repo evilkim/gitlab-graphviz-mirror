@@ -9,7 +9,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
-#include <stddef.h>
+#include <stdlib.h>
 
 /* memory management discipline and entry points */
 static void *memopen(Agdisc_t* disc)
@@ -23,8 +23,7 @@ static void *memalloc(void *heap, size_t request)
     void *rv;
 
     NOTUSED(heap);
-    rv = malloc(request);
-    memset(rv, 0, request);
+    rv = calloc(1, request);
     return rv;
 }
 
