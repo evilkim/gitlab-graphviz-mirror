@@ -391,7 +391,7 @@ static bool has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
     return true;
 }
 
-static int not_default_attrs(Agraph_t * g, Agnode_t * n)
+static bool not_default_attrs(Agraph_t * g, Agnode_t * n)
 {
     Agattr_t *data;
     Agsym_t *sym;
@@ -400,10 +400,10 @@ static int not_default_attrs(Agraph_t * g, Agnode_t * n)
     if ((data = agattrrec(n))) {
 	for (sym = dtfirst(data->dict); sym; sym = dtnext(data->dict, sym)) {
 	    if (data->str[sym->id] != sym->defval)
-		return TRUE;
+		return true;
 	}
     }
-    return FALSE;
+    return false;
 }
 
 static int write_subgs(Agraph_t * g, iochan_t * ofile)
