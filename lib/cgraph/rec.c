@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<stdbool.h>
 #include	<stddef.h>
 
 /*
@@ -174,15 +175,15 @@ void aginit(Agraph_t * g, int kind, char *rec_name, int arg_rec_size, int mtf)
     Agedge_t *e;
     Agraph_t *s;
     unsigned int rec_size;
-    int recur; /* if recursive on subgraphs */
+    bool recur; /* if recursive on subgraphs */
 
     if (arg_rec_size < 0)
     {
-        recur = 1;
+        recur = true;
     }
     else
     {
-        recur = 0;
+        recur = false;
     }
     rec_size = (unsigned int) abs(arg_rec_size);
     switch (kind) {
