@@ -141,15 +141,7 @@ static char *_agstrcanon(char *arg, char *buf)
  */
 static char *agcanonhtmlstr(char *arg, char *buf)
 {
-    char *s, *p;
-
-    s = arg;
-    p = buf;
-    *p++ = '<';
-    while (*s)
-	*p++ = *s++;
-    *p++ = '>';
-    *p = '\0';
+    sprintf(buf, "<%s>", arg);
     return buf;
 }
 
