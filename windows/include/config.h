@@ -249,9 +249,6 @@
 /* Define to 1 if you have the <X11/Xaw/Text.h> header file. */
 /* #undef HAVE_X11_XAW_TEXT_H */
 
-/* Define to 1 if the system has the type `_Bool'. */
-#define HAVE__BOOL 1
-
 /* Define if you want IPSEPCOLA */
 /* #undef IPSEPCOLA */
 #define IPSEPCOLA 1
