@@ -378,17 +378,17 @@ static bool has_no_edges(Agraph_t * g, Agnode_t * n)
     return agfstin(g, n) == NULL && agfstout(g, n) == NULL;
 }
 
-static int has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
+static bool has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
 				    uint64_t val)
 {
     Agedge_t *e;
 
     if (AGSEQ(n) < val)
-	return FALSE;
+	return false;
     for (e = agfstin(g, n); e; e = agnxtin(g, e))
 	if (AGSEQ(e->node) < val)
-	    return FALSE;
-    return TRUE;
+	    return false;
+    return true;
 }
 
 static int not_default_attrs(Agraph_t * g, Agnode_t * n)
