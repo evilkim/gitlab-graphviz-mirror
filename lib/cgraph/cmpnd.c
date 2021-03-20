@@ -57,14 +57,10 @@ typedef struct Agcmpedge_s {
 #define IN_STACK 0
 #define OUT_STACK 1
 
-static save_stack_t *save_stack_of(Agedge_t * e,
-				   Agnode_t * node_being_saved)
+static save_stack_t *save_stack_of(Agedge_t * e, Agnode_t * node_being_saved)
 {
     int i;
-    Agcmpedge_t *edgerec;
-    edgerec =
-	(Agcmpedge_t *) agbindrec(e, Descriptor_id, sizeof(*edgerec),
-				  FALSE);
+    Agcmpedge_t *edgerec = agbindrec(e, Descriptor_id, sizeof(*edgerec), FALSE);
     if (node_being_saved == AGHEAD(e))
 	i = IN_STACK;
     else
@@ -97,8 +93,7 @@ static save_e_t stacktop(save_stack_t * stk)
 /* note: doesn't give back mem, but stackpush() eventually does */
 static save_e_t stackpop(save_stack_t * stk)
 {
-    save_e_t rv;
-    rv = stacktop(stk);
+    save_e_t rv = stacktop(stk);
     if (stk->stacksize > 0)
 	stk->stacksize--;
     return rv;
@@ -198,8 +193,7 @@ int agassociate(Agnode_t * n, Agraph_t * sub)
 }
 
 /* a utility function for aghide */
-static void delete_outside_subg(Agraph_t * g, Agnode_t * node,
-				Agraph_t * subg)
+static void delete_outside_subg(Agraph_t * g, Agnode_t * node, Agraph_t * subg)
 {
     Agraph_t *s, **subglist;
     Agnode_t *n;
@@ -212,8 +206,7 @@ static void delete_outside_subg(Agraph_t * g, Agnode_t * node,
 	graphrec = agbindrec(g, Descriptor_id, sizeof(*graphrec), FALSE);
 	if ((d = graphrec->hidden_node_set) == NULL) {
 	    /* use name disc. to permit search for hidden node by name */
-	    d = graphrec->hidden_node_set
-		= agdtopen(g, &Ag_node_name_disc, Dttree);
+	    d = graphrec->hidden_node_set = agdtopen(g, &Ag_node_name_disc, Dttree);
 	}
 	dtinsert(d, n);
 
@@ -278,8 +271,7 @@ int aghide(Agnode_t * cmpnode)
 }
 
 /* utility function for agexpose */
-static void insert_outside_subg(Agraph_t * g, Agnode_t * node,
-				Agraph_t * subg)
+static void insert_outside_subg(Agraph_t * g, Agnode_t * node, Agraph_t * subg)
 {
     Agraph_t *s, **subglist;
     Agnode_t *n;
@@ -287,9 +279,7 @@ static void insert_outside_subg(Agraph_t * g, Agnode_t * node,
 
     if (g != subg && (n = agsubnode(g, (Agnode_t *) node, FALSE)) == NULL) {
 	graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
-	if (graphrec
-	    &&
-	    ((n = dtsearch(graphrec->hidden_node_set, node))))
+	if (graphrec && ((n = dtsearch(graphrec->hidden_node_set, node))))
 	    dtinsert(g->n_dict, n);
 
 	subglist = agsubglist(g);
@@ -350,8 +340,7 @@ int agexpose(Agnode_t * cmpnode)
 
 Agraph_t *agcmpgraph_of(Agnode_t * n)
 {
-    Agcmpnode_t *noderec;
-    noderec = (Agcmpnode_t *) aggetrec(n, Descriptor_id, FALSE);
+    Agcmpnode_t *noderec = (Agcmpnode_t *) aggetrec(n, Descriptor_id, FALSE);
     if (noderec && NOT(noderec->collapsed))
 	return noderec->subg;
     else
@@ -360,8 +349,7 @@ Agraph_t *agcmpgraph_of(Agnode_t * n)
 
 Agnode_t *agcmpnode_of(Agraph_t * g)
 {
-    Agcmpgraph_t *graphrec;
-    graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
+    Agcmpgraph_t *graphrec = (Agcmpgraph_t *) aggetrec(g, Descriptor_id, FALSE);
     if (graphrec)
 	return graphrec->node;
     else
