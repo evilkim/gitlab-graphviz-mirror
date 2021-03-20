@@ -12,8 +12,7 @@
 #  - jconvert.py, which converts the json schema graphviz_json_schema.json to html.
 #    This also relies on the python package json2html.
 #
-# The main products are web pages:
-#    shapes.html  - shapelist, html_grammar
+# The main products are web pages.
 #
 # The files listed after each give the main data files used to
 # generate the page.
@@ -82,7 +81,6 @@ DOTS = html2.gv html3.gv html4.gv tee.gv
 HTML = \
 	grammar.html \
 	html_grammar.html \
-	shapes.html \
 	schema.html \
 	arrow_grammar.html \
 	arrow_table.html \
@@ -141,9 +139,6 @@ shapes : shapelist mkshapes.sh
 html_grammar.html : mklang html_grammar
 	./mklang html_grammar html_grammar.html
 
-shapes.html : shapes mkshhtml.py record.gif record2.gif sdlshapes.png templates/shapes.html.j2 shapelist html_grammar.html html1.gif html2.gif html3.gif html4.gif
-	./mkshhtml.py html_grammar.html html1.dot < shapelist > shapes.html
-
 grammar.html : grammar mklang
 	./mklang grammar grammar.html
 
@@ -193,7 +188,7 @@ EXTRA_DIST = $(XGIF) mklang.y mkarrows.sh mkshapes.sh mkstyles.sh mktapers.sh \
              mkarrowtbl.sh mkshhtml.py \
 	           ps_to_png.sh arrow_grammar grammar html_grammar \
              shapelist \
-             shapes.1 shapes.2 shapes.3 lang.1 lang.2 \
+             lang.1 lang.2 \
              brewer.awk mkcolors.awk svg.awk sz.awk \
              colorlist.dot html1.dot html4.dot round.dot constraint.dot \
              html2.dot mrecord.dot sdlshapes.dot fill.dot html3.dot record.dot \
