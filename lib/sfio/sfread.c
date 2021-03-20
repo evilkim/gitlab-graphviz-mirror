@@ -19,7 +19,6 @@
  * @param f read from this stream
  * @param buf buffer to read into
  * @param n number of bytes to be read
- * @param 
  */
 ssize_t sfread(Sfio_t * f, void * buf, size_t n)
 {

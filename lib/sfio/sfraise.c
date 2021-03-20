@@ -18,7 +18,6 @@
  * @param f stream
  * @param type type of event
  * @param data associated data
- * @param 
  */
 int sfraise(Sfio_t * f, int type, void * data)
 {

@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - gvpr on Windows does not support absolute paths #1780
 - buffer overflow in unflatten
 - agxbputc macro does not bracket its arguments #1814
+- Superfluous empty `@param` in documentation #1977
 
 ## [2.46.1] - 2021-02-13
 
