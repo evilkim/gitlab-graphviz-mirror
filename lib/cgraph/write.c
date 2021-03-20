@@ -618,9 +618,6 @@ static int write_body(Agraph_t * g, iochan_t * ofile)
     Agnode_t *n, *prev;
     Agedge_t *e;
     Agdatadict_t *dd;
-    /* int                  has_attr; */
-
-    /* has_attr = agattrrec(g) != NULL; */
 
     CHKRV(write_subgs(g, ofile));
     dd = agdatadict(g, FALSE);

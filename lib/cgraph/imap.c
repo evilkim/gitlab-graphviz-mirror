@@ -181,11 +181,9 @@ void aginternalmapclearlocalnames(Agraph_t * g)
     int i;
     IMapEntry_t *sym, *nxt;
     Dict_t **d_name;
-    /* Dict_t **d_id; */
 
     Ag_G_global = g;
     d_name = g->clos->lookup_by_name;
-    /* d_id = g->clos->lookup_by_id; */
     for (i = 0; i < 3; i++) {
 	if (d_name[i]) {
 	    for (sym = dtfirst(d_name[i]); sym; sym = nxt) {

@@ -46,17 +46,8 @@ static void memfree(void *heap, void *ptr)
     free(ptr);
 }
 
-#ifndef WRONG
-#define memclose 0
-#else
-static void memclose(void *heap)
-{
-    NOTUSED(heap);
-}
-#endif
-
 Agmemdisc_t AgMemDisc =
-    { memopen, memalloc, memresize, memfree, memclose };
+    { memopen, memalloc, memresize, memfree, NULL };
 
 void *agalloc(Agraph_t * g, size_t size)
 {
