@@ -333,7 +333,7 @@ static int write_trl(Agraph_t * g, iochan_t * ofile)
     return 0;
 }
 
-static int irrelevant_subgraph(Agraph_t * g)
+static bool irrelevant_subgraph(Agraph_t * g)
 {
     int i, n;
     Agattr_t *sdata, *pdata, *rdata;
@@ -343,21 +343,21 @@ static int irrelevant_subgraph(Agraph_t * g)
 
     name = agnameof(g);
     if (name && name[0] != LOCALNAMEPREFIX)
-	return FALSE;
+	return false;
     if ((sdata = agattrrec(g)) && (pdata = agattrrec(agparent(g)))) {
 	rdata = agattrrec(agroot(g));
 	n = dtsize(rdata->dict);
 	for (i = 0; i < n; i++)
 	    if (sdata->str[i] && pdata->str[i]
 		&& strcmp(sdata->str[i], pdata->str[i]))
-		return FALSE;
+		return false;
     }
     dd = agdatadict(g, FALSE);
     if (!dd)
-	return TRUE;
+	return true;
     if ((dtsize(dd->dict.n) > 0) || (dtsize(dd->dict.e) > 0))
-	return FALSE;
-    return TRUE;
+	return false;
+    return true;
 }
 
 static int node_in_subg(Agraph_t * g, Agnode_t * n)
