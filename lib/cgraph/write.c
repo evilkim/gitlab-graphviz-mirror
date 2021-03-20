@@ -373,7 +373,7 @@ static bool node_in_subg(Agraph_t * g, Agnode_t * n)
     return false;
 }
 
-static int has_no_edges(Agraph_t * g, Agnode_t * n)
+static bool has_no_edges(Agraph_t * g, Agnode_t * n)
 {
     return agfstin(g, n) == NULL && agfstout(g, n) == NULL;
 }
