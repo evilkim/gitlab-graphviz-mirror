@@ -529,14 +529,14 @@ static int write_node(Agnode_t * n, iochan_t * ofile, Dict_t * d)
  * a subgraph or one of its predecessors, and if it is a singleton
  * or has non-default attributes.
  */
-static int write_node_test(Agraph_t * g, Agnode_t * n,
+static bool write_node_test(Agraph_t * g, Agnode_t * n,
 			   uint64_t pred_id)
 {
     if (!node_in_subg(g, n) && has_no_predecessor_below(g, n, pred_id)) {
 	if (has_no_edges(g, n) || not_default_attrs(g, n))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static int write_port(Agedge_t * e, iochan_t * ofile, Agsym_t * port)
