@@ -360,7 +360,7 @@ static bool irrelevant_subgraph(Agraph_t * g)
     return true;
 }
 
-static int node_in_subg(Agraph_t * g, Agnode_t * n)
+static bool node_in_subg(Agraph_t * g, Agnode_t * n)
 {
     Agraph_t *subg;
 
@@ -368,9 +368,9 @@ static int node_in_subg(Agraph_t * g, Agnode_t * n)
 	if (irrelevant_subgraph(subg))
 	    continue;
 	if (agsubnode(subg, n, FALSE))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static int has_no_edges(Agraph_t * g, Agnode_t * n)
@@ -532,7 +532,7 @@ static int write_node(Agnode_t * n, iochan_t * ofile, Dict_t * d)
 static int write_node_test(Agraph_t * g, Agnode_t * n,
 			   uint64_t pred_id)
 {
-    if (NOT(node_in_subg(g, n)) && has_no_predecessor_below(g, n, pred_id)) {
+    if (!node_in_subg(g, n) && has_no_predecessor_below(g, n, pred_id)) {
 	if (has_no_edges(g, n) || not_default_attrs(g, n))
 	    return TRUE;
     }
