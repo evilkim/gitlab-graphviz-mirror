@@ -56,7 +56,7 @@ static double Fontscale;
   The first approach is used here.
 */
 
-static const char *EscComment = ".\\\" ";       /* troff comment */
+static const char EscComment[] = "# ";       /* PIC comment */
 static const char picgen_msghdr[] = "dot pic plugin: ";
 
 static void unsupported(char *s)
@@ -135,11 +135,15 @@ static void picptarray(GVJ_t *job, pointf * A, int n, int close)
 
     for (i = 0; i < n; i++) {
 	PF2P(A[i],p);
-        gvprintf(job, " %d %d", p.x, p.y);
+        if (i == 0) {
+            gvprintf(job, "move to (%d, %d)", p.x, p.y);
+        } else {
+            gvprintf(job, "; line to (%d, %d)", p.x, p.y);
+        }
     }
     if (close) {
 	PF2P(A[0],p);
-        gvprintf(job, " %d %d", p.x, p.y);
+        gvprintf(job, "; line to (%d, %d)", p.x, p.y);
     }
     gvputs(job, "\n");
 }
@@ -380,7 +384,7 @@ static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
     /* A[] contains 2 points: the center and corner. */
 
     gvprintf(job,
-		"ellipse attrs%d %swid %.5f ht %.5f at (%.5f,%.5f);\n", 1,
+		"ellipse attrs0 %swid %.5f ht %.5f at (%.5f,%.5f);\n",
 		filled ? "fill " : "",
 		PS2INCH(2*(A[1].x - A[0].x)),
 		PS2INCH(2*(A[1].y - A[0].y)),
@@ -395,21 +399,12 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 
     int line_style;		/* solid, dotted, dashed */
     double style_val;
-    int npoints = n;
     int i;
 
     pointf pf, V[4];
     point p;
     int j, step;
     int count = 0;
-    int size;
-
-    char *buffer;
-    char *buf;
-    buffer =
-        malloc((npoints + 1) * (BEZIERSUBDIVISION +
-                                1) * 20 * sizeof(char));
-    buf = buffer;
 
     pic_line_style(obj, &line_style, &style_val);
 
@@ -418,8 +413,7 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     /* Write first point in line */
     count++;
     PF2P(A[0], p);
-    size = sprintf(buf, " %d %d", p.x, p.y);
-    buf += size;
+    gvprintf(job, "move to (%d, %d)", p.x, p.y);
     /* write subsequent points */
     for (i = 0; i + 3 < n; i += 3) {
         V[0] = V[3];
@@ -431,16 +425,10 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
             count++;
             pf = Bezier (V, 3, (double) step / BEZIERSUBDIVISION, NULL, NULL);
 	    PF2P(pf, p);
-            size = sprintf(buf, " %d %d", p.x, p.y);
-            buf += size;
+            gvprintf(job, "; spline to (%d, %d)", p.x, p.y);
         }
     }
 
-    gvprintf(job, " %s\n", buffer);      /* print points */
-    free(buffer);
-    for (i = 0; i < count; i++) {
-        gvprintf(job, " %d", i % (count + 1) ? 1 : 0);   /* -1 on all */
-    }
     gvputs(job, "\n");
 }
 

@@ -95,6 +95,26 @@ def run_c(src: Path, args: [str] = [], input: str = '', link: List[str] = []) \
 
         return p.returncode, p.stdout, p.stderr
 
+def test_131():
+    '''
+    PIC back end should produce valid output
+    https://gitlab.com/graphviz/graphviz/-/issues/131
+    '''
+
+    # a basic graph
+    dot = 'digraph { a -> b; c -> d; }'
+
+    # ask Graphviz to process this to PIC
+    pic = subprocess.check_output(['dot', '-Tpic'], input=dot,
+      universal_newlines=True)
+
+    if shutil.which('gpic') is None:
+        pytest.skip('GNU PIC not available')
+
+    # ask GNU PIC to process the Graphviz output
+    subprocess.run(['gpic'], input=pic, stdout=subprocess.DEVNULL, check=True,
+      universal_newlines=True)
+
 def test_165():
     '''
     dot should be able to produce properly escaped xdot output
