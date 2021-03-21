@@ -608,6 +608,30 @@ def test_1869(variant: int):
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
+@pytest.mark.xfail(strict=True)
+def test_1893():
+    '''
+    an HTML label containing just a ] should work
+    https://gitlab.com/graphviz/graphviz/-/issues/1893
+    '''
+
+    # a graph containing a node with an HTML label with a ] in a table cell
+    input = 'digraph { 0 [label=<<TABLE><TR><TD>]</TD></TR></TABLE>>] }'
+
+    # ask Graphviz to process this
+    p = subprocess.Popen(['dot', '-Tsvg', '-o', os.devnull],
+                         stdin=subprocess.PIPE, universal_newlines=True)
+    p.communicate(input)
+    assert p.returncode == 0
+
+    # we should be able to do the same with an escaped ]
+    input = 'digraph { 0 [label=<<TABLE><TR><TD>&#93;</TD></TR></TABLE>>] }'
+
+    p = subprocess.Popen(['dot', '-Tsvg', '-o', os.devnull],
+                         stdin=subprocess.PIPE, universal_newlines=True)
+    p.communicate(input)
+    assert p.returncode == 0
+
 def test_1906():
     '''
     graphs that cause an overflow during rectangle calculation should result in
