@@ -20,7 +20,6 @@
 			<xsd:enumeration value="dot" />
 			<xsd:enumeration value="xdot" />
 			<xsd:enumeration value="cmap" />
-			<xsd:enumeration value="dia" />
 			<xsd:enumeration value="fig" />
 			<xsd:enumeration value="gd" />
 			<xsd:enumeration value="gd2" />
