@@ -6,8 +6,8 @@ function value (r, g, b) {
 }
 function putColor (n, r, g, b, v)
 {
-  printf ("<td bgcolor=\"#%02x%02x%02x\" title=\"#%02x%02x%02x\">",r,g,b,r,g,b); 
-  if (v < 0.51) printf ("<font color=\"white\">%s</font>", n);
+  printf ("<td style=\"background-color: #%02x%02x%02x;\" title=\"#%02x%02x%02x\">",r,g,b,r,g,b);
+  if (v < 0.51) printf ("<span style=\"color: white;\">%s</span>", n);
   else printf ("%s", n);
   printf ("</td>\n");
 }
@@ -37,5 +37,5 @@ BEGIN {
 }
 END {
   if (idx != 0) printf ("</tr>\n");
-  printf ("</table><HR>\n");
+  printf ("</table>\n");
 }
