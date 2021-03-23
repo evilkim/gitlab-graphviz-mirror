@@ -309,9 +309,6 @@ double norm(double *vec, int beg, int end)
     return (sqrt(dot(vec, beg, end, vec)));
 }
 
-
-#ifndef __cplusplus
-
 /* inline */
 void orthog1(int n, double *vec	/* vector to be orthogonalized against 1 */
     )
@@ -677,5 +674,3 @@ void invert_sqrt_vec(int n, float *vec)
 	}
     }
 }
-
-#endif
