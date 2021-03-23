@@ -113,8 +113,6 @@ bfs_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     return num_visit;
 }
 
-#ifndef __cplusplus
-
 void mkQueue(Queue * qp, int size)
 {
     qp->data = N_GNEW(size, int);
@@ -162,5 +160,3 @@ boolean enQueue(Queue * qp, int vertex)
     qp->data[qp->end++] = vertex;
     return TRUE;
 }
-
-#endif
