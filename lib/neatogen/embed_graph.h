@@ -8,22 +8,17 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef EMBED_GRAPH_H_
-#define EMBED_GRAPH_H_
 
 #include <neatogen/defs.h>
 
     extern void embed_graph(vtx_data * graph, int n, int dim, DistType ***,
 			    int);
     extern void center_coordinate(DistType **, int, int);
-
-#endif
 
 #ifdef __cplusplus
 }

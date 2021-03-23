@@ -8,10 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-
-#ifndef ADJUST_H
-#define ADJUST_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -56,5 +53,4 @@ typedef struct {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

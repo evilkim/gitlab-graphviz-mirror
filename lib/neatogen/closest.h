@@ -8,20 +8,15 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-#ifndef CLOSEST_H
-#define CLOSEST_H
-
 #include <neatogen/defs.h>
 
     extern void closest_pairs2graph(double *, int, int, vtx_data **);
-
-#endif
 
 #ifdef __cplusplus
 }

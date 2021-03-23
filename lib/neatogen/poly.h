@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef POLY_H
-#define POLY_H
 
 #include <neatogen/geometry.h>
 
@@ -30,8 +29,6 @@ extern "C" {
     extern int makePoly(Poly *, Agnode_t *, float, float);
     extern int makeAddPoly(Poly *, Agnode_t *, float, float);
     extern void breakPoly(Poly *);
-
-#endif
 
 #ifdef __cplusplus
 }

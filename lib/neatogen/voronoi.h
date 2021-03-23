@@ -8,21 +8,15 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-#ifndef VORONOI_H
-#define VORONOI_H
-
 #include <neatogen/site.h>
 
     extern void voronoi(int, Site * (*)(void));
-
-#endif
-
 
 #ifdef __cplusplus
 }

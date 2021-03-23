@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _CMAJ_H_
-#define _CMAJ_H_
 
 #ifdef DIGCOLA
 
@@ -52,8 +51,6 @@ extern void deleteCMajEnv(CMajEnv *e);
 extern float** unpackMatrix(float * packedMat, int n);
 
 #endif 
-
-#endif /* _CMAJ_H_ */
 
 #ifdef __cplusplus
 }

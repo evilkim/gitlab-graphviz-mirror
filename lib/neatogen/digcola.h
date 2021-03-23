@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef DIGCOLA_H
-#define DIGCOLA_H
 
 #include <neatogen/defs.h>
 #ifdef DIGCOLA
@@ -42,7 +41,6 @@ typedef struct ipsep_options {
 
  /* stress majorization, for Constraint Layout */
 extern int stress_majorization_cola(vtx_data*, int, int, double**, node_t**, int, int, int, ipsep_options*);
-#endif
 #endif
 #endif
 

@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef GEOMETRY_H
-#define GEOMETRY_H
 
 #ifdef HAVE_POINTF_S
     typedef pointf Point;
@@ -40,9 +37,6 @@ extern "C" {
     extern double area_2(Point a, Point b, Point c);
     extern int leftOf(Point a, Point b, Point c);
     extern int intersection(Point a, Point b, Point c, Point d, Point * p);
-
-#endif
-
 
 #ifdef __cplusplus
 }

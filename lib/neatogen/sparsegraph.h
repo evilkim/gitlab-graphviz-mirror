@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef SPARSEGRAPH_H
-#define SPARSEGRAPH_H
 
 #include "config.h"
 
@@ -43,8 +42,6 @@ extern "C" {
 
 extern void freeGraphData(vtx_data * graph);
 extern void freeGraph(v_data * graph);
-
-#endif
 
 #ifdef __cplusplus
 }

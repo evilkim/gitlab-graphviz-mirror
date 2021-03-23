@@ -8,13 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-#ifndef STRESS_H
-#define STRESS_H
 
 #include <neatogen/defs.h>
 
@@ -58,8 +56,6 @@ extern float *compute_apsp_artifical_weights_packed(vtx_data * graph, int n);
 extern float* circuitModel(vtx_data * graph, int nG);
 extern float* mdsModel (vtx_data * graph, int nG);
 extern int initLayout(vtx_data * graph, int n, int dim, double **coords, node_t** nodes);
-
-#endif
 
 #ifdef __cplusplus
 }

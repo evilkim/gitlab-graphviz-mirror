@@ -8,13 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-#ifndef INFO_H
-#define INFO_H
 
 #include <neatogen/voronoi.h>
 #include <neatogen/poly.h>
@@ -38,7 +36,6 @@ extern "C" {
     extern void infoinit(void);
     /* Insert vertex into sorted list */
     extern void addVertex(Site *, double, double);
-#endif
 
 #ifdef __cplusplus
 }

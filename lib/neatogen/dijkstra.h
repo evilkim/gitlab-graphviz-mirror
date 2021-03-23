@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef _DIJKSTRA_H_
-#define _DIJKSTRA_H_
 
 #include <neatogen/defs.h>
 #include <neatogen/sgd.h>
@@ -27,8 +24,6 @@ extern "C" {
     extern int dijkstra_bounded(int, vtx_data *, int, DistType *, int,
 				int *);
     extern int dijkstra_sgd(graph_sgd *, int, term_sgd *);
-
-#endif
 
 #ifdef __cplusplus
 }

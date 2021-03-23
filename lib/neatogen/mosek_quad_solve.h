@@ -14,9 +14,9 @@
  * Adaptagrams repository.
  */
 
+#pragma once
+
 #ifdef MOSEK
-#ifndef _QSOLVE_H_
-#define _QSOLVE_H_
 
 #include <mosek.h> /* Include the MOSEK definition file. */
 #include "types.h"
@@ -38,6 +38,4 @@ MosekEnv* mosek_init_sep(float* lap, int nv, int ndv, Constraint** cs, int m);
 void mosek_quad_solve_sep(MosekEnv*,int n,float *b,float* coords);
 void mosek_delete(MosekEnv*);
 
-
-#endif /* _QSOLVE_H_ */
 #endif /* MOSEK */

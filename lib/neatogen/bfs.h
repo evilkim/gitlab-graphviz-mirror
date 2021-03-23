@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _BFS_H_
-#define _BFS_H_
 
 #include <neatogen/defs.h>
 
@@ -33,8 +32,6 @@ extern "C" {
     extern void bfs(int, vtx_data *, int, DistType *, Queue *);
     extern int bfs_bounded(int, vtx_data *, int, DistType *, Queue *, int,
 			   int *);
-
-#endif
 
 #ifdef __cplusplus
 }

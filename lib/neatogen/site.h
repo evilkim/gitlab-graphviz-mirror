@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef SITE_H
-#define SITE_H
 
 #include <neatogen/geometry.h>
 
@@ -35,7 +32,6 @@ extern "C" {
     extern void deref(Site *);	/* Increment refcnt of site  */
     extern void ref(Site *);	/* Decrement refcnt of site  */
     extern void makevertex(Site *);	/* Transform a site into a vertex */
-#endif
 
 #ifdef __cplusplus
 }

@@ -54,10 +54,9 @@
  *                 defaults to "/dev/urandom"
  */
 
-#include <stddef.h>
+#pragma once
 
-#ifndef _RANDOMKIT_
-#define _RANDOMKIT_
+#include <stddef.h>
 
 #define RK_STATE_LEN 624
 
@@ -144,5 +143,3 @@ extern double rk_double(rk_state *state);
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* _RANDOMKIT_ */

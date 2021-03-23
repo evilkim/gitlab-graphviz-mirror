@@ -8,11 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef CALL_TRI_H
-#define CALL_TRI_H
+#pragma once
 
 SparseMatrix call_tri(int n, int dim, real * x);
 SparseMatrix call_tri2(int n, int dim, real * x);
-
-#endif
- 

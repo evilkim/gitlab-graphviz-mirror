@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef HEAP_H
-#define HEAP_H
 
 #include <neatogen/hedges.h>
 
@@ -26,8 +23,6 @@ extern "C" {
     extern int PQempty(void);
     extern void PQdelete(Halfedge *);
     extern void PQinsert(Halfedge *, Site *, double);
-
-#endif
 
 #ifdef __cplusplus
 }

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef NEATOPROCS_H
-#define NEATOPROCS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -71,5 +70,4 @@ extern "C" {
 #undef extern
 #ifdef __cplusplus
 }
-#endif
 #endif

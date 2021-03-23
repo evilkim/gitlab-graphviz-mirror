@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef KKUTILS_H_
-#define KKUTILS_H_
 
 #include <neatogen/defs.h>
 
@@ -32,8 +29,6 @@ extern "C" {
     extern void compute_new_weights(vtx_data * graph, int n);
     extern void restore_old_weights(vtx_data * graph, int n,
 				    float *old_weights);
-
-#endif
 
 #ifdef __cplusplus
 }

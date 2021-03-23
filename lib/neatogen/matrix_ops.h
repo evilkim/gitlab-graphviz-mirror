@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef _MATRIX_OPS_H_
-#define _MATRIX_OPS_H_
 
 #include <neatogen/sparsegraph.h>
 
@@ -79,7 +76,6 @@ extern "C" {
     extern void sqrt_vec(int n, float *vec);
     extern void sqrt_vecf(int n, float *source, float *target);
     extern void invert_sqrt_vec(int n, float *vec);
-#endif
 
 #ifdef __cplusplus
 }
