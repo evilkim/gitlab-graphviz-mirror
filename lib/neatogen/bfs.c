@@ -78,9 +78,6 @@ bfs_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     int num_visit;
     int closestVertex, neighbor;
     DistType closestDist;
-    /* initialize distances with edge weights: */
-    /* for (i=0; i<n; i++)  */
-    /* dist[i]=-1; */
 
     dist[vertex] = 0;
 

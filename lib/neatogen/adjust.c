@@ -563,11 +563,6 @@ static int vAdjust(void)
 	case 0:
 	    doAll = 1;
 	    break;
-/*
-      case 1:
-        doAll = 1;
-        break;
-*/
 	default:
 	    doAll = 1;
 	    increaseCnt++;
@@ -595,8 +590,6 @@ static double rePos(Point c)
     double f = 1.0 + incr;
 
     for (i = 0; i < nsites; i++) {
-	/* ip->site.coord.x = f*(ip->site.coord.x - c.x) + c.x; */
-	/* ip->site.coord.y = f*(ip->site.coord.y - c.y) + c.y; */
 	ip->site.coord.x = f * ip->site.coord.x;
 	ip->site.coord.y = f * ip->site.coord.y;
 	ip++;
@@ -610,7 +603,6 @@ static int sAdjust(void)
     int overlapCnt = 0;
     int cnt;
     Point center;
-    /* double sc; */
 
     if (!useIter || (iterations > 0))
 	overlapCnt = countOverlap(iterCnt);
@@ -622,7 +614,7 @@ static int sAdjust(void)
     center.x = (pxmin + pxmax) / 2.0;
     center.y = (pymin + pymax) / 2.0;
     while (1) {
-	/* sc = */ rePos(center);
+	rePos(center);
 	iterCnt++;
 
 	if (useIter && (iterCnt == iterations))
@@ -644,10 +636,8 @@ static int sAdjust(void)
   */
 static void updateGraph(Agraph_t * graph)
 {
-    /* Agnode_t*    node; */
     int i;
     Info_t *ip;
-    /* char         pos[100]; */
 
     ip = nodeInfo;
     for (i = 0; i < nsites; i++) {
@@ -1139,11 +1129,9 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	    ret = scAdjust(G, 0);
 	    break;
 	case AM_PUSH:
-	    /* scanAdjust (G, 1); */
         ret = 0;
 	    break;
 	case AM_PUSHPULL:
-	    /* scanAdjust (G, 0); */
         ret = 0;
 	    break;
 	case AM_PORTHO_YX:

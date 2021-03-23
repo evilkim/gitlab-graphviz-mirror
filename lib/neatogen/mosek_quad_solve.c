@@ -91,7 +91,6 @@ MosekEnv *mosek_init_hier(float *lap, int n, int *ordering,
 #endif
 
     /* nonlinear coefficients matrix of objective function */
-    /* int lapsize=mskEnv->num_variables+(mskEnv->num_variables*(mskEnv->num_variables-1))/2; */
     mskEnv->qval = N_GNEW(nonzero_lapsize, double);
     mskEnv->qsubi = N_GNEW(nonzero_lapsize, int);
     mskEnv->qsubj = N_GNEW(nonzero_lapsize, int);
@@ -410,7 +409,6 @@ MosekEnv *mosek_init_sep(float *lap, int num_variables, int num_dummy_vars,
     for (i = 0; i < num_variables - 1; i++) {
 	for (j = i; j < num_variables - 1; j++) {
 	    mskEnv->qval[count] = -2 * lap[count + num_variables];
-	    /* assert(mskEnv->qval[count]!=0); */
 	    mskEnv->qsubi[count] = j;
 	    mskEnv->qsubj[count] = i;
 	    count++;

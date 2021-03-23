@@ -148,7 +148,6 @@ constrained_majorization_new(CMajEnv * e, float *b, float **coords,
 						      levels_gap);
     }
 
-    /* ensureMonotonicOrderingWithGaps(place, n, ordering, levels, num_levels);  */
     ensureMonotonicOrdering(place, n, ordering);
     /* it is important that in 'ordering' nodes are always sorted by layers, 
      * and within a layer by 'place'

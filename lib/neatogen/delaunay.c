@@ -198,7 +198,6 @@ tri(double *x, double *y, int npt, int *segs, int nsegs, int sepArr)
 	 * coordinates as v1, in which case we replace v1 with v
 	 */
 	if (v) {
-	    /* agerr (AGWARN, "Duplicate point %d %d\n", i, ((GVertex*)v)->idx); */
 	    gts_vertex_replace (v1, v);
 	}
     }
@@ -210,11 +209,6 @@ tri(double *x, double *y, int npt, int *segs, int nsegs, int sepArr)
     /* destroy enclosing triangle */
     gts_allow_floating_vertices = TRUE;
     gts_allow_floating_edges = TRUE;
-/*
-    gts_object_destroy(GTS_OBJECT(v1));
-    gts_object_destroy(GTS_OBJECT(v2));
-    gts_object_destroy(GTS_OBJECT(v3));
-*/
     destroy(v1);
     destroy(v2);
     destroy(v3);

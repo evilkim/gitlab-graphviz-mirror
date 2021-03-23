@@ -21,12 +21,8 @@ static int nvertices;
 
 void siteinit()
 {
-    /* double sn; */
-
     freeinit(&sfl, sizeof(Site));
     nvertices = 0;
-    /* sn = nsites+4; */
-    /* sqrt_nsites = sqrt(sn); */
 }
 
 
