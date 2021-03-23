@@ -309,7 +309,6 @@ double norm(double *vec, int beg, int end)
     return (sqrt(dot(vec, beg, end, vec)));
 }
 
-/* inline */
 void orthog1(int n, double *vec	/* vector to be orthogonalized against 1 */
     )
 {
@@ -331,7 +330,6 @@ void orthog1(int n, double *vec	/* vector to be orthogonalized against 1 */
 
 #define RANGE 500
 
-/* inline */
 void init_vec_orth1(int n, double *vec)
 {
     /* randomly generate a vector orthogonal to 1 (i.e., with mean 0) */
@@ -343,7 +341,6 @@ void init_vec_orth1(int n, double *vec)
     orthog1(n, vec);
 }
 
-/* inline */
 void
 right_mult_with_vector(vtx_data * matrix, int n, double *vector,
 		       double *result)
@@ -360,7 +357,6 @@ right_mult_with_vector(vtx_data * matrix, int n, double *vector,
     /* orthog1(n,vector); */
 }
 
-/* inline */
 void
 right_mult_with_vector_f(float **matrix, int n, double *vector,
 			 double *result)
@@ -377,7 +373,6 @@ right_mult_with_vector_f(float **matrix, int n, double *vector,
     /* orthog1(n,vector); */
 }
 
-/* inline */
 void
 vectors_subtraction(int n, double *vector1, double *vector2,
 		    double *result)
@@ -388,7 +383,6 @@ vectors_subtraction(int n, double *vector1, double *vector2,
     }
 }
 
-/* inline */
 void
 vectors_addition(int n, double *vector1, double *vector2, double *result)
 {
@@ -398,7 +392,6 @@ vectors_addition(int n, double *vector1, double *vector2, double *result)
     }
 }
 
-/* inline */
 void
 vectors_scalar_mult(int n, double *vector, double alpha, double *result)
 {
@@ -408,7 +401,6 @@ vectors_scalar_mult(int n, double *vector, double alpha, double *result)
     }
 }
 
-/* inline */
 void copy_vector(int n, double *source, double *dest)
 {
     int i;
@@ -416,7 +408,6 @@ void copy_vector(int n, double *source, double *dest)
 	dest[i] = source[i];
 }
 
-/* inline */
 double vectors_inner_product(int n, double *vector1, double *vector2)
 {
     int i;
@@ -428,7 +419,6 @@ double vectors_inner_product(int n, double *vector1, double *vector2)
     return result;
 }
 
-/* inline */
 double max_abs(int n, double *vector)
 {
     double max_val = -1e50;
@@ -440,7 +430,6 @@ double max_abs(int n, double *vector)
     return max_val;
 }
 
-/* inline */
 void
 right_mult_with_vector_transpose(double **matrix,
 				 int dim1, int dim2,
@@ -458,7 +447,6 @@ right_mult_with_vector_transpose(double **matrix,
     }
 }
 
-/* inline */
 void
 right_mult_with_vector_d(double **matrix,
 			 int dim1, int dim2,
@@ -482,7 +470,6 @@ right_mult_with_vector_d(double **matrix,
 ** version                  **
 *****************************/
 
-/* inline */
 void orthog1f(int n, float *vec)
 {
     int i;
@@ -501,7 +488,6 @@ void orthog1f(int n, float *vec)
     }
 }
 
-/* inline */
 void right_mult_with_vector_ff
     (float *packed_matrix, int n, float *vector, float *result) {
     /* packed matrix is the upper-triangular part of a symmetric matrix arranged in a vector row-wise */
@@ -526,7 +512,6 @@ void right_mult_with_vector_ff
     }
 }
 
-/* inline */
 void
 vectors_substractionf(int n, float *vector1, float *vector2, float *result)
 {
@@ -536,7 +521,6 @@ vectors_substractionf(int n, float *vector1, float *vector2, float *result)
     }
 }
 
-/* inline */
 void
 vectors_additionf(int n, float *vector1, float *vector2, float *result)
 {
@@ -546,7 +530,6 @@ vectors_additionf(int n, float *vector1, float *vector2, float *result)
     }
 }
 
-/* inline */
 void
 vectors_mult_additionf(int n, float *vector1, float alpha, float *vector2)
 {
@@ -556,7 +539,6 @@ vectors_mult_additionf(int n, float *vector1, float alpha, float *vector2)
     }
 }
 
-/* inline */
 void vectors_scalar_multf(int n, float *vector, float alpha, float *result)
 {
     int i;
@@ -565,7 +547,6 @@ void vectors_scalar_multf(int n, float *vector, float alpha, float *result)
     }
 }
 
-/* inline */
 void copy_vectorf(int n, float *source, float *dest)
 {
     int i;
@@ -573,7 +554,6 @@ void copy_vectorf(int n, float *source, float *dest)
 	dest[i] = source[i];
 }
 
-/* inline */
 double vectors_inner_productf(int n, float *vector1, float *vector2)
 {
     int i;
@@ -585,7 +565,6 @@ double vectors_inner_productf(int n, float *vector1, float *vector2)
     return result;
 }
 
-/* inline */
 void set_vector_val(int n, double val, double *result)
 {
     int i;
@@ -593,7 +572,6 @@ void set_vector_val(int n, double val, double *result)
 	result[i] = val;
 }
 
-/* inline */
 void set_vector_valf(int n, float val, float* result)
 {
     int i;
@@ -601,7 +579,6 @@ void set_vector_valf(int n, float val, float* result)
 	result[i] = val;
 }
 
-/* inline */
 double max_absf(int n, float *vector)
 {
     int i;
@@ -613,7 +590,6 @@ double max_absf(int n, float *vector)
     return max_val;
 }
 
-/* inline */
 void square_vec(int n, float *vec)
 {
     int i;
@@ -622,7 +598,6 @@ void square_vec(int n, float *vec)
     }
 }
 
-/* inline */
 void invert_vec(int n, float *vec)
 {
     int i;
@@ -633,7 +608,6 @@ void invert_vec(int n, float *vec)
     }
 }
 
-/* inline */
 void sqrt_vec(int n, float *vec)
 {
     int i;
@@ -645,7 +619,6 @@ void sqrt_vec(int n, float *vec)
     }
 }
 
-/* inline */
 void sqrt_vecf(int n, float *source, float *target)
 {
     int i;
@@ -660,7 +633,6 @@ void sqrt_vecf(int n, float *source, float *target)
     }
 }
 
-/* inline */
 void invert_sqrt_vec(int n, float *vec)
 {
     int i;
