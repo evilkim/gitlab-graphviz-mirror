@@ -17,9 +17,7 @@ extern "C" {
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#ifndef NULL
-#define NULL 0
-#endif
+#include <stddef.h>
 
     /* Support for freelists */
 
