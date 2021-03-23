@@ -19,7 +19,6 @@
 
 #include <neatogen/bfs.h>
 #include <stdlib.h>
-/* #include <math.h> */
 
 void bfs(int vertex, vtx_data * graph, int n, DistType * dist, Queue * Q)
  /* compute vector 'dist' of distances of all nodes from 'vertex' */
