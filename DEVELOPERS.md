@@ -41,7 +41,7 @@ number for the actual release.
 ### Using a fork or a clone of the original repo
 
 The instructions below can be used from a fork (recommended) or from a
-clone of the master repo.
+clone of the main repo.
 
 ### Deciding the release version number
 
@@ -52,14 +52,14 @@ Before making the release, it must be decided if it is a *major*, *minor* or
 
 #### Stable release versions and development versions numbering convention
 
-See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/master/gen_version.py).
+See [`gen_version.py`](https://gitlab.com/graphviz/graphviz/-/blob/main/gen_version.py).
 
 ### Instructions
 
 #### Creating the release
 
 1. Check that the
-[master pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=master)
+[main pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=main)
 is green
 
 1. Create a local branch and name it e.g. `stable-release-<version>`
@@ -88,8 +88,8 @@ is green
     ```
 
     ```diff
-    -[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.0...master
-    +[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.1...master
+    -[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.0...main
+    +[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.44.1...main
     +[2.44.1]: https://gitlab.com/graphviz/graphviz/compare/2.44.0...2.44.1
      [2.44.0]: https://gitlab.com/graphviz/graphviz/compare/2.42.4...2.44.0
      [2.42.4]: https://gitlab.com/graphviz/graphviz/compare/2.42.3...2.42.4
@@ -113,7 +113,7 @@ is green
 1. Merge the merge request
 
 1. Wait for the
-[master pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=master)
+[main pipeline](https://gitlab.com/graphviz/graphviz/-/pipelines?ref=main)
   to run for the new commit and check that it's green
 
 1. The “deployment” CI task will automatically create a release on the
@@ -159,7 +159,7 @@ is green
    [Graphviz website repository](https://gitlab.com/graphviz/graphviz.gitlab.io)
    if you do not already have a fork of it
 
-1. Checkout the latest master branch
+1. Checkout the latest main branch
 
 1. Create a local branch
 
