@@ -21,8 +21,6 @@
 
 #define Undefined(x) ((x)->boundary[0] > (x)->boundary[NUMDIMS])
 
-extern Rect_t CoverAll;
-
 /*-----------------------------------------------------------------------------
 | Initialize a rectangle to have all 0 coordinates.
 -----------------------------------------------------------------------------*/
