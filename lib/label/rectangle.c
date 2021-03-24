@@ -123,7 +123,6 @@ int Overlap(Rect_t * r, Rect_t * s)
 -----------------------------------------------------------------------------*/
 int Contained(Rect_t * r, Rect_t * s)
 {
-    int i, j, result;
     assert(r && s);
 
     /* undefined rect is contained in any other */
@@ -133,11 +132,10 @@ int Contained(Rect_t * r, Rect_t * s)
     if (Undefined(s))
 	return FALSE;
 
-    result = TRUE;
-    for (i = 0; i < NUMDIMS; i++) {
-	j = i + NUMDIMS;	/* index for high sides */
-	result = result && r->boundary[i] >= s->boundary[i]
-	    && r->boundary[j] <= s->boundary[j];
+    for (size_t i = 0; i < NUMDIMS; i++) {
+	size_t j = i + NUMDIMS;	/* index for high sides */
+	if (!(r->boundary[i] >= s->boundary[i] && r->boundary[j] <= s->boundary[j]))
+	    return FALSE;
     }
-    return result;
+    return TRUE;
 }
