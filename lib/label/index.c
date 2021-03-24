@@ -213,11 +213,8 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 */
 static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **, int);
 
-int
-RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
+int RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 {
-    int i;
-    Node_t *newroot;
     Node_t *newnode=0;
     Branch_t b;
     int result = 0;
@@ -225,7 +222,7 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 
     assert(r && n);
     assert(level >= 0 && level <= (*n)->level);
-    for (i = 0; i < NUMDIMS; i++)
+    for (size_t i = 0; i < NUMDIMS; i++)
 	assert(r->boundary[i] <= r->boundary[NUMDIMS + i]);
 
 #	ifdef RTDEBUG
@@ -249,7 +246,7 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 		rtp->InTouchCount++;
 	}
 
-	newroot = RTreeNewNode(rtp);	/* grow a new root, make tree taller */
+	Node_t *newroot = RTreeNewNode(rtp);	/* grow a new root, make tree taller */
 	rtp->NonLeafCount++;
 	newroot->level = (*n)->level + 1;
 	b.rect = NodeCover(*n);
