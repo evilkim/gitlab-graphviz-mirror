@@ -271,12 +271,11 @@ static void Classify(RTree_t * rtp, int i, int group)
 static void LoadNodes(RTree_t * rtp, Node_t * n, Node_t * q,
 		      struct PartitionVars *p)
 {
-    int i;
     assert(n);
     assert(q);
     assert(p);
 
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	assert(rtp->split.Partitions[0].partition[i] == 0 ||
 	       rtp->split.Partitions[0].partition[i] == 1);
 	if (rtp->split.Partitions[0].partition[i] == 0)
