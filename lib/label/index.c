@@ -391,8 +391,6 @@ static int
 RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	     ListNode_t ** ee)
 {
-    int i;
-
     assert(r && n && ee);
     assert(data);
     assert(n->level >= 0);
@@ -401,7 +399,7 @@ RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	rtp->DeTouchCount++;
 
     if (n->level > 0) {		/* not a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child && Overlap(r, &(n->branch[i].rect))) {
 		if (!RTreeDelete2(rtp, r, data, n->branch[i].child, ee)) {	/*recurse */
 		    if (n->branch[i].child->count >= rtp->MinFill)
@@ -419,7 +417,7 @@ RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	}
 	return 1;
     } else {			/* a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child
 		&& n->branch[i].child == (Node_t *) data) {
 		DisconBranch(n, i);
