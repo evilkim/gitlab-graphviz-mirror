@@ -108,13 +108,11 @@ Rect_t CombineRect(Rect_t * r, Rect_t * rr)
 -----------------------------------------------------------------------------*/
 int Overlap(Rect_t * r, Rect_t * s)
 {
-    int i, j;
     assert(r && s);
 
-    for (i = 0; i < NUMDIMS; i++) {
-	j = i + NUMDIMS;	/* index for high sides */
-	if (r->boundary[i] > s->boundary[j]
-	    || s->boundary[i] > r->boundary[j])
+    for (size_t i = 0; i < NUMDIMS; i++) {
+	size_t j = i + NUMDIMS;	/* index for high sides */
+	if (r->boundary[i] > s->boundary[j] || s->boundary[i] > r->boundary[j])
 	    return FALSE;
     }
     return TRUE;
