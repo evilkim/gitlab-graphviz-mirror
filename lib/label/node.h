@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef NODE_H
-#define NODE_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,5 +44,3 @@ void PrintBranch(int i, Branch_t * b);
 #ifdef __cplusplus
 }
 #endif
-
-#endif				/*NODE_H */

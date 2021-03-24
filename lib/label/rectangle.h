@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,5 +31,3 @@ Rect_t NullRect(void);
 #ifdef __cplusplus
 }
 #endif
-
-#endif				/*RECTANGLE_H */

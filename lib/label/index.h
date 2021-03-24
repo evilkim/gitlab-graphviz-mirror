@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef INDEX_H
-#define INDEX_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -129,5 +128,3 @@ void PrintNode(Node_t *);
 #ifdef __cplusplus
 }
 #endif
-
-#endif				/*INDEX_H */
