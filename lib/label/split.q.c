@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <label/split.q.h>
@@ -31,10 +32,6 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b);
 -----------------------------------------------------------------------------*/
 void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 {
-    struct PartitionVars *p;
-    int level;
-    int area;
-
     assert(n);
     assert(b);
 
@@ -53,14 +50,13 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
     }
 
     /* load all the branches into a buffer, initialize old node */
-    level = n->level;
+    int level = n->level;
     GetBranches(rtp, n, b);
 
 #ifdef RTDEBUG
     {
-	int i;
 	/* Indicate that a split is about to take place */
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (size_t i = 0; i < NODECARD + 1; i++) {
 	    PrintRect(&rtp->split.BranchBuf[i].rect);
 	}
 	PrintRect(&rtp->split.CoverSplit);
@@ -68,10 +64,10 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 #endif
 
     /* find partition */
-    p = &rtp->split.Partitions[0];
+    struct PartitionVars *p = &rtp->split.Partitions[0];
     MethodZero(rtp);
 
-    area = RectArea(&p->cover[0]) + RectArea(&p->cover[1]);
+    int area = RectArea(&p->cover[0]) + RectArea(&p->cover[1]);
 
     /* record how good the split was for statistics */
     if (rtp->StatFlag && !rtp->Deleting && area)
