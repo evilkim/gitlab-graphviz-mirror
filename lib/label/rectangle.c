@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <limits.h>
@@ -26,8 +27,7 @@
 -----------------------------------------------------------------------------*/
 void InitRect(Rect_t * r)
 {
-    int i;
-    for (i = 0; i < NUMSIDES; i++)
+    for (size_t i = 0; i < NUMSIDES; i++)
 	r->boundary[i] = 0;
 }
 
