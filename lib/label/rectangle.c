@@ -64,15 +64,13 @@ void PrintRect(Rect_t * r)
 
 unsigned int RectArea(Rect_t * r)
 {
-  int i;
-  unsigned int area;
   assert(r);
 
     if (Undefined(r))
 	return 0;
 
-    area = 1;
-    for (i = 0; i < NUMDIMS; i++) {
+    unsigned area = 1;
+    for (size_t i = 0; i < NUMDIMS; i++) {
       unsigned int dim = r->boundary[i + NUMDIMS] - r->boundary[i];
       if (dim == 0) return 0;
       if (UINT_MAX / dim < area) {
