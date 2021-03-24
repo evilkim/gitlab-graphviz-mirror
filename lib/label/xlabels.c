@@ -82,47 +82,13 @@ static void xlfree(XLabels_t * xlp)
 /***************************************************************************/
 
 /*
- * floorlog2 - largest base 2 integer logarithm less than n
- * http://en.wikipedia.org/wiki/Binary_logarithm
- * ultimately from http://www.hackersdelight.org/
- */
-static int floorLog2(unsigned int n)
-{
-    int pos = 0;
-
-    if (n == 0)
-	return -1;
-
-    if (n >= 1 << 16) {
-	n >>= 16;
-	pos += 16;
-    }
-    if (n >= 1 << 8) {
-	n >>= 8;
-	pos += 8;
-    }
-    if (n >= 1 << 4) {
-	n >>= 4;
-	pos += 4;
-    }
-    if (n >= 1 << 2) {
-	n >>= 2;
-	pos += 2;
-    }
-    if (n >= 1 << 1) {
-	pos += 1;
-    }
-    return pos;
-}
-
-/*
  * determine the order(depth) of the hilbert sfc so that we satisfy the
  * precondition of hd_hil_s_from_xy()
  */
 static unsigned int xlhorder(XLabels_t * xlp)
 {
     double maxx = xlp->params->bb.UR.x, maxy = xlp->params->bb.UR.y;
-    return floorLog2(fmax(maxx, maxy)) + 1;
+    return (unsigned)floor(log2(round(fmax(maxx, maxy)))) + 1;
 }
 
 /* from http://www.hackersdelight.org/ site for the book by Henry S Warren */
