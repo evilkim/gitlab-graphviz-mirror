@@ -335,8 +335,6 @@ recordlintrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 static BestPos_t
 xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
 {
-    int i;
-    LeafList_t *ilp, *llp;
     Rect_t rect, srect;
     BestPos_t bp;
 
@@ -346,7 +344,7 @@ xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
     bp.area = 0.0;
     bp.pos = objp->lbl->pos;
 
-    for(i=0; i<xlp->n_objs; i++) {
+    for(int i=0; i<xlp->n_objs; i++) {
       if(objp == &xlp->objs[i]) continue;
       if(xlp->objs[i].sz.x > 0 && xlp->objs[i].sz.y > 0) continue;
       if(lblenclosing(objp, &xlp->objs[i]) ) {
@@ -356,11 +354,11 @@ xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
 
     objplp2rect(objp, &rect);
 
-    llp = RTreeSearch(xlp->spdx, xlp->spdx->root, &rect);
+    LeafList_t *llp = RTreeSearch(xlp->spdx, xlp->spdx->root, &rect);
     if (!llp)
 	return bp;
 
-    for (ilp = llp; ilp; ilp = ilp->next) {
+    for (LeafList_t *ilp = llp; ilp; ilp = ilp->next) {
 	double a, ra;
 	object_t *cp = ilp->leaf->data;
 
