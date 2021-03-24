@@ -150,7 +150,6 @@ void PrintIndex(Node_t * n)
 */
 void PrintData(Node_t * n)
 {
-    int i;
     Node_t *nn;
     assert(n);
     assert(n->level >= 0);
@@ -158,7 +157,7 @@ void PrintData(Node_t * n)
     if (n->level == 0)
 	PrintNode(n);
     else {
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if ((nn = n->branch[i].child) != NULL)
 		PrintData(nn);
 	}
