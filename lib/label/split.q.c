@@ -95,13 +95,11 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 -----------------------------------------------------------------------------*/
 static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 {
-    int i;
-
     assert(n);
     assert(b);
 
     /* load the branch buffer */
-    for (i = 0; i < NODECARD; i++) {
+    for (size_t i = 0; i < NODECARD; i++) {
 	assert(n->branch[i].child);	/* node should have every entry full */
 	rtp->split.BranchBuf[i] = n->branch[i];
     }
@@ -109,7 +107,7 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 
     /* calculate rect containing all in the set */
     rtp->split.CoverSplit = rtp->split.BranchBuf[0].rect;
-    for (i = 1; i < NODECARD + 1; i++) {
+    for (size_t i = 1; i < NODECARD + 1; i++) {
 	rtp->split.CoverSplit = CombineRect(&rtp->split.CoverSplit,
 					    &rtp->split.BranchBuf[i].rect);
     }
