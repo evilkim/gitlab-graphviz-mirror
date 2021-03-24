@@ -37,13 +37,10 @@ void InitRect(Rect_t * r)
 -----------------------------------------------------------------------------*/
 Rect_t NullRect()
 {
-    Rect_t r;
-    int i;
+    Rect_t r = {{0}};
 
     r.boundary[0] = 1;
     r.boundary[NUMDIMS] = -1;
-    for (i = 1; i < NUMDIMS; i++)
-	r.boundary[i] = r.boundary[i + NUMDIMS] = 0;
     return r;
 }
 
