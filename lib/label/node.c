@@ -59,7 +59,6 @@ void InitBranch(Branch_t * b)
 */
 void PrintNode(Node_t * n)
 {
-    int i;
     assert(n);
 
     fprintf(stderr, "node");
@@ -72,7 +71,7 @@ void PrintNode(Node_t * n)
     fprintf(stderr, "  level=%d  count=%d  child address=%p\n",
 	    n->level, n->count, n);
 
-    for (i = 0; i < NODECARD; i++) {
+    for (size_t i = 0; i < NODECARD; i++) {
 	if (n->branch[i].child != NULL)
 	    PrintBranch(i, &n->branch[i]);
     }
