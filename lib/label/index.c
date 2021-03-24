@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <common/logic.h>
@@ -131,13 +132,12 @@ int RTreeClose(RTree_t * rtp)
 */
 void PrintIndex(Node_t * n)
 {
-    int i;
     Node_t *nn;
     assert(n);
     assert(n->level >= 0);
 
     if (n->level > 0) {
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if ((nn = n->branch[i].child) != NULL)
 		PrintIndex(nn);
 	}
