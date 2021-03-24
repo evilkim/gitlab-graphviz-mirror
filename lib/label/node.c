@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <label/index.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
@@ -89,17 +90,16 @@ void PrintBranch(int i, Branch_t * b)
 */
 Rect_t NodeCover(Node_t * n)
 {
-    int i, flag;
     Rect_t r;
     assert(n);
 
     InitRect(&r);
-    flag = 1;
-    for (i = 0; i < NODECARD; i++)
+    bool flag = true;
+    for (size_t i = 0; i < NODECARD; i++)
 	if (n->branch[i].child) {
 	    if (flag) {
 		r = n->branch[i].rect;
-		flag = 0;
+		flag = false;
 	    } else
 		r = CombineRect(&r, &(n->branch[i].rect));
 	}
