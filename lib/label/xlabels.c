@@ -214,7 +214,7 @@ static void objplp2rect(object_t * objp, Rect_t * r)
 }
 
 /* compute boundary that encloses all possible label boundaries */
-static Rect_t objplpmks(XLabels_t * xlp, object_t * objp)
+static Rect_t objplpmks(object_t * objp)
 {
     Rect_t rect;
     pointf p;
@@ -553,7 +553,7 @@ static int xlhdxload(XLabels_t * xlp)
 	hp = NEW(HDict_t);
 
 	hp->d.data = &xlp->objs[i];
-	hp->d.rect = objplpmks(xlp, &xlp->objs[i]);
+	hp->d.rect = objplpmks(&xlp->objs[i]);
 	/* center of the labeling area */
 	pi.x = hp->d.rect.boundary[0] +
 	    (hp->d.rect.boundary[2] - hp->d.rect.boundary[0]) / 2;
