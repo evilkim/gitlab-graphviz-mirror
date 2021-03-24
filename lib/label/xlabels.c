@@ -120,7 +120,7 @@ static int floorLog2(unsigned int n)
 static unsigned int xlhorder(XLabels_t * xlp)
 {
     double maxx = xlp->params->bb.UR.x, maxy = xlp->params->bb.UR.y;
-    return floorLog2(maxx > maxy ? maxx : maxy) + 1;
+    return floorLog2(fmax(maxx, maxy)) + 1;
 }
 
 /* from http://www.hackersdelight.org/ site for the book by Henry S Warren */
@@ -323,7 +323,7 @@ recordointrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 	    objplp2rect(intrsx[i], &srect);
 	    sa = aabbaabb(rp, &srect);
 	    if (sa > a)
-		maxa = sa > maxa ? sa : maxa;
+		maxa = fmax(sa, maxa);
 	}
 	if (maxa > 0.0)
 	    return maxa;
@@ -356,7 +356,7 @@ recordlintrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 	    objplp2rect(intrsx[i], &srect);
 	    sa = aabbaabb(rp, &srect);
 	    if (sa > a)
-		maxa = sa > maxa ? sa : maxa;
+		maxa = fmax(sa, maxa);
 	}
 	if (maxa > 0.0)
 	    return maxa;
