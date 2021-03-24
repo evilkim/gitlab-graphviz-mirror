@@ -83,8 +83,7 @@ RTree_t *RTreeOpen()
 /* Make a new index, empty.  Consists of a single node. */
 Node_t *RTreeNewIndex(RTree_t * rtp)
 {
-    Node_t *x;
-    x = RTreeNewNode(rtp);
+    Node_t *x = RTreeNewNode(rtp);
     x->level = 0;		/* leaf */
     rtp->LeafCount++;
     return x;
