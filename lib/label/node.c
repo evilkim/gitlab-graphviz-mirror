@@ -157,12 +157,11 @@ int PickBranch(Rect_t * r, Node_t * n)
 */
 int AddBranch(RTree_t * rtp, Branch_t * b, Node_t * n, Node_t ** new)
 {
-    int i;
-
     assert(b);
     assert(n);
 
     if (n->count < NODECARD) {	/* split won't be necessary */
+	size_t i;
 	for (i = 0; i < NODECARD; i++) {	/* find empty branch */
 	    if (n->branch[i].child == NULL) {
 		n->branch[i] = *b;
