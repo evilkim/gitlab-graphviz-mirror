@@ -50,10 +50,9 @@ Rect_t NullRect()
 -----------------------------------------------------------------------------*/
 void PrintRect(Rect_t * r)
 {
-    int i;
     assert(r);
     fprintf(stderr, "rect:");
-    for (i = 0; i < NUMDIMS; i++)
+    for (size_t i = 0; i < NUMDIMS; i++)
 	fprintf(stderr, "\t%d\t%d\n", r->boundary[i],
 		r->boundary[i + NUMDIMS]);
 }
