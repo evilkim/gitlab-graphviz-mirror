@@ -122,13 +122,12 @@ processed. */
 
 static unsigned int hd_hil_s_from_xy(point p, int n)
 {
-    int i, x = p.x, y = p.y, xi, yi;
-    unsigned s;
+    int x = p.x, y = p.y;
 
-    s = 0;			/* Initialize. */
-    for (i = n - 1; i >= 0; i--) {
-	xi = (x >> i) & 1;	/* Get bit i of x. */
-	yi = (y >> i) & 1;	/* Get bit i of y. */
+    unsigned s = 0;			/* Initialize. */
+    for (int i = n - 1; i >= 0; i--) {
+	int xi = (x >> i) & 1;	/* Get bit i of x. */
+	int yi = (y >> i) & 1;	/* Get bit i of y. */
 	s = 4 * s + 2 * xi + (xi ^ yi);	/* Append two bits to s. */
 
 	x = x ^ y;		/* These 3 lines swap */
