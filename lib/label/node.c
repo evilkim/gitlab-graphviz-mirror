@@ -71,8 +71,8 @@ void PrintNode(Node_t * n)
 	fprintf(stderr, " NONLEAF");
     else
 	fprintf(stderr, " TYPE=?");
-    fprintf(stderr, "  level=%d  count=%d  child address=%X\n",
-	    n->level, n->count, (unsigned int) n);
+    fprintf(stderr, "  level=%d  count=%d  child address=%p\n",
+	    n->level, n->count, n);
 
     for (i = 0; i < NODECARD; i++) {
 	if (n->branch[i].child != NULL)
