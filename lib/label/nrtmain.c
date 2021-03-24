@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <errno.h>
+#include <stddef.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -216,8 +217,7 @@ int doxlabel(opts_t * opts)
 
 int checkOpt(char *l, char *legal[], int n)
 {
-    int i;
-    for (i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
 	if (strcmp(l, legal[i]) == 0)
 	    return 1;
     }
