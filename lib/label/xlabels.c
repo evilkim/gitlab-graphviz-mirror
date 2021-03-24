@@ -29,6 +29,8 @@ Dtdisc_t Hdisc = { offsetof(HDict_t, key), sizeof(int), -1, 0, 0,
 
 static int icompare(Dt_t * dt, void * v1, void * v2, Dtdisc_t * disc)
 {
+    (void)dt;
+    (void)disc;
     int k1 = *((int *) v1), k2 = *((int *) v2);
     return k1 - k2;
 }
