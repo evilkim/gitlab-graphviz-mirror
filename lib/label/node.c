@@ -19,10 +19,8 @@
 */
 Node_t *RTreeNewNode(RTree_t * rtp)
 {
-    Node_t *n;
-
     rtp->NodeCount++;
-    n = malloc(sizeof(Node_t));
+    Node_t *n = malloc(sizeof(Node_t));
     InitNode(n);
     return n;
 }
