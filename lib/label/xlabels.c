@@ -147,7 +147,6 @@ static unsigned int hd_hil_s_from_xy(point p, int n)
 static double aabbaabb(Rect_t * r, Rect_t * s)
 {
     /* per dimension if( max < omin || min > omax) */
-    double iminx, iminy, imaxx, imaxy;
     if (r->boundary[2] < s->boundary[0] || r->boundary[0] > s->boundary[2])
 	return 0;
     if (r->boundary[3] < s->boundary[1] || r->boundary[1] > s->boundary[3])
@@ -156,16 +155,16 @@ static double aabbaabb(Rect_t * r, Rect_t * s)
     /* if we get here we have an intersection */
 
     /* rightmost left edge of the 2 rectangles */
-    iminx =
+    double iminx =
 	r->boundary[0] > s->boundary[0] ? r->boundary[0] : s->boundary[0];
     /* upmost bottom edge */
-    iminy =
+    double iminy =
 	r->boundary[1] > s->boundary[1] ? r->boundary[1] : s->boundary[1];
     /* leftmost right edge */
-    imaxx =
+    double imaxx =
 	r->boundary[2] < s->boundary[2] ? r->boundary[2] : s->boundary[2];
     /* downmost top edge */
-    imaxy =
+    double imaxy =
 	r->boundary[3] < s->boundary[3] ? r->boundary[3] : s->boundary[3];
     return (imaxx - iminx) * (imaxy - iminy);
 }
