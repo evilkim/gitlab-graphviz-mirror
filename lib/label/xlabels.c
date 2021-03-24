@@ -597,7 +597,7 @@ int
 placeLabels(object_t * objs, int n_objs,
 	    xlabel_t * lbls, int n_lbls, label_params_t * params)
 {
-    int r, i;
+    int r;
     BestPos_t bp;
     XLabels_t *xlp = xlnew(objs, n_objs, lbls, n_lbls, params);
     if ((r = xlinitialize(xlp)) < 0)
@@ -619,7 +619,7 @@ placeLabels(object_t * objs, int n_objs,
      * non-zero otherwise.
      */
     r = 0;
-    for (i = 0; i < n_objs; i++) {
+    for (int i = 0; i < n_objs; i++) {
 	if (objs[i].lbl == 0)
 	    continue;
 	bp = xladjust(xlp, &objs[i]);
