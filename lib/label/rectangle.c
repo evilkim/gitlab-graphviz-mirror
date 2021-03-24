@@ -87,7 +87,6 @@ unsigned int RectArea(Rect_t * r)
 -----------------------------------------------------------------------------*/
 Rect_t CombineRect(Rect_t * r, Rect_t * rr)
 {
-    int i, j;
     Rect_t new;
     assert(r && rr);
 
@@ -96,9 +95,9 @@ Rect_t CombineRect(Rect_t * r, Rect_t * rr)
     if (Undefined(rr))
 	return *r;
 
-    for (i = 0; i < NUMDIMS; i++) {
+    for (size_t i = 0; i < NUMDIMS; i++) {
 	new.boundary[i] = MIN(r->boundary[i], rr->boundary[i]);
-	j = i + NUMDIMS;
+	size_t j = i + NUMDIMS;
 	new.boundary[j] = MAX(r->boundary[j], rr->boundary[j]);
     }
     return new;
