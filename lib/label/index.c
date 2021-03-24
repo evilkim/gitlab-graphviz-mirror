@@ -39,9 +39,8 @@ LeafList_t *RTreeLeafListAdd(LeafList_t * llp, Leaf_t * lp)
 
 void RTreeLeafListFree(LeafList_t * llp)
 {
-    LeafList_t *tlp;
     while (llp->next) {
-	tlp = llp->next;
+	LeafList_t *tlp = llp->next;
 	free(llp);
 	llp = tlp;
     }
