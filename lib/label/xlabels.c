@@ -534,10 +534,9 @@ static BestPos_t xladjust(XLabels_t * xlp, object_t * objp)
 /* load the hilbert sfc keyed tree */
 static int xlhdxload(XLabels_t * xlp)
 {
-    int i;
     int order = xlhorder(xlp);
 
-    for (i = 0; i < xlp->n_objs; i++) {
+    for (int i = 0; i < xlp->n_objs; i++) {
 	HDict_t *hp;
 	point pi;
 
