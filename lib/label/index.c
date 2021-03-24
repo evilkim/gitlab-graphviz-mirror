@@ -211,8 +211,7 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 ** level to insert; e.g. a data rectangle goes in at level = 0.
 ** RTreeInsert2 does the recursion.
 */
-static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **,
-			int);
+static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **, int);
 
 int
 RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
