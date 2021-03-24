@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <label/node.h>
@@ -39,10 +40,9 @@ void RTreeFreeNode(RTree_t * rtp, Node_t * p)
 */
 void InitNode(Node_t * n)
 {
-    int i;
     n->count = 0;
     n->level = -1;
-    for (i = 0; i < NODECARD; i++)
+    for (size_t i = 0; i < NODECARD; i++)
 	InitBranch(&(n->branch[i]));
 }
 
