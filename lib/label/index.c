@@ -275,7 +275,6 @@ static int
 RTreeInsert2(RTree_t * rtp, Rect_t * r, void *data,
 	     Node_t * n, Node_t ** new, int level)
 {
-    int i=0;
     Branch_t b;
     Node_t *n2=0;
 
@@ -291,7 +290,7 @@ RTreeInsert2(RTree_t * rtp, Rect_t * r, void *data,
 
     /* Still above level for insertion, go down tree recursively */
     if (n->level > level) {
-	i = PickBranch(r, n);
+	int i = PickBranch(r, n);
 	if (!RTreeInsert2(rtp, r, data, n->branch[i].child, &n2, level)) {	/* recurse: child was not split */
 	    n->branch[i].rect = CombineRect(r, &(n->branch[i].rect));
 	    return 0;
