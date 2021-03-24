@@ -49,56 +49,6 @@ Rect_t NullRect()
     return r;
 }
 
-#ifdef UNUSED
-/*-----------------------------------------------------------------------------
-| Fills in random coordinates in a rectangle.
-| The low side is guaranteed to be less than the high side.
------------------------------------------------------------------------------*/
-RandomRect(Rect_t * r)
-{
-    int i, width;
-    for (i = 0; i < NUMDIMS; i++) {
-	/* width from 1 to 1000 / 4, more small ones */
-	width = rand() % (1000 / 4) + 1;
-
-	/* sprinkle a given size evenly but so they stay in [0,100] */
-	r->boundary[i] = rand() % (1000 - width);	/* low side */
-	r->boundary[i + NUMDIMS] = r->boundary[i] + width;	/* high side */
-    }
-}
-
-/*-----------------------------------------------------------------------------
-| Fill in the boundaries for a random search rectangle.
-| Pass in a pointer to a rect that contains all the data,
-| and a pointer to the rect to be filled in.
-| Generated rect is centered randomly anywhere in the data area,
-| and has size from 0 to the size of the data area in each dimension,
-| i.e. search rect can stick out beyond data area.
------------------------------------------------------------------------------*/
-SearchRect(Rect_t * search, Rect_t * data)
-{
-    int i, j, size, center;
-
-    assert(search);
-    assert(data);
-
-    for (i = 0; i < NUMDIMS; i++) {
-	j = i + NUMDIMS;	/* index for high side boundary */
-	if (data->boundary[i] > INT_MIN && data->boundary[j] < INT_MAX) {
-	    size =
-		(rand() % (data->boundary[j] - data->boundary[i] + 1)) / 2;
-	    center = data->boundary[i]
-		+ rand() % (data->boundary[j] - data->boundary[i] + 1);
-	    search->boundary[i] = center - size / 2;
-	    search->boundary[j] = center + size / 2;
-	} else {		/* some open boundary, search entire dimension */
-	    search->boundary[i] = INT_MIN;
-	    search->boundary[j] = INT_MAX;
-	}
-    }
-}
-#endif
-
 #ifdef RTDEBUG
 /*-----------------------------------------------------------------------------
 | Print rectangle lower upper bounds by dimension

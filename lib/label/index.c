@@ -58,13 +58,6 @@ static struct ListNode *RTreeNewListNode(void)
     return calloc(1, sizeof(struct ListNode));
 }
 
-#if UNUSED
-static void RTreeFreeListNode(struct ListNode *p)
-{
-    free(p);
-}
-#endif
-
 /* Add a node to the reinsertion list.  All its branches will later
  * be reinserted into the index structure.
  */
@@ -119,13 +112,11 @@ static int RTreeClose2(RTree_t * rtp, Node_t * n)
 	for (i = 0; i < NODECARD; i++) {
 	    if (!n->branch[i].child)
 		continue;
-	    // free(n->branch[i].child);
 	    DisconBranch(n, i);
 	    rtp->EntryCount--;
 	    if (rtp->StatFlag)
 	        rtp->ElimCount++;
 	}
-	//free(n);
     }
     return 0;
 }
@@ -229,12 +220,10 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 */
 static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **,
 			int);
-/*static int RTreeInsert2(RTree_t*, Rect_t*, int, Node_t*, Node_t**, int); */
 
 int
 RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 {
-    /* RTreeInsert(RTree_t*rtp, Rect_t*r, int data, Node_t**n, int level) { */
     int i;
     Node_t *newroot;
     Node_t *newnode=0;
@@ -278,7 +267,6 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 	b.child = newnode;
 	AddBranch(rtp, &b, newroot, NULL);
 	*n = newroot;
-	// rtp->root = newroot;
 	rtp->EntryCount += 2;
 	result = 1;
     }
@@ -298,10 +286,6 @@ static int
 RTreeInsert2(RTree_t * rtp, Rect_t * r, void *data,
 	     Node_t * n, Node_t ** new, int level)
 {
-    /*static int */
-    /* RTreeInsert2(RTree_t*rtp, Rect_t*r,
-       int data, Node_t*n, Node_t**new, int level) {
-     */
     int i=0;
     Branch_t b;
     Node_t *n2=0;
@@ -353,12 +337,10 @@ static void FreeListNode(struct ListNode *p)
 */
 static int RTreeDelete2(RTree_t *, Rect_t *, void *, Node_t *,
 			ListNode_t **);
-/* static int RTreeDelete2(RTree_t*, Rect_t*, int, Node_t*, ListNode_t**); */
 
 int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 {
     /* int */
-    /* RTreeDelete(RTree_t*rtp, Rect_t*r, int data, Node_t**nn) { */
     int i;
     Node_t *t;
     struct ListNode *reInsertList = NULL;
@@ -386,7 +368,6 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 	    for (i = 0; i < NODECARD; i++) {
 		if (t->branch[i].child) {
 		    RTreeInsert(rtp, &(t->branch[i].rect),
-				/* (int)t->branch[i].child, nn, t->level); */
 				t->branch[i].child, nn, t->level);
 		    rtp->EntryCount--;
 		}
@@ -424,8 +405,6 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 static int
 RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	     ListNode_t ** ee)
-/* static int */
-/* RTreeDelete2(RTree_t*rtp, Rect_t*r, int data, Node_t*n, ListNode_t**ee) */
 {
     int i;
 

@@ -562,12 +562,6 @@ static int xlhdxload(XLabels_t * xlp)
 
 	hp->key = hd_hil_s_from_xy(pi, order);
 
-#if 0
-	if (dtsearch(xlp->hdx, hp) != 0) {
-	    free(hp);
-	    continue;
-	}
-#endif
 	if (!(dtinsert(xlp->hdx, hp)))
 	    return -1;
     }

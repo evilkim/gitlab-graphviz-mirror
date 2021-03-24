@@ -154,14 +154,6 @@ static void MethodZero(RTree_t * rtp)
 	    if (!rtp->split.Partitions[0].taken[i]) {
 		Rect_t rect;
 		r = &rtp->split.BranchBuf[i].rect;
-		/* growth0 = RectArea(&CombineRect(r,
-		   &rtp->split.Partitions[0].cover[0])) -
-		   rtp->split.Partitions[0].area[0];
-		 */
-		/* growth1 = RectArea(&CombineRect(r,
-		   &rtp->split.Partitions[0].cover[1])) -
-		   rtp->split.Partitions[0].area[1];
-		 */
 		rect = CombineRect(r, &rtp->split.Partitions[0].cover[0]);
 		growth0 =
 		    RectArea(&rect) - rtp->split.Partitions[0].area[0];
@@ -224,14 +216,10 @@ static void PickSeeds(RTree_t * rtp)
     for (i = 0; i < NODECARD + 1; i++)
 	area[i] = RectArea(&rtp->split.BranchBuf[i].rect);
 
-    //worst = -rtp->split.CoverSplitArea - 1;
     worst=0;
     for (i = 0; i < NODECARD; i++) {
 	for (j = i + 1; j < NODECARD + 1; j++) {
 	    Rect_t rect;
-	    /* waste = RectArea(&CombineRect(&rtp->split.BranchBuf[i].rect,
-	       //                  &rtp->split.BranchBuf[j].rect)) - area[i] - area[j];
-	     */
 	    rect = CombineRect(&rtp->split.BranchBuf[i].rect,
 			       &rtp->split.BranchBuf[j].rect);
 	    waste = RectArea(&rect) - area[i] - area[j];
