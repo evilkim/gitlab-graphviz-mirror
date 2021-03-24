@@ -398,12 +398,10 @@ static BestPos_t xladjust(XLabels_t * xlp, object_t * objp)
     xlabel_t *lp = objp->lbl;
     double xincr = ((2 * lp->sz.x) + objp->sz.x) / XLXDENOM;
     double yincr = ((2 * lp->sz.y) + objp->sz.y) / XLYDENOM;
-    object_t *intrsx[XLNBR];
+    object_t *intrsx[XLNBR] = {NULL};
     BestPos_t bp, nbp;
 
     assert(objp->lbl);
-
-    memset(intrsx, 0, sizeof(intrsx));
 
     /*x left */
     lp->pos.x = objp->pos.x - lp->sz.x;
