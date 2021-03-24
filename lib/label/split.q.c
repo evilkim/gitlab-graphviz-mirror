@@ -132,7 +132,7 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 static void MethodZero(RTree_t * rtp)
 {
     Rect_t *r;
-    int i, growth0, growth1, diff, biggestDiff;
+    int growth0, growth1, diff, biggestDiff;
     int group, chosen = 0, betterGroup = 0;
 
     InitPVars(rtp);
@@ -144,7 +144,7 @@ static void MethodZero(RTree_t * rtp)
 	   && rtp->split.Partitions[0].count[1] <
 	   NODECARD + 1 - rtp->MinFill) {
 	biggestDiff = -1;
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (int i = 0; i < NODECARD + 1; i++) {
 	    if (!rtp->split.Partitions[0].taken[i]) {
 		Rect_t rect;
 		r = &rtp->split.BranchBuf[i].rect;
@@ -184,7 +184,7 @@ static void MethodZero(RTree_t * rtp)
 	if (rtp->split.Partitions[0].count[0] >=
 	    NODECARD + 1 - rtp->MinFill)
 	    group = 1;
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (int i = 0; i < NODECARD + 1; i++) {
 	    if (!rtp->split.Partitions[0].taken[i])
 		Classify(rtp, i, group);
 	}
