@@ -328,11 +328,8 @@ static int RTreeDelete2(RTree_t *, Rect_t *, void *, Node_t *,
 
 int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 {
-    /* int */
-    int i;
     Node_t *t;
     struct ListNode *reInsertList = NULL;
-    struct ListNode *e;
 
     assert(r && nn);
     assert(*nn);
@@ -353,14 +350,14 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 	/* reinsert any branches from eliminated nodes */
 	while (reInsertList) {
 	    t = reInsertList->node;
-	    for (i = 0; i < NODECARD; i++) {
+	    for (size_t i = 0; i < NODECARD; i++) {
 		if (t->branch[i].child) {
 		    RTreeInsert(rtp, &(t->branch[i].rect),
 				t->branch[i].child, nn, t->level);
 		    rtp->EntryCount--;
 		}
 	    }
-	    e = reInsertList;
+	    struct ListNode *e = reInsertList;
 	    reInsertList = reInsertList->next;
 	    RTreeFreeNode(rtp, e->node);
 	    FreeListNode(e);
@@ -371,7 +368,7 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 	    if (rtp->StatFlag)
 		rtp->ElimCount++;
 	    rtp->EntryCount--;
-	    for (i = 0; i < NODECARD; i++) {
+	    for (size_t i = 0; i < NODECARD; i++) {
 		if ((t = (*nn)->branch[i].child))
 		    break;
 	    }
