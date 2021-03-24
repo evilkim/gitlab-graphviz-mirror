@@ -171,7 +171,6 @@ void PrintData(Node_t * n)
 */
 LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 {
-    int i;
     LeafList_t *llp = 0;
 
     assert(n);
@@ -181,7 +180,7 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
     rtp->SeTouchCount++;
 
     if (n->level > 0) {		/* this is an internal node in the tree */
-	for (i = 0; i < NODECARD; i++)
+	for (size_t i = 0; i < NODECARD; i++)
 	    if (n->branch[i].child && Overlap(r, &n->branch[i].rect)) {
 		LeafList_t *tlp = RTreeSearch(rtp, n->branch[i].child, r);
 		if (llp) {
@@ -193,7 +192,7 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 		    llp = tlp;
 	    }
     } else {			/* this is a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child && Overlap(r, &n->branch[i].rect)) {
 		llp = RTreeLeafListAdd(llp, (Leaf_t *) & n->branch[i]);
 #				ifdef RTDEBUG
