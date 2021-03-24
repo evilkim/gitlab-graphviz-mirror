@@ -68,7 +68,7 @@ static void RTreeFreeListNode(struct ListNode *p)
 /* Add a node to the reinsertion list.  All its branches will later
  * be reinserted into the index structure.
  */
-static int RTreeReInsert(RTree_t * rtp, Node_t * n, struct ListNode **ee)
+static int RTreeReInsert(Node_t * n, struct ListNode **ee)
 {
     struct ListNode *l;
 
@@ -443,7 +443,7 @@ RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 		    if (n->branch[i].child->count >= rtp->MinFill)
 			n->branch[i].rect = NodeCover(n->branch[i].child);
 		    else {	/* not enough entries in child, eliminate child node */
-			RTreeReInsert(rtp, n->branch[i].child, ee);
+			RTreeReInsert(n->branch[i].child, ee);
 			DisconBranch(n, i);
 			rtp->EntryCount--;
 			if (rtp->StatFlag)
