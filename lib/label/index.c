@@ -91,10 +91,8 @@ Node_t *RTreeNewIndex(RTree_t * rtp)
 
 static int RTreeClose2(RTree_t * rtp, Node_t * n)
 {
-    int i;
-
     if (n->level > 0) {
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (!n->branch[i].child)
 		continue;
 	    if (!RTreeClose2(rtp, n->branch[i].child)) {
@@ -106,7 +104,7 @@ static int RTreeClose2(RTree_t * rtp, Node_t * n)
 	    }
 	}
     } else {
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (!n->branch[i].child)
 		continue;
 	    DisconBranch(n, i);
