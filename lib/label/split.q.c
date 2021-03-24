@@ -309,21 +309,19 @@ static void InitPVars(RTree_t * rtp)
 -----------------------------------------------------------------------------*/
 PrintPVars(RTree_t * rtp)
 {
-    int i;
-
     fprintf(stderr, "\npartition:\n");
-    for (i = 0; i < NODECARD + 1; i++) {
-	fprintf(stderr, "%3d\t", i);
+    for (size_t i = 0; i < NODECARD + 1; i++) {
+	fprintf(stderr, "%3zu\t", i);
     }
     fprintf(stderr, "\n");
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	if (rtp->split.Partitions[0].taken[i])
 	    fprintf(stderr, "  t\t");
 	else
 	    fprintf(stderr, "\t");
     }
     fprintf(stderr, "\n");
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	fprintf(stderr, "%3d\t", rtp->split.Partitions[0].partition[i]);
     }
     fprintf(stderr, "\n");
