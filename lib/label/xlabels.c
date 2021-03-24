@@ -35,13 +35,10 @@ static int icompare(Dt_t * dt, void * v1, void * v2, Dtdisc_t * disc)
     return k1 - k2;
 }
 
-static XLabels_t *xlnew(object_t * objs, int n_objs,
-			xlabel_t * lbls, int n_lbls,
-			label_params_t * params)
+static XLabels_t *xlnew(object_t * objs, int n_objs, xlabel_t * lbls,
+                        int n_lbls, label_params_t * params)
 {
-    XLabels_t *xlp;
-
-    xlp = NEW(XLabels_t);
+    XLabels_t *xlp = NEW(XLabels_t);
 
     /* used to load the rtree in hilbert space filling curve order */
     if (!(xlp->hdx = dtopen(&Hdisc, Dtobag))) {
