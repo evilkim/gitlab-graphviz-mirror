@@ -29,11 +29,10 @@ LeafList_t *RTreeNewLeafList(Leaf_t * lp)
 
 LeafList_t *RTreeLeafListAdd(LeafList_t * llp, Leaf_t * lp)
 {
-    LeafList_t *nlp;
     if (!lp)
 	return llp;
 
-    nlp = RTreeNewLeafList(lp);
+    LeafList_t *nlp = RTreeNewLeafList(lp);
     nlp->next = llp;
     return nlp;
 }
