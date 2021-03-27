@@ -85,6 +85,8 @@ psdump (cell* gcells, int n_gcells, boxf BB, boxf* rects, int nrect)
 static int
 vcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
   if (key1->x > key2->x) return 1;
   else if (key1->x < key2->x) return -1;
   else if (key1->y > key2->y) return 1;
@@ -95,6 +97,8 @@ vcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 static int
 hcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
   if (key1->y > key2->y) return 1;
   else if (key1->y < key2->y) return -1;
   else if (key1->x > key2->x) return 1;
