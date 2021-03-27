@@ -162,12 +162,12 @@ static int rebuild_vlists(graph_t * g)
 	lead = GD_rankleader(g)[r];
 	if (lead == NULL) {
 		agerr(AGERR, "rebuild_vlists: lead is null for rank %d\n", r);
-		longjmp(jbuf, 1);
+		return -1;
 	}
 	else if (GD_rank(dot_root(g))[r].v[ND_order(lead)] != lead) {
 	    agerr(AGERR, "rebuild_vlists: rank lead %s not in order %d of rank %d\n", 
 		agnameof(lead), ND_order(lead), r);
-	    longjmp(jbuf, 1);
+	    return -1;
 	}
 	GD_rank(g)[r].v =
 	    GD_rank(dot_root(g))[r].v + ND_order((GD_rankleader(g)[r]));
@@ -195,8 +195,12 @@ static int rebuild_vlists(graph_t * g)
 	GD_rank(g)[r].n = maxi + 1;
     }
 
-    for (c = 1; c <= GD_n_cluster(g); c++)
-	rebuild_vlists(GD_clust(g)[c]);
+    for (c = 1; c <= GD_n_cluster(g); c++) {
+	int ret = rebuild_vlists(GD_clust(g)[c]);
+	if (ret != 0) {
+	    return ret;
+	}
+    }
     return 0;
 }
 
