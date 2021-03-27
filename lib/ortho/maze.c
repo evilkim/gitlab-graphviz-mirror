@@ -471,8 +471,8 @@ mkMaze (graph_t* g, int doLbls)
         bb.UR.x = ND_coord(n).x + w2;
         bb.LL.y = ND_coord(n).y - h2;
         bb.UR.y = ND_coord(n).y + h2;
-	BB.LL.x = MIN(BB.LL.x, bb.LL.x);
-	BB.LL.y = MIN(BB.LL.y, bb.LL.y);
+	BB.LL.x = fmin(BB.LL.x, bb.LL.x);
+	BB.LL.y = fmin(BB.LL.y, bb.LL.y);
 	BB.UR.x = fmax(BB.UR.x, bb.UR.x);
 	BB.UR.y = fmax(BB.UR.y, bb.UR.y);
         cp->bb = bb;
