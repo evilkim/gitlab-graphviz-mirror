@@ -14,12 +14,9 @@
  */
 
 #include	<dotgen/dot.h>
-#include	<setjmp.h>
 
 #define		UP		0
 #define		DOWN	1
-
-static jmp_buf jbuf;
 
 static boolean samedir(edge_t * e, edge_t * f)
 {
@@ -243,10 +240,6 @@ void dot_concentrate(graph_t * g)
 		mergevirtual(g, r, leftpos, rightpos - 1, UP);
 	}
 	r--;
-    }
-    if (setjmp(jbuf)) {
-	agerr(AGPREV, "concentrate=true may not work correctly.\n");
-	return;
     }
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	if (rebuild_vlists(GD_clust(g)[c]) != 0) {
