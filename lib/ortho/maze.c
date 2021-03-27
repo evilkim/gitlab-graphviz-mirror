@@ -457,6 +457,9 @@ mkMaze (graph_t* g, int doLbls)
     double w2, h2;
     boxf bb, BB;
 
+    // unused
+    (void)doLbls;
+
     mp->ngcells = agnnodes(g);
     cp = mp->gcells = N_NEW(mp->ngcells, cell);
 
@@ -479,9 +482,6 @@ mkMaze (graph_t* g, int doLbls)
 	cp->flags |= MZ_ISNODE;
         ND_alg(n) = cp;
 	cp++;
-    }
-
-    if (doLbls) {
     }
 
     BB.LL.x -= MARGIN;
