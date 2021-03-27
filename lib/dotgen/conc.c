@@ -139,14 +139,14 @@ static int rebuild_vlists(graph_t * g)
 {
     int c, i, r, maxi;
     node_t *n, *lead;
-    edge_t *e, *rep;
+    edge_t *rep;
 
     for (r = GD_minrank(g); r <= GD_maxrank(g); r++)
 	GD_rankleader(g)[r] = NULL;
     dot_scan_ranks(g);
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	infuse(g, n);
-	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
+	for (edge_t *e = agfstout(g, n); e; e = agnxtout(g, e)) {
 	    for (rep = e; ED_to_virt(rep); rep = ED_to_virt(rep));
 	    while (rep != NULL && ND_rank(aghead(rep)) < ND_rank(aghead(e))) {
 		infuse(g, aghead(rep));
