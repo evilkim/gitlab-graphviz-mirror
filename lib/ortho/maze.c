@@ -186,7 +186,7 @@ updateWts (sgraph* g, cell* cp, sedge* ep)
 
     for (; i < cp->nedges; i++) {
 	e = cp->edges[i];
-	if (isBend || (e == ep)) updateWt (e, (HORZ(g,e)?hsz:vsz));
+	if (isBend || e == ep) updateWt (e, HORZ(g,e)?hsz:vsz);
     }
 }
 
