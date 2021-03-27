@@ -138,7 +138,7 @@ static void infuse(graph_t * g, node_t * n)
 	GD_rankleader(g)[ND_rank(n)] = n;
 }
 
-static void rebuild_vlists(graph_t * g)
+static int rebuild_vlists(graph_t * g)
 {
     int c, i, r, maxi;
     node_t *n, *lead;
@@ -197,6 +197,7 @@ static void rebuild_vlists(graph_t * g)
 
     for (c = 1; c <= GD_n_cluster(g); c++)
 	rebuild_vlists(GD_clust(g)[c]);
+    return 0;
 }
 
 void dot_concentrate(graph_t * g)
