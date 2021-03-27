@@ -244,6 +244,10 @@ void dot_concentrate(graph_t * g)
 	agerr(AGPREV, "concentrate=true may not work correctly.\n");
 	return;
     }
-    for (c = 1; c <= GD_n_cluster(g); c++)
-	rebuild_vlists(GD_clust(g)[c]);
+    for (c = 1; c <= GD_n_cluster(g); c++) {
+	if (rebuild_vlists(GD_clust(g)[c]) != 0) {
+	    agerr(AGPREV, "concentrate=true may not work correctly.\n");
+	    return;
+	}
+    }
 }
