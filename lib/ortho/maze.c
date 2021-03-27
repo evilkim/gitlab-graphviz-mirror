@@ -13,6 +13,7 @@
 
 #define DEBUG
 
+#include <math.h>
 #include <stddef.h>
 #include <ortho/maze.h>
 #include <ortho/partition.h>
@@ -472,8 +473,8 @@ mkMaze (graph_t* g, int doLbls)
         bb.UR.y = ND_coord(n).y + h2;
 	BB.LL.x = MIN(BB.LL.x, bb.LL.x);
 	BB.LL.y = MIN(BB.LL.y, bb.LL.y);
-	BB.UR.x = MAX(BB.UR.x, bb.UR.x);
-	BB.UR.y = MAX(BB.UR.y, bb.UR.y);
+	BB.UR.x = fmax(BB.UR.x, bb.UR.x);
+	BB.UR.y = fmax(BB.UR.y, bb.UR.y);
         cp->bb = bb;
 	cp->flags |= MZ_ISNODE;
         ND_alg(n) = cp;
