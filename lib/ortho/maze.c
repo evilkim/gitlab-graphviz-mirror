@@ -194,7 +194,7 @@ updateWts (sgraph* g, cell* cp, sedge* ep)
  * be marked as usable.
  */
 static void
-markSmall (cell* cp, sgraph* g)
+markSmall (cell* cp)
 {
     int i;
     snode* onp;
@@ -412,7 +412,7 @@ mkMazeGraph (maze* mp, boxf bb)
      */
     for (i = 0; i < mp->ngcells; i++) {
 	cell* cp = mp->gcells+i;
-	markSmall (cp, g);
+	markSmall (cp);
     }
 
     /* Set index of two dummy nodes used for real nodes */
