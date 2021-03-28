@@ -823,3 +823,5 @@ lint_pylint:
     expire_in: 1 week
     reports:
         metrics: metrics.txt
+  except:
+    - tags
