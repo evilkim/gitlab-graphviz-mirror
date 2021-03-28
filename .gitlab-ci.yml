@@ -692,7 +692,7 @@ deployment:
         - python3 ci/deploy.py --verbose
     # do not run this job for MRs, developer’s forks, etc.
     only:
-        - master@graphviz/graphviz
+        - main@graphviz/graphviz
 
 .docker_template: &docker_definition
   image: docker:stable
@@ -727,10 +727,10 @@ deployment:
     GIT_STRATEGY: none
   only:
     refs:
-      # Only master should be pushed to :latest, not unmerged merge-requests.
+      # Only main should be pushed to :latest, not unmerged merge-requests.
       # It's ok for this to run on other repos (not just graphviz/graphviz) as
       # they have their own container registries.
-      - master
+      - main
   script:
     - docker pull $CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
     # Re-tag, push to :latest tag

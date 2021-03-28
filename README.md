@@ -1,6 +1,6 @@
 # Graphviz - Graph Visualization Tools
 
-[![build status](https://gitlab.com/graphviz/graphviz/badges/master/pipeline.svg)](https://gitlab.com/graphviz/graphviz/-/pipelines/)
+[![build status](https://gitlab.com/graphviz/graphviz/badges/main/pipeline.svg)](https://gitlab.com/graphviz/graphviz/-/pipelines/)
 
 from AT&T Research and Lucent Bell Labs
 
@@ -8,9 +8,9 @@ from AT&T Research and Lucent Bell Labs
 
 See doc/build.html within the source tree or https://graphviz.org/doc/build.html for prerequisites and detailed build notes.
 
-## master GIT Repository
+## main GIT Repository
 
-The master GIT Repository for graphviz can be found at:
+The main GIT Repository for graphviz can be found at:
 
 * https://gitlab.com/graphviz/graphviz/
 

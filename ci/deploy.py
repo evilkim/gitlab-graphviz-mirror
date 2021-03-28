@@ -199,7 +199,7 @@ def main(args: List[str]) -> int:
   # construct a command to create the release itself
   cmd = ['release-cli', 'create', '--name', options.version, '--tag-name',
     options.version, '--description', 'See the [CHANGELOG](https://gitlab.com/'
-    'graphviz/graphviz/-/blob/master/CHANGELOG.md).']
+    'graphviz/graphviz/-/blob/main/CHANGELOG.md).']
   for a in assets:
     name = os.path.basename(a)
     url = a
