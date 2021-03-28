@@ -576,6 +576,9 @@ fedora33-test:
 macos-autotools-test:
     <<: *test_definition
     before_script:
+        - brew update
+        - brew install pango || brew upgrade pango
+        - brew install libxaw || brew upgrade libxaw
         - python3 -m pip install --requirement requirements.txt
         - export build_system="autotools"
         - echo experimental > COLLECTION
@@ -660,6 +663,9 @@ fedora32-cmake-test:
 macos-cmake-test:
     <<: *test_definition
     before_script:
+        - brew update
+        - brew install pango || brew upgrade pango
+        - brew install libxaw || brew upgrade libxaw
         - python3 -m pip install --requirement requirements.txt
         - export build_system="cmake"
         - echo experimental > COLLECTION
