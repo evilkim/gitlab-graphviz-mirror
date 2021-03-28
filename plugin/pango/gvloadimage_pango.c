@@ -87,6 +87,9 @@ static void pango_loadimage_cairo(GVJ_t * job, usershape_t *us, boxf b, boolean 
     assert(us->name);
     assert(us->name[0]);
 
+    // suppress unused parameter warning
+    (void)filled;
+
     surface = cairo_loadimage(job, us);
     if (surface) {
         cairo_save(cr);
@@ -104,6 +107,9 @@ static void pango_loadimage_ps(GVJ_t * job, usershape_t *us, boxf b, boolean fil
     cairo_format_t format;
     int X, Y, x, y, stride;
     unsigned char *data, *ix, alpha, red, green, blue;
+
+    // suppress unused parameter warning
+    (void)filled;
 
     surface = cairo_loadimage(job, us);
     if (surface) {

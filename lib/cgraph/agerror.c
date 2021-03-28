@@ -39,16 +39,12 @@ agerrlevel_t agseterr(agerrlevel_t lvl)
 
 char *aglasterr()
 {
-    long endpos;
-    long len;
-    char *buf;
-
     if (!agerrout)
 	return 0;
     fflush(agerrout);
-    endpos = ftell(agerrout);
-    len = endpos - aglast;
-    buf = malloc(len + 1);
+    long endpos = ftell(agerrout);
+    size_t len = (size_t)(endpos - aglast);
+    char *buf = malloc(len + 1);
     fseek(agerrout, aglast, SEEK_SET);
     fread(buf, sizeof(char), len, agerrout);
     buf[len] = '\0';
@@ -118,7 +114,7 @@ static int agerr_va(agerrlevel_t level, const char *fmt, va_list args)
 
     /* store this error level */
     agerrno = lvl;
-    agmaxerr = MAX(agmaxerr, agerrno);
+    agmaxerr = MAX(agmaxerr, (int)agerrno);
 
     /* We report all messages whose level is bigger than the user set agerrlevel
      * Setting agerrlevel to AGMAX turns off immediate error reporting.
