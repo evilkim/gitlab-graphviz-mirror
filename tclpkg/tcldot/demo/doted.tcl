@@ -213,7 +213,6 @@ proc saveFileAs {type} {
 	global fileName
 
 	set cmap {{{CMAP Image Map Files} {.cmap}} {{All Files} *}}
-	set dia {{{DIA Image Files} {.dia}} {{All Files} *}}
 	set dot {{{DOT Graph Files} {.dot}} {{All Files} *}}
 	set fig {{{FIG Image Files} {.fig}} {{All Files} *}}
 	set gif {{{GIF Image Files} {.gif}} {{All Files} *}}
@@ -658,8 +657,6 @@ menu .m.file.m
 menu .m.file.m.export
 .m.file.m.export add command -label "CMAP ..." -underline 0 \
 	-command "saveFileAs cmap"
-.m.file.m.export add command -label "DIA ..." -underline 0 \
-	-command "saveFileAs dia"
 .m.file.m.export add command -label "FIG ..." -underline 0 \
 	-command "saveFileAs fig"
 .m.file.m.export add command -label "GIF ..." -underline 0 \

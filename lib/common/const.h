@@ -136,7 +136,6 @@
 
 #define		VTX		21	/* visual thought */
 #define		METAPOST	22
-#define		DIA		24	/* dia drawing tool */
 
 #define		QPDF		30	/* Quartz paged PDF */
 #define		QEPDF		31	/* Quartz embedded PDF */

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - xdot man page does not document some functions #1957
 - Superfluous empty `@param` in documentation #1977
 - PIC renderer does not work and probably never has #131
+- dot conversion to dia format #689
 
 ## [2.47.0] - 2021-03-15
 

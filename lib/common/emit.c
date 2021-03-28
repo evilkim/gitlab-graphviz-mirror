@@ -4128,11 +4128,6 @@ int gvRenderJobs (GVC_t * gvc, graph_t * g)
             /* output sorted, i.e. all nodes then all edges */
             job->flags |= EMIT_SORTED;
             break;
-        case DIA:
-            /* output in preorder traversal of the graph */
-            job->flags |= EMIT_PREORDER
-		       | GVDEVICE_BINARY_FORMAT;
-            break;
         default:
             job->flags |= chkOrder(g);
             break;
