@@ -18,8 +18,9 @@
 
 %{
 
-#include <stdio.h>  /* SAFE */
-#include <cghdr.h>	/* SAFE */
+#include <stdbool.h>
+#include <stdio.h>
+#include <cghdr.h>
 #include <stddef.h>
 extern void aagerror(char *);
 
@@ -61,7 +62,7 @@ typedef struct gstack_s {
 /* functions */
 static void appendnode(char *name, char *port, char *sport);
 static void attrstmt(int tkind, char *macroname);
-static void startgraph(char *name, int directed, int strict);
+static void startgraph(char *name, bool directed, bool strict);
 static void getedgeitems(void);
 static void newedge(Agnode_t *t, char *tport, Agnode_t *h, char *hport, char *key);
 static void edgerhs(Agnode_t *n, char *tport, item *hlist, char *key);
@@ -109,7 +110,7 @@ graph		:  hdr body {freestack(); endgraph();}
 
 body		: '{' optstmtlist '}' ;
 
-hdr			:	optstrict graphtype optgraphname {startgraph($3,$2,$1);}
+hdr			:	optstrict graphtype optgraphname {startgraph($3,$2 != 0,$1 != 0);}
 			;
 
 optgraphname:	atom {$$=$1;} | /* empty */ {$$=0;} ;
@@ -542,7 +543,7 @@ static void newedge(Agnode_t *t, char *tport, Agnode_t *h, char *hport, char *ke
 /* graphs and subgraphs */
 
 
-static void startgraph(char *name, int directed, int strict)
+static void startgraph(char *name, bool directed, bool strict)
 {
 	static Agdesc_t	req;	/* get rid of warnings */
 

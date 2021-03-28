@@ -50,7 +50,7 @@ double dist(Site * s, Site * t)
 void makevertex(Site * v)
 {
     v->sitenbr = nvertices;
-    nvertices += 1;
+    ++nvertices;
 #ifdef STANDALONE
     out_vertex(v);
 #endif
@@ -59,12 +59,12 @@ void makevertex(Site * v)
 
 void deref(Site * v)
 {
-    v->refcnt -= 1;
+    --v->refcnt;
     if (v->refcnt == 0)
 	makefree(v, &sfl);
 }
 
 void ref(Site * v)
 {
-    v->refcnt += 1;
+    ++v->refcnt;
 }

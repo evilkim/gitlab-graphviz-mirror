@@ -246,19 +246,6 @@ static graph_t *mkNConstraintG(graph_t * g, Dt_t * list,
 	    if (e && agfindedge(g,p->np, nxp->np)) {
 		ED_weight(e) = 100;
             }
-#if 0
-	    if (agfindedge(g,p->np, nxp->np)) {
-		if (e == NULL)
-	            e = agedge(cg, p->cnode, nxp->cnode);
-		ED_weight(e) = 100;
-                /* If minlen < SCALE, the nodes can't conflict or there's
-                 * an overlap but it will be removed in the orthogonal pass.
-                 * So we just keep the node's basically where they are.
-                 */
-		if (SCALE > ED_minlen(e))
-		    ED_minlen(e) = SCALE;
-	    }
-#endif
 	}
     }
    

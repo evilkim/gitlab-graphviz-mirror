@@ -56,13 +56,9 @@ static void freef(Dict_t * dict, void *ptr, Dtdisc_t * disc)
 }
 
 static Dtdisc_t Disc = {
-    offsetof(pending_cb_t, key),	/* sort by 'key' */
-    sizeof(uint64_t),
-    0,				/* link offset */
-    NULL,
-    freef,
-    NULL,
-    NULL
+    .key = offsetof(pending_cb_t, key),	/* sort by 'key' */
+    .size = sizeof(uint64_t),
+    .freef = freef,
 };
 
 static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)

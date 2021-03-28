@@ -107,54 +107,6 @@ static int compare(Point * o, PtItem * p, PtItem * q)
     }
 }
 
-#if 0				/* not used */
-static void printV(PtItem * vp)
-{
-    if (vp == NULL) {
-	fprintf(stderr, "<empty>\n");
-	return;
-    }
-
-    while (vp != NULL) {
-	fprintf(stderr, "(%.16f,%.16f)\n", vp->p.x, vp->p.y);
-	vp = vp->next;
-    }
-}
-
-static void error(Info_t * ip, Site * s, double x, double y)
-{
-    fprintf(stderr,
-	    "Unsorted vertex list for site %d (%.16f,%.16f), pt (%f,%f)\n",
-	    s->sitenbr, s->coord.x, s->coord.y, x, y);
-    printV(ip->verts);
-}
-#endif
-
-#if 0				/* not used */
-static int sorted(Point * origin, PtItem * vp)
-{
-    PtItem *next;
-
-    if (vp == NULL)
-	return 1;
-    next = vp->next;
-
-    while (next != NULL) {
-	if (compare(origin, vp, next) <= 0) {
-	    vp = next;
-	    next = next->next;
-	} else {
-	    fprintf(stderr, "(%.16f,%.16f) > (%.16f,%.16f)\n",
-		    vp->p.x, vp->p.y, next->p.x, next->p.y);
-	    return 0;
-	}
-    }
-
-    return 1;
-
-}
-#endif
-
 void addVertex(Site * s, double x, double y)
 {
     Info_t *ip;

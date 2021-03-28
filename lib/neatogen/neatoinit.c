@@ -84,7 +84,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
 	    if (PSinputscale > 0.0) {
 		int i;
 		for (i = 0; i < Ndim; i++)
-		    pvec[i] = pvec[i] / PSinputscale;
+		    pvec[i] /= PSinputscale;
 	    }
 	    if (Ndim > 2) {
 		if (N_z && (p = agxget(np, N_z)) && (sscanf(p,"%lf",&z) == 1)) {
@@ -620,19 +620,16 @@ static void neato_init_graph (Agraph_t * g)
 static int neatoModel(graph_t * g)
 {
     char *p = agget(g, "model");
-    char c;
 
-    if (!p || (!(c = *p)))    /* if p is NULL or "" */
+    if (!p || streq(p, ""))    /* if p is NULL or "" */
 	return MODEL_SHORTPATH;
-    if ((c == 'c') && streq(p, "circuit"))
+    if (streq(p, "circuit"))
 	return MODEL_CIRCUIT;
-    if (c == 's') {
-	if (streq(p, "subset"))
-	    return MODEL_SUBSET;
-	else if (streq(p, "shortpath"))
-	    return MODEL_SHORTPATH;
-    }
-    if ((c == 'm') && streq(p, "mds")) {
+    if (streq(p, "subset"))
+	return MODEL_SUBSET;
+    if (streq(p, "shortpath"))
+	return MODEL_SHORTPATH;
+    if (streq(p, "mds")) {
 	if (agattr(g, AGEDGE, "len", 0))
 	    return MODEL_MDS;
 	else {
@@ -656,7 +653,7 @@ static int neatoMode(graph_t * g)
     int mode = MODE_MAJOR;	/* default mode */
 
     str = agget(g, "mode");
-    if (str && *str) {
+    if (str && !streq(str, "")) {
 	if (streq(str, "KK"))
 	    mode = MODE_KK;
 	else if (streq(str, "major"))

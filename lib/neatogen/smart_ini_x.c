@@ -264,10 +264,6 @@ int IMDS_given_dim(vtx_data* graph, int n, double* given_coords,
 	double b;
 	boolean converged;
 
-#if 0
-	iterations1=mat_mult_count1=0; /* We don't compute the x-axis at all. */
-#endif
-
 	Dij = compute_apsp(graph, n);
 	
 	/* scaling up the distances to enable an 'sqrt' operation later 
