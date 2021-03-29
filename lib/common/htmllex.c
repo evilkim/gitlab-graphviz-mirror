@@ -849,6 +849,41 @@ static char *findNext(char *s, agxbuf* xb)
     }
     return t;
 }
+
+/** guard a trailing right square bracket (]) from misinterpretation
+ *
+ * When parsing in incremental mode, expat tries to recognize malformed CDATA
+ * section terminators. See XML_TOK_TRAILING_RSQB in the expat source. As a
+ * result, when seeing text that ends in a ']' expat buffers this internally and
+ * returns truncated text for the current parse. The ']' is flushed as part of
+ * the next parsing call when expat learns it is not a CDATA section terminator.
+ *
+ * To prevent this situation from occurring, this function turns any trailing
+ * ']' into its XML escape sequence. This causes expat to realize immediately it
+ * is not part of a CDATA section terminator and flush it in the first parsing
+ * call. This has no effect on the final output, because expat handles the
+ * translation back from this escape sequence to ']'.
+ *
+ * @param xb Buffer containing content to protect
+ */
+static void protect_rsqb(agxbuf *xb) {
+
+  // if the buffer is empty, we have nothing to do
+  if (xb->buf == xb->ptr) {
+    return;
+  }
+
+  // if the buffer does not end in a ], we have nothing to do
+  if (xb->ptr[-1] != ']') {
+    return;
+  }
+
+  // rewind over the ]
+  --xb->ptr;
+
+  // write an XML-escaped version of ]
+  agxbput(xb, "&#93;");
+}
 #endif
 
 int htmllineno()
@@ -1024,6 +1059,9 @@ int htmllex()
 		len = endp - s;
 	    }
 	}
+
+	protect_rsqb(&state.lb);
+
 	state.prevtok = state.currtok;
 	state.prevtoklen = state.currtoklen;
 	state.currtok = s;
