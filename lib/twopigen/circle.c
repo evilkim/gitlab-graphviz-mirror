@@ -71,8 +71,6 @@ static void initLayout(Agraph_t * g)
     int INF = nnodes * nnodes;
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	/* STSIZE(n) = 0; */
-	/* NCHILD(n) = 0; */
 	SCENTER(n) = INF;
 	THETA(n) = UNSET;	/* marks theta as unset, since 0 <= theta <= 2PI */
 	if (isLeaf(g, n))
@@ -112,36 +110,6 @@ static Agnode_t *findCenterNode(Agraph_t * g)
     }
     return center;
 }
-
-#if 0
-/* dfs to set distance from center
- * Note that termination is implicit in the test
- * for reduced number of steps. Proof?
- */
-static void setNStepsToCenter(Agraph_t * g, Agnode_t * n, Agnode_t * prev)
-{
-    Agnode_t *next;
-    Agedge_t *ep;
-    int nsteps = SCENTER(n) + 1;
-
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
-	if ((next = agtail(ep)) == n)
-	    next = aghead(ep);
-
-	if (prev == next)
-	    continue;
-
-	if (nsteps < SCENTER(next)) {	/* handles loops and multiedges */
-	    SCENTER(next) = nsteps;
-	    if (SPARENT(next))
-		NCHILD(SPARENT(next))--;
-	    SPARENT(next) = n;
-	    NCHILD(n)++;
-	    setNStepsToCenter(g, next, n);
-	}
-    }
-}
-#endif
 
 typedef struct item_s {
     void* p;
@@ -379,27 +347,6 @@ static void setAbsolutePos(Agraph_t * g, int maxrank)
     free (ranksep);
 }
 
-#if 0				/* not used */
-static void dumpGraph(Agraph_t * g)
-{
-    Agnode_t *n;
-    char *p;
-
-    fprintf(stderr,
-	    "     :  leaf  stsz nkids  cntr parent   span  theta\n");
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	if (SPARENT(n))
-	    p = SPARENT(n)->name;
-	else
-	    p = "<C>";
-	fprintf(stderr, "%4s :%6d%6d%6d%6d%7s%7.3f%7.3f%8.3f%8.3f\n",
-		n->name, SLEAF(n), STSIZE(n), NCHILD(n),
-		SCENTER(n), p, SPAN(n), THETA(n), ND_pos(n)[0],
-		ND_pos(n)[1]);
-    }
-}
-#endif
-
 /* circleLayout:
  *  We assume sg is is connected and non-empty.
  *  Also, if center != 0, we are guaranteed that center is
@@ -436,6 +383,5 @@ Agnode_t* circleLayout(Agraph_t * sg, Agnode_t * center)
     setPositions(sg, center);
 
     setAbsolutePos(sg, maxNStepsToCenter);
-    /* dumpGraph (sg); */
     return center;
 }
