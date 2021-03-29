@@ -15,7 +15,7 @@
  * reference counted strings.
  */
 
-enum { HTML_BIT = (uint64_t)(1u << (sizeof(unsigned) * 8 - 1)) };
+enum { HTML_BIT = (uint64_t)(UINT64_C(1) << (sizeof(uint64_t) * 8 - 1)) };
 enum { CNT_BITS = ~(uint64_t)HTML_BIT };
 
 typedef struct refstr_t {
