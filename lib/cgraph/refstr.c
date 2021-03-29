@@ -15,12 +15,10 @@
  * reference counted strings.
  */
 
-enum { HTML_BIT = (uint64_t)(UINT64_C(1) << (sizeof(uint64_t) * 8 - 1)) };
-enum { CNT_BITS = ~(uint64_t)HTML_BIT };
-
 typedef struct refstr_t {
     Dtlink_t link;
-    uint64_t refcnt;
+    uint64_t refcnt: sizeof(uint64_t) * 8 - 1;
+    uint64_t is_html: 1;
     char *s;
     char store[1];		/* this is actually a dynamic array */
 } refstr_t;
@@ -105,6 +103,7 @@ char *agstrdup(Agraph_t * g, char *s)
 	else
 	    r = malloc(sz);
 	r->refcnt = 1;
+	r->is_html = 0;
 	strcpy(r->store, s);
 	r->s = r->store;
 	dtinsert(strdict, r);
@@ -130,7 +129,8 @@ char *agstrdup_html(Agraph_t * g, char *s)
 	    r = (refstr_t *) agalloc(g, sz);
 	else
 	    r = malloc(sz);
-	r->refcnt = 1 | HTML_BIT;
+	r->refcnt = 1;
+	r->is_html = 1;
 	strcpy(r->store, s);
 	r->s = r->store;
 	dtinsert(strdict, r);
@@ -150,7 +150,7 @@ int agstrfree(Agraph_t * g, char *s)
     r = refsymbind(strdict, s);
     if (r && (r->s == s)) {
 	r->refcnt--;
-	if ((r->refcnt & CNT_BITS) == 0) {
+	if (r->refcnt == 0) {
 	    agdtdelete(g, strdict, r);
 	}
     }
@@ -170,7 +170,7 @@ int aghtmlstr(char *s)
     if (s == NULL)
 	return 0;
     key = (refstr_t *) (s - offsetof(refstr_t, store[0]));
-    return (key->refcnt & HTML_BIT) != 0;
+    return key->is_html;
 }
 
 void agmarkhtmlstr(char *s)
@@ -180,7 +180,7 @@ void agmarkhtmlstr(char *s)
     if (s == NULL)
 	return;
     key = (refstr_t *) (s - offsetof(refstr_t, store[0]));
-    key->refcnt |= HTML_BIT;
+    key->is_html = 1;
 }
 
 #ifdef DEBUG
