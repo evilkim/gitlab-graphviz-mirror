@@ -90,7 +90,7 @@ static Agnode_t *findCenterNode(Agraph_t * g)
 {
     Agnode_t *n;
     Agnode_t *center = NULL;
-    int maxNStepsToLeaf = 0;
+    uint64_t maxNStepsToLeaf = 0;
 
     /* With just 1 or 2 nodes, return anything. */
     if (agnnodes(g) <= 2)
