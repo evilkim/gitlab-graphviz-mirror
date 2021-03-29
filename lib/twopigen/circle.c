@@ -11,6 +11,8 @@
 
 #include    <twopigen/circle.h>
 #include    <ctype.h>
+#include    <inttypes.h>
+#include    <limits.h>
 #include    <stdint.h>
 #include    <stdlib.h>
 #define DEF_RANKSEP 1.00
@@ -176,13 +178,13 @@ static void setNStepsToCenter(Agraph_t * g, Agnode_t * n)
 /*
  * Work out from the center and determine the value of
  * nStepsToCenter and parent node for each node.
- * Return -1 if some node was not reached.
+ * Return UINT64_MAX if some node was not reached.
  */
-static int setParentNodes(Agraph_t * sg, Agnode_t * center)
+static uint64_t setParentNodes(Agraph_t * sg, Agnode_t * center)
 {
     Agnode_t *n;
-    int maxn = 0;
-    int unset = SCENTER(center);
+    uint64_t maxn = 0;
+    uint64_t unset = SCENTER(center);
 
     SCENTER(center) = 0;
     SPARENT(center) = 0;
@@ -191,7 +193,7 @@ static int setParentNodes(Agraph_t * sg, Agnode_t * center)
     /* find the maximum number of steps from the center */
     for (n = agfstnode(sg); n; n = agnxtnode(sg, n)) {
 	if (SCENTER(n) == unset) {
-	    return -1;
+	    return UINT64_MAX;
 	}
 	else if (SCENTER(n) > maxn) {
 	    maxn = SCENTER(n);
@@ -292,12 +294,12 @@ static void setPositions(Agraph_t * sg, Agnode_t * center)
  * If the ranksep attribute is not provided, use DEF_RANKSEP for all values. 
  */ 
 static double*
-getRankseps (Agraph_t* g, int maxrank)
+getRankseps (Agraph_t* g, uint64_t maxrank)
 {
     char *p;
     char *endp;
     char c;
-    int i, rk = 1;
+    uint64_t rk = 1;
     double* ranks = N_NEW(maxrank+1, double);
     double xf = 0.0, delx = 0.0, d;
 
@@ -315,7 +317,7 @@ getRankseps (Agraph_t* g, int maxrank)
 	delx = DEF_RANKSEP;
     }
 
-    for (i = rk; i <= maxrank; i++) {
+    for (uint64_t i = rk; i <= maxrank; i++) {
 	xf += delx;
 	ranks[i] = xf;
     }
@@ -323,17 +325,16 @@ getRankseps (Agraph_t* g, int maxrank)
     return ranks;
 }
 
-static void setAbsolutePos(Agraph_t * g, int maxrank)
+static void setAbsolutePos(Agraph_t * g, uint64_t maxrank)
 {
     Agnode_t *n;
     double hyp;
     double* ranksep;
-    int i;
 
     ranksep = getRankseps (g, maxrank);
     if (Verbose) {
 	fputs ("Rank separation = ", stderr);
-	for (i = 0; i <= maxrank; i++)
+	for (uint64_t i = 0; i <= maxrank; i++)
 	    fprintf (stderr, "%.03lf ", ranksep[i]);
 	fputs ("\n", stderr);
     }
@@ -354,7 +355,7 @@ static void setAbsolutePos(Agraph_t * g, int maxrank)
  */
 Agnode_t* circleLayout(Agraph_t * sg, Agnode_t * center)
 {
-    int maxNStepsToCenter;
+    uint64_t maxNStepsToCenter;
 
     if (agnnodes(sg) == 1) {
 	Agnode_t *n = agfstnode(sg);
@@ -370,8 +371,9 @@ Agnode_t* circleLayout(Agraph_t * sg, Agnode_t * center)
 
     maxNStepsToCenter = setParentNodes(sg,center);
     if (Verbose)
-	fprintf(stderr, "root = %s max steps to root = %d\n", agnameof(center), maxNStepsToCenter);
-    if (maxNStepsToCenter < 0) {
+	fprintf(stderr, "root = %s max steps to root = %" PRIu64 "\n",
+	        agnameof(center), maxNStepsToCenter);
+    if (maxNStepsToCenter == UINT64_MAX) {
 	agerr(AGERR, "twopi: use of weight=0 creates disconnected component.\n");
 	return center;
     }
