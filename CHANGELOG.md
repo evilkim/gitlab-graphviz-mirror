@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PIC renderer does not work and probably never has #131
 - dot conversion to dia format #689
 - memory leak of reference-counted HTML strings
+- Align rank from bottom in dot graph #1339
+- Fix for TBbalance attribute code #1980
 
 ## [2.47.0] - 2021-03-15
 
