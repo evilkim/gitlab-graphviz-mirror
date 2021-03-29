@@ -8,11 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
 #include    <twopigen/circle.h>
 #include    <ctype.h>
 #include    <inttypes.h>
 #include    <limits.h>
+#include    <stdbool.h>
 #include    <stdint.h>
 #include    <stdlib.h>
 #define DEF_RANKSEP 1.00
@@ -46,7 +46,7 @@ static void setNStepsToLeaf(Agraph_t * g, Agnode_t * n, Agnode_t * prev)
 /* isLeaf:
  * Return true if n is a leaf node.
  */
-static int isLeaf(Agraph_t * g, Agnode_t * n)
+static bool isLeaf(Agraph_t * g, Agnode_t * n)
 {
     Agedge_t *ep;
     Agnode_t *neighp = 0;
@@ -59,11 +59,11 @@ static int isLeaf(Agraph_t * g, Agnode_t * n)
 	    continue;		/* loop */
 	if (neighp) {
 	    if (neighp != np)
-		return 0;	/* two different neighbors */
+		return false;	/* two different neighbors */
 	} else
 	    neighp = np;
     }
-    return 1;
+    return true;
 }
 
 static void initLayout(Agraph_t * g)
