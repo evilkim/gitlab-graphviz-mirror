@@ -25,11 +25,10 @@
 static void setNStepsToLeaf(Agraph_t * g, Agnode_t * n, Agnode_t * prev)
 {
     Agnode_t *next;
-    Agedge_t *ep;
 
     uint64_t nsteps = SLEAF(n) + 1;
 
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
+    for (Agedge_t *ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	if ((next = agtail(ep)) == n)
 	    next = aghead(ep);
 
@@ -48,11 +47,10 @@ static void setNStepsToLeaf(Agraph_t * g, Agnode_t * n, Agnode_t * prev)
  */
 static bool isLeaf(Agraph_t * g, Agnode_t * n)
 {
-    Agedge_t *ep;
     Agnode_t *neighp = 0;
     Agnode_t *np;
 
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
+    for (Agedge_t *ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	if ((np = agtail(ep)) == n)
 	    np = aghead(ep);
 	if (n == np)
@@ -68,11 +66,10 @@ static bool isLeaf(Agraph_t * g, Agnode_t * n)
 
 static void initLayout(Agraph_t * g)
 {
-    Agnode_t *n;
     int nnodes = agnnodes(g);
     int INF = nnodes * nnodes;
 
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	SCENTER(n) = INF;
 	THETA(n) = UNSET;	/* marks theta as unset, since 0 <= theta <= 2PI */
 	if (isLeaf(g, n))
@@ -90,21 +87,20 @@ static void initLayout(Agraph_t * g)
 */
 static Agnode_t *findCenterNode(Agraph_t * g)
 {
-    Agnode_t *n;
     Agnode_t *center = NULL;
     uint64_t maxNStepsToLeaf = 0;
 
     /* With just 1 or 2 nodes, return anything. */
     if (agnnodes(g) <= 2)
-	return (agfstnode(g));
+	return agfstnode(g);
 
     /* dfs from each leaf node */
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (SLEAF(n) == 0)
 	    setNStepsToLeaf(g, n, 0);
     }
 
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (SLEAF(n) > maxNStepsToLeaf) {
 	    maxNStepsToLeaf = SLEAF(n);
 	    center = n;
@@ -135,9 +131,8 @@ static void push(queue* q, void* p)
 static void* pull(queue* q)
 {
     item_t* ip;
-    void* p;
     if ((ip = q->head)) {
-	p = ip->p;
+	void *p = ip->p;
 	q->head = ip->s;
 	free (ip);
 	if (!q->head)
@@ -152,16 +147,14 @@ static void* pull(queue* q)
 static void setNStepsToCenter(Agraph_t * g, Agnode_t * n)
 {
     Agnode_t *next;
-    Agedge_t *ep;
     Agsym_t* wt = agfindedgeattr(g,"weight");
-    queue qd;
+    queue qd = {0};
     queue* q = &qd;
 
-    qd.head = qd.tail = NULL;
     push(q,n);
-    while ((n = (Agnode_t*)pull(q))) {
+    while ((n = pull(q))) {
 	uint64_t nsteps = SCENTER(n) + 1;
-	for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
+	for (Agedge_t *ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	    if (wt && streq(ag_xget(ep,wt),"0")) continue;
 	    if ((next = agtail(ep)) == n)
 		next = aghead(ep);
@@ -182,7 +175,6 @@ static void setNStepsToCenter(Agraph_t * g, Agnode_t * n)
  */
 static uint64_t setParentNodes(Agraph_t * sg, Agnode_t * center)
 {
-    Agnode_t *n;
     uint64_t maxn = 0;
     uint64_t unset = SCENTER(center);
 
@@ -191,7 +183,7 @@ static uint64_t setParentNodes(Agraph_t * sg, Agnode_t * center)
     setNStepsToCenter(sg, center);
 
     /* find the maximum number of steps from the center */
-    for (n = agfstnode(sg); n; n = agnxtnode(sg, n)) {
+    for (Agnode_t *n = agfstnode(sg); n; n = agnxtnode(sg, n)) {
 	if (SCENTER(n) == unset) {
 	    return UINT64_MAX;
 	}
@@ -208,29 +200,22 @@ static uint64_t setParentNodes(Agraph_t * sg, Agnode_t * center)
  */
 static void setSubtreeSize(Agraph_t * g)
 {
-    Agnode_t *n;
-    Agnode_t *parent;
-
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (NCHILD(n) > 0)
 	    continue;
 	STSIZE(n)++;
-	parent = SPARENT(n);
-	while (parent) {
+	for (Agnode_t *parent = SPARENT(n); parent; parent = SPARENT(parent)) {
 	    STSIZE(parent)++;
-	    parent = SPARENT(parent);
 	}
     }
 }
 
 static void setChildSubtreeSpans(Agraph_t * g, Agnode_t * n)
 {
-    Agedge_t *ep;
     Agnode_t *next;
-    double ratio;
 
-    ratio = SPAN(n) / STSIZE(n);
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
+    double ratio = SPAN(n) / STSIZE(n);
+    for (Agedge_t *ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	if ((next = agtail(ep)) == n)
 	    next = aghead(ep);
 	if (SPARENT(next) != n)
@@ -238,7 +223,7 @@ static void setChildSubtreeSpans(Agraph_t * g, Agnode_t * n)
 
 	if (SPAN(next) != 0.0)
 	    continue;		/* multiedges */
-	(SPAN(next) = ratio * STSIZE(next));
+	SPAN(next) = ratio * STSIZE(next);
 
 	if (NCHILD(next) > 0) {
 	    setChildSubtreeSpans(g, next);
@@ -256,7 +241,6 @@ static void setSubtreeSpans(Agraph_t * sg, Agnode_t * center)
 static void setChildPositions(Agraph_t * sg, Agnode_t * n)
 {
     Agnode_t *next;
-    Agedge_t *ep;
     double theta;		/* theta is the lower boundary radius of the fan */
 
     if (SPARENT(n) == 0)	/* center */
@@ -264,7 +248,7 @@ static void setChildPositions(Agraph_t * sg, Agnode_t * n)
     else
 	theta = THETA(n) - SPAN(n) / 2;
 
-    for (ep = agfstedge(sg, n); ep; ep = agnxtedge(sg, ep, n)) {
+    for (Agedge_t *ep = agfstedge(sg, n); ep; ep = agnxtedge(sg, ep, n)) {
 	if ((next = agtail(ep)) == n)
 	    next = aghead(ep);
 	if (SPARENT(next) != n)
@@ -304,12 +288,12 @@ getRankseps (Agraph_t* g, uint64_t maxrank)
     double xf = 0.0, delx = 0.0, d;
 
     if ((p = late_string(g, agfindgraphattr(g->root, "ranksep"), NULL))) {
-	while ((rk <= maxrank) && ((d = strtod (p, &endp)) > 0)) {
+	while (rk <= maxrank && (d = strtod (p, &endp)) > 0) {
 	    delx = MAX(d, MIN_RANKSEP);
 	    xf += delx;
 	    ranks[rk++] = xf;
 	    p = endp;
-	    while ((c = *p) && (isspace(c) || (c == ':')))
+	    while ((c = *p) && (isspace(c) || c == ':'))
 		p++;
 	}
     }
@@ -327,11 +311,7 @@ getRankseps (Agraph_t* g, uint64_t maxrank)
 
 static void setAbsolutePos(Agraph_t * g, uint64_t maxrank)
 {
-    Agnode_t *n;
-    double hyp;
-    double* ranksep;
-
-    ranksep = getRankseps (g, maxrank);
+    double* ranksep = getRankseps (g, maxrank);
     if (Verbose) {
 	fputs ("Rank separation = ", stderr);
 	for (uint64_t i = 0; i <= maxrank; i++)
@@ -340,8 +320,8 @@ static void setAbsolutePos(Agraph_t * g, uint64_t maxrank)
     }
 
     /* Convert circular to cartesian coordinates */
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	hyp = ranksep[SCENTER(n)];
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
+	double hyp = ranksep[SCENTER(n)];
 	ND_pos(n)[0] = hyp * cos(THETA(n));
 	ND_pos(n)[1] = hyp * sin(THETA(n));
     }
@@ -355,8 +335,6 @@ static void setAbsolutePos(Agraph_t * g, uint64_t maxrank)
  */
 Agnode_t* circleLayout(Agraph_t * sg, Agnode_t * center)
 {
-    uint64_t maxNStepsToCenter;
-
     if (agnnodes(sg) == 1) {
 	Agnode_t *n = agfstnode(sg);
 	ND_pos(n)[0] = 0;
@@ -369,7 +347,7 @@ Agnode_t* circleLayout(Agraph_t * sg, Agnode_t * center)
     if (!center)
 	center = findCenterNode(sg);
 
-    maxNStepsToCenter = setParentNodes(sg,center);
+    uint64_t maxNStepsToCenter = setParentNodes(sg,center);
     if (Verbose)
 	fprintf(stderr, "root = %s max steps to root = %" PRIu64 "\n",
 	        agnameof(center), maxNStepsToCenter);
