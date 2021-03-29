@@ -12,6 +12,7 @@
 #include    <ctype.h>
 #include    <inttypes.h>
 #include    <limits.h>
+#include    <math.h>
 #include    <stdbool.h>
 #include    <stdint.h>
 #include    <stdlib.h>
@@ -289,7 +290,7 @@ getRankseps (Agraph_t* g, uint64_t maxrank)
 
     if ((p = late_string(g, agfindgraphattr(g->root, "ranksep"), NULL))) {
 	while (rk <= maxrank && (d = strtod (p, &endp)) > 0) {
-	    delx = MAX(d, MIN_RANKSEP);
+	    delx = fmax(d, MIN_RANKSEP);
 	    xf += delx;
 	    ranks[rk++] = xf;
 	    p = endp;
