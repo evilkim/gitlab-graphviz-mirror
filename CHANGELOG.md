@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Superfluous empty `@param` in documentation #1977
 - PIC renderer does not work and probably never has #131
 - dot conversion to dia format #689
+- memory leak of reference-counted HTML strings
 
 ## [2.47.0] - 2021-03-15
 

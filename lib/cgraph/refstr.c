@@ -15,8 +15,8 @@
  * reference counted strings.
  */
 
-static uint64_t HTML_BIT;	/* msbit of uint64_t */
-static uint64_t CNT_BITS;	/* complement of HTML_BIT */
+enum { HTML_BIT = (uint64_t)(1u << (sizeof(unsigned) * 8 - 1)) };
+enum { CNT_BITS = ~(uint64_t)HTML_BIT };
 
 typedef struct refstr_t {
     Dtlink_t link;
@@ -54,8 +54,6 @@ static Dict_t *refdict(Agraph_t * g)
 	dictref = &Refdict_default;
     if (*dictref == NULL) {
 	*dictref = agdtopen(g, &Refstrdisc, Dttree);
-	HTML_BIT = ((unsigned int) 1) << (sizeof(unsigned int) * 8 - 1);
-	CNT_BITS = ~HTML_BIT;
     }
     return *dictref;
 }
@@ -152,7 +150,7 @@ int agstrfree(Agraph_t * g, char *s)
     r = refsymbind(strdict, s);
     if (r && (r->s == s)) {
 	r->refcnt--;
-	if ((r->refcnt && CNT_BITS) == 0) {
+	if ((r->refcnt & CNT_BITS) == 0) {
 	    agdtdelete(g, strdict, r);
 	    /*
 	       if (g) agfree(g,r);
