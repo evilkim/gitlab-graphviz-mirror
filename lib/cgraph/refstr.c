@@ -10,6 +10,7 @@
 
 #include <cgraph/cghdr.h>
 #include <stddef.h>
+#include <stdio.h>
 
 /*
  * reference counted strings.
@@ -191,8 +192,7 @@ static int refstrprint(Dict_t * dict, void *ptr, void *user)
     NOTUSED(dict);
     r = ptr;
     NOTUSED(user);
-    write(2, r->s, strlen(r->s));
-    write(2, "\n", 1);
+    fprintf(stderr, "%s\n", r->s);
     return 0;
 }
 
