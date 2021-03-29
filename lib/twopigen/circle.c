@@ -11,6 +11,7 @@
 
 #include    <twopigen/circle.h>
 #include    <ctype.h>
+#include    <stdint.h>
 #include    <stdlib.h>
 #define DEF_RANKSEP 1.00
 #define UNSET 10.00
@@ -24,7 +25,7 @@ static void setNStepsToLeaf(Agraph_t * g, Agnode_t * n, Agnode_t * prev)
     Agnode_t *next;
     Agedge_t *ep;
 
-    int nsteps = SLEAF(n) + 1;
+    uint64_t nsteps = SLEAF(n) + 1;
 
     for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	if ((next = agtail(ep)) == n)
