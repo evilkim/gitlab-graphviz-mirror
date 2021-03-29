@@ -43,7 +43,6 @@ typedef struct {
     int nrandom; 
     int show_points; 
     real bbox_margin[2]; 
-    int whatout;
     int useClusters;
     int clusterMethod;
     int plotedges;
@@ -224,14 +223,12 @@ init(int argc, char **argv, params_t* pm)
   pm->useClusters = 0;
   pm->clusterMethod = CLUSTERING_MODULARITY;
   pm->plotedges = 0;
-  pm->whatout = 0;
   pm->show_points = 0;
   pm->color_scheme = COLOR_SCHEME_PASTEL; 
   pm->line_width = 0;
   pm->plot_label = NULL;
   pm->bg_color = NULL;
   pm->improve_contiguity_n = 0;
-  pm->whatout = OUT_DOT;
   pm->nart = -1;
   pm->color_optimize = 1;
   pm->maxcluster = 0;
@@ -483,8 +480,8 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
   }
 
     Dot_SetClusterColor(g, rgb_r,  rgb_g,  rgb_b, grouping);
-    plot_dot_map(g, n, dim, x, polys, poly_lines, pm->line_width, pm->line_color, x_poly, polys_groups, labels, width, fsz, rgb_r, rgb_g, rgb_b, pm->opacity,
-           pm->bg_color, (pm->plotedges?graph:NULL), pm->outfile);
+    plot_dot_map(g, n, dim, x, polys, poly_lines, pm->line_width, pm->line_color, x_poly, polys_groups, labels, fsz, rgb_r, rgb_g, rgb_b, pm->opacity,
+           (pm->plotedges?graph:NULL), pm->outfile);
   SparseMatrix_delete(polys);
   SparseMatrix_delete(poly_lines);
   SparseMatrix_delete(poly_point_map);
