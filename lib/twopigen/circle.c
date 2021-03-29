@@ -160,7 +160,7 @@ static void setNStepsToCenter(Agraph_t * g, Agnode_t * n)
     qd.head = qd.tail = NULL;
     push(q,n);
     while ((n = (Agnode_t*)pull(q))) {
-	int nsteps = SCENTER(n) + 1;
+	uint64_t nsteps = SCENTER(n) + 1;
 	for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
 	    if (wt && streq(ag_xget(ep,wt),"0")) continue;
 	    if ((next = agtail(ep)) == n)
