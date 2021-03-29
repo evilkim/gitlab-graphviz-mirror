@@ -15,7 +15,7 @@
  * reference counted strings.
  */
 
-typedef struct refstr_t {
+typedef struct {
     Dtlink_t link;
     uint64_t refcnt: sizeof(uint64_t) * 8 - 1;
     uint64_t is_html: 1;
