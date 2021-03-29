@@ -19,7 +19,6 @@
 
 #include <neatogen/bfs.h>
 #include <stdlib.h>
-/* #include <math.h> */
 
 void bfs(int vertex, vtx_data * graph, int n, DistType * dist, Queue * Q)
  /* compute vector 'dist' of distances of all nodes from 'vertex' */
@@ -79,9 +78,6 @@ bfs_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     int num_visit;
     int closestVertex, neighbor;
     DistType closestDist;
-    /* initialize distances with edge weights: */
-    /* for (i=0; i<n; i++)  */
-    /* dist[i]=-1; */
 
     dist[vertex] = 0;
 
@@ -113,8 +109,6 @@ bfs_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     dist[vertex] = -1;
     return num_visit;
 }
-
-#ifndef __cplusplus
 
 void mkQueue(Queue * qp, int size)
 {
@@ -163,5 +157,3 @@ boolean enQueue(Queue * qp, int vertex)
     qp->data[qp->end++] = vertex;
     return TRUE;
 }
-
-#endif

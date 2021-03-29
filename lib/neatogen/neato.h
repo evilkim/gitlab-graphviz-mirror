@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef         NEATO_H
-#define         NEATO_H
+#pragma once
 
 #include "config.h"
 
@@ -34,5 +32,3 @@
 #include	"pathplan.h"
 #include	<neatogen/neatoprocs.h>
 #include	<neatogen/adjust.h>
-
-#endif				/* NEATO_H */

@@ -8,18 +8,13 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-#ifndef MEMORY_H
-#define MEMORY_H
-
-#ifndef NULL
-#define NULL 0
-#endif
+#include <stddef.h>
 
     /* Support for freelists */
 
@@ -32,9 +27,6 @@ extern "C" {
     extern void *getfree(Freelist *);
     extern void freeinit(Freelist *, int);
     extern void makefree(void *, Freelist *);
-
-#endif
-
 
 #ifdef __cplusplus
 }

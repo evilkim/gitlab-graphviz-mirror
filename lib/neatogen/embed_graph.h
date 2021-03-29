@@ -8,39 +8,17 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-#ifndef EMBED_GRAPH_H_
-#define EMBED_GRAPH_H_
-
-#ifdef __cplusplus
-
-    void embed_graph(vtx_data * graph, int n, int dim,
-		     DistType ** (&coords), int);
-    void center_coordinate(DistType ** coords, int n, int dim);
-    void PCA(DistType ** coords, int dim, int n, double **(&new_coords),
-	     int new_dim);
-    void PCA(DistType ** coords, int dim, int n, double **(&new_coords),
-	     int dim1, int dim2, boolean recompute);
-    void PCA_orthog(DistType ** coords, int dim, int n,
-		    double **(&new_coords), int new_dim, double *orthog);
-    void iterativePCA(DistType ** coords, int dim, int n,
-		      double **(&new_coords));
-
-#else
 #include <neatogen/defs.h>
 
     extern void embed_graph(vtx_data * graph, int n, int dim, DistType ***,
 			    int);
     extern void center_coordinate(DistType **, int, int);
-
-#endif
-
-#endif
 
 #ifdef __cplusplus
 }

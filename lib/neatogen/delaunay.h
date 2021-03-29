@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef DELAUNAY_H
-#define DELAUNAY_H
+#pragma once
 
 #include <neatogen/sparsegraph.h>
 
@@ -32,5 +31,3 @@ v_data *UG_graph(double *x, double *y, int n, int accurate_computation);
 surface_t* mkSurface (double *x, double *y, int n, int* segs, int nsegs);
 
 void freeSurface (surface_t* s);
-
-#endif

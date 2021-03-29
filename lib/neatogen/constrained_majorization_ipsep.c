@@ -81,7 +81,6 @@ int stress_majorization_cola(vtx_data * graph,	/* Input graph in sparse represen
     float **coords = NULL;
     int orig_n = n;
 
-    /*double conj_tol=tolerance_cg; *//* tolerance of Conjugate Gradient */
     CMajEnvVPSC *cMajEnvHor = NULL;
     CMajEnvVPSC *cMajEnvVrt = NULL;
     double y_0;

@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _DEFS_H_
-#define _DEFS_H_
 
 #include <neatogen/neato.h>
 
@@ -36,6 +35,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

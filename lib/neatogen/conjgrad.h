@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef _CG_H_
-#define _CG_H_
 
 #include <neatogen/defs.h>
 
@@ -35,8 +32,6 @@ extern "C" {
 
     extern int conjugate_gradient_mkernel(float *, float *, float *, int,
 					   double, int);
-
-#endif
 
 #ifdef __cplusplus
 }

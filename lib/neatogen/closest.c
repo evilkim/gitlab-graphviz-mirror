@@ -30,15 +30,6 @@ typedef struct {
 #define LT(p,q) ((p).dist < (q).dist)
 #define EQ(p,q) ((p).dist == (q).dist)
 
-/*
-Pair(int v, int u) {left=v; right=u;}
-bool operator>(Pair other) {return dist>other.dist;}
-bool operator>=(Pair other) {return dist>=other.dist;}
-bool operator<(Pair other) {return dist<other.dist;}
-bool operator<=(Pair other) {return dist<=other.dist;}
-bool operator==(Pair other) {return dist==other.dist;}
-*/
-
 typedef struct {
     Pair *data;
     int max_size;
@@ -173,22 +164,6 @@ static void insert(PairHeap * h, Pair edge)
 	i = parent(i);
     }
 }
-
-/*
-static bool
-isheap(PairHeap* h)
-{
-	int i,l,r;
-	for (i=0; i<h->heapSize; i++) {
-		l=left(i); r=right(i);
-		if (insideHeap(h,l) && greaterPriority(h,l,i))
-			return FALSE;
-		if (insideHeap(h,r) && greaterPriority(h,r,i))
-			return FALSE;
-	}
-	return TRUE;
-}
-*/
 
 static void
 find_closest_pairs(double *place, int n, int num_pairs,

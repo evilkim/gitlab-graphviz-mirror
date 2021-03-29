@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef EDGES_H
-#define EDGES_H
 
 #include <neatogen/site.h>
 
@@ -34,8 +31,6 @@ extern "C" {
     extern void endpoint(Edge *, int, Site *);
     extern void clip_line(Edge * e);
     extern Edge *gvbisect(Site *, Site *);
-
-#endif
 
 #ifdef __cplusplus
 }

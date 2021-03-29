@@ -8,34 +8,13 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef SPARSEGRAPH_H
-#define SPARSEGRAPH_H
-
 #include "config.h"
-
-#ifdef __cplusplus
-    enum Style { regular, invisible };
-    struct vtx_data {
-	int nedges;
-	int *edges;
-	float *ewgts;
-	Style *styles;
-	float *edists; /* directed dist reflecting the direction of the edge */
-    };
-
-    typedef int DistType;	/* must be signed!! */
-
-    struct Point {
-	double x;
-	double y;
-	int operator==(Point other) {
-	    return x == other.x && y == other.y;
-    }};
-#else
 
 #ifdef USE_STYLES
     typedef enum { regular, invisible } Style;
@@ -63,10 +42,6 @@ extern "C" {
 
 extern void freeGraphData(vtx_data * graph);
 extern void freeGraph(v_data * graph);
-
-#endif
-
-#endif
 
 #ifdef __cplusplus
 }

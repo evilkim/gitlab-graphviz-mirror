@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef MULTISPLINE_H
-#define MULTISPLINE_H
+#pragma once
 
 #include <render.h>
 #include <pathutil.h>
@@ -19,5 +18,3 @@ typedef struct router_s router_t;
 extern void freeRouter (router_t* rtr);
 extern router_t* mkRouter (Ppoly_t** obs, int npoly);
 extern int makeMultiSpline(graph_t* g, edge_t* e, router_t * rtr, int);
-
-#endif

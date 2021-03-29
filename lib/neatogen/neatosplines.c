@@ -994,7 +994,6 @@ static boolean _neato_set_aspect(graph_t * g)
     if (g->root != g)
 	return FALSE;
 
-    /* compute_bb(g); */
     if (GD_drawing(g)->ratio_kind) {
 	if (GD_bb(g).LL.x || GD_bb(g).LL.y) {
 	    translated = TRUE;

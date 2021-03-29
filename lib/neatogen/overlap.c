@@ -454,9 +454,7 @@ OverlapSmoother OverlapSmoother_new(SparseMatrix A, int m,
       }
       if (d[j] > 0){/* those edges that needs expansion */
 	w[j] = -100/d[j]/d[j];
-	/*w[j] = 100/d[j]/d[j];*/
       } else {/* those that needs shrinking is set to negative in ideal_distance_avoid_overlap */
-	/*w[j] = 1/d[j]/d[j];*/
 	w[j] = -1/d[j]/d[j];
 	d[j] = -d[j];
       }
@@ -578,7 +576,6 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
   if (initial_scaling < 0) {
     avg_label_size = 0;
     for (i = 0; i < A->m; i++) avg_label_size += label_sizes[i*dim]+label_sizes[i*dim+1];
-    /*  for (i = 0; i < A->m; i++) avg_label_size += 2*MAX(label_sizes[i*dim],label_sizes[i*dim+1]);*/
     avg_label_size /= A->m;
     scale_to_edge_length(dim, A, x, -initial_scaling*avg_label_size);
   } else if (initial_scaling > 0){

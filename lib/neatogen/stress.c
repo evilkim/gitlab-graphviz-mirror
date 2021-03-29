@@ -788,8 +788,6 @@ float *compute_apsp_packed(vtx_data * graph, int n)
     return Dij;
 }
 
-#define max(x,y) ((x)>(y)?(x):(y))
-
 float *compute_apsp_artifical_weights_packed(vtx_data * graph, int n)
 {
     /* compute all-pairs-shortest-path-length while weighting the graph */
@@ -820,12 +818,8 @@ float *compute_apsp_artifical_weights_packed(vtx_data * graph, int n)
 	    for (j = 1; j <= deg_i; j++) {
 		neighbor = graph[i].edges[j];
 		deg_j = graph[neighbor].nedges - 1;
-		weights[j] = (float)
-		    max((float)
-			(deg_i + deg_j -
-			 2 * common_neighbors(graph, i, neighbor,
-					      vtx_vec)),
-			graph[i].ewgts[j]);
+		weights[j] = fmaxf((float)(deg_i + deg_j -
+			 2 * common_neighbors(graph, i, neighbor, vtx_vec)), graph[i].ewgts[j]);
 	    }
 	    empty_neighbors_vec(graph, i, vtx_vec);
 	    graph[i].ewgts = weights;

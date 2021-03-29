@@ -28,8 +28,6 @@
 
 typedef DistType Word;
 
-#define LOOP while(TRUE)
-
 /* This heap class is suited to the Dijkstra alg.
    data[i]=vertexNum <==> index[vertexNum]=i
 */
@@ -74,18 +72,6 @@ static void heapify(heap * h, int i, int index[], Word dist[])
     }
 }
 
-#ifdef OBSOLETE
-/* originally, the code called mkHeap to allocate space, then
- * initHeap to realloc the space. This is silly.
- * Now we just call initHeap.
- */
-static void mkHeap(heap * h, int size)
-{
-    h->data = N_GNEW(size, int);
-    h->heapSize = 0;
-}
-#endif
-
 static void freeHeap(heap * h)
 {
     free(h->data);
@@ -96,7 +82,6 @@ initHeap(heap * h, int startVertex, int index[], Word dist[], int n)
 {
     int i, count;
     int j;    /* We cannot use an unsigned value in this loop */
-    /* h->data=(int*) realloc(h->data, (n-1)*sizeof(int)); */
     if (n == 1) h->data = NULL;
     else h->data = N_GNEW(n - 1, int);
     h->heapSize = n - 1;
@@ -157,9 +142,6 @@ void dijkstra(int vertex, vtx_data * graph, int n, DistType * dist)
     DistType closestDist, prevClosestDist = INT_MAX;
     static int *index;
 
-#ifdef OBSOLETE
-    mkHeap(&H, n);
-#endif
     index = realloc(index, n * sizeof(int));
 
     /* initial distances with edge weights: */
@@ -231,9 +213,6 @@ dijkstra_bounded(int vertex, vtx_data * graph, int n, DistType * dist,
     }
 
 
-#ifdef OBSOLETE
-    mkHeap(&H, n);
-#endif
     index = realloc(index, n * sizeof(int));
 
     /* initial distances with edge weights: */
@@ -361,9 +340,6 @@ void dijkstra_f(int vertex, vtx_data * graph, int n, float *dist)
     float closestDist;
     int *index;
 
-#ifdef OBSOLETE
-    mkHeap(&H, n);
-#endif
     index = N_GNEW(n, int);
 
     /* initial distances with edge weights: */
@@ -396,9 +372,6 @@ void dijkstra_f(int vertex, vtx_data * graph, int n, float *dist)
 // returns the number of terms built
 int dijkstra_sgd(graph_sgd *graph, int source, term_sgd *terms) {
     heap h;
-#ifdef OBSOLETE
-    mkHeap(&h, graph->n);
-#endif
     int *indices = N_GNEW(graph->n, int);
     float *dists = N_GNEW(graph->n, float);
     int i;

@@ -8,14 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-#ifndef HEDGES_H
-#define HEDGES_H
 
 #include <neatogen/site.h>
 #include <neatogen/edges.h>
@@ -43,8 +40,6 @@ extern "C" {
     extern Halfedge *ELleft(Halfedge *), *ELright(Halfedge *);
     extern Halfedge *ELleftbnd(Point *);
     extern Site *leftreg(Halfedge *), *rightreg(Halfedge *);
-
-#endif
 
 #ifdef __cplusplus
 }

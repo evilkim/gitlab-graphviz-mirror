@@ -19,12 +19,11 @@
 *                                                         *
 **********************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _QUAD_PROG_VPSC_H_
-#define _QUAD_PROG_VPSC_H_
 
 #ifdef DIGCOLA
 
@@ -84,8 +83,6 @@ extern void delete_digcola_levels(DigColaLevel *l, int num_levels);
 extern void print_digcola_levels(FILE* logfile, DigColaLevel *levels, int num_levels);
 int get_num_digcola_constraints(DigColaLevel *levels, int num_levels);
 #endif 
-
-#endif /* _QUAD_PROG_VPSC_H_ */
 
 #ifdef __cplusplus
 }

@@ -217,11 +217,7 @@ void quicksort_place(double *place, int *ordering, int first, int last)
 {
     if (first < last) {
 	int middle;
-#ifdef __cplusplus
-	split_by_place(place, ordering, first, last, middle);
-#else
 	split_by_place(place, ordering, first, last, &middle);
-#endif
 	quicksort_place(place, ordering, first, middle - 1);
 	quicksort_place(place, ordering, middle + 1, last);
         /* Checking for "already sorted" dramatically improves running time 
