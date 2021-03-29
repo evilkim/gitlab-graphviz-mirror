@@ -13,8 +13,6 @@
 
 Agraph_t *Ag_G_global;
 
-const char AgraphVersion[] = PACKAGE_VERSION;
-
 /*
  * this code sets up the resource management discipline
  * and returns a new main graph struct.

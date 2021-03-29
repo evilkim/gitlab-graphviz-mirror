@@ -56,9 +56,9 @@ static char *_agstrcanon(char *arg, char *buf)
     char *s, *p;
     unsigned char uc;
     int cnt = 0, dotcnt = 0;
-    int needs_quotes = FALSE;
+    bool needs_quotes = false;
     int maybe_num;
-    int backslash_pending = FALSE;
+    bool backslash_pending = false;
     static const char *tokenlist[]	/* must agree with scan.l */
 	= { "node", "edge", "strict", "graph", "digraph", "subgraph",
 	NULL
@@ -75,28 +75,28 @@ static char *_agstrcanon(char *arg, char *buf)
     while (uc) {
 	if (uc == '\"') {
 	    *p++ = '\\';
-	    needs_quotes = TRUE;
+	    needs_quotes = true;
 	} 
 	else if (maybe_num) {
 	    if (uc == '-') {
 		if (cnt) {
 		    maybe_num = FALSE;
-		    needs_quotes = TRUE;
+		    needs_quotes = true;
 		}
 	    }
 	    else if (uc == '.') {
 		if (dotcnt++) {
 		    maybe_num = FALSE;
-		    needs_quotes = TRUE;
+		    needs_quotes = true;
 		}
 	    }
 	    else if (!isdigit(uc)) {
 		maybe_num = FALSE;
-		needs_quotes = TRUE;
+		needs_quotes = true;
 	    }
 	}
 	else if (!ISALNUM(uc))
-	    needs_quotes = TRUE;
+	    needs_quotes = true;
 	*p++ = (char) uc;
 	uc = *(unsigned char *) s++;
 	cnt++;
@@ -108,17 +108,17 @@ static char *_agstrcanon(char *arg, char *buf)
             if (uc && backslash_pending && !(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
         	*p++ = '\\';
         	*p++ = '\n';
-        	needs_quotes = TRUE;
-        	backslash_pending = FALSE;
+        	needs_quotes = true;
+        	backslash_pending = false;
 		cnt = 0;
             } else if (uc && (cnt >= Max_outputline)) {
         	if (!(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
 	            *p++ = '\\';
     	            *p++ = '\n';
-	            needs_quotes = TRUE;
+	            needs_quotes = true;
 		    cnt = 0;
         	} else {
-                    backslash_pending = TRUE;
+                    backslash_pending = true;
         	}
 	    }
 	}
@@ -141,15 +141,7 @@ static char *_agstrcanon(char *arg, char *buf)
  */
 static char *agcanonhtmlstr(char *arg, char *buf)
 {
-    char *s, *p;
-
-    s = arg;
-    p = buf;
-    *p++ = '<';
-    while (*s)
-	*p++ = *s++;
-    *p++ = '>';
-    *p = '\0';
+    sprintf(buf, "<%s>", arg);
     return buf;
 }
 
@@ -290,15 +282,15 @@ static int write_dicts(Agraph_t * g, iochan_t * ofile, int top)
 static int write_hdr(Agraph_t * g, iochan_t * ofile, int top)
 {
     char *name, *sep, *kind, *strict;
-    int root = 0;
-    int hasName = 1;
+    bool root = false;
+    bool hasName = true;
 
     Attrs_not_written_flag = AGATTRWF(g);
     strict = "";
     if (NOT(top) && agparent(g))
 	kind = "sub";
     else {
-	root = 1;
+	root = true;
 	if (g->desc.directed)
 	    kind = "di";
 	else
@@ -312,7 +304,7 @@ static int write_hdr(Agraph_t * g, iochan_t * ofile, int top)
     sep = " ";
     if (!name || name[0] == LOCALNAMEPREFIX) {
 	sep = name = "";
-	hasName = 0;
+	hasName = false;
     }
     CHKRV(indent(g, ofile));
     CHKRV(ioput(g, ofile, strict));
@@ -341,7 +333,7 @@ static int write_trl(Agraph_t * g, iochan_t * ofile)
     return 0;
 }
 
-static int irrelevant_subgraph(Agraph_t * g)
+static bool irrelevant_subgraph(Agraph_t * g)
 {
     int i, n;
     Agattr_t *sdata, *pdata, *rdata;
@@ -351,24 +343,24 @@ static int irrelevant_subgraph(Agraph_t * g)
 
     name = agnameof(g);
     if (name && name[0] != LOCALNAMEPREFIX)
-	return FALSE;
+	return false;
     if ((sdata = agattrrec(g)) && (pdata = agattrrec(agparent(g)))) {
 	rdata = agattrrec(agroot(g));
 	n = dtsize(rdata->dict);
 	for (i = 0; i < n; i++)
 	    if (sdata->str[i] && pdata->str[i]
 		&& strcmp(sdata->str[i], pdata->str[i]))
-		return FALSE;
+		return false;
     }
     dd = agdatadict(g, FALSE);
     if (!dd)
-	return TRUE;
+	return true;
     if ((dtsize(dd->dict.n) > 0) || (dtsize(dd->dict.e) > 0))
-	return FALSE;
-    return TRUE;
+	return false;
+    return true;
 }
 
-static int node_in_subg(Agraph_t * g, Agnode_t * n)
+static bool node_in_subg(Agraph_t * g, Agnode_t * n)
 {
     Agraph_t *subg;
 
@@ -376,30 +368,30 @@ static int node_in_subg(Agraph_t * g, Agnode_t * n)
 	if (irrelevant_subgraph(subg))
 	    continue;
 	if (agsubnode(subg, n, FALSE))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
-static int has_no_edges(Agraph_t * g, Agnode_t * n)
+static bool has_no_edges(Agraph_t * g, Agnode_t * n)
 {
     return agfstin(g, n) == NULL && agfstout(g, n) == NULL;
 }
 
-static int has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
+static bool has_no_predecessor_below(Agraph_t * g, Agnode_t * n,
 				    uint64_t val)
 {
     Agedge_t *e;
 
     if (AGSEQ(n) < val)
-	return FALSE;
+	return false;
     for (e = agfstin(g, n); e; e = agnxtin(g, e))
 	if (AGSEQ(e->node) < val)
-	    return FALSE;
-    return TRUE;
+	    return false;
+    return true;
 }
 
-static int not_default_attrs(Agraph_t * g, Agnode_t * n)
+static bool not_default_attrs(Agraph_t * g, Agnode_t * n)
 {
     Agattr_t *data;
     Agsym_t *sym;
@@ -408,10 +400,10 @@ static int not_default_attrs(Agraph_t * g, Agnode_t * n)
     if ((data = agattrrec(n))) {
 	for (sym = dtfirst(data->dict); sym; sym = dtnext(data->dict, sym)) {
 	    if (data->str[sym->id] != sym->defval)
-		return TRUE;
+		return true;
 	}
     }
-    return FALSE;
+    return false;
 }
 
 static int write_subgs(Agraph_t * g, iochan_t * ofile)
@@ -537,14 +529,14 @@ static int write_node(Agnode_t * n, iochan_t * ofile, Dict_t * d)
  * a subgraph or one of its predecessors, and if it is a singleton
  * or has non-default attributes.
  */
-static int write_node_test(Agraph_t * g, Agnode_t * n,
+static bool write_node_test(Agraph_t * g, Agnode_t * n,
 			   uint64_t pred_id)
 {
-    if (NOT(node_in_subg(g, n)) && has_no_predecessor_below(g, n, pred_id)) {
+    if (!node_in_subg(g, n) && has_no_predecessor_below(g, n, pred_id)) {
 	if (has_no_edges(g, n) || not_default_attrs(g, n))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static int write_port(Agedge_t * e, iochan_t * ofile, Agsym_t * port)
@@ -618,9 +610,6 @@ static int write_body(Agraph_t * g, iochan_t * ofile)
     Agnode_t *n, *prev;
     Agedge_t *e;
     Agdatadict_t *dd;
-    /* int                  has_attr; */
-
-    /* has_attr = agattrrec(g) != NULL; */
 
     CHKRV(write_subgs(g, ofile));
     dd = agdatadict(g, FALSE);

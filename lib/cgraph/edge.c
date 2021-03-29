@@ -11,13 +11,7 @@
 #include <cgraph/cghdr.h>
 #include <stddef.h>
 
-#define IN_SET FALSE
-#define OUT_SET TRUE
-#define ID_ORDER TRUE
-#define SEQ_ORDER FALSE
-
 static Agtag_t Tag;		/* to silence warnings about initialization */
-
 
 /* return first outedge of <n> */
 Agedge_t *agfstout(Agraph_t * g, Agnode_t * n)

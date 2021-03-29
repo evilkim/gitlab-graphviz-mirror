@@ -41,7 +41,7 @@ $(top_builddir)/graphviz_version.h: config.h
 EXTRA_DIST = $(txt) $(html) graphviz.spec \
 	autogen.sh config/depcomp config/config.rpath \
 	builddate.h \
-	m4/README m4/iconv.m4 m4/lib-ld.m4 m4/lib-link.m4 m4/lib-prefix.m4 \
+	m4/README m4/lib-ld.m4 m4/lib-link.m4 m4/lib-prefix.m4 \
 	graphviz.7 Doxyfile.in Doxyfile awk \
 	config/config_perl.pl config/config_python.py \
 	config/config_ruby.rb config/config_tcl.tcl dot.demo  plugin.demo \

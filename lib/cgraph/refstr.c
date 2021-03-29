@@ -152,10 +152,6 @@ int agstrfree(Agraph_t * g, char *s)
 	r->refcnt--;
 	if ((r->refcnt & CNT_BITS) == 0) {
 	    agdtdelete(g, strdict, r);
-	    /*
-	       if (g) agfree(g,r);
-	       else free(r);
-	     */
 	}
     }
     if (r == NULL)

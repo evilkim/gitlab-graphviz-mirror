@@ -127,15 +127,6 @@
 #undef HAVE_GTS
 #define HAVE_GTS 0
 
-/* Define if you have the iconv() function. */
-#define HAVE_ICONV 1
-
-/* Define to 1 if you have the <iconv.h> header file. */
-#define HAVE_ICONV_H 1
-
-/* Define if <iconv.h> defines iconv_t. */
-#define HAVE_ICONV_T_DEF 1
-
 /* Define to 1 if you have the <IL/il.h> header file. */
 /* #undef HAVE_IL_IL_H */
 
@@ -257,12 +248,6 @@
 
 /* Define to 1 if you have the <X11/Xaw/Text.h> header file. */
 /* #undef HAVE_X11_XAW_TEXT_H */
-
-/* Define to 1 if the system has the type `_Bool'. */
-#define HAVE__BOOL 1
-
-/* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST const
 
 /* Define if you want IPSEPCOLA */
 /* #undef IPSEPCOLA */
