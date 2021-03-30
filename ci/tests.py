@@ -62,7 +62,6 @@ def test_existence(binary: str):
 
   tools_not_built_with_cmake = [
     'cluster',
-    'diffimg',
     'dot2gxl',
     'dot_builtins',
     'dotty',

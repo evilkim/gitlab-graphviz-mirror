@@ -201,6 +201,7 @@ include(package_info)
 include(CPack)
 
 # ======================= Specify subdirectories to build ======================
+add_subdirectory(contrib/diffimg)
 add_subdirectory(lib)
 add_subdirectory(plugin)
 add_subdirectory(cmd)
