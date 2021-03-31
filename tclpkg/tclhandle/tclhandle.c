@@ -38,7 +38,6 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include "tclhandle.h"
-/* Added 2000-09-19 by KG for memcpy, ... decls */
 #include <string.h>
 
 /*
