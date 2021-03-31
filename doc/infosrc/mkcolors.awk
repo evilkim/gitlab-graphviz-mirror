@@ -26,12 +26,12 @@ BEGIN {
     sub(".*/","",name);
     printf ("%s color scheme<BR>\n", name);
   }
-  printf ("<table border=\"1\" align=\"center\" class=\"gv-colors\">\n");
+  printf ("<table class=\"gv-colors\">\n");
 }
 {
   if (singleRow) idx = NR;
   else idx = NR % colorsPerRow;
-  if (idx == 1) printf ("<tr align=\"center\">\n");
+  if (idx == 1) printf ("<tr>\n");
   putColor($1,$2,$3,$4,value($2/255.0,$3/255.0,$4/255.0));
   if (idx == 0) printf ("</tr>\n");
 }
