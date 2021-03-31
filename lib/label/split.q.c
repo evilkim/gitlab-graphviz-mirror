@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <label/split.q.h>
@@ -31,10 +32,6 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b);
 -----------------------------------------------------------------------------*/
 void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 {
-    struct PartitionVars *p;
-    int level;
-    int area;
-
     assert(n);
     assert(b);
 
@@ -53,14 +50,13 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
     }
 
     /* load all the branches into a buffer, initialize old node */
-    level = n->level;
+    int level = n->level;
     GetBranches(rtp, n, b);
 
 #ifdef RTDEBUG
     {
-	int i;
 	/* Indicate that a split is about to take place */
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (size_t i = 0; i < NODECARD + 1; i++) {
 	    PrintRect(&rtp->split.BranchBuf[i].rect);
 	}
 	PrintRect(&rtp->split.CoverSplit);
@@ -68,10 +64,10 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 #endif
 
     /* find partition */
-    p = &rtp->split.Partitions[0];
+    struct PartitionVars *p = &rtp->split.Partitions[0];
     MethodZero(rtp);
 
-    area = RectArea(&p->cover[0]) + RectArea(&p->cover[1]);
+    int area = RectArea(&p->cover[0]) + RectArea(&p->cover[1]);
 
     /* record how good the split was for statistics */
     if (rtp->StatFlag && !rtp->Deleting && area)
@@ -99,13 +95,11 @@ void SplitNode(RTree_t * rtp, Node_t * n, Branch_t * b, Node_t ** nn)
 -----------------------------------------------------------------------------*/
 static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 {
-    int i;
-
     assert(n);
     assert(b);
 
     /* load the branch buffer */
-    for (i = 0; i < NODECARD; i++) {
+    for (size_t i = 0; i < NODECARD; i++) {
 	assert(n->branch[i].child);	/* node should have every entry full */
 	rtp->split.BranchBuf[i] = n->branch[i];
     }
@@ -113,7 +107,7 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 
     /* calculate rect containing all in the set */
     rtp->split.CoverSplit = rtp->split.BranchBuf[0].rect;
-    for (i = 1; i < NODECARD + 1; i++) {
+    for (size_t i = 1; i < NODECARD + 1; i++) {
 	rtp->split.CoverSplit = CombineRect(&rtp->split.CoverSplit,
 					    &rtp->split.BranchBuf[i].rect);
     }
@@ -138,7 +132,7 @@ static void GetBranches(RTree_t * rtp, Node_t * n, Branch_t * b)
 static void MethodZero(RTree_t * rtp)
 {
     Rect_t *r;
-    int i, growth0, growth1, diff, biggestDiff;
+    int growth0, growth1, diff, biggestDiff;
     int group, chosen = 0, betterGroup = 0;
 
     InitPVars(rtp);
@@ -150,18 +144,10 @@ static void MethodZero(RTree_t * rtp)
 	   && rtp->split.Partitions[0].count[1] <
 	   NODECARD + 1 - rtp->MinFill) {
 	biggestDiff = -1;
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (int i = 0; i < NODECARD + 1; i++) {
 	    if (!rtp->split.Partitions[0].taken[i]) {
 		Rect_t rect;
 		r = &rtp->split.BranchBuf[i].rect;
-		/* growth0 = RectArea(&CombineRect(r,
-		   &rtp->split.Partitions[0].cover[0])) -
-		   rtp->split.Partitions[0].area[0];
-		 */
-		/* growth1 = RectArea(&CombineRect(r,
-		   &rtp->split.Partitions[0].cover[1])) -
-		   rtp->split.Partitions[0].area[1];
-		 */
 		rect = CombineRect(r, &rtp->split.Partitions[0].cover[0]);
 		growth0 =
 		    RectArea(&rect) - rtp->split.Partitions[0].area[0];
@@ -198,7 +184,7 @@ static void MethodZero(RTree_t * rtp)
 	if (rtp->split.Partitions[0].count[0] >=
 	    NODECARD + 1 - rtp->MinFill)
 	    group = 1;
-	for (i = 0; i < NODECARD + 1; i++) {
+	for (int i = 0; i < NODECARD + 1; i++) {
 	    if (!rtp->split.Partitions[0].taken[i])
 		Classify(rtp, i, group);
 	}
@@ -216,25 +202,19 @@ static void MethodZero(RTree_t * rtp)
 -----------------------------------------------------------------------------*/
 static void PickSeeds(RTree_t * rtp)
 {
-  int i, j;
-  unsigned int waste, worst;
   int seed0 = 0, seed1 = 0;
   unsigned int area[NODECARD + 1];
 
-    for (i = 0; i < NODECARD + 1; i++)
+    for (int i = 0; i < NODECARD + 1; i++)
 	area[i] = RectArea(&rtp->split.BranchBuf[i].rect);
 
-    //worst = -rtp->split.CoverSplitArea - 1;
-    worst=0;
-    for (i = 0; i < NODECARD; i++) {
-	for (j = i + 1; j < NODECARD + 1; j++) {
+    unsigned worst=0;
+    for (int i = 0; i < NODECARD; i++) {
+	for (int j = i + 1; j < NODECARD + 1; j++) {
 	    Rect_t rect;
-	    /* waste = RectArea(&CombineRect(&rtp->split.BranchBuf[i].rect,
-	       //                  &rtp->split.BranchBuf[j].rect)) - area[i] - area[j];
-	     */
 	    rect = CombineRect(&rtp->split.BranchBuf[i].rect,
 			       &rtp->split.BranchBuf[j].rect);
-	    waste = RectArea(&rect) - area[i] - area[j];
+	    unsigned waste = RectArea(&rect) - area[i] - area[j];
 	    if (waste > worst) {
 		worst = waste;
 		seed0 = i;
@@ -291,12 +271,11 @@ static void Classify(RTree_t * rtp, int i, int group)
 static void LoadNodes(RTree_t * rtp, Node_t * n, Node_t * q,
 		      struct PartitionVars *p)
 {
-    int i;
     assert(n);
     assert(q);
     assert(p);
 
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	assert(rtp->split.Partitions[0].partition[i] == 0 ||
 	       rtp->split.Partitions[0].partition[i] == 1);
 	if (rtp->split.Partitions[0].partition[i] == 0)
@@ -311,15 +290,13 @@ static void LoadNodes(RTree_t * rtp, Node_t * n, Node_t * q,
 -----------------------------------------------------------------------------*/
 static void InitPVars(RTree_t * rtp)
 {
-    int i;
-
     rtp->split.Partitions[0].count[0] = rtp->split.Partitions[0].count[1] =
 	0;
     rtp->split.Partitions[0].cover[0] = rtp->split.Partitions[0].cover[1] =
 	NullRect();
     rtp->split.Partitions[0].area[0] = rtp->split.Partitions[0].area[1] =
 	0;
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	rtp->split.Partitions[0].taken[i] = FALSE;
 	rtp->split.Partitions[0].partition[i] = -1;
     }
@@ -332,21 +309,19 @@ static void InitPVars(RTree_t * rtp)
 -----------------------------------------------------------------------------*/
 PrintPVars(RTree_t * rtp)
 {
-    int i;
-
     fprintf(stderr, "\npartition:\n");
-    for (i = 0; i < NODECARD + 1; i++) {
-	fprintf(stderr, "%3d\t", i);
+    for (size_t i = 0; i < NODECARD + 1; i++) {
+	fprintf(stderr, "%3zu\t", i);
     }
     fprintf(stderr, "\n");
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	if (rtp->split.Partitions[0].taken[i])
 	    fprintf(stderr, "  t\t");
 	else
 	    fprintf(stderr, "\t");
     }
     fprintf(stderr, "\n");
-    for (i = 0; i < NODECARD + 1; i++) {
+    for (size_t i = 0; i < NODECARD + 1; i++) {
 	fprintf(stderr, "%3d\t", rtp->split.Partitions[0].partition[i]);
     }
     fprintf(stderr, "\n");

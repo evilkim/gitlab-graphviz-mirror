@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SPLIT_Q_H
-#define SPLIT_Q_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,5 +44,3 @@ void SplitNode(RTree_t *, Node_t *, Branch_t *, Node_t **);
 #ifdef __cplusplus
 }
 #endif
-
-#endif				/*SPLIT_Q_H */

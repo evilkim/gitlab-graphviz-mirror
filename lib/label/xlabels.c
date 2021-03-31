@@ -29,17 +29,16 @@ Dtdisc_t Hdisc = { offsetof(HDict_t, key), sizeof(int), -1, 0, 0,
 
 static int icompare(Dt_t * dt, void * v1, void * v2, Dtdisc_t * disc)
 {
+    (void)dt;
+    (void)disc;
     int k1 = *((int *) v1), k2 = *((int *) v2);
     return k1 - k2;
 }
 
-static XLabels_t *xlnew(object_t * objs, int n_objs,
-			xlabel_t * lbls, int n_lbls,
-			label_params_t * params)
+static XLabels_t *xlnew(object_t * objs, int n_objs, xlabel_t * lbls,
+                        int n_lbls, label_params_t * params)
 {
-    XLabels_t *xlp;
-
-    xlp = NEW(XLabels_t);
+    XLabels_t *xlp = NEW(XLabels_t);
 
     /* used to load the rtree in hilbert space filling curve order */
     if (!(xlp->hdx = dtopen(&Hdisc, Dtobag))) {
@@ -80,47 +79,13 @@ static void xlfree(XLabels_t * xlp)
 /***************************************************************************/
 
 /*
- * floorlog2 - largest base 2 integer logarithm less than n
- * http://en.wikipedia.org/wiki/Binary_logarithm
- * ultimately from http://www.hackersdelight.org/
- */
-static int floorLog2(unsigned int n)
-{
-    int pos = 0;
-
-    if (n == 0)
-	return -1;
-
-    if (n >= 1 << 16) {
-	n >>= 16;
-	pos += 16;
-    }
-    if (n >= 1 << 8) {
-	n >>= 8;
-	pos += 8;
-    }
-    if (n >= 1 << 4) {
-	n >>= 4;
-	pos += 4;
-    }
-    if (n >= 1 << 2) {
-	n >>= 2;
-	pos += 2;
-    }
-    if (n >= 1 << 1) {
-	pos += 1;
-    }
-    return pos;
-}
-
-/*
  * determine the order(depth) of the hilbert sfc so that we satisfy the
  * precondition of hd_hil_s_from_xy()
  */
 static unsigned int xlhorder(XLabels_t * xlp)
 {
     double maxx = xlp->params->bb.UR.x, maxy = xlp->params->bb.UR.y;
-    return floorLog2(maxx > maxy ? maxx : maxy) + 1;
+    return (unsigned)floor(log2(round(fmax(maxx, maxy)))) + 1;
 }
 
 /* from http://www.hackersdelight.org/ site for the book by Henry S Warren */
@@ -157,13 +122,12 @@ processed. */
 
 static unsigned int hd_hil_s_from_xy(point p, int n)
 {
-    int i, x = p.x, y = p.y, xi, yi;
-    unsigned s;
+    int x = p.x, y = p.y;
 
-    s = 0;			/* Initialize. */
-    for (i = n - 1; i >= 0; i--) {
-	xi = (x >> i) & 1;	/* Get bit i of x. */
-	yi = (y >> i) & 1;	/* Get bit i of y. */
+    unsigned s = 0;			/* Initialize. */
+    for (int i = n - 1; i >= 0; i--) {
+	int xi = (x >> i) & 1;	/* Get bit i of x. */
+	int yi = (y >> i) & 1;	/* Get bit i of y. */
 	s = 4 * s + 2 * xi + (xi ^ yi);	/* Append two bits to s. */
 
 	x = x ^ y;		/* These 3 lines swap */
@@ -183,7 +147,6 @@ static unsigned int hd_hil_s_from_xy(point p, int n)
 static double aabbaabb(Rect_t * r, Rect_t * s)
 {
     /* per dimension if( max < omin || min > omax) */
-    double iminx, iminy, imaxx, imaxy;
     if (r->boundary[2] < s->boundary[0] || r->boundary[0] > s->boundary[2])
 	return 0;
     if (r->boundary[3] < s->boundary[1] || r->boundary[1] > s->boundary[3])
@@ -192,16 +155,16 @@ static double aabbaabb(Rect_t * r, Rect_t * s)
     /* if we get here we have an intersection */
 
     /* rightmost left edge of the 2 rectangles */
-    iminx =
+    double iminx =
 	r->boundary[0] > s->boundary[0] ? r->boundary[0] : s->boundary[0];
     /* upmost bottom edge */
-    iminy =
+    double iminy =
 	r->boundary[1] > s->boundary[1] ? r->boundary[1] : s->boundary[1];
     /* leftmost right edge */
-    imaxx =
+    double imaxx =
 	r->boundary[2] < s->boundary[2] ? r->boundary[2] : s->boundary[2];
     /* downmost top edge */
-    imaxy =
+    double imaxy =
 	r->boundary[3] < s->boundary[3] ? r->boundary[3] : s->boundary[3];
     return (imaxx - iminx) * (imaxy - iminy);
 }
@@ -246,7 +209,7 @@ static void objplp2rect(object_t * objp, Rect_t * r)
 }
 
 /* compute boundary that encloses all possible label boundaries */
-static Rect_t objplpmks(XLabels_t * xlp, object_t * objp)
+static Rect_t objplpmks(object_t * objp)
 {
     Rect_t rect;
     pointf p;
@@ -323,7 +286,7 @@ recordointrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 	    objplp2rect(intrsx[i], &srect);
 	    sa = aabbaabb(rp, &srect);
 	    if (sa > a)
-		maxa = sa > maxa ? sa : maxa;
+		maxa = fmax(sa, maxa);
 	}
 	if (maxa > 0.0)
 	    return maxa;
@@ -356,7 +319,7 @@ recordlintrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 	    objplp2rect(intrsx[i], &srect);
 	    sa = aabbaabb(rp, &srect);
 	    if (sa > a)
-		maxa = sa > maxa ? sa : maxa;
+		maxa = fmax(sa, maxa);
 	}
 	if (maxa > 0.0)
 	    return maxa;
@@ -372,8 +335,6 @@ recordlintrsx(XLabels_t * xlp, object_t * op, object_t * cp, Rect_t * rp,
 static BestPos_t
 xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
 {
-    int i;
-    LeafList_t *ilp, *llp;
     Rect_t rect, srect;
     BestPos_t bp;
 
@@ -383,7 +344,7 @@ xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
     bp.area = 0.0;
     bp.pos = objp->lbl->pos;
 
-    for(i=0; i<xlp->n_objs; i++) {
+    for(int i=0; i<xlp->n_objs; i++) {
       if(objp == &xlp->objs[i]) continue;
       if(xlp->objs[i].sz.x > 0 && xlp->objs[i].sz.y > 0) continue;
       if(lblenclosing(objp, &xlp->objs[i]) ) {
@@ -393,11 +354,11 @@ xlintersections(XLabels_t * xlp, object_t * objp, object_t * intrsx[XLNBR])
 
     objplp2rect(objp, &rect);
 
-    llp = RTreeSearch(xlp->spdx, xlp->spdx->root, &rect);
+    LeafList_t *llp = RTreeSearch(xlp->spdx, xlp->spdx->root, &rect);
     if (!llp)
 	return bp;
 
-    for (ilp = llp; ilp; ilp = ilp->next) {
+    for (LeafList_t *ilp = llp; ilp; ilp = ilp->next) {
 	double a, ra;
 	object_t *cp = ilp->leaf->data;
 
@@ -437,12 +398,10 @@ static BestPos_t xladjust(XLabels_t * xlp, object_t * objp)
     xlabel_t *lp = objp->lbl;
     double xincr = ((2 * lp->sz.x) + objp->sz.x) / XLXDENOM;
     double yincr = ((2 * lp->sz.y) + objp->sz.y) / XLYDENOM;
-    object_t *intrsx[XLNBR];
+    object_t *intrsx[XLNBR] = {NULL};
     BestPos_t bp, nbp;
 
     assert(objp->lbl);
-
-    memset(intrsx, 0, sizeof(intrsx));
 
     /*x left */
     lp->pos.x = objp->pos.x - lp->sz.x;
@@ -575,17 +534,16 @@ static BestPos_t xladjust(XLabels_t * xlp, object_t * objp)
 /* load the hilbert sfc keyed tree */
 static int xlhdxload(XLabels_t * xlp)
 {
-    int i;
     int order = xlhorder(xlp);
 
-    for (i = 0; i < xlp->n_objs; i++) {
+    for (int i = 0; i < xlp->n_objs; i++) {
 	HDict_t *hp;
 	point pi;
 
 	hp = NEW(HDict_t);
 
 	hp->d.data = &xlp->objs[i];
-	hp->d.rect = objplpmks(xlp, &xlp->objs[i]);
+	hp->d.rect = objplpmks(&xlp->objs[i]);
 	/* center of the labeling area */
 	pi.x = hp->d.rect.boundary[0] +
 	    (hp->d.rect.boundary[2] - hp->d.rect.boundary[0]) / 2;
@@ -594,12 +552,6 @@ static int xlhdxload(XLabels_t * xlp)
 
 	hp->key = hd_hil_s_from_xy(pi, order);
 
-#if 0
-	if (dtsearch(xlp->hdx, hp) != 0) {
-	    free(hp);
-	    continue;
-	}
-#endif
 	if (!(dtinsert(xlp->hdx, hp)))
 	    return -1;
     }
@@ -623,9 +575,7 @@ static void xlhdxunload(XLabels_t * xlp)
 
 static int xlspdxload(XLabels_t * xlp)
 {
-    HDict_t *op=0;
-
-    for (op = dtfirst(xlp->hdx); op; op = dtnext(xlp->hdx, op)) {
+    for (HDict_t *op = dtfirst(xlp->hdx); op; op = dtnext(xlp->hdx, op)) {
 	/*          tree       rectangle    data        node             lvl */
 	RTreeInsert(xlp->spdx, &op->d.rect, op->d.data, &xlp->spdx->root, 0);
     }
@@ -647,7 +597,7 @@ int
 placeLabels(object_t * objs, int n_objs,
 	    xlabel_t * lbls, int n_lbls, label_params_t * params)
 {
-    int r, i;
+    int r;
     BestPos_t bp;
     XLabels_t *xlp = xlnew(objs, n_objs, lbls, n_lbls, params);
     if ((r = xlinitialize(xlp)) < 0)
@@ -669,7 +619,7 @@ placeLabels(object_t * objs, int n_objs,
      * non-zero otherwise.
      */
     r = 0;
-    for (i = 0; i < n_objs; i++) {
+    for (int i = 0; i < n_objs; i++) {
 	if (objs[i].lbl == 0)
 	    continue;
 	bp = xladjust(xlp, &objs[i]);

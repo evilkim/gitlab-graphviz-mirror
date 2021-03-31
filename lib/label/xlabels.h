@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef XLABELS_H
-#define XLABELS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -102,5 +101,3 @@ typedef struct XLabels_s {
 #ifdef __cplusplus
 }
 #endif
-
-#endif				/*XLABELS_H */

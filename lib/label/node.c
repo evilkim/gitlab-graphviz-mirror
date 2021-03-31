@@ -11,6 +11,8 @@
 #include <stdlib.h>
 
 #include <label/index.h>
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <label/node.h>
@@ -19,10 +21,8 @@
 */
 Node_t *RTreeNewNode(RTree_t * rtp)
 {
-    Node_t *n;
-
     rtp->NodeCount++;
-    n = malloc(sizeof(Node_t));
+    Node_t *n = malloc(sizeof(Node_t));
     InitNode(n);
     return n;
 }
@@ -41,10 +41,9 @@ void RTreeFreeNode(RTree_t * rtp, Node_t * p)
 */
 void InitNode(Node_t * n)
 {
-    int i;
     n->count = 0;
     n->level = -1;
-    for (i = 0; i < NODECARD; i++)
+    for (size_t i = 0; i < NODECARD; i++)
 	InitBranch(&(n->branch[i]));
 }
 
@@ -61,7 +60,6 @@ void InitBranch(Branch_t * b)
 */
 void PrintNode(Node_t * n)
 {
-    int i;
     assert(n);
 
     fprintf(stderr, "node");
@@ -71,10 +69,10 @@ void PrintNode(Node_t * n)
 	fprintf(stderr, " NONLEAF");
     else
 	fprintf(stderr, " TYPE=?");
-    fprintf(stderr, "  level=%d  count=%d  child address=%X\n",
-	    n->level, n->count, (unsigned int) n);
+    fprintf(stderr, "  level=%d  count=%d  child address=%p\n",
+	    n->level, n->count, n);
 
-    for (i = 0; i < NODECARD; i++) {
+    for (size_t i = 0; i < NODECARD; i++) {
 	if (n->branch[i].child != NULL)
 	    PrintBranch(i, &n->branch[i]);
     }
@@ -92,17 +90,16 @@ void PrintBranch(int i, Branch_t * b)
 */
 Rect_t NodeCover(Node_t * n)
 {
-    int i, flag;
     Rect_t r;
     assert(n);
 
     InitRect(&r);
-    flag = 1;
-    for (i = 0; i < NODECARD; i++)
+    bool flag = true;
+    for (size_t i = 0; i < NODECARD; i++)
 	if (n->branch[i].child) {
 	    if (flag) {
 		r = n->branch[i].rect;
-		flag = 0;
+		flag = false;
 	    } else
 		r = CombineRect(&r, &(n->branch[i].rect));
 	}
@@ -118,11 +115,11 @@ Rect_t NodeCover(Node_t * n)
 int PickBranch(Rect_t * r, Node_t * n)
 {
     Rect_t *rr=0;
-    int i=0, flag=1, increase=0, bestIncr=0, area=0, bestArea=0;
+    int flag=1, increase=0, bestIncr=0, area=0, bestArea=0;
     int best=0;
     assert(r && n);
 
-    for (i = 0; i < NODECARD; i++) {
+    for (int i = 0; i < NODECARD; i++) {
 	if (n->branch[i].child) {
 	    Rect_t rect;
 	    rr = &n->branch[i].rect;
@@ -160,12 +157,11 @@ int PickBranch(Rect_t * r, Node_t * n)
 */
 int AddBranch(RTree_t * rtp, Branch_t * b, Node_t * n, Node_t ** new)
 {
-    int i;
-
     assert(b);
     assert(n);
 
     if (n->count < NODECARD) {	/* split won't be necessary */
+	size_t i;
 	for (i = 0; i < NODECARD; i++) {	/* find empty branch */
 	    if (n->branch[i].child == NULL) {
 		n->branch[i] = *b;

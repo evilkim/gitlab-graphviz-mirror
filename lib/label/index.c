@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <label/index.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <common/logic.h>
@@ -29,20 +30,18 @@ LeafList_t *RTreeNewLeafList(Leaf_t * lp)
 
 LeafList_t *RTreeLeafListAdd(LeafList_t * llp, Leaf_t * lp)
 {
-    LeafList_t *nlp;
     if (!lp)
 	return llp;
 
-    nlp = RTreeNewLeafList(lp);
+    LeafList_t *nlp = RTreeNewLeafList(lp);
     nlp->next = llp;
     return nlp;
 }
 
 void RTreeLeafListFree(LeafList_t * llp)
 {
-    LeafList_t *tlp;
     while (llp->next) {
-	tlp = llp->next;
+	LeafList_t *tlp = llp->next;
 	free(llp);
 	llp = tlp;
     }
@@ -58,17 +57,10 @@ static struct ListNode *RTreeNewListNode(void)
     return calloc(1, sizeof(struct ListNode));
 }
 
-#if UNUSED
-static void RTreeFreeListNode(struct ListNode *p)
-{
-    free(p);
-}
-#endif
-
 /* Add a node to the reinsertion list.  All its branches will later
  * be reinserted into the index structure.
  */
-static int RTreeReInsert(RTree_t * rtp, Node_t * n, struct ListNode **ee)
+static int RTreeReInsert(Node_t * n, struct ListNode **ee)
 {
     struct ListNode *l;
 
@@ -92,8 +84,7 @@ RTree_t *RTreeOpen()
 /* Make a new index, empty.  Consists of a single node. */
 Node_t *RTreeNewIndex(RTree_t * rtp)
 {
-    Node_t *x;
-    x = RTreeNewNode(rtp);
+    Node_t *x = RTreeNewNode(rtp);
     x->level = 0;		/* leaf */
     rtp->LeafCount++;
     return x;
@@ -101,10 +92,8 @@ Node_t *RTreeNewIndex(RTree_t * rtp)
 
 static int RTreeClose2(RTree_t * rtp, Node_t * n)
 {
-    int i;
-
     if (n->level > 0) {
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (!n->branch[i].child)
 		continue;
 	    if (!RTreeClose2(rtp, n->branch[i].child)) {
@@ -116,16 +105,14 @@ static int RTreeClose2(RTree_t * rtp, Node_t * n)
 	    }
 	}
     } else {
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (!n->branch[i].child)
 		continue;
-	    // free(n->branch[i].child);
 	    DisconBranch(n, i);
 	    rtp->EntryCount--;
 	    if (rtp->StatFlag)
 	        rtp->ElimCount++;
 	}
-	//free(n);
     }
     return 0;
 }
@@ -145,13 +132,12 @@ int RTreeClose(RTree_t * rtp)
 */
 void PrintIndex(Node_t * n)
 {
-    int i;
     Node_t *nn;
     assert(n);
     assert(n->level >= 0);
 
     if (n->level > 0) {
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if ((nn = n->branch[i].child) != NULL)
 		PrintIndex(nn);
 	}
@@ -164,7 +150,6 @@ void PrintIndex(Node_t * n)
 */
 void PrintData(Node_t * n)
 {
-    int i;
     Node_t *nn;
     assert(n);
     assert(n->level >= 0);
@@ -172,7 +157,7 @@ void PrintData(Node_t * n)
     if (n->level == 0)
 	PrintNode(n);
     else {
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if ((nn = n->branch[i].child) != NULL)
 		PrintData(nn);
 	}
@@ -186,7 +171,6 @@ void PrintData(Node_t * n)
 */
 LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 {
-    int i;
     LeafList_t *llp = 0;
 
     assert(n);
@@ -196,7 +180,7 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
     rtp->SeTouchCount++;
 
     if (n->level > 0) {		/* this is an internal node in the tree */
-	for (i = 0; i < NODECARD; i++)
+	for (size_t i = 0; i < NODECARD; i++)
 	    if (n->branch[i].child && Overlap(r, &n->branch[i].rect)) {
 		LeafList_t *tlp = RTreeSearch(rtp, n->branch[i].child, r);
 		if (llp) {
@@ -208,7 +192,7 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 		    llp = tlp;
 	    }
     } else {			/* this is a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (size_t i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child && Overlap(r, &n->branch[i].rect)) {
 		llp = RTreeLeafListAdd(llp, (Leaf_t *) & n->branch[i]);
 #				ifdef RTDEBUG
@@ -227,16 +211,10 @@ LeafList_t *RTreeSearch(RTree_t * rtp, Node_t * n, Rect_t * r)
 ** level to insert; e.g. a data rectangle goes in at level = 0.
 ** RTreeInsert2 does the recursion.
 */
-static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **,
-			int);
-/*static int RTreeInsert2(RTree_t*, Rect_t*, int, Node_t*, Node_t**, int); */
+static int RTreeInsert2(RTree_t *, Rect_t *, void *, Node_t *, Node_t **, int);
 
-int
-RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
+int RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 {
-    /* RTreeInsert(RTree_t*rtp, Rect_t*r, int data, Node_t**n, int level) { */
-    int i;
-    Node_t *newroot;
     Node_t *newnode=0;
     Branch_t b;
     int result = 0;
@@ -244,7 +222,7 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 
     assert(r && n);
     assert(level >= 0 && level <= (*n)->level);
-    for (i = 0; i < NUMDIMS; i++)
+    for (size_t i = 0; i < NUMDIMS; i++)
 	assert(r->boundary[i] <= r->boundary[NUMDIMS + i]);
 
 #	ifdef RTDEBUG
@@ -268,7 +246,7 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 		rtp->InTouchCount++;
 	}
 
-	newroot = RTreeNewNode(rtp);	/* grow a new root, make tree taller */
+	Node_t *newroot = RTreeNewNode(rtp);	/* grow a new root, make tree taller */
 	rtp->NonLeafCount++;
 	newroot->level = (*n)->level + 1;
 	b.rect = NodeCover(*n);
@@ -278,7 +256,6 @@ RTreeInsert(RTree_t * rtp, Rect_t * r, void *data, Node_t ** n, int level)
 	b.child = newnode;
 	AddBranch(rtp, &b, newroot, NULL);
 	*n = newroot;
-	// rtp->root = newroot;
 	rtp->EntryCount += 2;
 	result = 1;
     }
@@ -298,11 +275,6 @@ static int
 RTreeInsert2(RTree_t * rtp, Rect_t * r, void *data,
 	     Node_t * n, Node_t ** new, int level)
 {
-    /*static int */
-    /* RTreeInsert2(RTree_t*rtp, Rect_t*r,
-       int data, Node_t*n, Node_t**new, int level) {
-     */
-    int i=0;
     Branch_t b;
     Node_t *n2=0;
 
@@ -318,7 +290,7 @@ RTreeInsert2(RTree_t * rtp, Rect_t * r, void *data,
 
     /* Still above level for insertion, go down tree recursively */
     if (n->level > level) {
-	i = PickBranch(r, n);
+	int i = PickBranch(r, n);
 	if (!RTreeInsert2(rtp, r, data, n->branch[i].child, &n2, level)) {	/* recurse: child was not split */
 	    n->branch[i].rect = CombineRect(r, &(n->branch[i].rect));
 	    return 0;
@@ -353,16 +325,11 @@ static void FreeListNode(struct ListNode *p)
 */
 static int RTreeDelete2(RTree_t *, Rect_t *, void *, Node_t *,
 			ListNode_t **);
-/* static int RTreeDelete2(RTree_t*, Rect_t*, int, Node_t*, ListNode_t**); */
 
 int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 {
-    /* int */
-    /* RTreeDelete(RTree_t*rtp, Rect_t*r, int data, Node_t**nn) { */
-    int i;
     Node_t *t;
     struct ListNode *reInsertList = NULL;
-    struct ListNode *e;
 
     assert(r && nn);
     assert(*nn);
@@ -383,15 +350,14 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 	/* reinsert any branches from eliminated nodes */
 	while (reInsertList) {
 	    t = reInsertList->node;
-	    for (i = 0; i < NODECARD; i++) {
+	    for (size_t i = 0; i < NODECARD; i++) {
 		if (t->branch[i].child) {
 		    RTreeInsert(rtp, &(t->branch[i].rect),
-				/* (int)t->branch[i].child, nn, t->level); */
 				t->branch[i].child, nn, t->level);
 		    rtp->EntryCount--;
 		}
 	    }
-	    e = reInsertList;
+	    struct ListNode *e = reInsertList;
 	    reInsertList = reInsertList->next;
 	    RTreeFreeNode(rtp, e->node);
 	    FreeListNode(e);
@@ -402,7 +368,7 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 	    if (rtp->StatFlag)
 		rtp->ElimCount++;
 	    rtp->EntryCount--;
-	    for (i = 0; i < NODECARD; i++) {
+	    for (size_t i = 0; i < NODECARD; i++) {
 		if ((t = (*nn)->branch[i].child))
 		    break;
 	    }
@@ -424,11 +390,7 @@ int RTreeDelete(RTree_t * rtp, Rect_t * r, void *data, Node_t ** nn)
 static int
 RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	     ListNode_t ** ee)
-/* static int */
-/* RTreeDelete2(RTree_t*rtp, Rect_t*r, int data, Node_t*n, ListNode_t**ee) */
 {
-    int i;
-
     assert(r && n && ee);
     assert(data);
     assert(n->level >= 0);
@@ -437,13 +399,13 @@ RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	rtp->DeTouchCount++;
 
     if (n->level > 0) {		/* not a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child && Overlap(r, &(n->branch[i].rect))) {
 		if (!RTreeDelete2(rtp, r, data, n->branch[i].child, ee)) {	/*recurse */
 		    if (n->branch[i].child->count >= rtp->MinFill)
 			n->branch[i].rect = NodeCover(n->branch[i].child);
 		    else {	/* not enough entries in child, eliminate child node */
-			RTreeReInsert(rtp, n->branch[i].child, ee);
+			RTreeReInsert(n->branch[i].child, ee);
 			DisconBranch(n, i);
 			rtp->EntryCount--;
 			if (rtp->StatFlag)
@@ -455,7 +417,7 @@ RTreeDelete2(RTree_t * rtp, Rect_t * r, void *data, Node_t * n,
 	}
 	return 1;
     } else {			/* a leaf node */
-	for (i = 0; i < NODECARD; i++) {
+	for (int i = 0; i < NODECARD; i++) {
 	    if (n->branch[i].child
 		&& n->branch[i].child == (Node_t *) data) {
 		DisconBranch(n, i);
