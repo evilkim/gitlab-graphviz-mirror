@@ -217,7 +217,6 @@ def test_793():
     # Graphviz should not have caused a segfault
     assert p.returncode != -signal.SIGSEGV, 'Graphviz segfaulted'
 
-@pytest.mark.xfail(strict=True)
 def test_797():
     '''
     “&;” should not be considered an XML escape sequence

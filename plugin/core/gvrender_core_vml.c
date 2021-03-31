@@ -32,6 +32,9 @@ unsigned int  graphHeight,graphWidth;
 static int xml_isentity(char *s)
 {
     s++;			/* already known to be '&' */
+    if (*s == ';') { // '&;' is not a valid entity
+	return 0;
+    }
     if (*s == '#') {
 	s++;
 	if (*s == 'x' || *s == 'X') {
