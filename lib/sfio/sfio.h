@@ -184,9 +184,6 @@ extern "C" {
 #define SFFMT_SET	07777770	/* flags settable on calling extf      */
 
 /* various constants */
-#ifndef NULL
-#define NULL		0
-#endif
 #ifndef EOF
 #define EOF		(-1)
 #endif

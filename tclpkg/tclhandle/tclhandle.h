@@ -20,10 +20,6 @@ extern "C" {
 #define TCL_OK (0)
 #endif
 
-#ifndef NULL
-#define NULL (0)
-#endif
-
 #define ISSPACE(c) (isspace ((unsigned char) c))
 
 /*
