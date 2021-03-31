@@ -22,6 +22,7 @@
 #include <common/logic.h>
 #include <math.h>
 #include <common/globals.h>
+#include <stddef.h>
 #include <string.h>
 #include <time.h>
 

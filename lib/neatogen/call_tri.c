@@ -14,6 +14,7 @@
 #include <common/logic.h>
 #include <common/memory.h>
 #include <neatogen/delaunay.h>
+#include <stddef.h>
 
 SparseMatrix call_tri(int n, int dim, real * x)
 {

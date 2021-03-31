@@ -14,6 +14,7 @@
 #include <common/logic.h>
 #include <assert.h>
 #include <common/arith.h>
+#include <stddef.h>
 
 PriorityQueue PriorityQueue_new(int n, int ngain){
   PriorityQueue q;
