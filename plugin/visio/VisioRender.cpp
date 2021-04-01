@@ -236,9 +236,6 @@ namespace Visio
 	
 	void Render::ClearGraphicsAndTexts()
 	{
-		/* clear graphics */
-		for (Graphics::iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-			delete *nextGraphic;
 		_graphics.clear();
 		
 		/* clear texts */
@@ -256,7 +253,7 @@ namespace Visio
 	{
 		if (_inComponent)
 			/* if in component, accumulate for end node/edge */
-			_graphics.push_back(graphic);
+			_graphics.emplace_back(graphic);
 		else
 			/* if outside, output immediately */
 			PrintOuterShape(job, *graphic);		

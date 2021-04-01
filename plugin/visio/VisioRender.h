@@ -12,6 +12,7 @@
 #define VISIORENDER_H
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include <common/types.h>
@@ -22,7 +23,7 @@
 namespace Visio
 {
 	typedef std::map<Agnode_t*, unsigned int> NodeIds;
-	typedef std::vector<Graphic*> Graphics;
+	typedef std::vector<std::unique_ptr<Graphic>> Graphics;
 	typedef std::vector<const Text*> Texts;
 	typedef std::vector<const Hyperlink*> Hyperlinks;
 
