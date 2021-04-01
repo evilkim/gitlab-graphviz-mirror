@@ -22,7 +22,7 @@
 namespace Visio
 {
 	typedef std::map<Agnode_t*, unsigned int> NodeIds;
-	typedef std::vector<const Graphic*> Graphics;
+	typedef std::vector<Graphic*> Graphics;
 	typedef std::vector<const Text*> Texts;
 	typedef std::vector<const Hyperlink*> Hyperlinks;
 
