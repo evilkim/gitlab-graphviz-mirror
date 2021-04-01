@@ -64,7 +64,7 @@ namespace Visio
 		void PrintInnerShape(GVJ_t* job, const Graphic& graphic, unsigned int outerId, boxf outerBounds);
 		
 		/* output the graphic as an edge connector, given the start and end node ids */
-		bool PrintEdgeShape(GVJ_t* job, const Graphic* graphic, unsigned int beginId, unsigned int endId, int edgeType);
+		bool PrintEdgeShape(GVJ_t* job, const Graphic &graphic, unsigned int beginId, unsigned int endId, int edgeType);
 		
 		/* output all the collected texts */
 		void PrintTexts(GVJ_t* job);

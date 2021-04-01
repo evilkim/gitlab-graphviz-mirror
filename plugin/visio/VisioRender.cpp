@@ -192,7 +192,7 @@ namespace Visio
 			bool firstConnector = true;
 			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
 				if (firstConnector && PrintEdgeShape(job,
-					_graphics[0],
+					*_graphics[0],
 					beginId == _nodeIds.end() ? 0 : beginId->second,
 					endId == _nodeIds.end() ? 0 : endId->second,
 					EDGE_TYPE(agroot(edge))))
@@ -337,9 +337,9 @@ namespace Visio
 		gvputs(job, "</Shape>\n");
 	}
 	
-	bool Render::PrintEdgeShape(GVJ_t* job, const Graphic* graphic, unsigned int beginId, unsigned int endId, int edgeType)
+	bool Render::PrintEdgeShape(GVJ_t* job, const Graphic &graphic, unsigned int beginId, unsigned int endId, int edgeType)
 	{
-		if (const Connection* connection = graphic->GetConnection())
+		if (const Connection* connection = graphic.GetConnection())
 		{
 			pointf first = connection->GetFirst();
 			pointf last = connection->GetLast();
@@ -458,7 +458,7 @@ namespace Visio
 			PrintTexts(job);
 			
 			/* output Line, Fill, Geom */
-			graphic->Print(job, first, last, edgeType != ET_LINE && edgeType != ET_PLINE);
+			graphic.Print(job, first, last, edgeType != ET_LINE && edgeType != ET_PLINE);
 			
 			gvputs(job, "</Shape>\n");
 			return true;
