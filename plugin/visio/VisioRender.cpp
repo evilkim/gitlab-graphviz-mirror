@@ -115,7 +115,7 @@ namespace Visio
 			break;
 		case 1:
 			/* single graphic to render, output as top level shape */
-			PrintOuterShape(job, _graphics[0]);
+			PrintOuterShape(job, *_graphics[0]);
 			outerShapeId = _shapeId;
 			break;
 		default:
@@ -198,7 +198,7 @@ namespace Visio
 					EDGE_TYPE(agroot(edge))))
 					firstConnector = false;
 				else
-					PrintOuterShape(job, *nextGraphic);
+					PrintOuterShape(job, **nextGraphic);
 
 		}
 		ClearGraphicsAndTexts();
@@ -259,7 +259,7 @@ namespace Visio
 			_graphics.push_back(graphic);
 		else
 			/* if outside, output immediately */
-			PrintOuterShape(job, graphic);		
+			PrintOuterShape(job, *graphic);		
 	}
 
 	void Render::AddText(GVJ_t* job, const Text* text)
@@ -276,9 +276,9 @@ namespace Visio
 			_hyperlinks.push_back(hyperlink);
 	}
 	
-	void Render::PrintOuterShape(GVJ_t* job, const Graphic* graphic)
+	void Render::PrintOuterShape(GVJ_t* job, const Graphic &graphic)
 	{
-		boxf bounds = graphic->GetBounds();
+		boxf bounds = graphic.GetBounds();
 		
 		gvprintf(job, "<Shape ID='%d' Type='Shape'>\n", ++_shapeId);
 		
@@ -300,7 +300,7 @@ namespace Visio
 		PrintTexts(job);
 		
 		/* output Line, Fill, Geom */
-		graphic->Print(job, bounds.LL, bounds.UR, true);
+		graphic.Print(job, bounds.LL, bounds.UR, true);
 		
 		gvputs(job, "</Shape>\n");
 	}

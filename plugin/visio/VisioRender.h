@@ -58,7 +58,7 @@ namespace Visio
 		void AddHyperlink(GVJ_t* job, const Hyperlink* hyperlink);
 		
 		/* output the graphic as top level shape */
-		void PrintOuterShape(GVJ_t* job, const Graphic* graphic);
+		void PrintOuterShape(GVJ_t* job, const Graphic &graphic);
 		
 		/* output the graphic as a subshape of a top level shape, given its id and bounds */
 		void PrintInnerShape(GVJ_t* job, const Graphic* graphic, unsigned int outerId, boxf outerBounds);
