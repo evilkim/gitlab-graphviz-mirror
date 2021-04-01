@@ -30,6 +30,7 @@
 #include <common/macros.h>
 #include <gvc/gvcjob.h>
 #include <gvc/gvio.h>
+#include <memory>
 
 namespace Visio
 {
@@ -123,11 +124,9 @@ namespace Visio
 				
 			/* calculate group bounds */
 			boxf outerBounds = _graphics[0]->GetBounds();
-			for (Graphics::const_iterator nextGraphic = _graphics.begin() + 1, lastGraphic = _graphics.end();
-				 nextGraphic != lastGraphic;
-				 ++nextGraphic)
+			for (std::unique_ptr<Graphic> &g : _graphics)
 			{
-				boxf innerBounds = (*nextGraphic)->GetBounds();
+				boxf innerBounds = g->GetBounds();
 				if (outerBounds.LL.x > innerBounds.LL.x)
 					outerBounds.LL.x = innerBounds.LL.x;
 				if (outerBounds.LL.y > innerBounds.LL.y)
@@ -156,8 +155,8 @@ namespace Visio
 		
 			/* output subshapes */
 			gvputs(job, "<Shapes>\n");
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-				PrintInnerShape(job, **nextGraphic, outerShapeId, outerBounds);
+			for (std::unique_ptr<Graphic> &g : _graphics)
+				PrintInnerShape(job, *g, outerShapeId, outerBounds);
 			gvputs(job, "</Shapes>\n");
 				
 			gvputs(job, "</Shape>\n");
@@ -190,7 +189,7 @@ namespace Visio
 			
 			/* output first connectable shape as an edge shape, all else as regular outer shapes */
 			bool firstConnector = true;
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
+			for (std::unique_ptr<Graphic> &g : _graphics)
 				if (firstConnector && PrintEdgeShape(job,
 					*_graphics[0],
 					beginId == _nodeIds.end() ? 0 : beginId->second,
@@ -198,7 +197,7 @@ namespace Visio
 					EDGE_TYPE(agroot(edge))))
 					firstConnector = false;
 				else
-					PrintOuterShape(job, **nextGraphic);
+					PrintOuterShape(job, *g);
 
 		}
 		ClearGraphicsAndTexts();
