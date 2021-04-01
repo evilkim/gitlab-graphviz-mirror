@@ -167,7 +167,7 @@ namespace Visio
 	{
 		_inComponent = false;
 		
-		if (_graphics.size() > 0)
+		if (!_graphics.empty())
 		{
 			Agedge_t* edge = job->obj->u.e;
 			
@@ -404,7 +404,7 @@ namespace Visio
 			
 			/* compute center to attach text to. if text has been rendered, use overall bounding box center; if not, use the path center */
 			pointf textCenter;
-			if (_texts.size() > 0)
+			if (!_texts.empty())
 			{
 				boxf outerTextBounds = _texts[0]->GetBounds();
 				
@@ -453,7 +453,7 @@ namespace Visio
 	
 	void Render::PrintTexts(GVJ_t* job)
 	{
-		if (_texts.size() > 0)
+		if (!_texts.empty())
 		{
 			/* output Para, Char */
 			for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
@@ -469,7 +469,7 @@ namespace Visio
 	
 	void Render::PrintHyperlinks(GVJ_t* job)
 	{
-		if (_hyperlinks.size() > 0)
+		if (!_hyperlinks.empty())
 		{
 			_hyperlinks[0]->Print(job, ++_hyperlinkId, true);
 			for (Hyperlinks::iterator nextHyperlink = _hyperlinks.begin() + 1, lastHyperlink = _hyperlinks.end(); nextHyperlink != lastHyperlink; ++nextHyperlink)
