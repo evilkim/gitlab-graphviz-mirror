@@ -58,11 +58,7 @@ namespace Visio
 		_pageId(0),
 		_shapeId(0),
 		_hyperlinkId(0),
-		_inComponent(false),
-		_graphics(),
-		_texts(),
-		_hyperlinks(),
-		_nodeIds()
+		_inComponent(false)
 	{
 	}
 
