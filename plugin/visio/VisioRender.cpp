@@ -157,7 +157,7 @@ namespace Visio
 			/* output subshapes */
 			gvputs(job, "<Shapes>\n");
 			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-				PrintInnerShape(job, *nextGraphic, outerShapeId, outerBounds);
+				PrintInnerShape(job, **nextGraphic, outerShapeId, outerBounds);
 			gvputs(job, "</Shapes>\n");
 				
 			gvputs(job, "</Shape>\n");
@@ -305,9 +305,9 @@ namespace Visio
 		gvputs(job, "</Shape>\n");
 	}
 	
-	void Render::PrintInnerShape(GVJ_t* job, const Graphic* graphic, unsigned int outerId, boxf outerBounds)
+	void Render::PrintInnerShape(GVJ_t* job, const Graphic &graphic, unsigned int outerId, boxf outerBounds)
 	{
-		boxf innerBounds = graphic->GetBounds();
+		boxf innerBounds = graphic.GetBounds();
 		
 		/* compute scale. if infinite, scale by 0 instead */
 		double xscale = 1.0 / (outerBounds.UR.x - outerBounds.LL.x);
@@ -332,7 +332,7 @@ namespace Visio
 		gvputs(job, "</Misc>\n");
 		
 		/* output Line, Fill, Geom */
-		graphic->Print(job, innerBounds.LL, innerBounds.UR, true);
+		graphic.Print(job, innerBounds.LL, innerBounds.UR, true);
 
 		gvputs(job, "</Shape>\n");
 	}
