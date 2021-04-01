@@ -252,7 +252,7 @@ namespace Visio
 		_hyperlinks.clear();
 	}
 	
-	void Render::AddGraphic(GVJ_t* job, const Graphic* graphic)
+	void Render::AddGraphic(GVJ_t* job, Graphic* graphic)
 	{
 		if (_inComponent)
 			/* if in component, accumulate for end node/edge */

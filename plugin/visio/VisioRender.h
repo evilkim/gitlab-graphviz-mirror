@@ -53,7 +53,7 @@ namespace Visio
 	private:
 		/* graphics and texts maintenance */
 		void ClearGraphicsAndTexts();
-		void AddGraphic(GVJ_t* job, const Graphic* graphic);
+		void AddGraphic(GVJ_t* job, Graphic* graphic);
 		void AddText(GVJ_t* job, const Text* text);
 		void AddHyperlink(GVJ_t* job, const Hyperlink* hyperlink);
 		
