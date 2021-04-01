@@ -54,14 +54,6 @@ namespace Visio
 		LORouteCenterToCenter = 16
 	};
 	
-	Render::Render():
-		_pageId(0),
-		_shapeId(0),
-		_hyperlinkId(0),
-		_inComponent(false)
-	{
-	}
-
 	void Render::BeginGraph(GVJ_t* job)
 	{
 		gvputs(job, "<VisioDocument xmlns='http://schemas.microsoft.com/visio/2003/core'>\n");

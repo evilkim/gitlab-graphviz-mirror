@@ -31,8 +31,6 @@ namespace Visio
 	class Render
 	{
 	public:
-		Render();
-		
 		/* render hierarchy */
 		void BeginGraph(GVJ_t* job);
 		void EndGraph(GVJ_t* job);
@@ -73,11 +71,11 @@ namespace Visio
 		/* output all the collected hyperlinks */
 		void PrintHyperlinks(GVJ_t* job);
 
-		unsigned int _pageId;	/* sequential page id, starting from 1 */
-		unsigned int _shapeId;	/* sequential shape id, starting from 1 */
-		unsigned int _hyperlinkId;	/* sequential shape id, starting from 1 */
+		unsigned int _pageId = 0;	/* sequential page id, starting from 1 */
+		unsigned int _shapeId = 0;	/* sequential shape id, starting from 1 */
+		unsigned int _hyperlinkId = 0;	/* sequential shape id, starting from 1 */
 		
-		bool _inComponent;		/* whether we currently inside a node/edge, or not */
+		bool _inComponent = false;		/* whether we currently inside a node/edge, or not */
 		
 		Graphics _graphics;		/* currently collected graphics within a component */
 		Texts _texts;			/* currently collected texts within a component */
