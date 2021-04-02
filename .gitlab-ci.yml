@@ -815,7 +815,7 @@ lint_pylint:
   script:
     - logfile=`mktemp`
     - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero |& tee $logfile
-    - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CEW][[:digit:]]{4}\>' $logfile`" > metrics.txt
+    - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CRWEF][[:digit:]]{4}\>' $logfile`" > metrics.txt
     - rm $logfile
     - cat metrics.txt
   artifacts:
