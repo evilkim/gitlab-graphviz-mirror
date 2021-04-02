@@ -15,9 +15,6 @@
 
 #include <common/geom.h>
 #include <common/geomprocs.h>
-#ifdef _WIN32
-#define inline 
-#endif
 
 box mkbox(point p, point q)
 {
@@ -192,9 +189,7 @@ int lineToBox(pointf p, pointf q, boxf b)
     }
     return -1;
 }
-#ifdef WIN32_STATIC
-#define inline
-#endif
+
 void rect2poly(pointf *p)
 {
     p[3].x = p[2].x = p[1].x;
@@ -342,7 +337,7 @@ pointf ccwrotatepf(pointf p, int ccwrot)
     return p;
 }
 
-inline box flip_rec_box(box b, point p)
+box flip_rec_box(box b, point p)
 {
     box r;
     /* flip box */
@@ -373,11 +368,6 @@ boxf flip_rec_boxf(boxf b, pointf p)
     r.UR.y += p.y;
     return r;
 }
-
-#ifdef WIN32_STATIC
-#undef inline
-#endif
-
 
 #define SMALL 0.0000000001
 
