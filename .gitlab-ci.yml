@@ -35,10 +35,7 @@ portable-source:
 .build_template: &rpm_build_definition
     stage: build
     script:
-        - logfile=`mktemp`
-        - ci/build.sh |& tee $logfile
-        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
-        - rm $logfile
+        - python3 ci/warning-counter.py --expression "warning:" --output metrics.txt ci/build.sh
         - cat metrics.txt
     artifacts:
         when: on_success
@@ -56,10 +53,7 @@ portable-source:
 .build_template: &deb_build_definition
     stage: build
     script:
-        - logfile=`mktemp`
-        - ci/build.sh |& tee $logfile
-        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
-        - rm $logfile
+        - python3 ci/warning-counter.py --expression "warning:" --output metrics.txt ci/build.sh
         - cat metrics.txt
     artifacts:
         when: on_success
@@ -86,10 +80,7 @@ portable-source:
         - export PATH="/usr/local/opt/bison/bin:$PATH"
         - python3 gen_version.py > VERSION # FIXME: remove when building from portable source
         - echo experimental > COLLECTION
-        - logfile=`mktemp`
-        - ci/build.sh 2>&1 | tee $logfile
-        - echo "$CI_JOB_NAME-warnings `grep -c 'warning:' $logfile`" > metrics.txt
-        - rm $logfile
+        - python3 ci/warning-counter.py --expression "warning:" --output metrics.txt ci/build.sh
         - cat metrics.txt
     artifacts:
         when: on_success
@@ -132,11 +123,8 @@ portable-source:
         - $Env:graphviz_install_dir = "C:\Graphviz"
         # Build
         - Set-ExecutionPolicy Bypass -Force -Scope Process
-        - $logfile = New-TemporaryFile
-        - windows/bin/setup-and-build.ps1 -buildsystem $env:build_system -platform $Env:project_platform -configuration $env:configuration 2>&1 | tee $logfile
-        - $warnings_count = Invoke-Expression "grep -c ' warning ' $logfile"
-        - echo "$CI_JOB_NAME-warnings $warnings_count" > metrics.txt
-        - rm $logfile
+        - windows/bin/setup-build-utilities.ps1
+        - python3 ci/warning-counter.py --expression " warning " --output metrics.txt -- powershell.exe windows/bin/build.ps1 -buildsystem $env:build_system -platform $Env:project_platform -configuration $env:configuration
         - cat metrics.txt
         - python3 gen_version.py > VERSION
         - python3 gen_version.py --collection > COLLECTION
@@ -822,10 +810,7 @@ lint_pylint:
   needs:
     - docker_build_ubuntu-20.10
   script:
-    - logfile=`mktemp`
-    - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero |& tee $logfile
-    - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CRWEF][[:digit:]]{4}\>' $logfile`" > metrics.txt
-    - rm $logfile
+    - python3 ci/warning-counter.py --expression '\b[CRWEF]\d{4}\b' --output metrics.txt -- python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero
     - cat metrics.txt
   artifacts:
     when: on_success
