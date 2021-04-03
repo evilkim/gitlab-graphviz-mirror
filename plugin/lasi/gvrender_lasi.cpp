@@ -36,9 +36,6 @@ using namespace std;
 
 typedef enum { FORMAT_PS, FORMAT_PS2, FORMAT_EPS } format_type;
 
-//static int isLatin1;
-//static char setupLatin1;
-
 PostscriptDocument *doc;
 size_t (*save_write_fn) (GVJ_t *job, const char *s, size_t len);
 
@@ -66,7 +63,6 @@ static void lasi_begin_job(GVJ_t * job)
     save_write_fn = job->gvc->write_fn;
     job->gvc->write_fn = lasi_head_writer;
 
-//    gvputs(job, "%!PS-Adobe-3.0 EPSF-3.0\n");
     gvprintf(job, "%%%%Creator: %s version %s (%s)\n",
 	    job->common->info[0], job->common->info[1], job->common->info[2]);
 }
@@ -75,7 +71,6 @@ static void lasi_end_job(GVJ_t * job)
 {
     job->gvc->write_fn = lasi_footer_writer;
 
-//    gvputs(job, "%%Trailer\n");
     if (job->render.id != FORMAT_EPS)
 	gvprintf(job, "%%%%Pages: %d\n", job->common->viewNum);
     if (job->common->show_boxes == NULL)
@@ -84,7 +79,6 @@ static void lasi_end_job(GVJ_t * job)
 	        job->boundingBox.LL.x, job->boundingBox.LL.y,
 	        job->boundingBox.UR.x, job->boundingBox.UR.y);
     gvputs(job, "end\nrestore\n");
-//    gvputs(job, "%%EOF\n");
 
     {
         // create the new stream to "redirect" cout's output to
@@ -124,8 +118,6 @@ static void lasi_begin_graph(GVJ_t * job)
 
     job->gvc->write_fn = lasi_body_writer;
 
-//    setupLatin1 = FALSE;
-
     if (job->common->viewNum == 0) {
 	gvprintf(job, "%%%%Title: %s\n", agnameof(obj->u.g));
     	if (job->render.id != FORMAT_EPS)
@@ -152,17 +144,6 @@ static void lasi_begin_graph(GVJ_t * job)
             cat_libfile(job, NULL, args);
         }
     }
-//    isLatin1 = (GD_charset(obj->u.g) == CHAR_LATIN1);
-    /* We always setup Latin1. The charset info is always output,
-     * and installing it is cheap. With it installed, we can then
-     * rely on ps_string to convert UTF-8 characters whose encoding
-     * is in the range of Latin-1 into the Latin-1 equivalent and
-     * get the expected PostScript output.
-     */
-//    if (!setupLatin1) {
-//	gvputs(job, "setupLatin1\n");	/* as defined in ps header */
-//	setupLatin1 = TRUE;
-//    }
     /*  Set base URL for relative links (for Distiller >= 3.0)  */
     if (obj->url)
 	gvprintf(job, "[ {Catalog} << /URI << /Base %s >> >>\n"
@@ -389,8 +370,6 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
     }
 
     ps_set_color(job, &(job->obj->pencolor));
-//    gvprintdouble(job, span->font->size);
-//    gvprintf(job, " /%s set_font\n", span->font->name);
     doc->osBody() << setFont(font, style, weight, variant, stretch) << setFontSize(span->font->size) << endl;
     switch (span->just) {
     case 'r':
@@ -407,9 +386,6 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
     p.y += span->yoffset_centerline;
     gvprintpointf(job, p);
     gvputs(job, " moveto ");
-//    gvprintdouble(job, span->size.x);
-//    str = ps_string(span->str,isLatin1);
-//    gvprintf(job, " %s alignedtext\n", str);
     doc->osBody() << show(span->str) << endl;
 
 }
