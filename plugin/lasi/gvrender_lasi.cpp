@@ -159,7 +159,7 @@ static void lasi_begin_graph(GVJ_t * job)
 		"/PUT pdfmark\n", ps_string(obj->url, CHAR_UTF8));
 }
 
-static void lasi_begin_layer(GVJ_t * job, char *layername, int layerNum, int numLayers)
+static void lasi_begin_layer(GVJ_t * job, char*, int layerNum, int numLayers)
 {
     gvprintf(job, "%d %d setlayer\n", layerNum, numLayers);
 }
@@ -247,7 +247,7 @@ static void lasi_end_edge(GVJ_t * job)
     gvputs(job, "grestore\n");
 }
 
-static void lasi_begin_anchor(GVJ_t *job, char *url, char *tooltip, char *target, char *id)
+static void lasi_begin_anchor(GVJ_t *job, char *url, char*, char*, char*)
 {
     obj_state_t *obj = job->obj;
 
@@ -422,9 +422,7 @@ static void lasi_ellipse(GVJ_t * job, pointf * A, int filled)
     }
 }
 
-static void
-lasi_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
-	     int arrow_at_end, int filled)
+static void lasi_bezier(GVJ_t * job, pointf * A, int n, int, int, int filled)
 {
     int j;
 
