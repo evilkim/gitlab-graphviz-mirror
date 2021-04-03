@@ -183,7 +183,6 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			}
 		} else {
 			// Close event
-			int r;
 			if(useNeighbourLists) {
 				for(NodeSet::iterator i=v->leftNeighbours->begin();
 					i!=v->leftNeighbours->end();i++
@@ -191,7 +190,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 					Node *u=*i;
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(u->v,v->v,sep));
-					r=u->rightNeighbours->erase(v);
+					u->rightNeighbours->erase(v);
 				}
 				
 				for(NodeSet::iterator i=v->rightNeighbours->begin();
@@ -200,7 +199,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 					Node *u=*i;
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(v->v,u->v,sep));
-					r=u->leftNeighbours->erase(v);
+					u->leftNeighbours->erase(v);
 				}
 			} else {
 				Node *l=v->firstAbove, *r=v->firstBelow;
@@ -215,7 +214,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 					r->firstAbove=v->firstAbove;
 				}
 			}
-			r=scanline.erase(v);
+			scanline.erase(v);
 			delete v;
 		}
 		delete e;
