@@ -14,12 +14,9 @@
  */
 
 #include	<dotgen/dot.h>
-#include	<setjmp.h>
 
 #define		UP		0
 #define		DOWN	1
-
-static jmp_buf jbuf;
 
 static boolean samedir(edge_t * e, edge_t * f)
 {
@@ -138,18 +135,18 @@ static void infuse(graph_t * g, node_t * n)
 	GD_rankleader(g)[ND_rank(n)] = n;
 }
 
-static void rebuild_vlists(graph_t * g)
+static int rebuild_vlists(graph_t * g)
 {
     int c, i, r, maxi;
     node_t *n, *lead;
-    edge_t *e, *rep;
+    edge_t *rep;
 
     for (r = GD_minrank(g); r <= GD_maxrank(g); r++)
 	GD_rankleader(g)[r] = NULL;
     dot_scan_ranks(g);
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	infuse(g, n);
-	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
+	for (edge_t *e = agfstout(g, n); e; e = agnxtout(g, e)) {
 	    for (rep = e; ED_to_virt(rep); rep = ED_to_virt(rep));
 	    while (rep != NULL && ND_rank(aghead(rep)) < ND_rank(aghead(e))) {
 		infuse(g, aghead(rep));
@@ -162,12 +159,12 @@ static void rebuild_vlists(graph_t * g)
 	lead = GD_rankleader(g)[r];
 	if (lead == NULL) {
 		agerr(AGERR, "rebuild_vlists: lead is null for rank %d\n", r);
-		longjmp(jbuf, 1);
+		return -1;
 	}
 	else if (GD_rank(dot_root(g))[r].v[ND_order(lead)] != lead) {
 	    agerr(AGERR, "rebuild_vlists: rank lead %s not in order %d of rank %d\n", 
 		agnameof(lead), ND_order(lead), r);
-	    longjmp(jbuf, 1);
+	    return -1;
 	}
 	GD_rank(g)[r].v =
 	    GD_rank(dot_root(g))[r].v + ND_order((GD_rankleader(g)[r]));
@@ -195,8 +192,13 @@ static void rebuild_vlists(graph_t * g)
 	GD_rank(g)[r].n = maxi + 1;
     }
 
-    for (c = 1; c <= GD_n_cluster(g); c++)
-	rebuild_vlists(GD_clust(g)[c]);
+    for (c = 1; c <= GD_n_cluster(g); c++) {
+	int ret = rebuild_vlists(GD_clust(g)[c]);
+	if (ret != 0) {
+	    return ret;
+	}
+    }
+    return 0;
 }
 
 void dot_concentrate(graph_t * g)
@@ -239,10 +241,10 @@ void dot_concentrate(graph_t * g)
 	}
 	r--;
     }
-    if (setjmp(jbuf)) {
-	agerr(AGPREV, "concentrate=true may not work correctly.\n");
-	return;
+    for (c = 1; c <= GD_n_cluster(g); c++) {
+	if (rebuild_vlists(GD_clust(g)[c]) != 0) {
+	    agerr(AGPREV, "concentrate=true may not work correctly.\n");
+	    return;
+	}
     }
-    for (c = 1; c <= GD_n_cluster(g); c++)
-	rebuild_vlists(GD_clust(g)[c]);
 }
