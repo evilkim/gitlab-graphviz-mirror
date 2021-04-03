@@ -96,6 +96,7 @@ portable-source:
         expire_in: 1 week
         paths:
             - VERSION
+            - COLLECTION
             - Packages/*/*/*/*/*/*.zip
             - Packages/*/*/*/*/*/*.tar.gz
             - Metadata/*/*/*/configure.log
@@ -583,7 +584,6 @@ macos-autotools-test:
         - brew install libxaw || brew upgrade libxaw
         - python3 -m pip install --requirement requirements.txt
         - export build_system="autotools"
-        - echo experimental > COLLECTION
     needs:
         - job: portable-source
           artifacts: true
@@ -671,7 +671,6 @@ macos-cmake-test:
         - brew install libxaw || brew upgrade libxaw
         - python3 -m pip install --requirement requirements.txt
         - export build_system="cmake"
-        - echo experimental > COLLECTION
     needs:
         - job: portable-source
           artifacts: true
