@@ -13,6 +13,7 @@
 
 #define DEBUG
 
+#include <math.h>
 #include <stddef.h>
 #include <ortho/maze.h>
 #include <ortho/partition.h>
@@ -85,6 +86,8 @@ psdump (cell* gcells, int n_gcells, boxf BB, boxf* rects, int nrect)
 static int
 vcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
   if (key1->x > key2->x) return 1;
   else if (key1->x < key2->x) return -1;
   else if (key1->y > key2->y) return 1;
@@ -95,6 +98,8 @@ vcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 static int
 hcmpid(Dt_t* d, pointf* key1, pointf* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
   if (key1->y > key2->y) return 1;
   else if (key1->y < key2->y) return -1;
   else if (key1->x > key2->x) return 1;
@@ -147,7 +152,7 @@ static Dtdisc_t hdictDisc = {
  * thinner the channel, the faster the weight rises.
  */
 static void
-updateWt (cell* cp, sedge* ep, int sz)
+updateWt (sedge* ep, int sz)
 {
     ep->cnt++;
     if (ep->cnt > sz) {
@@ -176,12 +181,12 @@ updateWts (sgraph* g, cell* cp, sedge* ep)
     for (i = 0; i < cp->nedges; i++) {
 	e = cp->edges[i];
 	if (!BEND(g,e)) break;
-	updateWt (cp, e, minsz);
+	updateWt (e, minsz);
 }
 
     for (; i < cp->nedges; i++) {
 	e = cp->edges[i];
-	if (isBend || (e == ep)) updateWt (cp, e, (HORZ(g,e)?hsz:vsz));
+	if (isBend || e == ep) updateWt (e, HORZ(g,e)?hsz:vsz);
     }
 }
 
@@ -190,7 +195,7 @@ updateWts (sgraph* g, cell* cp, sedge* ep)
  * be marked as usable.
  */
 static void
-markSmall (cell* cp, sgraph* g)
+markSmall (cell* cp)
 {
     int i;
     snode* onp;
@@ -401,14 +406,13 @@ mkMazeGraph (maze* mp, boxf bb)
 	nsides += cp->nsides;
         if (cp->nsides > maxdeg) maxdeg = cp->nsides;
     }
-    /* sides = RALLOC (nsides, sides, snode*); */
 
     /* Mark cells that are small because of a small node, not because of the close
      * alignment of two rectangles.
      */
     for (i = 0; i < mp->ngcells; i++) {
 	cell* cp = mp->gcells+i;
-	markSmall (cp, g);
+	markSmall (cp);
     }
 
     /* Set index of two dummy nodes used for real nodes */
@@ -427,8 +431,6 @@ mkMazeGraph (maze* mp, boxf bb)
     }
 
     /* tidy up memory */
-    /* g->nodes = RALLOC (g->nnodes+2, g->nodes, snode); */
-    /* g->edges = RALLOC (g->nedges+2*maxdeg, g->edges, sedge); */
     dtclose (vdict);
     dtclose (hdict);
     free (ditems);
@@ -452,6 +454,9 @@ mkMaze (graph_t* g, int doLbls)
     double w2, h2;
     boxf bb, BB;
 
+    // unused
+    (void)doLbls;
+
     mp->ngcells = agnnodes(g);
     cp = mp->gcells = N_NEW(mp->ngcells, cell);
 
@@ -466,17 +471,14 @@ mkMaze (graph_t* g, int doLbls)
         bb.UR.x = ND_coord(n).x + w2;
         bb.LL.y = ND_coord(n).y - h2;
         bb.UR.y = ND_coord(n).y + h2;
-	BB.LL.x = MIN(BB.LL.x, bb.LL.x);
-	BB.LL.y = MIN(BB.LL.y, bb.LL.y);
-	BB.UR.x = MAX(BB.UR.x, bb.UR.x);
-	BB.UR.y = MAX(BB.UR.y, bb.UR.y);
+	BB.LL.x = fmin(BB.LL.x, bb.LL.x);
+	BB.LL.y = fmin(BB.LL.y, bb.LL.y);
+	BB.UR.x = fmax(BB.UR.x, bb.UR.x);
+	BB.UR.y = fmax(BB.UR.y, bb.UR.y);
         cp->bb = bb;
 	cp->flags |= MZ_ISNODE;
         ND_alg(n) = cp;
 	cp++;
-    }
-
-    if (doLbls) {
     }
 
     BB.LL.x -= MARGIN;
