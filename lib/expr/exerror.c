@@ -16,6 +16,7 @@
  */
 
 #include <expr/exlib.h>
+#include <stdarg.h>
 
 /*
  * library error handler
