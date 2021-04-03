@@ -39,10 +39,7 @@
 #include <pack/pack.h>
 #include <fdpgen/clusteredges.h>
 #include <fdpgen/dbg.h>
-#include <setjmp.h>
 #include <stddef.h>
-
-static jmp_buf jbuf;
 
 typedef struct {
     graph_t*  rootg;  /* logical root; graph passed in to fdp_layout */
@@ -1101,9 +1098,6 @@ void fdp_layout(graph_t * g)
         
     PSinputscale = get_inputscale (g);
     fdp_init_graph(g);
-    if (setjmp(jbuf)) {
-	return;
-    }
     if (fdpLayout(g) != 0) {
 	return;
     }
