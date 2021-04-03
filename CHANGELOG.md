@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CMake option `use_sanitizers` which enables building with address and
+  undefined behavior sanitizer
+
 ### Changed
 
 - $PATH is no longer assumed to be "/bin:/usr/bin:/usr/local/bin" if unset

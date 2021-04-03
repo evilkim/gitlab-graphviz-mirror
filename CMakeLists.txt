@@ -10,6 +10,7 @@ option(with_ipsepcola  "IPSEPCOLA features in neato layout engine (disabled by d
 option(with_ortho      "ORTHO features in neato layout engine." ON )
 option(with_sfdp       "sfdp layout engine." ON )
 option(with_smyrna     "SMYRNA large graph viewer (disabled by default - experimental)" OFF)
+option(use_sanitizers  "enables using address and undefined behavior sanitizer" OFF)
 
 if (enable_ltdl)
         add_definitions(-DENABLE_LTDL)
@@ -193,6 +194,18 @@ else()
     # Enable common warnings flags
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+endif()
+
+if (use_sanitizers)
+    add_compile_options("-fsanitize=address,undefined")
+    add_compile_options("-g")
+    if (${CMAKE_VERSION} VERSION_LESS "3.13.0")
+        link_libraries("-fsanitize=address,undefined")
+        link_libraries("-g")
+    else()
+        add_link_options("-fsanitize=address,undefined")
+        add_link_options("-g")
+    endif()
 endif()
 
 # ============================ Packaging information ===========================
