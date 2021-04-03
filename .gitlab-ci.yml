@@ -76,6 +76,7 @@ portable-source:
 
 .build_template: &macos_build_definition
     stage: build
+    needs: [] # FIXME: remove when building from portable source
     script:
         - brew update
         - brew install autogen || brew upgrade autogen
@@ -325,9 +326,6 @@ ubuntu20-10-build:
 
 macos-autotools-build:
     <<: *macos_build_definition
-    needs:
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="autotools"
     tags:
@@ -407,9 +405,6 @@ fedora32-cmake-build:
 
 macos-cmake-build:
     <<: *macos_build_definition
-    needs:
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -585,8 +580,6 @@ macos-autotools-test:
         - python3 -m pip install --requirement requirements.txt
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "macos-autotools-build"
           artifacts: true
     tags:
@@ -672,8 +665,6 @@ macos-cmake-test:
         - python3 -m pip install --requirement requirements.txt
         - export build_system="cmake"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "macos-cmake-build"
           artifacts: true
     tags:
