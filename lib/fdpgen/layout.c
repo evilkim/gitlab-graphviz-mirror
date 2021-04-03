@@ -858,6 +858,9 @@ static int layout(graph_t * g, layout_info * infop)
 	DNODE(n) = 0;
 
     dg = deriveGraph(g, infop);
+    if (dg == NULL) {
+	return -1;
+    }
     cc = pg = findCComp(dg, &c_cnt, &pinned);
 
     while ((cg = *pg++)) {
