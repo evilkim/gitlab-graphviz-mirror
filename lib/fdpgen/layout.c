@@ -455,20 +455,6 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
 		chkPos(subg, dn, infop, &fix_bb);
 	for (n = agfstnode(subg); n; n = agnxtnode(subg, n)) {
 	    DNODE(n) = dn;
-#ifdef UNIMPLEMENTED
-/* This code starts the implementation of supporting pinned nodes
- * within clusters. This needs more work. In particular, we may need
- * a separate notion of pinning related to contained nodes, which will
- * allow the cluster itself to wiggle.
- */
-	    if (ND_pinned(n)) {
-		fix_bb.LL.x = MIN(fix_bb.LL.x, ND_pos(n)[0]);
-		fix_bb.LL.y = MIN(fix_bb.LL.y, ND_pos(n)[1]);
-		fix_bb.UR.x = MAX(fix_bb.UR.x, ND_pos(n)[0]);
-		fix_bb.UR.y = MAX(fix_bb.UR.y, ND_pos(n)[1]);
-		ND_pinned(dn) = MAX(ND_pinned(dn), ND_pinned(n));
-	    }
-#endif
 	}
 	if (ND_pinned(dn)) {
 	    ND_pos(dn)[0] = (fix_bb.LL.x + fix_bb.UR.x) / 2;
@@ -884,7 +870,6 @@ void layout(graph_t * g, layout_info * infop)
 		pointf pt;
 		sg = expandCluster(n, cg);	/* attach ports to sg */
 		layout(sg, infop);
-		/* bb.LL == origin */
 		ND_width(n) = BB(sg).UR.x;
 		ND_height(n) = BB(sg).UR.y;
 		pt.x = POINTS_PER_INCH * BB(sg).UR.x;
@@ -901,8 +886,6 @@ void layout(graph_t * g, layout_info * infop)
 		normalize (cg);
 	    fdp_xLayout(cg, &xpms);
 	}
-	/* set bounding box but don't use ports */
-	/* setBB (cg); */
     }
 
     /* At this point, each connected component has its nodes correctly
@@ -1102,8 +1085,6 @@ fdpSplines (graph_t * g)
 
 void fdp_layout(graph_t * g)
 {
-    /* Agnode_t* n; */
-
     double save_scale = PSinputscale;
         
     PSinputscale = get_inputscale (g);
@@ -1112,11 +1093,6 @@ void fdp_layout(graph_t * g)
 	return;
     }
     fdpLayout(g);
-#if 0
-    /* free ND_alg field so it can be used in spline routing */
-    if ((n = agfstnode(g)))
-	free(ND_alg(n));
-#endif
     neato_set_aspect(g);
 
     if (EDGE_TYPE(g) != ET_NONE) fdpSplines (g); 
