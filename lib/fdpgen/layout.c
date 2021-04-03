@@ -1039,7 +1039,7 @@ static void fdp_init_graph(Agraph_t * g)
     fdp_init_node_edge(g);
 }
 
-static void fdpLayout(graph_t * g)
+static int fdpLayout(graph_t * g)
 {
     layout_info info;
 
@@ -1053,6 +1053,8 @@ static void fdpLayout(graph_t * g)
      * On return from spline drawing, all bounding boxes should be correct.
      */
     setBB(g);
+
+    return 0;
 }
 
 static void
