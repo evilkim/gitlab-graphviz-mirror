@@ -1048,7 +1048,10 @@ static int fdpLayout(graph_t * g)
     layout_info info;
 
     init_info(g, &info);
-    layout(g, &info);
+    int r = layout(g, &info);
+    if (r != 0) {
+        return r;
+    }
     setClustNodes(g);
     evalPositions(g,g);
 
