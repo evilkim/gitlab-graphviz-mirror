@@ -15,35 +15,63 @@
  * expression library
  */
 
+#include <assert.h>
 #include <expr/exlib.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /*
  * library error handler
  */
 
+static char *make_msg(const char *format, va_list ap) {
+
+  // retrieve buffered message
+  char buf[64];
+  excontext(expr.program, buf, sizeof(buf));
+
+  // how many bytes do we need to construct the message?
+  size_t len = (size_t)snprintf(NULL, 0, "%s\n -- ", buf);
+  {
+    va_list ap2;
+    va_copy(ap2, ap);
+    int r = vsnprintf(NULL, 0, format, ap2);
+    va_end(ap2);
+    if (r < 0) {
+      return strdup("malformed format");
+    }
+    len += (size_t)r + 1; // +1 for NUL
+  }
+
+  char *s = malloc(len);
+  if (s == NULL) {
+    return NULL;
+  }
+
+  int offset = snprintf(s, len, "%s\n -- ", buf);
+  assert(offset > 0);
+  vsnprintf(s + offset, len - (size_t)offset, format, ap);
+
+  return s;
+}
+
 void
 exerror(const char* format, ...)
 {
-	Sfio_t*	sp;
-
-	if (expr.program->disc->errorf && !expr.program->errors && (sp = sfstropen()))
+	if (expr.program->disc->errorf && !expr.program->errors)
 	{
 		va_list	ap;
-		char*	s;
-		char	buf[64];
 
 		expr.program->errors = 1;
-		excontext(expr.program, buf, sizeof(buf));
-		sfputr(sp, buf, -1);
-		sfputr(sp, "\n -- ", -1);
 		va_start(ap, format);
-		sfvprintf(sp, format, ap);
+		char *s = make_msg(format, ap);
 		va_end(ap);
-		if (!(s = sfstruse(sp)))
-			s = "out of space";
-		(*expr.program->disc->errorf)(expr.program, expr.program->disc, (expr.program->disc->flags & EX_FATAL) ? 3 : 2, "%s", s);
-		sfclose(sp);
+		(*expr.program->disc->errorf)(expr.program, expr.program->disc,
+		  (expr.program->disc->flags & EX_FATAL) ? 3 : 2, "%s",
+		  s ? s : "out of space");
+    free(s);
 	}
 	else if (expr.program->disc->flags & EX_FATAL)
 		exit(1);
@@ -52,22 +80,14 @@ exerror(const char* format, ...)
 void 
 exwarn(const char *format, ...)
 {
-	Sfio_t *sp;
-
-	if (expr.program->disc->errorf && (sp = sfstropen())) {
+	if (expr.program->disc->errorf) {
 		va_list ap;
-		char *s;
-		char buf[64];
 
-		excontext(expr.program, buf, sizeof(buf));
-		sfputr(sp, buf, -1);
-		sfputr(sp, "\n -- ", -1);
 		va_start(ap, format);
-		sfvprintf(sp, format, ap);
+		char *s = make_msg(format, ap);
 		va_end(ap);
-		s = sfstruse(sp);
 		(*expr.program->disc->errorf) (expr.program, expr.program->disc,
-				       ERROR_WARNING, "%s", s);
-	sfclose(sp);
+				       ERROR_WARNING, "%s", s ? s : "out of space");
+		free(s);
 	}
 }
