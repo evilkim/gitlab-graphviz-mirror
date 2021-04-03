@@ -12,6 +12,7 @@ option(with_sfdp       "sfdp layout engine." ON )
 option(with_smyrna     "SMYRNA large graph viewer (disabled by default - experimental)" OFF)
 option(use_sanitizers  "enables using address and undefined behavior sanitizer" OFF)
 option(use_coverage    "enables analyzing code coverage" OFF)
+option(with_cxx_api    "enables building the C++ API" OFF)
 option(with_cxx_tests  "enables building the C++ tests" OFF)
 
 if (enable_ltdl)
