@@ -1094,7 +1094,9 @@ void fdp_layout(graph_t * g)
     if (setjmp(jbuf)) {
 	return;
     }
-    fdpLayout(g);
+    if (fdpLayout(g) != 0) {
+	return;
+    }
     neato_set_aspect(g);
 
     if (EDGE_TYPE(g) != ET_NONE) fdpSplines (g); 
