@@ -830,8 +830,7 @@ setClustNodes(graph_t* root)
  * Add edges per components to get better packing, rather than
  * wait until the end.
  */
-static 
-void layout(graph_t * g, layout_info * infop)
+static int layout(graph_t * g, layout_info * infop)
 {
     point *pts = NULL;
     graph_t *dg;
@@ -869,7 +868,10 @@ void layout(graph_t * g, layout_info * infop)
 	    if (ND_clust(n)) {
 		pointf pt;
 		sg = expandCluster(n, cg);	/* attach ports to sg */
-		layout(sg, infop);
+		int r = layout(sg, infop);
+		if (r != 0) {
+                    return r;
+		}
 		ND_width(n) = BB(sg).UR.x;
 		ND_height(n) = BB(sg).UR.y;
 		pt.x = POINTS_PER_INCH * BB(sg).UR.x;
@@ -950,6 +952,8 @@ void layout(graph_t * g, layout_info * infop)
 #ifdef DEBUG
     decInd();
 #endif
+
+    return 0;
 }
 
 /* setBB;
