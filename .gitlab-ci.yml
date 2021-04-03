@@ -95,6 +95,7 @@ portable-source:
         when: on_success
         expire_in: 1 week
         paths:
+            - VERSION
             - Packages/*/*/*/*/*/*.zip
             - Packages/*/*/*/*/*/*.tar.gz
             - Metadata/*/*/*/configure.log
