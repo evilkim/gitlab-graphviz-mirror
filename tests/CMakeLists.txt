@@ -24,6 +24,7 @@ target_link_libraries(test_common PUBLIC
     cgraph
     cgraph++
     gvc
+    gvc++
 )
 
 macro(create_test testname)
@@ -46,3 +47,4 @@ endmacro()
 
 create_test(simple)
 create_test(AGraph_construction)
+create_test(GVContext_construction)
