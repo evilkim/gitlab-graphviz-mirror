@@ -151,7 +151,7 @@ namespace Visio
 			_run->Print(job, index);
 	}
 
-	Hyperlink* Hyperlink::CreateHyperlink(GVJ_t* job, char* url, char* tooltip, char* target, char* id)
+	Hyperlink* Hyperlink::CreateHyperlink(GVJ_t*, char* url, char* tooltip, char* target, char*)
 	{
 		return new Hyperlink(tooltip, url, target);
 	}

@@ -497,7 +497,7 @@ Agraph_t *firstsupg(Agraph_t *g)
     return g->parent;
 }
 
-Agraph_t *nextsupg(Agraph_t *g, Agraph_t *sg)
+Agraph_t *nextsupg(Agraph_t*, Agraph_t*)
 {
     return NULL;
 }
