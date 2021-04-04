@@ -28,11 +28,6 @@
  *   effect automatically.
  *  -m <i> specifies the margin, in points, about each graph.
  */
-char *Info[] = {
-    "ptest",			/* Program */
-    "1.0",			/* Version */
-    DATE			/* Build Date */
-};
 
 static int margin = 8;
 static int doEdges = 1;
