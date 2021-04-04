@@ -246,7 +246,6 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
 						     ((size_t) sym->id +
 						      1) * sizeof(char *));
     attr->str[sym->id] = agstrdup(g, sym->defval);
-    /* agmethod_upd(g,obj,sym);  JCE and GN didn't like this. */
 }
 
 

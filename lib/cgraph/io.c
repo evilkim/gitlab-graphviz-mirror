@@ -20,8 +20,6 @@ static int iofread(void *chan, char *buf, int bufsize)
 	return strlen(buf);
     else
 	return 0;
-    /* return read(fileno((FILE *) chan), buf, bufsize); */
-    /* return fread(buf, 1, bufsize, (FILE*)chan); */
 }
 
 /* default IO methods */

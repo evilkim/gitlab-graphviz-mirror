@@ -340,7 +340,6 @@ main(int argc, char *argv[])
 		ptest_initGraph(g);
 	    }
 	    initPos(g);
-	    /* if (Verbose) dumpG (g); */
 	    gs[cnt++] = g;
 	}
 	if (single) {

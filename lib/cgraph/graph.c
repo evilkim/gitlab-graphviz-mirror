@@ -54,7 +54,6 @@ Agraph_t *agopen(char *name, Agdesc_t desc, Agdisc_t * arg_disc)
     g->clos->state.id = g->clos->disc.id->open(g, arg_disc);
     if (agmapnametoid(g, AGRAPH, name, &gid, TRUE))
 	AGID(g) = gid;
-    /* else AGID(g) = 0 because we have no alternatives */
     g = agopen1(g);
     agregister(g, AGRAPH, g);
     return g;
@@ -77,7 +76,7 @@ Agraph_t *agopen1(Agraph_t * g)
     if (par) {
 	AGSEQ(g) = agnextseq(par, AGRAPH);
 	dtinsert(par->g_dict, g);
-    }				/* else AGSEQ=0 */
+    }
     if (!par || par->desc.has_attrs)
 	agraphattr_init(g);
     agmethod_init(g, g);
