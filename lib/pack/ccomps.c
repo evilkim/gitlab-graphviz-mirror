@@ -263,9 +263,8 @@ packerror:
     if (name != buffer)
 	free(name);
     if (error) {
-	size_t i;
 	*ncc = 0;
-	for (i=0; i < c_cnt; i++) {
+	for (size_t i=0; i < c_cnt; i++) {
 	    agclose (ccs[i]);
 	}
 	free (ccs);
