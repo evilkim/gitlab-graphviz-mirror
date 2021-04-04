@@ -191,10 +191,10 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
 	if (ip){
 	  for (k = ip[jmax]; k < ip[jmax+1]; k++) {
 	    ie = jp[k];
-	    Vector_add(cedges[nc], (void*) (&ie));
+	    Vector_add(cedges[nc], &ie);
 	  }
 	} else {
-	  Vector_add(cedges[nc], (void*) (&jmax));
+	  Vector_add(cedges[nc], &jmax);
 	}
 	jc = nc;
 	nc++;
@@ -217,10 +217,10 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
     if (ip){
       for (k = ip[i]; k < ip[i+1]; k++) {
 	ie = jp[k];
-	Vector_add(cedges[jc], (void*) (&ie));
+	Vector_add(cedges[jc], &ie);
       }
     } else {
-	Vector_add(cedges[jc], (void*) (&i));
+	Vector_add(cedges[jc], &i);
     }
     cinks[jc] = minink;
     grand_total_ink += minink;

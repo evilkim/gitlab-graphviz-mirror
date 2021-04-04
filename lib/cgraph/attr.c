@@ -155,7 +155,7 @@ Agsym_t *agattrsym(void *obj, char *name)
     Agsym_t *rv;
     char *arg = name;
 
-    data = agattrrec((Agobj_t *) obj);
+    data = agattrrec(obj);
     if (data)
 	rv = agdictsym(data->dict, arg);
     else
@@ -219,7 +219,7 @@ static void freesym(Dict_t * d, void * obj, Dtdisc_t * disc)
     Agsym_t *sym;
 
     NOTUSED(d);
-    sym = (Agsym_t *) obj;
+    sym = obj;
     NOTUSED(disc);
     agstrfree(Ag_G_global, sym->name);
     agstrfree(Ag_G_global, sym->defval);
@@ -432,7 +432,7 @@ char *agget(void *obj, char *name)
     if (sym == NULL)
 	rv = 0;			/* note was "", but this provides more info */
     else {
-	data = agattrrec((Agobj_t *) obj);
+	data = agattrrec(obj);
 	rv = (char *) (data->str[sym->id]);
     }
     return rv;
@@ -443,7 +443,7 @@ char *agxget(void *obj, Agsym_t * sym)
     Agattr_t *data;
     char *rv;
 
-    data = agattrrec((Agobj_t *) obj);
+    data = agattrrec(obj);
     assert((sym->id >= 0) && (sym->id < topdictsize(obj)));
     rv = (char *) (data->str[sym->id]);
     return rv;
@@ -470,7 +470,7 @@ int agxset(void *obj, Agsym_t * sym, char *value)
     Agsym_t *lsym;
 
     g = agraphof(obj);
-    hdr = (Agobj_t *) obj;
+    hdr = obj;
     data = agattrrec(hdr);
     assert((sym->id >= 0) && (sym->id < topdictsize(obj)));
     agstrfree(g, data->str[sym->id]);

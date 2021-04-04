@@ -69,7 +69,7 @@ Agedge_t *agnxtin(Agraph_t * g, Agedge_t * e)
     sn = agsubrep(g, n);
 	if (sn) {
 		dtrestore(g->e_seq, sn->in_seq);
-		f = (Agedge_t *) dtnext(g->e_seq, e);
+		f = dtnext(g->e_seq, e);
 		sn->in_seq = dtextract(g->e_seq);
 	}
 	return f;
@@ -202,7 +202,7 @@ static Agedge_t *newedge(Agraph_t * g, Agnode_t * t, Agnode_t * h,
 
     (void)agsubnode(g,t,TRUE);
     (void)agsubnode(g,h,TRUE);
-    e2 = (Agedgepair_t *) agalloc(g, sizeof(Agedgepair_t));
+    e2 = agalloc(g, sizeof(Agedgepair_t));
     in = &(e2->in);
     out = &(e2->out);
     seq = agnextseq(g, AGEDGE);
