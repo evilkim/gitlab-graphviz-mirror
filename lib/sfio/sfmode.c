@@ -14,7 +14,6 @@
 #ifndef _WIN32
 #include <sys/wait.h>
 #endif
-static char *Version = "\n@(#)sfio (AT&T Labs - kpv) 2001-02-01\0\n";
 
 /*	Functions to set a given stream to some desired mode
 **
@@ -47,8 +46,6 @@ static void _sfcleanup(void)
     Sfio_t *f;
     int n;
     int pool;
-
-    f = (Sfio_t *) Version;	/* shut compiler warning */
 
     /* set this so that no more buffering is allowed for write streams */
     _Sfexiting = 1001;
