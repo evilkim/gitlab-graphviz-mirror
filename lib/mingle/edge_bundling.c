@@ -55,9 +55,9 @@ pedge pedge_new(int np, int dim, real *x){
   e->npoints = np;
   e->dim = dim;
   e->len = np;
-  e->x = MALLOC(dim*(e->len)*sizeof(real));
-  memcpy(e->x, x, dim*(e->len)*sizeof(real));
-  e->edge_length = dist(dim, &(x[0*dim]), &(x[(np-1)*dim]));
+  e->x = MALLOC(dim*e->len*sizeof(real));
+  memcpy(e->x, x, dim*e->len*sizeof(real));
+  e->edge_length = dist(dim, &x[0*dim], &x[(np-1)*dim]);
   e->wgt = 1.;
   e->wgts = NULL;
   return e;
@@ -71,9 +71,9 @@ pedge pedge_wgt_new(int np, int dim, real *x, real wgt){
   e->npoints = np;
   e->dim = dim;
   e->len = np;
-  e->x = MALLOC(dim*(e->len)*sizeof(real));
-  memcpy(e->x, x, dim*(e->len)*sizeof(real));
-  e->edge_length = dist(dim, &(x[0*dim]), &(x[(np-1)*dim]));
+  e->x = MALLOC(dim*e->len*sizeof(real));
+  memcpy(e->x, x, dim*e->len*sizeof(real));
+  e->edge_length = dist(dim, &x[0*dim], &x[(np-1)*dim]);
   e->wgt = wgt;
   e->wgts = MALLOC(sizeof(real)*(np - 1));
   for (i = 0; i < np - 1; i++) e->wgts[i] = wgt;
@@ -93,10 +93,10 @@ pedge pedge_flip(pedge e){
   int n = e->npoints;
 
   y = MALLOC(sizeof(real)*e->dim);
-  for (i = 0; i < (e->npoints)/2; i++){
-    memcpy(y, &(x[i*dim]), sizeof(real)*dim);
-    memcpy(&(x[(n-1-i)*dim]), &(x[i*dim]), sizeof(real)*dim);
-    memcpy(&(x[i*dim]), y, sizeof(real)*dim);
+  for (i = 0; i < e->npoints/2; i++){
+    memcpy(y, &x[i*dim], sizeof(real)*dim);
+    memcpy(&x[(n-1-i)*dim], &x[i*dim], sizeof(real)*dim);
+    memcpy(&x[i*dim], y, sizeof(real)*dim);
   }
   FREE(y);
   return e;
@@ -110,9 +110,9 @@ static real edge_compatibility(pedge e1, pedge e2){
   int dim = e1->dim, flipped = FALSE;
 
   u1 = e1->x;
-  v1 = (e1->x)+(e1->npoints)*dim-dim;
+  v1 = e1->x+e1->npoints*dim-dim;
   u2 = e2->x;
-  v2 = (e2->x)+(e2->npoints)*dim-dim;
+  v2 = e2->x+e2->npoints*dim-dim;
   dist1 = sqr_dist(dim, u1, u2) + sqr_dist(dim, v1, v2);
   dist2 =  sqr_dist(dim, u1, v2) + sqr_dist(dim, v1, u2);
   if (dist1 > dist2){
@@ -142,9 +142,9 @@ static real edge_compatibility_full(pedge e1, pedge e2){
   int dim = e1->dim, flipped = FALSE, i;
 
   u1 = e1->x;
-  v1 = (e1->x)+(e1->npoints)*dim-dim;
+  v1 = e1->x+e1->npoints*dim-dim;
   u2 = e2->x;
-  v2 = (e2->x)+(e2->npoints)*dim-dim;
+  v2 = e2->x+e2->npoints*dim-dim;
   dist1 = sqr_dist(dim, u1, u2) + sqr_dist(dim, v1, v2);
   dist2 =  sqr_dist(dim, u1, v2) + sqr_dist(dim, v1, u2);
   if (dist1 > dist2){
@@ -458,8 +458,8 @@ pedge pedge_double(pedge e){
     }
   }
   e->len = len;
-  np = e->npoints = 2*(e->npoints) - 1;
-  e->edge_length = dist(dim, &(x[0*dim]), &(x[(np-1)*dim]));
+  np = e->npoints = 2*e->npoints - 1;
+  e->edge_length = dist(dim, &x[0*dim], &x[(np-1)*dim]);
   
   return e;
 }
@@ -501,7 +501,7 @@ static void  edge_attraction_force(real similarity, pedge e1, pedge e2, real *fo
     s = edge_length;
     s = similarity*edge_length;
     for (i = 1; i <= np - 2; i++){
-      dist = sqr_dist(dim, &(x1[i*dim]), &(x2[i*dim]));
+      dist = sqr_dist(dim, &x1[i*dim], &x2[i*dim]);
       if (dist < SMALL) dist = SMALL;
       ss = s/(dist+0.1*edge_length*sqrt(dist));
       for (j = 0; j < dim; j++) force[i*dim + j] += ss*(x2[i*dim + j] - x1[i*dim + j]);
@@ -510,7 +510,7 @@ static void  edge_attraction_force(real similarity, pedge e1, pedge e2, real *fo
     s = -edge_length;
     s = -similarity*edge_length; 
     for (i = 1; i <= np - 2; i++){
-      dist = sqr_dist(dim, &(x1[i*dim]), &(x2[(np - 1 - i)*dim]));
+      dist = sqr_dist(dim, &x1[i*dim], &x2[(np - 1 - i)*dim]);
       if (dist < SMALL) dist = SMALL;
       ss = s/(dist+0.1*edge_length*sqrt(dist));
       for (j = 0; j < dim; j++) force[i*dim + j] += ss*(x2[(np - 1 - i)*dim + j] - x1[i*dim + j]);
@@ -533,8 +533,8 @@ static pedge* force_directed_edge_bundling(SparseMatrix A, pedge* edges, int max
   if (Verbose > 1)
     fprintf(stderr, "total interaction pairs = %d out of %d, avg neighbors per edge = %f\n",A->nz, A->m*A->m, A->nz/(real) A->m);
 
-  force_t = MALLOC(sizeof(real)*dim*(np));
-  force_a = MALLOC(sizeof(real)*dim*(np));
+  force_t = MALLOC(sizeof(real)*dim*np);
+  force_a = MALLOC(sizeof(real)*dim*np);
   while (step > 0.001 && iter < maxit){
     start = clock();
     iter++;
@@ -550,8 +550,8 @@ static pedge* force_directed_edge_bundling(SparseMatrix A, pedge* edges, int max
 	e2 = edges[ja[j]];
 	edge_attraction_force(a[j], e1, e2, force_a);
       }
-      fnorm_t = MAX(SMALL, norm(dim*(np - 2), &(force_t[1*dim])));
-      fnorm_a = MAX(SMALL, norm(dim*(np - 2), &(force_a[1*dim])));
+      fnorm_t = MAX(SMALL, norm(dim*(np - 2), &force_t[1*dim]));
+      fnorm_a = MAX(SMALL, norm(dim*(np - 2), &force_a[1*dim]));
       edge_length = e1->edge_length;
 
       for (j = 1; j <= np - 2; j++){
@@ -617,7 +617,7 @@ static pedge* modularity_ink_bundling(int dim, int ne, SparseMatrix B, pedge* ed
   clusterp = D->ia;
   clusters = D->ja;
   for (i = 0; i < nclusters; i++){
-    ink1 = ink(edges, clusterp[i+1] - clusterp[i], &(clusters[clusterp[i]]), &ink0, &meet1, &meet2, angle_param, angle);
+    ink1 = ink(edges, clusterp[i+1] - clusterp[i], &clusters[clusterp[i]], &ink0, &meet1, &meet2, angle_param, angle);
     if (Verbose > 1)
       fprintf(stderr,"nedges = %d ink0 = %f, ink1 = %f\n",clusterp[i+1] - clusterp[i], ink0, ink1);
     if (ink1 < ink0){
@@ -707,7 +707,7 @@ pedge* edge_bundling(SparseMatrix A0, int dim, real *x, int maxit_outer, real K,
   edges = MALLOC(sizeof(pedge)*ne);
 
   for (i = 0; i < ne; i++){
-    edges[i] = pedge_new(2, dim, &(x[dim*2*i]));
+    edges[i] = pedge_new(2, dim, &x[dim*2*i]);
   }
 
   A = SparseMatrix_symmetrize(A0, TRUE);

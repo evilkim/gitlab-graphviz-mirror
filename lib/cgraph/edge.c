@@ -93,13 +93,13 @@ Agedge_t *agnxtedge(Agraph_t * g, Agedge_t * e, Agnode_t * n)
 	if (rv == NULL) {
 	    do {
 		rv = !rv ? agfstin(g, n) : agnxtin(g,rv);
-	    } while (rv && (rv->node == n));
+	    } while (rv && rv->node == n);
 	}
     } else {
 	do {
 	    rv = agnxtin(g, e);		/* so that we only see each edge once, */
 		e = rv;
-	} while (rv && (rv->node == n));	/* ignore loops as in-edges */
+	} while (rv && rv->node == n);	/* ignore loops as in-edges */
     }
     return rv;
 }
@@ -250,7 +250,7 @@ Agedge_t *agidedge(Agraph_t * g, Agnode_t * t, Agnode_t * h,
 	e = agfindedge_by_id(g, h, t, id);
     if (e == NULL && cflag && ok_to_make_edge(g, t, h)) {
 	root = agroot(g);
-	if ((g != root) && ((e = agfindedge_by_id(root, t, h, id)))) {
+	if (g != root && ((e = agfindedge_by_id(root, t, h, id)))) {
 	    subedge(g, e);	/* old */
 	} else {
 	    if (agallocid(g, AGEDGE, id)) {
@@ -391,7 +391,7 @@ static int agedgeidcmpf(Dict_t * d, void *arg_e0, void *arg_e1, Dtdisc_t * disc)
     if (AGID(e0->node) < AGID(e1->node)) return -1;
     if (AGID(e0->node) > AGID(e1->node)) return 1;
     /* same node */
-    if ((AGTYPE(e0) != 0) && (AGTYPE(e1) != 0)) {
+    if (AGTYPE(e0) != 0 && AGTYPE(e1) != 0) {
         if (AGID(e0) < AGID(e1)) return -1;
         if (AGID(e0) > AGID(e1)) return 1;
     }

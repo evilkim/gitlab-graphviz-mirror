@@ -117,7 +117,7 @@ static Agdatadict_t *agmakedatadict(Agraph_t * g)
 	dtview(dd->dict.e, parent_dd->dict.e);
 	dtview(dd->dict.g, parent_dd->dict.g);
     } else {
-	if (ProtoGraph && (g != ProtoGraph)) {
+	if (ProtoGraph && g != ProtoGraph) {
 	    /* it's not ok to dtview here for several reasons. the proto
 	       graph could change, and the sym indices don't match */
 	    parent_dd = agdatadict(ProtoGraph, FALSE);
@@ -389,7 +389,7 @@ void agnodeattr_init(Agraph_t * g, Agnode_t * n)
     Agattr_t *data;
 
     data = agattrrec(n);
-    if ((!data) || (!data->dict))
+    if (!data || !data->dict)
 	(void) agmakeattrs(g, n);
 }
 
@@ -408,7 +408,7 @@ void agedgeattr_init(Agraph_t * g, Agedge_t * e)
     Agattr_t *data;
 
     data = agattrrec(e);
-    if ((!data) || (!data->dict))
+    if (!data || !data->dict)
 	(void) agmakeattrs(g, e);
 }
 
@@ -433,7 +433,7 @@ char *agget(void *obj, char *name)
 	rv = 0;			/* note was "", but this provides more info */
     else {
 	data = agattrrec(obj);
-	rv = (char *) (data->str[sym->id]);
+	rv = (char *) data->str[sym->id];
     }
     return rv;
 }
@@ -444,7 +444,7 @@ char *agxget(void *obj, Agsym_t * sym)
     char *rv;
 
     data = agattrrec(obj);
-    assert((sym->id >= 0) && (sym->id < topdictsize(obj)));
+    assert(sym->id >= 0 && sym->id < topdictsize(obj));
     rv = (char *) (data->str[sym->id]);
     return rv;
 }
@@ -472,7 +472,7 @@ int agxset(void *obj, Agsym_t * sym, char *value)
     g = agraphof(obj);
     hdr = obj;
     data = agattrrec(hdr);
-    assert((sym->id >= 0) && (sym->id < topdictsize(obj)));
+    assert(sym->id >= 0 && sym->id < topdictsize(obj));
     agstrfree(g, data->str[sym->id]);
     data->str[sym->id] = agstrdup(g, value);
     if (hdr->tag.objtype == AGRAPH) {

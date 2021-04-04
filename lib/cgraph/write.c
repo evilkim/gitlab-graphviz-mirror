@@ -71,7 +71,7 @@ static char *_agstrcanon(char *arg, char *buf)
     p = buf;
     *p++ = '\"';
     uc = *(unsigned char *) s++;
-    maybe_num = isdigit(uc) || (uc == '.') || (uc == '-');
+    maybe_num = isdigit(uc) || uc == '.' || uc == '-';
     while (uc) {
 	if (uc == '\"') {
 	    *p++ = '\\';
@@ -105,14 +105,14 @@ static char *_agstrcanon(char *arg, char *buf)
  	 * id char.
 	 */
 	if (Max_outputline) {
-            if (uc && backslash_pending && !(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
+            if (uc && backslash_pending && !(is_id_char(p[-1]) || p[-1] == '\\') && is_id_char(uc)) {
         	*p++ = '\\';
         	*p++ = '\n';
         	needs_quotes = true;
         	backslash_pending = false;
 		cnt = 0;
             } else if (uc && (cnt >= Max_outputline)) {
-        	if (!(is_id_char(p[-1]) || (p[-1] == '\\')) && is_id_char(uc)) {
+        	if (!(is_id_char(p[-1]) || p[-1] == '\\') && is_id_char(uc)) {
 	            *p++ = '\\';
     	            *p++ = '\n';
 	            needs_quotes = true;
@@ -125,7 +125,7 @@ static char *_agstrcanon(char *arg, char *buf)
     }
     *p++ = '\"';
     *p = '\0';
-    if (needs_quotes || ((cnt == 1) && ((*arg == '.') || (*arg == '-'))))
+    if (needs_quotes || (cnt == 1 && (*arg == '.' || *arg == '-')))
 	return buf;
 
     /* Use quotes to protect tokens (example, a node named "node") */
@@ -355,7 +355,7 @@ static bool irrelevant_subgraph(Agraph_t * g)
     dd = agdatadict(g, FALSE);
     if (!dd)
 	return true;
-    if ((dtsize(dd->dict.n) > 0) || (dtsize(dd->dict.e) > 0))
+    if (dtsize(dd->dict.n) > 0 || dtsize(dd->dict.e) > 0)
 	return false;
     return true;
 }
@@ -455,7 +455,7 @@ static int write_nondefault_attrs(void *obj, iochan_t * ofile,
     int cnt = 0;
     int rv;
 
-    if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
+    if (AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE) {
 	CHKRV(rv = write_edge_name(obj, ofile, FALSE));
 	if (rv)
 	    cnt++;
@@ -464,10 +464,10 @@ static int write_nondefault_attrs(void *obj, iochan_t * ofile,
     g = agraphof(obj);
     if (data)
 	for (sym = dtfirst(defdict); sym; sym = dtnext(defdict, sym)) {
-	    if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
-		if (Tailport && (sym->id == Tailport->id))
+	    if (AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE) {
+		if (Tailport && sym->id == Tailport->id)
 		    continue;
-		if (Headport && (sym->id == Headport->id))
+		if (Headport && sym->id == Headport->id)
 		    continue;
 	    }
 	    if (data->str[sym->id] != sym->defval) {
@@ -659,7 +659,7 @@ int agwrite(Agraph_t * g, void *ofile)
     Level = 0;			/* re-initialize tab level */
     if ((s = agget(g, "linelength")) && isdigit(*s)) {
 	len = (int)strtol(s, (char **)NULL, 10);
-	if ((len == 0) || (len >= MIN_OUTPUTLINE))
+	if (len == 0 || len >= MIN_OUTPUTLINE)
 	    Max_outputline = len;
     }
     set_attrwf(g, true, false);
