@@ -741,7 +741,7 @@ pedge* edge_bundling(SparseMatrix A0, int dim, real *x, int maxit_outer, real K,
       for (i = 0; i < ne; i++){
 	edges[i] = pedge_double(edges[i]);
       }
-      step0 = step0/2;
+      step0 /= 2;
       edges = force_directed_edge_bundling(B, edges, maxit, step0, K, open_gl);
     }
     
