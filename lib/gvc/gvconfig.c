@@ -338,7 +338,7 @@ char * gvconfig_libdir(GVC_t * gvc)
 			/* Check for real /lib dir. Don't accept pre-install /.libs */
 			if (strcmp(strrchr(path,'/'), "/.libs") == 0)
 			    continue;
-			strcpy(line, path);  /* use line buffer for result */
+			memmove(line, path, strlen(path) + 1);  /* use line buffer for result */
 			strcat(line, "/graphviz");  /* plugins are in "graphviz" subdirectory */
 			libdir = line;
 			break;

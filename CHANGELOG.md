@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   count #1984
 - &amp;amp; escape disappearing #797
 - miscalculation of minimum rank on large graphs
+- AddressSanitizer: strcpy-param-overlap in gvconfig_libdir when
+  running dot -c #1994
 
 ## [2.47.0] - 2021-03-15
 
