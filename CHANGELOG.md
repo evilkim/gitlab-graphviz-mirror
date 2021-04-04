@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Align rank from bottom in dot graph #1339
 - Fix for TBbalance attribute code #1980
 - HTML parser error with single closing square bracket in table row #1893
+- reference counted strings put the HTML bit in the middle of the reference
+  count #1984
 
 ## [2.47.0] - 2021-03-15
 
