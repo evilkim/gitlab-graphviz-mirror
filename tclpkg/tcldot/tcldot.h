@@ -22,21 +22,6 @@
 #define CONST84
 #endif
 
-/* ******* not ready yet
-#if (TCL_MAJOR_VERSION > 7)
-#define TCLOBJ
-#if (TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION == 0)
-char *
-Tcl_GetString(Tcl_Obj *obj) {
-    int len;
-	return (Tcl_GetStringFromObj(obj, &len));
-}
-#else
-#define UTF8
-#endif
-#endif
-********* */
-
 /*
  * ictx - one per tcl interpreter, may support multiple graph namespaces
  */

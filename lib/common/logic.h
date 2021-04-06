@@ -32,10 +32,6 @@ extern "C" {
 #define NOTUSED(var) (void) var
 #endif
 
-#ifndef NULL
-#define NULL (void *)0
-#endif
-
 #ifndef NIL
 #define NIL(type) ((type)0)
 #endif

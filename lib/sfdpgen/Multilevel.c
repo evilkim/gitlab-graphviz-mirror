@@ -14,7 +14,7 @@
 #include <common/logic.h>
 #include <assert.h>
 #include <common/arith.h>
-
+#include <stddef.h>
 
 Multilevel_control Multilevel_control_new(int scheme, int mode){
   Multilevel_control ctrl;

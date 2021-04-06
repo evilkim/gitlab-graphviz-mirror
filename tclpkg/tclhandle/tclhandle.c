@@ -38,7 +38,6 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include "tclhandle.h"
-/* Added 2000-09-19 by KG for memcpy, ... decls */
 #include <string.h>
 
 /*
@@ -46,7 +45,7 @@
  * It is set on the first table initialization.
  */
 static int tclhandleEntryAlignment = 0;
-
+
 /*=============================================================================
  * tclhandleLinkInNewEntries --
  *   Build free links through the newly allocated part of a table.
@@ -74,7 +73,7 @@ static void tclhandleLinkInNewEntries(tblHeader_pt tblHdrPtr, int newIdx,
     tblHdrPtr->freeHeadIdx = newIdx;
 
 }
-
+
 /*=============================================================================
  * tclhandleExpandTable --
  *   Expand a handle table, doubling its size.
@@ -107,7 +106,7 @@ static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, int neededIdx)
     free(oldbodyPtr);
 
 }
-
+
 /*=============================================================================
  * tclhandleAlloc --
  *   Allocate a table entry, expanding if necessary.
@@ -142,7 +141,7 @@ entryHeader_pt tclhandleAlloc(tblHeader_pt headerPtr, char *handle,
     return USER_AREA(entryPtr);
 
 }
-
+
 /*=============================================================================
  * tclhandleInit --
  *   Create and initialize a Tcl dynamic handle table. 
@@ -218,7 +217,7 @@ int tclhandleDestroy(tblHeader_pt tblHdrPtr)
 
     return TCL_OK;
 }
-
+
 /*=============================================================================
  * tclhandleReset --
  *   Reset a Tcl dynamic handle table.  
@@ -292,7 +291,6 @@ void tclhandleString(tblHeader_pt tblHdrPtr, char *handle,
 {
     sprintf(handle, tblHdrPtr->handleFormat, entryIdx);
 }
-
 
 /*=============================================================================
  * tclhandleXlateIndex --
@@ -339,7 +337,7 @@ void *tclhandleXlate(tblHeader_pt tblHdrPtr, char *handle)
 	return NULL;
     return (tclhandleXlateIndex(tblHdrPtr, entryIdx));
 }
-
+
 /*============================================================================
  * tclhandleFreeIndex --
  *   Frees a handle table entry by index.

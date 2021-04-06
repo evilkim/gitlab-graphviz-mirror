@@ -21,6 +21,7 @@
 #include <sparse/LinkedList.h>
 #include <sparse/PriorityQueue.h>
 #endif
+#include <stddef.h>
 
 static size_t size_of_matrix_type(int type){
   int size = 0;
