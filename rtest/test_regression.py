@@ -217,6 +217,27 @@ def test_793():
     # Graphviz should not have caused a segfault
     assert p.returncode != -signal.SIGSEGV, 'Graphviz segfaulted'
 
+def test_797():
+    '''
+    “&;” should not be considered an XML escape sequence
+    https://gitlab.com/graphviz/graphviz/-/issues/797
+    '''
+
+    # some input containing the invalid escape
+    input = 'digraph tree {\n' \
+            '"1" [shape="box", label="&amp; &amp;;", URL="a"];\n' \
+            '}'
+
+    # process this with the client-side imagemap back end
+    p = subprocess.Popen(['dot', '-Tcmapx'], stdin=subprocess.PIPE,
+      stdout=subprocess.PIPE, universal_newlines=True)
+    output, _ = p.communicate(input)
+
+    assert p.returncode == 0
+
+    # the escape sequences should have been preserved
+    assert '&amp; &amp;' in output
+
 def test_1221():
     '''
     assigning a node to two clusters with newrank should not cause a crash

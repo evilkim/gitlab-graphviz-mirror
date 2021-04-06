@@ -31,13 +31,16 @@ int mapbool(char *p)
     return atoi(p);
 }
 
-/* return true if *s points to &[A-Za-z]*;      (e.g. &Ccedil; )
+/* return true if *s points to &[A-Za-z]+;      (e.g. &Ccedil; )
  *                          or &#[0-9]*;        (e.g. &#38; )
  *                          or &#x[0-9a-fA-F]*; (e.g. &#x6C34; )
  */
 static int xml_isentity(char *s)
 {
     s++;			/* already known to be '&' */
+    if (*s == ';') { // '&;' is not a valid entity
+	return 0;
+    }
     if (*s == '#') {
 	s++;
 	if (*s == 'x' || *s == 'X') {
