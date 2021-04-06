@@ -1,4 +1,4 @@
-BISON_TARGET(HTMLparse htmlparse.y ${CMAKE_CURRENT_BINARY_DIR}/htmlparse.c)
+BISON_TARGET(HTMLparse ${CMAKE_CURRENT_SOURCE_DIR}/htmlparse.y ${CMAKE_CURRENT_BINARY_DIR}/htmlparse.c)
 
 add_definitions(-DGVC_EXPORTS -D_BLD_gvc=1)
 
