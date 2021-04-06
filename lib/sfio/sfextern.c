@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	External variables and functions used only by Sfio
 **	Written by Kiem-Phong Vo
@@ -24,15 +25,12 @@ ssize_t _Sfi = -1;
 #define SFMTXOUT	(0)
 #define SFMTXERR	(0)
 
-Sfio_t _Sfstdin = SFNEW(NIL(char *), -1, 0,
-			(SF_READ | SF_STATIC | SF_MTSAFE), NIL(Sfdisc_t *),
+Sfio_t _Sfstdin = SFNEW(NULL, -1, 0, (SF_READ | SF_STATIC | SF_MTSAFE), NULL,
 			SFMTXIN);
-Sfio_t _Sfstdout = SFNEW(NIL(char *), -1, 1,
-			 (SF_WRITE | SF_STATIC | SF_MTSAFE),
-			 NIL(Sfdisc_t *), SFMTXOUT);
-Sfio_t _Sfstderr = SFNEW(NIL(char *), -1, 2,
-			 (SF_WRITE | SF_STATIC | SF_MTSAFE),
-			 NIL(Sfdisc_t *), SFMTXERR);
+Sfio_t _Sfstdout = SFNEW(NULL, -1, 1, (SF_WRITE | SF_STATIC | SF_MTSAFE), NULL,
+			SFMTXOUT);
+Sfio_t _Sfstderr = SFNEW(NULL, -1, 2, (SF_WRITE | SF_STATIC | SF_MTSAFE), NULL,
+			SFMTXERR);
 
 Sfio_t *sfstdin = &_Sfstdin;
 Sfio_t *sfstdout = &_Sfstdout;
