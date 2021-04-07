@@ -30,6 +30,7 @@
 #include <common/macros.h>
 #include <gvc/gvcjob.h>
 #include <gvc/gvio.h>
+#include <memory>
 
 namespace Visio
 {
@@ -53,18 +54,6 @@ namespace Visio
 		LORouteCenterToCenter = 16
 	};
 	
-	Render::Render():
-		_pageId(0),
-		_shapeId(0),
-		_hyperlinkId(0),
-		_inComponent(false),
-		_graphics(),
-		_texts(),
-		_hyperlinks(),
-		_nodeIds()
-	{
-	}
-
 	void Render::BeginGraph(GVJ_t* job)
 	{
 		gvputs(job, "<VisioDocument xmlns='http://schemas.microsoft.com/visio/2003/core'>\n");
@@ -115,7 +104,7 @@ namespace Visio
 			break;
 		case 1:
 			/* single graphic to render, output as top level shape */
-			PrintOuterShape(job, _graphics[0]);
+			PrintOuterShape(job, *_graphics[0]);
 			outerShapeId = _shapeId;
 			break;
 		default:
@@ -123,11 +112,9 @@ namespace Visio
 				
 			/* calculate group bounds */
 			boxf outerBounds = _graphics[0]->GetBounds();
-			for (Graphics::const_iterator nextGraphic = _graphics.begin() + 1, lastGraphic = _graphics.end();
-				 nextGraphic != lastGraphic;
-				 ++nextGraphic)
+			for (std::unique_ptr<Graphic> &g : _graphics)
 			{
-				boxf innerBounds = (*nextGraphic)->GetBounds();
+				boxf innerBounds = g->GetBounds();
 				if (outerBounds.LL.x > innerBounds.LL.x)
 					outerBounds.LL.x = innerBounds.LL.x;
 				if (outerBounds.LL.y > innerBounds.LL.y)
@@ -156,8 +143,8 @@ namespace Visio
 		
 			/* output subshapes */
 			gvputs(job, "<Shapes>\n");
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-				PrintInnerShape(job, *nextGraphic, outerShapeId, outerBounds);
+			for (std::unique_ptr<Graphic> &g : _graphics)
+				PrintInnerShape(job, *g, outerShapeId, outerBounds);
 			gvputs(job, "</Shapes>\n");
 				
 			gvputs(job, "</Shape>\n");
@@ -180,7 +167,7 @@ namespace Visio
 	{
 		_inComponent = false;
 		
-		if (_graphics.size() > 0)
+		if (!_graphics.empty())
 		{
 			Agedge_t* edge = job->obj->u.e;
 			
@@ -190,15 +177,15 @@ namespace Visio
 			
 			/* output first connectable shape as an edge shape, all else as regular outer shapes */
 			bool firstConnector = true;
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
+			for (std::unique_ptr<Graphic> &g : _graphics)
 				if (firstConnector && PrintEdgeShape(job,
-					_graphics[0],
+					*_graphics[0],
 					beginId == _nodeIds.end() ? 0 : beginId->second,
 					endId == _nodeIds.end() ? 0 : endId->second,
 					EDGE_TYPE(agroot(edge))))
 					firstConnector = false;
 				else
-					PrintOuterShape(job, *nextGraphic);
+					PrintOuterShape(job, *g);
 
 		}
 		ClearGraphicsAndTexts();
@@ -236,9 +223,6 @@ namespace Visio
 	
 	void Render::ClearGraphicsAndTexts()
 	{
-		/* clear graphics */
-		for (Graphics::iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-			delete *nextGraphic;
 		_graphics.clear();
 		
 		/* clear texts */
@@ -252,14 +236,14 @@ namespace Visio
 		_hyperlinks.clear();
 	}
 	
-	void Render::AddGraphic(GVJ_t* job, const Graphic* graphic)
+	void Render::AddGraphic(GVJ_t* job, Graphic* graphic)
 	{
 		if (_inComponent)
 			/* if in component, accumulate for end node/edge */
-			_graphics.push_back(graphic);
+			_graphics.emplace_back(graphic);
 		else
 			/* if outside, output immediately */
-			PrintOuterShape(job, graphic);		
+			PrintOuterShape(job, *graphic);		
 	}
 
 	void Render::AddText(GVJ_t* job, const Text* text)
@@ -276,9 +260,9 @@ namespace Visio
 			_hyperlinks.push_back(hyperlink);
 	}
 	
-	void Render::PrintOuterShape(GVJ_t* job, const Graphic* graphic)
+	void Render::PrintOuterShape(GVJ_t* job, const Graphic &graphic)
 	{
-		boxf bounds = graphic->GetBounds();
+		boxf bounds = graphic.GetBounds();
 		
 		gvprintf(job, "<Shape ID='%d' Type='Shape'>\n", ++_shapeId);
 		
@@ -300,14 +284,14 @@ namespace Visio
 		PrintTexts(job);
 		
 		/* output Line, Fill, Geom */
-		graphic->Print(job, bounds.LL, bounds.UR, true);
+		graphic.Print(job, bounds.LL, bounds.UR, true);
 		
 		gvputs(job, "</Shape>\n");
 	}
 	
-	void Render::PrintInnerShape(GVJ_t* job, const Graphic* graphic, unsigned int outerId, boxf outerBounds)
+	void Render::PrintInnerShape(GVJ_t* job, const Graphic &graphic, unsigned int outerId, boxf outerBounds)
 	{
-		boxf innerBounds = graphic->GetBounds();
+		boxf innerBounds = graphic.GetBounds();
 		
 		/* compute scale. if infinite, scale by 0 instead */
 		double xscale = 1.0 / (outerBounds.UR.x - outerBounds.LL.x);
@@ -332,14 +316,14 @@ namespace Visio
 		gvputs(job, "</Misc>\n");
 		
 		/* output Line, Fill, Geom */
-		graphic->Print(job, innerBounds.LL, innerBounds.UR, true);
+		graphic.Print(job, innerBounds.LL, innerBounds.UR, true);
 
 		gvputs(job, "</Shape>\n");
 	}
 	
-	bool Render::PrintEdgeShape(GVJ_t* job, const Graphic* graphic, unsigned int beginId, unsigned int endId, int edgeType)
+	bool Render::PrintEdgeShape(GVJ_t* job, const Graphic &graphic, unsigned int beginId, unsigned int endId, int edgeType)
 	{
-		if (const Connection* connection = graphic->GetConnection())
+		if (const Connection* connection = graphic.GetConnection())
 		{
 			pointf first = connection->GetFirst();
 			pointf last = connection->GetLast();
@@ -420,7 +404,7 @@ namespace Visio
 			
 			/* compute center to attach text to. if text has been rendered, use overall bounding box center; if not, use the path center */
 			pointf textCenter;
-			if (_texts.size() > 0)
+			if (!_texts.empty())
 			{
 				boxf outerTextBounds = _texts[0]->GetBounds();
 				
@@ -458,7 +442,7 @@ namespace Visio
 			PrintTexts(job);
 			
 			/* output Line, Fill, Geom */
-			graphic->Print(job, first, last, edgeType != ET_LINE && edgeType != ET_PLINE);
+			graphic.Print(job, first, last, edgeType != ET_LINE && edgeType != ET_PLINE);
 			
 			gvputs(job, "</Shape>\n");
 			return true;
@@ -469,7 +453,7 @@ namespace Visio
 	
 	void Render::PrintTexts(GVJ_t* job)
 	{
-		if (_texts.size() > 0)
+		if (!_texts.empty())
 		{
 			/* output Para, Char */
 			for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
@@ -485,7 +469,7 @@ namespace Visio
 	
 	void Render::PrintHyperlinks(GVJ_t* job)
 	{
-		if (_hyperlinks.size() > 0)
+		if (!_hyperlinks.empty())
 		{
 			_hyperlinks[0]->Print(job, ++_hyperlinkId, true);
 			for (Hyperlinks::iterator nextHyperlink = _hyperlinks.begin() + 1, lastHyperlink = _hyperlinks.end(); nextHyperlink != lastHyperlink; ++nextHyperlink)

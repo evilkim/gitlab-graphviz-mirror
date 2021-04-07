@@ -12,6 +12,7 @@
 #define VISIORENDER_H
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include <common/types.h>
@@ -22,7 +23,7 @@
 namespace Visio
 {
 	typedef std::map<Agnode_t*, unsigned int> NodeIds;
-	typedef std::vector<const Graphic*> Graphics;
+	typedef std::vector<std::unique_ptr<Graphic>> Graphics;
 	typedef std::vector<const Text*> Texts;
 	typedef std::vector<const Hyperlink*> Hyperlinks;
 
@@ -30,8 +31,6 @@ namespace Visio
 	class Render
 	{
 	public:
-		Render();
-		
 		/* render hierarchy */
 		void BeginGraph(GVJ_t* job);
 		void EndGraph(GVJ_t* job);
@@ -53,18 +52,18 @@ namespace Visio
 	private:
 		/* graphics and texts maintenance */
 		void ClearGraphicsAndTexts();
-		void AddGraphic(GVJ_t* job, const Graphic* graphic);
+		void AddGraphic(GVJ_t* job, Graphic* graphic);
 		void AddText(GVJ_t* job, const Text* text);
 		void AddHyperlink(GVJ_t* job, const Hyperlink* hyperlink);
 		
 		/* output the graphic as top level shape */
-		void PrintOuterShape(GVJ_t* job, const Graphic* graphic);
+		void PrintOuterShape(GVJ_t* job, const Graphic &graphic);
 		
 		/* output the graphic as a subshape of a top level shape, given its id and bounds */
-		void PrintInnerShape(GVJ_t* job, const Graphic* graphic, unsigned int outerId, boxf outerBounds);
+		void PrintInnerShape(GVJ_t* job, const Graphic& graphic, unsigned int outerId, boxf outerBounds);
 		
 		/* output the graphic as an edge connector, given the start and end node ids */
-		bool PrintEdgeShape(GVJ_t* job, const Graphic* graphic, unsigned int beginId, unsigned int endId, int edgeType);
+		bool PrintEdgeShape(GVJ_t* job, const Graphic &graphic, unsigned int beginId, unsigned int endId, int edgeType);
 		
 		/* output all the collected texts */
 		void PrintTexts(GVJ_t* job);
@@ -72,11 +71,11 @@ namespace Visio
 		/* output all the collected hyperlinks */
 		void PrintHyperlinks(GVJ_t* job);
 
-		unsigned int _pageId;	/* sequential page id, starting from 1 */
-		unsigned int _shapeId;	/* sequential shape id, starting from 1 */
-		unsigned int _hyperlinkId;	/* sequential shape id, starting from 1 */
+		unsigned int _pageId = 0;	/* sequential page id, starting from 1 */
+		unsigned int _shapeId = 0;	/* sequential shape id, starting from 1 */
+		unsigned int _hyperlinkId = 0;	/* sequential shape id, starting from 1 */
 		
-		bool _inComponent;		/* whether we currently inside a node/edge, or not */
+		bool _inComponent = false;		/* whether we currently inside a node/edge, or not */
 		
 		Graphics _graphics;		/* currently collected graphics within a component */
 		Texts _texts;			/* currently collected texts within a component */
