@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VISIORENDER_H
-#define VISIORENDER_H
+#pragma once
 
 #include <map>
 #include <memory>
@@ -84,4 +83,3 @@ namespace Visio
 		NodeIds _nodeIds;		/* mapping nodes to assigned shape id */
 	};
 }
-#endif

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VISIOGRAPHIC_H
-#define VISIOGRAPHIC_H
+#pragma once
 
 #include <common/types.h>
 #include <memory>
@@ -168,5 +167,3 @@ namespace Visio
 		std::unique_ptr<Geom> _geom;
 	};
 }
-
-#endif

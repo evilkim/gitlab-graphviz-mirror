@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VISIOTEXT_H
-#define VISIOTEXT_H
+#pragma once
 
 #include <common/types.h>
 
@@ -114,5 +113,3 @@ namespace Visio
 		char* _frame;
 	};
 }
-
-#endif
