@@ -43,7 +43,7 @@ static jmp_buf jbuf;
 
 #ifdef DEBUG
 static void emitSearchGraph (FILE* fp, sgraph* sg);
-static void emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t[]);
+static void emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t[]);
 int odb_flags;
 #endif
 
@@ -440,12 +440,11 @@ chanSearch (Dt_t* chans, segment* seg)
 }
 
 static void
-assignSegs (int nrtes, route* route_list, maze* mp)
+assignSegs (size_t nrtes, route* route_list, maze* mp)
 {
     channel* chan;
-    int i;
 
-    for (i=0;i<nrtes;i++) {
+    for (size_t i=0;i<nrtes;i++) {
 	route rte = route_list[i];
 	for (size_t j=0;j<rte.n;j++) {
 	    segment* seg = rte.segs+j;
@@ -1122,9 +1121,8 @@ addPoints(pointf p0, pointf p1)
 }
 
 static void
-attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
+attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
 {
-    int irte = 0;
     int ipt, npts;
     pointf* ispline = 0;
     int splsz = 0;
@@ -1134,7 +1132,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineI
     Agedge_t* e;
     textlabel_t* lbl;
 
-    for (; irte < n_edges; irte++) {
+    for (size_t irte = 0; irte < n_edges; irte++) {
 	e = es[irte].e;
 	p1 = addPoints(ND_coord(agtail(e)), ED_tail_port(e).p);
 	q1 = addPoints(ND_coord(aghead(e)), ED_head_port(e).p);
@@ -1224,9 +1222,8 @@ orthoEdges (Agraph_t* g, int doLbls)
 {
     sgraph* sg;
     maze* mp;
-    int n_edges;
     route* route_list;
-    int i, gstart;
+    int gstart;
     Agnode_t* n;
     Agedge_t* e;
     snode* sn;
@@ -1279,7 +1276,7 @@ orthoEdges (Agraph_t* g, int doLbls)
 #endif
 
     /* store edges to be routed in es, along with their lengths */
-    n_edges = 0;
+    size_t n_edges = 0;
     for (n = agfstnode (g); n; n = agnxtnode(g, n)) {
         for (e = agfstout(g, n); e; e = agnxtout(g,e)) {
 	    if ((Nop == 2) && ED_spl(e)) continue;
@@ -1309,7 +1306,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     PQgen (sg->nnodes+2);
     sn = &sg->nodes[gstart];
     dn = &sg->nodes[gstart+1];
-    for (i = 0; i < n_edges; i++) {
+    for (size_t i = 0; i < n_edges; i++) {
 #ifdef DEBUG
 	if ((i > 0) && (odb_flags & ODB_IGRAPH)) emitSearchGraph (stderr, sg);
 #endif
@@ -1349,7 +1346,7 @@ orthofinish:
     if (Concentrate)
 	freePS (ps);
 
-    for (i=0; i < n_edges; i++)
+    for (size_t i=0; i < n_edges; i++)
 	free (route_list[i].segs);
     free (route_list);
     freeMaze (mp);
@@ -1509,9 +1506,8 @@ emitSearchGraph (FILE* fp, sgraph* sg)
 }
 
 static void
-emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t es[])
+emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
 {
-    int i;
     boxf bb, absbb;
     box bbox;
 
@@ -1522,17 +1518,17 @@ emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t es[])
     fprintf (fp, "%d %d translate\n", TRANS, TRANS);
 
     fputs ("0 0 1 setrgbcolor\n", fp);
-    for (i = 0; i < mp->ngcells; i++) {
+    for (size_t i = 0; i < mp->ngcells; i++) {
       bb = mp->gcells[i].bb;
       fprintf (fp, "%f %f %f %f node\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
     }
 
-    for (i = 0; i < n_edges; i++) {
+    for (size_t i = 0; i < n_edges; i++) {
 	absbb = emitEdge (fp, es[i].e, route_list[i], mp, absbb);
     }
     
     fputs ("0.8 0.8 0.8 setrgbcolor\n", fp);
-    for (i = 0; i < mp->ncells; i++) {
+    for (size_t i = 0; i < mp->ncells; i++) {
       bb = mp->cells[i].bb;
       fprintf (fp, "%f %f %f %f cell\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
       absbb.LL.x = MIN(absbb.LL.x, bb.LL.x);
