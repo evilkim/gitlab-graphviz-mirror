@@ -105,7 +105,7 @@ namespace Visio
 		return new Text(
 			Para(
 				horzAlign),
-			new Char(
+			Char(
 				span->font->size,
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
@@ -115,7 +115,7 @@ namespace Visio
 				span->str));
 	}
 	
-	Text::Text(const Para &para, Char* chars, Run* run):
+	Text::Text(const Para &para, const Char &chars, Run* run):
 		_para(para),
 		_chars(chars),
 		_run(run)
@@ -124,8 +124,6 @@ namespace Visio
 	
 	Text::~Text()
 	{
-		if (_chars)
-			delete _chars;
 		if (_run)
 			delete _run;
 	}
@@ -138,8 +136,7 @@ namespace Visio
 	void Text::Print(GVJ_t* job) const
 	{
 		_para.Print(job);
-		if (_chars)
-			_chars->Print(job);
+		_chars.Print(job);
 	}
 	
 	void Text::PrintRun(GVJ_t* job, unsigned int index) const

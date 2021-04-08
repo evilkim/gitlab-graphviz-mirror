@@ -87,10 +87,10 @@ namespace Visio
 		void PrintRun(GVJ_t* job, unsigned int index) const;
 		
 	private:
-		Text(const Para &para, Char* chars, Run* run);
+		Text(const Para &para, const Char &chars, Run* run);
 		
 		Para _para;
-		Char* _chars;
+		Char _chars;
 		Run* _run;
 	};
 	
