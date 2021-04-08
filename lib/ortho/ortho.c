@@ -1303,7 +1303,7 @@ orthoEdges (Agraph_t* g, int doLbls)
 
     route_list = N_NEW (n_edges, route);
 
-    qsort((char *)es, n_edges, sizeof(epair_t), (qsort_cmpf) edgecmp);
+    qsort(es, n_edges, sizeof(epair_t), (qsort_cmpf) edgecmp);
 
     gstart = sg->nnodes;
     PQgen (sg->nnodes+2);
