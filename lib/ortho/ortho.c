@@ -28,6 +28,7 @@
 #include <setjmp.h>
 #include <ortho/maze.h>
 #include <ortho/fPQ.h>
+#include <ortho/ortho.h>
 #include <common/memory.h>
 #include <common/geomprocs.h>
 #include <common/globals.h>
