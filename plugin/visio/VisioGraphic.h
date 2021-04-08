@@ -155,8 +155,6 @@ namespace Visio
 		static Graphic* CreatePolygon(GVJ_t* job, pointf* A, int n, bool filled);
 		static Graphic* CreatePolyline(GVJ_t* job, pointf* A, int n);
 		
-		~Graphic();
-
 		boxf GetBounds() const;
 		const Connection* GetConnection() const;
 
@@ -166,7 +164,7 @@ namespace Visio
 		Graphic(const Line &line, Fill* fill, Geom* geom);
 		
 		Line _line;
-		Fill* _fill;
+		std::unique_ptr<Fill> _fill;
 		std::unique_ptr<Geom> _geom;
 	};
 }
