@@ -22,6 +22,7 @@
 #include "config.h"
 
 #define DEBUG
+#include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -522,7 +523,8 @@ static char* bendToStr (bend b)
   case B_DOWN :
     s = "B_DOWN";
     break;
-  case B_RIGHT :
+  default:
+    assert(b == B_RIGHT);
     s = "B_RIGHT";
     break;
   }
