@@ -754,15 +754,11 @@ add_edges_in_G(channel* cp)
 
     for(x=0;x+1<size;x++) {
 	for(y=x+1;y<size;y++) {
-	    switch (seg_cmp(seg_list[x],seg_list[y])) {
-	    case 1:
+	    int cmp = seg_cmp(seg_list[x],seg_list[y]);
+	    if (cmp > 0) {
 		insert_edge(G,x,y);
-		break;
-	    case 0:
-		break;
-	    case -1:
+	    } else if (cmp < 0) {
 		insert_edge(G,y,x);
-		break;
 	    }
 	}
     }
