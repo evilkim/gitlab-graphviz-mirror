@@ -162,9 +162,9 @@ namespace Visio
 		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
 		
 	private:
-		Graphic(Line* line, Fill* fill, Geom* geom);
+		Graphic(const Line &line, Fill* fill, Geom* geom);
 		
-		Line* _line;
+		Line _line;
 		Fill* _fill;
 		Geom* _geom;
 	};

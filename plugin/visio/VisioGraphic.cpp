@@ -413,7 +413,7 @@ namespace Visio
 				break;
 		}
 		return new Graphic(
-			new Line(
+			Line(
 				job->obj->penwidth,
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
@@ -443,7 +443,7 @@ namespace Visio
 				break;
 		}
 		return new Graphic(
-			new Line(
+			Line(
 				job->obj->penwidth,
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
@@ -478,7 +478,7 @@ namespace Visio
 				break;
 		}
 		return new Graphic(
-			new Line(
+			Line(
 				job->obj->penwidth,
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
@@ -510,7 +510,7 @@ namespace Visio
 				break;
 		}
 		return new Graphic(
-			new Line(
+			Line(
 				job->obj->penwidth,
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
@@ -522,7 +522,7 @@ namespace Visio
 				n));
 	}
 	
-	Graphic::Graphic(Line* line, Fill* fill, Geom* geom):
+	Graphic::Graphic(const Line &line, Fill* fill, Geom* geom):
 		_line(line),
 		_fill(fill),
 		_geom(geom)
@@ -531,8 +531,6 @@ namespace Visio
 	
 	Graphic::~Graphic()
 	{
-		if (_line)
-			delete _line;
 		if (_fill)
 			delete _fill;
 		if (_geom)
@@ -551,8 +549,7 @@ namespace Visio
 		
 	void Graphic::Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const
 	{
-		if (_line)
-			_line->Print(job);
+		_line.Print(job);
 		if (_fill)
 			_fill->Print(job);
 		if (_geom)
