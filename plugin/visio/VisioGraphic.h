@@ -12,6 +12,7 @@
 #define VISIOGRAPHIC_H
 
 #include <common/types.h>
+#include <memory>
 
 namespace Visio
 {
@@ -166,7 +167,7 @@ namespace Visio
 		
 		Line _line;
 		Fill* _fill;
-		Geom* _geom;
+		std::unique_ptr<Geom> _geom;
 	};
 }
 

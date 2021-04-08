@@ -533,8 +533,6 @@ namespace Visio
 	{
 		if (_fill)
 			delete _fill;
-		if (_geom)
-			delete _geom;
 	}
 
 	boxf Graphic::GetBounds() const
