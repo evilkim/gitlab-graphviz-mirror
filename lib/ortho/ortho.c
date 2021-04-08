@@ -22,6 +22,7 @@
 #include "config.h"
 
 #define DEBUG
+#include <stdbool.h>
 #include <stddef.h>
 #include <setjmp.h>
 #include <ortho/maze.h>
@@ -105,7 +106,7 @@ sidePt (snode* ptr, cell* cp)
  * Assume b1 != b2
  */
 static void
-setSeg (segment* sp, int dir, double fix, double b1, double b2, int l1, int l2)
+setSeg (segment* sp, bool dir, double fix, double b1, double b2, int l1, int l2)
 {
     sp->isVert = dir;
     sp->comm_coord = fix;
