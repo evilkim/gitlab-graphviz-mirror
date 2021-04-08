@@ -1425,7 +1425,7 @@ coordOf (cell* cp, snode* np)
 }
 
 static boxf
-emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, int ix, boxf bb)
+emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, boxf bb)
 {
     int x, y;
     boxf n = CELL(agtail(e))->bb;
@@ -1528,7 +1528,7 @@ emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t es[])
     }
 
     for (i = 0; i < n_edges; i++) {
-	absbb = emitEdge (fp, es[i].e, route_list[i], mp, i, absbb);
+	absbb = emitEdge (fp, es[i].e, route_list[i], mp, absbb);
     }
     
     fputs ("0.8 0.8 0.8 setrgbcolor\n", fp);
