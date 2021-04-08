@@ -24,6 +24,7 @@
  */
 
 #include	<dotgen/dot.h>
+#include	<limits.h>
 
 static void dot1_rank(graph_t * g, aspect_t* asp);
 static void dot2_rank(graph_t * g, aspect_t* asp);
@@ -197,7 +198,7 @@ void
 dot_scan_ranks(graph_t * g)
 {
     node_t *n, *leader = NULL;
-    GD_minrank(g) = MAXSHORT;
+    GD_minrank(g) = INT_MAX;
     GD_maxrank(g) = -1;
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	if (GD_maxrank(g) < ND_rank(n))
@@ -402,7 +403,7 @@ static void expand_ranksets(graph_t * g, aspect_t* asp)
     node_t *n, *leader;
 
     if ((n = agfstnode(g))) {
-	GD_minrank(g) = MAXSHORT;
+	GD_minrank(g) = INT_MAX;
 	GD_maxrank(g) = -1;
 	while (n) {
 	    leader = UF_find(n);
@@ -986,7 +987,7 @@ static void setMinMax (graph_t* g, int doRoot)
     if (!GD_parent(g) && !doRoot) // root graph
 	return;
 
-    GD_minrank(g) = MAXSHORT;
+    GD_minrank(g) = INT_MAX;
     GD_maxrank(g) = -1;
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	v = ND_rank(n);
@@ -1014,13 +1015,13 @@ static void readout_levels(graph_t * g, graph_t * Xg, int ncc)
     int* minrk = NULL;
     int doRoot = 0;
 
-    GD_minrank(g) = MAXSHORT;
+    GD_minrank(g) = INT_MAX;
     GD_maxrank(g) = -1;
     if (ncc > 1) {
 	int i;
 	minrk = N_NEW(ncc+1,int);
 	for (i = 1; i <= ncc; i++)
-	    minrk[i] = MAXSHORT;
+	    minrk[i] = INT_MAX;
     }
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	xn = ND_rep(find(n));

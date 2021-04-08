@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reference counted strings put the HTML bit in the middle of the reference
   count #1984
 - &amp;amp; escape disappearing #797
+- miscalculation of minimum rank on large graphs
 
 ## [2.47.0] - 2021-03-15
 
