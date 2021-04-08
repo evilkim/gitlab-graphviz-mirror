@@ -75,7 +75,7 @@ createSNode (sgraph* g)
 }
 
 static void
-addEdgeToNode (snode* np, sedge* e, int idx)
+addEdgeToNode (snode* np, int idx)
 {
     np->adj_edge_list[np->n_adj] = idx;
     np->n_adj++;
@@ -93,8 +93,8 @@ createSEdge (sgraph* g, snode* v1, snode* v2, double wt)
     e->weight = wt;
     e->cnt = 0;
 
-    addEdgeToNode (v1, e, idx);
-    addEdgeToNode (v2, e, idx);
+    addEdgeToNode (v1, idx);
+    addEdgeToNode (v2, idx);
 
     return e;
 }
