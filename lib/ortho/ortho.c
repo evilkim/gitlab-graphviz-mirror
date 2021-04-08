@@ -1028,35 +1028,27 @@ addPEdges (channel* cp, maze* mp)
 		    hops.b = p.a;
 		    prec2 = p.b;
 
-		    switch(prec1) {
-		    case -1 :
+		    if (prec1 == -1) {
 			set_parallel_edges (segs[j], segs[i], dir, 0, hops.a, mp);
 			set_parallel_edges (segs[j], segs[i], 1-dir, 1, hops.b, mp);
 			if(prec2==1)
 			    removeEdge (segs[i], segs[j], 1-dir, mp);
-			break;
-		    case 0 :
-			switch(prec2) {
-			case -1:
+		    } else if (prec1 == 0) {
+			if (prec2 == -1) {
 			    set_parallel_edges (segs[j], segs[i], dir, 0, hops.a, mp);
 			    set_parallel_edges (segs[j], segs[i], 1-dir, 1, hops.b, mp);
-			    break;
-			case 0 :
+			} else if (prec2 == 0) {
 			    set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			    set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
-			    break;
-			case 1:
+			} else if (prec2 == 1) {
 			    set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			    set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
-			    break;
 			}
-			break;
-		    case 1 :
+		    } else if (prec1 == 1) {
 			set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
 			if(prec2==-1)
 			    removeEdge (segs[i], segs[j], 1-dir, mp);
-			break;
 		    }
 		}
 	    }
