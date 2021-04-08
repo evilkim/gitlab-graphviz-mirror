@@ -250,6 +250,9 @@ typedef struct {
 static void
 freeChannel (Dt_t* d, channel* cp, Dtdisc_t* disc)
 {
+    (void)d;
+    (void)disc;
+
     free_graph (cp->G);
     free (cp->seg_list);
     free (cp);
@@ -258,6 +261,9 @@ freeChannel (Dt_t* d, channel* cp, Dtdisc_t* disc)
 static void
 freeChanItem (Dt_t* d, chanItem* cp, Dtdisc_t* disc)
 {
+    (void)d;
+    (void)disc;
+
     dtclose (cp->chans);
     free (cp);
 }
@@ -274,6 +280,9 @@ freeChanItem (Dt_t* d, chanItem* cp, Dtdisc_t* disc)
 static int
 chancmpid(Dt_t* d, paird* key1, paird* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
+
   if (key1->p1 > key2->p1) {
     if (key1->p2 <= key2->p2) return 0;
     else return 1;
@@ -288,6 +297,9 @@ chancmpid(Dt_t* d, paird* key1, paird* key2, Dtdisc_t* disc)
 static int
 dcmpid(Dt_t* d, double* key1, double* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
+
   if (*key1 > *key2) return 1;
   else if (*key1 < *key2) return -1;
   else return 0;
