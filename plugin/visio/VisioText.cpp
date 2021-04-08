@@ -103,7 +103,7 @@ namespace Visio
 		}
 		
 		return new Text(
-			new Para(
+			Para(
 				horzAlign),
 			new Char(
 				span->font->size,
@@ -115,7 +115,7 @@ namespace Visio
 				span->str));
 	}
 	
-	Text::Text(Para* para, Char* chars, Run* run):
+	Text::Text(const Para &para, Char* chars, Run* run):
 		_para(para),
 		_chars(chars),
 		_run(run)
@@ -124,8 +124,6 @@ namespace Visio
 	
 	Text::~Text()
 	{
-		if (_para)
-			delete _para;
 		if (_chars)
 			delete _chars;
 		if (_run)
@@ -139,8 +137,7 @@ namespace Visio
 	
 	void Text::Print(GVJ_t* job) const
 	{
-		if (_para)
-			_para->Print(job);
+		_para.Print(job);
 		if (_chars)
 			_chars->Print(job);
 	}
