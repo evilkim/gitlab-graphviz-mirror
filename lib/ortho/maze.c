@@ -144,7 +144,6 @@ static Dtdisc_t hdictDisc = {
 #define BIG 16384
 #define CHANSZ(w) (((w)-3)/2)
 #define IS_SMALL(v) (CHANSZ(v) < 2)
-/* #define CHANSZ(w) (w) */
 
 /* updateWt:
  * At present, we use a step function. When a bound is reached, the weight

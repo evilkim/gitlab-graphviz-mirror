@@ -50,7 +50,6 @@ typedef struct {
   int left, right;      /* children */
 } qnode_t;
 
-/* static int chain_idx, op_idx, mon_idx; */
 static int q_idx;
 static int tr_idx;
 static int QSIZE;
@@ -782,14 +781,12 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	  if (FP_EQUAL(tr[t].lo.y, tr[tlast].lo.y) &&
 	      FP_EQUAL(tr[t].lo.x, tr[tlast].lo.x) && tribot)
 	    {		/* bottom forms a triangle */
-	      /* int tmpseg; */
 
 	      if (is_swapped)
 		tmptriseg = seg[segnum].prev;
 	      else
 		tmptriseg = seg[segnum].next;
 
-	      /* if ((tmpseg > 0) && is_left_of(tmpseg, seg, &s.v0)) */
 	      if (tmptriseg > 0 && is_left_of(tmptriseg, seg, &s.v0))
 		{
 		  /* L-R downward cusp */
@@ -830,7 +827,6 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
       else
 	{
-	  /* int tmpseg = tr[tr[t].d0].rseg; */
 	  double y0, yt;
 	  pointf tmppt;
 	  int tnext, i_d0, i_d1;
