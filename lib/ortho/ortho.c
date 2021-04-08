@@ -1069,7 +1069,7 @@ add_p_edges (Dt_t* chans, maze* mp)
 }
 
 static void
-assignTracks (route* route_list, maze* mp)
+assignTracks (maze* mp)
 {
     /* Create the graphs for each channel */
     create_graphs(mp->hchans);
@@ -1332,7 +1332,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     assignSegs (n_edges, route_list, mp);
     if (setjmp(jbuf))
 	goto orthofinish;
-    assignTracks (route_list, mp);
+    assignTracks (mp);
 #ifdef DEBUG
     if (odb_flags & ODB_ROUTE) emitGraph (stderr, mp, n_edges, route_list, es);
 #endif
