@@ -144,7 +144,8 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
     snode* ptr;
     snode* next;
     snode* prev;  /* node in shortest path just previous to next */
-    int i, sz = 0;
+    int i;
+    size_t sz = 0;
     cell* cp;
     cell* ncp;
     segment seg;
@@ -155,6 +156,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
 	/* count no. of nodes in shortest path */
     for (ptr = fst; ptr; ptr = N_DAD(ptr)) sz++;
     rte.n = 0;
+    assert(sz >= 2);
     rte.segs = N_NEW(sz-2, segment);  /* at most sz-2 segments */
 
     seg.prev = seg.next = 0;
