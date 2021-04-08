@@ -14,6 +14,7 @@
 #include "types.h"
 #include "cgraph.h"
 #include <ortho/rawgraph.h>
+#include <stddef.h>
 
 typedef struct {
     double p1, p2;
@@ -45,7 +46,7 @@ typedef struct segment {
 } segment;
 
 typedef struct {
-  int n;
+  size_t n;
   segment* segs;
 } route;
 

@@ -144,7 +144,6 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
     snode* ptr;
     snode* next;
     snode* prev;  /* node in shortest path just previous to next */
-    int i;
     size_t sz = 0;
     cell* cp;
     cell* ncp;
@@ -235,7 +234,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
     }
 
     rte.segs = realloc (rte.segs, rte.n*sizeof(segment));
-    for (i=0; i<rte.n; i++) {
+    for (size_t i=0; i<rte.n; i++) {
 	if (i > 0)
 	    rte.segs[i].prev = rte.segs + (i-1);
 	if (i < rte.n-1)
@@ -444,11 +443,11 @@ static void
 assignSegs (int nrtes, route* route_list, maze* mp)
 {
     channel* chan;
-    int i, j;
+    int i;
 
     for (i=0;i<nrtes;i++) {
 	route rte = route_list[i];
-	for (j=0;j<rte.n;j++) {
+	for (size_t j=0;j<rte.n;j++) {
 	    segment* seg = rte.segs+j;
 	    if (seg->isVert)
 		chan = chanSearch(mp->vchans, seg);
@@ -1126,7 +1125,7 @@ static void
 attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
 {
     int irte = 0;
-    int i, ipt, npts;
+    int ipt, npts;
     pointf* ispline = 0;
     int splsz = 0;
     pointf p, p1, q1;
@@ -1160,7 +1159,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineI
 	ispline[0] = ispline[1] = p;
 	ipt = 2;
 
-	for (i = 1;i<rte.n;i++) {
+	for (size_t i = 1;i<rte.n;i++) {
 		seg = rte.segs+i;
 		if (seg->isVert)
 		    p.x = vtrack(seg, mp);
@@ -1428,7 +1427,7 @@ coordOf (cell* cp, snode* np)
 static boxf
 emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, int ix, boxf bb)
 {
-    int i, x, y;
+    int x, y;
     boxf n = CELL(agtail(e))->bb;
     segment* seg = rte.segs;
     if (seg->isVert) {
@@ -1445,7 +1444,7 @@ emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, int ix, boxf bb)
     bb.UR.y = MAX(bb.UR.y, SC*y);
     fprintf (fp, "newpath %d %d moveto\n", SC*x, SC*y);
 
-    for (i = 1;i<rte.n;i++) {
+    for (size_t i = 1;i<rte.n;i++) {
 	seg = rte.segs+i;
 	if (seg->isVert) {
 	    x = vtrack(seg, m);
