@@ -85,8 +85,6 @@ extern "C" {
     extern char *fmtquote(const char *, const char *, const char *, size_t,
 			  int);
 
-    extern int astquery(int, const char *, ...);
-
     extern int strmatch(const char *, const char *);
     extern int strgrpmatch(const char *, const char *, int *, int, int);
     extern int stresc(char *);
