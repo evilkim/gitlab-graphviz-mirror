@@ -380,7 +380,7 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
 
     ps_set_color(job, &(job->obj->pencolor));
     Context *ctxt = reinterpret_cast<Context*>(job->context);
-    ctxt->doc.osBody() << setFont(font, style, weight, variant, stretch) << setFontSize(span->font->size) << endl;
+    ctxt->doc.osBody() << setFont(font, style, weight, variant, stretch) << setFontSize(span->font->size) << "\n";
     switch (span->just) {
     case 'r':
         p.x -= span->size.x;
@@ -396,7 +396,7 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
     p.y += span->yoffset_centerline;
     gvprintpointf(job, p);
     gvputs(job, " moveto ");
-    ctxt->doc.osBody() << show(span->str) << endl;
+    ctxt->doc.osBody() << show(span->str) << "\n";
 
 }
 
