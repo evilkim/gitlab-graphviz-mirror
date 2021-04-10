@@ -175,7 +175,7 @@ setPrefix (char* pfx, size_t* lenp, char* buf, size_t buflen)
     if (len + 25 <= buflen)
         name = buf;
     else {
-        name = (char *) gmalloc(len + 25);
+        name = gmalloc(len + 25);
     }
     strcpy(name, pfx);
     *lenp = len;
@@ -263,9 +263,8 @@ packerror:
     if (name != buffer)
 	free(name);
     if (error) {
-	size_t i;
 	*ncc = 0;
-	for (i=0; i < c_cnt; i++) {
+	for (size_t i=0; i < c_cnt; i++) {
 	    agclose (ccs[i]);
 	}
 	free (ccs);

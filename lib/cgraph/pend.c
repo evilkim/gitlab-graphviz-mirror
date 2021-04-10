@@ -167,8 +167,7 @@ static pending_cb_t *insert(Dict_t * dict, Agraph_t * g, Agobj_t * obj,
     handle->key = genkey(obj);
     handle->g = g;
     if (optsym) {
-	handle->symlist =
-	    (symlist_t *) agalloc(handle->g, sizeof(symlist_t));
+	handle->symlist = agalloc(handle->g, sizeof(symlist_t));
 	handle->symlist->sym = optsym;
     }
     dtinsert(dict, handle);

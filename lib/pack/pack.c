@@ -583,13 +583,6 @@ static int acmpf(const void *X, const void *Y)
 {
     const ainfo* x = *(ainfo *const *) X;
     const ainfo* y = *(ainfo *const *) Y;
-#if 0
-    if (x->height < y->height) return 1;
-    else if (x->height > y->height) return -1;
-    else if (x->width < y->width) return 1;
-    else if (x->width > y->width) return -1;
-    else return 0;
-#endif
     double dX = x->height + x->width; 
     double dY = y->height + y->width; 
     if (dX < dY) return 1;
@@ -1309,12 +1302,6 @@ parsePackModeInfo(char* p, pack_mode dflt, pack_info* pinfo)
 		    pinfo->aspect = 1;
 	    }
 	    break;
-#ifdef NOT_IMPLEMENTED
-	case 'b':
-	    if (streq(p, "bisect"))
-		pinfo->mode = l_bisect;
-	    break;
-#endif
 	case 'c':
 	    if (streq(p, "cluster"))
 		pinfo->mode = l_clust;
@@ -1323,22 +1310,10 @@ parsePackModeInfo(char* p, pack_mode dflt, pack_info* pinfo)
 	    if (streq(p, "graph"))
 		pinfo->mode = l_graph;
 	    break;
-#ifdef NOT_IMPLEMENTED
-	case 'h':
-	    if (streq(p, "hull"))
-		pinfo->mode = l_hull;
-	    break;
-#endif
 	case 'n':
 	    if (streq(p, "node"))
 		pinfo->mode = l_node;
 	    break;
-#ifdef NOT_IMPLEMENTED
-	case 't':
-	    if (streq(p, "tile"))
-		pinfo->mode = l_tile;
-	    break;
-#endif
 	}
     }
 
@@ -1406,5 +1381,3 @@ getPackInfo(Agraph_t * g, pack_mode dflt, int dfltMargin, pack_info* pinfo)
 
     return pinfo->mode;
 }
-
-

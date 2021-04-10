@@ -44,8 +44,7 @@ static double dotPoint(point_t a, point_t b){
   return a.x*b.x + a.y*b.y;
 }
 
-
-point_t Origin;
+static const point_t Origin;
 
 /* sumLengths:
  */
@@ -215,18 +214,9 @@ static double project_to_line(point_t pt, point_t left, point_t right, real angl
   if (alpha == M_PI/2){
     return ccord;
   } else {
-    //    assert(dnorm >= MIN(-1.e-5, -1.e-5*bnorm));
     return ccord + sqrt(MAX(0, dnorm))/tan(alpha);
   }
 }
-
-
-
-
-
-
-
-
 
 /* ink:
  * Compute minimal ink used the input edges are bundled.
@@ -241,12 +231,10 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
   point_t* sources = N_NEW(numEdges, point_t);
   point_t* targets = N_NEW(numEdges, point_t);
   double inkUsed;
-  //double eps = 1.0e-2;
   double eps = 1.0e-2;
   double cend = 0, cbegin = 0;
   double wgt = 0;
 
-  //  fprintf(stderr,"in ink code ========\n");
   ink_count += numEdges;
 
   *ink0 = 0;
@@ -270,8 +258,6 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
     begin = addPoint (begin, scalePoint(sources[i], e->wgt));
     end = addPoint (end, scalePoint(targets[i], e->wgt));
     wgt += e->wgt;
-    //fprintf(stderr,"source={%f,%f}, target = {%f,%f}\n",sources[i].x, sources[i].y,
-    //targets[i].x, targets[i].y);
   }
 
   begin = scalePoint (begin, 1.0/wgt);
@@ -281,7 +267,6 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
   if (numEdges == 1){
     *meet1 = begin;
     *meet2 = end;
-    //fprintf(stderr,"ink used = %f\n",*ink0);
       free (sources);
       free (targets);
       return *ink0;
@@ -330,20 +315,13 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
 
   inkUsed = (bestInk (sources, numEdges, begin, mid, eps, meet1, angle_param)
 	     + bestInk (targets, numEdges, end, mid, eps, meet2, angle_param));
-  //fprintf(stderr,"beg={%f,%f}, meet1={%f,%f}, meet2={%f,%f}, mid={%f,%f}, end={%f,%f}\n",begin.x, begin.y, meet1->x, meet1->y, meet2->x, meet2->y,
-  //mid.x, mid.y, end.x, end.y);
 
-  //fprintf(stderr,"ink used = %f\n",inkUsed);
-  //  fprintf(stderr,"{cb,ce}={%f, %f} end={%f,%f}, meet={%f,%f}, mid={%f,%f}\n",cbegin, cend, end.x, end.y, meet2->x, meet2->y, mid.x, mid.y);
   free (sources);
   free (targets);
   return inkUsed;
 }
 
-
 double ink1(pedge e){
-
-
   real *x, xx, yy;
 
   real ink0 = 0;

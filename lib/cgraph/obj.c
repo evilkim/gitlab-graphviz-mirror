@@ -13,12 +13,12 @@
 
 int agdelete(Agraph_t * g, void *obj)
 {
-    if ((AGTYPE((Agobj_t *) obj) == AGRAPH) && (g != agparent(obj))) {
+    if (AGTYPE(obj) == AGRAPH && g != agparent(obj)) {
 	agerr(AGERR, "agdelete on wrong graph");
 	return FAILURE;
     }
 
-    switch (AGTYPE((Agobj_t *) obj)) {
+    switch (AGTYPE(obj)) {
     case AGNODE:
 	return agdelnode(g, obj);
     case AGINEDGE:
@@ -219,7 +219,7 @@ int agpopdisc(Agraph_t * g, Agcbdisc_t * cbd)
 	if (stack_ent->f == cbd)
 	    g->clos->cb = stack_ent->prev;
 	else {
-	    while (stack_ent && (stack_ent->prev->f != cbd))
+	    while (stack_ent && stack_ent->prev->f != cbd)
 		stack_ent = stack_ent->prev;
 	    if (stack_ent && stack_ent->prev)
 		stack_ent->prev = stack_ent->prev->prev;
@@ -239,15 +239,15 @@ int agcontains(Agraph_t* g, void* obj)
     if (agroot (g) != agroot (obj)) return 0;
     switch (AGTYPE(obj)) {
     case AGRAPH:
-	subg = (Agraph_t *) obj;
+	subg = obj;
 	do {
 	    if (subg == g) return 1;
 	} while ((subg = agparent (subg)));
 	return 0;
     case AGNODE: 
-        return (agidnode(g, AGID(obj), 0) != 0);
+        return agidnode(g, AGID(obj), 0) != 0;
     default:
-        return (agsubedge(g, (Agedge_t *) obj, 0) != 0);
+        return agsubedge(g, obj, 0) != 0;
     }
 }
 

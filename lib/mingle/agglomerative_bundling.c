@@ -86,7 +86,6 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
   SparseMatrix A = grid->A;
   int n = grid->n, level = grid->level, nc = 0;
   int *ia = A->ia, *ja = A->ja;
-  // real *a;
   int i, j, k, jj, jc, jmax, ni, nj, npicks;
   int *mask;
   pedge *edges = grid->edges;
@@ -115,7 +114,6 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
   assert(n == A->n);
   for (i = 0; i < n; i++) matching[i] = UNMATCHED;
 
-  //  a = (real*) A->a;
   for (i = 0; i < n; i++){
     if (matching[i] != UNMATCHED) continue;
 
@@ -193,10 +191,10 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
 	if (ip){
 	  for (k = ip[jmax]; k < ip[jmax+1]; k++) {
 	    ie = jp[k];
-	    Vector_add(cedges[nc], (void*) (&ie));
+	    Vector_add(cedges[nc], &ie);
 	  }
 	} else {
-	  Vector_add(cedges[nc], (void*) (&jmax));
+	  Vector_add(cedges[nc], &jmax);
 	}
 	jc = nc;
 	nc++;
@@ -219,10 +217,10 @@ static Agglomerative_Ink_Bundling Agglomerative_Ink_Bundling_establish(Agglomera
     if (ip){
       for (k = ip[i]; k < ip[i+1]; k++) {
 	ie = jp[k];
-	Vector_add(cedges[jc], (void*) (&ie));
+	Vector_add(cedges[jc], &ie);
       }
     } else {
-	Vector_add(cedges[jc], (void*) (&i));
+	Vector_add(cedges[jc], &i);
     }
     cinks[jc] = minink;
     grand_total_ink += minink;
@@ -442,8 +440,6 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
       xx[i*4 + 2] = meet2.x;
       xx[i*4 + 3] = meet2.y;
       mid_edges[i] = pedge_wgt_new(2, dim, &(xx[i*4]), wgt);
-      //mid_edges[i] = pedge_wgt_new(2, dim, &(xx[i*4]), 1.);
-
     }
 
     A_mid = nearest_neighbor_graph(ne, MIN(nneighbors, ne), xx, eps);
@@ -488,7 +484,6 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
 	nedges_global = grid->n;
 	edges_global = edges;
 	drawScene();
-	//      waitie(5./R->m);
       }
 #endif
     }
@@ -503,7 +498,6 @@ static pedge* agglomerative_ink_bundling_internal(int dim, SparseMatrix A, pedge
     nedges_global = grid->n;
     edges_global = edges;
     drawScene();
-    //      waitie(5./R->m);
   }
 #endif
 
@@ -526,4 +520,3 @@ pedge* agglomerative_ink_bundling(int dim, SparseMatrix A, pedge* edges, int nne
     fprintf(stderr,"initial total ink = %f, final total ink = %f, inksaving = %f percent, total ink_calc = %f, avg ink_calc per edge = %f\n", ink0, current_ink, (ink0-current_ink)/ink0, ink_count,  ink_count/(real) A->m);
   return edges2;
 }
-

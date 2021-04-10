@@ -82,7 +82,7 @@ Vector IntegerVector_new(int len){
 
 }
 Vector IntegerVector_add(Vector v, int i){
-  return Vector_add(v, (void*) &i);
+  return Vector_add(v, &i);
 }
 
 void IntegerVector_delete(Vector v){
@@ -90,10 +90,9 @@ void IntegerVector_delete(Vector v){
 }
 
 int* IntegerVector_get(Vector v, int i){
-  int *p;
-  p = (int*) Vector_get(v, i);
+  int *p = Vector_get(v, i);
   if (!p) return NULL;
-  return (int*) p;
+  return p;
 }
 
 int IntegerVector_get_length(Vector v){
@@ -101,7 +100,7 @@ int IntegerVector_get_length(Vector v){
 }
 
 Vector IntegerVector_reset(Vector v, int content, int pos){
-  return Vector_reset(v, (void*) (&content), pos);
+  return Vector_reset(v, &content, pos);
 }
 
 
@@ -110,8 +109,7 @@ Vector IntegerVector_reset(Vector v, int content, int pos){
 /*---------------- string vector --------------- */
 
 static void strdealloactor(void *v){
-  char **s;
-  s = (char**) v;
+  char **s = v;
   free(*s);
 }
 
@@ -125,7 +123,7 @@ Vector StringVector_new(int len, int delete_element_strings){
 
 }
 Vector StringVector_add(Vector v, char *s){
-  return Vector_add(v, (void*) &s);
+  return Vector_add(v, &s);
 }
 
 void StringVector_delete(Vector v){
@@ -133,8 +131,7 @@ void StringVector_delete(Vector v){
 }
 
 char** StringVector_get(Vector v, int i){
-  char **p;
-  p = (char**) Vector_get(v, i);
+  char **p = Vector_get(v, i);
   if (!p) return NULL;
   return p;
 }
@@ -144,7 +141,7 @@ int StringVector_get_length(Vector v){
 }
 
 Vector StringVector_reset(Vector v, char *content, int pos){
-  return Vector_reset(v, (void*) (&content), pos);
+  return Vector_reset(v, &content, pos);
 }
 
 void StringVector_fprint1(FILE *fp, StringVector v){
