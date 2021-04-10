@@ -23,6 +23,7 @@
 
 #include <expr/exlib.h>
 #include <expr/exop.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -546,8 +547,13 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 static char*
 str_add(Expr_t* ex, char* l, char* r)
 {
-	sfprintf(ex->tmp, "%s%s", l, r);
-	return exstash(ex->tmp, ex->ve);
+	size_t sz = strlen(l) + strlen(r) + 1;
+	char *s = vmalloc(ex->ve, sz);
+	if (s == NULL) {
+		return exnospace();
+	}
+	snprintf(s, sz, "%s%s", l, r);
+	return s;
 }
 
 /*
