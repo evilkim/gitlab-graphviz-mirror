@@ -129,7 +129,7 @@ getdyn(Expr_t* ex, Exnode_t* expr, void* env, Exassoc_t** assoc)
 	if (expr->data.variable.index)
 	{
 		Extype_t key;
-		char	buf[2*(sizeof(key.integer))+1];  /* no. of hex chars needed plus null byte */
+		char	buf[2*sizeof(key.integer)+1];  /* no. of hex chars needed plus null byte */
 		char *keyname;
 
 		v = eval(ex, expr->data.variable.index, env);
@@ -209,7 +209,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	dp->flags |= SFFMT_VALUE;
 	if (fmt->args)
 	{
-		if ((node = (dp->fmt == '*') ? fmt->args->param[dp->size] : fmt->args->arg))
+		if ((node = dp->fmt == '*' ? fmt->args->param[dp->size] : fmt->args->arg))
 			fmt->value = exeval(fmt->expr, node, fmt->env);
 		else
 			fmt->value.integer = 0;
@@ -269,15 +269,15 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	switch (to)
 	{
 	case STRING:
-		*((char**)vp) = fmt->value.string;
+		*(char**)vp = fmt->value.string;
 		fmt->fmt.size = -1;
 		break;
 	case FLOATING:
-		*((double*)vp) = fmt->value.floating;
+		*(double*)vp = fmt->value.floating;
 		fmt->fmt.size = sizeof(double);
 		break;
 	default:
-		*((Sflong_t*)vp) = fmt->value.integer;
+		*(Sflong_t*)vp = fmt->value.integer;
 		dp->size = sizeof(Sflong_t);
 		break;
 	}
@@ -297,14 +297,14 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	{
 	case 'q':
 	case 'Q':
-		s = *((char**)vp);
-		*((char**)vp) = fmtquote(s, "$'", "'", strlen(s), 0);
+		s = *(char**)vp;
+		*(char**)vp = fmtquote(s, "$'", "'", strlen(s), 0);
 		dp->fmt = 's';
 		dp->size = -1;
 		break;
 	case 'S':
 		dp->flags &= ~SFFMT_LONG;
-		s = *((char**)vp);
+		s = *(char**)vp;
 		if (txt)
 		{
 			if (streq(txt, "identifier"))
@@ -347,14 +347,14 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		break;
 	case 't':
 	case 'T':
-		if ((tm = *((Sflong_t*)vp)) == -1)
+		if ((tm = *(Sflong_t*)vp) == -1)
 			tm = time(NULL);
         if (!txt)
             txt = "%?%K";
         s = fmtbuf(TIME_LEN);
         stm = localtime(&tm);
         strftime(s, TIME_LEN, txt, stm);
-        *((char **) vp) = s;
+        *(char **)vp = s;
 		dp->fmt = 's';
 		dp->size = -1;
 		break;
@@ -462,7 +462,7 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			return -1;
 		}
 		fmt->fmt.size = sizeof(double);
-		*((void**)vp) = &node->data.variable.symbol->value->data.constant.value;
+		*(void**)vp = &node->data.variable.symbol->value->data.constant.value;
 		break;
 	case 's':
 	case '[':
@@ -474,7 +474,7 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		if (node->data.variable.symbol->value->data.constant.value.string == expr.nullstring)
 			node->data.variable.symbol->value->data.constant.value.string = 0;
 		fmt->fmt.size = 1024;
-		*((void**)vp) = node->data.variable.symbol->value->data.constant.value.string = vmnewof(fmt->expr->vm, node->data.variable.symbol->value->data.constant.value.string, char, fmt->fmt.size, 0);
+		*(void**)vp = node->data.variable.symbol->value->data.constant.value.string = vmnewof(fmt->expr->vm, node->data.variable.symbol->value->data.constant.value.string, char, fmt->fmt.size, 0);
 		memset(node->data.variable.symbol->value->data.constant.value.string, 0, sizeof(char) * (size_t)fmt->fmt.size);
 		break;
 	case 'c':
@@ -492,7 +492,7 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			return -1;
 		}
 		dp->size = sizeof(Sflong_t);
-		*((void**)vp) = &node->data.variable.symbol->value->data.constant.value;
+		*(void**)vp = &node->data.variable.symbol->value->data.constant.value;
 		break;
 	}
 	fmt->actuals = fmt->actuals->data.operand.right;
@@ -522,7 +522,7 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 		}
 		else
 			v.integer = 0;
-		if ((v.integer < 0) || (v.integer >= elementsof(ex->file)) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NULL, NULL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
+		if (v.integer < 0 || v.integer >= elementsof(ex->file) || (!(sp = ex->file[v.integer]) && !(sp = ex->file[v.integer] = sfnew(NULL, NULL, SF_UNBOUND, v.integer, SF_READ|SF_WRITE))))
 		{
 			exerror("scanf: %d: invalid descriptor", v.integer);
 			return 0;
@@ -816,7 +816,7 @@ exsub(Expr_t * ex, Exnode_t * expr, void *env, int global)
 		if (p > pat)
 		    p--;
 		if (*p == '$') {
-		    if ((p > pat) && (*(p - 1) == '\\')) {
+		    if (p > pat && p[-1] == '\\') {
 				*p-- = '\0';
 				*p = '$';
 	    	} else {
@@ -1259,7 +1259,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			expr->data.operand.left->data.variable.reference, args, EX_ARRAY, ex->disc);
 	case FUNCTION:
 		n = 0;
-		args[n++].string = (char*)env;
+		args[n++].string = env;
 		for (x = expr->data.operand.right; x && n < elementsof(args); x = x->data.operand.right)
 			args[n++] = eval(ex, x->data.operand.left, env);
 		return (*ex->disc->getf)(ex, expr->data.operand.left, expr->data.operand.left->data.variable.symbol, expr->data.operand.left->data.variable.reference, args+1, EX_CALL, ex->disc);
@@ -1347,25 +1347,25 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 					if ((r.integer = r.floating) == 0)
 						exerror("floating 0 modulus");
 					else
-						v.floating = ((Sflong_t)v.floating) % r.integer;
+						v.floating = (Sflong_t)v.floating % r.integer;
 					break;
 				case '&':
-					v.floating = ((Sflong_t)v.floating) & ((Sflong_t)r.floating);
+					v.floating = (Sflong_t)v.floating & (Sflong_t)r.floating;
 					break;
 				case '|':
-					v.floating = ((Sflong_t)v.floating) | ((Sflong_t)r.floating);
+					v.floating = (Sflong_t)v.floating | (Sflong_t)r.floating;
 					break;
 				case '^':
-					v.floating = ((Sflong_t)v.floating) ^ ((Sflong_t)r.floating);
+					v.floating = (Sflong_t)v.floating ^ (Sflong_t)r.floating;
 					break;
 				case LS:
-					v.floating = ((Sflong_t)v.floating) << ((Sflong_t)r.floating);
+					v.floating = (Sflong_t)v.floating << (Sflong_t)r.floating;
 					break;
 				case RS:
 #ifdef _WIN32
-					v.floating = (Sflong_t)(((Sfulong_t)v.floating) >> ((Sflong_t)r.floating));
+					v.floating = (Sflong_t)((Sfulong_t)v.floating >> (Sflong_t)r.floating);
 #else
-					v.floating = ((Sfulong_t)v.floating) >> ((Sflong_t)r.floating);
+					v.floating = (Sfulong_t)v.floating >> (Sflong_t)r.floating;
 #endif
 					break;
 				default:
@@ -1512,10 +1512,10 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			tmp.type = expr->type;
 			return tmp.data.constant.value;
 		case '!':
-			v.floating = !((Sflong_t)v.floating);
+			v.floating = !(Sflong_t)v.floating;
 			return v;
 		case '~':
-			v.floating = ~((Sflong_t)v.floating);
+			v.floating = ~(Sflong_t)v.floating;
 			return v;
 		case '-':
 			if (x)
@@ -1574,22 +1574,22 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
  */
 			{
 				Sflong_t op1, op2;
-				op1 = ((Sflong_t) v.floating);
-				op2 = ((Sflong_t) r.floating);
+				op1 = (Sflong_t)v.floating;
+				op2 = (Sflong_t)r.floating;
 				v.floating = (double) (op1 << op2);
 			}
 			return v;
 		case RS:
 #ifdef _WIN32
-			v.floating = (Sflong_t) (((Sfulong_t) v.floating) >> ((Sflong_t) r.floating));
+			v.floating = (Sflong_t) ((Sfulong_t)v.floating >> (Sflong_t)r.floating);
 #else
 /* IBM compilers can't deal with these shift operators on long long.
  *                                      v.floating = ((Sfulong_t)v.floating) >> ((Sflong_t)r.floating);
  */
 			{
 				Sflong_t op1, op2;
-				op1 = ((Sfulong_t) v.floating);
-				op2 = ((Sflong_t) r.floating);
+				op1 = (Sfulong_t)v.floating;
+				op2 = (Sflong_t)r.floating;
 				v.floating = (double) (op1 >> op2);
 			}
 #endif
@@ -1737,8 +1737,8 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
  */
 			{
 				Sflong_t op1, op2;
-				op1 = ((Sflong_t) v.floating);
-				op2 = ((Sflong_t) r.floating);
+				op1 = (Sflong_t)v.floating;
+				op2 = (Sflong_t)r.floating;
 				v.floating = (double) (op1 << op2);
 			}
 			return v;
@@ -1749,9 +1749,9 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			{
 				Sfulong_t op1;
 				Sflong_t op2;
-				op1 = ((Sfulong_t) v.floating);
-				op2 = ((Sflong_t) r.floating);
-				v.integer = (op1 >> op2);
+				op1 = (Sfulong_t)v.floating;
+				op2 = (Sflong_t)r.floating;
+				v.integer = op1 >> op2;
 			}
 			return v;
 		case '<':
