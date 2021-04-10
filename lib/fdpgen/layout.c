@@ -39,10 +39,7 @@
 #include <pack/pack.h>
 #include <fdpgen/clusteredges.h>
 #include <fdpgen/dbg.h>
-#include <setjmp.h>
 #include <stddef.h>
-
-static jmp_buf jbuf;
 
 typedef struct {
     graph_t*  rootg;  /* logical root; graph passed in to fdp_layout */
@@ -455,20 +452,6 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
 		chkPos(subg, dn, infop, &fix_bb);
 	for (n = agfstnode(subg); n; n = agnxtnode(subg, n)) {
 	    DNODE(n) = dn;
-#ifdef UNIMPLEMENTED
-/* This code starts the implementation of supporting pinned nodes
- * within clusters. This needs more work. In particular, we may need
- * a separate notion of pinning related to contained nodes, which will
- * allow the cluster itself to wiggle.
- */
-	    if (ND_pinned(n)) {
-		fix_bb.LL.x = MIN(fix_bb.LL.x, ND_pos(n)[0]);
-		fix_bb.LL.y = MIN(fix_bb.LL.y, ND_pos(n)[1]);
-		fix_bb.UR.x = MAX(fix_bb.UR.x, ND_pos(n)[0]);
-		fix_bb.UR.y = MAX(fix_bb.UR.y, ND_pos(n)[1]);
-		ND_pinned(dn) = MAX(ND_pinned(dn), ND_pinned(n));
-	    }
-#endif
 	}
 	if (ND_pinned(dn)) {
 	    ND_pos(dn)[0] = (fix_bb.LL.x + fix_bb.UR.x) / 2;
@@ -481,7 +464,7 @@ static graph_t *deriveGraph(graph_t * g, layout_info * infop)
 	if (!DNODE(n)) {
 	    if (PARENT(n) && PARENT(n) != GPARENT(g)) {
 		agerr (AGERR, "node \"%s\" is contained in two non-comparable clusters \"%s\" and \"%s\"\n", agnameof(n), agnameof(g), agnameof(PARENT(n)));
-		longjmp (jbuf, 1);
+		return NULL;
 	    }
 	    PARENT(n) = g;
 	    if (IS_CLUST_NODE(n))
@@ -844,8 +827,7 @@ setClustNodes(graph_t* root)
  * Add edges per components to get better packing, rather than
  * wait until the end.
  */
-static 
-void layout(graph_t * g, layout_info * infop)
+static int layout(graph_t * g, layout_info * infop)
 {
     point *pts = NULL;
     graph_t *dg;
@@ -873,6 +855,9 @@ void layout(graph_t * g, layout_info * infop)
 	DNODE(n) = 0;
 
     dg = deriveGraph(g, infop);
+    if (dg == NULL) {
+	return -1;
+    }
     cc = pg = findCComp(dg, &c_cnt, &pinned);
 
     while ((cg = *pg++)) {
@@ -883,8 +868,10 @@ void layout(graph_t * g, layout_info * infop)
 	    if (ND_clust(n)) {
 		pointf pt;
 		sg = expandCluster(n, cg);	/* attach ports to sg */
-		layout(sg, infop);
-		/* bb.LL == origin */
+		int r = layout(sg, infop);
+		if (r != 0) {
+                    return r;
+		}
 		ND_width(n) = BB(sg).UR.x;
 		ND_height(n) = BB(sg).UR.y;
 		pt.x = POINTS_PER_INCH * BB(sg).UR.x;
@@ -901,8 +888,6 @@ void layout(graph_t * g, layout_info * infop)
 		normalize (cg);
 	    fdp_xLayout(cg, &xpms);
 	}
-	/* set bounding box but don't use ports */
-	/* setBB (cg); */
     }
 
     /* At this point, each connected component has its nodes correctly
@@ -967,6 +952,8 @@ void layout(graph_t * g, layout_info * infop)
 #ifdef DEBUG
     decInd();
 #endif
+
+    return 0;
 }
 
 /* setBB;
@@ -1056,12 +1043,15 @@ static void fdp_init_graph(Agraph_t * g)
     fdp_init_node_edge(g);
 }
 
-static void fdpLayout(graph_t * g)
+static int fdpLayout(graph_t * g)
 {
     layout_info info;
 
     init_info(g, &info);
-    layout(g, &info);
+    int r = layout(g, &info);
+    if (r != 0) {
+        return r;
+    }
     setClustNodes(g);
     evalPositions(g,g);
 
@@ -1070,6 +1060,8 @@ static void fdpLayout(graph_t * g)
      * On return from spline drawing, all bounding boxes should be correct.
      */
     setBB(g);
+
+    return 0;
 }
 
 static void
@@ -1102,21 +1094,13 @@ fdpSplines (graph_t * g)
 
 void fdp_layout(graph_t * g)
 {
-    /* Agnode_t* n; */
-
     double save_scale = PSinputscale;
         
     PSinputscale = get_inputscale (g);
     fdp_init_graph(g);
-    if (setjmp(jbuf)) {
+    if (fdpLayout(g) != 0) {
 	return;
     }
-    fdpLayout(g);
-#if 0
-    /* free ND_alg field so it can be used in spline routing */
-    if ((n = agfstnode(g)))
-	free(ND_alg(n));
-#endif
     neato_set_aspect(g);
 
     if (EDGE_TYPE(g) != ET_NONE) fdpSplines (g); 
