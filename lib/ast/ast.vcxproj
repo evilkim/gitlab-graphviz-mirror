@@ -89,7 +89,6 @@
     <ClCompile Include="fmtbuf.c" />
     <ClCompile Include="fmtesc.c" />
     <ClCompile Include="pathaccess.c" />
-    <ClCompile Include="pathbin.c" />
     <ClCompile Include="pathcanon.c" />
     <ClCompile Include="pathcat.c" />
     <ClCompile Include="pathexists.c" />
