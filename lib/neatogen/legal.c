@@ -454,6 +454,11 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
 	return 0;
     }
     found = find_ints(vertex_list, polygon_list, &input, ilist);
+    if (found < 0) {
+	free(polygon_list);
+	free(vertex_list);
+	return 0;
+    }
 
     if (!found) {
 	found = findInside(polys, n_polys, polygon_list);
