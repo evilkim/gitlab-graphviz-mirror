@@ -693,7 +693,6 @@ exsplit(Expr_t * ex, Exnode_t * expr, void *env)
 	char *seps;
 	char *tok;
 	size_t sz;
-	Sfio_t* fp = ex->tmp;
 	Dt_t* arr = (Dt_t*)expr->data.split.array->local.pointer;
 	int i;
 
@@ -723,8 +722,12 @@ exsplit(Expr_t * ex, Exnode_t * expr, void *env)
 	    	break;
 		}
 		sz = strcspn (str, seps);
-		sfwrite (fp, str, sz);
-		tok = exstrdup(ex, sfstruse(fp));
+		tok = vmalloc(ex->vm, sz + 1);
+		if (tok == NULL) {
+			tok = exnospace();
+		} else {
+			strncpy(tok, str, sz + 1);
+		}
 		addItem (arr, v, tok);
 		v.integer++;
 		str += sz;
