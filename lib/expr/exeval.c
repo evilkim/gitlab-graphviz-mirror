@@ -204,6 +204,8 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
     struct tm *stm;
 
 
+	(void)sp;
+
 	dp->flags |= SFFMT_VALUE;
 	if (fmt->args)
 	{
