@@ -37,34 +37,38 @@ using namespace std;
 typedef enum { FORMAT_PS, FORMAT_PS2, FORMAT_EPS } format_type;
 
 struct Context {
-  PostscriptDocument *doc;
-  size_t (*save_write_fn) (GVJ_t *job, const char *s, size_t len);
+  using write_fn = size_t(*)(GVJ_t*, const char*, size_t);
+
+  Context(write_fn fn): save_write_fn(fn) { }
+
+  PostscriptDocument doc;
+  write_fn save_write_fn;
 };
 
 static size_t lasi_head_writer(GVJ_t * job, const char *s, size_t len)
 {
     Context *ctxt = reinterpret_cast<Context*>(job->context);
-    ctxt->doc->osHeader() << s;
+    ctxt->doc.osHeader() << s;
     return len;
 }
 
 static size_t lasi_body_writer(GVJ_t * job, const char *s, size_t len)
 {
     Context *ctxt = reinterpret_cast<Context*>(job->context);
-    ctxt->doc->osBody() << s;
+    ctxt->doc.osBody() << s;
     return len;
 }
 
 static size_t lasi_footer_writer(GVJ_t * job, const char *s, size_t len)
 {
     Context *ctxt = reinterpret_cast<Context*>(job->context);
-    ctxt->doc->osFooter() << s;
+    ctxt->doc.osFooter() << s;
     return len;
 }
 
 static void lasi_begin_job(GVJ_t * job)
 {
-    job->context = new Context{new PostscriptDocument, job->gvc->write_fn};
+    job->context = new Context(job->gvc->write_fn);
     job->gvc->write_fn = lasi_head_writer;
 
     gvprintf(job, "%%%%Creator: %s version %s (%s)\n",
@@ -108,12 +112,11 @@ static void lasi_end_job(GVJ_t * job)
         } swapper(cout, output);
     
         Context *ctxt = reinterpret_cast<Context*>(job->context);
-        ctxt->doc->write(cout);
+        ctxt->doc.write(cout);
     
         job->gvc->write_fn = ctxt->save_write_fn;
         gvputs(job, output.str().c_str());
 
-	delete ctxt->doc;
 	delete ctxt;
     }
 }
@@ -377,7 +380,7 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
 
     ps_set_color(job, &(job->obj->pencolor));
     Context *ctxt = reinterpret_cast<Context*>(job->context);
-    ctxt->doc->osBody() << setFont(font, style, weight, variant, stretch) << setFontSize(span->font->size) << endl;
+    ctxt->doc.osBody() << setFont(font, style, weight, variant, stretch) << setFontSize(span->font->size) << endl;
     switch (span->just) {
     case 'r':
         p.x -= span->size.x;
@@ -393,7 +396,7 @@ static void lasi_textspan(GVJ_t * job, pointf p, textspan_t * span)
     p.y += span->yoffset_centerline;
     gvprintpointf(job, p);
     gvputs(job, " moveto ");
-    ctxt->doc->osBody() << show(span->str) << endl;
+    ctxt->doc.osBody() << show(span->str) << endl;
 
 }
 
