@@ -1283,10 +1283,17 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 	case SSCANF:
 		v.integer = scan(ex, expr, env, NULL);
 		return v;
-	case SPRINTF:
-		print(ex, expr, env, ex->tmp);
-		v.string = exstash(ex->tmp, ex->ve);
+	case SPRINTF: {
+		Sfio_t *buffer = sfstropen();
+		if (buffer == NULL) {
+			fprintf(stderr, "out of memory\n");
+			exit(EXIT_FAILURE);
+		}
+		print(ex, expr, env, buffer);
+		v.string = exstash(buffer, ex->ve);
+		sfstrclose(buffer);
 		return v;
+	}
 	case '=':
 		v = eval(ex, expr->data.operand.right, env);
 		if (expr->subop != '=')
