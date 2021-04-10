@@ -271,7 +271,7 @@ static int gt(vertex **i, vertex **j)
 
 /* find_ints:
  * Check for pairwise intersection of polygon sides
- * Return 1 if intersection found, 0 otherwise.
+ * Return 1 if intersection found, 0 for not found, -1 for error.
  */
 static int
 find_ints(vertex vertex_list[],
@@ -335,7 +335,7 @@ find_ints(vertex vertex_list[],
 
 		if ((tempa = templ->active) == 0) {
 		    agerr(AGERR, "trying to delete a non-line\n");
-		    longjmp(jbuf, 1);
+		    return -1;
 		}
 		if (all.number == 1)
 		    all.final = all.first = 0;	/* delete the line */
