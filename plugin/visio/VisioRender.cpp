@@ -86,7 +86,7 @@ namespace Visio
 		gvputs(job, "</Page>\n");
 	}
 
-	void Render::BeginNode(GVJ_t* job)
+	void Render::BeginNode(GVJ_t*)
 	{
 		_inComponent = true;
 		ClearGraphicsAndTexts();
@@ -157,7 +157,7 @@ namespace Visio
 		ClearGraphicsAndTexts();
 	}
 
-	void Render::BeginEdge(GVJ_t* job)
+	void Render::BeginEdge(GVJ_t*)
 	{
 		_inComponent = true;
 		ClearGraphicsAndTexts();
@@ -246,14 +246,14 @@ namespace Visio
 			PrintOuterShape(job, *graphic);		
 	}
 
-	void Render::AddText(GVJ_t* job, const Text* text)
+	void Render::AddText(GVJ_t*, const Text* text)
 	{
 		/* if in component, accumulate for end node/edge */
 		if (_inComponent)
 			_texts.push_back(text);
 	}
 
-	void Render::AddHyperlink(GVJ_t* job, const Hyperlink* hyperlink)
+	void Render::AddHyperlink(GVJ_t*, const Hyperlink* hyperlink)
 	{
 		/* if in component, accumulate for end node/edge */
 		if (_inComponent)

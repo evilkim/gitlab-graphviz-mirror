@@ -110,7 +110,7 @@ void PairingHeap<T>::deleteMin( )
         root = NULL;
     else
         root = combineSiblings( root->leftChild );
-	counter--;
+    counter--;
     delete oldRoot;
 }
 

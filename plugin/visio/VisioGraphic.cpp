@@ -90,7 +90,7 @@ namespace Visio
 		_points[1] = points[1];
 	}
 	
-	void Ellipse::Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const
+	void Ellipse::Print(GVJ_t* job, pointf, pointf, bool) const
 	{
 		gvputs(job, "<Geom>\n");
 		if (!_filled)
@@ -301,7 +301,7 @@ namespace Visio
 		return NULL;
 	}
 	
-	void Polygon::Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const
+	void Polygon::Print(GVJ_t* job, pointf first, pointf last, bool) const
 	{
 		gvputs(job, "<Geom>\n");
 		if (!_filled)
@@ -355,7 +355,7 @@ namespace Visio
 		return NULL;
 	}
 	
-	void Polyline::Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const
+	void Polyline::Print(GVJ_t* job, pointf first, pointf last, bool) const
 	{
 		gvputs(job, "<Geom>\n");
 		if (_pointCount > 0)
