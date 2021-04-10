@@ -23,6 +23,7 @@
  */
 
 #include <ast/ast.h>
+#include <stdlib.h>
 #include <string.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -30,12 +31,20 @@
 #include <ast/compat_unistd.h>
 #endif
 
+static const char *getenv_path(void) {
+  const char *path = getenv("PATH");
+  if (path != NULL) {
+    return path;
+  }
+  return "";
+}
+
 char **opt_info_argv;
 
 char *pathpath(char *path, const char *p, const char *a, int mode)
 {
     char *s;
-    char *x;
+    const char *x;
     char buf[PATH_MAX];
 
     static char *cmd;
@@ -95,7 +104,7 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
 	    }
 	}
     }
-    x = !a && strchr(p, '/') ? "" : pathbin();
+    x = !a && strchr(p, '/') ? "" : getenv_path();
     if (!(s = pathaccess(path, x, p, a, mode)) && !*x
 	&& (x = getenv("FPATH")))
 	s = pathaccess(path, x, p, a, mode);
