@@ -11,9 +11,6 @@
 #include <math.h>
 #include <neatogen/neato.h>
 #include <pathplan/pathutil.h>
-#include <setjmp.h>
-
-static jmp_buf jbuf;
 
 #define MAXINTS  10000		/* modify this line to reflect the max no. of 
 				   intersections you want reported -- 50000 seems to break the program */
@@ -448,11 +445,6 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
     input.nvertices = nverts;
     input.npolygons = n_polys;
 
-    if (setjmp(jbuf)) {
-	free(polygon_list);
-	free(vertex_list);
-	return 0;
-    }
     found = find_ints(vertex_list, polygon_list, &input, ilist);
     if (found < 0) {
 	free(polygon_list);
