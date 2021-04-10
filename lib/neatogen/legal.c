@@ -178,7 +178,7 @@ putSeg (int i, vertex* v)
 }
 
 /* realIntersect:
- * Return 1 if a real inatersection has been found
+ * Return 1 if a real intersection has been found
  */
 static int
 realIntersect (vertex *firstv, vertex *secondv, pointf p)
