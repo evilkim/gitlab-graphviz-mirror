@@ -444,6 +444,8 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	Fmt_t*		fmt = (Fmt_t*)dp;
 	Exnode_t*	node;
 
+	(void)sp;
+
 	if (!fmt->actuals)
 	{
 		exerror("scanf: not enough arguments");
