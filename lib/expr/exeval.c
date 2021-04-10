@@ -87,7 +87,7 @@ evaldyn (Expr_t * ex, Exnode_t * expr, void *env, int delete)
 
 	v = eval(ex, expr->data.variable.index, env);
 	if (expr->data.variable.symbol->index_type == INTEGER) {
-		if (!(b = (Exassoc_t *) dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, &v))) {
+		if (!(b = dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, &v))) {
 			return 0;
 		}
 	} 
@@ -102,7 +102,7 @@ evaldyn (Expr_t * ex, Exnode_t * expr, void *env, int delete)
 			keyname = buf;
 		} else
 			keyname = v.string;
-		if (!(b = (Exassoc_t *) dtmatch((Dt_t *) expr->data.variable.
+		if (!(b = dtmatch((Dt_t *) expr->data.variable.
 			symbol->local.pointer, keyname))) {
 			return 0;
 		}
@@ -133,7 +133,7 @@ getdyn(Expr_t* ex, Exnode_t* expr, void* env, Exassoc_t** assoc)
 
 		v = eval(ex, expr->data.variable.index, env);
 		if (expr->data.variable.symbol->index_type == INTEGER) {
-			if (!(b = (Exassoc_t *) dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, &v))) 
+			if (!(b = dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, &v)))
 			{
 				if (!(b = newof(0, Exassoc_t, 1, 0)))
 					exnospace();
@@ -151,7 +151,7 @@ getdyn(Expr_t* ex, Exnode_t* expr, void* env, Exassoc_t** assoc)
 				keyname = buf;
 			} else
 				keyname = v.string;
-			if (!(b = (Exassoc_t *) dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, keyname))) 
+			if (!(b = dtmatch((Dt_t *) expr->data.variable.symbol->local.pointer, keyname)))
 			{
 				if (!(b = newof(0, Exassoc_t, 1, strlen(keyname))))
 					exnospace();
@@ -666,7 +666,7 @@ addItem (Dt_t* arr, Extype_t v, char* tok)
 {
 	Exassoc_t* b;
 
-	if (!(b = (Exassoc_t *) dtmatch(arr, &v))) {
+	if (!(b = dtmatch(arr, &v))) {
 		if (!(b = newof(0, Exassoc_t, 1, 0)))
 	    	exerror("out of space [assoc]");
 		b->key = v;
