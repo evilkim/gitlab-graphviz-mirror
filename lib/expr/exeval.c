@@ -698,7 +698,6 @@ exsplit(Expr_t * ex, Exnode_t * expr, void *env)
 	char *tok;
 	size_t sz;
 	Dt_t* arr = (Dt_t*)expr->data.split.array->local.pointer;
-	int i;
 
 	str = (eval(ex, expr->data.split.string, env)).string;
 	if (expr->data.split.seps)
@@ -714,7 +713,7 @@ exsplit(Expr_t * ex, Exnode_t * expr, void *env)
 	    		addItem (arr, v, "");
 	    		v.integer++;
 			}
-			for (i = 1; i < sz; i++) {
+			for (size_t i = 1; i < sz; i++) {
 	    		addItem (arr, v, "");
 	    		v.integer++;
 			}
