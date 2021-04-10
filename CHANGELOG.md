@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- $PATH is no longer assumed to be "/bin:/usr/bin:/usr/local/bin" if unset
+
 ## [2.47.1] - 2021-04-17
 
 ### Changed
