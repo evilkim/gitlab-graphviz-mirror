@@ -184,19 +184,13 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		} else {
 			// Close event
 			if(useNeighbourLists) {
-				for(NodeSet::iterator i=v->leftNeighbours->begin();
-					i!=v->leftNeighbours->end();i++
-				) {
-					Node *u=*i;
+				for(Node *u : *v->leftNeighbours) {
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(u->v,v->v,sep));
 					u->rightNeighbours->erase(v);
 				}
 				
-				for(NodeSet::iterator i=v->rightNeighbours->begin();
-					i!=v->rightNeighbours->end();i++
-				) {
-					Node *u=*i;
+				for(Node *u : *v->rightNeighbours) {
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(v->v,u->v,sep));
 					u->leftNeighbours->erase(v);
