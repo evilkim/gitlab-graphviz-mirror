@@ -158,8 +158,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 
 	NodeSet scanline;
 	vector<Constraint*> constraints;
-	for(i=0;i<2*n;i++) {
-		Event &e=events[i];
+	for(Event &e : events) {
 		Node *v=e.v;
 		if(e.type==Open) {
 			scanline.insert(v);
