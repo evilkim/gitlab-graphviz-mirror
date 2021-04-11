@@ -229,8 +229,8 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs) {
 	vector<Event> events;
 	events.reserve(2 * n);
-	int i,m;
-	for(i=0;i<n;i++) {
+	int m;
+	for(int i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreY();
 		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreY());
 		events.emplace_back(Open,v,rs[i]->getMinX());
@@ -273,6 +273,6 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		}
 	}
 	cs=new Constraint*[m=constraints.size()];
-	for(i=0;i<m;i++) cs[i]=constraints[i];
+	for(int i=0;i<m;i++) cs[i]=constraints[i];
 	return m;
 }
