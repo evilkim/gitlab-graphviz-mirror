@@ -247,11 +247,14 @@ portable-source:
         - export ASAN_OPTIONS=detect_leaks=0
         - python3 -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
         - ci/test_coverage.py --analyze
+    # enable test coverage visualization in MR diff view
+    coverage: '/  lines\.{6}: \d+\.\d+%/'
     artifacts:
         paths:
             - coverage/**
         reports:
             junit: ./report.xml
+            cobertura: coverage.xml
     except:
         - tags
 

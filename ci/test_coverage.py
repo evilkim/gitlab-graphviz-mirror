@@ -72,6 +72,13 @@ def main(args: List[str]) -> int:  # pylint: disable=C0116
     subprocess.check_call(
         ["genhtml", "--prefix", cwd, "--rc", "lcov_branch_coverage=1",
          "--output-directory", "coverage/lcov", "--show-details", "app_total.info"])
+    # generate coverage info for GitLab's Test Coverage Visualization
+    os.makedirs("coverage/gcovr", exist_ok=True)
+    subprocess.check_call(
+        ["gcovr"] + exclude_options +
+        ["--xml-pretty", "--html-details=coverage/gcovr/index.html",
+         "--exclude-unreachable-branches", "--print-summary", "--output", "coverage.xml", "--root",
+         cwd])
 
   return 0
 
