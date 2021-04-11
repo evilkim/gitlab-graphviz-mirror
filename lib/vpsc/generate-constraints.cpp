@@ -229,7 +229,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs) {
-	Event **events = new Event*[2*n];
+	vector<Event*> events(2 * n);
 	int ctr=0,i,m;
 	for(i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreY();
@@ -237,7 +237,7 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		events[ctr++]=new Event(Open,v,rs[i]->getMinX());
 		events[ctr++]=new Event(Close,v,rs[i]->getMaxX());
 	}
-	qsort((Event*)events, (size_t)2*n, sizeof(Event*), compare_events );
+	qsort((Event*)events.data(), (size_t)2*n, sizeof(Event*), compare_events );
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(i=0;i<2*n;i++) {
@@ -275,7 +275,6 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		}
 		delete e;
 	}
-	delete [] events;
 	cs=new Constraint*[m=constraints.size()];
 	for(i=0;i<m;i++) cs[i]=constraints[i];
 	return m;
