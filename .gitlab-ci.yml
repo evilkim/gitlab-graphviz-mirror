@@ -122,6 +122,9 @@ portable-source:
     script:
         - $ErrorActionPreference = "Stop"
         - $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+        - choco install --yes --no-progress python3
+        - $env:Path = "C:\Python39;" + $env:Path
+        - python --version
         # Toolchain definitions
         - if($Env:project_platform -eq "x64") {
             $TARGET_ARCH = "x64";
