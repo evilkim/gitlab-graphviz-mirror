@@ -16,6 +16,7 @@
  * Adaptagrams repository.
  */
 
+#include <algorithm>
 #include <set>
 #include <cassert>
 #include <cstdlib>
@@ -124,20 +125,18 @@ struct Event {
 	Event(EventType t, Node *v, double p) : type(t),v(v),pos(p) {};
 };
 
-int compare_events(const void *a, const void *b) {
-	Event *ea=*(Event**)a;
-	Event *eb=*(Event**)b;
+static bool compare_events(const Event *ea, const Event *eb) {
 	if(ea->v->r==eb->v->r) {
 		// when comparing opening and closing from the same rect
 		// open must come first
-		if(ea->type==Open) return -1;
-		return 1;
+		if(ea->type == Open && eb->type != Open) return true;
+		return false;
 	} else if(ea->pos > eb->pos) {
-		return 1;
+		return false;
 	} else if(ea->pos < eb->pos) {
-		return -1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 /**
@@ -154,7 +153,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		events[ctr++]=new Event(Open,v,rs[i]->getMinY());
 		events[ctr++]=new Event(Close,v,rs[i]->getMaxY());
 	}
-	qsort((Event*)events.data(), (size_t)2*n, sizeof(Event*), compare_events );
+	std::sort(events.begin(), events.end(), compare_events);
 
 	NodeSet scanline;
 	vector<Constraint*> constraints;
@@ -237,7 +236,7 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		events[ctr++]=new Event(Open,v,rs[i]->getMinX());
 		events[ctr++]=new Event(Close,v,rs[i]->getMaxX());
 	}
-	qsort((Event*)events.data(), (size_t)2*n, sizeof(Event*), compare_events );
+	std::sort(events.begin(), events.end(), compare_events);
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(i=0;i<2*n;i++) {
