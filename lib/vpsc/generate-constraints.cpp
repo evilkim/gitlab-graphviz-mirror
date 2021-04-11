@@ -19,6 +19,7 @@
 #include <set>
 #include <cassert>
 #include <cstdlib>
+#include <vector>
 #include <vpsc/generate-constraints.h>
 #include <vpsc/constraint.h>
 
@@ -145,7 +146,7 @@ int compare_events(const void *a, const void *b) {
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists) {
-	Event **events = new Event*[2*n];
+	vector<Event*> events(2 * n);
 	int i,m,ctr=0;
 	for(i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreX();
@@ -153,7 +154,7 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		events[ctr++]=new Event(Open,v,rs[i]->getMinY());
 		events[ctr++]=new Event(Close,v,rs[i]->getMaxY());
 	}
-	qsort((Event*)events, (size_t)2*n, sizeof(Event*), compare_events );
+	qsort((Event*)events.data(), (size_t)2*n, sizeof(Event*), compare_events );
 
 	NodeSet scanline;
 	vector<Constraint*> constraints;
@@ -219,7 +220,6 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		}
 		delete e;
 	}
-	delete [] events;
 	cs=new Constraint*[m=constraints.size()];
 	for(i=0;i<m;i++) cs[i]=constraints[i];
 	return m;
