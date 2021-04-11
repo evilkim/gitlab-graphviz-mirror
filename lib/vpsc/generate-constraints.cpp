@@ -125,15 +125,15 @@ struct Event {
 	Event(EventType t, Node *v, double p) : type(t),v(v),pos(p) {};
 };
 
-static bool compare_events(const Event *ea, const Event *eb) {
-	if(ea->v->r==eb->v->r) {
+static bool compare_events(const Event &ea, const Event &eb) {
+	if(ea.v->r==eb.v->r) {
 		// when comparing opening and closing from the same rect
 		// open must come first
-		if(ea->type == Open && eb->type != Open) return true;
+		if(ea.type == Open && eb.type != Open) return true;
 		return false;
-	} else if(ea->pos > eb->pos) {
+	} else if(ea.pos > eb.pos) {
 		return false;
-	} else if(ea->pos < eb->pos) {
+	} else if(ea.pos < eb.pos) {
 		return true;
 	}
 	return false;
@@ -145,22 +145,23 @@ static bool compare_events(const Event *ea, const Event *eb) {
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists) {
-	vector<Event*> events(2 * n);
-	int i,m,ctr=0;
+	vector<Event> events;
+	events.reserve(2 * n);
+	int i,m;
 	for(i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreX();
 		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreX());
-		events[ctr++]=new Event(Open,v,rs[i]->getMinY());
-		events[ctr++]=new Event(Close,v,rs[i]->getMaxY());
+		events.emplace_back(Open,v,rs[i]->getMinY());
+		events.emplace_back(Close,v,rs[i]->getMaxY());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(i=0;i<2*n;i++) {
-		Event *e=events[i];
-		Node *v=e->v;
-		if(e->type==Open) {
+		Event &e=events[i];
+		Node *v=e.v;
+		if(e.type==Open) {
 			scanline.insert(v);
 			if(useNeighbourLists) {
 				v->setNeighbours(
@@ -217,7 +218,6 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			scanline.erase(v);
 			delete v;
 		}
-		delete e;
 	}
 	cs=new Constraint*[m=constraints.size()];
 	for(i=0;i<m;i++) cs[i]=constraints[i];
@@ -228,21 +228,22 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs) {
-	vector<Event*> events(2 * n);
-	int ctr=0,i,m;
+	vector<Event> events;
+	events.reserve(2 * n);
+	int i,m;
 	for(i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreY();
 		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreY());
-		events[ctr++]=new Event(Open,v,rs[i]->getMinX());
-		events[ctr++]=new Event(Close,v,rs[i]->getMaxX());
+		events.emplace_back(Open,v,rs[i]->getMinX());
+		events.emplace_back(Close,v,rs[i]->getMaxX());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(i=0;i<2*n;i++) {
-		Event *e=events[i];
-		Node *v=e->v;
-		if(e->type==Open) {
+		Event &e=events[i];
+		Node *v=e.v;
+		if(e.type==Open) {
 			scanline.insert(v);
 			NodeSet::iterator i=scanline.find(v);
 			if(i!=scanline.begin()) {
@@ -272,7 +273,6 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			scanline.erase(v);
 			delete v;
 		}
-		delete e;
 	}
 	cs=new Constraint*[m=constraints.size()];
 	for(i=0;i<m;i++) cs[i]=constraints[i];
