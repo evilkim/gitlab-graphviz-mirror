@@ -263,6 +263,8 @@ static glCompColor GetglCompColor(char *color)
 }
 static void SetFillColor(sdot_op*  o, int param)
 {
+    (void)param;
+
     xdot_op * op=&o->op;
     glCompColor c = GetglCompColor(op->u.color);
     view->fillColor.R = c.R;
