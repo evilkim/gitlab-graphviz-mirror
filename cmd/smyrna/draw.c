@@ -274,6 +274,8 @@ static void SetFillColor(sdot_op*  o, int param)
 }
 static void SetPenColor(sdot_op* o, int param)
 {
+    (void)param;
+
     glCompColor c;
     xdot_op * op=&o->op;
     c = GetglCompColor(op->u.color);
