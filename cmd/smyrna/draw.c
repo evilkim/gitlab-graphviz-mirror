@@ -287,6 +287,8 @@ static void SetPenColor(sdot_op* o, int param)
 
 static void SetStyle(sdot_op* o, int param)
 {
+    (void)o;
+    (void)param;
 }
 
 static sdot_op * font_op;
