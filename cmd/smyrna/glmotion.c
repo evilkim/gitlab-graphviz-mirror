@@ -44,10 +44,6 @@ static void graph_zoom(float real_zoom)
 
 void glmotion_zoom_inc(int zoomin)
 {
-    float inc_value;
-    inc_value =
-	(float) (view->Topview->fitin_zoom * MAX_ZOOM * -1 -
-		 view->Topview->fitin_zoom * MIN_ZOOM * -1) / ZOOM_STEPS;
     if (zoomin)			/*zooming in , zoom value should be decreased */
 	graph_zoom(view->zoom - view->zoom * 0.25);
     else
