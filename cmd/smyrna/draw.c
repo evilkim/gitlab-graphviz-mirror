@@ -328,6 +328,8 @@ static void InsertImage(sdot_op * o, int param)
 
 static void EmbedText(sdot_op* o, int param)
 {
+	(void)param;
+
 	GLfloat x,y;
 	glColor4f(view->penColor.R,view->penColor.G,view->penColor.B,view->penColor.A);
 	view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF+0.05;
