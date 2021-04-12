@@ -295,6 +295,8 @@ static sdot_op * font_op;
 
 static void SetFont(sdot_op * o, int param)
 {
+	(void)param;
+
 	font_op=o;
 }
 
