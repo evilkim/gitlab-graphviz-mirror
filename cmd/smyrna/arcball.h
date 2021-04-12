@@ -558,6 +558,6 @@ struct _ArcBall_t {
 
 void init_arcBall(ArcBall_t * a, GLfloat NewWidth, GLfloat NewHeight);
 void arcmouseClick(void);
-void arcmouseDrag(ViewInfo * v);
+void arcmouseDrag(void);
 
 #endif

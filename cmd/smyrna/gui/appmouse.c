@@ -41,7 +41,7 @@ static void apply_actions(ViewInfo* v,int x,int y)
 		    view->arcball->isDragging = 1;
 		}
 		else 
-		    arcmouseDrag(view);
+		    arcmouseDrag();
 	    g_timer_start(view->timer3);
 	}
 	return;

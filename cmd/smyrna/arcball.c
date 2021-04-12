@@ -151,7 +151,7 @@ void arcmouseClick(void)
 
 }
 
-void arcmouseDrag(ViewInfo * v)
+void arcmouseDrag(void)
 {
     Quat4fT ThisQuat;
     drag(view->arcball, &view->arcball->MousePt, &ThisQuat);
