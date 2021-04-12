@@ -32,7 +32,7 @@ mkdir -p ${DIR}/source
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     cd build
-    cmake ..
+    cmake ${CMAKE_OPTIONS} ..
     cmake --build .
     cpack
     cd ..

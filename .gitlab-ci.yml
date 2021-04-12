@@ -372,6 +372,25 @@ ubuntu20-10-cmake-build:
     variables:
       IMAGE: ubuntu-20.10
 
+ubuntu20-10-cmake-ASan-build:
+    <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-20.10
+          artifacts: false
+        - job: portable-source
+          artifacts: true
+    before_script:
+        - export build_system="cmake"
+        # fail on any compiler warnings
+        - export CFLAGS=-Werror
+        - export CXXFLAGS=-Werror
+        - export CMAKE_OPTIONS="-Duse_sanitizers=ON"
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-20.10
+
 centos7-cmake-build:
     <<: *rpm_build_definition
     needs:
