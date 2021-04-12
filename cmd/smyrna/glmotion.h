@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-    void glmotion_zoom(ViewInfo * v);
+    void glmotion_zoom(void);
     void glmotion_pan(ViewInfo * v);
     void glmotion_zoom_inc(int zoomin);
 

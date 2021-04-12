@@ -52,7 +52,7 @@ void glmotion_zoom_inc(int zoomin)
 
 }
 
-void glmotion_zoom(ViewInfo * v)
+void glmotion_zoom(void)
 {
     float real_zoom;
     if (view->active_camera == -1) {

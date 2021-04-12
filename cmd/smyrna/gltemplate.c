@@ -333,7 +333,7 @@ scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 	    view->mouse.dragX = -30;
 	if (event->direction == 1)
 	    view->mouse.dragX = +30;
-	glmotion_zoom(view);
+	glmotion_zoom();
 	glexpose();
 	g_timer_start(view->timer2);
 
