@@ -247,7 +247,7 @@ static glCompColor GetglCompColor(char *color)
 {
     gvcolor_t cl;
     glCompColor c;
-    if (color != '\0') {
+    if (color != NULL) {
 	colorxlate(color, &cl, RGBA_DOUBLE);
 	c.R = (float) cl.u.RGBA[0];
 	c.G = (float) cl.u.RGBA[1];
