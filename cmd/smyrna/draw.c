@@ -106,7 +106,7 @@ static void DrawBezier(xdot_point* pts, int filled, int param)
     glEnd();
 }
 
-static void set_options(sdot_op * op, int param)
+static void set_options(int param)
 {
 
     int a=get_mode(view);
@@ -150,7 +150,7 @@ static void DrawEllipse(sdot_op*  o, int param)
     int filled;
     xdot_op * op=&o->op;
     view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF;
-    set_options((sdot_op *) op, param);
+    set_options(param);
     x = op->u.ellipse.x - dx;
     y = op->u.ellipse.y - dy;
     xradius = (GLfloat) op->u.ellipse.w;
@@ -196,7 +196,7 @@ static void DrawPolygon(sdot_op * o, int param)
     xdot_op *  op=&o->op;
     view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF;
 
-    set_options((sdot_op *) op, param);
+    set_options(param);
 
     if (op->kind == xd_filled_polygon) {
 	if (param == 0)
@@ -236,7 +236,7 @@ static void DrawPolyline(sdot_op* o, int param)
     if (param == 1)		//selected
 	glColor4f(view->selectedNodeColor.R, view->selectedNodeColor.G,
 		  view->selectedNodeColor.B, view->selectedNodeColor.A);
-    set_options((sdot_op *) op, param);
+    set_options(param);
     glLineWidth(view->LineWidth);
     glBegin(GL_LINE_STRIP);
     for (i = 0; i < op->u.polyline.cnt; i = i + 1) {
