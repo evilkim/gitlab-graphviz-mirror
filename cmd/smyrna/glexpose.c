@@ -18,7 +18,6 @@
 #include "polytess.h"
 
 GLuint texture[3];
-static int Status=0;									// Status Indicator
 
 static void drawRotatingAxis(void)
 {
