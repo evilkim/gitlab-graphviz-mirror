@@ -37,7 +37,7 @@ static void apply_actions(ViewInfo* v,int x,int y)
 		view->arcball->MousePt.s.X = (GLfloat) x;
 		view->arcball->MousePt.s.Y = (GLfloat) y;
 		if (!view->arcball->isDragging) {
-		    arcmouseClick(view);
+		    arcmouseClick();
 		    view->arcball->isDragging = 1;
 		}
 		else 

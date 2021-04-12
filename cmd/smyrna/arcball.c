@@ -143,7 +143,7 @@ static void drag(ArcBall_t * a, const Point2fT * NewPt, Quat4fT * NewRot)
     }
 }
 
-void arcmouseClick(ViewInfo * v)
+void arcmouseClick(void)
 {
     view->arcball->isDragging = 1;	// Prepare For Dragging
     view->arcball->LastRot = view->arcball->ThisRot;	// Set Last Static Rotation To Last Dynamic One
