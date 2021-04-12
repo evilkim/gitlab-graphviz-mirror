@@ -192,7 +192,6 @@ static void DrawEllipse(sdot_op*  o, int param)
 
 static void DrawPolygon(sdot_op * o, int param)
 {
-    int filled;
     xdot_op *  op=&o->op;
     view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF;
 
@@ -206,10 +205,7 @@ static void DrawPolygon(sdot_op * o, int param)
 	    glColor4f(view->selectedNodeColor.R, view->selectedNodeColor.G,
 		      view->selectedNodeColor.B,
 		      view->selectedNodeColor.A);
-
-	filled = 1;
     } else {
-	filled = 0;
 	if (param == 0)
 	    glColor4f(view->penColor.R, view->penColor.G, view->penColor.B,
 		      view->penColor.A);
