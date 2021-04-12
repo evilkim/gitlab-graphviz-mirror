@@ -53,7 +53,7 @@ static void drawRotatingAxis(void)
 	glVertex3f(0, 0, AL);
 
 	glEnd();
-	glColor4f(0, 1, 0, 0.3);
+	glColor4f(0, 1, 0, 0.3f);
 	gluSphere(quadratic, AL, 20, 20);
 	glLineWidth(1);
 	glPopMatrix();
