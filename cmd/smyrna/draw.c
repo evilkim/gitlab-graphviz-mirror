@@ -303,6 +303,8 @@ static void SetFont(sdot_op * o, int param)
 /*for now we only support png files in 2d space, no image rotation*/
 static void InsertImage(sdot_op * o, int param)
 {
+    (void)param;
+
     float x,y;
     glCompImage *i;
 
