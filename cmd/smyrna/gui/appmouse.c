@@ -11,9 +11,7 @@
 #include "appmouse.h"
 #include "topfisheyeview.h"
 #include "arcball.h"
-/* #include "topview.h" */
 #include "glmotion.h"
-/* #include "beacon.h" */
 #include "hotkeymap.h"
 
 #include "selectionfuncs.h"
@@ -56,7 +54,6 @@ static void apply_actions(ViewInfo* v,int x,int y)
 	break;
     case MM_RECTANGULAR_SELECT :
 	if (!view->mouse.down) {
-//	    rectangle_select(v);
 	    pick_objects_rect(view->g[view->activeGraph]) ;
 	}
 	break;
@@ -70,10 +67,6 @@ static void apply_actions(ViewInfo* v,int x,int y)
 	if (view->activeGraph >= 0) {
 	    if (view->Topview->fisheyeParams.active) 
 		changetopfishfocus(view->Topview,&view->mouse.GLpos.x,&view->mouse.GLpos.y,  0, 1);
-#if 0
-	    else    //single right click
-		pick_node_from_coords(view->mouse.GLpos.x, view->mouse.GLpos.y,view->mouse.GLpos.z);
-#endif
 
 	}
 	break;
@@ -108,18 +101,12 @@ static void appmouse_down(ViewInfo* v,int x,int y)
 
     prevX=0;
     prevY=0;
-
-/*    view->Selection.X = view->mouse.GLpos.x;
-    view->Selection.Y = view->mouse.GLpos.y;*/
 }
 static void appmouse_up(ViewInfo* v,int x,int y)
 {
-
-    /* int a; */
     v->mouse.down=0;
     v->mouse.finalPos.x=x;
     v->mouse.finalPos.y=y;
-    /* a=get_mode(v); */
     to3D(x,y, &v->mouse.GLfinalPos.x,&v->mouse.GLfinalPos.y,&v->mouse.GLfinalPos.z);
     if(singleclick(v))
     {
@@ -155,8 +142,6 @@ void appmouse_left_click_down(ViewInfo* v,int x,int y)
 void appmouse_left_click_up(ViewInfo* v,int x,int y)
 {
     appmouse_up(v,x,y);
-/*	if (v->mouse.mouse_mode == MM_MOVE)
-	    move_TVnodes();*/
 }
 void appmouse_left_drag(ViewInfo* v,int x,int y)
 {
@@ -209,7 +194,6 @@ void appmouse_move(ViewInfo* v,int x,int y)
 }
 void appmouse_key_release(ViewInfo* v,int key)
 {
-    /* int action=get_key_action(v,key); */
     if(lastAction==MM_POLYGON_SELECT)
     {
 	clear_selpoly(&view->Topview->sel.selPoly);	

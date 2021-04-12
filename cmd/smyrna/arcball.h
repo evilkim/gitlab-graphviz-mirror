@@ -213,32 +213,6 @@ typedef union Matrix4f_t {
 //Math functions
 
 #ifdef ARCBALL_C
-#ifdef UNUSED
-    /**
-     * Sets the value of this tuple to the vector sum of itself and tuple t1.
-     * @param t1  the other tuple
-     */
-static void Point2fAdd(Point2fT * NewObj, const Tuple2fT * t1)
-{
-    assert(NewObj && t1);
-
-    NewObj->s.X += t1->s.X;
-    NewObj->s.Y += t1->s.Y;
-}
-
-    /**
-      * Sets the value of this tuple to the vector difference of itself and tuple t1 (this = this - t1).
-      * @param t1 the other tuple
-      */
-
-static void Point2fSub(Point2fT * NewObj, const Tuple2fT * t1)
-{
-    assert(NewObj && t1);
-
-    NewObj->s.X -= t1->s.X;
-    NewObj->s.Y -= t1->s.Y;
-}
-#endif
     /**
       * Sets this vector to be the vector cross product of vectors v1 and v2.
       * @param v1 the first vector
@@ -300,28 +274,6 @@ static GLfloat Vector3fLength(const Vector3fT * NewObj)
 
     return FuncSqrt(Vector3fLengthSquared(NewObj));
 }
-
-
-#ifdef UNUSED
-static void Matrix3fSetZero(Matrix3fT * NewObj)
-{
-    NewObj->s.M00 = NewObj->s.M01 = NewObj->s.M02 =
-	NewObj->s.M10 = NewObj->s.M11 = NewObj->s.M12 =
-	NewObj->s.M20 = NewObj->s.M21 = NewObj->s.M22 = 0.0f;
-}
-
-    /**
-     * Sets this Matrix3 to identity.
-     */
-
-static void Matrix3fSetIdentity(Matrix3fT * NewObj)
-{
-    Matrix3fSetZero(NewObj);
-
-    //then set diagonal as 1
-    NewObj->s.M00 = NewObj->s.M11 = NewObj->s.M22 = 1.0f;
-}
-#endif
 
     /**
       * Sets the value of this matrix to the matrix conversion of the
@@ -464,7 +416,6 @@ static GLfloat Matrix4fSVD(const Matrix4fT * NewObj, Matrix3fT * rot3,
 
     if (rot3)			//if pointer not null
     {
-	//this->getRotationScale(rot3);
 	rot3->s.XX = NewObj->s.XX;
 	rot3->s.XY = NewObj->s.XY;
 	rot3->s.XZ = NewObj->s.XZ;

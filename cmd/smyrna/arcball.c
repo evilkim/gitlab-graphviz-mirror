@@ -143,22 +143,11 @@ static void drag(ArcBall_t * a, const Point2fT * NewPt, Quat4fT * NewRot)
     }
 }
 
-#ifdef UNUSED
-static void arcmouseRClick(ViewInfo * v)
-{
-    Matrix3fSetIdentity(&view->arcball->LastRot);	// Reset Rotation
-    Matrix3fSetIdentity(&view->arcball->ThisRot);	// Reset Rotation
-    Matrix4fSetRotationFromMatrix3f(&view->arcball->Transform, &view->arcball->ThisRot);	// Reset Rotation
-
-}
-#endif
-
 void arcmouseClick(ViewInfo * v)
 {
     view->arcball->isDragging = 1;	// Prepare For Dragging
     view->arcball->LastRot = view->arcball->ThisRot;	// Set Last Static Rotation To Last Dynamic One
     click(view->arcball, &view->arcball->MousePt);
-//    printf ("arcmouse click \n");
 
 }
 
@@ -171,37 +160,3 @@ void arcmouseDrag(ViewInfo * v)
     Matrix4fSetRotationFromMatrix3f(&view->arcball->Transform, &view->arcball->ThisRot);	// Set Our Final Transform's Rotation From This One
 
 }
-
-#ifdef UNUSED
-void Update(ViewInfo * view)
-{
-
-    if (view->arcball->isRClicked)	// If Right Mouse Clicked, Reset All Rotations
-    {
-	Matrix3fSetIdentity(&view->arcball->LastRot);	// Reset Rotation
-	Matrix3fSetIdentity(&view->arcball->ThisRot);	// Reset Rotation
-	Matrix4fSetRotationFromMatrix3f(&view->arcball->Transform, &view->arcball->ThisRot);	// Reset Rotation
-    }
-
-    if (!view->arcball->isDragging)	// Not Dragging
-    {
-	if (view->arcball->isClicked)	// First Click
-	{
-	    view->arcball->isDragging = 1;	// Prepare For Dragging
-	    view->arcball->LastRot = view->arcball->ThisRot;	// Set Last Static Rotation To Last Dynamic One
-	    click(view->arcball, &view->arcball->MousePt);
-	}
-    } else {
-	if (view->arcball->isClicked)	// Still Clicked, So Still Dragging
-	{
-	    Quat4fT ThisQuat;
-
-	    drag(view->arcball, &view->arcball->MousePt, &ThisQuat);
-	    Matrix3fSetRotationFromQuat4f(&view->arcball->ThisRot, &ThisQuat);	// Convert Quaternion Into Matrix3fT
-	    Matrix3fMulMatrix3f(&view->arcball->ThisRot, &view->arcball->LastRot);	// Accumulate Last Rotation Into This One
-	    Matrix4fSetRotationFromMatrix3f(&view->arcball->Transform, &view->arcball->ThisRot);	// Set Our Final Transform's Rotation From This One
-	} else			// No Longer Dragging
-	    view->arcball->isDragging = 0;
-    }
-}
-#endif

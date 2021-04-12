@@ -23,9 +23,6 @@
 
 #include "frmobjectui.h"
 
-
-/* static glCompPanel *controlPanel; */
-/* static glCompButton *rotatebutton; */
 static glCompPanel *sel = NULL;
 static glCompButton *to3DBtn;
 static glCompButton *to2DBtn;
@@ -41,15 +38,6 @@ void menu_click_pan(glCompObj *obj, GLfloat x, GLfloat y,
 {
         deselect_all(view->g[view->activeGraph]);
 }
-
-#ifdef UNUSED
-static void menu_click_zoom(void *obj, GLfloat x, GLfloat y,
-			    glMouseButtonType t)
-{
-    switch_Mouse(NULL, MM_ZOOM);
-}
-#endif
-
 
 void menu_click_zoom_minus(glCompObj *obj, GLfloat x, GLfloat y,
 				  glMouseButtonType t)
@@ -137,7 +125,6 @@ void switch2D3D(glCompObj *obj, GLfloat x, GLfloat y,
 
 static void CBglCompMouseUp(glCompObj *obj, GLfloat x, GLfloat y, glMouseButtonType t)
 {
-    /* glCompMouse* m=&((glCompSet*)obj)->mouse; */
     sel->common.visible = 0;
     sel->common.pos.x = -5000;
 
@@ -191,39 +178,14 @@ static void selectnodes(glCompObj *obj, GLfloat x, GLfloat y)
 	view->Topview->sel.selectNodes=0;
 }
 
-#if 0
-void testContainer(glCompSet *s)
-{
-    glCompPanel* p;
-
-    p = glCompPanelNew((glCompObj *) s, 100, 100, 500, 500);
-    p = glCompPanelNew((glCompObj *) p, 0, 0, 480, 480);
-    p->common.anchor.leftAnchor=1;
-    p->common.anchor.bottomAnchor=1;
-    p->common.anchor.topAnchor=1;
-    p->common.anchor.rightAnchor=1;
-
-
-    p->common.anchor.left=10;
-    p->common.anchor.bottom=50;
-    p->common.anchor.top=10;
-    p->common.anchor.right=10;
-}
-#endif
-
-
 glCompSet *glcreate_gl_topview_menu(void)
 {
-    /* static char* icondir[512]; */
-    /* int ind=0; */
     GLfloat y = 5;
     GLfloat off = 43;
     glCompSet *s = glCompSetNew(view->w, view->h);
     glCompPanel *p = NULL;
     glCompButton *b = NULL;
-    /* glCompLabel *l=NULL; */
     glCompImage *i = NULL;
-    /* glCompLabel* l; */
     glCompColor c;
     s->common.callbacks.click = CBglCompMouseRightClick;
 
@@ -374,19 +336,3 @@ glCompSet *glcreate_gl_topview_menu(void)
 
 
 }
-
-#if 0
-int getIconsDirectory(char *bf)
-{
-#ifdef _WIN32
-    int a = GetCurrentDirectory(512, bf);
-    if ((a > 512) || (a == 0))
-	return 0;
-#else
-    //code *nix implementation to retrieve the icon directory, possibly some /share dir.
-    /* FIXME */
-#endif
-    return 1;
-
-}
-#endif

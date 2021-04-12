@@ -81,30 +81,6 @@ static void set_boundaries(Agraph_t * g, topview * t)
     view->bdzBottom = 0;
 }
 
-#if UNUSED
-static float init_node_size(Agraph_t * g, topview * t)
-{
-    float vsize;
-    int percent;
-    float sz;
-    percent = atoi(agget(g, "nodesize"));
-    if (percent == 0)
-	percent = 0.000001;
-    vsize =
-	0.05 * sqrt((view->bdxRight - view->bdxLeft) *
-		    (view->bdyTop - view->bdyBottom));
-    sz =	vsize * 2  * percent / 100.0 /
-	sqrt(t->Nodecount);
-/*    if (t->init_node_size < 1)
-	t->init_node_size=1;*/
-//    t->init_zoom = view->zoom;
-    t->init_zoom = -20;
-    return  sz;
-
-}
-#endif
-
-
 static void draw_xdot(xdot* x,float base_z)
 {
 	int i;
@@ -887,7 +863,6 @@ void updateSmGraph(Agraph_t * g,topview* t)
 
     set_boundaries(g,t);
     t->avgedgelength = totalELength / t->Edgecount;
-//    t->init_node_size=init_node_size(g, t);
     view->Topview=t;
 
 
@@ -936,9 +911,7 @@ void renderSmGraph(Agraph_t * g,topview* t)
 
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_DEPTH_TEST);
-    /* glDepthFunc (GL_ALWAYS); */
     glEnable(GL_DEPTH);
-//    glDepthMask(0);
 
     if(view->drawedges)
     {
@@ -967,7 +940,4 @@ void renderSmGraph(Agraph_t * g,topview* t)
 
 void freeSmGraph(Agraph_t * g,topview* t)
 {
-    return ;
 }
-
-

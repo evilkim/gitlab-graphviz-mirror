@@ -30,21 +30,6 @@
 extern "C" {
 #endif
 
-#if 0
-    void examine_gl_config_attrib(GdkGLConfig * glconfig);
-    void print_gl_config_attrib(GdkGLConfig * glconfig,
-				const gchar * attrib_str, int attrib,
-				gboolean is_boolean);
-void realize (GtkWidget *widget,gpointer   data);
-gboolean configure_event (GtkWidget *widget,GdkEventConfigure *event, gpointer data);
-gboolean button_press_event (GtkWidget *widget,GdkEventButton *event,gpointer data);
-gboolean button_release_event (GtkWidget *widget,GdkEventButton *event,gpointer data);
-gboolean motion_notify_event (GtkWidget *widget,GdkEventMotion *event,gpointer data);
-gboolean key_press_event (GtkWidget *widget, GdkEventKey *event,gpointer data);
-gboolean button_press_event_popup_menu (GtkWidget *widget,GdkEventButton *event,gpointer data);
-    void switch_Mouse(GtkMenuItem * menuitem, int mouse_mode);
-#endif
-
     gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 			  gpointer data);
     extern GdkGLConfig *configure_gl(void);

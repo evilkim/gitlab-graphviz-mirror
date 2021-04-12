@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include "gui.h"
-/* #include "abstring.h" */
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdk.h>
@@ -154,21 +153,11 @@ attr_list *attr_list_new(Agraph_t * g, int with_widgets)
     l->with_widgets = with_widgets;
     /*create filter widgets */
 
-/*			gtk_widget_add_events(glade_xml_get_widget(xml, "frmObject"),
-			//  GDK_BUTTON_MOTION_MASK      = 1 << 4,
-			  GDK_BUTTON_MOTION_MASK |
-			  GDK_POINTER_MOTION_MASK |
-			  GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS |
-			  GDK_BUTTON_RELEASE_MASK |
-			  GDK_SCROLL | GDK_VISIBILITY_NOTIFY_MASK);
-
-    g_signal_connect((gpointer)glade_xml_get_widget(xml, "frmObject"), "motion_notify_event",  G_CALLBACK(attr_label_motion), NULL);*/
     if (with_widgets) {
 	for (id = 0; id < MAX_FILTERED_ATTR_COUNT; id++) {
 	    l->fLabels[id] = (GtkLabel *) gtk_label_new("");
 
 	    gtk_widget_add_events((GtkWidget *) l->fLabels[id],
-				  //  GDK_BUTTON_MOTION_MASK      = 1 << 4,
 				  GDK_BUTTON_MOTION_MASK |
 				  GDK_POINTER_MOTION_MASK |
 				  GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS |
@@ -233,7 +222,6 @@ void attr_list_add(attr_list * l, attr_t * a)
 }
 static attr_data_type get_attr_data_type(char c)
 {
-//typedef enum {attr_alpha,attr_float,attr_int,attr_bool,attr_drowdown,attr_color} attr_data_type;
     switch (c) {
     case 'A':
 	return attr_alpha;
@@ -319,7 +307,6 @@ static attr_t *pBinarySearch(attr_list * l, char *searchKey)
 	if (res == 0) {
 	    return l->attributes[middle];
 	}
-//        else if               ( searchKey < b[ middle ] ) {
 	else if (res < 0) {
 	    high = middle - 1;
 	} else {
@@ -368,7 +355,6 @@ void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
     }
 }
 void filter_attributes(char *prefix, topview * t)
-//void filter_attributes(char* prefix, attr_list* l)
 {
 
     int ind;
@@ -442,7 +428,6 @@ void filter_attributes(char *prefix, topview * t)
 				   glade_xml_get_widget(xml,
 							"txtDefValue"),
 				   fl->attributes[0]->defValE);
-//                      gtk_entry_set_text((GtkEntry*)glade_xml_get_widget(xml, "txtValue"),agget(view->g[view->activeGraph],prefix));
 	    gtk_widget_set_sensitive(glade_xml_get_widget
 				     (xml, "txtDefValue"), 0);
 	    gtk_widget_hide(glade_xml_get_widget(xml, "attrAddBtn"));
@@ -469,7 +454,6 @@ void filter_attributes(char *prefix, topview * t)
 
 _BB void on_txtAttr_changed(GtkWidget * widget, gpointer user_data)
 {
-//      printf ("attr text has been changed to %s \n",gtk_entry_get_text((GtkEntry*)widget));
     filter_attributes((char *) gtk_entry_get_text((GtkEntry *) widget),
 		      view->Topview);
 }
@@ -584,11 +568,6 @@ _BB void on_attrProg_toggled(GtkWidget * widget, gpointer user_data)
 _BB void attr_label_motion(GtkWidget * widget, GdkEventMotion * event,
 			   gpointer data)
 {
-#ifdef UNUSED
-    float x = (float) event->x;
-    float y = (float) event->y;
-    printf("%f %f \n", x, y);
-#endif
 }
 _BB void on_attrAddBtn_clicked(GtkWidget * widget, gpointer user_data)
 {
@@ -738,7 +717,7 @@ attr_list *load_attr_list(Agraph_t * g)
     return l;
 }
 
- /**/ static void set_header_text(void)
+static void set_header_text(void)
 {
     int nodeCnt = 0;
     int edgeCnt = 0;

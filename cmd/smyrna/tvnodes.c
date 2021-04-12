@@ -176,7 +176,6 @@ static void create_toggle_column(char *Title, GtkTreeView * tree, int asso,
     GtkCellRendererToggle *renderer;
     renderer = (GtkCellRendererToggle *) gtk_cell_renderer_toggle_new();
     renderer->activatable = editable;
-    /* g_object_set(G_OBJECT(renderer), "foreground", "red", NULL); */
 
     column =
 	gtk_tree_view_column_new_with_attributes(Title,
@@ -187,18 +186,6 @@ static void create_toggle_column(char *Title, GtkTreeView * tree, int asso,
     gtk_tree_view_column_set_resizable(column, 1);
 
 }
-
-#ifdef UNUSED
-static int boolStrMap(char *str)
-{
-    if (strcmp(str, "1") || strcmp(str, "true") || strcmp(str, "TRUE")
-	|| strcmp(str, "True"))
-	return 1;
-    return 0;
-
-}
-
-#endif
 
 static void populate_data(Agraph_t * g, grid * grid)
 {
@@ -365,9 +352,7 @@ static grid *update_columns(grid * g, char *str)
 	    return g;
     } else
 	g = initGrid(str);
-    /* add_column(g, ID, 0, G_TYPE_STRING); */
     add_column(g, Name, 0, G_TYPE_STRING);
-    /* add_column(g, visible, 0, G_TYPE_BOOLEAN); */
     if (!str)
 	return g;
 

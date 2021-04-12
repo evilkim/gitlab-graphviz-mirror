@@ -19,39 +19,10 @@
 #include "draw.h"
 #include "gui.h"
 #include "topviewsettings.h"
-/* #include "topview.h" */
 #include <viewport.h>
-//#include <gltemplate.h> 
 
 #include <gvpr/gvpr.h>
 extern GladeXML *xml;		//global libglade vars
-
-/*    typedef struct {
-	char* def;
-	char *script;
-	char *args;
-	char *attr_name;	
-	void* obj;
-	gvpr_arg_type arg_type;
-    } gvprscript;*/
-    //_on_click="(gvpr_no_arg)N{node.color="red"){N.color="blue"}";
-
-
-/*arg_type get_arg_type(char* str)
-{
-    
-
-
-}*/
-
-#if 0
-gvprscript* scr_from_string(char* str,void* obj)
-{
-
-    return NULL;
-}
-#endif
-
 
 static ssize_t outfn(void *sp, const char *buf, size_t nbyte, void *dp)
 {
@@ -63,26 +34,6 @@ static ssize_t outfn(void *sp, const char *buf, size_t nbyte, void *dp)
 		    glade_xml_get_widget(xml, "mainconsole"), buf, nbyte);
     return (ssize_t)nbyte;
 }
-
-#ifdef UNUSED
-static ssize_t errfn(void *sp, const char *buf, size_t nbyte, void *dp)
-{
-    return 0;
-}
-static void set_refresh(ViewInfo* v,char* script)
-{
-    if(strstr(script,"pos"))
-	v->refresh.pos=1;
-    if(strstr(script,"color"))
-	v->refresh.color=1;
-    if(strstr(script,"visible"))
-	v->refresh.visibility=1;
-    if(strstr(script,"size"))
-	v->refresh.nodesize=1;
-    if(strstr(script,"selected"))
-	v->refresh.selection=1;
-}
-#endif
 
 int run_gvpr(Agraph_t * srcGraph, int argc, char *argv[])
 {
@@ -117,10 +68,8 @@ int run_gvpr(Agraph_t * srcGraph, int argc, char *argv[])
 	}
     } else 
     { 
-	/* set_refresh(view,argv[1]); */
 	updateRecord (srcGraph);
         update_graph_from_settings(srcGraph);
-//	update_topview(srcGraph, view->Topview, 0);
     }
     return rv;
 }
