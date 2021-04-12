@@ -20,40 +20,6 @@
 GLuint texture[3];
 static int Status=0;									// Status Indicator
 
-void LoadGLTextures()									// Load Bitmaps And Convert To Textures
-{
-	int imageWidth,imageHeight;
-
-	unsigned char *data = glCompLoadPng ("c:/graphviz-ms/bin/Data/Crate.png", &imageWidth, &imageHeight);
-
-	if (!data)
-	{
-	    printf ("Data/Crate.bmp could not be located\n");
-	    exit(-1);
-	}
-	// Load The Bitmap, Check For Errors, If Bitmap's Not Found Quit
-	glGenTextures(3, &texture[0]);					// Create Three Textures
-
-		// Create Nearest Filtered Texture
-		glBindTexture(GL_TEXTURE_2D, texture[0]);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, imageWidth,imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-		// Create Linear Filtered Texture
-		glBindTexture(GL_TEXTURE_2D, texture[1]);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, imageWidth,imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-		// Create MipMapped Texture
-		glBindTexture(GL_TEXTURE_2D, texture[2]);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, imageWidth,imageHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
-	Status=1;									// Set The Status To TRUE
-}
-
 static void drawRotatingAxis(void)
 {
     static GLUquadricObj *quadratic;
