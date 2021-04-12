@@ -49,7 +49,7 @@ static glMouseButtonType getGlCompMouseType(int n)
 	params:gtk gl config class , attribute name and id,if boolean expected send is_boolean true
 	return value:none
 */
-void print_gl_config_attrib(GdkGLConfig * glconfig,
+static void print_gl_config_attrib(GdkGLConfig * glconfig,
 			    const gchar * attrib_str,
 			    int attrib, gboolean is_boolean)
 {
