@@ -17,7 +17,9 @@
 #include <cstdlib>
 #include <string.h>
 
-extern "C" char *xml_string(char* str);
+// slight lie that this function takes a const pointer (it does not, but we know
+// it does not modify its argument)
+extern "C" char *xml_string(const char* str);
 
 namespace Visio
 {
@@ -51,16 +53,10 @@ namespace Visio
 		gvputs(job, "</Para>\n");
 	}
 	
-	Run::Run(boxf bounds, char* text):
+	Run::Run(boxf bounds, const char* text):
 		_bounds(bounds),
-		_text(strdup(text))	/* copy text */
+		_text(text)	/* copy text */
 	{
-	}
-	
-	Run::~Run()
-	{
-		/* since we copied, we need to free */
-		free(_text);
 	}
 	
 	boxf Run::GetBounds() const
@@ -70,7 +66,7 @@ namespace Visio
 	
 	void Run::Print(GVJ_t* job, unsigned int index) const
 	{
-		gvprintf(job, "<pp IX='%d'/><cp IX='%d'/>%s\n", index, index, _text ? xml_string(_text) : "");	/* para mark + char mark + actual text */
+		gvprintf(job, "<pp IX='%d'/><cp IX='%d'/>%s\n", index, index, xml_string(_text.c_str()));	/* para mark + char mark + actual text */
 	}
 	
 	Text* Text::CreateText(GVJ_t* job, pointf p, textspan_t* span)

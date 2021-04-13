@@ -11,6 +11,7 @@
 #pragma once
 
 #include <common/types.h>
+#include <string>
 
 namespace Visio
 {
@@ -59,8 +60,7 @@ namespace Visio
 	class Run
 	{
 	public:
-		Run(boxf bounds, char* text);
-		~Run();
+		Run(boxf bounds, const char* text);
 		
 		boxf GetBounds() const;		/* bounding box -- used by text logic */
 		
@@ -69,7 +69,7 @@ namespace Visio
 		
 	private:
 		boxf _bounds;
-		char* _text;
+		std::string _text;
 	};
 	
 	/* Para, Char and Run details for each Graphviz text */
