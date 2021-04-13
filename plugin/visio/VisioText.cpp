@@ -139,30 +139,21 @@ namespace Visio
 		return new Hyperlink(tooltip, url, target);
 	}
 
-	Hyperlink::Hyperlink(char* description, char* address, char* frame):
-		_description(strdup(description)),
-		_address(strdup(address)),
-		_frame(strdup(frame))
+	Hyperlink::Hyperlink(const char* description, const char* address,
+		const char* frame):
+		_description(description),
+		_address(address),
+		_frame(frame)
 	{
-	}
-	
-	Hyperlink::~Hyperlink()
-	{
-		free(_description);
-		free(_address);
-		free(_frame);
 	}
 	
 	/* output the hyperlink */
 	void Hyperlink::Print(GVJ_t* job, unsigned int id, bool isDefault) const
 	{
 		gvprintf(job, "<Hyperlink ID='%d'>\n", id);
-		if (_description)
-			gvprintf(job, "<Description>%s</Description>\n", _description);
-		if (_address)
-			gvprintf(job, "<Address>%s</Address>\n", _address);
-		if (_frame)
-			gvprintf(job, "<Frame>%s</Frame>\n", _frame);
+		gvprintf(job, "<Description>%s</Description>\n", _description.c_str());
+		gvprintf(job, "<Address>%s</Address>\n", _address.c_str());
+		gvprintf(job, "<Frame>%s</Frame>\n", _frame.c_str());
 		if (isDefault)
 			gvputs(job, "<Default>1</Default>\n");
 		gvputs(job, "</Hyperlink>\n");

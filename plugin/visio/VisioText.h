@@ -99,15 +99,14 @@ namespace Visio
 	public:
 		static Hyperlink* CreateHyperlink(GVJ_t* job, char* url, char* tooltip, char* target, char* id);
 		
-		Hyperlink(char* description, char* address, char* frame);
-		~Hyperlink();
+		Hyperlink(const char* description, const char* address, const char* frame);
 		
 		/* given the id, whether it is default, output the hyperlink */
 		void Print(GVJ_t* job, unsigned int id, bool isDefault) const;
 		
 	private:
-		char* _description;
-		char* _address;
-		char* _frame;
+		std::string _description;
+		std::string _address;
+		std::string _frame;
 	};
 }
