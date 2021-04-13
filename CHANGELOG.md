@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- More detailed error messages when opening input file fails
+
 ### Fixed
 
 - Windows build thinks xdg-open can be used to open a web browser #1954
