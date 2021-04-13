@@ -216,9 +216,9 @@ namespace Visio
 		AddText(job, Text::CreateText(job, p, span));
 	}
 
-	void Render::AddAnchor(GVJ_t *job, char *url, char *tooltip, char *target, char *id)
+	void Render::AddAnchor(GVJ_t *job, char *url, char *tooltip, char *target, char*)
 	{
-		AddHyperlink(job, Hyperlink::CreateHyperlink(job, url, tooltip, target, id));
+		AddHyperlink(job, Hyperlink(url, tooltip, target));
 	}
 	
 	void Render::ClearGraphicsAndTexts()

@@ -134,11 +134,6 @@ namespace Visio
 		_run.Print(job, index);
 	}
 
-	Hyperlink Hyperlink::CreateHyperlink(GVJ_t*, char* url, char* tooltip, char* target, char*)
-	{
-		return Hyperlink(tooltip, url, target);
-	}
-
 	Hyperlink::Hyperlink(const char* description, const char* address,
 		const char* frame):
 		_description(description),
