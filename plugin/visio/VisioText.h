@@ -79,19 +79,17 @@ namespace Visio
 	public:
 		static Text* CreateText(GVJ_t* job, pointf p, textspan_t* span);
 		
-		~Text();
-		
 		boxf GetBounds() const;
 		
 		void Print(GVJ_t* job) const;
 		void PrintRun(GVJ_t* job, unsigned int index) const;
 		
 	private:
-		Text(const Para &para, const Char &chars, Run* run);
+		Text(const Para &para, const Char &chars, const Run &run);
 		
 		Para _para;
 		Char _chars;
-		Run* _run;
+		Run _run;
 	};
 	
 	/* Hyperlink VDX element */

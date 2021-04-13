@@ -106,27 +106,21 @@ namespace Visio
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
 				job->obj->pencolor.u.rgba[2]),
-			new Run(
+			Run(
 				bounds,
 				span->str));
 	}
 	
-	Text::Text(const Para &para, const Char &chars, Run* run):
+	Text::Text(const Para &para, const Char &chars, const Run &run):
 		_para(para),
 		_chars(chars),
 		_run(run)
 	{
 	}
 	
-	Text::~Text()
-	{
-		if (_run)
-			delete _run;
-	}
-	
 	boxf Text::GetBounds() const
 	{
-		return _run->GetBounds();
+		return _run.GetBounds();
 	}
 	
 	void Text::Print(GVJ_t* job) const
@@ -137,8 +131,7 @@ namespace Visio
 	
 	void Text::PrintRun(GVJ_t* job, unsigned int index) const
 	{
-		if (_run)
-			_run->Print(job, index);
+		_run.Print(job, index);
 	}
 
 	Hyperlink* Hyperlink::CreateHyperlink(GVJ_t*, char* url, char* tooltip, char* target, char*)
