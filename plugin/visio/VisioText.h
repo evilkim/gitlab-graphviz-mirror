@@ -97,7 +97,7 @@ namespace Visio
 	class Hyperlink
 	{
 	public:
-		static Hyperlink* CreateHyperlink(GVJ_t* job, char* url, char* tooltip, char* target, char* id);
+		static Hyperlink CreateHyperlink(GVJ_t* job, char* url, char* tooltip, char* target, char* id);
 		
 		Hyperlink(const char* description, const char* address, const char* frame);
 		
