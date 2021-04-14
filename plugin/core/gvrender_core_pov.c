@@ -328,9 +328,10 @@ static char *el(GVJ_t* job, char *template, ...)
 #else
 	int len;
 	char *str;
-	va_list arglist;
+	va_list arglist, arglist2;
 
 	va_start(arglist, template);
+	va_copy(arglist2, arglist);
 	len = vsnprintf(NULL, 0, template, arglist);
 	if (len < 0) {
 		job->common->errorfn("pov renderer:el - %s\n", strerror(errno));
@@ -338,11 +339,10 @@ static char *el(GVJ_t* job, char *template, ...)
 	}
 	else {
 		str = malloc (len+1);
-		va_end(arglist);
-		va_start(arglist, template);
-		vsprintf(str, template, arglist);
+		vsprintf(str, template, arglist2);
 	}
 	va_end(arglist);
+	va_end(arglist2);
 
 	return str;
 #endif
