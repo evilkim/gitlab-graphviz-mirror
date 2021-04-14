@@ -111,6 +111,7 @@ static void psgen_begin_graph(GVJ_t * job)
 
 static void psgen_begin_layer(GVJ_t * job, char *layername, int layerNum, int numLayers)
 {
+    (void)layername;
     gvprintf(job, "%d %d setlayer\n", layerNum, numLayers);
 }
 
