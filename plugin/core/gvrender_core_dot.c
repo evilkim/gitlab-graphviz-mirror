@@ -133,20 +133,20 @@ static void xdot_fmt_num (char* buf, double v)
     xdot_trim_zeros (buf, 1);
 }
 
-static void xdot_point(agxbuf *xbuf, pointf p)
+static void xdot_point(agxbuf *xb, pointf p)
 {
     char buf[BUFSIZ];
     xdot_fmt_num (buf, p.x);
-    agxbput(xbuf, buf);
+    agxbput(xb, buf);
     xdot_fmt_num (buf, yDir(p.y));
-    agxbput(xbuf, buf);
+    agxbput(xb, buf);
 }
 
-static void xdot_num(agxbuf *xbuf, double v)
+static void xdot_num(agxbuf *xb, double v)
 {
     char buf[BUFSIZ];
     xdot_fmt_num (buf, v);
-    agxbput(xbuf, buf);
+    agxbput(xb, buf);
 }
 
 static void xdot_points(GVJ_t *job, char c, pointf * A, int n)
@@ -186,20 +186,20 @@ static void xdot_style (GVJ_t *job)
 {
     unsigned char buf0[BUFSIZ];
     char buf [128]; /* enough to hold a double */
-    agxbuf xbuf;
+    agxbuf xb;
     char* p, **s;
     int more;
 
-    agxbinit(&xbuf, BUFSIZ, buf0);
+    agxbinit(&xb, BUFSIZ, buf0);
 
     /* First, check if penwidth state is correct */
     if (job->obj->penwidth != penwidth[job->obj->emit_state]) {
 	penwidth[job->obj->emit_state] = job->obj->penwidth;
-	agxbput (&xbuf, "setlinewidth(");
+	agxbput (&xb, "setlinewidth(");
 	snprintf(buf, sizeof(buf), "%.3f", job->obj->penwidth);
 	xdot_trim_zeros (buf, 0);
-	agxbprint(&xbuf, "%s)", buf);
-        xdot_str (job, "S ", agxbuse(&xbuf));
+	agxbprint(&xb, "%s)", buf);
+        xdot_str (job, "S ", agxbuse(&xb));
     }
 
     /* now process raw style, if any */
@@ -209,27 +209,27 @@ static void xdot_style (GVJ_t *job)
 
     while ((p = *s++)) {
 	if (streq(p, "filled") || streq(p, "bold") || streq(p, "setlinewidth")) continue;
-        agxbput(&xbuf, p);
+        agxbput(&xb, p);
         while (*p)
             p++;
         p++;
         if (*p) {  /* arguments */
-            agxbputc(&xbuf, '(');
+            agxbputc(&xb, '(');
             more = 0;
             while (*p) {
                 if (more)
-                    agxbputc(&xbuf, ',');
-                agxbput(&xbuf, p);
+                    agxbputc(&xb, ',');
+                agxbput(&xb, p);
                 while (*p) p++;
                 p++;
                 more++;
             }
-            agxbputc(&xbuf, ')');
+            agxbputc(&xb, ')');
         }
-        xdot_str (job, "S ", agxbuse(&xbuf));
+        xdot_str (job, "S ", agxbuse(&xb));
     }
 
-    agxbfree(&xbuf);
+    agxbfree(&xb);
 
 }
 
@@ -614,7 +614,7 @@ static void xdot_color_stop (agxbuf* xb, float v, gvcolor_t* clr)
 static void xdot_gradient_fillcolor (GVJ_t* job, int filled, pointf* A, int n)
 {
     unsigned char buf0[BUFSIZ];
-    agxbuf xbuf;
+    agxbuf xb;
     obj_state_t* obj = job->obj;
     float angle = obj->gradient_angle * M_PI / 180;
     float r1,r2;
@@ -625,12 +625,12 @@ static void xdot_gradient_fillcolor (GVJ_t* job, int filled, pointf* A, int n)
 	return;
     }
 
-    agxbinit(&xbuf, BUFSIZ, buf0);
+    agxbinit(&xb, BUFSIZ, buf0);
     if (filled == GRADIENT) {
 	get_gradient_points(A, G, n, angle, 2);
-	agxbputc (&xbuf, '[');
-	xdot_point (&xbuf, G[0]);
-	xdot_point (&xbuf, G[1]);
+	agxbputc (&xb, '[');
+	xdot_point (&xb, G[0]);
+	xdot_point (&xb, G[1]);
     }
     else {
 	get_gradient_points(A, G, n, 0, 3);
@@ -648,29 +648,29 @@ static void xdot_gradient_fillcolor (GVJ_t* job, int filled, pointf* A, int n)
 	c2.x = G[0].x;
 	c2.y = G[0].y;
 	r1 = r2/4;
-	agxbputc(&xbuf, '(');
-	xdot_point (&xbuf, c1);
-	xdot_num (&xbuf, r1);
-	xdot_point (&xbuf, c2);
-	xdot_num (&xbuf, r2);
+	agxbputc(&xb, '(');
+	xdot_point (&xb, c1);
+	xdot_num (&xb, r1);
+	xdot_point (&xb, c2);
+	xdot_num (&xb, r2);
     }
     
-    agxbput(&xbuf, "2 ");
+    agxbput(&xb, "2 ");
     if (obj->gradient_frac > 0) {
-	xdot_color_stop (&xbuf, obj->gradient_frac, &obj->fillcolor);
-	xdot_color_stop (&xbuf, obj->gradient_frac, &obj->stopcolor);
+	xdot_color_stop (&xb, obj->gradient_frac, &obj->fillcolor);
+	xdot_color_stop (&xb, obj->gradient_frac, &obj->stopcolor);
     }
     else {
-	xdot_color_stop (&xbuf, 0, &obj->fillcolor);
-	xdot_color_stop (&xbuf, 1, &obj->stopcolor);
+	xdot_color_stop (&xb, 0, &obj->fillcolor);
+	xdot_color_stop (&xb, 1, &obj->stopcolor);
     }
-    agxbpop(&xbuf);
+    agxbpop(&xb);
     if (filled == GRADIENT)
-	agxbputc(&xbuf, ']');
+	agxbputc(&xb, ']');
     else
-	agxbputc(&xbuf, ')');
-    xdot_str (job, "C ", agxbuse(&xbuf));
-    agxbfree(&xbuf);
+	agxbputc(&xb, ')');
+    xdot_str (job, "C ", agxbuse(&xb));
+    agxbfree(&xb);
 }
 
 static void xdot_ellipse(GVJ_t * job, pointf * A, int filled)
