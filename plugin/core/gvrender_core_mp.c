@@ -57,8 +57,8 @@ static void mpptarray(GVJ_t *job, pointf * A, int n, int close)
 static char *mp_string(char *s)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
-    int pos = 0;
+    static size_t bufsize = 0;
+    size_t pos = 0;
     char *p;
     unsigned char c;
 
