@@ -328,7 +328,7 @@ static char *el(GVJ_t* job, char *template, ...)
 		str = strdup ("");
 	}
 	else {
-		str = malloc (len+1);
+		str = malloc ((size_t)len+1);
 		vsprintf(str, template, arglist2);
 	}
 	va_end(arglist);
