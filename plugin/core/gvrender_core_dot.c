@@ -548,7 +548,7 @@ static unsigned int flag_masks[] = { 0x1F, 0x3F, 0x7F };
 static void xdot_textspan(GVJ_t * job, pointf p, textspan_t * span)
 {
     emit_state_t emit_state = job->obj->emit_state;
-    int flags;
+    unsigned flags;
     char buf[BUFSIZ];
     int j;
     
