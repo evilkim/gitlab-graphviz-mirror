@@ -316,16 +316,6 @@ static float z = 0;
 
 static char *el(GVJ_t* job, char *template, ...)
 {
-#if defined(HAVE_VASPRINTF)
-	char *str;
-	va_list arglist;
-
-	va_start(arglist, template);
-	vasprintf(&str, template, arglist);
-	va_end(arglist);
-
-	return str;
-#else
 	int len;
 	char *str;
 	va_list arglist, arglist2;
@@ -345,7 +335,6 @@ static char *el(GVJ_t* job, char *template, ...)
 	va_end(arglist2);
 
 	return str;
-#endif
 }
 
 static char *pov_color_as_str(GVJ_t * job, gvcolor_t color, float transparency)
