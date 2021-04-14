@@ -221,6 +221,9 @@ static void svg_end_graph(GVJ_t * job)
 static void svg_begin_layer(GVJ_t * job, char *layername, int layerNum,
 			    int numLayers)
 {
+    (void)layerNum;
+    (void)numLayers;
+
     obj_state_t *obj = job->obj;
 
     svg_print_id_class(job, layername, NULL, "layer", obj->u.g);
