@@ -58,7 +58,7 @@ static char *fig_string(char *s)
     static size_t bufsize = 0;
     size_t pos = 0;
     char *p;
-    unsigned char c;
+    char c;
 
     if (!buf) {
         bufsize = 64;
@@ -81,7 +81,7 @@ static char *fig_string(char *s)
             pos++;
         } else {
             *p++ = '\\';
-            sprintf(p, "%03o", c);
+            sprintf(p, "%03o", (unsigned)c);
             p += 3;
             pos += 4;
         }
