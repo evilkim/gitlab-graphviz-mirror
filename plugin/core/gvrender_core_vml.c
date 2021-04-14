@@ -351,6 +351,8 @@ static void vml_end_graph(GVJ_t * job)
 static void
 vml_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *target, char *id)
 {
+    (void)id;
+
     gvputs(job, "<a");
     if (href && href[0])
 	gvprintf(job, " href=\"%s\"", html_string(href));
