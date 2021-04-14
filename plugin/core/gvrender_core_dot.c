@@ -395,7 +395,8 @@ versionStr2Version (const char* str)
 static void
 xdot_begin_graph (graph_t *g, int s_arrows, int e_arrows, format_type id)
 {
-    int i, us;
+    int i;
+    unsigned short us;
     char* s;
 
     xd = GNEW(xdot_state_t);
