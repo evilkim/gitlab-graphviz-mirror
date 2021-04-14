@@ -11,11 +11,13 @@
 #include <ctype.h>
 #include <common/render.h>
 #include <common/htmltable.h>
+#include <errno.h>
 #include <gvc/gvc.h>
 #include <xdot/xdot.h>
 #include <cgraph/agxbuf.h>
 #include <cgraph/strcasecmp.h>
 #include <stddef.h>
+#include <string.h>
 
 static char *usageFmt =
     "Usage: %s [-Vv?] [-(GNE)name=val] [-(KTlso)<val>] <dot files>\n";
@@ -575,7 +577,7 @@ graph_t *gvNextInputGraph(GVC_t *gvc)
 	    }
 	    else {
 		while ((fn = gvc->input_filenames[fidx++]) && !(fp = fopen(fn, "r")))  {
-		    agerr(AGERR, "%s: can't open %s\n", gvc->common.cmdname, fn);
+		    agerr(AGERR, "%s: can't open %s: %s\n", gvc->common.cmdname, fn, strerror(errno));
 		    graphviz_errors++;
 		}
 	    }
