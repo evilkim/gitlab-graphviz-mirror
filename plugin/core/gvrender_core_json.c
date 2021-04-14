@@ -137,7 +137,7 @@ static void indent(GVJ_t * job, int level)
 	gvputs(job, "  ");
 }
 
-static void set_attrwf(Agraph_t * g, int toplevel, bool value)
+static void set_attrwf(Agraph_t * g, bool toplevel, bool value)
 {
     Agraph_t *subg;
     Agnode_t *n;
@@ -145,7 +145,7 @@ static void set_attrwf(Agraph_t * g, int toplevel, bool value)
 
     AGATTRWF(g) = value;
     for (subg = agfstsubg(g); subg; subg = agnxtsubg(subg)) {
-	set_attrwf(subg, FALSE, value);
+	set_attrwf(subg, false, value);
     }
     if (toplevel) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
@@ -708,7 +708,7 @@ static void json_end_graph(GVJ_t *job)
 
     g->clos->disc.io = &io;
 
-    set_attrwf(g, TRUE, false);
+    set_attrwf(g, true, false);
     sp.Level = 0;
     sp.isLatin = GD_charset(g) == CHAR_LATIN1;
     sp.doXDot = job->render.id == FORMAT_JSON || job->render.id == FORMAT_XDOT_JSON;
