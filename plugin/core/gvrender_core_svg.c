@@ -38,6 +38,10 @@
 
 #define LOCALNAMEPREFIX		'%'
 
+#ifndef EDGEALIGN
+  #define EDGEALIGN 0
+#endif
+
 typedef enum { FORMAT_SVG, FORMAT_SVGZ, } format_type;
 
 /* SVG dash array */
