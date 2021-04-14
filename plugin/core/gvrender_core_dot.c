@@ -14,6 +14,7 @@
 #include <io.h>
 #endif
 
+#include <limits.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -359,26 +360,14 @@ static void xdot_end_cluster(GVJ_t * job)
 }
 
 static unsigned short
-versionStr2Version (char* str)
+versionStr2Version (const char* str)
 {
-    char c, buf[BUFSIZ];
-    int n = 0;
-    char* s = str;
-    unsigned short us;
+  unsigned long u = strtoul(str, NULL, 10);
+  if (u == 0 || u > USHRT_MAX) {
+    agerr(AGWARN, "xdot version \"%s\" too long", str);
+  }
 
-    while ((c = *s++)) {
-	if (isdigit(c)) {
-	    if (n < BUFSIZ-1) buf[n++] = c;
-	    else {
-		agerr(AGWARN, "xdot version \"%s\" too long", str);
-		break;
-	    }
-	}
-    }
-    buf[n] = '\0';
-    
-    us = atoi(buf);
-    return us;
+  return (unsigned short)u;
 }
 
 /* 
