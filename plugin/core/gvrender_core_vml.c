@@ -125,7 +125,7 @@ static void vml_grfill(GVJ_t * job, int filled)
 }
 
 /*  html_string is a modified version of xml_string  */
-char *html_string(char *s)
+static char *html_string(char *s)
 {
     static char *buf = NULL;
     static int bufsize = 0;
