@@ -469,6 +469,9 @@ static void
 vml_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 	      int arrow_at_end, int filled)
 {
+    (void)arrow_at_start;
+    (void)arrow_at_end;
+
     gvputs(job, " <v:shape style=\"position:absolute; ");
     gvprintf(job, " width: %d; height: %d\"", graphWidth, graphHeight);
 
