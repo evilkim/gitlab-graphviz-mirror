@@ -94,6 +94,8 @@ static void vml_print_color(GVJ_t * job, gvcolor_t color)
 
 static void vml_grstroke(GVJ_t * job, int filled)
 {
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     gvputs(job, "<v:stroke color=\"");
