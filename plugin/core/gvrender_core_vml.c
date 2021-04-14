@@ -206,7 +206,7 @@ static char *html_string(char *s)
             sub=&workstr[14];
             len=3; /*  &#  + ;  */
             do {
-              temp=charnum%10;
+              temp=(int)(charnum%10);
               *(sub--)=(char)((int)'0'+ temp);
               charnum/=10;
               len++;
