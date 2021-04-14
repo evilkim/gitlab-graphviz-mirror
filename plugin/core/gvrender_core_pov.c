@@ -290,50 +290,6 @@
 		gvprintf(job, POV_DEBUG, debug_str); \
 	} while (0)
 
-/*
-//png, gif, NO jpg!
-pigment
-{ image_map
-  { gif "image.gif"
-    map_type 1
-  }
-}
-*/
-
-/*
-#declare Sphere =
-sphere {
-  <0,0,0>, 1
-  pigment { rgb <1,0,0> }
-}
-#declare Min = min_extent ( Sphere );
-#declare Max = max_extent ( Sphere );
-object { Sphere }
-box {
-    Min, Max 
-    pigment { rgbf <1,1,1,0.5> }
-    scale<20,20,20>
-}
-*/
-
-/*
-STRING functions
-
-str( float , min_len , digits_after_dot )
-concat( STRING , STRING , [STRING ,...])
-chr( INT )
-substr( STRING , INT , INT )
-strupr( STRING ) 
-strlwr( STRING )
-vstr( vec_dimension , vec, sep_str, min_len, digits_after_dot )
-
-examples:
-#debug vstr(3, Min, ", ", 0, 3)                                                                                                                                                                                        
-#debug "\n*****************\n"
-#debug concat ( "Max =", vstr(3, Max, ", ", 0, 3), chr(13), chr(10) )
-*/
-
-
 #define DPI 72.0
 #define RENDERER_COLOR_TYPE RGBA_BYTE
 typedef enum { FORMAT_POV, } format_type;

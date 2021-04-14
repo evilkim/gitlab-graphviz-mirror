@@ -713,7 +713,6 @@ static void json_end_graph(GVJ_t *job)
     sp.doXDot = job->render.id == FORMAT_JSON || job->render.id == FORMAT_XDOT_JSON;
     sp.Attrs_not_written_flag = 0;
     write_graph(g, job, TRUE, &sp);
-    /* agwrite(g, (FILE*)job); */
 }
 
 gvrender_engine_t json_engine = {

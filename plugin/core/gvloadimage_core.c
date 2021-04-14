@@ -220,14 +220,11 @@ static void core_loadimage_pslib(GVJ_t * job, usershape_t *us, boxf b, boolean f
 	AF[3].x = AF[2].x;
 	AF[3].y = AF[0].y;
         if (filled) {
-//            ps_begin_context();
-//            ps_set_color(S[SP].fillcolor);
             gvprintf(job, "[ ");
             for (i = 0; i < 4; i++)
                 gvprintf(job, "%g %g ", AF[i].x, AF[i].y);
             gvprintf(job, "%g %g ", AF[0].x, AF[0].y);
             gvprintf(job, "]  %d true %s\n", 4, us->name);
-//            ps_end_context();
         }
         gvprintf(job, "[ ");
         for (i = 0; i < 4; i++)
