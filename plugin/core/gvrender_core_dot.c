@@ -690,6 +690,9 @@ static void xdot_ellipse(GVJ_t * job, pointf * A, int filled)
 
 static void xdot_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start, int arrow_at_end, int filled)
 {
+    (void)arrow_at_start;
+    (void)arrow_at_end;
+
     xdot_style (job);
     xdot_pencolor (job);
     if (filled) {
