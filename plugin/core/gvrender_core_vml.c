@@ -128,9 +128,9 @@ static void vml_grfill(GVJ_t * job, int filled)
 static char *html_string(char *s)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
+    static size_t bufsize = 0;
     char *p, *sub, *prev = NULL;
-    int len, pos = 0;
+    size_t len, pos = 0;
     int temp,cnt,remaining=0;
     char workstr[16];
     uint64_t charnum=0;
