@@ -80,12 +80,12 @@ typedef struct {
 } xdot_state_t;
 static xdot_state_t* xd;
 
-static void xdot_str_xbuf (agxbuf* xb, char* pfx, char* s)
+static void xdot_str_xbuf (agxbuf* xb, char* pfx, const char* s)
 {
     agxbprint (xb, "%s%zu -%s ", pfx, strlen(s), s);
 }
 
-static void xdot_str (GVJ_t *job, char* pfx, char* s)
+static void xdot_str (GVJ_t *job, char* pfx, const char* s)
 {   
     emit_state_t emit_state = job->obj->emit_state;
     xdot_str_xbuf (xbufs[emit_state], pfx, s);
@@ -741,7 +741,7 @@ void core_loadimage_xdot(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
     agxbput(xbufs[emit_state], buf);
     xdot_fmt_num (buf, b.UR.y - b.LL.y);
     agxbput(xbufs[emit_state], buf);
-    xdot_str (job, "", (char*)(us->name));
+    xdot_str (job, "", us->name);
 }
 
 gvrender_engine_t dot_engine = {
