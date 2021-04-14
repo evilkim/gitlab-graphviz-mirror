@@ -314,7 +314,7 @@ static char *pov_knowncolors[] = { POV_COLORS };
 static float layerz = 0;
 static float z = 0;
 
-char *el(GVJ_t* job, char *template, ...)
+static char *el(GVJ_t* job, char *template, ...)
 {
 #if defined(HAVE_VASPRINTF)
 	char *str;
