@@ -15,6 +15,7 @@
 #endif
 
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -136,7 +137,7 @@ static void indent(GVJ_t * job, int level)
 	gvputs(job, "  ");
 }
 
-static void set_attrwf(Agraph_t * g, int toplevel, int value)
+static void set_attrwf(Agraph_t * g, int toplevel, bool value)
 {
     Agraph_t *subg;
     Agnode_t *n;
@@ -707,7 +708,7 @@ static void json_end_graph(GVJ_t *job)
 
     g->clos->disc.io = &io;
 
-    set_attrwf(g, TRUE, FALSE);
+    set_attrwf(g, TRUE, false);
     sp.Level = 0;
     sp.isLatin = GD_charset(g) == CHAR_LATIN1;
     sp.doXDot = job->render.id == FORMAT_JSON || job->render.id == FORMAT_XDOT_JSON;
