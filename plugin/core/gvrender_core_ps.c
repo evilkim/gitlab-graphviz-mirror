@@ -201,6 +201,10 @@ static void psgen_end_edge(GVJ_t * job)
 
 static void psgen_begin_anchor(GVJ_t *job, char *url, char *tooltip, char *target, char *id)
 {
+    (void)tooltip;
+    (void)target;
+    (void)id;
+
     obj_state_t *obj = job->obj;
 
     if (url && obj->url_map_p) {
