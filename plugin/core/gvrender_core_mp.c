@@ -92,7 +92,8 @@ static char *mp_string(char *s)
     return buf;
 }
 
-static int mpColorResolve(int *new, int r, int g, int b)
+static int mpColorResolve(int *new, unsigned char r, unsigned char g,
+  unsigned char b)
 {
 #define maxColors 256
     static int top = 0;
