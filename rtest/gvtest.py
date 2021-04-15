@@ -13,6 +13,10 @@ def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
     compile a C program
     '''
 
+    # include compiler flags from both the caller and the environment
+    cflags = os.environ.get('CFLAGS', '').split() + cflags
+    ldflags = os.environ.get('LDFLAGS', '').split()
+
     # if the user did not give us destination, use a temporary path
     if dst is None:
         _, dst = tempfile.mkstemp('.exe')
@@ -24,14 +28,14 @@ def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
         # construct an invocation of MSVC
         args = ['cl', src, '-Fe:', dst, '-nologo', rtflag] + cflags
         if len(link) > 0:
-            args += ['-link'] + [f'{l}.lib' for l in link]
+            args += ['-link'] + [f'{l}.lib' for l in link] + ldflags
 
     else:
         # construct an invocation of the default C compiler
         cc = os.environ.get('CC', 'cc')
         args = [cc, '-std=c99', src, '-o', dst] + cflags
         if len(link) > 0:
-            args += [f'-l{l}' for l in link]
+            args += [f'-l{l}' for l in link] + ldflags
 
     # compile the program
     try:
