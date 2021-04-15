@@ -7,8 +7,8 @@ import subprocess
 import tempfile
 from typing import List, Optional, Tuple
 
-def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
-  -> Path:
+def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
+              dst: Optional[Path] = None) -> Path:
     '''
     compile a C program
     '''
@@ -22,14 +22,14 @@ def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
         rtflag = '-MDd' if os.environ.get('configuration') == 'Debug' else '-MD'
 
         # construct an invocation of MSVC
-        args = ['cl', src, '-Fe:', dst, '-nologo', rtflag]
+        args = ['cl', src, '-Fe:', dst, '-nologo', rtflag] + cflags
         if len(link) > 0:
             args += ['-link'] + [f'{l}.lib' for l in link]
 
     else:
         # construct an invocation of the default C compiler
         cc = os.environ.get('CC', 'cc')
-        args = [cc, '-std=c99', src, '-o', dst]
+        args = [cc, '-std=c99', src, '-o', dst] + cflags
         if len(link) > 0:
             args += [f'-l{l}' for l in link]
 
@@ -42,8 +42,8 @@ def compile_c(src: Path, link: List[str] = [], dst: Optional[Path] = None) \
 
     return dst
 
-def run_c(src: Path, args: [str] = [], input: str = '', link: List[str] = []) \
-  -> Tuple[int, str, str]:
+def run_c(src: Path, args: [str] = [], input: str = '', cflags: List[str] = [],
+          link: List[str] = []) -> Tuple[int, str, str]:
     '''
     compile and run a C program
     '''
@@ -55,7 +55,7 @@ def run_c(src: Path, args: [str] = [], input: str = '', link: List[str] = []) \
         exe = Path(tmp) / 'a.exe'
 
         # compile the program
-        compile_c(src, link, exe)
+        compile_c(src, cflags, link, exe)
 
         # run it
         p = subprocess.run([exe] + args, input=input, stdout=subprocess.PIPE,
