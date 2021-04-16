@@ -46,8 +46,8 @@ def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
 
     return dst
 
-def run_c(src: Path, args: [str] = [], input: str = '', cflags: List[str] = [],
-          link: List[str] = []) -> Tuple[int, str, str]:
+def run_c(src: Path, args: List[str] = [], input: str = '',
+          cflags: List[str] = [], link: List[str] = []) -> Tuple[int, str, str]:
     '''
     compile and run a C program
     '''
