@@ -37,6 +37,9 @@ def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
         if len(link) > 0:
             args += [f'-l{l}' for l in link] + ldflags
 
+    # dump the command being run for the user to observe if the test fails
+    print(f'+ {" ".join(str(x) for x in args)}')
+
     # compile the program
     try:
         subprocess.check_call(args)
@@ -60,6 +63,9 @@ def run_c(src: Path, args: List[str] = [], input: str = '',
 
         # compile the program
         compile_c(src, cflags, link, exe)
+
+        # dump the command being run for the user to observe if the test fails
+        print(f'+ {exe} {" ".join(str(x) for x in args)}')
 
         # run it
         p = subprocess.run([exe] + args, input=input, stdout=subprocess.PIPE,
