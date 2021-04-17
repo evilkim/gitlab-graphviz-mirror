@@ -646,7 +646,7 @@ monotonate_trapezoids(int nsegs, segment_t*seg, trap_t* tr,
   return size;
 }
 
-static int 
+static bool
 rectIntersect (boxf *d, const boxf *r0, const boxf *r1)
 {
     double t = fmax(r0->LL.x, r1->LL.x);
@@ -657,10 +657,7 @@ rectIntersect (boxf *d, const boxf *r0, const boxf *r1)
     d->UR.y = fmin(r0->UR.y, r1->UR.y);
     d->LL.y = t;
 
-    if (d->LL.x >= d->UR.x || d->LL.y >= d->UR.y)
-    return 0;
-
-    return 1;
+    return !(d->LL.x >= d->UR.x || d->LL.y >= d->UR.y);
 }
 
 #if DEBUG > 1
