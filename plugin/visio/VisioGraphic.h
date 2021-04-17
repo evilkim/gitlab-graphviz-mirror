@@ -8,10 +8,10 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VISIOGRAPHIC_H
-#define VISIOGRAPHIC_H
+#pragma once
 
 #include <common/types.h>
+#include <memory>
 
 namespace Visio
 {
@@ -154,20 +154,16 @@ namespace Visio
 		static Graphic* CreatePolygon(GVJ_t* job, pointf* A, int n, bool filled);
 		static Graphic* CreatePolyline(GVJ_t* job, pointf* A, int n);
 		
-		~Graphic();
-
 		boxf GetBounds() const;
 		const Connection* GetConnection() const;
 
 		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
 		
 	private:
-		Graphic(Line* line, Fill* fill, Geom* geom);
+		Graphic(const Line &line, Fill* fill, Geom* geom);
 		
-		Line* _line;
-		Fill* _fill;
-		Geom* _geom;
+		Line _line;
+		std::unique_ptr<Fill> _fill;
+		std::unique_ptr<Geom> _geom;
 	};
 }
-
-#endif

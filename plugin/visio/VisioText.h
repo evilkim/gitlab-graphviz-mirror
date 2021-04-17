@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VISIOTEXT_H
-#define VISIOTEXT_H
+#pragma once
 
 #include <common/types.h>
 
@@ -88,10 +87,10 @@ namespace Visio
 		void PrintRun(GVJ_t* job, unsigned int index) const;
 		
 	private:
-		Text(Para* para, Char* chars, Run* run);
+		Text(const Para &para, const Char &chars, Run* run);
 		
-		Para* _para;
-		Char* _chars;
+		Para _para;
+		Char _chars;
 		Run* _run;
 	};
 	
@@ -114,5 +113,3 @@ namespace Visio
 		char* _frame;
 	};
 }
-
-#endif
