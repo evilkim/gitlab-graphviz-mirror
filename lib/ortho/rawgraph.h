@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cdt.h>
+#include <stdbool.h>
 
 typedef struct {
   int color;
@@ -30,6 +31,6 @@ extern void insert_edge(rawgraph*, int v1, int v2);
   /* removes any edge between v1 to v2 -- irrespective of direction */
 extern void remove_redge(rawgraph*, int v1, int v2);  
   /* tests if there is an edge FROM v1 TO v2 */
-extern int edge_exists(rawgraph*, int v1, int v2);
+extern bool edge_exists(rawgraph*, int v1, int v2);
   /* topologically sorts the directed graph */
 extern void top_sort(rawgraph*); 
