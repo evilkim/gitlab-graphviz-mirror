@@ -58,7 +58,7 @@ static cell*
 cellOf (snode* p, snode* q)
 {
     cell* cp = p->cells[0];
-    if ((cp == q->cells[0]) || (cp == q->cells[1])) return cp; 
+    if (cp == q->cells[0] || cp == q->cells[1]) return cp;
     else return p->cells[1];
 }
 
@@ -171,7 +171,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
 	updateWts (g, ncp, N_EDGE(ptr));
 
         /* add seg if path bends or at end */
-	if ((ptr->isVert != next->isVert) || (N_DAD(next) == lst)) {
+	if (ptr->isVert != next->isVert || N_DAD(next) == lst) {
 	    if (ptr->isVert != next->isVert)
 		bp2 = midPt (ncp);
 	    else
@@ -207,7 +207,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
 	    cp = ncp;
 	    prevbp = bp1;
 	    bp1 = bp2;
-	    if ((ptr->isVert != next->isVert) && (N_DAD(next) == lst)) {
+	    if (ptr->isVert != next->isVert && N_DAD(next) == lst) {
 		bp2 = sidePt(next, ncp);
 		l2 = B_NODE;
 		if (next->isVert) {   /* horizontal segment */
@@ -650,7 +650,7 @@ static int
 segCmp (segment* S1, segment* S2, bend T1, bend T2)
 {
 	/* no overlap */
-    if((S1->p.p2<S2->p.p1)||(S1->p.p1>S2->p.p2)) return(0);
+    if (S1->p.p2 < S2->p.p1 || S1->p.p1 > S2->p.p2) return 0;
 	/* left endpoint of S2 inside S1 */
     if(S1->p.p1<S2->p.p1&&S2->p.p1<S1->p.p2)
 	return overlapSeg (S1, S2, T1, T2);
@@ -659,32 +659,32 @@ segCmp (segment* S1, segment* S2, bend T1, bend T2)
 	return -1*overlapSeg (S2, S1, T1, T2);
     else if(S1->p.p1==S2->p.p1) {
 	if(S1->p.p2==S2->p.p2) {
-	    if((S1->l1==S2->l1)&&(S1->l2==S2->l2))
-		return(0);
+	    if (S1->l1 == S2->l1 && S1->l2 == S2->l2)
+		return 0;
 	    else if (S2->l1==S2->l2) {
-		if(S2->l1==T1) return(1);
-		else if(S2->l1==T2) return(-1);
-		else if ((S1->l1!=T1)&&(S1->l2!=T1)) return (1);
-		else if ((S1->l1!=T2)&&(S1->l2!=T2)) return (-1);
+		if (S2->l1 == T1) return 1;
+		else if (S2->l1 == T2) return -1;
+		else if (S1->l1 != T1 && S1->l2 != T1) return 1;
+		else if (S1->l1 != T2 && S1->l2 != T2) return -1;
 		else return 0;
 	    }
-	    else if ((S2->l1==T1)&&(S2->l2==T2)) {
-		if ((S1->l1!=T1)&&(S1->l2==T2)) return 1;
-		else if ((S1->l1==T1)&&(S1->l2!=T2)) return -1;
+	    else if (S2->l1 == T1 && S2->l2 == T2) {
+		if (S1->l1 != T1 && S1->l2 == T2) return 1;
+		else if (S1->l1 == T1 && S1->l2 != T2) return -1;
 		else return 0;
 	    }
-	    else if ((S2->l2==T1)&&(S2->l1==T2)) {
-		if ((S1->l2!=T1)&&(S1->l1==T2)) return 1;
-		else if ((S1->l2==T1)&&(S1->l1!=T2)) return -1;
+	    else if (S2->l2 == T1 && S2->l1 == T2) {
+		if (S1->l2 != T1 && S1->l1 == T2) return 1;
+		else if (S1->l2 == T1 && S1->l1 != T2) return -1;
 		else return 0;
 	    }
-	    else if ((S2->l1==B_NODE)&&(S2->l2==T1)) {
+	    else if (S2->l1 == B_NODE && S2->l2 == T1) {
 		return ellSeg (S1->l1, S1->l2, T1);
 	    }
-	    else if ((S2->l1==B_NODE)&&(S2->l2==T2)) {
+	    else if (S2->l1 == B_NODE && S2->l2 == T2) {
 		return -1*ellSeg (S1->l1, S1->l2, T2);
 	    }
-	    else if ((S2->l1==T1)&&(S2->l2==B_NODE)) {
+	    else if (S2->l1 == T1 && S2->l2 == B_NODE) {
 		return ellSeg (S1->l2, S1->l1, T1);
 	    }
 	    else { /* ((S2->l1==T2)&&(S2->l2==B_NODE)) */
@@ -705,14 +705,14 @@ segCmp (segment* S1, segment* S2, bend T1, bend T2)
 	}
     }
     else if(S1->p.p2==S2->p.p1) {
-	if(S1->l2==S2->l1) return(0);
-	else if(S1->l2==T2) return(1);
-	else return(-1);
+	if (S1->l2 == S2->l1) return 0;
+	else if (S1->l2 == T2) return 1;
+	else return -1;
     }
     else { /* S1->p.p1==S2->p.p2 */
-	if(S1->l1==S2->l2) return(0);
-	else if(S1->l1==T2) return(1);
-	else return(-1);
+	if (S1->l1 == S2->l2) return 0;
+	else if (S1->l1 == T2) return 1;
+	else return -1;
     }
     assert(0);
     return 0;
@@ -788,9 +788,9 @@ next_seg(segment* seg, int dir)
 {
     assert(seg);
     if (!dir)
-        return(seg->prev);
+        return seg->prev;
     else
-        return(seg->next);
+        return seg->next;
 }
 
 /* propagate_prec propagates the precedence relationship along 
@@ -825,17 +825,17 @@ propagate_prec(segment* seg, int prec, int hops, int dir)
 	}
 	current = next;
     }
-    return(ans);
+    return ans;
 }
 
 static int
 is_parallel(segment* s1, segment* s2)
 {
     assert (s1->comm_coord==s2->comm_coord);
-    return ((s1->p.p1==s2->p.p1)&&
-            (s1->p.p2==s2->p.p2)&&
-            (s1->l1==s2->l1)&&
-            (s1->l2==s2->l2));
+    return s1->p.p1 == s2->p.p1 &&
+           s1->p.p2 == s2->p.p2 &&
+           s1->l1 == s2->l1 &&
+           s1->l2 == s2->l2;
 }
 
 /* decide_point returns the number of hops needed in the given directions 
@@ -867,7 +867,7 @@ decide_point(segment* si, segment* sj, int dir1, int dir2)
 		
     ret.a = ans;
     ret.b = prec;
-    return(ret);
+    return ret;
 }
 
 /* sets the edges for a series of parallel segments along two edges starting 
@@ -1195,7 +1195,7 @@ edgeLen (Agedge_t* e)
 
 static int edgecmp(epair_t* e0, epair_t* e1)
 {
-    return (e0->d - e1->d);
+    return e0->d - e1->d;
 }
 
 static boolean spline_merge(node_t * n)
@@ -1242,7 +1242,7 @@ orthoEdges (Agraph_t* g, int doLbls)
 	char* s = agget(g, "odb");
         char c;
 	odb_flags = 0;
-	if (s && (*s != '\0')) {
+	if (s && *s != '\0') {
 	    while ((c = *s++)) {
 		switch (c) {
 		case 'c' :
@@ -1279,7 +1279,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     size_t n_edges = 0;
     for (n = agfstnode (g); n; n = agnxtnode(g, n)) {
         for (e = agfstout(g, n); e; e = agnxtout(g,e)) {
-	    if ((Nop == 2) && ED_spl(e)) continue;
+	    if (Nop == 2 && ED_spl(e)) continue;
 	    if (Concentrate) {
 		int ti = AGSEQ(agtail(e));
 		int hi = AGSEQ(aghead(e));
@@ -1308,7 +1308,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     dn = &sg->nodes[gstart+1];
     for (size_t i = 0; i < n_edges; i++) {
 #ifdef DEBUG
-	if ((i > 0) && (odb_flags & ODB_IGRAPH)) emitSearchGraph (stderr, sg);
+	if (i > 0 && (odb_flags & ODB_IGRAPH)) emitSearchGraph (stderr, sg);
 #endif
 	e = es[i].e;
         start = CELL(agtail(e));

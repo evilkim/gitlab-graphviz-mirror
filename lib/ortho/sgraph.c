@@ -135,9 +135,9 @@ static snode*
 adjacentNode(sgraph* g, sedge* e, snode* n)
 {
     if (e->v1==n->index)
-	return (&(g->nodes[e->v2]));
+	return &g->nodes[e->v2];
     else
-	return (&(g->nodes[e->v1]));
+	return &g->nodes[e->v1];
 }
 
 int
@@ -150,8 +150,7 @@ shortPath (sgraph* g, snode* from, snode* to)
     int   x, y;
 
     for (x = 0; x<g->nnodes; x++) {
-	snode* temp;
-	temp = &(g->nodes[x]);
+	snode* temp = &g->nodes[x];
 	N_VAL(temp) = UNSEEN;
     }
     
@@ -167,7 +166,7 @@ shortPath (sgraph* g, snode* from, snode* to)
 	N_VAL(n) *= -1;
 	if (n == to) break;
 	for (y=0; y<n->n_adj; y++) {
-	    e = &(g->edges[n->adj_edge_list[y]]);
+	    e = &g->edges[n->adj_edge_list[y]];
 	    adjn = adjacentNode(g, e, n);
 	    if (N_VAL(adjn) < 0) {
 		d = -(N_VAL(n) + E_WT(e));

@@ -123,7 +123,7 @@ static int _greater_than_equal_to (pointf *v0, pointf *v1)
   else if (v0->y < v1->y - C_EPS)
     return FALSE;
   else
-    return (v0->x >= v1->x);
+    return v0->x >= v1->x;
 }
 
 static int _less_than (pointf *v0, pointf *v1)
@@ -243,7 +243,7 @@ is_left_of (int segnum, segment_t* seg, pointf *v)
 	    area = -1.0;
 	}
       else
-	area = CROSS(s->v0, s->v1, (*v));
+	area = CROSS(s->v0, s->v1, *v);
     }
   else				/* v0 > v1 */
     {
@@ -1008,7 +1008,7 @@ static int math_logstar_n(int n)
   for (i = 0, v = (double) n; v >= 1; i++)
       v = log2(v);
 
-  return (i - 1);
+  return i - 1;
 }
 
 static int math_N(int n, int h)

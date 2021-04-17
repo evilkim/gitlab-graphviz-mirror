@@ -66,7 +66,7 @@ remove_redge(rawgraph* g, int v1, int v2)
 int
 edge_exists(rawgraph* g, int v1, int v2)
 {
-    return (dtmatch (g->vertices[v1].adj_list, &v2) != 0);
+    return dtmatch (g->vertices[v1].adj_list, &v2) != 0;
 }
 
 typedef struct {
@@ -128,7 +128,7 @@ DFS_visit(rawgraph* g, int v, int time, stack* sp)
     }
     vp->color = SCANNED;
     pushStack (sp, v);
-    return (time + 1);
+    return time + 1;
 }
 
 void
