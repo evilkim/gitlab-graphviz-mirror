@@ -217,7 +217,7 @@ init_query_structure(int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
  * segnum. Takes care of the degenerate cases when both the vertices
  * have the same y--cood, etc.
  */
-static int
+static bool
 is_left_of (int segnum, segment_t* seg, pointf *v)
 {
   segment_t *s = &seg[segnum];
@@ -262,10 +262,7 @@ is_left_of (int segnum, segment_t* seg, pointf *v)
 	area = CROSS(s->v1, s->v0, (*v));
     }
 
-  if (area > 0.0)
-    return TRUE;
-  else
-    return FALSE;
+  return area > 0.0;
 }
 
 /* Returns true if the corresponding endpoint of the given segment is */
