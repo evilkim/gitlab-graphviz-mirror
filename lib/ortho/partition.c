@@ -203,7 +203,7 @@ get_angle (pointf *vp0, pointf *vpnext, pointf *vp1)
 
 /* (v0, v1) is the new diagonal to be added to the polygon. Find which */
 /* chain to use and return the positions of v0 and v1 in p and q */ 
-static int
+static void
 get_vertex_positions (int v0, int v1, int *ip, int *iq)
 {
   vertexchain_t *vp0, *vp1;
@@ -249,8 +249,6 @@ get_vertex_positions (int v0, int v1, int *ip, int *iq)
     }
 
   *iq = tq;
-
-  return 0;
 }
 
 /* v0 and v1 are specified in anti-clockwise order with respect to 
