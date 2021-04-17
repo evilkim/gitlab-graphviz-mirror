@@ -558,8 +558,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
   t = tfirst;			/* topmost trapezoid */
 
-  while (t > 0 &&
-	 _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
+  while (t > 0 && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
 				/* traverse from top to bot */
     {
       int t_sav, tn_sav;
@@ -645,11 +644,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
@@ -753,11 +750,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
@@ -891,11 +886,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
