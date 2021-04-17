@@ -118,7 +118,6 @@ DFS_visit(rawgraph* g, int v, int time, stack* sp)
 
     vp = g->vertices + v;
     vp->color = SCANNING;
-    /* g->vertices[v].d = time; */
     adj = vp->adj_list;
     time = time + 1;
 
@@ -128,7 +127,6 @@ DFS_visit(rawgraph* g, int v, int time, stack* sp)
             time = DFS_visit(g, id, time, sp);
     }
     vp->color = SCANNED;
-    /* g->vertices[v].f = time; */
     pushStack (sp, v);
     return (time + 1);
 }

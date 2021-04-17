@@ -22,10 +22,13 @@
 #include "config.h"
 
 #define DEBUG
+#include <assert.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <setjmp.h>
 #include <ortho/maze.h>
 #include <ortho/fPQ.h>
+#include <ortho/ortho.h>
 #include <common/memory.h>
 #include <common/geomprocs.h>
 #include <common/globals.h>
@@ -40,7 +43,7 @@ static jmp_buf jbuf;
 
 #ifdef DEBUG
 static void emitSearchGraph (FILE* fp, sgraph* sg);
-static void emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t[]);
+static void emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t[]);
 int odb_flags;
 #endif
 
@@ -105,7 +108,7 @@ sidePt (snode* ptr, cell* cp)
  * Assume b1 != b2
  */
 static void
-setSeg (segment* sp, int dir, double fix, double b1, double b2, int l1, int l2)
+setSeg (segment* sp, bool dir, double fix, double b1, double b2, int l1, int l2)
 {
     sp->isVert = dir;
     sp->comm_coord = fix;
@@ -141,7 +144,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
     snode* ptr;
     snode* next;
     snode* prev;  /* node in shortest path just previous to next */
-    int i, sz = 0;
+    size_t sz = 0;
     cell* cp;
     cell* ncp;
     segment seg;
@@ -152,6 +155,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
 	/* count no. of nodes in shortest path */
     for (ptr = fst; ptr; ptr = N_DAD(ptr)) sz++;
     rte.n = 0;
+    assert(sz >= 2);
     rte.segs = N_NEW(sz-2, segment);  /* at most sz-2 segments */
 
     seg.prev = seg.next = 0;
@@ -230,7 +234,7 @@ convertSPtoRoute (sgraph* g, snode* fst, snode* lst)
     }
 
     rte.segs = realloc (rte.segs, rte.n*sizeof(segment));
-    for (i=0; i<rte.n; i++) {
+    for (size_t i=0; i<rte.n; i++) {
 	if (i > 0)
 	    rte.segs[i].prev = rte.segs + (i-1);
 	if (i < rte.n-1)
@@ -249,6 +253,9 @@ typedef struct {
 static void
 freeChannel (Dt_t* d, channel* cp, Dtdisc_t* disc)
 {
+    (void)d;
+    (void)disc;
+
     free_graph (cp->G);
     free (cp->seg_list);
     free (cp);
@@ -257,6 +264,9 @@ freeChannel (Dt_t* d, channel* cp, Dtdisc_t* disc)
 static void
 freeChanItem (Dt_t* d, chanItem* cp, Dtdisc_t* disc)
 {
+    (void)d;
+    (void)disc;
+
     dtclose (cp->chans);
     free (cp);
 }
@@ -273,6 +283,9 @@ freeChanItem (Dt_t* d, chanItem* cp, Dtdisc_t* disc)
 static int
 chancmpid(Dt_t* d, paird* key1, paird* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
+
   if (key1->p1 > key2->p1) {
     if (key1->p2 <= key2->p2) return 0;
     else return 1;
@@ -287,6 +300,9 @@ chancmpid(Dt_t* d, paird* key1, paird* key2, Dtdisc_t* disc)
 static int
 dcmpid(Dt_t* d, double* key1, double* key2, Dtdisc_t* disc)
 {
+  (void)d;
+  (void)disc;
+
   if (*key1 > *key2) return 1;
   else if (*key1 < *key2) return -1;
   else return 0;
@@ -424,14 +440,13 @@ chanSearch (Dt_t* chans, segment* seg)
 }
 
 static void
-assignSegs (int nrtes, route* route_list, maze* mp)
+assignSegs (size_t nrtes, route* route_list, maze* mp)
 {
     channel* chan;
-    int i, j;
 
-    for (i=0;i<nrtes;i++) {
+    for (size_t i=0;i<nrtes;i++) {
 	route rte = route_list[i];
-	for (j=0;j<rte.n;j++) {
+	for (size_t j=0;j<rte.n;j++) {
 	    segment* seg = rte.segs+j;
 	    if (seg->isVert)
 		chan = chanSearch(mp->vchans, seg);
@@ -509,7 +524,8 @@ static char* bendToStr (bend b)
   case B_DOWN :
     s = "B_DOWN";
     break;
-  case B_RIGHT :
+  default:
+    assert(b == B_RIGHT);
     s = "B_RIGHT";
     break;
   }
@@ -739,15 +755,11 @@ add_edges_in_G(channel* cp)
 
     for(x=0;x+1<size;x++) {
 	for(y=x+1;y<size;y++) {
-	    switch (seg_cmp(seg_list[x],seg_list[y])) {
-	    case 1:
+	    int cmp = seg_cmp(seg_list[x],seg_list[y]);
+	    if (cmp > 0) {
 		insert_edge(G,x,y);
-		break;
-	    case 0:
-		break;
-	    case -1:
+	    } else if (cmp < 0) {
 		insert_edge(G,y,x);
-		break;
 	    }
 	}
     }
@@ -1017,35 +1029,27 @@ addPEdges (channel* cp, maze* mp)
 		    hops.b = p.a;
 		    prec2 = p.b;
 
-		    switch(prec1) {
-		    case -1 :
+		    if (prec1 == -1) {
 			set_parallel_edges (segs[j], segs[i], dir, 0, hops.a, mp);
 			set_parallel_edges (segs[j], segs[i], 1-dir, 1, hops.b, mp);
 			if(prec2==1)
 			    removeEdge (segs[i], segs[j], 1-dir, mp);
-			break;
-		    case 0 :
-			switch(prec2) {
-			case -1:
+		    } else if (prec1 == 0) {
+			if (prec2 == -1) {
 			    set_parallel_edges (segs[j], segs[i], dir, 0, hops.a, mp);
 			    set_parallel_edges (segs[j], segs[i], 1-dir, 1, hops.b, mp);
-			    break;
-			case 0 :
+			} else if (prec2 == 0) {
 			    set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			    set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
-			    break;
-			case 1:
+			} else if (prec2 == 1) {
 			    set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			    set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
-			    break;
 			}
-			break;
-		    case 1 :
+		    } else if (prec1 == 1) {
 			set_parallel_edges (segs[i], segs[j], 0, dir, hops.a, mp);
 			set_parallel_edges (segs[i], segs[j], 1, 1-dir, hops.b, mp);
 			if(prec2==-1)
 			    removeEdge (segs[i], segs[j], 1-dir, mp);
-			break;
 		    }
 		}
 	    }
@@ -1069,7 +1073,7 @@ add_p_edges (Dt_t* chans, maze* mp)
 }
 
 static void
-assignTracks (int nrtes, route* route_list, maze* mp)
+assignTracks (maze* mp)
 {
     /* Create the graphs for each channel */
     create_graphs(mp->hchans);
@@ -1117,10 +1121,9 @@ addPoints(pointf p0, pointf p1)
 }
 
 static void
-attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
+attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
 {
-    int irte = 0;
-    int i, ipt, npts;
+    int ipt, npts;
     pointf* ispline = 0;
     int splsz = 0;
     pointf p, p1, q1;
@@ -1129,7 +1132,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineI
     Agedge_t* e;
     textlabel_t* lbl;
 
-    for (; irte < n_edges; irte++) {
+    for (size_t irte = 0; irte < n_edges; irte++) {
 	e = es[irte].e;
 	p1 = addPoints(ND_coord(agtail(e)), ED_tail_port(e).p);
 	q1 = addPoints(ND_coord(aghead(e)), ED_head_port(e).p);
@@ -1154,7 +1157,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, int n_edges, route* route_list, splineI
 	ispline[0] = ispline[1] = p;
 	ipt = 2;
 
-	for (i = 1;i<rte.n;i++) {
+	for (size_t i = 1;i<rte.n;i++) {
 		seg = rte.segs+i;
 		if (seg->isVert)
 		    p.x = vtrack(seg, mp);
@@ -1197,11 +1200,13 @@ static int edgecmp(epair_t* e0, epair_t* e1)
 
 static boolean spline_merge(node_t * n)
 {
+    (void)n;
     return FALSE;
 }
 
 static boolean swap_ends_p(edge_t * e)
 {
+    (void)e;
     return FALSE;
 }
 
@@ -1217,9 +1222,8 @@ orthoEdges (Agraph_t* g, int doLbls)
 {
     sgraph* sg;
     maze* mp;
-    int n_edges;
     route* route_list;
-    int i, gstart;
+    int gstart;
     Agnode_t* n;
     Agedge_t* e;
     snode* sn;
@@ -1272,7 +1276,7 @@ orthoEdges (Agraph_t* g, int doLbls)
 #endif
 
     /* store edges to be routed in es, along with their lengths */
-    n_edges = 0;
+    size_t n_edges = 0;
     for (n = agfstnode (g); n; n = agnxtnode(g, n)) {
         for (e = agfstout(g, n); e; e = agnxtout(g,e)) {
 	    if ((Nop == 2) && ED_spl(e)) continue;
@@ -1296,13 +1300,13 @@ orthoEdges (Agraph_t* g, int doLbls)
 
     route_list = N_NEW (n_edges, route);
 
-    qsort((char *)es, n_edges, sizeof(epair_t), (qsort_cmpf) edgecmp);
+    qsort(es, n_edges, sizeof(epair_t), (qsort_cmpf) edgecmp);
 
     gstart = sg->nnodes;
     PQgen (sg->nnodes+2);
     sn = &sg->nodes[gstart];
     dn = &sg->nodes[gstart+1];
-    for (i = 0; i < n_edges; i++) {
+    for (size_t i = 0; i < n_edges; i++) {
 #ifdef DEBUG
 	if ((i > 0) && (odb_flags & ODB_IGRAPH)) emitSearchGraph (stderr, sg);
 #endif
@@ -1332,7 +1336,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     assignSegs (n_edges, route_list, mp);
     if (setjmp(jbuf))
 	goto orthofinish;
-    assignTracks (n_edges, route_list, mp);
+    assignTracks (mp);
 #ifdef DEBUG
     if (odb_flags & ODB_ROUTE) emitGraph (stderr, mp, n_edges, route_list, es);
 #endif
@@ -1342,7 +1346,7 @@ orthofinish:
     if (Concentrate)
 	freePS (ps);
 
-    for (i=0; i < n_edges; i++)
+    for (size_t i=0; i < n_edges; i++)
 	free (route_list[i].segs);
     free (route_list);
     freeMaze (mp);
@@ -1418,9 +1422,9 @@ coordOf (cell* cp, snode* np)
 }
 
 static boxf
-emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, int ix, boxf bb)
+emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, boxf bb)
 {
-    int i, x, y;
+    int x, y;
     boxf n = CELL(agtail(e))->bb;
     segment* seg = rte.segs;
     if (seg->isVert) {
@@ -1437,7 +1441,7 @@ emitEdge (FILE* fp, Agedge_t* e, route rte, maze* m, int ix, boxf bb)
     bb.UR.y = MAX(bb.UR.y, SC*y);
     fprintf (fp, "newpath %d %d moveto\n", SC*x, SC*y);
 
-    for (i = 1;i<rte.n;i++) {
+    for (size_t i = 1;i<rte.n;i++) {
 	seg = rte.segs+i;
 	if (seg->isVert) {
 	    x = vtrack(seg, m);
@@ -1502,9 +1506,8 @@ emitSearchGraph (FILE* fp, sgraph* sg)
 }
 
 static void
-emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t es[])
+emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
 {
-    int i;
     boxf bb, absbb;
     box bbox;
 
@@ -1515,17 +1518,17 @@ emitGraph (FILE* fp, maze* mp, int n_edges, route* route_list, epair_t es[])
     fprintf (fp, "%d %d translate\n", TRANS, TRANS);
 
     fputs ("0 0 1 setrgbcolor\n", fp);
-    for (i = 0; i < mp->ngcells; i++) {
+    for (size_t i = 0; i < mp->ngcells; i++) {
       bb = mp->gcells[i].bb;
       fprintf (fp, "%f %f %f %f node\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
     }
 
-    for (i = 0; i < n_edges; i++) {
-	absbb = emitEdge (fp, es[i].e, route_list[i], mp, i, absbb);
+    for (size_t i = 0; i < n_edges; i++) {
+	absbb = emitEdge (fp, es[i].e, route_list[i], mp, absbb);
     }
     
     fputs ("0.8 0.8 0.8 setrgbcolor\n", fp);
-    for (i = 0; i < mp->ncells; i++) {
+    for (size_t i = 0; i < mp->ncells; i++) {
       bb = mp->cells[i].bb;
       fprintf (fp, "%f %f %f %f cell\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
       absbb.LL.x = MIN(absbb.LL.x, bb.LL.x);

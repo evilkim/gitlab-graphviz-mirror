@@ -14,6 +14,7 @@
 #include "types.h"
 #include "cgraph.h"
 #include <ortho/rawgraph.h>
+#include <stddef.h>
 
 typedef struct {
     double p1, p2;
@@ -45,7 +46,7 @@ typedef struct segment {
 } segment;
 
 typedef struct {
-  int n;
+  size_t n;
   segment* segs;
 } route;
 
@@ -57,34 +58,6 @@ typedef struct {
   rawgraph* G;
   struct cell* cp;
 } channel;
-
-#if 0
-typedef struct {
-  int i1, i2, j;
-  int cnt;
-  int* seg_list;  /* list of indices of the segment list */
-
-  rawgraph* G;
-} hor_channel;
-
-typedef struct {
-	hor_channel* hs;
-	int cnt;
-} vhor_channel;
-
-typedef struct {
-  int i, j1, j2;
-  int cnt;
-  int* seg_list;  /* list of indices of the segment list */
-
-  rawgraph* G;
-} vert_channel;
-
-typedef struct {
-	vert_channel* vs;
-	int cnt;
-} vvert_channel;
-#endif
 
 #define N_DAD(n) (n)->n_dad
 

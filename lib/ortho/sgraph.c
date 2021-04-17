@@ -16,74 +16,6 @@
 #include <ortho/sgraph.h>
 #include <ortho/fPQ.h>
 
-#if 0
-/* Max. number of maze segments around a node */
-static int MaxNodeBoundary = 100; 
-
-typedef struct {
-    int left, right, up, down;
-} irect;
-
-/* nodes in the search graph correspond to line segments in the 
- * grid formed by n_hlines horizontal lines and n_vlines vertical lines.
- * The vertical segments are enumerated first, top to bottom, left to right.
- * Then the horizontal segments left to right, top to bottom. For example,
- * with an array of 4 vertical and 3 horizontal lines, we have
- *
- * |--14--|--15--|--16--|
- * 1      3      5      7
- * |--11--|--12--|--13--|
- * 0      2      4      6
- * |-- 8--|-- 9--|--10--|
- */
-static irect
-get_indices(orthograph* OG,int i, int j)
-{
-    irect r;
-    int hl = OG->n_hlines-1;
-    int vl = OG->n_vlines-1;
-	r.left = i*hl + j;
-	r.right = r.left + hl;
-	r.down = (vl+1)*hl + j*vl + i;
-	r.up = r.down + vl;
-    return r;
-}
-
-static irect
-find_boundary(orthograph* G, int n)
-{
-    rect R = G->Nodes[n];
-    irect r;
-    int i;
-
-    for (i = 0; i < G->n_vlines; i++) {
-        if (R.left == G->v_lines[i]) {
-            r.left = i;
-            break;
-        }
-    }
-    for (; i < G->n_vlines; i++) {
-        if (R.right == G->v_lines[i]) {
-            r.right = i;
-            break;
-        }
-    }
-    for (i = 0; i < G->n_hlines; i++) {
-        if (R.down == G->h_lines[i]) {
-            r.down = i;
-            break;
-        }
-    }
-    for (; i < G->n_hlines; i++) {
-        if (R.up == G->h_lines[i]) {
-            r.up = i;
-            break;
-        }
-    }
-    return r;
-}
-#endif
-
 void
 gsave (sgraph* G)
 {
@@ -143,7 +75,7 @@ createSNode (sgraph* g)
 }
 
 static void
-addEdgeToNode (snode* np, sedge* e, int idx)
+addEdgeToNode (snode* np, int idx)
 {
     np->adj_edge_list[np->n_adj] = idx;
     np->n_adj++;
@@ -161,8 +93,8 @@ createSEdge (sgraph* g, snode* v1, snode* v2, double wt)
     e->weight = wt;
     e->cnt = 0;
 
-    addEdgeToNode (v1, e, idx);
-    addEdgeToNode (v2, e, idx);
+    addEdgeToNode (v1, idx);
+    addEdgeToNode (v2, idx);
 
     return e;
 }
@@ -262,7 +194,6 @@ shortPath (sgraph* g, snode* from, snode* to)
 	}
     }
 
-    /* PQfree(); */
     return 0;
 }
 
