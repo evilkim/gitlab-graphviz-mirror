@@ -13,7 +13,6 @@ add_library(ast STATIC
     fmtbuf.c
     fmtesc.c
     pathaccess.c
-    pathbin.c
     pathcanon.c
     pathcat.c
     pathexists.c
