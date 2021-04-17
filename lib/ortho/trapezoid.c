@@ -209,7 +209,7 @@ init_query_structure(int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   qs[i6].trnum = t1;
   qs[i7].trnum = t2;
 
-  s->is_inserted = TRUE;
+  s->is_inserted = true;
   return root;
 }
 
@@ -268,7 +268,7 @@ is_left_of (int segnum, segment_t* seg, pointf *v)
 /* Returns true if the corresponding endpoint of the given segment is */
 /* already inserted into the segment tree. Use the simple test of */
 /* whether the segment which shares this endpoint is already inserted */
-static int inserted (int segnum, segment_t* seg, int whichpt)
+static bool inserted (int segnum, segment_t* seg, int whichpt)
 {
   if (whichpt == FIRSTPT)
     return seg[seg[segnum].prev].is_inserted;
@@ -964,7 +964,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   merge_trapezoids(segnum, tfirstl, tlastl, S_LEFT, tr, qs);
   merge_trapezoids(segnum, tfirstr, tlastr, S_RIGHT, tr, qs);
 
-  seg[segnum].is_inserted = TRUE;
+  seg[segnum].is_inserted = true;
   return 0;
 }
 

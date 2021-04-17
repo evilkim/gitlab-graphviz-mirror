@@ -14,6 +14,7 @@
 #include <ortho/trap.h>
 #include <common/memory.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -128,7 +129,7 @@ store (segment_t* seg, int first, pointf* pts)
 	    seg[i].next = i+1;
 	    seg[i].prev = i-1;
 	}
-	seg[i].is_inserted = FALSE;
+	seg[i].is_inserted = false;
 	seg[seg[i].prev].v1 = seg[i].v0 = pts[j];
     }
     return (last+1);
@@ -688,7 +689,7 @@ dumpSegs (segment_t* sg, int n)
       sg++;
       fprintf (stderr, "%d : (%f,%f) (%f,%f) %d %d %d %d %d\n", i,
          sg->v0.x, sg->v0.y, sg->v1.x, sg->v1.y,
-         sg->is_inserted, sg->root0,  sg->root1, sg->next, sg->prev);
+         (int)sg->is_inserted, sg->root0,  sg->root1, sg->next, sg->prev);
     }
     fprintf (stderr, "====\n");
 }
