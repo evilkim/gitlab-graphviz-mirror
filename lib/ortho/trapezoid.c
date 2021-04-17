@@ -97,7 +97,7 @@ static void _max (pointf *yval, pointf *v0, pointf *v1)
 }
 
 /* Return the minimum of the two points into the yval structure */
-static int _min (pointf *yval, pointf *v0, pointf *v1)
+static void _min (pointf *yval, pointf *v0, pointf *v1)
 {
   if (v0->y < v1->y - C_EPS)
     *yval = *v0;
@@ -110,8 +110,6 @@ static int _min (pointf *yval, pointf *v0, pointf *v1)
     }
   else
     *yval = *v1;
-
-  return 0;
 }
 
 static int _greater_than_equal_to (pointf *v0, pointf *v1)
