@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef RAWGRAPH_H
-#define RAWGRAPH_H
+#pragma once
 
 #include <cdt.h>
 
@@ -34,5 +33,3 @@ extern void remove_redge(rawgraph*, int v1, int v2);
 extern int edge_exists(rawgraph*, int v1, int v2);
   /* topologically sorts the directed graph */
 extern void top_sort(rawgraph*); 
-
-#endif

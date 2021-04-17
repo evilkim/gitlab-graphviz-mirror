@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TRAP_H
-#define TRAP_H
+#pragma once
 
 /* Segment attributes */
 
@@ -51,5 +50,3 @@ typedef struct {
   (((v0)->y > (v1)->y + C_EPS) ? TRUE : (((v0)->y < (v1)->y - C_EPS) ? FALSE : ((v0)->x > (v1)->x)))
 
 extern int construct_trapezoids(int, segment_t*, int*, int, trap_t*);
-
-#endif

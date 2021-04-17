@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
+#pragma once
 
 #include "types.h"
 #include "cgraph.h"
@@ -60,5 +59,3 @@ typedef struct {
 } channel;
 
 #define N_DAD(n) (n)->n_dad
-
-#endif

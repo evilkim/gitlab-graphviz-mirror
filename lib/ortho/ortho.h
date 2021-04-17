@@ -8,9 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef ORTHO_H
-#define ORTHO_H
+#pragma once
+
 #include <render.h>
 
 void orthoEdges (Agraph_t* g, int useLbls);
-#endif

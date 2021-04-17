@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SEARCH_G_H
-#define SEARCH_G_H
+#pragma once
 
 #include <ortho/structures.h>
 
@@ -56,5 +55,3 @@ extern void initSEdges (sgraph* g, int maxdeg);
 extern int shortPath (sgraph* g, snode* from, snode* to);
 extern snode* createSNode (sgraph*);
 extern sedge* createSEdge (sgraph* g, snode* v0, snode* v1, double wt);
-
-#endif
