@@ -9,28 +9,14 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	External variables and functions used only by Sfio
 **	Written by Kiem-Phong Vo
 */
 
 /* global variables used internally to the package */
-Sfextern_t _Sfextern = { 0,	/* _Sfpage      */
-    {NIL(Sfpool_t *), 0, 0, 0, NIL(Sfio_t **)},	/* _Sfpool      */
-    NIL(int (*)(Sfio_t *, int)),	/* _Sfpmove     */
-    NIL(Sfio_t * (*)(Sfio_t *, Sfio_t *)),	/* _Sfstack     */
-    NIL(void (*)(Sfio_t *, int, int)),	/* _Sfnotify    */
-    NIL(int (*)(Sfio_t *)),	/* _Sfstdsync   */
-    {NIL(Sfread_f),		/* _Sfudisc     */
-     NIL(Sfwrite_f),
-     NIL(Sfseek_f),
-     NIL(Sfexcept_f),
-     NIL(Sfdisc_t *)
-     },
-    NIL(void (*)(void)),	/* _Sfcleanup   */
-    0,				/* _Sfexiting   */
-    0,				/* _Sfdone      */
-};
+Sfextern_t _Sfextern;
 
 /* accessible to application code for a few fast macro functions */
 ssize_t _Sfi = -1;
@@ -39,15 +25,12 @@ ssize_t _Sfi = -1;
 #define SFMTXOUT	(0)
 #define SFMTXERR	(0)
 
-Sfio_t _Sfstdin = SFNEW(NIL(char *), -1, 0,
-			(SF_READ | SF_STATIC | SF_MTSAFE), NIL(Sfdisc_t *),
+Sfio_t _Sfstdin = SFNEW(NULL, -1, 0, (SF_READ | SF_STATIC | SF_MTSAFE), NULL,
 			SFMTXIN);
-Sfio_t _Sfstdout = SFNEW(NIL(char *), -1, 1,
-			 (SF_WRITE | SF_STATIC | SF_MTSAFE),
-			 NIL(Sfdisc_t *), SFMTXOUT);
-Sfio_t _Sfstderr = SFNEW(NIL(char *), -1, 2,
-			 (SF_WRITE | SF_STATIC | SF_MTSAFE),
-			 NIL(Sfdisc_t *), SFMTXERR);
+Sfio_t _Sfstdout = SFNEW(NULL, -1, 1, (SF_WRITE | SF_STATIC | SF_MTSAFE), NULL,
+			SFMTXOUT);
+Sfio_t _Sfstderr = SFNEW(NULL, -1, 2, (SF_WRITE | SF_STATIC | SF_MTSAFE), NULL,
+			SFMTXERR);
 
 Sfio_t *sfstdin = &_Sfstdin;
 Sfio_t *sfstdout = &_Sfstdout;
