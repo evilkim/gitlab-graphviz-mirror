@@ -13,6 +13,7 @@
 
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 #include <common/geom.h>
@@ -112,7 +113,7 @@ static void _min (pointf *yval, pointf *v0, pointf *v1)
     *yval = *v1;
 }
 
-static int _greater_than_equal_to (pointf *v0, pointf *v1)
+static bool _greater_than_equal_to (pointf *v0, pointf *v1)
 {
   if (v0->y > v1->y + C_EPS)
     return TRUE;
@@ -122,7 +123,7 @@ static int _greater_than_equal_to (pointf *v0, pointf *v1)
     return v0->x >= v1->x;
 }
 
-static int _less_than (pointf *v0, pointf *v1)
+static bool _less_than (pointf *v0, pointf *v1)
 {
   return !_greater_than_equal_to(v0, v1);
 }
