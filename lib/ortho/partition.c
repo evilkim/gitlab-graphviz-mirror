@@ -653,14 +653,12 @@ monotonate_trapezoids(int nsegs, segment_t*seg, trap_t* tr,
 static int 
 rectIntersect (boxf *d, const boxf *r0, const boxf *r1)
 {
-    double t;
-
-    t = (r0->LL.x > r1->LL.x) ? r0->LL.x : r1->LL.x;
-    d->UR.x = (r0->UR.x < r1->UR.x) ? r0->UR.x : r1->UR.x;
+    double t = fmax(r0->LL.x, r1->LL.x);
+    d->UR.x = fmin(r0->UR.x, r1->UR.x);
     d->LL.x = t;
     
-    t = (r0->LL.y > r1->LL.y) ? r0->LL.y : r1->LL.y;
-    d->UR.y = (r0->UR.y < r1->UR.y) ? r0->UR.y : r1->UR.y;
+    t = fmax(r0->LL.y, r1->LL.y);
+    d->UR.y = fmin(r0->UR.y, r1->UR.y);
     d->LL.y = t;
 
     if ((d->LL.x >= d->UR.x) ||
