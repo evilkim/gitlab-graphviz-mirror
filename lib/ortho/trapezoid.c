@@ -81,7 +81,7 @@ static int newtrap(trap_t* tr)
 }
 
 /* Return the maximum of the two points into the yval structure */
-static int _max (pointf *yval, pointf *v0, pointf *v1)
+static void _max (pointf *yval, pointf *v0, pointf *v1)
 {
   if (v0->y > v1->y + C_EPS)
     *yval = *v0;
@@ -94,8 +94,6 @@ static int _max (pointf *yval, pointf *v0, pointf *v1)
     }
   else
     *yval = *v1;
-
-  return 0;
 }
 
 /* Return the minimum of the two points into the yval structure */
