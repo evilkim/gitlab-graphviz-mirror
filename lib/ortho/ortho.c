@@ -828,7 +828,7 @@ propagate_prec(segment* seg, int prec, int hops, int dir)
     return ans;
 }
 
-static int
+static bool
 is_parallel(segment* s1, segment* s2)
 {
     assert (s1->comm_coord==s2->comm_coord);
