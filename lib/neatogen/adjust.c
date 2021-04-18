@@ -95,7 +95,7 @@ static void chkBoundBox(Agraph_t * graph)
     Point ll, ur;
     int i;
     double x, y;
-    double x_min, x_max, y_min, ymax;
+    double x_min, x_max, y_min, y_max;
     double xmn, xmx, ymn, ymx;
     double ydelta, xdelta;
     Info_t *ip;
@@ -109,7 +109,7 @@ static void chkBoundBox(Agraph_t * graph)
     x_min = pp->origin.x + x;
     y_min = pp->origin.y + y;
     x_max = pp->corner.x + x;
-    ymax = pp->corner.y + y;
+    y_max = pp->corner.y + y;
     for (i = 1; i < nsites; i++) {
 	ip++;
 	pp = &ip->poly;
@@ -125,20 +125,20 @@ static void chkBoundBox(Agraph_t * graph)
 	    y_min = ymn;
 	if (xmx > x_max)
 	    x_max = xmx;
-	if (ymx > ymax)
-	    ymax = ymx;
+	if (ymx > y_max)
+	    y_max = ymx;
     }
 
     marg = agget(graph, "voro_margin");
     if (marg && (*marg != '\0')) {
 	margin = atof(marg);
     }
-    ydelta = margin * (ymax - y_min);
+    ydelta = margin * (y_max - y_min);
     xdelta = margin * (x_max - x_min);
     ll.x = x_min - xdelta;
     ll.y = y_min - ydelta;
     ur.x = x_max + xdelta;
-    ur.y = ymax + ydelta;
+    ur.y = y_max + ydelta;
 
     setBoundBox(&ll, &ur);
 }
