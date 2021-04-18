@@ -800,11 +800,11 @@ fdpAdjust (graph_t* g, adjust_data* am)
 static int
 vpscAdjust(graph_t* G)
 {
-    int dim = 2;
+    enum { dim = 2 };
     int nnodes = agnnodes(G);
     ipsep_options opt;
     pointf* nsize = N_GNEW(nnodes, pointf);
-    float** coords = N_GNEW(dim, float*);
+    float* coords[dim];
     float* f_storage = N_GNEW(dim * nnodes, float);
     int i, j;
     Agnode_t* v;
@@ -851,7 +851,6 @@ vpscAdjust(graph_t* G)
 
     free (opt.clusters);
     free (f_storage);
-    free (coords);
     free (nsize);
     return 0;
 }
