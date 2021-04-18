@@ -675,7 +675,7 @@ double *getSizes(Agraph_t * g, pointf pad, int* n_elabels, int** elabels)
  * Assumes g is connected and simple, i.e., we can have a->b and b->a
  * but not a->b and a->b
  */
-SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
+SparseMatrix makeMatrix(Agraph_t* g, SparseMatrix *D)
 {
     SparseMatrix A = 0;
     Agnode_t *n;
@@ -747,7 +747,7 @@ SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
 static int
 fdpAdjust (graph_t* g, adjust_data* am)
 {
-    SparseMatrix A0 = makeMatrix(g, Ndim, NULL);
+    SparseMatrix A0 = makeMatrix(g, NULL);
     SparseMatrix A = A0;
     real *sizes;
     real *pos = N_NEW(Ndim * agnnodes(g), real);

@@ -98,9 +98,9 @@ static void sfdpLayout(graph_t * g, spring_electrical_control ctrl,
     SparseMatrix A;
 
     if (ctrl->method == METHOD_SPRING_MAXENT) /* maxent can work with distance matrix */
-	A = makeMatrix(g, Ndim, &D);
+	A = makeMatrix(g, &D);
     else
-	A = makeMatrix(g, Ndim, NULL);
+	A = makeMatrix(g, NULL);
 
     if (ctrl->overlap >= 0) {
 	if (ctrl->edge_labeling_scheme > 0)
