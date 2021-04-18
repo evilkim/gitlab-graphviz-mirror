@@ -574,7 +574,7 @@ static int vAdjust(void)
     return 1;
 }
 
-static double rePos(Point c)
+static double rePos(void)
 {
     int i;
     Info_t *ip = nodeInfo;
@@ -605,7 +605,7 @@ static int sAdjust(void)
     center.x = (pxmin + pxmax) / 2.0;
     center.y = (pymin + pymax) / 2.0;
     while (1) {
-	rePos(center);
+	rePos();
 	iterCnt++;
 
 	if (useIter && (iterCnt == iterations))
