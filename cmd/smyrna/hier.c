@@ -192,7 +192,6 @@ Hierarchy *makeHier(int nn, int ne, v_data * graph, double *x_coords,
 	geom_graph[i].physical_y_coord = (float) y_coords[i];
     }
 
-/* dumpHier (hp); */
     return hp;
 }
 
@@ -205,13 +204,3 @@ focus_t *initFocus(int ncnt)
     fs->y_foci = N_NEW(ncnt, double);
     return fs;
 }
-
-#ifdef UNUSED
-void freeFocus(focus_t * fs)
-{
-    free(fs->foci_nodes);
-    free(fs->x_foci);
-    free(fs->y_foci);
-    free(fs);
-}
-#endif

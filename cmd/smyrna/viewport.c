@@ -22,7 +22,6 @@
 #include <stddef.h>
 #include <string.h>
 #include "glcompui.h"
-/* #include "topview.h" */
 #include "gltemplate.h"
 #include <common/colorprocs.h>
 #include <common/memory.h>
@@ -34,12 +33,6 @@
 #include <cgraph/strcasecmp.h>
 
 
-  /* Forward declarations */
-#ifdef UNUSED
-static int init_object_custom_data(Agraph_t * graph, void *obj);
-static void refresh_borders(Agraph_t * g);
-#endif
-
 static colorschemaset *create_color_theme(int themeid);
 static md5_byte_t *get_md5_key(Agraph_t * graph);
 
@@ -50,30 +43,6 @@ ViewInfo *view;
 /* these two global variables should be wrapped in something else */
 GtkMessageDialog *Dlg;
 int respond;
-#ifdef UNUSED
-static int mapbool(char *p)
-{
-    if (p == NULL)
-	return FALSE;
-    if (!strcasecmp(p, "false"))
-	return FALSE;
-    if (!strcasecmp(p, "true"))
-	return TRUE;
-    return atoi(p);
-}
-static Dtdisc_t qDisc = {
-    offsetof(xdot, ops),
-    sizeof(xdot_op *),
-    -1,
-    NIL(Dtmake_f),
-    NIL(Dtfree_f),
-    NIL(Dtcompar_f),
-    NIL(Dthash_f),
-    NIL(Dtmemory_f),
-    NIL(Dtevent_f)
-};
-#endif
-
 
 static void clear_viewport(ViewInfo * view)
 {
@@ -84,7 +53,6 @@ static void clear_viewport(ViewInfo * view)
     }
     if (view->graphCount)
 	agclose(view->g[view->activeGraph]);
-//      init_viewport(view);
 }
 static void *get_glut_font(int ind)
 {
@@ -122,54 +90,10 @@ static void fill_key(md5_byte_t * b, md5_byte_t * data)
 
 }
 
-#if TEST_FOR_CHANGE
-static int compare_keys(md5_byte_t * b1, md5_byte_t * b2)
-{
-    /*1 keys are equal */
-    /*0 not equal */
-
-    int ind = 0;
-    int eq = 1;
-    for (ind = 0; ind < 16; ind++) {
-	if (b1[ind] != b2[ind]) {
-	    eq = 0;
-	}
-    }
-    return eq;
-}
-#endif
-
 int close_graph(ViewInfo * view, int graphid)
 {
     if (view->activeGraph < 0)
 	return 1;
-#if TEST_FOR_CHANGE
-    /* This test should only be done if the user has something significant, not just
-     * setting some smyrna control, which then becomes a changed attribute. In addition,
-     * it might be good to allow a user to express a preference for the service.
-     */
-    fill_key(view->final_key, get_md5_key(view->g[graphid]));
-    if (!compare_keys(view->final_key, view->orig_key))
-	view->Topview->Graphdata.Modified = 1;
-    if (view->Topview->Graphdata.Modified) {
-	switch (show_close_nosavedlg()) {
-	case 0:		/*save and close */
-	    save_graph();
-	    clear_viewport(view);
-	    return 1;
-	    break;
-	case 1:		/*dont save but close */
-	    clear_viewport(view);
-	    return 1;
-	    break;
-	case 2:		/*cancel do nothing */
-	    return 0;
-	    break;
-	default:
-	    break;
-	}
-    }
-#endif
     clear_viewport(view);
     return 1;
 
@@ -190,7 +114,6 @@ void set_viewport_settings_from_template(ViewInfo * view, Agraph_t * g)
     char *buf;
     colorxlate(get_attribute_value("bordercolor", view, g), &cl,
 	       RGBA_DOUBLE);
-    /* glEnable(GL_POINT_SMOOTH); */
     view->borderColor.R = (float) cl.u.RGBA[0];
     view->borderColor.G = (float) cl.u.RGBA[1];
     view->borderColor.B = (float) cl.u.RGBA[2];
@@ -215,13 +138,8 @@ void set_viewport_settings_from_template(ViewInfo * view, Agraph_t * g)
     view->defaultnodeshape = atoi(buf =
 				  get_attribute_value("defaultnodeshape",
 						      view, g));
-    /* view->Selection.PickingType=atoi(buf=get_attribute_value("defaultselectionmethod", view,g)); */
-
-
 
     view->gridVisible = atoi(get_attribute_value("gridvisible", view, g));
-
-    //mouse mode=pan
 
     //background color , default white
     colorxlate(get_attribute_value("bgcolor", view, g), &cl, RGBA_DOUBLE);
@@ -384,7 +302,6 @@ void init_viewport(ViewInfo * view)
     }
     if (!path)
 	path = smyrnaPath("attr_widgets.dot");
-//    printf ("%s\n", path);
     input_file2 = fopen(path, "rb");
     if (!input_file2) {
 	fprintf(stderr,	"default attributes template graph file \"%s\" not found\n",smyrnaPath("attr_widgets.dot"));
@@ -538,71 +455,10 @@ static void update_graph_params(Agraph_t * graph)
 	   view->Topview->Graphdata.GraphFileName);
 }
 
-#ifdef UNUSED
-/* clear_object_xdot:
- * clear single object's xdot info
- */
-static int clear_object_xdot(void *obj)
-{
-    if (obj) {
-	if (agattrsym(obj, "_draw_"))
-	    agset(obj, "_draw_", "");
-	if (agattrsym(obj, "_ldraw_"))
-	    agset(obj, "_ldraw_", "");
-	if (agattrsym(obj, "_hdraw_"))
-	    agset(obj, "_hdraw_", "");
-	if (agattrsym(obj, "_tdraw_"))
-	    agset(obj, "_tdraw_", "");
-	if (agattrsym(obj, "_hldraw_"))
-	    agset(obj, "_hldraw_", "");
-	if (agattrsym(obj, "_tldraw_"))
-	    agset(obj, "_tldraw_", "");
-	return 1;
-    }
-    return 0;
-}
-
-/* clear_graph_xdot:
- * clears all xdot  attributes, used especially before layout change
- */
-static int clear_graph_xdot(Agraph_t * graph)
-{
-    Agnode_t *n;
-    Agedge_t *e;
-    Agraph_t *s;
-
-    clear_object_xdot(graph);
-    n = agfstnode(graph);
-
-    for (s = agfstsubg(graph); s; s = agnxtsubg(s))
-	clear_object_xdot(s);
-
-    for (n = agfstnode(graph); n; n = agnxtnode(graph, n)) {
-	clear_object_xdot(n);
-	for (e = agfstout(graph, n); e; e = agnxtout(graph, e)) {
-	    clear_object_xdot(e);
-	}
-    }
-    return 1;
-}
-
-/* clear_graph:
- * clears custom data binded
- * FIXME: memory leak - free allocated storage
- */
-static void clear_graph(Agraph_t * graph)
-{
-
-}
-
-#endif
-
 static Agraph_t *loadGraph(char *filename)
 {
     Agraph_t *g;
     FILE *input_file;
-    /* char* bf; */
-    /* char buf[512]; */
     if (!(input_file = fopen(filename, "r"))) {
 	g_print("Cannot open %s\n", filename);
 	return 0;
@@ -621,20 +477,9 @@ static Agraph_t *loadGraph(char *filename)
 	agclose (g);
 	return 0;
     }
-//    free(view->Topview->Graphdata.GraphFileName);
     view->Topview->Graphdata.GraphFileName = strdup(filename);
     return g;
 }
-
-#ifdef UNUSED
-static void refresh_borders(Agraph_t * g)
-{
-    sscanf(agget(g, "bb"), "%f,%f,%f,%f", &(view->bdxLeft),
-	   &(view->bdyBottom), &(view->bdxRight), &(view->bdyTop));
-}
-#endif
-
-
 
 /* add_graph_to_viewport_from_file:
  * returns 1 if successful else 0
@@ -702,7 +547,6 @@ void refreshViewport(int doClear)
     graphRecord(graph);
     initSmGraph(graph,view->Topview);
 
-//    update_topview(graph, view->Topview, 1);
     fill_key(view->orig_key, get_md5_key(graph));
     expose_event(view->drawing_area, NULL, NULL);
 }
@@ -738,23 +582,6 @@ void switch_graph(int graphId)
 	activate(graphId, 0);
 }
 
-#ifdef UNUSED
-/* add_new_graph_to_viewport:
- * returns graph index , otherwise -1
- */
-int add_new_graph_to_viewport(void)
-{
-    //returns graph index , otherwise -1
-    Agraph_t *graph;
-    graph = malloc(sizeof(Agraph_t));
-    if (graph) {
-	view->graphCount = view->graphCount + 1;
-	view->g[view->graphCount - 1] = graph;
-	return (view->graphCount - 1);
-    } else
-	return -1;
-}
-#endif
 static md5_byte_t md5_digest[16];
 static md5_state_t pms;
 
@@ -872,172 +699,6 @@ int save_as_graph(void)
     return 0;
 }
 
-
-#ifdef UNUSED
-/* move_node:
- */
-static void movenode(void *obj, float dx, float dy)
-{
-    char buf[512];
-    double x, y;
-    Agsym_t *pos;
-
-    if ((AGTYPE(obj) == AGNODE) && (pos = agattrsym(obj, "pos"))) {
-	sscanf(agxget(obj, pos), "%lf,%lf", &x, &y);
-	snprintf(buf, sizeof(buf), "%lf,%lf", x - dx, y - dy);
-	agxset(obj, pos, buf);
-    }
-}
-
-static char *move_xdot(void *obj, xdot * x, int dx, int dy, int dz)
-{
-    int i = 0;
-    int j = 0;
-    /* int a=0; */
-    /* char* pch; */
-    /* int pos[MAXIMUM_POS_COUNT];  //maximum pos count hopefully does not exceed 100 */
-    if (!x)
-	return "\0";
-
-    for (i = 0; i < x->cnt; i++) {
-	switch (x->ops[i].kind) {
-	case xd_filled_polygon:
-	case xd_unfilled_polygon:
-	case xd_filled_bezier:
-	case xd_unfilled_bezier:
-	case xd_polyline:
-	    for (j = 0; j < x->ops[i].u.polygon.cnt; j++) {
-		x->ops[i].u.polygon.pts[j].x =
-		    x->ops[i].u.polygon.pts[j].x - dx;
-		x->ops[i].u.polygon.pts[j].y =
-		    x->ops[i].u.polygon.pts[j].y - dy;
-		x->ops[i].u.polygon.pts[j].z =
-		    x->ops[i].u.polygon.pts[j].z - dz;
-	    }
-	    break;
-	case xd_filled_ellipse:
-	case xd_unfilled_ellipse:
-	    x->ops[i].u.ellipse.x = x->ops[i].u.ellipse.x - dx;
-	    x->ops[i].u.ellipse.y = x->ops[i].u.ellipse.y - dy;
-	    //                      x->ops[i].u.ellipse.z=x->ops[i].u.ellipse.z-dz;
-	    break;
-	case xd_text:
-	    x->ops[i].u.text.x = x->ops[i].u.text.x - dx;
-	    x->ops[i].u.text.y = x->ops[i].u.text.y - dy;
-	    //                      x->ops[i].u.text.z=x->ops[i].u.text.z-dz;
-	    break;
-	case xd_image:
-	    x->ops[i].u.image.pos.x = x->ops[i].u.image.pos.x - dx;
-	    x->ops[i].u.image.pos.y = x->ops[i].u.image.pos.y - dy;
-	    //                      x->ops[i].u.image.pos.z=x->ops[i].u.image.pos.z-dz;
-	    break;
-	default:
-	    break;
-	}
-    }
-    view->GLx = view->GLx2;
-    view->GLy = view->GLy2;
-    return sprintXDot(x);
-
-
-}
-
-static char *offset_spline(xdot * x, float dx, float dy, float headx,
-			   float heady)
-{
-    int i = 0;
-    Agnode_t *headn, tailn;
-    Agedge_t *e;
-    e = x->obj;			//assume they are all edges, check function name
-    headn = aghead(e);
-    tailn = agtail(e);
-
-    for (i = 0; i < x->cnt; i++)	//more than 1 splines ,possible
-    {
-	switch (x->ops[i].kind) {
-	case xd_filled_polygon:
-	case xd_unfilled_polygon:
-	case xd_filled_bezier:
-	case xd_unfilled_bezier:
-	case xd_polyline:
-	    if (OD_Selected((headn)->obj) && OD_Selected((tailn)->obj)) {
-		for (j = 0; j < x->ops[i].u.polygon.cnt; j++) {
-		    x->ops[i].u.polygon.pts[j].x =
-			x->ops[i].u.polygon.pts[j].x + dx;
-		    x->ops[i].u.polygon.pts[j].y =
-			x->ops[i].u.polygon.pts[j].y + dy;
-		    x->ops[i].u.polygon.pts[j].z =
-			x->ops[i].u.polygon.pts[j].z + dz;
-		}
-	    }
-	    break;
-	}
-    }
-    return 0;
-}
-#endif
-
-/* move_nodes:
- * move selected nodes 
- */
-#ifdef UNUSED
-void move_nodes(Agraph_t * g)
-{
-    Agnode_t *obj;
-
-    float dx, dy;
-    xdot *bf;
-    int i = 0;
-    dx = view->GLx - view->GLx2;
-    dy = view->GLy - view->GLy2;
-
-    if (GD_TopView(view->g[view->activeGraph]) == 0) {
-	for (i = 0; i < GD_selectedNodesCount(g); i++) {
-	    obj = GD_selectedNodes(g)[i];
-	    bf = parseXDot(agget(obj, "_draw_"));
-	    agset(obj, "_draw_",
-		  move_xdot(obj, bf, (int) dx, (int) dy, 0));
-	    free(bf);
-	    bf = parseXDot(agget(obj, "_ldraw_"));
-	    agset(obj, "_ldraw_",
-		  move_xdot(obj, bf, (int) dx, (int) dy, 0));
-	    free(bf);
-	    movenode(obj, dx, dy);
-	    //iterate edges
-	    /*for (e = agfstout(g,obj) ; e ; e = agnxtout (g,e))
-	       {
-	       bf=parseXDot (agget(e,"_tdraw_"));
-	       agset(e,"_tdraw_",move_xdot(e,bf,(int)dx,(int)dy,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_tldraw_"));
-	       agset(e,"_tldraw_",move_xdot(e,bf,(int)dx,(int)dy,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_draw_"));
-	       agset(e,"_draw_",offset_spline(bf,(int)dx,(int)dy,0.00,0.00,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_ldraw_"));
-	       agset(e,"_ldraw_",offset_spline(bf,(int)dx,(int)dy,0.00,0.00,0.00));
-	       free (bf);
-	       } */
-	    /*              for (e = agfstin(g,obj) ; e ; e = agnxtin (g,e))
-	       {
-	       free(bf);
-	       bf=parseXDot (agget(e,"_hdraw_"));
-	       agset(e,"_hdraw_",move_xdot(e,bf,(int)dx,(int)dy,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_hldraw_"));
-	       agset(e,"_hldraw_",move_xdot(e,bf,(int)dx,(int)dy,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_draw_"));
-	       agset(e,"_draw_",offset_spline(e,bf,(int)dx,(int)dy,0.00,0.00,0.00));
-	       free(bf);
-	       bf=parseXDot (agget(e,"_ldraw_"));
-	       agset(e,"_ldraw_",offset_spline(e,bf,(int)dx,(int)dy,0.00,0.00,0.00));
-	       } */
-	}
-    }
-}
-#endif
 int setGdkColor(GdkColor * c, char *color)
 {
     gvcolor_t cl;
@@ -1056,25 +717,6 @@ void glexpose(void)
 {
     expose_event(view->drawing_area, NULL, NULL);
 }
-
-#if 0
-/*following code does not do what i like it to do*/
-/*I liked to have a please wait window on the screen all i got was the outer borders of the window
-GTK requires a custom widget expose function 
-*/
-void please_wait(void)
-{
-    gtk_widget_hide(glade_xml_get_widget(xml, "frmWait"));
-    gtk_widget_show(glade_xml_get_widget(xml, "frmWait"));
-    gtk_window_set_keep_above((GtkWindow *)
-			      glade_xml_get_widget(xml, "frmWait"), 1);
-
-}
-void please_dont_wait(void)
-{
-    gtk_widget_hide(glade_xml_get_widget(xml, "frmWait"));
-}
-#endif
 
 float interpol(float minv, float maxv, float minc, float maxc, float x)
 {

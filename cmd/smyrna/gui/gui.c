@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gui.h"
-/* #include "abstring.h" */
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdk.h>
@@ -47,13 +46,6 @@ attribute attr[MAXIMUM_WIDGET_COUNT];
 //call this function only ones
 void create_object_properties(void)
 {
-#ifdef UNUSED
-    char *data0 = "TEST0";
-    char *data1 = "TEST1";
-    char *data2 = "TEST2";
-    char *data3 = "TEST3";
-    char *data4 = "TEST4";
-#endif
     GladeXML *xml;
     GtkWidget *widget;
     xml = glade_xml_new(smyrnaGlade, NULL, NULL);
@@ -135,17 +127,6 @@ void Color_Widget_bg(char *colorstring, GtkWidget * widget)
     gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
     gtk_widget_modify_base(widget, GTK_STATE_NORMAL, &color);
 }
-
-
-#ifdef UNUSED
-void Color_Widget_fg(int r, int g, int b, GtkWidget * widget)
-{
-    GdkColor color;
-    gdk_color_parse("red", &color);
-    gtk_widget_modify_fg(widget, GTK_STATE_NORMAL, &color);
-
-}
-#endif
 
 void load_graph_properties(Agraph_t * graph)
 {
@@ -239,44 +220,6 @@ char *get_attribute_string_value_from_widget(attribute * att)
 	return guibuffer;
     }
 }
-#if UNUSED
-void change_selected_graph_attributes(Agraph_t * g, char *attrname,
-				      char *attrvalue)
-{
-    agattr(g, AGRAPH, attrname, "");
-    agset(view->g[view->activeGraph], attrname, attrvalue);
-
-
-}
-void change_selected_node_attributes(Agraph_t * g, char *attrname,
-				     char *attrvalue)
-{
-    int ind = 0;
-    Agsym_t* ap = agattr(g, AGNODE, attrname, NULL);
-
-    if (!ap)
-	ap = agattr(g, AGNODE, attrname, "");
-	
-    for (ind = 0; ind < view->Topview->Nodecount; ind++) {
-	if (view->Topview->Nodes[ind].data.Selected == 1)
-	    agxset(view->Topview->Nodes[ind].Node, ap, attrvalue);
-    }
-}
-void change_selected_edge_attributes(Agraph_t * g, char *attrname,
-				     char *attrvalue)
-{
-    int ind = 0;
-    Agsym_t* ap = agattr(g, AGEDGE, attrname, NULL);
-
-    if (!ap)
-	ap = agattr(g, AGEDGE, attrname, "");
-	
-    for (ind = 0; ind < view->Topview->Edgecount; ind++) {
-	if (view->Topview->Edges[ind].data.Selected == 1)
-	    agxset(view->Topview->Edges[ind].Edge, ap, attrvalue);
-    }
-}
-#endif
 
 void load_attributes(void)
 {
@@ -299,8 +242,6 @@ void load_attributes(void)
 	    ind = 0;
 	    while (pch != NULL) {
 		ss = strdup(pch);
-		//                              ABRemove(&ss,'\"');
-		//                              ABRemove(&ss,' ');
 		pch = strtok(NULL, ",");
 		switch (ind) {
 		case 0:

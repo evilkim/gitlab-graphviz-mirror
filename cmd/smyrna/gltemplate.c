@@ -11,9 +11,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "gui.h"
-/* #include "beacon.h" */
 #include "viewport.h"
-/* #include "topview.h" */
 #include "gltemplate.h"
 #include <glcomp/glutils.h>
 #include "glexpose.h"
@@ -51,7 +49,7 @@ static glMouseButtonType getGlCompMouseType(int n)
 	params:gtk gl config class , attribute name and id,if boolean expected send is_boolean true
 	return value:none
 */
-void print_gl_config_attrib(GdkGLConfig * glconfig,
+static void print_gl_config_attrib(GdkGLConfig * glconfig,
 			    const gchar * attrib_str,
 			    int attrib, gboolean is_boolean)
 {
@@ -143,9 +141,6 @@ static void realize(GtkWidget * widget, gpointer data)
     GLfloat lmodel_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
     GLfloat local_view[] = { 0.0 };
 
-    /* static char *smyrna_font; */
-
-
 	/*** OpenGL BEGIN ***/
     if (!gdk_gl_drawable_gl_begin(gldrawable, glcontext))
 	return;
@@ -162,14 +157,8 @@ static void realize(GtkWidget * widget, gpointer data)
     glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
 
     glFrontFace(GL_CW);
-// glEnable (GL_LIGHTING);
-// glEnable (GL_LIGHT0);
-//  glEnable (GL_AUTO_NORMAL);
-//  glEnable (GL_NORMALIZE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glDepthFunc(GL_LESS);
-//  glEnable(GL_LINE_SMOOTH);
     gdk_gl_drawable_gl_end(gldrawable);
 
 
@@ -185,7 +174,6 @@ static void realize(GtkWidget * widget, gpointer data)
 static gboolean configure_event(GtkWidget * widget,
 				GdkEventConfigure * event, gpointer data)
 {
-    /* static int doonce=0; */
     int vPort[4];
     float aspect;
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
@@ -345,7 +333,7 @@ scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 	    view->mouse.dragX = -30;
 	if (event->direction == 1)
 	    view->mouse.dragX = +30;
-	glmotion_zoom(view);
+	glmotion_zoom();
 	glexpose();
 	g_timer_start(view->timer2);
 
@@ -406,48 +394,6 @@ static gboolean motion_notify_event(GtkWidget * widget,
 }
 
 /*
-	when a key is pressed this function is called
-	params:gtk opgn gl canvas , GdkEventKey(to retrieve which key is pressed) object and custom data
-	return value:true or false, fails (false) if listed keys (in switch) are not pressed
-*/
-#ifdef UNUSED
-static gboolean key_press_event(GtkWidget * widget, GdkEventKey * event,
-				gpointer data)
-{
-    switch (event->keyval) {
-    case GDK_Escape:
-	gtk_main_quit();
-	break;
-    default:
-	return FALSE;
-    }
-    return TRUE;
-}
-#endif
-
-
-/*
-	call back for mouse right click, this function activates the gtk right click pop up menu
-	params:widget to shop popup , event handler to check click type and custom data
-	return value:true or false, fails (false) if listed keys (in switch) are not pressed
-*/
-#ifdef UNUSED
-static gboolean button_press_event_popup_menu(GtkWidget * widget,
-					      GdkEventButton * event,
-					      gpointer data)
-{
-    if (event->button == 3) {
-	/* Popup menu. */
-	gtk_menu_popup(GTK_MENU(widget), NULL, NULL, NULL, NULL,
-		       event->button, event->time);
-	return TRUE;
-    }
-    return FALSE;
-}
-#endif
-
-
-/*
 	configures various opengl settings
 	params:none
 	return value:GdkGLConfig object
@@ -503,7 +449,6 @@ void create_window(GdkGLConfig * glconfig, GtkWidget * vbox)
 				 glconfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
 
     gtk_widget_add_events(view->drawing_area,
-//  GDK_BUTTON_MOTION_MASK      = 1 << 4,
 			  GDK_BUTTON_MOTION_MASK |
 			  GDK_POINTER_MOTION_MASK |
 			  GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS |
@@ -519,8 +464,6 @@ void create_window(GdkGLConfig * glconfig, GtkWidget * vbox)
 
     g_signal_connect(G_OBJECT(view->drawing_area), "button_press_event",
 		     G_CALLBACK(button_press_event), NULL);
-/*    g_signal_connect(G_OBJECT(view->drawing_area), "2button_press_event",
-		     G_CALLBACK(button_press_event), NULL);*/
 
     g_signal_connect(G_OBJECT(view->drawing_area), "button_release_event",G_CALLBACK(button_release_event), NULL);
     g_signal_connect(G_OBJECT(view->drawing_area), "key_release_event", G_CALLBACK(key_release_event), NULL);
@@ -530,10 +473,6 @@ void create_window(GdkGLConfig * glconfig, GtkWidget * vbox)
 
     g_signal_connect(G_OBJECT(view->drawing_area), "motion_notify_event",
 		     G_CALLBACK(motion_notify_event), NULL);
-
-
-//gtk_accel_group_connect (GTK_ACCEL_GROUP (mainw->accel_group), GDK_Page_Up, GDK_CONTROL_MASK, 0, g_cclosure_new (G_CALLBACK (prevclip_callback),NULL,NULL));
-
 
     gtk_box_pack_start(GTK_BOX(vbox), view->drawing_area, TRUE, TRUE, 0);
 
@@ -551,18 +490,4 @@ void create_window(GdkGLConfig * glconfig, GtkWidget * vbox)
 
     g_signal_connect(G_OBJECT(glade_xml_get_widget(xml, "frmMain")), "key_release_event", G_CALLBACK(key_release_event), NULL);
     g_signal_connect(G_OBJECT(glade_xml_get_widget(xml, "frmMain")), "key_press_event", G_CALLBACK(key_press_event), NULL);
-
-
-    /* Popup menu. */
-
-#ifdef UNUSED
-    menu = create_popup_menu(view->drawing_area);
-
-    /* Signal handler */
-    g_signal_connect_swapped(G_OBJECT(view->drawing_area),
-			     "button_press_event",
-			     G_CALLBACK(button_press_event_popup_menu),
-			     menu);
-#endif
-
 }

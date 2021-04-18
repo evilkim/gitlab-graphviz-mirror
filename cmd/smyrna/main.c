@@ -109,17 +109,6 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	case 'v':
 	    SmyrnaVerbose = 1;
 	    break;
-#if 0
-	case 't':
-	    view->dfltViewType = VT_TOPVIEW;
-	    break;
-	case 'x':
-	    view->dfltViewType = VT_XDOT;
-	    break;
-	case 'K':
-	    view->dfltEngine = s2layout(optarg);
-	    break;
-#endif
 	case 'f':
 	    view->guiMode=GUI_FULLSCREEN;
 	    view->optArg=strdup(optarg);
@@ -149,17 +138,6 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	return NULL;
 }
 
-#ifdef UNUSED
-static void close_cgraph(Agraph_t * g)
-{
-    Agnode_t *v;
-    for (v = agfstnode(g); v; v = agnxtnode(g, v)) {
-	agdelrec(v, "temp_node_record");
-    }
-    agclose(g);
-}
-
-#endif
 void display() 
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -168,17 +146,6 @@ void display()
    glutSwapBuffers();
 
 }
-#if UNUSED
-static void glutMode()
-{
-    glutInitWindowSize(512,512);
-    glutInitDisplayMode ( GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutCreateWindow("The glut hello world program");
-    glutDisplayFunc(display);
-  
-    glutMainLoop(); // Infinite event loop
-}
-#endif
 
 static void windowedMode(int argc, char *argv[])
 {
@@ -200,7 +167,6 @@ static void windowedMode(int argc, char *argv[])
     gtk_gl_init(0, 0);
     /* Configure OpenGL framebuffer. */
     glconfig = configure_gl();
-//      gladewidget = glade_xml_get_widget(xml, "vbox2");
     gladewidget = glade_xml_get_widget(xml, "hbox11");
 
     gtk_widget_hide(glade_xml_get_widget(xml, "vbox13"));

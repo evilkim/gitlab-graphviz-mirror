@@ -20,7 +20,7 @@ extern "C" {
 	GLenum windingRule;
     }tessPoly;
     extern int drawTessPolygon(sdot_op* p);
-    extern int testDraw();
+    extern int testDraw(void);
 #ifdef __cplusplus
 }				/* end extern "C" */
 #endif

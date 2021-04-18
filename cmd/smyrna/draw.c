@@ -106,7 +106,7 @@ static void DrawBezier(xdot_point* pts, int filled, int param)
     glEnd();
 }
 
-static void set_options(sdot_op * op, int param)
+static void set_options(int param)
 {
 
     int a=get_mode(view);
@@ -150,7 +150,7 @@ static void DrawEllipse(sdot_op*  o, int param)
     int filled;
     xdot_op * op=&o->op;
     view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF;
-    set_options((sdot_op *) op, param);
+    set_options(param);
     x = op->u.ellipse.x - dx;
     y = op->u.ellipse.y - dy;
     xradius = (GLfloat) op->u.ellipse.w;
@@ -192,11 +192,10 @@ static void DrawEllipse(sdot_op*  o, int param)
 
 static void DrawPolygon(sdot_op * o, int param)
 {
-    int filled;
     xdot_op *  op=&o->op;
     view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF;
 
-    set_options((sdot_op *) op, param);
+    set_options(param);
 
     if (op->kind == xd_filled_polygon) {
 	if (param == 0)
@@ -206,10 +205,7 @@ static void DrawPolygon(sdot_op * o, int param)
 	    glColor4f(view->selectedNodeColor.R, view->selectedNodeColor.G,
 		      view->selectedNodeColor.B,
 		      view->selectedNodeColor.A);
-
-	filled = 1;
     } else {
-	filled = 0;
 	if (param == 0)
 	    glColor4f(view->penColor.R, view->penColor.G, view->penColor.B,
 		      view->penColor.A);
@@ -236,7 +232,7 @@ static void DrawPolyline(sdot_op* o, int param)
     if (param == 1)		//selected
 	glColor4f(view->selectedNodeColor.R, view->selectedNodeColor.G,
 		  view->selectedNodeColor.B, view->selectedNodeColor.A);
-    set_options((sdot_op *) op, param);
+    set_options(param);
     glLineWidth(view->LineWidth);
     glBegin(GL_LINE_STRIP);
     for (i = 0; i < op->u.polyline.cnt; i = i + 1) {
@@ -251,7 +247,7 @@ static glCompColor GetglCompColor(char *color)
 {
     gvcolor_t cl;
     glCompColor c;
-    if (color != '\0') {
+    if (color != NULL) {
 	colorxlate(color, &cl, RGBA_DOUBLE);
 	c.R = (float) cl.u.RGBA[0];
 	c.G = (float) cl.u.RGBA[1];
@@ -267,6 +263,8 @@ static glCompColor GetglCompColor(char *color)
 }
 static void SetFillColor(sdot_op*  o, int param)
 {
+    (void)param;
+
     xdot_op * op=&o->op;
     glCompColor c = GetglCompColor(op->u.color);
     view->fillColor.R = c.R;
@@ -276,6 +274,8 @@ static void SetFillColor(sdot_op*  o, int param)
 }
 static void SetPenColor(sdot_op* o, int param)
 {
+    (void)param;
+
     glCompColor c;
     xdot_op * op=&o->op;
     c = GetglCompColor(op->u.color);
@@ -287,18 +287,24 @@ static void SetPenColor(sdot_op* o, int param)
 
 static void SetStyle(sdot_op* o, int param)
 {
+    (void)o;
+    (void)param;
 }
 
 static sdot_op * font_op;
 
 static void SetFont(sdot_op * o, int param)
 {
+	(void)param;
+
 	font_op=o;
 }
 
 /*for now we only support png files in 2d space, no image rotation*/
 static void InsertImage(sdot_op * o, int param)
 {
+    (void)param;
+
     float x,y;
     glCompImage *i;
 
@@ -322,6 +328,8 @@ static void InsertImage(sdot_op * o, int param)
 
 static void EmbedText(sdot_op* o, int param)
 {
+	(void)param;
+
 	GLfloat x,y;
 	glColor4f(view->penColor.R,view->penColor.G,view->penColor.B,view->penColor.A);
 	view->Topview->global_z=view->Topview->global_z+o->layer*LAYER_DIFF+0.05;

@@ -13,7 +13,6 @@
 #include <gtk/gtk.h>
 #include "callbacks.h"
 #include "viewport.h"
-/* #include "topview.h" */
 #include "selectionfuncs.h"
 #include <common/memory.h>
 
@@ -68,33 +67,6 @@ void remove_graph_clicked(GtkWidget * widget, gpointer user_data)
 
 static void btn_clicked(GtkWidget * widget, gvk_layout layout)
 {
-/*    GdkCursor *cursor;
-    GdkWindow *w;
-    Dlg = (GtkMessageDialog *) gtk_message_dialog_new(NULL,
-						      GTK_DIALOG_MODAL,
-						      GTK_MESSAGE_QUESTION,
-						      GTK_BUTTONS_YES_NO,
-						      "This will change the graph layout\n all your position changes will be lost\n Are you sure?");
-
-    respond = gtk_dialog_run((GtkDialog *) Dlg);
-    if (respond == GTK_RESPONSE_YES)
-	do_graph_layout(view->g[view->activeGraph], layout, 0);
-    gtk_object_destroy((GtkObject *) Dlg);
-
-    if (layout == GVK_DOT) {
-	cursor = gdk_cursor_new(GDK_HAND2);
-	w = (GdkWindow *) glade_xml_get_widget(xml, "frmMain");
-//      gdk_window_set_cursor(w, cursor);
-	gdk_window_set_cursor((GTK_WIDGET(view->drawing_area)->window),
-			  cursor);
-//      gdk_window_set_title((GTK_WIDGET(widget)->window),"adasdasdasdassada");
-	gdk_cursor_destroy(cursor);
-    }
-    else if (layout == GVK_NEATO) {
-	gtk_button_set_image(GTK_BUTTON
-		 (glade_xml_get_widget(xml, "btn_neato")),
-		 gtk_image_new_from_file("c:\fonts.png"));
-    }*/
 }
 void btn_dot_clicked(GtkWidget * widget, gpointer user_data)
 {
@@ -121,16 +93,6 @@ void btn_fdp_clicked(GtkWidget * widget, gpointer user_data)
     btn_clicked(widget, GVK_FDP);
 }
 
-//test call back function delete later
-
-#ifdef UNUSED
-static void callback(GtkWidget * widget, gpointer data)
-{
-    g_print("Hello again - %s was pressed\n", (char *) data);
-}
-#endif
-
-
 void on_newNode(GtkWidget * button, gpointer user_data)
 {
     int *a;
@@ -151,15 +113,6 @@ void dlgOpenGraph_OK_Clicked(GtkWidget * button, gpointer data)
 //dlgOpenGraph btnOK clicked
 void on_dlgOpenGraph_btnOK_clicked(GtkWidget * widget, gpointer user_data)
 {
-
-/*	GTK_RESPONSE_OK     = -5,
-	GTK_RESPONSE_CANCEL = -6,
-	GTK_RESPONSE_CLOSE  = -7,
-	GTK_RESPONSE_YES    = -8,
-	GTK_RESPONSE_NO     = -9,
-	GTK_RESPONSE_APPLY  = -10,
-	GTK_RESPONSE_HELP   = -11 */
-
     if (update_graph_properties(view->g[view->activeGraph]))
 	gtk_dialog_response((GtkDialog *)
 			    glade_xml_get_widget(xml, "dlgOpenGraph"),
