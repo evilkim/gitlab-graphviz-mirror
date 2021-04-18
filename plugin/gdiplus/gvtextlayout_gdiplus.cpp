@@ -91,7 +91,7 @@ boolean gdiplus_textlayout(textspan_t *span, char **fontpath)
 	layout->font->GetFamily(&fontFamily);
 	int style = layout->font->GetStyle();
 		
-	span->layout = (void*)layout;
+	span->layout = layout;
 	span->free_layout = &gdiplus_free_layout;
 	span->size.x = boundingBox.Width;
 	span->size.y = layout->font->GetHeight(&measureGraphics);
