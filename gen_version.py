@@ -82,64 +82,64 @@ assert all(part.isnumeric() for part in version.split(".")), \
     "All version elements are not numeric"
 
 if collection == "development":
-    version += "~dev"
+  version += "~dev"
 
 major_version, minor_version, patch_version = version.split(".")
 
 if not patch_version.isnumeric() or args.date_format:
-    os.environ["TZ"] = "UTC"
-    try:
-        committer_date = datetime.strptime(
-            subprocess.check_output(
-                [
-                    "git",
-                    "log",
-                    "-n",
-                    "1",
-                    "--format=%cd",
-                    "--date=format-local:%Y-%m-%d %H:%M:%S"
-                ],
-                cwd=os.path.abspath(os.path.dirname(__file__)),
-                universal_newlines=True,
-            ).strip(),
-            "%Y-%m-%d %H:%M:%S",
-        ).strftime(date_format)
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        print("Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.", file=sys.stderr)
-        committer_date = "0"
+  os.environ["TZ"] = "UTC"
+  try:
+    committer_date = datetime.strptime(
+        subprocess.check_output(
+            [
+                "git",
+                "log",
+                "-n",
+                "1",
+                "--format=%cd",
+                "--date=format-local:%Y-%m-%d %H:%M:%S"
+            ],
+            cwd=os.path.abspath(os.path.dirname(__file__)),
+            universal_newlines=True,
+        ).strip(),
+        "%Y-%m-%d %H:%M:%S",
+    ).strftime(date_format)
+  except (subprocess.CalledProcessError, FileNotFoundError):
+    print("Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.", file=sys.stderr)
+    committer_date = "0"
 
 if not patch_version.isnumeric():
-    # Non-numerical patch version; add committer date
-    patch_version += "." + committer_date
+  # Non-numerical patch version; add committer date
+  patch_version += "." + committer_date
 
 if args.date_format:
-    if args.definition:
-        print(f'#define BUILDDATE "{committer_date}"')
-    else:
-        print(committer_date)
+  if args.definition:
+    print(f'#define BUILDDATE "{committer_date}"')
+  else:
+    print(committer_date)
 elif args.collection:
-    if args.definition:
-        print(f'#define COLLECTION "{collection}"')
-    else:
-        print(collection)
+  if args.definition:
+    print(f'#define COLLECTION "{collection}"')
+  else:
+    print(collection)
 elif args.component == "major":
-    if args.definition:
-        print(f'#define VERSION_MAJOR "{major_version}"')
-    else:
-        print(major_version)
+  if args.definition:
+    print(f'#define VERSION_MAJOR "{major_version}"')
+  else:
+    print(major_version)
 elif args.component == "minor":
-    if args.definition:
-        print(f'#define VERSION_MINOR "{minor_version}"')
-    else:
-        print(minor_version)
+  if args.definition:
+    print(f'#define VERSION_MINOR "{minor_version}"')
+  else:
+    print(minor_version)
 elif args.component == "patch":
-    if args.definition:
-        print(f'#define VERSION_PATCH "{patch_version}"')
-    else:
-        print(patch_version)
+  if args.definition:
+    print(f'#define VERSION_PATCH "{patch_version}"')
+  else:
+    print(patch_version)
 else:
-    if args.definition:
-        print(f'#define VERSION "{major_version}.{minor_version}.'
-              f'{patch_version}"')
-    else:
-        print(f"{major_version}.{minor_version}.{patch_version}")
+  if args.definition:
+    print(f'#define VERSION "{major_version}.{minor_version}.'
+          f'{patch_version}"')
+  else:
+    print(f"{major_version}.{minor_version}.{patch_version}")

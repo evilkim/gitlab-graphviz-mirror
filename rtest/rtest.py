@@ -55,7 +55,7 @@ def skipLines():
   while True:
     LINE = readLine()
     if LINE is None:
-       return None
+      return None
     if LINE and not LINE.startswith("#"):
       return LINE
 
@@ -109,12 +109,12 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
   if platform.system() == "Windows" and \
      F in ["ps", "gv"] and \
      testname in ["clusters", "compound", "rootlabel"]:
-      print("Warning: Skipping {0} output comparison for test {1}:{2} : format "
-            "{3} because the order of clusters in gv or ps output is not "
-            "stable on Windows (#1789)"
-            .format(F, testname, subtest_index, fmt),
-            file=sys.stderr)
-      return
+    print("Warning: Skipping {0} output comparison for test {1}:{2} : format "
+          "{3} because the order of clusters in gv or ps output is not "
+          "stable on Windows (#1789)"
+          .format(F, testname, subtest_index, fmt),
+          file=sys.stderr)
+    return
   if F in ["ps", "ps2"]:
     with open(TMPFILE1, mode="w") as fd:
       subprocess.check_call(
@@ -400,7 +400,7 @@ f3 = open(TESTFILE)
 while True:
   TEST = readTest()
   if TEST is None:
-     break
+    break
   doTest(TEST)
 if NOOP:
   print(f"No. tests: {TOT_CNT}", file=sys.stderr)

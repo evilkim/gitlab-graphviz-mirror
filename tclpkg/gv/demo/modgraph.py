@@ -25,11 +25,11 @@ gv.setv(N, "fontname", "helvetica")
 gv.setv(E, "arrowsize", ".4")
 
 for rec in modules:
-   fields = rec.split(" ")
-   n = gv.node(G, fields[0])
-   for usedby in fields[3].split(","):
-      if (usedby != "-") & (usedby != ""):
-         gv.edge(n, gv.node(G, usedby))
+  fields = rec.split(" ")
+  n = gv.node(G, fields[0])
+  for usedby in fields[3].split(","):
+    if (usedby != "-") & (usedby != ""):
+      gv.edge(n, gv.node(G, usedby))
 
 gv.layout(G, "dot")
 gv.render(G, "xlib")

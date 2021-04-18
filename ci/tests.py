@@ -143,5 +143,5 @@ def test_existence(binary: str):
   assert shutil.which(binary) is not None
 
 def check_that_tool_does_not_exist(tool, os_id):
-    assert shutil.which(tool) is None, f"{tool} has been resurrected in the " \
-      f'{os.getenv("build_system")} build on {os_id}. Please remove skip.'
+  assert shutil.which(tool) is None, f"{tool} has been resurrected in the " \
+    f'{os.getenv("build_system")} build on {os_id}. Please remove skip.'
