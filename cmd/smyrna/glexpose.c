@@ -68,36 +68,36 @@ static void drawRotatingAxis(void)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:always 1
 */
-static int glupdatecamera(ViewInfo * view)
+static int glupdatecamera(ViewInfo * vi)
 {
-    if (view->active_camera == -1)
-	glTranslatef(-view->panx, -view->pany, view->panz);
+    if (vi->active_camera == -1)
+	glTranslatef(-vi->panx, -vi->pany, vi->panz);
 
 
     /*toggle to active camera */
     else {
-	glMultMatrixf(view->arcball->Transform.M);	/*arcball transformations , experimental */
-	glTranslatef(-view->cameras[view->active_camera]->targetx,
-		     -view->cameras[view->active_camera]->targety, 0);
+	glMultMatrixf(vi->arcball->Transform.M);	/*arcball transformations , experimental */
+	glTranslatef(-vi->cameras[vi->active_camera]->targetx,
+		     -vi->cameras[vi->active_camera]->targety, 0);
     }
-    view->clipX1=0;
-    view->clipX2=0;
-    view->clipY1=0;
-    view->clipY2=0;
-    view->clipZ1=0;
-    view->clipZ2=0;
-    GetOGLPosRef(1, view->h - 5, &(view->clipX1), &(view->clipY1),
-		 &(view->clipZ1));
-    GetOGLPosRef(view->w - 1, 1, &(view->clipX2), &(view->clipY2),
-		 &(view->clipZ2));
+    vi->clipX1=0;
+    vi->clipX2=0;
+    vi->clipY1=0;
+    vi->clipY2=0;
+    vi->clipZ1=0;
+    vi->clipZ2=0;
+    GetOGLPosRef(1, vi->h - 5, &(vi->clipX1), &(vi->clipY1),
+		 &(vi->clipZ1));
+    GetOGLPosRef(vi->w - 1, 1, &(vi->clipX2), &(vi->clipY2),
+		 &(vi->clipZ2));
 
-    if (view->active_camera == -1) {
-	glScalef(1 / view->zoom * -1, 1 / view->zoom * -1,
-		 1 / view->zoom * -1);
+    if (vi->active_camera == -1) {
+	glScalef(1 / vi->zoom * -1, 1 / vi->zoom * -1,
+		 1 / vi->zoom * -1);
     } else {
-	glScalef(1 / view->cameras[view->active_camera]->r,
-		 1 / view->cameras[view->active_camera]->r,
-		 1 / view->cameras[view->active_camera]->r);
+	glScalef(1 / vi->cameras[vi->active_camera]->r,
+		 1 / vi->cameras[vi->active_camera]->r,
+		 1 / vi->cameras[vi->active_camera]->r);
     }
 
 
