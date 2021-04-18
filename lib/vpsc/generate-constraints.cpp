@@ -16,9 +16,11 @@
  * Adaptagrams repository.
  */
 
+#include <algorithm>
 #include <set>
 #include <cassert>
 #include <cstdlib>
+#include <vector>
 #include <vpsc/generate-constraints.h>
 #include <vpsc/constraint.h>
 
@@ -122,21 +124,19 @@ struct Event {
 	double pos;
 	Event(EventType t, Node *v, double p) : type(t),v(v),pos(p) {};
 };
-Event **events;
-int compare_events(const void *a, const void *b) {
-	Event *ea=*(Event**)a;
-	Event *eb=*(Event**)b;
-	if(ea->v->r==eb->v->r) {
+
+static bool compare_events(const Event &ea, const Event &eb) {
+	if(ea.v->r==eb.v->r) {
 		// when comparing opening and closing from the same rect
 		// open must come first
-		if(ea->type==Open) return -1;
-		return 1;
-	} else if(ea->pos > eb->pos) {
-		return 1;
-	} else if(ea->pos < eb->pos) {
-		return -1;
+		if(ea.type == Open && eb.type != Open) return true;
+		return false;
+	} else if(ea.pos > eb.pos) {
+		return false;
+	} else if(ea.pos < eb.pos) {
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 /**
@@ -145,22 +145,21 @@ int compare_events(const void *a, const void *b) {
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
 int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists) {
-	events=new Event*[2*n];
-	int i,m,ctr=0;
-	for(i=0;i<n;i++) {
+	vector<Event> events;
+	events.reserve(2 * n);
+	for(int i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreX();
 		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreX());
-		events[ctr++]=new Event(Open,v,rs[i]->getMinY());
-		events[ctr++]=new Event(Close,v,rs[i]->getMaxY());
+		events.emplace_back(Open,v,rs[i]->getMinY());
+		events.emplace_back(Close,v,rs[i]->getMaxY());
 	}
-	qsort((Event*)events, (size_t)2*n, sizeof(Event*), compare_events );
+	std::sort(events.begin(), events.end(), compare_events);
 
 	NodeSet scanline;
 	vector<Constraint*> constraints;
-	for(i=0;i<2*n;i++) {
-		Event *e=events[i];
-		Node *v=e->v;
-		if(e->type==Open) {
+	for(Event &e : events) {
+		Node *v=e.v;
+		if(e.type==Open) {
 			scanline.insert(v);
 			if(useNeighbourLists) {
 				v->setNeighbours(
@@ -184,19 +183,13 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		} else {
 			// Close event
 			if(useNeighbourLists) {
-				for(NodeSet::iterator i=v->leftNeighbours->begin();
-					i!=v->leftNeighbours->end();i++
-				) {
-					Node *u=*i;
+				for(Node *u : *v->leftNeighbours) {
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(u->v,v->v,sep));
 					u->rightNeighbours->erase(v);
 				}
 				
-				for(NodeSet::iterator i=v->rightNeighbours->begin();
-					i!=v->rightNeighbours->end();i++
-				) {
-					Node *u=*i;
+				for(Node *u : *v->rightNeighbours) {
 					double sep = (v->r->width()+u->r->width())/2.0;
 					constraints.push_back(new Constraint(v->v,u->v,sep));
 					u->leftNeighbours->erase(v);
@@ -217,11 +210,10 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			scanline.erase(v);
 			delete v;
 		}
-		delete e;
 	}
-	delete [] events;
-	cs=new Constraint*[m=constraints.size()];
-	for(i=0;i<m;i++) cs[i]=constraints[i];
+	int m =constraints.size();
+	cs=new Constraint*[m];
+	for(int i=0;i<m;i++) cs[i]=constraints[i];
 	return m;
 }
 
@@ -229,21 +221,20 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs) {
-	events=new Event*[2*n];
-	int ctr=0,i,m;
-	for(i=0;i<n;i++) {
+	vector<Event> events;
+	events.reserve(2 * n);
+	for(int i=0;i<n;i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreY();
 		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreY());
-		events[ctr++]=new Event(Open,v,rs[i]->getMinX());
-		events[ctr++]=new Event(Close,v,rs[i]->getMaxX());
+		events.emplace_back(Open,v,rs[i]->getMinX());
+		events.emplace_back(Close,v,rs[i]->getMaxX());
 	}
-	qsort((Event*)events, (size_t)2*n, sizeof(Event*), compare_events );
+	std::sort(events.begin(), events.end(), compare_events);
 	NodeSet scanline;
 	vector<Constraint*> constraints;
-	for(i=0;i<2*n;i++) {
-		Event *e=events[i];
-		Node *v=e->v;
-		if(e->type==Open) {
+	for(Event &e : events) {
+		Node *v=e.v;
+		if(e.type==Open) {
 			scanline.insert(v);
 			NodeSet::iterator i=scanline.find(v);
 			if(i!=scanline.begin()) {
@@ -273,10 +264,9 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			scanline.erase(v);
 			delete v;
 		}
-		delete e;
 	}
-	delete [] events;
-	cs=new Constraint*[m=constraints.size()];
-	for(i=0;i<m;i++) cs[i]=constraints[i];
+	int m =constraints.size();
+	cs=new Constraint*[m];
+	for(int i=0;i<m;i++) cs[i]=constraints[i];
 	return m;
 }
