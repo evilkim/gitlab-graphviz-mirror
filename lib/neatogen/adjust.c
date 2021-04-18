@@ -91,33 +91,25 @@ static void freeNodes(void)
  */
 static void chkBoundBox(Agraph_t * graph)
 {
-    char *marg;
     Point ll, ur;
-    int i;
-    double x, y;
-    double x_min, x_max, y_min, y_max;
-    double xmn, xmx, ymn, ymx;
-    double ydelta, xdelta;
-    Info_t *ip;
-    Poly *pp;
 
-    ip = nodeInfo;
-    pp = &ip->poly;
-    x = ip->site.coord.x;
-    y = ip->site.coord.y;
-    x_min = pp->origin.x + x;
-    y_min = pp->origin.y + y;
-    x_max = pp->corner.x + x;
-    y_max = pp->corner.y + y;
-    for (i = 1; i < nsites; i++) {
+    Info_t *ip = nodeInfo;
+    Poly *pp = &ip->poly;
+    double x = ip->site.coord.x;
+    double y = ip->site.coord.y;
+    double x_min = pp->origin.x + x;
+    double y_min = pp->origin.y + y;
+    double x_max = pp->corner.x + x;
+    double y_max = pp->corner.y + y;
+    for (int i = 1; i < nsites; i++) {
 	ip++;
 	pp = &ip->poly;
 	x = ip->site.coord.x;
 	y = ip->site.coord.y;
-	xmn = pp->origin.x + x;
-	ymn = pp->origin.y + y;
-	xmx = pp->corner.x + x;
-	ymx = pp->corner.y + y;
+	double xmn = pp->origin.x + x;
+	double ymn = pp->origin.y + y;
+	double xmx = pp->corner.x + x;
+	double ymx = pp->corner.y + y;
 	if (xmn < x_min)
 	    x_min = xmn;
 	if (ymn < y_min)
@@ -128,12 +120,12 @@ static void chkBoundBox(Agraph_t * graph)
 	    y_max = ymx;
     }
 
-    marg = agget(graph, "voro_margin");
+    char *marg = agget(graph, "voro_margin");
     if (marg && (*marg != '\0')) {
 	margin = atof(marg);
     }
-    ydelta = margin * (y_max - y_min);
-    xdelta = margin * (x_max - x_min);
+    double ydelta = margin * (y_max - y_min);
+    double xdelta = margin * (x_max - x_min);
     ll.x = x_min - xdelta;
     ll.y = y_min - ydelta;
     ur.x = x_max + xdelta;
