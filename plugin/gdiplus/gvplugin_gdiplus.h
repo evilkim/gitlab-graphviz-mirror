@@ -11,6 +11,7 @@
 #ifndef GVPLUGIN_GDIPLUS_H
 #define GVPLUGIN_GDIPLUS_H
 
+#include <memory>
 #include <vector>
 
 #include <Windows.h>
@@ -50,11 +51,10 @@ struct DeviceContext
 
 struct Layout
 {
-	Gdiplus::Font* font;
+	std::unique_ptr<Gdiplus::Font> font;
 	std::vector<WCHAR> text;
 	
 	Layout(char *fontname, double fontsize, char* string);
-	~Layout();
 };
 
 static const int BYTES_PER_PIXEL = 4;		/* bytes per pixel */

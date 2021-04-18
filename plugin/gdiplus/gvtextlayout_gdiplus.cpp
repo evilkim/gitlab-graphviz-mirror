@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <memory>
 #include <stdlib.h>
 #include <string.h>
 
@@ -53,15 +54,10 @@ Layout::Layout(char *fontname, double fontsize, char* string)
 		0) == 0) {
 		found_font.lfHeight = (LONG)-fontsize;
 		found_font.lfWidth = 0;
-		font = new Font(reference.hdc, &found_font);
+		font = std::unique_ptr<Font>(new Font(reference.hdc, &found_font));
 	}
 	else
-		font = new Font(FontFamily::GenericSerif(), fontsize);
-}
-
-Layout::~Layout()
-{
-	delete font;
+		font = std::unique_ptr<Font>(new Font(FontFamily::GenericSerif(), fontsize));
 }
 
 void gdiplus_free_layout(void *layout)
@@ -86,7 +82,7 @@ boolean gdiplus_textlayout(textspan_t *span, char **fontpath)
 	measureGraphics.MeasureString(
 		&layout->text[0],
 		layout->text.size(),
-		layout->font,
+		layout->font.get(),
 		PointF(0.0f, 0.0f),
 		GetGenericTypographic(),
 		&boundingBox);
