@@ -105,6 +105,6 @@ static gvtextlayout_engine_t gdiplus_textlayout_engine = {
 };
 
 gvplugin_installed_t gvtextlayout_gdiplus_types[] = {
-    {0, "textlayout", 8, &gdiplus_textlayout_engine, NULL},
-    {0, NULL, 0, NULL, NULL}
+    {0, "textlayout", 8, &gdiplus_textlayout_engine, nullptr},
+    {0, nullptr, 0, nullptr, nullptr}
 };

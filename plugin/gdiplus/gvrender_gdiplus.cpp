@@ -41,14 +41,14 @@ static void gdiplusgen_begin_job(GVJ_t *job)
 {
 	UseGdiplus();
 	if (!job->external_context)
-		job->context = NULL;
+		job->context = nullptr;
 	else if (job->device.id == FORMAT_METAFILE)
 	{
 		/* save the passed-in context in the window field, so we can create a Metafile in the context field later on */
 		job->window = job->context;
 		auto m = reinterpret_cast<Metafile**>(job->window);
-		*m = NULL;
-		job->context = NULL;
+		*m = nullptr;
+		job->context = nullptr;
 }
 }
 
@@ -78,7 +78,7 @@ static void gdiplusgen_end_job(GVJ_t *job)
 		/* blast the streamed buffer back to the gvdevice */
 		/* NOTE: this is somewhat inefficient since we should be streaming directly to gvdevice rather than buffering first */
 		/* ... however, GDI+ requires any such direct IStream to implement Seek Read, Write, Stat methods and gvdevice really only offers a write-once model */
-		HGLOBAL buffer = NULL;
+		HGLOBAL buffer = nullptr;
 		GetHGlobalFromStream(stream, &buffer);
 		stream->Release();
 		gvwrite(job, (unsigned char*)GlobalLock(buffer), GlobalSize(buffer));
@@ -95,7 +95,7 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 		if (!job->external_context) {
 		/* allocate memory and attach stream to it */
 		HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, 0);
-		IStream *stream = NULL;
+		IStream *stream = nullptr;
 		CreateStreamOnHGlobal(buffer, FALSE, &stream);	/* FALSE means don't deallocate buffer when releasing stream */
 		
 		Image *image;
@@ -309,7 +309,7 @@ static gvrender_engine_t gdiplusgen_engine = {
 static gvrender_features_t render_features_gdiplus = {
 	GVRENDER_Y_GOES_DOWN | GVRENDER_DOES_TRANSFORM, /* flags */
     4.,							/* default pad - graph units */
-    NULL,						/* knowncolors */
+    nullptr,						/* knowncolors */
     0,							/* sizeof knowncolors */
     RGBA_BYTE				/* color_type */
 };
@@ -333,20 +333,20 @@ static gvdevice_features_t device_features_gdiplus = {
 
 gvplugin_installed_t gvrender_gdiplus_types[] = {
     {0, "gdiplus", 1, &gdiplusgen_engine, &render_features_gdiplus},
-    {0, NULL, 0, NULL, NULL}
+    {0, nullptr, 0, nullptr, nullptr}
 };
 
 gvplugin_installed_t gvdevice_gdiplus_types[] = {
-	{FORMAT_METAFILE, "metafile:gdiplus", 8, NULL, &device_features_gdiplus_emf},	
-	{FORMAT_BMP, "bmp:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_EMF, "emf:gdiplus", 8, NULL, &device_features_gdiplus_emf},
-	{FORMAT_EMFPLUS, "emfplus:gdiplus", 8, NULL, &device_features_gdiplus_emf},
-	{FORMAT_GIF, "gif:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_JPEG, "jpe:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_JPEG, "jpeg:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_JPEG, "jpg:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_PNG, "png:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_TIFF, "tif:gdiplus", 8, NULL, &device_features_gdiplus},
-	{FORMAT_TIFF, "tiff:gdiplus", 8, NULL, &device_features_gdiplus},
-	{0, NULL, 0, NULL, NULL}
+	{FORMAT_METAFILE, "metafile:gdiplus", 8, nullptr, &device_features_gdiplus_emf},	
+	{FORMAT_BMP, "bmp:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_EMF, "emf:gdiplus", 8, nullptr, &device_features_gdiplus_emf},
+	{FORMAT_EMFPLUS, "emfplus:gdiplus", 8, nullptr, &device_features_gdiplus_emf},
+	{FORMAT_GIF, "gif:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_JPEG, "jpe:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_JPEG, "jpeg:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_JPEG, "jpg:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_PNG, "png:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_TIFF, "tif:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{FORMAT_TIFF, "tiff:gdiplus", 8, nullptr, &device_features_gdiplus},
+	{0, nullptr, 0, nullptr, nullptr}
 };

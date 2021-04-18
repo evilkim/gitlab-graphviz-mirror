@@ -36,7 +36,7 @@ struct DeviceContext
 	HWND hwnd;
 	HDC hdc;
 	
-	DeviceContext(HWND wnd = NULL): hwnd(wnd), hdc(GetDC(wnd))
+	DeviceContext(HWND wnd = nullptr): hwnd(wnd), hdc(GetDC(wnd))
 	{
 	}
 	

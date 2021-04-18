@@ -46,7 +46,7 @@ HRESULT FileStream::QueryInterface(
 	}
 	else
 	{
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
 }
@@ -178,14 +178,14 @@ HRESULT FileStream::Stat(
 	/* fill in filename, if needed */
 	if (grfStatFlag != STATFLAG_NONAME)
 	{
-		int wide_count = MultiByteToWideChar(CP_UTF8, 0, _name, -1, NULL, 0);
+		int wide_count = MultiByteToWideChar(CP_UTF8, 0, _name, -1, nullptr, 0);
 		if (wide_count > 0)
 		{
 			pstatstg->pwcsName = (LPOLESTR)CoTaskMemAlloc(wide_count * 2);
 			MultiByteToWideChar(CP_UTF8, 0, _name, -1, pstatstg->pwcsName, wide_count);
 		}
 		else
-			pstatstg->pwcsName = NULL;
+			pstatstg->pwcsName = nullptr;
 	}
 	
 	/* fill out rest of STATSTG */
