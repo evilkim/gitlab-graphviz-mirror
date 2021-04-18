@@ -155,13 +155,13 @@ static int glexpose_drawgraph(ViewInfo * vi)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:0 if something goes wrong with GL 1 , otherwise
 */
-int glexpose_main(ViewInfo * view)
+int glexpose_main(ViewInfo * vi)
 {
     static int doonce = 0;
-    if (!glupdatecamera(view))
+    if (!glupdatecamera(vi))
 	return 0;
 
-    if (view->activeGraph >= 0) {
+    if (vi->activeGraph >= 0) {
 	if (!doonce) {
 	    doonce = 1;
 	    btnToolZoomFit_clicked(NULL, NULL);
@@ -173,12 +173,12 @@ int glexpose_main(ViewInfo * view)
 
 
 
-    glexpose_grid(view);
-    drawBorders(view);
-    glexpose_drawgraph(view);
+    glexpose_grid(vi);
+    drawBorders(vi);
+    glexpose_drawgraph(vi);
     drawRotatingAxis();
-    draw_selpoly(&view->Topview->sel.selPoly);
-    glCompSetDraw(view->widgets);
+    draw_selpoly(&vi->Topview->sel.selPoly);
+    glCompSetDraw(vi->widgets);
 
 	 /*DEBUG*/ return 1;
 }
