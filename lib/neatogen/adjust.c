@@ -121,7 +121,7 @@ static void chkBoundBox(Agraph_t * graph)
     }
 
     char *marg = agget(graph, "voro_margin");
-    if (marg && (*marg != '\0')) {
+    if (marg && *marg != '\0') {
 	margin = atof(marg);
     }
     double ydelta = margin * (y_max - y_min);
@@ -219,7 +219,7 @@ static void sortSites(void)
     ip = nodeInfo;
     infoinit();
     for (i = 0; i < nsites; i++) {
-	*sp++ = &(ip->site);
+	*sp++ = &ip->site;
 	ip->verts = NULL;
 	ip->site.refcnt = 1;
 	ip++;
@@ -280,9 +280,9 @@ static void rmEquality(void)
 
     while (ip < endSite) {
 	jp = ip + 1;
-	if ((jp >= endSite) ||
-	    ((*jp)->coord.x != (*ip)->coord.x) ||
-	    ((*jp)->coord.y != (*ip)->coord.y)) {
+	if (jp >= endSite ||
+	    (*jp)->coord.x != (*ip)->coord.x ||
+	    (*jp)->coord.y != (*ip)->coord.y) {
 	    ip = jp;
 	    continue;
 	}
@@ -290,16 +290,16 @@ static void rmEquality(void)
 	/* Find first node kp with position different from ip */
 	cnt = 2;
 	kp = jp + 1;
-	while ((kp < endSite) &&
-	       ((*kp)->coord.x == (*ip)->coord.x) &&
-	       ((*kp)->coord.y == (*ip)->coord.y)) {
+	while (kp < endSite &&
+	       (*kp)->coord.x == (*ip)->coord.x &&
+	       (*kp)->coord.y == (*ip)->coord.y) {
 	    cnt++;
 	    jp = kp;
 	    kp = jp + 1;
 	}
 
 	/* If next node exists and is on the same line */
-	if ((kp < endSite) && ((*kp)->coord.y == (*ip)->coord.y)) {
+	if (kp < endSite && (*kp)->coord.y == (*ip)->coord.y) {
 	    xdel = ((*kp)->coord.x - (*ip)->coord.x) / cnt;
 	    i = 1;
 	    for (jp = ip + 1; jp < kp; jp++) {
@@ -522,10 +522,10 @@ static int vAdjust(void)
     int increaseCnt = 0;
     int cnt;
 
-    if (!useIter || (iterations > 0))
+    if (!useIter || iterations > 0)
 	overlapCnt = countOverlap(iterCnt);
 
-    if ((overlapCnt == 0) || (iterations == 0))
+    if (overlapCnt == 0 || iterations == 0)
 	return 0;
 
     rmEquality();
@@ -535,7 +535,7 @@ static int vAdjust(void)
 	newPos();
 	iterCnt++;
 
-	if (useIter && (iterCnt == iterations))
+	if (useIter && iterCnt == iterations)
 	    break;
 	cnt = countOverlap(iterCnt);
 	if (cnt == 0)
@@ -591,10 +591,10 @@ static int sAdjust(void)
     int cnt;
     Point center;
 
-    if (!useIter || (iterations > 0))
+    if (!useIter || iterations > 0)
 	overlapCnt = countOverlap(iterCnt);
 
-    if ((overlapCnt == 0) || (iterations == 0))
+    if (overlapCnt == 0 || iterations == 0)
 	return 0;
 
     rmEquality();
@@ -604,7 +604,7 @@ static int sAdjust(void)
 	rePos();
 	iterCnt++;
 
-	if (useIter && (iterCnt == iterations))
+	if (useIter && iterCnt == iterations)
 	    break;
 	cnt = countOverlap(iterCnt);
 	if (cnt == 0)
@@ -718,7 +718,7 @@ SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
 	    I[i] = row;
 	    J[i] = ND_id(aghead(e));
-	    if (!sym || (sscanf(agxget(e, sym), "%lf", &v) != 1))
+	    if (!sym || sscanf(agxget(e, sym), "%lf", &v) != 1)
 		v = 1;
 	    val[i] = v;
 	/* edge length */
@@ -766,7 +766,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
     sizes = getSizes(g, pad, NULL, NULL);
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	real* npos = pos + (Ndim * ND_id(n));
+	real* npos = pos + Ndim * ND_id(n);
 	for (i = 0; i < Ndim; i++) {
 	    npos[i] = ND_pos(n)[i];
 	}
@@ -820,7 +820,7 @@ vpscAdjust(graph_t* G)
     j = 0;
     for (v = agfstnode(G); v; v = agnxtnode(G, v)) {
 	for (i = 0; i < dim; i++) {
-	    coords[i][j] =  (float) (ND_pos(v)[i]);
+	    coords[i][j] =  (float)ND_pos(v)[i];
 	}
 	nsize[j].x = ND_width(v);
 	nsize[j].y = ND_height(v);
@@ -872,7 +872,7 @@ angleSet (graph_t* g, double* phi)
     char* p;
     char* a = agget(g, "normalize");
 
-    if (!a || (*a == '\0'))
+    if (!a || *a == '\0')
 	return 0;
     ang = strtod (a, &p);
     if (p == a) {  /* no number */
@@ -992,7 +992,7 @@ setPrismValues (Agraph_t* g, char* s, adjust_data* dp)
 {
     int v;
 
-    if ((sscanf (s, "%d", &v) > 0) && (v >= 0))
+    if (sscanf (s, "%d", &v) > 0 && v >= 0)
 	dp->value = v;
     else
 	dp->value = 1000;
@@ -1006,7 +1006,7 @@ setPrismValues (Agraph_t* g, char* s, adjust_data* dp)
 static adjust_data *getAdjustMode(Agraph_t* g, char *s, adjust_data* dp)
 {
     lookup_t *ap = adjustMode + 1;
-    if ((s == NULL) || (*s == '\0')) {
+    if (s == NULL || *s == '\0') {
 	dp->mode = adjustMode[0].mode;
 	dp->print = adjustMode[0].print;
     }
@@ -1052,7 +1052,7 @@ static adjust_data *getAdjustMode(Agraph_t* g, char *s, adjust_data* dp)
 adjust_data *graphAdjustMode(graph_t *G, adjust_data* dp, char* dflt)
 {
     char* am = agget(G, "overlap");
-    return (getAdjustMode (G, am ? am : (dflt ? dflt : ""), dp));
+    return getAdjustMode (G, am ? am : (dflt ? dflt : ""), dp);
 }
 
 #define ISZERO(d) ((fabs(d) < 0.000000001))
@@ -1071,7 +1071,7 @@ static int simpleScale (graph_t* g)
 	    if (ISZERO(sc.x)) return 0;
 	    if (i == 1) sc.y = sc.x;
 	    else if (ISZERO(sc.y)) return 0;
-	    if ((sc.y == 1) && (sc.x == 1)) return 0;
+	    if (sc.y == 1 && sc.x == 1) return 0;
 	    if (Verbose)
 		fprintf (stderr, "scale = (%.03f,%.03f)\n", sc.x, sc.y);
 	    for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
@@ -1148,7 +1148,7 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	    break;
 #endif
 	default:		/* to silence warnings */
-	    if ((am->mode != AM_VOR) && (am->mode != AM_SCALE))
+	    if (am->mode != AM_VOR && am->mode != AM_SCALE)
 		agerr(AGWARN, "Unhandled adjust option %s\n", am->print);
 	    ret = 0;
 	    break;
@@ -1203,7 +1203,7 @@ removeOverlapAs(graph_t * G, char* flag)
  */
 int adjustNodes(graph_t * G)
 {
-    return (removeOverlapAs(G, agget(G, "overlap")));
+    return removeOverlapAs(G, agget(G, "overlap"));
 }
 
 /* parseFactor:
