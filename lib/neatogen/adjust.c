@@ -33,7 +33,7 @@
 #endif
 #include <cgraph/strcasecmp.h>
 
-#define SEPFACT         0.8  /* default esep/sep */
+#define SEPFACT         0.8f  /* default esep/sep */
 
 static double margin = 0.05;	/* Create initial bounding box by adding
 				 * margin * dimension around box enclosing
@@ -1283,7 +1283,7 @@ esepFactor(graph_t* g)
 
     if ((marg = agget(g, "esep")) && parseFactor(marg, &pmargin, 1.0, 0)) {
     }
-    else if ((marg = agget(g, "sep")) && parseFactor(marg, &pmargin, 1.0/SEPFACT, SEPFACT*DFLT_MARGIN)) {
+    else if ((marg = agget(g, "sep")) && parseFactor(marg, &pmargin, 1.0f/SEPFACT, SEPFACT*DFLT_MARGIN)) {
     }
     else {
 	pmargin.x = pmargin.y = SEPFACT*DFLT_MARGIN;
