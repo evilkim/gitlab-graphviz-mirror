@@ -46,14 +46,15 @@ static void gdiplusgen_begin_job(GVJ_t *job)
 	{
 		/* save the passed-in context in the window field, so we can create a Metafile in the context field later on */
 		job->window = job->context;
-		*((Metafile**)job->window) = NULL;
+		auto m = reinterpret_cast<Metafile**>(job->window);
+		*m = NULL;
 		job->context = NULL;
 }
 }
 
 static void gdiplusgen_end_job(GVJ_t *job)
 {
-		Graphics *context = (Graphics *)job->context;
+		auto context = reinterpret_cast<Graphics*>(job->context);
 		
 	if (!job->external_context) {
 		/* flush and delete the graphics */
@@ -129,7 +130,8 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 				RectF(0.0f, 0.0f, job->width, job->height),
 				MetafileFrameUnitPixel,
 				EmfTypeEmfPlusOnly);
-			*((Metafile**)job->window) = metafile;
+			auto m = reinterpret_cast<Metafile**>(job->window);
+			*m = metafile;
 			job->context = new Graphics(metafile);
 		}
 	}
@@ -151,7 +153,7 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 
 static void gdiplusgen_textspan(GVJ_t *job, pointf p, textspan_t *span)
 {
-	Graphics* context = (Graphics*)job->context;
+	auto context = reinterpret_cast<Graphics*>(job->context);
 		
 		/* adjust text position */
 		switch (span->just) {
@@ -170,7 +172,7 @@ static void gdiplusgen_textspan(GVJ_t *job, pointf p, textspan_t *span)
 
 	Layout* layout;
 	if (span->free_layout == &gdiplus_free_layout)
-		layout = (Layout*)span->layout;
+		layout = reinterpret_cast<Layout*>(span->layout);
 	else
 		layout = new Layout(span->font->name, span->font->size, span->str);
 
@@ -195,7 +197,7 @@ static vector<PointF> points(pointf *A, int n)
 
 static void gdiplusgen_path(GVJ_t *job, const GraphicsPath *path, int filled)
 {
-	Graphics *context = (Graphics *)job->context;
+	auto context = reinterpret_cast<Graphics *>(job->context);
 	
 	/* fill the given path with job fill color */
 	if (filled) {

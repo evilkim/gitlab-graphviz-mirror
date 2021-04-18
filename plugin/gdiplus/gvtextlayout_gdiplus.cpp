@@ -63,7 +63,7 @@ Layout::Layout(char *fontname, double fontsize, char* string)
 void gdiplus_free_layout(void *layout)
 {
 	if (layout)
-		delete (Layout*)layout;
+		delete reinterpret_cast<Layout*>(layout);
 };
 
 boolean gdiplus_textlayout(textspan_t *span, char **fontpath)

@@ -57,15 +57,17 @@ static Image* gdiplus_loadimage(GVJ_t * job, usershape_t *us)
 			
 		gvusershape_file_release(us);
     }
-    return (Image *)(us->data);
+    return reinterpret_cast<Image*>(us->data);
 }
 
 static void gdiplus_loadimage_gdiplus(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
 	/* get the image from usershape details, then blit it to the context */
 	Image *image = gdiplus_loadimage(job, us);
-	if (image)
-		((Graphics *)job->context)->DrawImage(image, RectF(b.LL.x, b.LL.y, b.UR.x - b.LL.x, b.UR.y - b.LL.y));
+	if (image) {
+		auto g = reinterpret_cast<Graphics*>(job->context);
+		g->DrawImage(image, RectF(b.LL.x, b.LL.y, b.UR.x - b.LL.x, b.UR.y - b.LL.y));
+	}
 }
 
 static gvloadimage_engine_t engine = {
