@@ -28,13 +28,13 @@ void voronoi(int triangulate, Site * (*nextsite) (void))
     edgeinit();
     siteinit();
     PQinitialize();
-    bottomsite = (*nextsite) ();
+    bottomsite = nextsite();
 #ifdef STANDALONE
     out_site(bottomsite);
 #endif
     ELinitialize();
 
-    newsite = (*nextsite) ();
+    newsite = nextsite();
     while (1) {
 	if (!PQempty())
 	    newintstar = PQ_min();
@@ -61,7 +61,7 @@ void voronoi(int triangulate, Site * (*nextsite) (void))
 	    ELinsert(lbnd, bisector);
 	    if ((p = hintersect(bisector, rbnd)) != NULL)
 		PQinsert(bisector, p, dist(p, newsite));
-	    newsite = (*nextsite) ();
+	    newsite = nextsite();
 	} else if (!PQempty()) {
 	    /* intersection is smallest */
 	    lbnd = PQextractmin();
