@@ -1279,7 +1279,7 @@ static void subset_model(Agraph_t * G, int nG)
  * Assume the matrix already contains shortest path values.
  * Use the actual lengths provided the input for edges.
  */
-static void mds_model(graph_t * g, int nG)
+static void mds_model(graph_t * g)
 {
     long i, j;
     node_t *v;
@@ -1317,7 +1317,7 @@ static void kkNeato(Agraph_t * g, int nG, int model)
 	}
     } else if (model == MODEL_MDS) {
 	shortest_path(g, nG);
-	mds_model(g, nG);
+	mds_model(g);
     } else
 	shortest_path(g, nG);
     initial_positions(g, nG);
