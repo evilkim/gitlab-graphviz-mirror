@@ -134,7 +134,7 @@ void PQdump(void)
     int i;
     Halfedge *p;
 
-    for (i = 0; i < PQhashsize; i += 1) {
+    for (i = 0; i < PQhashsize; ++i) {
 	printf("[%d]\n", i);
 	p = PQhash[i].PQnext;
 	while (p != NULL) {
