@@ -45,9 +45,9 @@ static void graph_zoom(float real_zoom)
 void glmotion_zoom_inc(int zoomin)
 {
     if (zoomin)			/*zooming in , zoom value should be decreased */
-	graph_zoom(view->zoom - view->zoom * 0.25);
+	graph_zoom(view->zoom - view->zoom * 0.25f);
     else
-	graph_zoom(view->zoom + view->zoom * 0.25);	/*zoom out */
+	graph_zoom(view->zoom + view->zoom * 0.25f);	/*zoom out */
     glexpose();
 
 }
