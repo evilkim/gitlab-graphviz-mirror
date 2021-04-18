@@ -618,7 +618,7 @@ static int sAdjust(void)
  /* updateGraph:
   * Enter new node positions into the graph
   */
-static void updateGraph(Agraph_t * graph)
+static void updateGraph(void)
 {
     int i;
     Info_t *ip;
@@ -1170,7 +1170,7 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	ret = vAdjust();
 
     if (ret)
-	updateGraph(G);
+	updateGraph();
 
     freeNodes();
     free(sites);
