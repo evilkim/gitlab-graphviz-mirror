@@ -32,7 +32,7 @@ static void graph_zoom(float real_zoom)
     if (real_zoom < view->Topview->fitin_zoom * MAX_ZOOM)
 		real_zoom = (float) view->Topview->fitin_zoom * MAX_ZOOM;
     if (real_zoom > view->Topview->fitin_zoom * MIN_ZOOM)
-		real_zoom = (float) view->Topview->fitin_zoom * MIN_ZOOM;
+		real_zoom = view->Topview->fitin_zoom * MIN_ZOOM;
     if (view->active_camera == -1)
 		view->zoom = real_zoom;
     else
