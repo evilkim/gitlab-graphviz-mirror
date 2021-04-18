@@ -7,7 +7,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/lib \
         -I$(top_srcdir)/lib/cgraph \
         -I$(top_srcdir)/lib/cdt \
-        -I$(top_srcdir)/lib/utilities \
         -I$(top_srcdir)/lib/xdot \
         -I$(top_srcdir)/lib/gvpr \
         -I$(top_srcdir)/lib/common \
