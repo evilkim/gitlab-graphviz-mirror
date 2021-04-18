@@ -6,14 +6,10 @@ import platform
 import pytest
 import shutil
 import subprocess
-import tempfile
+import sys
 
-def c_compiler():
-    '''find the system's C compiler'''
-    if platform.system() == 'Windows':
-      return "cl"
-    else:
-      return os.environ.get('CC', 'cc')
+sys.path.append(os.path.dirname(__file__))
+from gvtest import run_c
 
 @pytest.mark.parametrize('src', ['demo.c', 'dot.c', 'example.c', 'neatopack.c',
   'simple.c'])
@@ -29,40 +25,23 @@ def test_compile_example(src):
     # construct an absolute path to the example
     filepath = Path(__file__).parent.resolve() / '..' / 'dot.demo' / src
 
-    cc = c_compiler()
+    libs = ['cgraph', 'gvc']
 
-    libs = ('cgraph', 'gvc')
+    # FIXME: Remove skip of execution of neatopack.c example when
+    # https://gitlab.com/graphviz/graphviz/-/issues/1800 has been fixed
+    if src == 'neatopack.c':
+      pytest.skip('Executing neatopack gives segmentation fault (#1800)')
 
-    # create some scratch space to work in
-    with tempfile.TemporaryDirectory() as tmp:
+    # run the example
+    args = ['-Kneato'] if src in ['demo.c', 'dot.c'] else [];
 
-      # compile our test code
-      exe = Path(tmp) / 'a.exe'
-      if platform.system() == 'Windows':
-        debug = os.environ.get('configuration') == 'Debug'
-        rt_lib_option = '-MDd' if debug else '-MD'
-        subprocess.check_call([cc, filepath, '-Fe:', exe, '-nologo',
-          rt_lib_option, '-link'] + [f'{l}.lib' for l in libs])
-      else:
-        subprocess.check_call([cc, '-std=c99', '-o', exe, filepath]
-          + [f'-l{l}' for l in libs])
+    ret, out, err = run_c(filepath, args, 'graph {a -- b}', link=libs)
 
-      # FIXME: Remove skip of execution of neatopack.c example when
-      # https://gitlab.com/graphviz/graphviz/-/issues/1800 has been fixed
-      if src == 'neatopack.c':
-        pytest.skip('Executing neatopack gives segmentation fault (#1800)')
-
-      # run the example
-      args = ['-Kneato'] if src in ['demo.c', 'dot.c'] else [];
-
-      p = subprocess.Popen(
-          [exe] + args,
-          stdin=subprocess.PIPE,
-          universal_newlines=True,
-      )
-      p.communicate(input='graph {a -- b}')
-      print(f'returncode: {p.returncode} = 0x{p.returncode:08x}')
-      assert p.returncode == 0
+    print(f'returncode: {ret} = 0x{ret:08x}')
+    if ret != 0:
+        print(out)
+        print(err)
+    assert ret == 0
 
 @pytest.mark.parametrize('src', ['addrings', 'attr', 'bbox', 'bipart',
   'chkedges', 'clustg', 'collapse', 'cycle', 'deghist', 'delmulti', 'depath',

@@ -3,8 +3,10 @@
 import os
 from pathlib import Path
 import platform
-import subprocess
-import tempfile
+import sys
+
+sys.path.append(os.path.dirname(__file__))
+from gvtest import run_c
 
 def test_vmalloc():
     '''run the vmalloc unit tests'''
@@ -16,16 +18,11 @@ def test_vmalloc():
     # locate lib directory that needs to be in the include path
     lib = Path(__file__).parent.resolve() / '../lib'
 
-    # create a temporary directory to work in
-    with tempfile.TemporaryDirectory() as tmp:
+    # extra C flags this compilation needs
+    cflags = ['-I', lib]
+    if platform.system() != 'Windows':
+      cflags += ['-std=gnu99', '-Wall', '-Wextra', '-Werror']
 
-      # compile the unit tests
-      dst = Path(tmp) / 'vmalloc-tests.exe'
-      if platform.system() == 'Windows':
-        subprocess.check_call(['cl', '-I', lib, '-nologo', src, '-Fe:', dst])
-      else:
-        subprocess.check_call([os.environ.get('CC', 'cc'), '-std=gnu99',
-          '-Wall', '-Wextra', '-Werror', '-I', lib, '-o', dst, src])
+    ret, _, _ = run_c(src, cflags=cflags)
 
-      # run the unit tests
-      subprocess.check_call([dst])
+    assert ret == 0
