@@ -1238,8 +1238,8 @@ parseFactor (char* s, expand_t* pp, float sepfact, float dflt)
 	    }
 	}
 	else {
-	    pp->x = 1.0 + x/sepfact;
-	    pp->y = 1.0 + y/sepfact;
+	    pp->x = 1.0f + x/sepfact;
+	    pp->y = 1.0f + y/sepfact;
 	}
 	return 1;
     }
