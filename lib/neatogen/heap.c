@@ -98,7 +98,7 @@ Halfedge *PQextractmin(void)
 
     curr = PQhash[PQmin].PQnext;
     PQhash[PQmin].PQnext = curr->PQnext;
-    PQcount -= 1;
+    --PQcount;
     return curr;
 }
 
