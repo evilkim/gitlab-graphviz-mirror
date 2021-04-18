@@ -10,6 +10,7 @@
 
 
 #include <common/render.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 #include <neatogen/mem.h>
@@ -74,7 +75,7 @@ void PQdelete(Halfedge * he)
 }
 
 
-int PQempty(void)
+bool PQempty(void)
 {
     return PQcount == 0;
 }
