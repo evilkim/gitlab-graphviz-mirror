@@ -95,7 +95,7 @@ static void chkBoundBox(Agraph_t * graph)
     Point ll, ur;
     int i;
     double x, y;
-    double x_min, xmax, ymin, ymax;
+    double x_min, x_max, ymin, ymax;
     double xmn, xmx, ymn, ymx;
     double ydelta, xdelta;
     Info_t *ip;
@@ -108,7 +108,7 @@ static void chkBoundBox(Agraph_t * graph)
     y = ip->site.coord.y;
     x_min = pp->origin.x + x;
     ymin = pp->origin.y + y;
-    xmax = pp->corner.x + x;
+    x_max = pp->corner.x + x;
     ymax = pp->corner.y + y;
     for (i = 1; i < nsites; i++) {
 	ip++;
@@ -123,8 +123,8 @@ static void chkBoundBox(Agraph_t * graph)
 	    x_min = xmn;
 	if (ymn < ymin)
 	    ymin = ymn;
-	if (xmx > xmax)
-	    xmax = xmx;
+	if (xmx > x_max)
+	    x_max = xmx;
 	if (ymx > ymax)
 	    ymax = ymx;
     }
@@ -134,10 +134,10 @@ static void chkBoundBox(Agraph_t * graph)
 	margin = atof(marg);
     }
     ydelta = margin * (ymax - ymin);
-    xdelta = margin * (xmax - x_min);
+    xdelta = margin * (x_max - x_min);
     ll.x = x_min - xdelta;
     ll.y = ymin - ydelta;
-    ur.x = xmax + xdelta;
+    ur.x = x_max + xdelta;
     ur.y = ymax + ydelta;
 
     setBoundBox(&ll, &ur);
