@@ -11,9 +11,6 @@
 #include <math.h>
 #include <neatogen/neato.h>
 #include <pathplan/pathutil.h>
-#include <setjmp.h>
-
-static jmp_buf jbuf;
 
 #define MAXINTS  10000		/* modify this line to reflect the max no. of 
 				   intersections you want reported -- 50000 seems to break the program */
@@ -178,7 +175,7 @@ putSeg (int i, vertex* v)
 }
 
 /* realIntersect:
- * Return 1 if a real inatersection has been found
+ * Return 1 if a real intersection has been found
  */
 static int
 realIntersect (vertex *firstv, vertex *secondv, pointf p)
@@ -271,7 +268,7 @@ static int gt(vertex **i, vertex **j)
 
 /* find_ints:
  * Check for pairwise intersection of polygon sides
- * Return 1 if intersection found, 0 otherwise.
+ * Return 1 if intersection found, 0 for not found, -1 for error.
  */
 static int
 find_ints(vertex vertex_list[],
@@ -335,7 +332,7 @@ find_ints(vertex vertex_list[],
 
 		if ((tempa = templ->active) == 0) {
 		    agerr(AGERR, "trying to delete a non-line\n");
-		    longjmp(jbuf, 1);
+		    return -1;
 		}
 		if (all.number == 1)
 		    all.final = all.first = 0;	/* delete the line */
@@ -448,12 +445,12 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
     input.nvertices = nverts;
     input.npolygons = n_polys;
 
-    if (setjmp(jbuf)) {
+    found = find_ints(vertex_list, polygon_list, &input, ilist);
+    if (found < 0) {
 	free(polygon_list);
 	free(vertex_list);
 	return 0;
     }
-    found = find_ints(vertex_list, polygon_list, &input, ilist);
 
     if (!found) {
 	found = findInside(polys, n_polys, polygon_list);
