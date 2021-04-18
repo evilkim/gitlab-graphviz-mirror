@@ -808,7 +808,7 @@ vpscAdjust(graph_t* G)
     float* f_storage = N_GNEW(dim * nnodes, float);
     int i, j;
     Agnode_t* v;
-    expand_t margin;
+    expand_t exp_margin;
 
     for (i = 0; i < dim; i++) {
 	coords[i] = f_storage + i * nnodes;
@@ -828,11 +828,11 @@ vpscAdjust(graph_t* G)
     opt.edge_gap = 0;
     opt.noverlap = 2;
     opt.clusters = NEW(cluster_data);
-    margin = sepFactor (G);
+    exp_margin = sepFactor (G);
  	/* Multiply by 2 since opt.gap is the gap size, not the margin */
-    if (margin.doAdd) {
-	opt.gap.x = 2.0*PS2INCH(margin.x);
-	opt.gap.y = 2.0*PS2INCH(margin.y);
+    if (exp_margin.doAdd) {
+	opt.gap.x = 2.0*PS2INCH(exp_margin.x);
+	opt.gap.y = 2.0*PS2INCH(exp_margin.y);
     }
     else {
 	opt.gap.x = opt.gap.y = 2.0*PS2INCH(DFLT_MARGIN);
