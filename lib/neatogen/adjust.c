@@ -100,7 +100,6 @@ static void chkBoundBox(Agraph_t * graph)
     double ydelta, xdelta;
     Info_t *ip;
     Poly *pp;
-    /* int          cnt; */
 
     ip = nodeInfo;
     pp = &ip->poly;
@@ -1120,7 +1119,6 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	fprintf(stderr, "Adjusting %s using %s\n", agnameof(G), am->print);
 
     if (am->mode > AM_SCALE) {
-/* start_timer(); */
 	switch (am->mode) {
 	case AM_NSCALE:
 	    ret = scAdjust(G, 1);
@@ -1167,12 +1165,10 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	    ret = 0;
 	    break;
 	}
-/* fprintf (stderr, "%s %.4f sec\n", am->print, elapsed_sec()); */
 	return nret+ret;
     }
 
     /* create main array */
-/* start_timer(); */
     if (makeInfo(G)) {
 	freeNodes();
 	free(sites);
@@ -1194,7 +1190,6 @@ removeOverlapWith (graph_t * G, adjust_data* am)
     freeNodes();
     free(sites);
     sites = 0;
-/* fprintf (stderr, "%s %.4f sec\n", am->print, elapsed_sec()); */
 
     return ret+nret;
 }
