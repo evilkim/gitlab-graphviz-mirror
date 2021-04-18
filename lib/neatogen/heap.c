@@ -85,7 +85,7 @@ Point PQ_min(void)
     Point answer;
 
     while (PQhash[PQmin].PQnext == NULL) {
-	PQmin += 1;
+	++PQmin;
     }
     answer.x = PQhash[PQmin].PQnext->vertex->coord.x;
     answer.y = PQhash[PQmin].PQnext->ystar;
