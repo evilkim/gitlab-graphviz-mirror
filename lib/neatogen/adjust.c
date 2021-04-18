@@ -257,13 +257,10 @@ static void geomUpdate(int doSort)
 
 static Site *nextOne(void)
 {
-    Site *s;
-
     if (nextSite < endSite) {
-	s = *nextSite++;
-	return (s);
+	return *nextSite++;
     } else
-	return ((Site *) NULL);
+	return NULL;
 }
 
 /* rmEquality:
