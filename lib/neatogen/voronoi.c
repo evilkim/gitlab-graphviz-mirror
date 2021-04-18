@@ -39,13 +39,9 @@ void voronoi(int triangulate, Site * (*nextsite) (void))
 	if (!PQempty())
 	    newintstar = PQ_min();
 
-	if (newsite != NULL && (PQempty()
-						|| newsite->coord.y <
-						newintstar.y
-						|| (newsite->coord.y ==
-						    newintstar.y
-						    && newsite->coord.x <
-						    newintstar.x))) {
+	if (newsite != NULL &&
+      (PQempty() || newsite->coord.y < newintstar.y ||
+       (newsite->coord.y ==newintstar.y && newsite->coord.x < newintstar.x))) {
 	    /* new site is smallest */
 #ifdef STANDALONE
 	    out_site(newsite);
@@ -107,8 +103,7 @@ void voronoi(int triangulate, Site * (*nextsite) (void))
 	    break;
     }
 
-    for (lbnd = ELright(ELleftend); lbnd != ELrightend;
-	 lbnd = ELright(lbnd)) {
+    for (lbnd = ELright(ELleftend); lbnd != ELrightend; lbnd = ELright(lbnd)) {
 	e = lbnd->ELedge;
 	clip_line(e);
 #ifdef STANDALONE
