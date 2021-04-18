@@ -1171,7 +1171,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
             char* str;
             ipsep_options opt;
             pointf* nsize;
-	    cluster_data *cs = (cluster_data*)cluster_map(mg,g);
+	    cluster_data *cs = cluster_map(mg,g);
 	    nsize = N_GNEW(nv, pointf);
             opt.edge_gap = lgap;
 #ifdef MOSEK

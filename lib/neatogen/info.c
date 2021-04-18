@@ -127,7 +127,7 @@ void addVertex(Site * s, double x, double y)
     if (cmp == 0)
 	return;
     else if (cmp < 0) {
-	p = (PtItem *) getfree(&pfl);
+	p = getfree(&pfl);
 	p->p.x = x;
 	p->p.y = y;
 	p->next = curr;
@@ -143,7 +143,7 @@ void addVertex(Site * s, double x, double y)
     }
     if (cmp == 0)
 	return;
-    p = (PtItem *) getfree(&pfl);
+    p = getfree(&pfl);
     p->p.x = x;
     p->p.y = y;
     prev->next = p;

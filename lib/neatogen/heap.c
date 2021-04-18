@@ -47,7 +47,7 @@ void PQinsert(Halfedge * he, Site * v, double offset)
     ref(v);
     he->ystar = v->coord.y + offset;
     last = &PQhash[PQbucket(he)];
-    while ((next = last->PQnext) != (struct Halfedge *) NULL &&
+    while ((next = last->PQnext) != NULL &&
 	   (he->ystar > next->ystar ||
 	    (he->ystar == next->ystar
 	     && v->coord.x > next->vertex->coord.x))) {
@@ -62,14 +62,14 @@ void PQdelete(Halfedge * he)
 {
     Halfedge *last;
 
-    if (he->vertex != (Site *) NULL) {
+    if (he->vertex != NULL) {
 	last = &PQhash[PQbucket(he)];
 	while (last->PQnext != he)
 	    last = last->PQnext;
 	last->PQnext = he->PQnext;
 	--PQcount;
 	deref(he->vertex);
-	he->vertex = (Site *) NULL;
+	he->vertex = NULL;
     }
 }
 
@@ -84,7 +84,7 @@ Point PQ_min(void)
 {
     Point answer;
 
-    while (PQhash[PQmin].PQnext == (struct Halfedge *) NULL) {
+    while (PQhash[PQmin].PQnext == NULL) {
 	PQmin += 1;
     }
     answer.x = PQhash[PQmin].PQnext->vertex->coord.x;
@@ -118,7 +118,7 @@ void PQinitialize(void)
     if (PQhash == NULL)
 	PQhash = N_GNEW(PQhashsize, Halfedge);
     for (i = 0; i < PQhashsize; i += 1)
-	PQhash[i].PQnext = (Halfedge *) NULL;
+	PQhash[i].PQnext = NULL;
 }
 
 static void PQdumphe(Halfedge * p)
