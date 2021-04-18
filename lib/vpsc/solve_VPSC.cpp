@@ -110,13 +110,13 @@ void VPSC::refine() {
 		for(set<Block*>::const_iterator i=bs->begin();i!=bs->end();i++) {
 			Block *b=*i;
 			Constraint *c=b->findMinLM();
-			if(c!=NULL && c->lm<0) {
+			if(c!=nullptr && c->lm<0) {
 				if (RECTANGLE_OVERLAP_LOGGING) {
 					ofstream f(LOGFILE,ios::app);
 					f<<"Split on constraint: "<<*c<<"\n";
 				}
 				// Split on c
-				Block *l=NULL, *r=NULL;
+				Block *l=nullptr, *r=nullptr;
 				bs->split(b,l,r,c);
 				bs->cleanup();
 				// split alters the block set so we have to restart
@@ -180,7 +180,7 @@ void IncVPSC::satisfy() {
 	}
 	splitBlocks();
 	long splitCtr = 0;
-	Constraint* v = NULL;
+	Constraint* v = nullptr;
 	while(mostViolated(inactive,v)<-0.0000001) {
 		assert(!v->active);
 		Block *lb = v->left->block, *rb = v->right->block;
@@ -238,13 +238,13 @@ void IncVPSC::splitBlocks() {
 	for(set<Block*>::const_iterator i(bs->begin());i!=bs->end();i++) {
 		Block* b = *i;
 		Constraint* v=b->findMinLM();
-		if(v!=NULL && v->lm < -0.0000001) {
+		if(v!=nullptr && v->lm < -0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
 				ofstream f(LOGFILE,ios::app);
 				f<<"    found split point: "<<*v<<" lm="<<v->lm<<"\n";
 			}
 			splitCnt++;
-			Block *b = v->left->block, *l=NULL, *r=NULL;
+			Block *b = v->left->block, *l=nullptr, *r=nullptr;
 			assert(v->left->block == v->right->block);
 			double pos = b->posn;
 			b->split(l,r,v);
@@ -333,7 +333,7 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 		}
 	}
 	while(!graph.empty()) {
-		node *u=NULL;
+		node *u=nullptr;
 		vector<node*>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
 			u=*i;
@@ -373,7 +373,7 @@ bool VPSC::blockGraphIsCyclic() {
 		Block *b=*i;
 		b->setUpInConstraints();
 		Constraint *c=b->findMinInConstraint();
-		while(c!=NULL) {
+		while(c!=nullptr) {
 			Block *l=c->left->block;
 			bmap[b]->in.insert(bmap[l]);
 			b->deleteMinInConstraint();
@@ -382,7 +382,7 @@ bool VPSC::blockGraphIsCyclic() {
 
 		b->setUpOutConstraints();
 		c=b->findMinOutConstraint();
-		while(c!=NULL) {
+		while(c!=nullptr) {
 			Block *r=c->right->block;
 			bmap[b]->out.insert(bmap[r]);
 			b->deleteMinOutConstraint();
@@ -390,7 +390,7 @@ bool VPSC::blockGraphIsCyclic() {
 		}
 	}
 	while(!graph.empty()) {
-		node *u=NULL;
+		node *u=nullptr;
 		vector<node*>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
 			u=*i;

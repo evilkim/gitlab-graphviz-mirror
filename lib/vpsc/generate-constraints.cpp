@@ -49,7 +49,7 @@ struct Node {
 	Node *firstAbove, *firstBelow;
 	NodeSet leftNeighbours, rightNeighbours;
 	Node(Variable *v, Rectangle *r, double p) : v(v),r(r),pos(p) {
-		firstAbove=firstBelow=NULL;
+		firstAbove=firstBelow=nullptr;
 		assert(r->width()<1e40);
 	}
 	void addLeftNeighbour(Node *u) {
@@ -189,12 +189,12 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 				}
 			} else {
 				Node *l=v->firstAbove, *r=v->firstBelow;
-				if(l!=NULL) {
+				if(l!=nullptr) {
 					double sep = (v->r->width()+l->r->width())/2.0;
 					constraints.push_back(new Constraint(l->v,v->v,sep));
 					l->firstBelow=v->firstBelow;
 				}
-				if(r!=NULL) {
+				if(r!=nullptr) {
 					double sep = (v->r->width()+r->r->width())/2.0;
 					constraints.push_back(new Constraint(v->v,r->v,sep));
 					r->firstAbove=v->firstAbove;
@@ -244,12 +244,12 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 		} else {
 			// Close event
 			Node *l=v->firstAbove, *r=v->firstBelow;
-			if(l!=NULL) {
+			if(l!=nullptr) {
 				double sep = (v->r->height()+l->r->height())/2.0;
 				constraints.push_back(new Constraint(l->v,v->v,sep));
 				l->firstBelow=v->firstBelow;
 			}
-			if(r!=NULL) {
+			if(r!=nullptr) {
 				double sep = (v->r->height()+r->r->height())/2.0;
 				constraints.push_back(new Constraint(v->v,r->v,sep));
 				r->firstAbove=v->firstAbove;
