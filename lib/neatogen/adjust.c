@@ -380,10 +380,9 @@ static double areaOf(Point a, Point b, Point c)
 {
     double area;
 
-    area =
-	(double) (fabs
+    area = fabs
 		  (a.x * (b.y - c.y) + b.x * (c.y - a.y) +
-		   c.x * (a.y - b.y)) / 2);
+		   c.x * (a.y - b.y)) / 2;
     return area;
 }
 
