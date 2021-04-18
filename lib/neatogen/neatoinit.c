@@ -208,7 +208,6 @@ static cluster_data* cluster_map(graph_t *mastergraph, graph_t *g)
             *cn = agnnodes(subg);
             cdata->nvars += *cn;
             c = *cs++ = N_GNEW(*cn++,int);
-            /* fprintf(stderr,"Cluster with %d nodes...\n",agnnodes(subg)); */
             for (n = agfstnode(subg); n; n = agnxtnode(subg, n)) {
                 node_t *gn;
                 int ind = 0;
@@ -216,7 +215,6 @@ static cluster_data* cluster_map(graph_t *mastergraph, graph_t *g)
                     if(AGSEQ(gn)==AGSEQ(n)) break;
                     ind++;
                 }
-                /* fprintf(stderr,"  node=%s, id=%d, ind=%d\n",agnameof(n),n->id,ind); */
                 *c++=ind;
                 assigned[ind]=TRUE;
                 cdata->ntoplevel--;
@@ -1150,7 +1148,6 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
 	fprintf(stderr, "convert graph: ");
 	start_timer();
         fprintf(stderr, "majorization\n");
-//     fprintf(stderr, "%i\n", count_nodes(g));
     }
     gp = makeGraphData(g, nv, &ne, mode, model, &nodes);
 

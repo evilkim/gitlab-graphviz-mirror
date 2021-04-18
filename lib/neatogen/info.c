@@ -148,9 +148,4 @@ void addVertex(Site * s, double x, double y)
     p->p.y = y;
     prev->next = p;
     p->next = curr;
-
-    /* This test should be unnecessary */
-    /* if (!sorted(origin,ip->verts))  */
-    /* error (ip,s,x,y); */
-
 }
