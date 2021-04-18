@@ -86,7 +86,7 @@ bool CmpNodePos::operator() (const Node* u, const Node* v) const {
 	return u < v;
 }
 
-NodeSet* getLeftNeighbours(NodeSet &scanline,Node *v) {
+static NodeSet* getLeftNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet *leftv = new NodeSet;
 	NodeSet::iterator i=scanline.find(v);
 	while(i!=scanline.begin()) {
