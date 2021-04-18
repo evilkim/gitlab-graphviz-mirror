@@ -36,7 +36,7 @@ static int PQbucket(Halfedge * he)
 	bucket = b;
     if (bucket < PQmin)
 	PQmin = bucket;
-    return (bucket);
+    return bucket;
 }
 
 void PQinsert(Halfedge * he, Site * v, double offset)
@@ -76,7 +76,7 @@ void PQdelete(Halfedge * he)
 
 int PQempty(void)
 {
-    return (PQcount == 0);
+    return PQcount == 0;
 }
 
 
@@ -89,7 +89,7 @@ Point PQ_min(void)
     }
     answer.x = PQhash[PQmin].PQnext->vertex->coord.x;
     answer.y = PQhash[PQmin].PQnext->ystar;
-    return (answer);
+    return answer;
 }
 
 Halfedge *PQextractmin(void)
@@ -99,7 +99,7 @@ Halfedge *PQextractmin(void)
     curr = PQhash[PQmin].PQnext;
     PQhash[PQmin].PQnext = curr->PQnext;
     PQcount -= 1;
-    return (curr);
+    return curr;
 }
 
 void PQcleanup(void)
@@ -125,7 +125,7 @@ static void PQdumphe(Halfedge * p)
 {
     printf("  [%p] %p %p %d %d %d %d %f\n",
 	   p, p->ELleft, p->ELright, p->ELedge->edgenbr,
-	   p->ELrefcnt, p->ELpm, (p->vertex ? p->vertex->sitenbr : -1),
+	   p->ELrefcnt, p->ELpm, p->vertex ? p->vertex->sitenbr : -1,
 	   p->ystar);
 }
 

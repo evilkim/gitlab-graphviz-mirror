@@ -50,7 +50,7 @@ void voronoi(int triangulate, Site * (*nextsite) (void))
 #ifdef STANDALONE
 	    out_site(newsite);
 #endif
-	    lbnd = ELleftbnd(&(newsite->coord));
+	    lbnd = ELleftbnd(&newsite->coord);
 	    rbnd = ELright(lbnd);
 	    bot = rightreg(lbnd);
 	    e = gvbisect(bot, newsite);

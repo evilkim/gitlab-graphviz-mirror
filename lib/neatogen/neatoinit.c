@@ -65,8 +65,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
     p = agxget(np, posptr);
     if (p[0]) {
 	c = '\0';
-	if ((Ndim >= 3) &&
-            (sscanf(p, "%lf,%lf,%lf%c", pvec, pvec+1, pvec+2, &c) >= 3)){
+	if (Ndim >= 3 && sscanf(p, "%lf,%lf,%lf%c", pvec, pvec+1, pvec+2, &c) >= 3){
 	    ND_pinned(np) = P_SET;
 	    if (PSinputscale > 0.0) {
 		int i;
@@ -75,7 +74,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
 	    }
 	    if (Ndim > 3)
 		jitter_d(np, nG, 3);
-	    if ((c == '!') || (pinptr && mapbool(agxget(np, pinptr))))
+	    if (c == '!' || (pinptr && mapbool(agxget(np, pinptr))))
 		ND_pinned(np) = P_PIN;
 	    return TRUE;
 	}
@@ -87,7 +86,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
 		    pvec[i] /= PSinputscale;
 	    }
 	    if (Ndim > 2) {
-		if (N_z && (p = agxget(np, N_z)) && (sscanf(p,"%lf",&z) == 1)) {
+		if (N_z && (p = agxget(np, N_z)) && sscanf(p,"%lf",&z) == 1) {
 		    if (PSinputscale > 0.0) {
 			pvec[2] = z / PSinputscale;
 		    }
@@ -98,7 +97,7 @@ int user_pos(attrsym_t * posptr, attrsym_t * pinptr, node_t * np, int nG)
 		else
 		    jitter3d(np, nG);
 	    }
-	    if ((c == '!') || (pinptr && mapbool(agxget(np, pinptr))))
+	    if (c == '!' || (pinptr && mapbool(agxget(np, pinptr))))
 		ND_pinned(np) = P_PIN;
 	    return TRUE;
 	} else
@@ -130,7 +129,7 @@ static void neato_init_node_edge(graph_t * g)
 
 static void neato_cleanup_graph(graph_t * g)
 {
-    if (Nop || (Pack < 0)) {
+    if (Nop || Pack < 0) {
 	free_scan_graph(g);
 	free(GD_clust(g));
     }
@@ -162,7 +161,7 @@ static int numFields(unsigned char *pos)
 	    pos++;		/* skip white space */
 	if ((c = *pos)) { /* skip token */
 	    cnt++;
-	    while ((c = *pos) && !isspace(c) && (c != ';'))
+	    while ((c = *pos) && !isspace(c) && c != ';')
 		pos++;
 	}
     } while (isspace(c));
@@ -174,7 +173,7 @@ static void set_label(void* obj, textlabel_t * l, char *name)
     double x, y;
     char *lp;
     lp = agget(obj, name);
-    if (lp && (sscanf(lp, "%lf,%lf", &x, &y) == 2)) {
+    if (lp && sscanf(lp, "%lf,%lf", &x, &y) == 2) {
 	l->pos = pointfof(x, y);
 	l->set = TRUE;
     }
@@ -293,7 +292,7 @@ static int user_spline(attrsym_t * E_pos, edge_t * e)
 
 	npts = numFields((unsigned char *) pos);	/* count potential points */
 	n = npts;
-	if ((n < 4) || (n % 3 != 1)) {
+	if (n < 4 || n % 3 != 1) {
 	    gv_free_splines(e);
 	    if (!warned) {
 		warned = 1;
@@ -380,7 +379,7 @@ static pos_edge nop_init_edges(Agraph_t * g)
 	return AllEdges;
 
     E_pos = agfindedgeattr(g, "pos");
-    if (!E_pos || (Nop < 2))
+    if (!E_pos || Nop < 2)
 	return NoEdges;
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
@@ -559,7 +558,7 @@ int init_nop(Agraph_t * g, int adjust)
     else
 	haveBackground = 0;
 
-    if (adjust && (Nop == 1) && !haveBackground)
+    if (adjust && Nop == 1 && !haveBackground)
 	didAdjust = adjustNodes(g);
 
     if (didAdjust) {
@@ -582,17 +581,17 @@ int init_nop(Agraph_t * g, int adjust)
 	node_t *n;
 	State = GVSPLINES;
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	    ND_coord(n).x = POINTS_PER_INCH * (ND_pos(n)[0]);
-	    ND_coord(n).y = POINTS_PER_INCH * (ND_pos(n)[1]);
+	    ND_coord(n).x = POINTS_PER_INCH * ND_pos(n)[0];
+	    ND_coord(n).y = POINTS_PER_INCH * ND_pos(n)[1];
 	}
     }
     else {
 	boolean didShift;
-	if (translate && !haveBackground && ((GD_bb(g).LL.x != 0)||(GD_bb(g).LL.y != 0)))
+	if (translate && !haveBackground && (GD_bb(g).LL.x != 0||GD_bb(g).LL.y != 0))
 	    neato_translate (g);
 	didShift = neato_set_aspect(g);
 	/* if we have some edge positions and we either shifted or adjusted, free edge positions */
-	if ((posEdges != NoEdges) && (didShift || didAdjust)) {
+	if (posEdges != NoEdges && (didShift || didAdjust)) {
 	    freeEdgeInfo (g);
 	    posEdges = NoEdges;
 	}
@@ -706,7 +705,7 @@ dfsCycle (vtx_data* graph, int i,int mode, node_t* nodes[])
     /* if mode is IPSEP make it an in-edge
      * at both ends, so that an edge constraint won't be generated!
      */
-    double x = (mode==MODE_IPSEP?-1.0:1.0);
+    double x = mode==MODE_IPSEP?-1.0:1.0;
 
     np = nodes[i];
     ND_mark(np) = TRUE;
@@ -717,7 +716,7 @@ dfsCycle (vtx_data* graph, int i,int mode, node_t* nodes[])
 	hp = nodes[j];
 	if (ND_onstack(hp)) {  /* back edge: reverse it */
             graph[i].edists[e] = x;
-            for (f = 1; (f < graph[j].nedges) &&(graph[j].edges[f] != i); f++) ;
+            for (f = 1; f < graph[j].nedges && graph[j].edges[f] != i; f++) ;
             assert (f < graph[j].nedges);
             graph[j].edists[f] = -1.0;
         }
@@ -792,7 +791,7 @@ static vtx_data *makeGraphData(graph_t * g, int nv, int *nedges, int mode, int m
 	haveWt = FALSE;
     } else {
 	haveLen = agattr(g, AGEDGE, "len", 0) ;
-	haveWt = (E_weight != 0);
+	haveWt = E_weight != 0;
     }
     if (mode == MODE_HIER || mode == MODE_IPSEP)
 	haveDir = TRUE;
@@ -848,7 +847,7 @@ static vtx_data *makeGraphData(graph_t * g, int nv, int *nedges, int mode, int m
 		    graph[i].ewgts[idx] = MAX(ED_dist(ep), curlen);
 		}
 	    } else {
-		node_t *vp = (((agtail(ep)) == np) ? aghead(ep) : agtail(ep));
+		node_t *vp = agtail(ep) == np ? aghead(ep) : agtail(ep);
 		ne++;
 		j++;
 
@@ -865,7 +864,7 @@ static vtx_data *makeGraphData(graph_t * g, int nv, int *nedges, int mode, int m
                     if(s&&!strncmp(s,"none",4)) {
                         *edists++ = 0;
                     } else {
-                        *edists++ = (np == aghead(ep) ? 1.0 : -1.0);
+                        *edists++ = np == aghead(ep) ? 1.0 : -1.0;
                     }
                 }
 #endif
@@ -927,7 +926,7 @@ static void initRegular(graph_t * G, int nG)
     node_t *np;
 
     a = 0.0;
-    da = (2 * M_PI) / nG;
+    da = 2 * M_PI / nG;
     for (np = agfstnode(G); np; np = agnxtnode(G, np)) {
 	ND_pos(np)[0] = nG * Spring_coeff * cos(a);
 	ND_pos(np)[1] = nG * Spring_coeff * sin(a);
@@ -959,7 +958,7 @@ setSeed (graph_t * G, int dflt, long* seedp)
     char *p = agget(G, "start");
     int init = dflt;
 
-    if (!p || (*p == '\0')) return dflt;
+    if (!p || *p == '\0') return dflt;
     if (isalpha(*(unsigned char *)p)) {
 	if (!strncmp(p, SMART, SLEN(SMART))) {
 	    init = INIT_SELF;
@@ -1003,7 +1002,7 @@ setSeed (graph_t * G, int dflt, long* seedp)
 static int checkExp (graph_t * G)
 {
     int exp = late_int(G, agfindgraphattr(G, exp_name), 2, 0);
-    if ((exp == 0) || (exp > 2)) {
+    if (exp == 0 || exp > 2) {
 	agerr (AGWARN, "%s attribute value must be 1 or 2 - ignoring\n", exp_name);
 	exp = 2;
     }
@@ -1027,7 +1026,7 @@ int checkStart(graph_t * G, int nG, int dflt)
 
     seed = 1;
     init = setSeed (G, dflt, &seed);
-    if (N_pos && (init != INIT_RANDOM)) {
+    if (N_pos && init != INIT_RANDOM) {
 	agerr(AGWARN, "node positions are ignored unless start=random\n");
     }
     if (init == INIT_REGULAR) initRegular(G, nG);
@@ -1134,7 +1133,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
     expand_t margin;
 #endif
 #endif
-    int init = checkStart(g, nv, (mode == MODE_HIER ? INIT_SELF : INIT_RANDOM));
+    int init = checkStart(g, nv, mode == MODE_HIER ? INIT_SELF : INIT_RANDOM);
     int opts = checkExp (g);
 
     if (init == INIT_SELF)
@@ -1147,7 +1146,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
     }
     if (Verbose) {
 	fprintf(stderr, "model %d smart_init %d stresswt %d iterations %d tol %f\n",
-		model, (init == INIT_SELF), opts & opt_exp_flag, MaxIter, Epsilon);
+		model, init == INIT_SELF, opts & opt_exp_flag, MaxIter, Epsilon);
 	fprintf(stderr, "convert graph: ");
 	start_timer();
         fprintf(stderr, "majorization\n");
@@ -1352,7 +1351,7 @@ neatoLayout(Agraph_t * mg, Agraph_t * g, int layoutMode, int layoutModel,
 	MaxIter = 100 * agnnodes(g);
 
     nG = scan_graph_mode(g, layoutMode);
-    if ((nG < 2) || (MaxIter < 0))
+    if (nG < 2 || MaxIter < 0)
 	return;
     if (layoutMode == MODE_KK)
 	kkNeato(g, nG, layoutModel);
@@ -1371,9 +1370,9 @@ static void addZ (Agraph_t* g)
     node_t* n;
     char    buf[BUFSIZ];
 
-    if ((Ndim >= 3) && N_z) {
+    if (Ndim >= 3 && N_z) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	    snprintf(buf, sizeof(buf), "%lf", POINTS_PER_INCH * (ND_pos(n)[2]));
+	    snprintf(buf, sizeof(buf), "%lf", POINTS_PER_INCH * ND_pos(n)[2]);
 	    agxset(n, N_z, buf);
 	}
     }
@@ -1440,7 +1439,7 @@ void neato_layout(Agraph_t * g)
 	    /* If the user has not indicated packing but we are
 	     * using the new neato, turn packing on.
 	     */
-	    if ((Pack < 0) && layoutMode)
+	    if (Pack < 0 && layoutMode)
 		Pack = CL_OFFSET;
 	    pinfo.mode = l_node;
 	} else if (Pack < 0)

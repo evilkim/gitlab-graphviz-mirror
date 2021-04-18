@@ -71,19 +71,19 @@ static void sgnarea(vertex *l, vertex *m, int i[])
     f = m->pos.y - b;
     g = after(m)->pos.x - a;
     h = after(m)->pos.y - b;
-    t = (c * f) - (d * e);
-    i[0] = ((t == 0) ? 0 : (t > 0 ? 1 : -1));
-    t = (c * h) - (d * g);
-    i[1] = ((t == 0) ? 0 : (t > 0 ? 1 : -1));
+    t = c * f - d * e;
+    i[0] = t == 0 ? 0 : (t > 0 ? 1 : -1);
+    t = c * h - d * g;
+    i[1] = t == 0 ? 0 : (t > 0 ? 1 : -1);
     i[2] = i[0] * i[1];
 }
 
 /* determine if g lies between f and h      */
 static int between(double f, double g, double h)
 {
-    if ((f == g) || (g == h))
-	return (0);
-    return ((f < g) ? (g < h ? 1 : -1) : (h < g ? 1 : -1));
+    if (f == g || g == h)
+	return 0;
+    return f < g ? (g < h ? 1 : -1) : (h < g ? 1 : -1);
 }
 
 /* determine if vertex i of line m is on line l     */
@@ -92,12 +92,10 @@ static int online(vertex *l, vertex *m, int i)
     pointf a, b, c;
     a = l->pos;
     b = after(l)->pos;
-    c = (i == 0) ? m->pos : after(m)->pos;
-    return ((a.x == b.x) ? ((a.x == c.x)
-			    && (-1 !=
-				between(a.y, c.y, b.y))) : between(a.x,
-								   c.x,
-								   b.x));
+    c = i == 0 ? m->pos : after(m)->pos;
+    return a.x == b.x
+      ? (a.x == c.x && -1 != between(a.y, c.y, b.y))
+      : between(a.x, c.x, b.x);
 }
 
 /* determine point of detected intersections  */
@@ -107,7 +105,7 @@ static int intpoint(vertex *l, vertex *m, double *x, double *y, int cond)
     double m1, m2, c1, c2;
 
     if (cond <= 0)
-	return (0);
+	return 0;
     ls = l->pos;
     le = after(l)->pos;
     ms = m->pos;
@@ -125,24 +123,22 @@ static int intpoint(vertex *l, vertex *m, double *x, double *y, int cond)
 	} else {
 	    m1 = SLOPE(ms, me);
 	    m2 = SLOPE(ls, le);
-	    c1 = ms.y - (m1 * ms.x);
-	    c2 = ls.y - (m2 * ls.x);
+	    c1 = ms.y - m1 * ms.x;
+	    c2 = ls.y - m2 * ls.x;
 	    *x = (c2 - c1) / (m1 - m2);
-	    *y = ((m1 * c2) - (c1 * m2)) / (m1 - m2);
+	    *y = (m1 * c2 - c1 * m2) / (m1 - m2);
 	}
 	break;
 
     case 2:			/*     the two lines  have a common segment  */
 	if (online(l, m, 0) == -1) {	/* ms between ls and le */
 	    pt1 = ms;
-	    pt2 =
-		(online(m, l, 1) ==
-		 -1) ? ((online(m, l, 0) == -1) ? le : ls) : me;
+	    pt2 = online(m, l, 1) == -1
+	      ? (online(m, l, 0) == -1 ? le : ls) : me;
 	} else if (online(l, m, 1) == -1) {	/* me between ls and le */
 	    pt1 = me;
-	    pt2 =
-		(online(l, m, 0) ==
-		 -1) ? ((online(m, l, 0) == -1) ? le : ls) : ms;
+	    pt2 = online(l, m, 0) == -1
+	      ? (online(m, l, 0) == -1 ? le : ls) : ms;
 	} else {
 	    /* may be degenerate? */
 	    if (online(m, l, 0) != -1)
@@ -164,7 +160,7 @@ static int intpoint(vertex *l, vertex *m, double *x, double *y, int cond)
 	    *y = me.y;
 	}
     }				/* end switch  */
-    return (1);
+    return 1;
 }
 
 static void
@@ -187,12 +183,9 @@ realIntersect (vertex *firstv, vertex *secondv, pointf p)
     vsd = secondv->pos;
     avsd = after(secondv)->pos;
 
-    if (((vft.x != avft.x) && (vsd.x != avsd.x)) ||
-	((vft.x == avft.x) &&
-	 !EQ_PT(vft, p) &&
-	 !EQ_PT(avft, p)) ||
-	((vsd.x == avsd.x) &&
-	 !EQ_PT(vsd, p) && !EQ_PT(avsd, p))) 
+    if ((vft.x != avft.x && vsd.x != avsd.x) ||
+	(vft.x == avft.x && !EQ_PT(vft, p) && !EQ_PT(avft, p)) ||
+	(vsd.x == avsd.x && !EQ_PT(vsd, p) && !EQ_PT(avsd, p))) 
     {
 	if (Verbose > 1) {
 		fprintf(stderr, "\nintersection at %.3f %.3f\n",
@@ -225,12 +218,11 @@ static int find_intersection(vertex *l,
 	sgnarea(m, l, i);
 	if (i[2] > 0)
 	    return 0;
-	if (!intpoint
-	    (l, m, &x, &y, (i[2] < 0) ? 3 : online(m, l, abs(i[0]))))
+	if (!intpoint(l, m, &x, &y, i[2] < 0 ? 3 : online(m, l, abs(i[0]))))
 	    return 0;
     }
 
-    else if (!intpoint(l, m, &x, &y, (i[0] == i[1]) ?
+    else if (!intpoint(l, m, &x, &y, i[0] == i[1] ?
 		       2 * MAX(online(l, m, 0),
 			       online(l, m, 1)) : online(l, m, abs(i[0]))))
 	return 0;
@@ -259,11 +251,11 @@ static int gt(vertex **i, vertex **j)
     /* i > j if i.x > j.x or i.x = j.x and i.y > j.y  */
     double t;
     if ((t = (*i)->pos.x - (*j)->pos.x) != 0.)
-	return ((t > 0.) ? 1 : -1);
+	return t > 0. ? 1 : -1;
     if ((t = (*i)->pos.y - (*j)->pos.y) == 0.)
-	return (0);
+	return 0;
     else
-	return ((t > 0.) ? 1 : -1);
+	return t > 0. ? 1 : -1;
 }
 
 /* find_ints:
