@@ -1118,7 +1118,7 @@ void dumpOpts (ipsep_options* opp, int nv)
  * mode will be MODE_MAJOR, MODE_HIER or MODE_IPSEP
  */
 static void
-majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int steps, adjust_data* am)
+majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, adjust_data* am)
 {
     double **coords;
     int ne;
@@ -1357,7 +1357,7 @@ neatoLayout(Agraph_t * mg, Agraph_t * g, int layoutMode, int layoutModel,
     else if (layoutMode == MODE_SGD)
 	sgd(g, layoutModel);
     else
-	majorization(mg, g, nG, layoutMode, layoutModel, Ndim, MaxIter, am);
+	majorization(mg, g, nG, layoutMode, layoutModel, Ndim, am);
 }
 
 /* addZ;
