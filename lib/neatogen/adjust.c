@@ -589,7 +589,6 @@ static int sAdjust(void)
     int iterCnt = 0;
     int overlapCnt = 0;
     int cnt;
-    Point center;
 
     if (!useIter || iterations > 0)
 	overlapCnt = countOverlap(iterCnt);
@@ -598,8 +597,6 @@ static int sAdjust(void)
 	return 0;
 
     rmEquality();
-    center.x = (pxmin + pxmax) / 2.0;
-    center.y = (pymin + pymax) / 2.0;
     while (1) {
 	rePos();
 	iterCnt++;
