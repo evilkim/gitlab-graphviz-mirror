@@ -70,7 +70,7 @@ typedef struct _ArcBall_t ArcBall_t;
 
 #define GLOBAL_Z_OFFSET			0.001
 
-#define MAX_ZOOM	500
+#define MAX_ZOOM	500.0f
 #define MIN_ZOOM	0.005f
 #define ZOOM_STEPS	100
 
