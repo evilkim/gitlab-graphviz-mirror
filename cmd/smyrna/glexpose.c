@@ -134,14 +134,14 @@ static void glexpose_grid(ViewInfo * vi)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:1 if there is a graph to draw else 0 
 */
-static int glexpose_drawgraph(ViewInfo * view)
+static int glexpose_drawgraph(ViewInfo * vi)
 {
 
-    if (view->activeGraph > -1) {
-	if (!view->Topview->fisheyeParams.active)
-	    renderSmGraph(view->g[view->activeGraph],view->Topview);	    
+    if (vi->activeGraph > -1) {
+	if (!vi->Topview->fisheyeParams.active)
+	    renderSmGraph(vi->g[vi->activeGraph],vi->Topview);
 	else {
-	    drawtopologicalfisheye(view->Topview);
+	    drawtopologicalfisheye(vi->Topview);
 	}
 
 	return 1;
