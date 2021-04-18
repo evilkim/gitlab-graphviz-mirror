@@ -577,6 +577,24 @@ def test_1869(variant: int):
     assert 'style=dashed' in output, 'style=dashed not found in DOT output'
     assert 'penwidth=2' in output, 'penwidth=2 not found in DOT output'
 
+@pytest.mark.xfail(strict=True)
+def test_1879():
+  """https://gitlab.com/graphviz/graphviz/-/issues/1879"""
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1879.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with DOT
+  stdout = subprocess.check_output(["dot", "-Tsvg", "-o", os.devnull, input],
+                                   cwd=Path(__file__).parent,
+                                   stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+
+  # check we did not trigger an assertion failure
+  print(stdout)
+  assert re.search(r"\bAssertion\b.*\bfailed\b", stdout) is None
+
 def test_1893():
     '''
     an HTML label containing just a ] should work
