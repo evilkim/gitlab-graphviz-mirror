@@ -117,7 +117,7 @@ void PQinitialize(void)
     PQhashsize = 4 * sqrt_nsites;
     if (PQhash == NULL)
 	PQhash = N_GNEW(PQhashsize, Halfedge);
-    for (i = 0; i < PQhashsize; i += 1)
+    for (i = 0; i < PQhashsize; ++i)
 	PQhash[i].PQnext = NULL;
 }
 
