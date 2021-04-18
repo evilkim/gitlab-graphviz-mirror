@@ -1122,7 +1122,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
 {
     double **coords;
     int ne;
-    int i, rv = 0;
+    int rv = 0;
     node_t *v;
     vtx_data *gp;
     node_t** nodes;
@@ -1139,7 +1139,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
 
     coords = N_GNEW(dim, double *);
     coords[0] = N_GNEW(nv * dim, double);
-    for (i = 1; i < Ndim; i++) {
+    for (int i = 1; i < Ndim; i++) {
 	coords[i] = coords[0] + i * nv;
     }
     if (Verbose) {
@@ -1213,15 +1213,18 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
             else opt.gap.x = opt.gap.y = 2.0*PS2INCH(DFLT_MARGIN);
 	    if(Verbose)
 		fprintf(stderr,"gap=%f,%f\n",opt.gap.x,opt.gap.y);
-            for (i=0, v = agfstnode(g); v; v = agnxtnode(g, v),i++) {
-                nsize[i].x = ND_width(v);
-                nsize[i].y = ND_height(v);
+            {
+                size_t i = 0;
+                for (v = agfstnode(g); v; v = agnxtnode(g, v),i++) {
+                    nsize[i].x = ND_width(v);
+                    nsize[i].y = ND_height(v);
+                }
             }
 
 #ifdef DEBUG_COLA
 	    fprintf (stderr, "nv %d ne %d Ndim %d model %d MaxIter %d\n", nv, ne, Ndim, model, MaxIter);
 	    fprintf (stderr, "Nodes:\n");
-	    for (i = 0; i < nv; i++) {
+	    for (int i = 0; i < nv; i++) {
 		fprintf (stderr, "  %s (%f,%f)\n", nodes[i]->name, coords[0][i],  coords[1][i]);
 	    }
 	    fprintf (stderr, "\n");
@@ -1244,8 +1247,7 @@ majorization(graph_t *mg, graph_t * g, int nv, int mode, int model, int dim, int
     }
     else for (v = agfstnode(g); v; v = agnxtnode(g, v)) { /* store positions back in nodes */
 	int idx = ND_id(v);
-	int i;
-	for (i = 0; i < Ndim; i++) {
+	for (int i = 0; i < Ndim; i++) {
 	    ND_pos(v)[i] = coords[i][idx];
 	}
     }
