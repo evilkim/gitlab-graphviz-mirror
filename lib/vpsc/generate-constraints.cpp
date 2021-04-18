@@ -61,12 +61,10 @@ struct Node {
 	void setNeighbours(const NodeSet &left, const NodeSet &right) {
 		leftNeighbours=left;
 		rightNeighbours=right;
-		for(NodeSet::iterator i=left.begin();i!=left.end();i++) {
-			Node *v=*(i);
+		for(Node *v : left) {
 			v->addRightNeighbour(this);
 		}
-		for(NodeSet::iterator i=right.begin();i!=right.end();i++) {
-			Node *v=*(i);
+		for(Node *v : right) {
 			v->addLeftNeighbour(this);
 		}
 	}
