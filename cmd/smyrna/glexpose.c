@@ -109,19 +109,19 @@ static int glupdatecamera(ViewInfo * vi)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:none
 */
-static void glexpose_grid(ViewInfo * view)
+static void glexpose_grid(ViewInfo * vi)
 {
     //drawing grids
     float x, y;
-    if (view->gridVisible) {
+    if (vi->gridVisible) {
 	glPointSize(1);
 	glBegin(GL_POINTS);
-	glColor4f(view->gridColor.R, view->gridColor.G, view->gridColor.B,
-		  view->gridColor.A);
-	for (x = view->bdxLeft; x <= view->bdxRight;
-	     x = x + view->gridSize) {
-	    for (y = view->bdyBottom; y <= view->bdyTop;
-		 y = y + view->gridSize) {
+	glColor4f(vi->gridColor.R, vi->gridColor.G, vi->gridColor.B,
+		  vi->gridColor.A);
+	for (x = vi->bdxLeft; x <= vi->bdxRight;
+	     x = x + vi->gridSize) {
+	    for (y = vi->bdyBottom; y <= vi->bdyTop;
+		 y = y + vi->gridSize) {
 		glVertex3f(x, y, 0);
 	    }
 	}
