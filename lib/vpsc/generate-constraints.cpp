@@ -101,7 +101,7 @@ static NodeSet* getLeftNeighbours(NodeSet &scanline,Node *v) {
 	}
 	return leftv;
 }
-NodeSet* getRightNeighbours(NodeSet &scanline,Node *v) {
+static NodeSet* getRightNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet *rightv = new NodeSet;
 	NodeSet::iterator i=scanline.find(v);
 	for(i++;i!=scanline.end(); i++) {
