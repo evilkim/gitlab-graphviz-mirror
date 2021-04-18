@@ -311,7 +311,7 @@ static int user_spline(attrsym_t * E_pos, edge_t * e)
 		gv_free_splines(e);
 		return 0;
 	    }
-	    pos = pos + nc;
+	    pos += nc;
 	    pp->x = x;
 	    pp->y = y;
 	    pp++;
