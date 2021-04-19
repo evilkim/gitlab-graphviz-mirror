@@ -65,9 +65,11 @@ void save_as_graph_clicked(GtkWidget * widget, gpointer user_data)
 
 void remove_graph_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     g_print("remove graph button fired\n");
 }
-
 
 static void btn_clicked(GtkWidget * widget, gvk_layout layout)
 {
