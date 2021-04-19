@@ -195,6 +195,9 @@ _BB void on_clearconsolebtn_clicked(GtkWidget * widget, gpointer user_data)
 
 _BB void on_hideconsolebtn_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     gtk_widget_hide(glade_xml_get_widget(xml, "vbox13"));
 }
 
