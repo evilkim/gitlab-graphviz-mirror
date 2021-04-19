@@ -184,11 +184,15 @@ void frmObjectBtnCancel_clicked(GtkWidget * widget, gpointer user_data)
 /*console output widgets*/
 _BB void on_clearconsolebtn_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     gtk_text_buffer_set_text(gtk_text_view_get_buffer
 			     ((GtkTextView *)
 			      glade_xml_get_widget(xml, "mainconsole")),
 			     "", 0);
 }
+
 _BB void on_hideconsolebtn_clicked(GtkWidget * widget, gpointer user_data)
 {
     gtk_widget_hide(glade_xml_get_widget(xml, "vbox13"));
