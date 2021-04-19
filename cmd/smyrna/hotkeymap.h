@@ -34,7 +34,7 @@
 
 
 
-extern void load_mouse_actions (char* modefile,ViewInfo* v);
+extern void load_mouse_actions (ViewInfo* v);
 
 extern int get_mode(ViewInfo* v);
 extern int get_key_action(ViewInfo* v,int key);

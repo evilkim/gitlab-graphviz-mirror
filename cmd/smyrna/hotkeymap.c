@@ -110,7 +110,7 @@ static int get_drag(const char *s)
     return 0;
 }
 
-void load_mouse_actions(char *modefile, ViewInfo * v)
+void load_mouse_actions(ViewInfo * v)
 {
     /*file parsing is temporarrily not available */
     int i = 0;
