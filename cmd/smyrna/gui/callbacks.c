@@ -114,12 +114,7 @@ void btn_fdp_clicked(GtkWidget * widget, gpointer user_data)
 
 void on_newNode(GtkWidget * button, gpointer user_data)
 {
-    int *a;
-    int *b;
-    a = NEW(int);
-    b = NEW(int);
 }
-
 
 void dlgOpenGraph_OK_Clicked(GtkWidget * button, gpointer data)
 {
