@@ -10,7 +10,7 @@
 
 #include "hotkeymap.h"
 
-int static get_mouse_mode(const char *s)
+static int get_mouse_mode(const char *s)
 {
     if (strcmp(s, "MM_PAN") == 0)
 	return MM_PAN;
@@ -39,13 +39,10 @@ int static get_mouse_mode(const char *s)
     if (strcmp(s, "MM_FISHEYE_PICK") == 0)
 	return MM_FISHEYE_PICK;
 
-
     return -1;
-
 }
 
-
-int static get_button(const char *s)
+static int get_button(const char *s)
 {
     if(view->guiMode != GUI_FULLSCREEN)
     {
@@ -77,9 +74,9 @@ int static get_button(const char *s)
 	    return 0;
     }
     return 0;
-
 }
-int static get_view_mode(const char *s)
+
+static int get_view_mode(const char *s)
 {
     if (strcmp(s, "ALL") == 0)
 	return smyrna_all;
@@ -93,7 +90,8 @@ int static get_view_mode(const char *s)
 	return smyrna_all_but_fisheye;
     return -1;
 }
-int static get_mouse_button(const char *s)
+
+static int get_mouse_button(const char *s)
 {
 
     if (strcmp(s, "LEFT") == 0)
@@ -104,14 +102,13 @@ int static get_mouse_button(const char *s)
 	return glMouseMiddleButton;
     return -1;
 }
-int static get_drag(const char *s)
+
+static int get_drag(const char *s)
 {
     if (s[0] == '1')
 	return 1;
     return 0;
 }
-
-
 
 void load_mouse_actions(char *modefile, ViewInfo * v)
 {
