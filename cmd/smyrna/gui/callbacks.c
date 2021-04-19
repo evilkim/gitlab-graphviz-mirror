@@ -166,6 +166,9 @@ void frmObject_set_scroll(GtkWidget * widget, gpointer user_data)
 
 void frmObjectBtnOK_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     deselect_all(view->g[view->activeGraph]);
     gtk_widget_hide(glade_xml_get_widget(xml, "frmObject"));
 }
