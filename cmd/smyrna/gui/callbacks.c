@@ -73,7 +73,10 @@ void remove_graph_clicked(GtkWidget * widget, gpointer user_data)
 
 static void btn_clicked(GtkWidget * widget, gvk_layout layout)
 {
+    (void)widget;
+    (void)layout;
 }
+
 void btn_dot_clicked(GtkWidget * widget, gpointer user_data)
 {
     btn_clicked(widget, GVK_DOT);
