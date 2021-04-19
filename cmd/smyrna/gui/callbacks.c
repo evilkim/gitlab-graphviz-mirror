@@ -175,8 +175,10 @@ void frmObjectBtnOK_clicked(GtkWidget * widget, gpointer user_data)
 
 void frmObjectBtnCancel_clicked(GtkWidget * widget, gpointer user_data)
 {
-    gtk_widget_hide(glade_xml_get_widget(xml, "frmObject"));
+    (void)widget;
+    (void)user_data;
 
+    gtk_widget_hide(glade_xml_get_widget(xml, "frmObject"));
 }
 
 /*console output widgets*/
