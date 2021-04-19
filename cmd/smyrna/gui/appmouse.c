@@ -187,7 +187,7 @@ void appmouse_move(ViewInfo* v,int x,int y)
 {
     to3D( x,y, &v->mouse.GLpos.x,&v->mouse.GLpos.y,&v->mouse.GLpos.z);
 }
-void appmouse_key_release(ViewInfo* v,int key)
+void appmouse_key_release(ViewInfo* v)
 {
     if(lastAction==MM_POLYGON_SELECT)
     {
