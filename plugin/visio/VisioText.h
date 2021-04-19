@@ -11,6 +11,7 @@
 #pragma once
 
 #include <common/types.h>
+#include <string>
 
 namespace Visio
 {
@@ -59,8 +60,7 @@ namespace Visio
 	class Run
 	{
 	public:
-		Run(boxf bounds, char* text);
-		~Run();
+		Run(boxf bounds, const char* text);
 		
 		boxf GetBounds() const;		/* bounding box -- used by text logic */
 		
@@ -69,7 +69,7 @@ namespace Visio
 		
 	private:
 		boxf _bounds;
-		char* _text;
+		std::string _text;
 	};
 	
 	/* Para, Char and Run details for each Graphviz text */
@@ -79,19 +79,17 @@ namespace Visio
 	public:
 		static Text* CreateText(GVJ_t* job, pointf p, textspan_t* span);
 		
-		~Text();
-		
 		boxf GetBounds() const;
 		
 		void Print(GVJ_t* job) const;
 		void PrintRun(GVJ_t* job, unsigned int index) const;
 		
 	private:
-		Text(const Para &para, const Char &chars, Run* run);
+		Text(const Para &para, const Char &chars, const Run &run);
 		
 		Para _para;
 		Char _chars;
-		Run* _run;
+		Run _run;
 	};
 	
 	/* Hyperlink VDX element */
@@ -99,17 +97,14 @@ namespace Visio
 	class Hyperlink
 	{
 	public:
-		static Hyperlink* CreateHyperlink(GVJ_t* job, char* url, char* tooltip, char* target, char* id);
-		
-		Hyperlink(char* description, char* address, char* frame);
-		~Hyperlink();
+		Hyperlink(const char* description, const char* address, const char* frame);
 		
 		/* given the id, whether it is default, output the hyperlink */
 		void Print(GVJ_t* job, unsigned int id, bool isDefault) const;
 		
 	private:
-		char* _description;
-		char* _address;
-		char* _frame;
+		std::string _description;
+		std::string _address;
+		std::string _frame;
 	};
 }

@@ -216,9 +216,9 @@ namespace Visio
 		AddText(job, Text::CreateText(job, p, span));
 	}
 
-	void Render::AddAnchor(GVJ_t *job, char *url, char *tooltip, char *target, char *id)
+	void Render::AddAnchor(GVJ_t *job, char *url, char *tooltip, char *target, char*)
 	{
-		AddHyperlink(job, Hyperlink::CreateHyperlink(job, url, tooltip, target, id));
+		AddHyperlink(job, Hyperlink(url, tooltip, target));
 	}
 	
 	void Render::ClearGraphicsAndTexts()
@@ -230,9 +230,6 @@ namespace Visio
 			delete *nextText;
 		_texts.clear();
 
-		/* clear hyperlinks */
-		for (Hyperlinks::iterator nextHyperlink = _hyperlinks.begin(), lastHyperlink = _hyperlinks.end(); nextHyperlink != lastHyperlink; ++nextHyperlink)
-			delete *nextHyperlink;
 		_hyperlinks.clear();
 	}
 	
@@ -253,7 +250,7 @@ namespace Visio
 			_texts.push_back(text);
 	}
 
-	void Render::AddHyperlink(GVJ_t*, const Hyperlink* hyperlink)
+	void Render::AddHyperlink(GVJ_t*, const Hyperlink &hyperlink)
 	{
 		/* if in component, accumulate for end node/edge */
 		if (_inComponent)
@@ -471,9 +468,11 @@ namespace Visio
 	{
 		if (!_hyperlinks.empty())
 		{
-			_hyperlinks[0]->Print(job, ++_hyperlinkId, true);
-			for (Hyperlinks::iterator nextHyperlink = _hyperlinks.begin() + 1, lastHyperlink = _hyperlinks.end(); nextHyperlink != lastHyperlink; ++nextHyperlink)
-				(*nextHyperlink)->Print(job, ++_hyperlinkId, false);
+			bool first = true;
+			for (Hyperlink &h : _hyperlinks) {
+				h.Print(job, ++_hyperlinkId, first);
+				first = false;
+			}
 		}
 	}
 

@@ -17,7 +17,9 @@
 #include <cstdlib>
 #include <string.h>
 
-extern "C" char *xml_string(char* str);
+// slight lie that this function takes a const pointer (it does not, but we know
+// it does not modify its argument)
+extern "C" char *xml_string(const char* str);
 
 namespace Visio
 {
@@ -51,16 +53,10 @@ namespace Visio
 		gvputs(job, "</Para>\n");
 	}
 	
-	Run::Run(boxf bounds, char* text):
+	Run::Run(boxf bounds, const char* text):
 		_bounds(bounds),
-		_text(strdup(text))	/* copy text */
+		_text(text)	/* copy text */
 	{
-	}
-	
-	Run::~Run()
-	{
-		/* since we copied, we need to free */
-		free(_text);
 	}
 	
 	boxf Run::GetBounds() const
@@ -70,7 +66,7 @@ namespace Visio
 	
 	void Run::Print(GVJ_t* job, unsigned int index) const
 	{
-		gvprintf(job, "<pp IX='%d'/><cp IX='%d'/>%s\n", index, index, _text ? xml_string(_text) : "");	/* para mark + char mark + actual text */
+		gvprintf(job, "<pp IX='%d'/><cp IX='%d'/>%s\n", index, index, xml_string(_text.c_str()));	/* para mark + char mark + actual text */
 	}
 	
 	Text* Text::CreateText(GVJ_t* job, pointf p, textspan_t* span)
@@ -110,27 +106,21 @@ namespace Visio
 				job->obj->pencolor.u.rgba[0],
 				job->obj->pencolor.u.rgba[1],
 				job->obj->pencolor.u.rgba[2]),
-			new Run(
+			Run(
 				bounds,
 				span->str));
 	}
 	
-	Text::Text(const Para &para, const Char &chars, Run* run):
+	Text::Text(const Para &para, const Char &chars, const Run &run):
 		_para(para),
 		_chars(chars),
 		_run(run)
 	{
 	}
 	
-	Text::~Text()
-	{
-		if (_run)
-			delete _run;
-	}
-	
 	boxf Text::GetBounds() const
 	{
-		return _run->GetBounds();
+		return _run.GetBounds();
 	}
 	
 	void Text::Print(GVJ_t* job) const
@@ -141,39 +131,24 @@ namespace Visio
 	
 	void Text::PrintRun(GVJ_t* job, unsigned int index) const
 	{
-		if (_run)
-			_run->Print(job, index);
+		_run.Print(job, index);
 	}
 
-	Hyperlink* Hyperlink::CreateHyperlink(GVJ_t*, char* url, char* tooltip, char* target, char*)
+	Hyperlink::Hyperlink(const char* description, const char* address,
+		const char* frame):
+		_description(description),
+		_address(address),
+		_frame(frame)
 	{
-		return new Hyperlink(tooltip, url, target);
-	}
-
-	Hyperlink::Hyperlink(char* description, char* address, char* frame):
-		_description(strdup(description)),
-		_address(strdup(address)),
-		_frame(strdup(frame))
-	{
-	}
-	
-	Hyperlink::~Hyperlink()
-	{
-		free(_description);
-		free(_address);
-		free(_frame);
 	}
 	
 	/* output the hyperlink */
 	void Hyperlink::Print(GVJ_t* job, unsigned int id, bool isDefault) const
 	{
 		gvprintf(job, "<Hyperlink ID='%d'>\n", id);
-		if (_description)
-			gvprintf(job, "<Description>%s</Description>\n", _description);
-		if (_address)
-			gvprintf(job, "<Address>%s</Address>\n", _address);
-		if (_frame)
-			gvprintf(job, "<Frame>%s</Frame>\n", _frame);
+		gvprintf(job, "<Description>%s</Description>\n", _description.c_str());
+		gvprintf(job, "<Address>%s</Address>\n", _address.c_str());
+		gvprintf(job, "<Frame>%s</Frame>\n", _frame.c_str());
 		if (isDefault)
 			gvputs(job, "<Default>1</Default>\n");
 		gvputs(job, "</Hyperlink>\n");
