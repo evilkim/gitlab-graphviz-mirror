@@ -26,6 +26,8 @@ extern GladeXML *xml;		//global libglade vars
 
 static ssize_t outfn(void *sp, const char *buf, size_t nbyte, void *dp)
 {
+    (void)sp;
+    (void)dp;
 
     append_textview((GtkTextView *)
 		    glade_xml_get_widget(xml, "gvprtextoutput"), buf,
