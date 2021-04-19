@@ -175,6 +175,9 @@ static void realize(GtkWidget * widget, gpointer data)
 static gboolean configure_event(GtkWidget * widget,
 				GdkEventConfigure * event, gpointer data)
 {
+    (void)event;
+    (void)data;
+
     int vPort[4];
     float aspect;
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
