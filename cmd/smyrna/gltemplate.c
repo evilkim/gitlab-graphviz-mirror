@@ -227,6 +227,9 @@ static gboolean configure_event(GtkWidget * widget,
 gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 		      gpointer data)
 {
+    (void)event;
+    (void)data;
+
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
     GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
 
