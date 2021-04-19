@@ -263,6 +263,9 @@ gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 static gboolean button_press_event(GtkWidget * widget,
 				   GdkEventButton * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     if (view->g == 0) return FALSE;
 
     begin_x = (float) event->x;
