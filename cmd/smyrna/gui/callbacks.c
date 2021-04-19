@@ -139,17 +139,13 @@ void on_dlgOpenGraph_btnOK_clicked(GtkWidget * widget, gpointer user_data)
 void on_dlgOpenGraph_btncancel_clicked(GtkWidget * widget,
 				       gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     gtk_dialog_response((GtkDialog *)
 			glade_xml_get_widget(xml, "dlgOpenGraph"),
 			GTK_RESPONSE_CANCEL);
-
 }
-
-
-
-
-
-
 
 void attr_widgets_modifiedSlot(GtkWidget * widget, gpointer user_data)
 {
