@@ -203,6 +203,9 @@ _BB void on_hideconsolebtn_clicked(GtkWidget * widget, gpointer user_data)
 
 _BB void on_consoledecbtn_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     int w, h;
     gtk_widget_get_size_request((GtkWidget*)
 				glade_xml_get_widget(xml,
