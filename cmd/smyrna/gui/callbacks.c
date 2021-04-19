@@ -158,8 +158,10 @@ void attr_widgets_modifiedSlot(GtkWidget * widget, gpointer user_data)
 
 void frmObject_set_scroll(GtkWidget * widget, gpointer user_data)
 {
-    g_print("scroll resize required\n");
+    (void)widget;
+    (void)user_data;
 
+    g_print("scroll resize required\n");
 }
 
 void frmObjectBtnOK_clicked(GtkWidget * widget, gpointer user_data)
