@@ -149,13 +149,12 @@ void on_dlgOpenGraph_btncancel_clicked(GtkWidget * widget,
 
 void attr_widgets_modifiedSlot(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+
     attr_widgets_modified[*(int *) user_data] = 1;
     g_print("attr changed signal..incoming data : %i\n",
 	    *(int *) user_data);
-
 }
-
-
 
 void frmObject_set_scroll(GtkWidget * widget, gpointer user_data)
 {
