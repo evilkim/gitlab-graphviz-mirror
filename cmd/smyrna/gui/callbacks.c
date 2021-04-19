@@ -114,6 +114,8 @@ void btn_fdp_clicked(GtkWidget * widget, gpointer user_data)
 
 void on_newNode(GtkWidget * button, gpointer user_data)
 {
+   (void)button;
+   (void)user_data;
 }
 
 void dlgOpenGraph_OK_Clicked(GtkWidget * button, gpointer data)
