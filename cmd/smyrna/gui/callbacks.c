@@ -123,11 +123,10 @@ void on_newNode(GtkWidget * button, gpointer user_data)
 
 void dlgOpenGraph_OK_Clicked(GtkWidget * button, gpointer data)
 {
+    (void)button;
+
     g_print("ok is pressed - %i was pressed\n", *(int *) data);
-
-
 }
-
 
 //dlgOpenGraph btnOK clicked
 void on_dlgOpenGraph_btnOK_clicked(GtkWidget * widget, gpointer user_data)
