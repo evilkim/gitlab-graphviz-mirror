@@ -316,6 +316,9 @@ static gboolean button_release_event(GtkWidget * widget,
 }
 static gboolean key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     appmouse_key_press(view,event->keyval);
     return FALSE;
 }
