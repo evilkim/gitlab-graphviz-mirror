@@ -79,6 +79,8 @@ static void btn_clicked(GtkWidget * widget, gvk_layout layout)
 
 void btn_dot_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)user_data;
+
     btn_clicked(widget, GVK_DOT);
 }
 
