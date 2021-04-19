@@ -228,7 +228,7 @@ _BB void on_consoleincbtn_clicked(GtkWidget * widget, gpointer user_data)
 				glade_xml_get_widget(xml,
 						     "scrolledwindow7"),
 				&w, &h);
-    w = w + 5;
+    w += 5;
     gtk_widget_set_size_request(((GtkWidget*)
 				 glade_xml_get_widget(xml,
 						      "scrolledwindow7")),
