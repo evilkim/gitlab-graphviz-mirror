@@ -292,6 +292,9 @@ static gboolean button_press_event(GtkWidget * widget,
 static gboolean button_release_event(GtkWidget * widget,
 				     GdkEventButton * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     if (view->widgets == 0) return FALSE;
     view->FontSizeConst = GetOGLDistance(14);
     view->arcball->isDragging = 0;
