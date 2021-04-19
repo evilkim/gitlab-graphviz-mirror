@@ -40,6 +40,9 @@ void save_graph_clicked(GtkWidget * widget, gpointer user_data)
 
 void save_as_graph_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     GtkWidget *dialog;
     dialog = gtk_file_chooser_dialog_new("Save File",
 					 NULL,
@@ -58,9 +61,6 @@ void save_as_graph_clicked(GtkWidget * widget, gpointer user_data)
 	g_free(filename);
     }
     gtk_widget_destroy(dialog);
-
-
-
 }
 
 void remove_graph_clicked(GtkWidget * widget, gpointer user_data)
