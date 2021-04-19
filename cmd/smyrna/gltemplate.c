@@ -129,6 +129,7 @@ static void examine_gl_config_attrib(GdkGLConfig * glconfig)
 */
 static void realize(GtkWidget * widget, gpointer data)
 {
+    (void)data;
 
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
     GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
