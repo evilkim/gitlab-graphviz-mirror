@@ -79,13 +79,6 @@ static int singleclick(ViewInfo* v)
        return(((int)v->mouse.initPos.x == (int)v->mouse.finalPos.x) && ((int)v->mouse.initPos.y == (int)v->mouse.finalPos.y));
 
 }
-static void appmouse_left_click(ViewInfo* v,int x,int y)
-{
-
-}
-static void appmouse_right_click(ViewInfo* v,int x,int y)
-{
-}
 static void appmouse_down(ViewInfo* v,int x,int y)
 {
     view->mouse.dragX = 0;
@@ -110,10 +103,12 @@ static void appmouse_up(ViewInfo* v,int x,int y)
     to3D(x,y, &v->mouse.GLfinalPos.x,&v->mouse.GLfinalPos.y,&v->mouse.GLfinalPos.z);
     if(singleclick(v))
     {
-	if (v->mouse.t==glMouseLeftButton)
-	    appmouse_left_click(v,x,y);
-	if (v->mouse.t==glMouseRightButton)
-	    appmouse_right_click(v,x,y);
+	if (v->mouse.t==glMouseLeftButton) {
+	    // no-op
+	}
+	if (v->mouse.t==glMouseRightButton) {
+	    // no-op
+	}
     }
     apply_actions(v,x,y);
     view->mouse.dragX = 0;
