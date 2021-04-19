@@ -263,10 +263,7 @@ gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 static gboolean button_press_event(GtkWidget * widget,
 				   GdkEventButton * event, gpointer data)
 {
-    Agraph_t* g;
-
     if (view->g == 0) return FALSE;
-    g=view->g[view->activeGraph];
 
     begin_x = (float) event->x;
     begin_y = (float) event->y;
