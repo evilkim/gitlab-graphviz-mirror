@@ -335,6 +335,9 @@ static gboolean key_release_event(GtkWidget * widget, GdkEventKey * event, gpoin
 static gboolean
 scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     gdouble seconds;
 
     seconds = g_timer_elapsed(view->timer2, NULL);
