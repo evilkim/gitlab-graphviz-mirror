@@ -364,6 +364,8 @@ scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 static gboolean motion_notify_event(GtkWidget * widget,
 				    GdkEventMotion * event, gpointer data)
 {
+    (void)data;
+
     float x = (float) event->x;
     float y = (float) event->y;
 
