@@ -138,15 +138,6 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	return NULL;
 }
 
-void display() 
-{
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   glLoadIdentity();
-   glexpose_main(view);
-   glutSwapBuffers();
-
-}
-
 static void windowedMode(int argc, char *argv[])
 {
     GdkGLConfig *glconfig;
