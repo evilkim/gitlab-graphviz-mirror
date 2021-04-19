@@ -131,6 +131,9 @@ void dlgOpenGraph_OK_Clicked(GtkWidget * button, gpointer data)
 //dlgOpenGraph btnOK clicked
 void on_dlgOpenGraph_btnOK_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)widget;
+    (void)user_data;
+
     if (update_graph_properties(view->g[view->activeGraph]))
 	gtk_dialog_response((GtkDialog *)
 			    glade_xml_get_widget(xml, "dlgOpenGraph"),
