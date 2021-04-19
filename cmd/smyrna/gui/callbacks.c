@@ -107,6 +107,8 @@ void btn_circo_clicked(GtkWidget * widget, gpointer user_data)
 
 void btn_fdp_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)user_data;
+
     btn_clicked(widget, GVK_FDP);
 }
 
