@@ -93,6 +93,8 @@ void btn_neato_clicked(GtkWidget * widget, gpointer user_data)
 
 void btn_twopi_clicked(GtkWidget * widget, gpointer user_data)
 {
+    (void)user_data;
+
     btn_clicked(widget, GVK_TWOPI);
 }
 
