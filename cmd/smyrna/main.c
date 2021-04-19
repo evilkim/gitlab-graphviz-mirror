@@ -99,7 +99,7 @@ static char *Info[] = {
 
 static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 {
-    unsigned int c;
+    int c;
 
     while ((c = getopt(argc, argv, ":eKf:txvV?")) != -1) {
 	switch (c) {
