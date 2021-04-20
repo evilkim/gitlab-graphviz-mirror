@@ -28,26 +28,27 @@ static void vdxgen_begin_job(GVJ_t * job)
 
 static void vdxgen_end_job(GVJ_t* job)
 {
-	delete (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
+	delete context;
 }
 
 static void vdxgen_begin_graph(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->BeginGraph(job);
 }
 
 static void vdxgen_end_graph(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->EndGraph(job);
 }
 
 static void vdxgen_begin_page(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->BeginPage(job);
 	
@@ -55,21 +56,21 @@ static void vdxgen_begin_page(GVJ_t * job)
 
 static void vdxgen_end_page(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->EndPage(job);	
 }
 
 static void vdxgen_begin_node(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->BeginNode(job);	
 }
 
 static void vdxgen_end_node(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->EndNode(job);
 }
@@ -77,56 +78,56 @@ static void vdxgen_end_node(GVJ_t * job)
 static void
 vdxgen_begin_edge(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->BeginEdge(job);	
 }
 
 static void vdxgen_end_edge(GVJ_t * job)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->EndEdge(job);
 }
 
 static void vdxgen_begin_anchor(GVJ_t *job, char *url, char *tooltip, char *target, char *id)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddAnchor(job, url, tooltip, target, id);
 }
 
 static void vdxgen_textspan(GVJ_t * job, pointf p, textspan_t * span)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddText(job, p, span);	
 }
 
 static void vdxgen_ellipse(GVJ_t * job, pointf * A, int filled)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddEllipse(job, A, filled);
 }
 
 static void vdxgen_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start, int arrow_at_end, int filled)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddBezier(job, A, n, arrow_at_start, arrow_at_end, filled);
 }
 
 static void vdxgen_polygon(GVJ_t * job, pointf * A, int n, int filled)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddPolygon(job, A, n, filled);
 }
 
 static void vdxgen_polyline(GVJ_t * job, pointf * A, int n)
 {
-	Visio::Render* context = (Visio::Render*)job->context;
+	auto context = reinterpret_cast<Visio::Render*>(job->context);
 	if (context)
 		context->AddPolyline(job, A, n);
 }
