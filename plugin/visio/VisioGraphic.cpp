@@ -114,7 +114,7 @@ namespace Visio
 		
 	const Connection* Ellipse::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	Path::Path(pointf* points, int pointCount)
@@ -293,7 +293,7 @@ namespace Visio
 	
 	const Connection* Polygon::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	void Polygon::Print(GVJ_t* job, pointf first, pointf last, bool) const
@@ -347,7 +347,7 @@ namespace Visio
 	
 	const Connection* Polyline::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	void Polyline::Print(GVJ_t* job, pointf first, pointf last, bool) const
@@ -418,7 +418,7 @@ namespace Visio
 				job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Ellipse(A, filled));
 	}
 	
@@ -450,7 +450,7 @@ namespace Visio
 				job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Bezier(
 				A,
 				n,
@@ -482,7 +482,7 @@ namespace Visio
 			filled ? new Fill(job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Polygon(
 				A,
 				n,
@@ -511,7 +511,7 @@ namespace Visio
 				job->obj->pencolor.u.rgba[1],
 				job->obj->pencolor.u.rgba[2],
 				pattern),
-			NULL,		/* polylines have no fill */
+			nullptr,		/* polylines have no fill */
 			new Polyline(
 				A,
 				n));

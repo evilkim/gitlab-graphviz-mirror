@@ -172,7 +172,7 @@ gvrender_features_t render_features_vdx = {
 		| GVRENDER_DOES_TOOLTIPS
 		| GVRENDER_NO_WHITE_BG,
 	4.,          /* default pad - graph units */
-    NULL,		/* knowncolors */
+    nullptr,		/* knowncolors */
     0,			/* sizeof knowncolors */
     RGBA_BYTE,			/* color_type */
 };
@@ -188,11 +188,11 @@ extern "C"
 {
 gvplugin_installed_t gvrender_vdx_types[] = {
     {0, "visio", 1, &vdxgen_engine, &render_features_vdx},
-    {0, NULL, 0, NULL, NULL}
+    {0, nullptr, 0, nullptr, nullptr}
 };
 
 gvplugin_installed_t gvdevice_vdx_types[] = {
-    {FORMAT_VDX, "vdx:visio", 1, NULL, &device_features_vdx},
-    {0, NULL, 0, NULL, NULL}
+    {FORMAT_VDX, "vdx:visio", 1, nullptr, &device_features_vdx},
+    {0, nullptr, 0, nullptr, nullptr}
 };
 }
