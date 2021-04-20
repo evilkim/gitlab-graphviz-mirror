@@ -66,7 +66,7 @@ namespace Visio
 	
 	void Run::Print(GVJ_t* job, unsigned int index) const
 	{
-		gvprintf(job, "<pp IX='%d'/><cp IX='%d'/>%s\n", index, index, xml_string(_text.c_str()));	/* para mark + char mark + actual text */
+		gvprintf(job, "<pp IX='%u'/><cp IX='%u'/>%s\n", index, index, xml_string(_text.c_str()));	/* para mark + char mark + actual text */
 	}
 	
 	Text* Text::CreateText(GVJ_t* job, pointf p, textspan_t* span)
@@ -145,7 +145,7 @@ namespace Visio
 	/* output the hyperlink */
 	void Hyperlink::Print(GVJ_t* job, unsigned int id, bool isDefault) const
 	{
-		gvprintf(job, "<Hyperlink ID='%d'>\n", id);
+		gvprintf(job, "<Hyperlink ID='%u'>\n", id);
 		gvprintf(job, "<Description>%s</Description>\n", _description.c_str());
 		gvprintf(job, "<Address>%s</Address>\n", _address.c_str());
 		gvprintf(job, "<Frame>%s</Frame>\n", _frame.c_str());

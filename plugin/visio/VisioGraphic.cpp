@@ -71,11 +71,11 @@ namespace Visio
 		gvprintf(job, "<LineWeight>%f</LineWeight>\n", _weight * job->scale.x * INCHES_PER_POINT);	/* scale line weight, VDX uses inches */
 		gvprintf(job, "<LineColor>#%02X%02X%02X</LineColor>\n", _red, _green, _blue);	/* VDX uses hex colors */
 		if (_pattern)
-			gvprintf(job, "<LinePattern>%d</LinePattern>\n", _pattern);
+			gvprintf(job, "<LinePattern>%u</LinePattern>\n", _pattern);
 		if (_beginArrow)
-			gvprintf(job, "<BeginArrow>%d</BeginArrow>\n", _beginArrow);
+			gvprintf(job, "<BeginArrow>%u</BeginArrow>\n", _beginArrow);
 		if (_endArrow)
-			gvprintf(job, "<EndArrow>%d</EndArrow>\n", _endArrow);	
+			gvprintf(job, "<EndArrow>%u</EndArrow>\n", _endArrow);	
 		gvputs(job, "</Line>\n");
 	}
 	

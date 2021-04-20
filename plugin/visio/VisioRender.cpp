@@ -261,7 +261,7 @@ namespace Visio
 	{
 		boxf bounds = graphic.GetBounds();
 		
-		gvprintf(job, "<Shape ID='%d' Type='Shape'>\n", ++_shapeId);
+		gvprintf(job, "<Shape ID='%u' Type='Shape'>\n", ++_shapeId);
 		
 		gvputs(job, "<XForm>\n");
 		gvprintf(job, "<PinX>%f</PinX>\n", (bounds.LL.x + bounds.UR.x) * 0.5 * INCHES_PER_POINT);
@@ -298,14 +298,14 @@ namespace Visio
 		if (isfinite(yscale) == 0)
 			yscale = 0.0;
 		
-		gvprintf(job, "<Shape ID='%d' Type='Shape'>\n", ++_shapeId);
+		gvprintf(job, "<Shape ID='%u' Type='Shape'>\n", ++_shapeId);
 		
 		/* inner XForm is based on width or height of outer Shape */
 		gvputs(job, "<XForm>\n");
-		gvprintf(job, "<PinX F='Sheet.%d!Width*%f' />\n", outerId, (((innerBounds.LL.x + innerBounds.UR.x) * 0.5) - outerBounds.LL.x) * xscale);
-		gvprintf(job, "<PinY F='Sheet.%d!Height*%f' />\n", outerId, (((innerBounds.LL.y + innerBounds.UR.y) * 0.5) - outerBounds.LL.y) * yscale);
-		gvprintf(job, "<Width F='Sheet.%d!Width*%f' />\n", outerId, (innerBounds.UR.x - innerBounds.LL.x) * xscale);
-		gvprintf(job, "<Height F='Sheet.%d!Height*%f' />\n", outerId, (innerBounds.UR.y - innerBounds.LL.y) * yscale);
+		gvprintf(job, "<PinX F='Sheet.%u!Width*%f' />\n", outerId, (((innerBounds.LL.x + innerBounds.UR.x) * 0.5) - outerBounds.LL.x) * xscale);
+		gvprintf(job, "<PinY F='Sheet.%u!Height*%f' />\n", outerId, (((innerBounds.LL.y + innerBounds.UR.y) * 0.5) - outerBounds.LL.y) * yscale);
+		gvprintf(job, "<Width F='Sheet.%u!Width*%f' />\n", outerId, (innerBounds.UR.x - innerBounds.LL.x) * xscale);
+		gvprintf(job, "<Height F='Sheet.%u!Height*%f' />\n", outerId, (innerBounds.UR.y - innerBounds.LL.y) * yscale);
 		gvputs(job, "</XForm>\n");
 		
 		gvputs(job, "<Misc>\n");
@@ -328,7 +328,7 @@ namespace Visio
 			bool zeroWidth = first.x == last.x;
 			bool zeroHeight = first.y == last.y;
 
-			gvprintf(job, "<Shape ID='%d' Type='Shape'>\n", ++_shapeId);
+			gvprintf(job, "<Shape ID='%u' Type='Shape'>\n", ++_shapeId);
 			
 			/* XForm depends on XForm1D */
 			gvputs(job, "<XForm>\n");
@@ -364,8 +364,8 @@ namespace Visio
 			gvputs(job, "<GlueType>2</GlueType>\n");
 			if (beginId && endId)
 			{
-				gvprintf(job, "<BegTrigger F='_XFTRIGGER(Sheet.%d!EventXFMod)'/>\n", beginId);
-				gvprintf(job, "<EndTrigger F='_XFTRIGGER(Sheet.%d!EventXFMod)'/>\n", endId);
+				gvprintf(job, "<BegTrigger F='_XFTRIGGER(Sheet.%u!EventXFMod)'/>\n", beginId);
+				gvprintf(job, "<EndTrigger F='_XFTRIGGER(Sheet.%u!EventXFMod)'/>\n", endId);
 			}
 			gvputs(job, "<ObjType>2</ObjType>\n");
 			gvputs(job, "</Misc>\n");
