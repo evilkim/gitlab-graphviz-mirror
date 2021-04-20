@@ -12,6 +12,7 @@
 
 #include <common/types.h>
 #include <memory>
+#include <vector>
 
 namespace Visio
 {
@@ -93,13 +94,12 @@ namespace Visio
 	{
 	public:
 		Path(pointf* points, int pointCount);
-		~Path();
+		virtual ~Path() = default;
 		
 		virtual boxf GetBounds() const;
 		
 	protected:
-		pointf* _points;
-		int _pointCount;
+		std::vector<pointf> _points;
 	};
 		
 	class Bezier: public Path, public Connection
