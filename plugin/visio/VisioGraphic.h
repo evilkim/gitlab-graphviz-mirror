@@ -80,10 +80,10 @@ namespace Visio
 	public:
 		Ellipse(pointf* points, bool filled);
 		
-		virtual boxf GetBounds() const;
-		virtual const Connection* GetConnection() const;
+		boxf GetBounds() const final;
+		const Connection* GetConnection() const final;
 
-		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
+		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const final;
 
 	private:
 		bool _filled;
@@ -96,7 +96,7 @@ namespace Visio
 		Path(pointf* points, int pointCount);
 		virtual ~Path() = default;
 		
-		virtual boxf GetBounds() const;
+		boxf GetBounds() const override;
 		
 	protected:
 		std::vector<pointf> _points;
@@ -107,14 +107,13 @@ namespace Visio
 	public:
 		Bezier(pointf* points, int pointCount, bool filled);
 		
-		virtual const Connection* GetConnection() const;
+		const Connection* GetConnection() const final;
 		
-		virtual pointf GetFirst() const;
-		virtual pointf GetLast() const;
-		virtual pointf GetCenter() const;		
+		pointf GetFirst() const final;
+		pointf GetLast() const final;
+		pointf GetCenter() const final;
 
-		virtual void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
-		
+		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const final;
 
 	private:
 		bool _filled;
@@ -125,9 +124,9 @@ namespace Visio
 	public:
 		Polygon(pointf* points, int pointCount, bool filled);
 		
-		virtual const Connection* GetConnection() const;
+		const Connection* GetConnection() const final;
 		
-		virtual void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
+		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const final;
 
 	private:
 		bool _filled;
@@ -138,9 +137,9 @@ namespace Visio
 	public:
 		Polyline(pointf* points, int pointCount);
 		
-		virtual const Connection* GetConnection() const;
+		const Connection* GetConnection() const final;
 
-		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const;
+		void Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const final;
 
 	};
 	
