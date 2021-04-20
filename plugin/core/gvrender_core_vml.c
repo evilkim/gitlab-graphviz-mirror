@@ -94,6 +94,8 @@ static void vml_print_color(GVJ_t * job, gvcolor_t color)
 
 static void vml_grstroke(GVJ_t * job, int filled)
 {
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     gvputs(job, "<v:stroke color=\"");
@@ -123,12 +125,12 @@ static void vml_grfill(GVJ_t * job, int filled)
 }
 
 /*  html_string is a modified version of xml_string  */
-char *html_string(char *s)
+static char *html_string(char *s)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
+    static size_t bufsize = 0;
     char *p, *sub, *prev = NULL;
-    int len, pos = 0;
+    size_t len, pos = 0;
     int temp,cnt,remaining=0;
     char workstr[16];
     uint64_t charnum=0;
@@ -204,7 +206,7 @@ char *html_string(char *s)
             sub=&workstr[14];
             len=3; /*  &#  + ;  */
             do {
-              temp=charnum%10;
+              temp=(int)(charnum%10);
               *(sub--)=(char)((int)'0'+ temp);
               charnum/=10;
               len++;
@@ -349,6 +351,8 @@ static void vml_end_graph(GVJ_t * job)
 static void
 vml_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *target, char *id)
 {
+    (void)id;
+
     gvputs(job, "<a");
     if (href && href[0])
 	gvprintf(job, " href=\"%s\"", html_string(href));
@@ -465,6 +469,9 @@ static void
 vml_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 	      int arrow_at_end, int filled)
 {
+    (void)arrow_at_start;
+    (void)arrow_at_end;
+
     gvputs(job, " <v:shape style=\"position:absolute; ");
     gvprintf(job, " width: %d; height: %d\"", graphWidth, graphHeight);
 

@@ -28,8 +28,6 @@
 /* Number of points to split splines into */
 #define BEZIERSUBDIVISION 6
 
-#define PIC_COORDS_PER_LINE (16)        /* to avoid stdio BUF overflow */
-
 typedef enum { FORMAT_PIC, } format_type;
 
 static int onetime = TRUE;

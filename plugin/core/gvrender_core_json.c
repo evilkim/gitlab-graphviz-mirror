@@ -15,6 +15,7 @@
 #endif
 
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -136,7 +137,7 @@ static void indent(GVJ_t * job, int level)
 	gvputs(job, "  ");
 }
 
-static void set_attrwf(Agraph_t * g, int toplevel, int value)
+static void set_attrwf(Agraph_t * g, bool toplevel, bool value)
 {
     Agraph_t *subg;
     Agnode_t *n;
@@ -144,7 +145,7 @@ static void set_attrwf(Agraph_t * g, int toplevel, int value)
 
     AGATTRWF(g) = value;
     for (subg = agfstsubg(g); subg; subg = agnxtsubg(subg)) {
-	set_attrwf(subg, FALSE, value);
+	set_attrwf(subg, false, value);
     }
     if (toplevel) {
 	for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
@@ -707,13 +708,12 @@ static void json_end_graph(GVJ_t *job)
 
     g->clos->disc.io = &io;
 
-    set_attrwf(g, TRUE, FALSE);
+    set_attrwf(g, true, false);
     sp.Level = 0;
     sp.isLatin = GD_charset(g) == CHAR_LATIN1;
     sp.doXDot = job->render.id == FORMAT_JSON || job->render.id == FORMAT_XDOT_JSON;
     sp.Attrs_not_written_flag = 0;
     write_graph(g, job, TRUE, &sp);
-    /* agwrite(g, (FILE*)job); */
 }
 
 gvrender_engine_t json_engine = {

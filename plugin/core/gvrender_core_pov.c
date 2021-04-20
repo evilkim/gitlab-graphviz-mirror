@@ -290,50 +290,6 @@
 		gvprintf(job, POV_DEBUG, debug_str); \
 	} while (0)
 
-/*
-//png, gif, NO jpg!
-pigment
-{ image_map
-  { gif "image.gif"
-    map_type 1
-  }
-}
-*/
-
-/*
-#declare Sphere =
-sphere {
-  <0,0,0>, 1
-  pigment { rgb <1,0,0> }
-}
-#declare Min = min_extent ( Sphere );
-#declare Max = max_extent ( Sphere );
-object { Sphere }
-box {
-    Min, Max 
-    pigment { rgbf <1,1,1,0.5> }
-    scale<20,20,20>
-}
-*/
-
-/*
-STRING functions
-
-str( float , min_len , digits_after_dot )
-concat( STRING , STRING , [STRING ,...])
-chr( INT )
-substr( STRING , INT , INT )
-strupr( STRING ) 
-strlwr( STRING )
-vstr( vec_dimension , vec, sep_str, min_len, digits_after_dot )
-
-examples:
-#debug vstr(3, Min, ", ", 0, 3)                                                                                                                                                                                        
-#debug "\n*****************\n"
-#debug concat ( "Max =", vstr(3, Max, ", ", 0, 3), chr(13), chr(10) )
-*/
-
-
 #define DPI 72.0
 #define RENDERER_COLOR_TYPE RGBA_BYTE
 typedef enum { FORMAT_POV, } format_type;
@@ -358,42 +314,27 @@ static char *pov_knowncolors[] = { POV_COLORS };
 static float layerz = 0;
 static float z = 0;
 
-char *el(GVJ_t* job, char *template, ...)
+static char *el(GVJ_t* job, char *template, ...)
 {
-#if defined(HAVE_VASPRINTF)
-	char *str;
-	va_list arglist;
-
-	va_start(arglist, template);
-	vasprintf(&str, template, arglist);
-	va_end(arglist);
-
-	return str;
-#else
-	char buf[BUFSIZ];
 	int len;
 	char *str;
-	va_list arglist;
+	va_list arglist, arglist2;
 
 	va_start(arglist, template);
-	len = vsnprintf(buf, BUFSIZ, template, arglist);
+	va_copy(arglist2, arglist);
+	len = vsnprintf(NULL, 0, template, arglist);
 	if (len < 0) {
 		job->common->errorfn("pov renderer:el - %s\n", strerror(errno));
 		str = strdup ("");
 	}
-	else if (len >= BUFSIZ) {
-		str = malloc (len+1);
-		va_end(arglist);
-		va_start(arglist, template);
-		len = vsprintf(str, template, arglist);
-	}
 	else {
-		str = strdup (buf);
+		str = malloc ((size_t)len+1);
+		vsprintf(str, template, arglist2);
 	}
 	va_end(arglist);
+	va_end(arglist2);
 
 	return str;
-#endif
 }
 
 static char *pov_color_as_str(GVJ_t * job, gvcolor_t color, float transparency)
@@ -690,6 +631,10 @@ static void pov_ellipse(GVJ_t * job, pointf * A, int filled)
 static void pov_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 		       int arrow_at_end, int filled)
 {
+	(void)arrow_at_start;
+	(void)arrow_at_end;
+	(void)filled;
+
 	int i;
 	char *v, *x;
 	char *pov, *s, *r, *t, *p;
