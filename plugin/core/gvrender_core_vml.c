@@ -318,15 +318,15 @@ static void vml_begin_graph(GVJ_t * job)
     gvputs(job, "<BODY onload='browsercheck();'>\n");
     /* add 10pt pad to the bottom of the graph */
     gvputs(job, "<DIV id='_VML1_' style=\"position:relative; display:inline; visibility:hidden");
-    gvprintf(job, " width: %dpt; height: %dpt\">\n", graphWidth, 10+graphHeight);
+    gvprintf(job, " width: %upt; height: %upt\">\n", graphWidth, 10+graphHeight);
     gvputs(job, "<STYLE>\n");
     gvputs(job, "v\\:* { behavior: url(#default#VML);display:inline-block}\n"); 
     gvputs(job, "</STYLE>\n"); 
     gvputs(job, "<xml:namespace ns=\"urn:schemas-microsoft-com:vml\" prefix=\"v\" />\n"); 
 
     gvputs(job, " <v:group style=\"position:relative; ");
-    gvprintf(job, " width: %dpt; height: %dpt\"", graphWidth, graphHeight);
-    gvprintf(job, " coordorigin=\"0,0\" coordsize=\"%d,%d\" >", graphWidth, graphHeight);
+    gvprintf(job, " width: %upt; height: %upt\"", graphWidth, graphHeight);
+    gvprintf(job, " coordorigin=\"0,0\" coordsize=\"%u,%u\" >", graphWidth, graphHeight);
 }
 
 static void vml_end_graph(GVJ_t * job)
@@ -473,7 +473,7 @@ vml_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     (void)arrow_at_end;
 
     gvputs(job, " <v:shape style=\"position:absolute; ");
-    gvprintf(job, " width: %d; height: %d\"", graphWidth, graphHeight);
+    gvprintf(job, " width: %u; height: %u\"", graphWidth, graphHeight);
 
     vml_grfill(job, filled);
     gvputs(job, " >");
@@ -489,7 +489,7 @@ static void vml_polygon(GVJ_t * job, pointf * A, int n, int filled)
     double px,py;
 
     gvputs(job, " <v:shape style=\"position:absolute; ");
-    gvprintf(job, " width: %d; height: %d\"", graphWidth, graphHeight);
+    gvprintf(job, " width: %u; height: %u\"", graphWidth, graphHeight);
     vml_grfill(job, filled);
     gvputs(job, " >");
     vml_grstroke(job, filled);
@@ -515,7 +515,7 @@ static void vml_polyline(GVJ_t * job, pointf * A, int n)
     int i;
 
     gvputs(job, " <v:shape style=\"position:absolute; ");
-    gvprintf(job, " width: %d; height: %d\" filled=\"false\">", graphWidth, graphHeight);
+    gvprintf(job, " width: %u; height: %u\" filled=\"false\">", graphWidth, graphHeight);
     gvputs(job, "<v:path v=\"");
     for (i = 0; i < n; i++)
     {
