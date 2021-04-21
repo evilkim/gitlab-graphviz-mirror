@@ -10,7 +10,9 @@
 
 #include "config.h"
 
+#include <inttypes.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -50,7 +52,7 @@ static void tkgen_print_color(GVJ_t * job, gvcolor_t color)
 static void tkgen_print_tags(GVJ_t *job)
 {
     char *ObjType;
-    unsigned int ObjId;
+    uint64_t ObjId;
     obj_state_t *obj = job->obj;
     int ObjFlag;
 
@@ -103,7 +105,7 @@ static void tkgen_print_tags(GVJ_t *job)
 	assert (0);
 	break;
     }
-    gvprintf(job, " -tags {%d%s%p}", ObjFlag, ObjType, ObjId);
+    gvprintf(job, " -tags {%d%s0x%" PRIx64 "}", ObjFlag, ObjType, ObjId);
 }
 
 static void tkgen_canvas(GVJ_t * job)
