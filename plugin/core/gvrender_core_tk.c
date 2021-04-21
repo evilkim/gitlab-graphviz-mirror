@@ -159,6 +159,8 @@ static void tkgen_begin_node(GVJ_t * job)
 
 static void tkgen_begin_edge(GVJ_t * job)
 {
+	(void)job;
+
 	first_periphery = -1;     /* FIXME - this is an ugly ugly hack!  Need this one for arrowheads. */
 }
 
