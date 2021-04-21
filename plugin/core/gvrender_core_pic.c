@@ -436,6 +436,8 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 
 static void pic_polygon(GVJ_t * job, pointf * A, int n, int filled)
 {
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     int line_style;		/* solid, dotted, dashed */
