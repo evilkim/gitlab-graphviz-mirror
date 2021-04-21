@@ -440,10 +440,10 @@ static void pov_begin_graph(GVJ_t * job)
 	//setup scene
 	x = job->view.x / 2.0 * job->scale.x;
 	y = job->view.y / 2.0 * job->scale.y;
-	d = -500;
-	px = atanf(x / fabsf(d)) * 180 / M_PI * 2;
-	py = atanf(y / fabsf(d)) * 180 / M_PI * 2;
-	gvprintf(job, POV_CAMERA, x, y, d, x, y, 0.0,
+	d = 500;
+	px = atanf(x / d) * 180 / M_PI * 2;
+	py = atanf(y / d) * 180 / M_PI * 2;
+	gvprintf(job, POV_CAMERA, x, y, -500.0f, x, y, 0.0,
 		 (px > py ? px : py) * 1.2);
 	gvputs(job, POV_SKY_AND_GND);
 	gvputs(job, POV_LIGHT);
