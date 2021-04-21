@@ -393,6 +393,10 @@ static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
 static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 	      int arrow_at_end, int filled)
 {
+    (void)arrow_at_start;
+    (void)arrow_at_end;
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     int line_style;		/* solid, dotted, dashed */
