@@ -392,8 +392,6 @@ static void pov_begin_job(GVJ_t * job)
 
 static void pov_begin_graph(GVJ_t * job)
 {
-	float x, y, d, px, py;
-
 	gvprintf(job, "//*** begin_graph %s\n", agnameof(job->obj->u.g));
 #ifdef DEBUG
 	gvprintf(job, "// graph_index = %d, pages = %d, layer = %d/%d\n",
@@ -438,11 +436,11 @@ static void pov_begin_graph(GVJ_t * job)
 #endif
 
 	//setup scene
-	x = job->view.x / 2.0 * job->scale.x;
-	y = job->view.y / 2.0 * job->scale.y;
-	d = 500;
-	px = atanf(x / d) * 180 / M_PI * 2;
-	py = atanf(y / d) * 180 / M_PI * 2;
+	double x = job->view.x / 2.0 * job->scale.x;
+	double y = job->view.y / 2.0 * job->scale.y;
+	double d = 500;
+	double px = atan(x / d) * 180.0 / M_PI * 2.0;
+	double py = atan(y / d) * 180.0 / M_PI * 2.0;
 	gvprintf(job, POV_CAMERA, x, y, -500.0f, x, y, 0.0,
 		 (px > py ? px : py) * 1.2);
 	gvputs(job, POV_SKY_AND_GND);
