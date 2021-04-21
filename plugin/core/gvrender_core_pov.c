@@ -48,8 +48,8 @@
     "light_source { <1500,3000,-2500> color White }\n"
 
 #define POV_CAMERA \
-    "camera { location <%.3f , %.3f , %.3f>\n"\
-    "         look_at  <%.3f , %.3f , %.3f>\n"\
+    "camera { location <%.3f , %.3f , -500.000>\n"\
+    "         look_at  <%.3f , %.3f , 0.000>\n"\
     "         right x * image_width / image_height\n"\
     "         angle %.3f\n"\
     "}\n"
@@ -441,8 +441,7 @@ static void pov_begin_graph(GVJ_t * job)
 	double d = 500;
 	double px = atan(x / d) * 180.0 / M_PI * 2.0;
 	double py = atan(y / d) * 180.0 / M_PI * 2.0;
-	gvprintf(job, POV_CAMERA, x, y, -500.0f, x, y, 0.0,
-		 (px > py ? px : py) * 1.2);
+	gvprintf(job, POV_CAMERA, x, y, x, y, (px > py ? px : py) * 1.2);
 	gvputs(job, POV_SKY_AND_GND);
 	gvputs(job, POV_LIGHT);
 }
