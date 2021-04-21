@@ -16,6 +16,7 @@
 #define _GNU_SOURCE
 #include "config.h"
 
+#include <math.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -441,7 +442,7 @@ static void pov_begin_graph(GVJ_t * job)
 	double d = 500;
 	double px = atan(x / d) * 180.0 / M_PI * 2.0;
 	double py = atan(y / d) * 180.0 / M_PI * 2.0;
-	gvprintf(job, POV_CAMERA, x, y, x, y, (px > py ? px : py) * 1.2);
+	gvprintf(job, POV_CAMERA, x, y, x, y, fmax(px, py) * 1.2);
 	gvputs(job, POV_SKY_AND_GND);
 	gvputs(job, POV_LIGHT);
 }
