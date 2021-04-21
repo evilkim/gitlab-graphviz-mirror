@@ -255,8 +255,8 @@ static void vml_begin_graph(GVJ_t * job)
     obj_state_t *obj = job->obj;
     char *name;
 
-    graphHeight =(int)(job->bb.UR.y - job->bb.LL.y);
-    graphWidth  =(int)(job->bb.UR.x - job->bb.LL.x);
+    graphHeight = (unsigned)(job->bb.UR.y - job->bb.LL.y);
+    graphWidth  = (unsigned)(job->bb.UR.x - job->bb.LL.x);
 
     gvputs(job, "<HEAD>");
     gvputs(job, "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
