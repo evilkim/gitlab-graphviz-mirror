@@ -152,6 +152,8 @@ static void tkgen_begin_graph(GVJ_t * job)
 
 static void tkgen_begin_node(GVJ_t * job)
 {
+	(void)job;
+
 	first_periphery = 1;     /* FIXME - this is an ugly hack! */
 }
 
