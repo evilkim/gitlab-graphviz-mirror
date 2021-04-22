@@ -35,6 +35,7 @@
  */
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <inttypes.h>
 #include "tclhandle.h"
@@ -44,7 +45,7 @@
  * Variable set to contain the alignment factor (in bytes) for this machine.
  * It is set on the first table initialization.
  */
-static int tclhandleEntryAlignment = 0;
+static uint64_t tclhandleEntryAlignment = 0;
 
 /*=============================================================================
  * tclhandleLinkInNewEntries --
@@ -56,10 +57,10 @@ static int tclhandleEntryAlignment = 0;
  *   o numEntries (I) - The number of new entries.
  *-----------------------------------------------------------------------------
  */
-static void tclhandleLinkInNewEntries(tblHeader_pt tblHdrPtr, int newIdx,
-				      int numEntries)
+static void tclhandleLinkInNewEntries(tblHeader_pt tblHdrPtr, uint64_t newIdx,
+				      uint64_t numEntries)
 {
-    int entIdx, lastIdx;
+    uint64_t entIdx, lastIdx;
     entryHeader_pt entryPtr;
 
     lastIdx = newIdx + numEntries - 1;
@@ -84,13 +85,13 @@ static void tclhandleLinkInNewEntries(tblHeader_pt tblHdrPtr, int newIdx,
  *     entries specified on table creation.  MUST be smaller than this size.
  *-----------------------------------------------------------------------------
  */
-static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, int neededIdx)
+static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, uint64_t neededIdx)
 {
     ubyte_pt oldbodyPtr = tblHdrPtr->bodyPtr;
-    int numNewEntries;
-    int newSize;
+    uint64_t numNewEntries;
+    uint64_t newSize;
 
-    if (neededIdx < 0)
+    if (neededIdx == NULL_IDX || neededIdx == ALLOCATED_IDX)
 	numNewEntries = tblHdrPtr->tableSize;
     else
 	numNewEntries = (neededIdx - tblHdrPtr->tableSize) + 1;
@@ -124,10 +125,10 @@ entryHeader_pt tclhandleAlloc(tblHeader_pt headerPtr, char *handle,
 {
     tblHeader_pt tblHdrPtr = (tblHeader_pt) headerPtr;
     entryHeader_pt entryPtr;
-    int entryIdx;
+    uint64_t entryIdx;
 
     if (tblHdrPtr->freeHeadIdx == NULL_IDX)
-	tclhandleExpandTable(tblHdrPtr, -1);
+	tclhandleExpandTable(tblHdrPtr, NULL_IDX);
 
     entryIdx = tblHdrPtr->freeHeadIdx;
     entryPtr = TBL_INDEX(tblHdrPtr, entryIdx);
@@ -153,7 +154,8 @@ entryHeader_pt tclhandleAlloc(tblHeader_pt headerPtr, char *handle,
  *   A pointer to the table header.  
  *-----------------------------------------------------------------------------
  */
-tblHeader_pt tclhandleInit(char *prefix, int entrySize, int initEntries)
+tblHeader_pt tclhandleInit(char *prefix, uint64_t entrySize,
+                           uint64_t initEntries)
 {
     tblHeader_pt tblHdrPtr;
 
@@ -180,9 +182,9 @@ tblHeader_pt tclhandleInit(char *prefix, int entrySize, int initEntries)
     tblHdrPtr->entrySize = ENTRY_HEADER_SIZE + ROUND_ENTRY_SIZE(entrySize);
     tblHdrPtr->freeHeadIdx = NULL_IDX;
     tblHdrPtr->tableSize = initEntries;
-    tblHdrPtr->handleFormat = malloc(strlen(prefix) + 4);
+    tblHdrPtr->handleFormat = malloc(strlen(prefix) + strlen("%" PRIu64) + 1);
     strcpy(tblHdrPtr->handleFormat, prefix);
-    strcat(tblHdrPtr->handleFormat, "%lu");
+    strcat(tblHdrPtr->handleFormat, "%" PRIu64);
     tblHdrPtr->bodyPtr = malloc(initEntries * tblHdrPtr->entrySize);
     tclhandleLinkInNewEntries(tblHdrPtr, 0, initEntries);
 
@@ -202,7 +204,7 @@ tblHeader_pt tclhandleInit(char *prefix, int entrySize, int initEntries)
  */
 int tclhandleDestroy(tblHeader_pt tblHdrPtr)
 {
-    int entIdx, lastIdx;
+    uint64_t entIdx, lastIdx;
     entryHeader_pt entryPtr;
 
     lastIdx = tblHdrPtr->tableSize;
@@ -230,9 +232,9 @@ int tclhandleDestroy(tblHeader_pt tblHdrPtr)
  *-----------------------------------------------------------------------------
  */
 
-int tclhandleReset(tblHeader_pt tblHdrPtr, int initEntries)
+int tclhandleReset(tblHeader_pt tblHdrPtr, uint64_t initEntries)
 {
-    int entIdx, lastIdx;
+    uint64_t entIdx, lastIdx;
     entryHeader_pt entryPtr;
 
     lastIdx = tblHdrPtr->tableSize;
@@ -365,7 +367,8 @@ void *tclhandleFreeIndex(tblHeader_pt headerPtr, uint64_t entryIdx)
     entryPtr = USER_AREA(entryPtr);
     freeentryPtr = HEADER_AREA(entryPtr);
     freeentryPtr->freeLink = tblHdrPtr->freeHeadIdx;
-    tblHdrPtr->freeHeadIdx = (((ubyte_pt) entryPtr) - tblHdrPtr->bodyPtr) /
+    tblHdrPtr->freeHeadIdx =
+	((uint64_t)((uintptr_t)entryPtr - (uintptr_t)tblHdrPtr->bodyPtr)) /
 	tblHdrPtr->entrySize;
 
     return entryPtr;
