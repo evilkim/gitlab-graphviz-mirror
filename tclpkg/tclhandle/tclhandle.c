@@ -42,10 +42,12 @@
 #include <string.h>
 
 /*
- * Variable set to contain the alignment factor (in bytes) for this machine.
- * It is set on the first table initialization.
+ * Alignment factor (in bytes) for this machine.
  */
-static uint64_t tclhandleEntryAlignment = 0;
+enum { tclhandleEntryAlignment =
+  sizeof(void*) > sizeof(uint64_t)
+    ? (sizeof(double) > sizeof(void*) ? sizeof(double) : sizeof(void*))
+    : (sizeof(double) > sizeof(uint64_t) ? sizeof(double) : sizeof(uint64_t)) };
 
 /*=============================================================================
  * tclhandleLinkInNewEntries --
@@ -158,18 +160,6 @@ tblHeader_pt tclhandleInit(char *prefix, uint64_t entrySize,
                            uint64_t initEntries)
 {
     tblHeader_pt tblHdrPtr;
-
-    /*
-     * It its not been calculated yet, determine the entry alignment required
-     * for this machine.
-     */
-    if (tclhandleEntryAlignment == 0) {
-	tclhandleEntryAlignment = sizeof(void *);
-	if (sizeof(uint64_t) > tclhandleEntryAlignment)
-	    tclhandleEntryAlignment = sizeof(uint64_t);
-	if (sizeof(double) > tclhandleEntryAlignment)
-	    tclhandleEntryAlignment = sizeof(double);
-    }
 
     /*
      * Set up the table entry.
