@@ -96,18 +96,17 @@ static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, uint64_t neededIdx)
     if (neededIdx == NULL_IDX || neededIdx == ALLOCATED_IDX)
 	numNewEntries = tblHdrPtr->tableSize;
     else
-	numNewEntries = (neededIdx - tblHdrPtr->tableSize) + 1;
+	numNewEntries = neededIdx - tblHdrPtr->tableSize + 1;
     newSize =
 	(tblHdrPtr->tableSize + numNewEntries) * tblHdrPtr->entrySize;
 
     tblHdrPtr->bodyPtr = malloc(newSize);
     memcpy(tblHdrPtr->bodyPtr, oldbodyPtr,
-	   (tblHdrPtr->tableSize * tblHdrPtr->entrySize));
+	   tblHdrPtr->tableSize * tblHdrPtr->entrySize);
     tclhandleLinkInNewEntries(tblHdrPtr, tblHdrPtr->tableSize,
 			      numNewEntries);
     tblHdrPtr->tableSize += numNewEntries;
     free(oldbodyPtr);
-
 }
 
 /*=============================================================================
@@ -179,7 +178,6 @@ tblHeader_pt tclhandleInit(char *prefix, uint64_t entrySize,
     tclhandleLinkInNewEntries(tblHdrPtr, 0, initEntries);
 
     return tblHdrPtr;
-
 }
 
 /*=============================================================================
@@ -260,7 +258,7 @@ int tclhandleIndex(tblHeader_pt tblHdrPtr, char *handle,
 {
     uint64_t entryIdx;
 
-    if ((sscanf(handle, tblHdrPtr->handleFormat, &entryIdx)) != 1)
+    if (sscanf(handle, tblHdrPtr->handleFormat, &entryIdx) != 1)
 	return TCL_ERROR;
     if (entryIdxPtr)
 	*entryIdxPtr = entryIdx;
@@ -302,8 +300,8 @@ void *tclhandleXlateIndex(tblHeader_pt headerPtr, uint64_t entryIdx)
 
     entryPtr = TBL_INDEX(tblHdrPtr, entryIdx);
 
-    if ((entryIdx >= tblHdrPtr->tableSize) ||
-	(entryPtr->freeLink != ALLOCATED_IDX)) {
+    if (entryIdx >= tblHdrPtr->tableSize ||
+	entryPtr->freeLink != ALLOCATED_IDX) {
 	return NULL;
     }
 
@@ -325,9 +323,9 @@ void *tclhandleXlate(tblHeader_pt tblHdrPtr, char *handle)
 {
     uint64_t entryIdx;
 
-    if ((tclhandleIndex(tblHdrPtr, handle, &entryIdx)) != TCL_OK)
+    if (tclhandleIndex(tblHdrPtr, handle, &entryIdx) != TCL_OK)
 	return NULL;
-    return (tclhandleXlateIndex(tblHdrPtr, entryIdx));
+    return tclhandleXlateIndex(tblHdrPtr, entryIdx);
 }
 
 /*============================================================================
@@ -349,8 +347,8 @@ void *tclhandleFreeIndex(tblHeader_pt headerPtr, uint64_t entryIdx)
 
     entryPtr = TBL_INDEX(tblHdrPtr, entryIdx);
 
-    if ((entryIdx >= tblHdrPtr->tableSize) ||
-	(entryPtr->freeLink != ALLOCATED_IDX)) {
+    if (entryIdx >= tblHdrPtr->tableSize ||
+	entryPtr->freeLink != ALLOCATED_IDX) {
 	return NULL;
     }
 
@@ -380,7 +378,7 @@ void *tclhandleFree(tblHeader_pt tblHdrPtr, char *handle)
 {
     uint64_t entryIdx;
 
-    if ((tclhandleIndex(tblHdrPtr, handle, &entryIdx)) != TCL_OK)
+    if (tclhandleIndex(tblHdrPtr, handle, &entryIdx) != TCL_OK)
 	return NULL;
-    return (tclhandleFreeIndex(tblHdrPtr, entryIdx));
+    return tclhandleFreeIndex(tblHdrPtr, entryIdx);
 }
