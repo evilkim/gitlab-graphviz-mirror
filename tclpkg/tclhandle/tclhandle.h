@@ -22,8 +22,6 @@ extern "C" {
 #define TCL_OK (0)
 #endif
 
-#define ISSPACE(c) (isspace ((unsigned char) c))
-
 /*
  * Macro to rounded up a size to be a multiple of (void *).  This is required
  * for systems that have alignment restrictions on pointers and data.
