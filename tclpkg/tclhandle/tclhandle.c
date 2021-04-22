@@ -123,7 +123,7 @@ static void tclhandleExpandTable(tblHeader_pt tblHdrPtr, uint64_t neededIdx)
 entryHeader_pt tclhandleAlloc(tblHeader_pt headerPtr, char *handle,
 			      uint64_t *entryIdxPtr)
 {
-    tblHeader_pt tblHdrPtr = (tblHeader_pt) headerPtr;
+    tblHeader_pt tblHdrPtr = headerPtr;
     entryHeader_pt entryPtr;
     uint64_t entryIdx;
 
