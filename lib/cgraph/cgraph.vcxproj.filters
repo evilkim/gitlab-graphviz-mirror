@@ -24,6 +24,9 @@
     <ClInclude Include="cgraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sprint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="strcasecmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sprint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="subg.c">

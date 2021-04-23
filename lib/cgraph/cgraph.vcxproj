@@ -101,6 +101,7 @@ win_flex -oscan.c scan.l</Command>
     <ClInclude Include="agxbuf.h" />
     <ClInclude Include="cghdr.h" />
     <ClInclude Include="cgraph.h" />
+    <ClInclude Include="sprint.h" />
     <ClInclude Include="strcasecmp.h" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +123,7 @@ win_flex -oscan.c scan.l</Command>
     <ClCompile Include="rec.c" />
     <ClCompile Include="refstr.c" />
     <ClCompile Include="scan.c" />
+    <ClCompile Include="sprint.c" />
     <ClCompile Include="subg.c" />
     <ClCompile Include="utils.c" />
     <ClCompile Include="write.c" />
