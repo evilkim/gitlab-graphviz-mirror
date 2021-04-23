@@ -22,8 +22,6 @@ extern void renderSmGraph(Agraph_t * g,topview* t);
 extern void freeSmGraph(Agraph_t * g,topview* t);
 extern void cacheSelectedEdges(Agraph_t * g,topview* t);
 extern void cacheSelectedNodes(Agraph_t * g,topview* t);
-extern void renderSmGraph(Agraph_t * g,topview* t);
-extern void updateSmGraph(Agraph_t * g,topview* t);
 
 #ifdef __cplusplus
 }				/* end extern "C" */
