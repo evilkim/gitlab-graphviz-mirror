@@ -1096,8 +1096,12 @@ assignTracks (maze* mp)
     }
 
     /* add edges between parallel segments + remove appropriate edges */
-    add_p_edges(mp->hchans, mp);
-    add_p_edges(mp->vchans, mp);
+    if (add_p_edges(mp->hchans, mp) != 0) {
+	return -1;
+    }
+    if (add_p_edges(mp->vchans, mp) != 0) {
+	return -1;
+    }
 
     /* Assign the tracks after a top sort */
     assignTrackNo (mp->hchans);
