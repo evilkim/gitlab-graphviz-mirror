@@ -1518,7 +1518,7 @@ emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
     fprintf (fp, "%d %d translate\n", TRANS, TRANS);
 
     fputs ("0 0 1 setrgbcolor\n", fp);
-    for (size_t i = 0; i < mp->ngcells; i++) {
+    for (int i = 0; i < mp->ngcells; i++) {
       bb = mp->gcells[i].bb;
       fprintf (fp, "%f %f %f %f node\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
     }
@@ -1528,7 +1528,7 @@ emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
     }
     
     fputs ("0.8 0.8 0.8 setrgbcolor\n", fp);
-    for (size_t i = 0; i < mp->ncells; i++) {
+    for (int i = 0; i < mp->ncells; i++) {
       bb = mp->cells[i].bb;
       fprintf (fp, "%f %f %f %f cell\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
       absbb.LL.x = MIN(absbb.LL.x, bb.LL.x);
