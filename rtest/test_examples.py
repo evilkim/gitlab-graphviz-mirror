@@ -33,7 +33,7 @@ def test_compile_example(src):
     pytest.skip("Executing neatopack gives segmentation fault (#1800)")
 
   # run the example
-  args = ["-Kneato"] if src in ["demo.c", "dot.c"] else [];
+  args = ["-Kneato"] if src in ["demo.c", "dot.c"] else []
 
   ret, out, err = run_c(filepath, args, "graph {a -- b}", link=libs)
 

@@ -81,16 +81,16 @@ def main():
           if item[1] == "":
             section_name = item[0]
             if section_name not in table:
-              table[section_name] = {};
+              table[section_name] = {}
               table_sections.append(section_name)
               component_names[section_name] = []
           else:
-            component_name, component_value = item;
+            component_name, component_value = item
             short_value = re.sub("(Yes|No).*", "\\1", component_value)
             if opts.short:
               component_value = short_value
             if component_name not in table[section_name]:
-              table[section_name][component_name] = {};
+              table[section_name][component_name] = {}
               component_names[section_name].append(component_name)
             table[section_name][component_name][platform] = component_value
 
