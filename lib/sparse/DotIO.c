@@ -186,10 +186,8 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
     if (label_sizes){
       if (agget(n, "width") && agget(n, "height")){
 	sscanf(agget(n, "width"), "%lf", &sz);
-	/*      (*label_sizes)[i*2] = POINTS(sz)*.6;*/
 	(*label_sizes)[i*2] = POINTS(sz)*.5 + padding*0.5;
 	sscanf(agget(n, "height"), "%lf", &sz);
-	/*(*label_sizes)[i*2+1] = POINTS(sz)*.6;*/
 	(*label_sizes)[i*2+1] = POINTS(sz)*.5  + padding*0.5;
       } else {
 	(*label_sizes)[i*2] = 4*POINTS(0.75)*.5;
@@ -448,7 +446,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   label_string = strcat(label_string, " nodes, ");
   snprintf(buf, sizeof(buf), "%d", A->nz);
   label_string = strcat(label_string, buf);
-  /*  label_string = strcat(label_string, " edges. Created by Yifan Hu");*/
   label_string = strcat(label_string, " edges.");
 
 
@@ -638,18 +635,6 @@ Agraph_t *convert_edge_labels_to_nodes(Agraph_t* g){
     ND_id(n) = i++;
   }
 
-
-  /*
-  for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
-      if (agtail(ep) == n) continue;
-      agedge(dg, ndmap[ND_id(agtail(ep))], ndmap[ND_id(aghead(ep))]);
-    }
-  }
-  */
-
-
-
   for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
     for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
       if (agtail(ep) == n && (aghead(ep) != n)) continue;
@@ -713,7 +698,6 @@ void Dot_SetClusterColor(Agraph_t* g, float *rgb_r,  float *rgb_g,  float *rgb_b
     i = ND_id(n);
     if (rgb_r && rgb_g && rgb_b) {
       rgb2hex((rgb_r)[(clusters)[i]],(rgb_g)[(clusters)[i]],(rgb_b)[(clusters)[i]], scluster, NULL);
-      //sprintf(scluster,"#%2x%2x%2x", (int) (255*((rgb_r)[(clusters)[i]])), (int) (255*((rgb_g)[(clusters)[i]])), (int) (255*((rgb_b)[(clusters)[i]])));
     }
     agxset(n,clust_clr_sym,scluster);
   }
@@ -801,7 +785,6 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
   sym = agattr(g, AGEDGE, "weight", NULL); 
   clust_sym = agattr(g, AGNODE, "cluster", NULL); 
   clust_clr_sym = agattr(g, AGNODE, "clustercolor", NULL); 
-  //sym = agattr(g, AGEDGE, "wt", NULL); 
   i = 0;
   for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
     row = ND_id(n);
@@ -954,7 +937,6 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
    }
 
    if (pal){
-     //     assert((*clusters)[i] >= 0 && (*clusters)[i] <= MAX_GRPS);
      (*rgb_r)[(*clusters)[i]] = pal[3*j+0];
      (*rgb_g)[(*clusters)[i]] =  pal[3*j+1];
      (*rgb_b)[(*clusters)[i]] = pal[3*j+2];
