@@ -42,11 +42,11 @@ void Block::addVariable(Variable *v) {
 Block::Block(Variable *v) {
 	timeStamp=0;
 	posn=weight=wposn=0;
-	in=NULL;
-	out=NULL;
+	in=nullptr;
+	out=nullptr;
 	deleted=false;
 	vars=new vector<Variable*>;
-	if(v!=NULL) {
+	if(v!=nullptr) {
 		v->offset=0;
 		addVariable(v);
 	}
@@ -149,7 +149,7 @@ void Block::mergeOut(Block *b) {
 	out->merge(b->out);
 }
 Constraint *Block::findMinInConstraint() {
-	Constraint *v = NULL;
+	Constraint *v = nullptr;
 	vector<Constraint*> outOfDate;
 	while (!in->isEmpty()) {
 		v = in->findMin();
@@ -192,18 +192,18 @@ Constraint *Block::findMinInConstraint() {
 		in->insert(v);
 	}
 	if(in->isEmpty()) {
-		v=NULL;
+		v=nullptr;
 	} else {
 		v=in->findMin();
 	}
 	return v;
 }
 Constraint *Block::findMinOutConstraint() {
-	if(out->isEmpty()) return NULL;
+	if(out->isEmpty()) return nullptr;
 	Constraint *v = out->findMin();
 	while (v->left->block == v->right->block) {
 		out->deleteMin();
-		if(out->isEmpty()) return NULL;
+		if(out->isEmpty()) return nullptr;
 		v = out->findMin();
 	}
 	return v;
@@ -237,14 +237,14 @@ double Block::compute_dfdv(Variable *v, Variable *u, Constraint *&min_lm) {
 		Constraint *c=*it;
 		if(canFollowRight(c,u)) {
 			dfdv+=c->lm=compute_dfdv(c->right,v,min_lm);
-			if(min_lm==NULL||c->lm<min_lm->lm) min_lm=c;
+			if(min_lm==nullptr||c->lm<min_lm->lm) min_lm=c;
 		}
 	}
 	for(vector<Constraint*>::iterator it=v->in.begin();it!=v->in.end();it++) {
 		Constraint *c=*it;
 		if(canFollowLeft(c,u)) {
 			dfdv-=c->lm=-compute_dfdv(c->left,v,min_lm);
-			if(min_lm==NULL||c->lm<min_lm->lm) min_lm=c;
+			if(min_lm==nullptr||c->lm<min_lm->lm) min_lm=c;
 		}
 	}
 	return dfdv;
@@ -255,18 +255,18 @@ double Block::compute_dfdv(Variable *v, Variable *u, Constraint *&min_lm) {
 // the constraint c to compute the lagrangian multiplier lm_c.
 // The top level v and r are variables between which we want to find the
 // constraint with the smallest lm.  
-// When we find r we pass NULL to subsequent recursive calls, 
-// thus r=NULL indicates constraints are not on the shortest path.
-// Similarly, m is initially NULL and is only assigned a value if the next
+// When we find r we pass nullptr to subsequent recursive calls, 
+// thus r=nullptr indicates constraints are not on the shortest path.
+// Similarly, m is initially nullptr and is only assigned a value if the next
 // variable to be visited is r or if a possible min constraint is returned from
-// a nested call (rather than NULL).
+// a nested call (rather than nullptr).
 // Then, the search for the m with minimum lm occurs as we return from
 // the recursion (checking only constraints traversed left-to-right 
 // in order to avoid creating any new violations).
 Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u, 
 		Direction dir = NONE, bool changedDirection = false) {
 	double dfdv=v->weight*(v->position() - v->desiredPosition);
-	Constraint *m=NULL;
+	Constraint *m=nullptr;
 	for(Cit it(v->in.begin());it!=v->in.end();it++) {
 		Constraint *c=*it;
 		if(canFollowLeft(c,u)) {
@@ -274,7 +274,7 @@ Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u,
 				changedDirection = true; 
 			}
 			if(c->left==r) {
-			       	r=NULL; m=c; 
+			       	r=nullptr; m=c; 
 			}
 			Pair p=compute_dfdv_between(r,c->left,v,
 					LEFT,changedDirection);
@@ -290,7 +290,7 @@ Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u,
 				changedDirection = true; 
 			}
 			if(c->right==r) {
-			       	r=NULL; m=c; 
+			       	r=nullptr; m=c; 
 			}
 			Pair p=compute_dfdv_between(r,c->right,v,
 					RIGHT,changedDirection);
@@ -328,15 +328,15 @@ void Block::reset_active_lm(Variable *v, Variable *u) {
  * that most wants to split
  */
 Constraint *Block::findMinLM() {
-	Constraint *min_lm=NULL;
-	reset_active_lm(vars->front(),NULL);
-	compute_dfdv(vars->front(),NULL,min_lm);
+	Constraint *min_lm=nullptr;
+	reset_active_lm(vars->front(),nullptr);
+	compute_dfdv(vars->front(),nullptr,min_lm);
 	return min_lm;
 }
 Constraint *Block::findMinLMBetween(Variable* lv, Variable* rv) {
-	Constraint *min_lm=NULL;
-	reset_active_lm(vars->front(),NULL);
-	min_lm=compute_dfdv_between(rv,lv,NULL).second;
+	Constraint *min_lm=nullptr;
+	reset_active_lm(vars->front(),nullptr);
+	min_lm=compute_dfdv_between(rv,lv,nullptr).second;
 	return min_lm;
 }
 

@@ -33,7 +33,7 @@ public:
 	double posn;
 	double weight;
 	double wposn;
-	Block(Variable *v=NULL);
+	Block(Variable *v=nullptr);
 	~Block();
 	Constraint* findMinLM();
 	Constraint* findMinLMBetween(Variable* lv, Variable* rv);

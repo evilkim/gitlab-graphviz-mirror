@@ -88,7 +88,7 @@ int getSplitCnt(IncVPSC *vpsc) {
 	return vpsc->splitCnt;
 }
 void deleteVPSC(VPSC *vpsc) {
-	assert(vpsc!=NULL);
+	assert(vpsc!=nullptr);
 	delete vpsc;
 }
 void solveVPSC(VPSC* vpsc) {
