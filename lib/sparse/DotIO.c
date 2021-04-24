@@ -423,14 +423,13 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   Agnode_t** arr = N_NEW (A->m, Agnode_t*);
   real *color = NULL;
   char cstring[8];
-  char *label_string;
+  char label_string[1000];
 
   if (!name){
     name = "stdin";
   } else {
     name = strip_dir(name);
   }
-  label_string = MALLOC(sizeof(char)*1000);
 
   if (SparseMatrix_known_undirected(A)){
     g = agopen ("G", Agundirected, 0);
@@ -587,7 +586,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   
   FREE(color);
   FREE (arr);
-  FREE(label_string);
   return g;
 }
 
