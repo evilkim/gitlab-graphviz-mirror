@@ -540,17 +540,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
     for (j = ia[i]; j < ia[i+1]; j++) {
       h = arr [ja[j]];
       if (val){
-	switch (A->type){
-	case MATRIX_TYPE_REAL:
-	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[j]);
-	  break;
-	case MATRIX_TYPE_INTEGER:
-	  snprintf(buf, sizeof(buf), "%d", ((int*)A->a)[j]);
-	  break;
-	case MATRIX_TYPE_COMPLEX:/* take real part as weight */
-	  snprintf(buf, sizeof(buf), "%f", ((real*)A->a)[2*j]);
-	  break;
-	}
 	if (with_color) {
           if (i != ja[j]){
             snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
@@ -559,7 +548,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
           }
         }
       } else {
-	snprintf(buf, sizeof(buf), "%f", 1.);
         if (with_color) {
           if (i != ja[j]){
             snprintf(buf2, sizeof(buf2), "%s", hue2rgb(.65*color[j], cstring));
