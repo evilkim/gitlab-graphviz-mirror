@@ -699,8 +699,9 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
   char scluster[100];
   float ff;
 
-  int MAX_GRPS, MIN_GRPS, first = TRUE;
+  int MAX_GRPS, MIN_GRPS;
   bool noclusterinfo = false;
+  bool first = true;
   float *pal;
   int max_color = MAX_COLOR;
 
@@ -821,7 +822,7 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
         nc = MAX(nc, ic);
         if (first){
 	  MIN_GRPS = ic;
-	  first = FALSE;
+	  first = false;
         } else {
 	  MIN_GRPS = MIN(MIN_GRPS, ic);
         }
