@@ -437,7 +437,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   } else {
     g = agopen ("G", Agdirected, 0);
   }
-  snprintf(buf, sizeof(buf), "%f", 1.0);
 
   label_string = strcpy(label_string, name);
   label_string = strcat(label_string, ". ");
