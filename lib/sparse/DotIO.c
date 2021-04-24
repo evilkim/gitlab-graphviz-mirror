@@ -437,15 +437,8 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
     g = agopen ("G", Agdirected, 0);
   }
 
-  label_string = strcpy(label_string, name);
-  label_string = strcat(label_string, ". ");
-  snprintf(buf, sizeof(buf), "%d", A->m);
-  label_string = strcat(label_string, buf);
-  label_string = strcat(label_string, " nodes, ");
-  snprintf(buf, sizeof(buf), "%d", A->nz);
-  label_string = strcat(label_string, buf);
-  label_string = strcat(label_string, " edges.");
-
+  snprintf(label_string, sizeof(label_string), "%s. %d nodes, %d edges.", name,
+           A->m, A->nz);
 
   if (with_label) agattr(g, AGRAPH, "label", label_string);
   agattr(g, AGRAPH, "fontcolor", "#808090");
