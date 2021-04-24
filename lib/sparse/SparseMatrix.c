@@ -2294,60 +2294,6 @@ SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A){
   return A;
 }
 
-
-SparseMatrix SparseMatrix_to_complex(SparseMatrix A){
-  int i;
-  
-  if (!A) return A;
-  if (A->format != FORMAT_CSR) {
-#ifdef DEBUG
-    printf("only CSR format supported.\n");
-#endif
-    return A;
-  }
-
-  switch (A->type){
-  case MATRIX_TYPE_REAL:{
-    real *a = (real*) A->a;
-    int nz = A->nz;
-    A->a = a = REALLOC(a, 2*sizeof(real)*nz);
-    for (i = nz - 1; i >= 0; i--){
-      a[2*i] = a[i];
-      a[2*i - 1] = 0;
-    }
-    A->type = MATRIX_TYPE_COMPLEX;
-    A->size = 2*sizeof(real);
-    break;
-  }
-  case MATRIX_TYPE_COMPLEX:{
-    break;
-  }
-  case MATRIX_TYPE_INTEGER:{
-    int *a = (int*) A->a;
-    int nz = A->nz;
-    real *aa = A->a = MALLOC(2*sizeof(real)*nz);
-    for (i = nz - 1; i >= 0; i--){
-      aa[2*i] = (real) a[i];
-      aa[2*i - 1] = 0;
-    }
-    A->type = MATRIX_TYPE_COMPLEX;
-    A->size = 2*sizeof(real);
-    FREE(a);
-    break;
-  }
-  case MATRIX_TYPE_PATTERN:{
-    break;
-  }
-  case MATRIX_TYPE_UNKNOWN:
-    return NULL;
-  default:
-    return NULL;
-  }
-
-  return A;
-}
-
-
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x)){
   int i, j;
   real *a;
