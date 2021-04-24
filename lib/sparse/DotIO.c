@@ -415,7 +415,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   Agnode_t* h;
   Agedge_t* e;
   int i, j;
-  char buf[1024], buf2[1024];
+  char buf2[1024];
   Agsym_t *sym2 = NULL, *sym3 = NULL;
   int* ia=A->ia;
   int* ja=A->ja;
@@ -482,8 +482,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
     sym3 = agattr(g, AGEDGE, "wt", ""); 
   }
   for (i = 0; i < A->m; i++) {
-    snprintf(buf, sizeof(buf), "%d", i);
-    n = mkNode (g, buf);
+    n = mkNode (g, itos(i).str);
     ND_id(n) = i;
     arr[i] = n;
   }
