@@ -37,17 +37,17 @@ static Image* gdiplus_loadimage(GVJ_t * job, usershape_t *us)
 
     if (us->data && us->datafree != gdiplus_freeimage) {
 	     us->datafree(us);        /* free incompatible cache data */
-	     us->data = NULL;
-	     us->datafree = NULL;
+	     us->data = nullptr;
+	     us->datafree = nullptr;
 	}
     
     if (!us->data) { /* read file into cache */
 		if (!gvusershape_file_access(us))
-			return NULL;
+			return nullptr;
 
 		/* create image from the usershape file */
 		/* NOTE: since Image::FromStream consumes the stream, we assume FileStream's lifetime should be shorter than us->name and us->f... */	
-		IStream *stream = FileStream::Create((char*)us->name, us->f);
+		IStream *stream = FileStream::Create(const_cast<char*>(us->name), us->f);
 		us->data = Image::FromStream (stream);
 		
 		/* clean up */
@@ -57,15 +57,17 @@ static Image* gdiplus_loadimage(GVJ_t * job, usershape_t *us)
 			
 		gvusershape_file_release(us);
     }
-    return (Image *)(us->data);
+    return reinterpret_cast<Image*>(us->data);
 }
 
 static void gdiplus_loadimage_gdiplus(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
 	/* get the image from usershape details, then blit it to the context */
 	Image *image = gdiplus_loadimage(job, us);
-	if (image)
-		((Graphics *)job->context)->DrawImage(image, RectF(b.LL.x, b.LL.y, b.UR.x - b.LL.x, b.UR.y - b.LL.y));
+	if (image) {
+		auto g = reinterpret_cast<Graphics*>(job->context);
+		g->DrawImage(image, RectF(b.LL.x, b.LL.y, b.UR.x - b.LL.x, b.UR.y - b.LL.y));
+	}
 }
 
 static gvloadimage_engine_t engine = {
@@ -73,11 +75,11 @@ static gvloadimage_engine_t engine = {
 };
 
 gvplugin_installed_t gvloadimage_gdiplus_types[] = {
-	{FORMAT_BMP, "bmp:gdiplus", 8, &engine, NULL},
-	{FORMAT_GIF, "gif:gdiplus", 8, &engine, NULL},
-	{FORMAT_JPEG, "jpe:gdiplus", 8, &engine, NULL},
-	{FORMAT_JPEG, "jpeg:gdiplus", 8, &engine, NULL},
-	{FORMAT_JPEG, "jpg:gdiplus", 8, &engine, NULL},
-	{FORMAT_PNG, "png:gdiplus", 8, &engine, NULL},
-	{0, NULL, 0, NULL, NULL}
+	{FORMAT_BMP, "bmp:gdiplus", 8, &engine, nullptr},
+	{FORMAT_GIF, "gif:gdiplus", 8, &engine, nullptr},
+	{FORMAT_JPEG, "jpe:gdiplus", 8, &engine, nullptr},
+	{FORMAT_JPEG, "jpeg:gdiplus", 8, &engine, nullptr},
+	{FORMAT_JPEG, "jpg:gdiplus", 8, &engine, nullptr},
+	{FORMAT_PNG, "png:gdiplus", 8, &engine, nullptr},
+	{0, nullptr, 0, nullptr, nullptr}
 };

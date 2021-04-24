@@ -34,7 +34,7 @@ static GUID format_id [] = {
 	ImageFormatTIFF
 };
 
-static ULONG_PTR _gdiplusToken = NULL;
+static ULONG_PTR _gdiplusToken = 0;
 
 static void UnuseGdiplus()
 {
@@ -47,7 +47,7 @@ void UseGdiplus()
 	if (!_gdiplusToken)
 	{
 		GdiplusStartupInput input;
-		GdiplusStartup(&_gdiplusToken, &input, NULL);
+		GdiplusStartup(&_gdiplusToken, &input, nullptr);
 		atexit(&UnuseGdiplus);
 	}
 }
@@ -63,7 +63,7 @@ void SaveBitmapToStream(Bitmap &bitmap, IStream *stream, int format)
 	/* search the encoders for one that matches our device id, then save the bitmap there */
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
-	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 	UINT encoderNum;
 	UINT encoderSize;
 	GetImageEncodersSize(&encoderNum, &encoderSize);
@@ -72,7 +72,7 @@ void SaveBitmapToStream(Bitmap &bitmap, IStream *stream, int format)
 	GetImageEncoders(encoderNum, encoderSize, codecs);
 	for (UINT i = 0; i < encoderNum; ++i)
 		if (memcmp(&(format_id[format]), &codecs[i].FormatID, sizeof(GUID)) == 0) {
-			bitmap.Save(stream, &codecs[i].Clsid, NULL);
+			bitmap.Save(stream, &codecs[i].Clsid, nullptr);
 			break;
 		}
 }

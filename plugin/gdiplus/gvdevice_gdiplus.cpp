@@ -17,12 +17,6 @@
 
 extern "C" size_t gvwrite(GVJ_t *job, const unsigned char *s, unsigned int len);
 
-
-
-
-
-
-
 using namespace Gdiplus;
 
 static void gdiplus_format(GVJ_t *job)
@@ -31,7 +25,7 @@ static void gdiplus_format(GVJ_t *job)
 
 	/* allocate memory and attach stream to it */
 	HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, 0);
-	IStream *stream = NULL;
+	IStream *stream = nullptr;
 	CreateStreamOnHGlobal(buffer, FALSE, &stream);	/* FALSE means don't deallocate buffer when releasing stream */
 	
 	Bitmap bitmap(
@@ -52,9 +46,9 @@ static void gdiplus_format(GVJ_t *job)
 }
 
 static gvdevice_engine_t gdiplus_engine = {
-    NULL,		/* gdiplus_initialize */
+    nullptr,		/* gdiplus_initialize */
     gdiplus_format,
-    NULL,		/* gdiplus_finalize */
+    nullptr,		/* gdiplus_finalize */
 };
 
 static gvdevice_features_t device_features_gdiplus = {
@@ -74,5 +68,5 @@ gvplugin_installed_t gvdevice_gdiplus_types_for_cairo[] = {
 	{FORMAT_PNG, "png:cairo", 8, &gdiplus_engine, &device_features_gdiplus},
 	{FORMAT_TIFF, "tif:cairo", 8, &gdiplus_engine, &device_features_gdiplus},
 	{FORMAT_TIFF, "tiff:cairo", 8, &gdiplus_engine, &device_features_gdiplus},
-	{0, NULL, 0, NULL, NULL}
+	{0, nullptr, 0, nullptr, nullptr}
 };

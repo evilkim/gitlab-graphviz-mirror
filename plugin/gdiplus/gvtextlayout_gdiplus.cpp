@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <memory>
 #include <stdlib.h>
 #include <string.h>
 
@@ -53,21 +54,16 @@ Layout::Layout(char *fontname, double fontsize, char* string)
 		0) == 0) {
 		found_font.lfHeight = (LONG)-fontsize;
 		found_font.lfWidth = 0;
-		font = new Font(reference.hdc, &found_font);
+		font = std::unique_ptr<Font>(new Font(reference.hdc, &found_font));
 	}
 	else
-		font = new Font(FontFamily::GenericSerif(), fontsize);
-}
-
-Layout::~Layout()
-{
-	delete font;
+		font = std::unique_ptr<Font>(new Font(FontFamily::GenericSerif(), fontsize));
 }
 
 void gdiplus_free_layout(void *layout)
 {
 	if (layout)
-		delete (Layout*)layout;
+		delete reinterpret_cast<Layout*>(layout);
 };
 
 boolean gdiplus_textlayout(textspan_t *span, char **fontpath)
@@ -86,7 +82,7 @@ boolean gdiplus_textlayout(textspan_t *span, char **fontpath)
 	measureGraphics.MeasureString(
 		&layout->text[0],
 		layout->text.size(),
-		layout->font,
+		layout->font.get(),
 		PointF(0.0f, 0.0f),
 		GetGenericTypographic(),
 		&boundingBox);
@@ -95,7 +91,7 @@ boolean gdiplus_textlayout(textspan_t *span, char **fontpath)
 	layout->font->GetFamily(&fontFamily);
 	int style = layout->font->GetStyle();
 		
-	span->layout = (void*)layout;
+	span->layout = layout;
 	span->free_layout = &gdiplus_free_layout;
 	span->size.x = boundingBox.Width;
 	span->size.y = layout->font->GetHeight(&measureGraphics);
@@ -109,6 +105,6 @@ static gvtextlayout_engine_t gdiplus_textlayout_engine = {
 };
 
 gvplugin_installed_t gvtextlayout_gdiplus_types[] = {
-    {0, "textlayout", 8, &gdiplus_textlayout_engine, NULL},
-    {0, NULL, 0, NULL, NULL}
+    {0, "textlayout", 8, &gdiplus_textlayout_engine, nullptr},
+    {0, nullptr, 0, nullptr, nullptr}
 };
