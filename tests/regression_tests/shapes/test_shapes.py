@@ -1,6 +1,7 @@
-from subprocess import Popen, PIPE
-import os.path, sys
+import os.path
 from pathlib import Path
+from subprocess import Popen, PIPE
+import sys
 import pytest
 
 # Import helper function to compare graphs from tests/regressions_tests
