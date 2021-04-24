@@ -44,8 +44,7 @@ def readLine():
   LINE = f3.readline()
   if LINE != "":
     return LINE.strip()
-  else:
-    return None
+  return None
 
 # Skip blank lines and comments (lines starting with #)
 # Use first real line as the test name
