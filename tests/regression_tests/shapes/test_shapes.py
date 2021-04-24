@@ -108,12 +108,11 @@ def generate_shape_graph(shape, output_type):
       else:
         file.write(line)
 
-class Test_File():
-  @pytest.mark.parametrize(
-      "shape,output_type", [(shape, output_type) for shape in shapes
-                            for output_type in output_types]
-  )
-  def test_shape(self, shape, output_type):
-    os.chdir(Path(__file__).resolve().parent)
-    generate_shape_graph(shape, output_type)
-    assert compare_graphs(shape, output_type)
+@pytest.mark.parametrize(
+    "shape,output_type", [(shape, output_type) for shape in shapes
+                          for output_type in output_types]
+)
+def test_shape(shape, output_type):
+  os.chdir(Path(__file__).resolve().parent)
+  generate_shape_graph(shape, output_type)
+  assert compare_graphs(shape, output_type)
