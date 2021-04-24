@@ -989,7 +989,7 @@ removeEdge(segment* seg1, segment* seg2, int dir, maze* mp)
     remove_redge (chan->G, ptr1->ind_no, ptr2->ind_no);
 }
 
-static void
+static int
 addPEdges (channel* cp, maze* mp)
 {
     int i,j;
@@ -1061,6 +1061,8 @@ addPEdges (channel* cp, maze* mp)
 	    }
 	}
     }
+
+    return 0;
 }
 
 static int
