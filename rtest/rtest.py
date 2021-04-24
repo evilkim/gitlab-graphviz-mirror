@@ -9,14 +9,12 @@
 
 import os
 import shutil
-import tempfile
 import shutil
 import subprocess
 import sys
 import platform
 import argparse
 import atexit
-import pathlib
 
 TESTFILE = os.path.join(os.path.dirname(__file__), "tests.txt")
                                       # Test specifications

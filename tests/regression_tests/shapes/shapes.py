@@ -1,5 +1,5 @@
 from subprocess import Popen, PIPE
-import os.path, sys
+import sys
 from pathlib import Path
 
 # Import helper function to compare graphs from tests/regressions_tests

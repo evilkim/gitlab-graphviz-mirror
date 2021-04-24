@@ -9,7 +9,6 @@ import re
 import sys
 import stat
 import tempfile
-from typing import List, Optional, Tuple
 
 sys.path.append(os.path.dirname(__file__))
 from gvtest import run_c

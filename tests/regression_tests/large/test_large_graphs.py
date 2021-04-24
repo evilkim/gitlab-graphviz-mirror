@@ -2,7 +2,6 @@ import pytest
 
 import subprocess
 import os
-import sys
 import platform
 
 

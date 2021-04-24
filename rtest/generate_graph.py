@@ -29,7 +29,6 @@ Some ideas for TODO:
 """
 
 import argparse
-from enum import Enum
 import os
 from pathlib import Path
 import platform

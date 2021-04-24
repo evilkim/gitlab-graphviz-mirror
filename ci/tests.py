@@ -7,7 +7,6 @@ test cases that are only relevant to run in CI
 import platform
 import pytest
 import shutil
-import subprocess
 import os
 
 @pytest.mark.parametrize("binary", [

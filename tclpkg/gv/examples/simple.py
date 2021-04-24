@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import sys
 import gv
 
 # create a new empty graph
