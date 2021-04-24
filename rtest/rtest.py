@@ -230,11 +230,15 @@ def doTest(TEST):
     OUTPATH = os.path.join(OUTDIR, OUTFILE)
     KFLAGS = SUBTEST["ALG"]
     TFLAGS = SUBTEST["FMT"]
-    if KFLAGS: KFLAGS = f"-K{KFLAGS}"
-    if TFLAGS: TFLAGS = f"-T{TFLAGS}"
+    if KFLAGS:
+      KFLAGS = f"-K{KFLAGS}"
+    if TFLAGS:
+      TFLAGS = f"-T{TFLAGS}"
     testcmd = [DOT]
-    if KFLAGS: testcmd += [KFLAGS]
-    if TFLAGS: testcmd += [TFLAGS]
+    if KFLAGS:
+      testcmd += [KFLAGS]
+    if TFLAGS:
+      testcmd += [TFLAGS]
     testcmd += SUBTEST["FLAGS"] + ["-o", OUTPATH, INFILE]
     if VERBOSE:
       print(" ".join(testcmd))
