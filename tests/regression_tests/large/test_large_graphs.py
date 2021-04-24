@@ -11,7 +11,7 @@ class TestLargeGraphs():
 	def test_long_chain(self):
 		"""
 		This test will fail on 32bit Windows machine if compiled with stack size < 16MB.
-		long_chain input file generated using code below:		
+		long_chain input file generated using code below:
 			from graphviz import Digraph
 
 			graph = Digraph(format="svg")
@@ -20,11 +20,11 @@ class TestLargeGraphs():
 			graph.node("start", label="start")
 
 			for i in range(33000):
-				new_node = str(i)    
+				new_node = str(i)
 				graph.node(new_node, label=new_node, shape="rectangle")
-				
+
 				graph.edge(prev, new_node)
-				
+
 				prev = new_node
 
 			graph.render("long_chain")

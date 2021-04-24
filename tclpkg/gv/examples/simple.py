@@ -2,7 +2,7 @@
 import sys
 import gv
 
-# create a new empty graph 
+# create a new empty graph
 G = gv.digraph("G")
 
 # define a simple graph ( A->B )

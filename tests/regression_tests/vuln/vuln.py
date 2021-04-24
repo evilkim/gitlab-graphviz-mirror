@@ -39,4 +39,4 @@ print(f"    Number of tests: {len(vulnfiles) * len(output_types)}")
 print(f"    Number of failures: {failures}")
 
 if not failures == 0:
-  exit(1) 
+  exit(1)
