@@ -1072,7 +1072,7 @@ add_p_edges (Dt_t* chans, maze* mp)
     }
 }
 
-static void
+static int
 assignTracks (maze* mp)
 {
     /* Create the graphs for each channel */
@@ -1090,6 +1090,8 @@ assignTracks (maze* mp)
     /* Assign the tracks after a top sort */
     assignTrackNo (mp->hchans);
     assignTrackNo (mp->vchans);
+
+    return 0;
 }
 
 static double
