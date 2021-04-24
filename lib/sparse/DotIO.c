@@ -199,7 +199,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
   }
 
   if (x && (psym = agattr(g, AGNODE, "pos", NULL))) {
-    int has_positions = TRUE;
+    bool has_positions = true;
     char* pval;
     if (!(*x)) {
       *x = MALLOC(sizeof(real)*dim*nnodes);
@@ -213,7 +213,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
 	if (dim == 2){
 	  nitems = sscanf(pval, "%lf,%lf", &xx, &yy);
 	  if (nitems != 2) {
-            has_positions = FALSE;
+            has_positions = false;
             agerr(AGERR, "Node \"%s\" pos has %d < 2 values", agnameof(n), nitems);
 	  }
 	  (*x)[i*dim] = xx;
@@ -221,7 +221,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
 	} else if (dim == 3){
 	  nitems = sscanf(pval, "%lf,%lf,%lf", &xx, &yy, &zz);
 	  if (nitems != 3) {
-            has_positions = FALSE;
+            has_positions = false;
             agerr(AGERR, "Node \"%s\" pos has %d < 3 values", agnameof(n), nitems);
 	  }
 	  (*x)[i*dim] = xx;
@@ -230,7 +230,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
 	} else if (dim == 4){
 	  nitems = sscanf(pval, "%lf,%lf,%lf,%lf", &xx, &yy, &zz,&ww);
 	  if (nitems != 4) {
-            has_positions = FALSE;
+            has_positions = false;
             agerr(AGERR, "Node \"%s\" pos has %d < 4 values", agnameof(n), nitems);
 	  }
 	  (*x)[i*dim] = xx;
@@ -248,7 +248,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
 	  assert(0);
 	}
       } else {
-        has_positions = FALSE;
+        has_positions = false;
 	agerr(AGERR, "Node \"%s\" lacks position info", agnameof(n));
       }
     }
