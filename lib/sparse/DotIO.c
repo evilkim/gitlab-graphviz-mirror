@@ -18,6 +18,7 @@
 #include <sparse/mq.h>
 #include <sparse/color_palette.h>
 #include <sparse/colorutil.h>
+#include <stdbool.h>
 #include <string.h>
 
 typedef struct {
@@ -490,7 +491,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   if (with_color){
     real maxdist = 0.;
     real mindist = 0.;
-    int first = TRUE;
+    bool first = true;
     color = malloc(sizeof(real)*A->nz);
     for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
       i = ND_id(n);
@@ -500,7 +501,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
 	  if (i != ja[j]){
 	    if (first){
 	      mindist = color[j];
-	      first = FALSE;
+	      first = false;
 	    } else {
 	      mindist = MIN(mindist, color[j]);
 	    }
@@ -513,7 +514,7 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
 	  if (i != ja[j]){
 	    if (first){
 	      mindist = color[j];
-	      first = FALSE;
+	      first = false;
 	    } else {
 	      mindist = MIN(mindist, color[j]);
 	    }
