@@ -745,7 +745,7 @@ seg_cmp(segment* S1, segment* S2)
 	return segCmp (S1, S2, B_DOWN, B_UP);
 }
 
-static void 
+static int
 add_edges_in_G(channel* cp)
 {
     int x,y;
@@ -763,6 +763,8 @@ add_edges_in_G(channel* cp)
 	    }
 	}
     }
+
+    return 0;
 }
 
 static int
