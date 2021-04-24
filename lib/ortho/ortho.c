@@ -25,7 +25,6 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include <setjmp.h>
 #include <ortho/maze.h>
 #include <ortho/fPQ.h>
 #include <ortho/ortho.h>
@@ -38,8 +37,6 @@ typedef struct {
     int d;
     Agedge_t* e;
 } epair_t;
-
-static jmp_buf jbuf;
 
 #ifdef DEBUG
 static void emitSearchGraph (FILE* fp, sgraph* sg);
@@ -723,6 +720,7 @@ segCmp (segment* S1, segment* S2, bend T1, bend T2)
  *   0 if a crossing is unavoidable or there is no crossing at all or 
  *     the segments are parallel,
  *   1 if S1 HAS TO BE to the left/above S2 to avoid a crossing
+ *  -2 if S1 and S2 are incomparable
  *
  * Note: This definition means horizontal segments have track numbers
  * increasing as y decreases, while vertical segments have track numbers
@@ -737,7 +735,7 @@ seg_cmp(segment* S1, segment* S2)
 {
     if(S1->isVert!=S2->isVert||S1->comm_coord!=S2->comm_coord) {
 	agerr (AGERR, "incomparable segments !! -- Aborting\n");
-	longjmp(jbuf, 1);
+	return -2;
     }
     if(S1->isVert)
 	return segCmp (S1, S2, B_RIGHT, B_LEFT);
@@ -1365,8 +1363,6 @@ orthoEdges (Agraph_t* g, int doLbls)
     mp->hchans = extractHChans (mp);
     mp->vchans = extractVChans (mp);
     assignSegs (n_edges, route_list, mp);
-    if (setjmp(jbuf))
-	goto orthofinish;
     if (assignTracks(mp) != 0)
 	goto orthofinish;
 #ifdef DEBUG
