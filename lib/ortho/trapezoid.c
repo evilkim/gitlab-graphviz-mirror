@@ -13,10 +13,8 @@
 
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
-#ifndef __USE_ISOC99
-#define __USE_ISOC99
-#endif
 #include <math.h>
 #include <common/geom.h>
 #include <common/logic.h>
@@ -84,7 +82,7 @@ static int newtrap(trap_t* tr)
 }
 
 /* Return the maximum of the two points into the yval structure */
-static int _max (pointf *yval, pointf *v0, pointf *v1)
+static void _max (pointf *yval, pointf *v0, pointf *v1)
 {
   if (v0->y > v1->y + C_EPS)
     *yval = *v0;
@@ -97,12 +95,10 @@ static int _max (pointf *yval, pointf *v0, pointf *v1)
     }
   else
     *yval = *v1;
-
-  return 0;
 }
 
 /* Return the minimum of the two points into the yval structure */
-static int _min (pointf *yval, pointf *v0, pointf *v1)
+static void _min (pointf *yval, pointf *v0, pointf *v1)
 {
   if (v0->y < v1->y - C_EPS)
     *yval = *v0;
@@ -115,21 +111,19 @@ static int _min (pointf *yval, pointf *v0, pointf *v1)
     }
   else
     *yval = *v1;
-
-  return 0;
 }
 
-static int _greater_than_equal_to (pointf *v0, pointf *v1)
+static bool _greater_than_equal_to (pointf *v0, pointf *v1)
 {
   if (v0->y > v1->y + C_EPS)
     return TRUE;
   else if (v0->y < v1->y - C_EPS)
     return FALSE;
   else
-    return (v0->x >= v1->x);
+    return v0->x >= v1->x;
 }
 
-static int _less_than (pointf *v0, pointf *v1)
+static bool _less_than (pointf *v0, pointf *v1)
 {
   return !_greater_than_equal_to(v0, v1);
 }
@@ -215,7 +209,7 @@ init_query_structure(int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   qs[i6].trnum = t1;
   qs[i7].trnum = t2;
 
-  s->is_inserted = TRUE;
+  s->is_inserted = true;
   return root;
 }
 
@@ -223,7 +217,7 @@ init_query_structure(int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
  * segnum. Takes care of the degenerate cases when both the vertices
  * have the same y--cood, etc.
  */
-static int
+static bool
 is_left_of (int segnum, segment_t* seg, pointf *v)
 {
   segment_t *s = &seg[segnum];
@@ -246,7 +240,7 @@ is_left_of (int segnum, segment_t* seg, pointf *v)
 	    area = -1.0;
 	}
       else
-	area = CROSS(s->v0, s->v1, (*v));
+	area = CROSS(s->v0, s->v1, *v);
     }
   else				/* v0 > v1 */
     {
@@ -268,16 +262,13 @@ is_left_of (int segnum, segment_t* seg, pointf *v)
 	area = CROSS(s->v1, s->v0, (*v));
     }
 
-  if (area > 0.0)
-    return TRUE;
-  else
-    return FALSE;
+  return area > 0.0;
 }
 
 /* Returns true if the corresponding endpoint of the given segment is */
 /* already inserted into the segment tree. Use the simple test of */
 /* whether the segment which shares this endpoint is already inserted */
-static int inserted (int segnum, segment_t* seg, int whichpt)
+static bool inserted (int segnum, segment_t* seg, int whichpt)
 {
   if (whichpt == FIRSTPT)
     return seg[seg[segnum].prev].is_inserted;
@@ -561,8 +552,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 
   t = tfirst;			/* topmost trapezoid */
 
-  while (t > 0 &&
-	 _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
+  while (t > 0 && _greater_than_equal_to(&tr[t].lo, &tr[tlast].lo))
 				/* traverse from top to bot */
     {
       int t_sav, tn_sav;
@@ -648,11 +638,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
@@ -756,11 +744,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
@@ -894,11 +880,9 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
 	    {			/* fresh seg. or upward cusp */
 	      int tmp_u = tr[t].u0;
 	      int td0, td1;
-	      if ((td0 = tr[tmp_u].d0) > 0 &&
-		  (td1 = tr[tmp_u].d1) > 0)
+	      if ((td0 = tr[tmp_u].d0) > 0 && (td1 = tr[tmp_u].d1) > 0)
 		{		/* upward cusp */
-		  if (tr[td0].rseg > 0 &&
-		      !is_left_of(tr[td0].rseg, seg, &s.v1))
+		  if (tr[td0].rseg > 0 && !is_left_of(tr[td0].rseg, seg, &s.v1))
 		    {
 		      tr[t].u0 = tr[t].u1 = tr[tn].u1 = -1;
 		      tr[tr[tn].u0].d1 = tn;
@@ -980,7 +964,7 @@ add_segment (int segnum, segment_t* seg, trap_t* tr, qnode_t* qs)
   merge_trapezoids(segnum, tfirstl, tlastl, S_LEFT, tr, qs);
   merge_trapezoids(segnum, tfirstr, tlastr, S_RIGHT, tr, qs);
 
-  seg[segnum].is_inserted = TRUE;
+  seg[segnum].is_inserted = true;
   return 0;
 }
 
@@ -1011,7 +995,7 @@ static int math_logstar_n(int n)
   for (i = 0, v = (double) n; v >= 1; i++)
       v = log2(v);
 
-  return (i - 1);
+  return i - 1;
 }
 
 static int math_N(int n, int h)

@@ -8,11 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef PARTITION_H
-#define PARTITION_H
+#pragma once
 
 #include <ortho/maze.h>
 
 extern boxf* partition (cell*, int, int*, boxf);
-
-#endif

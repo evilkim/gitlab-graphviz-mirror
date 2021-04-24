@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef MAZE_H
-#define MAZE_H
+#pragma once
 
 #include <ortho/sgraph.h>
 
@@ -60,5 +59,4 @@ extern int odb_flags;
 #define ODB_ROUTE   4
 #define ODB_CHANG   8
 #define ODB_IGRAPH 16
-#endif
 #endif

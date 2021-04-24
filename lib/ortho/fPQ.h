@@ -11,7 +11,6 @@
 /* Priority Queue Code for shortest path in graph */
 
 #include <ortho/sgraph.h>
-/* typedef snode** PQ; */
 
 #define N_VAL(n) (n)->n_val
 #define N_IDX(n) (n)->n_idx

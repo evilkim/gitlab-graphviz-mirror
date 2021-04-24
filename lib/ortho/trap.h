@@ -8,14 +8,15 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TRAP_H
-#define TRAP_H
+#pragma once
+
+#include <stdbool.h>
 
 /* Segment attributes */
 
 typedef struct {
   pointf v0, v1;       /* two endpoints */ 
-  int is_inserted;      /* inserted in trapezoidation yet ? */
+  bool is_inserted;      /* inserted in trapezoidation yet ? */
   int root0, root1;     /* root nodes in Q */
   int next;         /* Next logical segment */
   int prev;         /* Previous segment */
@@ -48,8 +49,6 @@ typedef struct {
   (FP_EQUAL((v0)->y, (v1)->y) && FP_EQUAL((v0)->x, (v1)->x))
 
 #define _greater_than(v0, v1) \
-  (((v0)->y > (v1)->y + C_EPS) ? TRUE : (((v0)->y < (v1)->y - C_EPS) ? FALSE : ((v0)->x > (v1)->x)))
+  (((v0)->y > (v1)->y + C_EPS) ? true : (((v0)->y < (v1)->y - C_EPS) ? false : ((v0)->x > (v1)->x)))
 
 extern int construct_trapezoids(int, segment_t*, int*, int, trap_t*);
-
-#endif

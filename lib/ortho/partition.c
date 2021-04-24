@@ -14,6 +14,7 @@
 #include <ortho/trap.h>
 #include <common/memory.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -128,7 +129,7 @@ store (segment_t* seg, int first, pointf* pts)
 	    seg[i].next = i+1;
 	    seg[i].prev = i-1;
 	}
-	seg[i].is_inserted = FALSE;
+	seg[i].is_inserted = false;
 	seg[seg[i].prev].v1 = seg[i].v0 = pts[j];
     }
     return (last+1);
@@ -165,23 +166,22 @@ generateRandomOrdering(int n, int* permute)
     }
 }
 
-/* Function returns TRUE if the trapezoid lies inside the polygon */
-static int 
+/* Function returns true if the trapezoid lies inside the polygon */
+static bool
 inside_polygon (trap_t *t, segment_t* seg)
 {
   int rseg = t->rseg;
 
   if (t->state == ST_INVALID)
-    return 0;
+    return false;
 
-  if ((t->lseg <= 0) || (t->rseg <= 0))
-    return 0;
+  if (t->lseg <= 0 || t->rseg <= 0)
+    return false;
   
-  if (((t->u0 <= 0) && (t->u1 <= 0)) || 
-      ((t->d0 <= 0) && (t->d1 <= 0))) /* triangle */
-    return (_greater_than(&seg[rseg].v1, &seg[rseg].v0));
+  if ((t->u0 <= 0 && t->u1 <= 0) || (t->d0 <= 0 && t->d1 <= 0)) /* triangle */
+    return _greater_than(&seg[rseg].v1, &seg[rseg].v0);
   
-  return 0;
+  return true;
 }
 
 static double
@@ -198,12 +198,12 @@ get_angle (pointf *vp0, pointf *vpnext, pointf *vp1)
   if (CROSS_SINE(v0, v1) >= 0)	/* sine is positive */
     return DOT(v0, v1)/LENGTH(v0)/LENGTH(v1);
   else
-    return (-1.0 * DOT(v0, v1)/LENGTH(v0)/LENGTH(v1) - 2);
+    return -1.0 * DOT(v0, v1)/LENGTH(v0)/LENGTH(v1) - 2;
 }
 
 /* (v0, v1) is the new diagonal to be added to the polygon. Find which */
 /* chain to use and return the positions of v0 and v1 in p and q */ 
-static int
+static void
 get_vertex_positions (int v0, int v1, int *ip, int *iq)
 {
   vertexchain_t *vp0, *vp1;
@@ -249,8 +249,6 @@ get_vertex_positions (int v0, int v1, int *ip, int *iq)
     }
 
   *iq = tq;
-
-  return 0;
 }
 
 /* v0 and v1 are specified in anti-clockwise order with respect to 
@@ -306,8 +304,7 @@ make_new_monotone_poly (int mcur, int v0, int v1)
   vp1->nextfree++;
 
 #if DEBUG > 0
-  fprintf(stderr, "make_poly: mcur = %d, (v0, v1) = (%d, %d)\n", 
-	  mcur, v0, v1);
+  fprintf(stderr, "make_poly: mcur = %d, (v0, v1) = (%d, %d)\n", mcur, v0, v1);
   fprintf(stderr, "next posns = (p, q) = (%d, %d)\n", p, q);
 #endif
 
@@ -325,16 +322,15 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
   int mnew;
   int v0, v1;
 
-  if ((trnum <= 0) || visited[trnum])
+  if (trnum <= 0 || visited[trnum])
     return size;
 
   t = &tr[trnum];
 
   visited[trnum] = TRUE;
   
-  if ((t->hi.y > t->lo.y) &&
-      (seg[t->lseg].v0.x == seg[t->lseg].v1.x) &&
-      (seg[t->rseg].v0.x == seg[t->rseg].v1.x)) {
+  if (t->hi.y > t->lo.y && seg[t->lseg].v0.x == seg[t->lseg].v1.x &&
+      seg[t->rseg].v0.x == seg[t->rseg].v1.x) {
       if (flip) {
           decomp[size].LL.x = t->lo.y;
           decomp[size].LL.y = -seg[t->rseg].v0.x;
@@ -359,9 +355,9 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 
   /* special cases for triangles with cusps at the opposite ends. */
   /* take care of this first */
-  if ((t->u0 <= 0) && (t->u1 <= 0))
+  if (t->u0 <= 0 && t->u1 <= 0)
     {
-      if ((t->d0 > 0) && (t->d1 > 0)) /* downward opening triangle */
+      if (t->d0 > 0 && t->d1 > 0) /* downward opening triangle */
 	{
 	  v0 = tr[t->d1].lseg;
 	  v1 = t->lseg;
@@ -388,9 +384,9 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	}
     }
   
-  else if ((t->d0 <= 0) && (t->d1 <= 0))
+  else if (t->d0 <= 0 && t->d1 <= 0)
     {
-      if ((t->u0 > 0) && (t->u1 > 0)) /* upward opening triangle */
+      if (t->u0 > 0 && t->u1 > 0) /* upward opening triangle */
 	{
 	  v0 = t->rseg;
 	  v1 = tr[t->u0].rseg;
@@ -417,14 +413,14 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	}
     }
   
-  else if ((t->u0 > 0) && (t->u1 > 0)) 
+  else if (t->u0 > 0 && t->u1 > 0)
     {
-      if ((t->d0 > 0) && (t->d1 > 0)) /* downward + upward cusps */
+      if (t->d0 > 0 && t->d1 > 0) /* downward + upward cusps */
 	{
 	  v0 = tr[t->d1].lseg;
 	  v1 = tr[t->u0].rseg;
-	  if (((dir == TR_FROM_DN) && (t->d1 == from)) ||
-	      ((dir == TR_FROM_UP) && (t->u1 == from)))
+	  if ((dir == TR_FROM_DN && t->d1 == from) ||
+	      (dir == TR_FROM_UP && t->u1 == from))
 	    {
 	      mnew = make_new_monotone_poly(mcur, v1, v0);
 	      size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
@@ -448,7 +444,7 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	      v0 = tr[t->u0].rseg;
 	      v1 = seg[t->lseg].next;
 
-	      if ((dir == TR_FROM_UP) && (t->u0 == from))
+	      if (dir == TR_FROM_UP && t->u0 == from)
 		{
 		  mnew = make_new_monotone_poly(mcur, v1, v0);
 		  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u0, trnum, flip, TR_FROM_DN);
@@ -469,7 +465,7 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    {
 	      v0 = t->rseg;
 	      v1 = tr[t->u0].rseg;	
-	      if ((dir == TR_FROM_UP) && (t->u1 == from))
+	      if (dir == TR_FROM_UP && t->u1 == from)
 		{
 		  mnew = make_new_monotone_poly(mcur, v1, v0);
 		  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
@@ -488,15 +484,15 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	    }
 	}
     }
-  else if ((t->u0 > 0) || (t->u1 > 0)) /* no downward cusp */
+  else if (t->u0 > 0 || t->u1 > 0) /* no downward cusp */
     {
-      if ((t->d0 > 0) && (t->d1 > 0)) /* only upward cusp */
+      if (t->d0 > 0 && t->d1 > 0) /* only upward cusp */
 	{
 	  if (_equal_to(&t->hi, &seg[t->lseg].v0))
 	    {
 	      v0 = tr[t->d1].lseg;
 	      v1 = t->lseg;
-	      if (!((dir == TR_FROM_DN) && (t->d0 == from)))
+	      if (!(dir == TR_FROM_DN && t->d0 == from))
 		{
 		  mnew = make_new_monotone_poly(mcur, v1, v0);
 		  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->u1, trnum, flip, TR_FROM_DN);
@@ -518,7 +514,7 @@ traverse_polygon (int* visited, boxf* decomp, int size, segment_t* seg, trap_t* 
 	      v0 = tr[t->d1].lseg;
 	      v1 = seg[t->rseg].next;
 
-	      if ((dir == TR_FROM_DN) && (t->d1 == from))
+	      if (dir == TR_FROM_DN && t->d1 == from)
 		{
 		  mnew = make_new_monotone_poly(mcur, v1, v0);
 		  size = traverse_polygon (visited, decomp, size, seg, tr, mcur, t->d1, trnum, flip, TR_FROM_UP);
@@ -650,24 +646,18 @@ monotonate_trapezoids(int nsegs, segment_t*seg, trap_t* tr,
   return size;
 }
 
-static int 
+static bool
 rectIntersect (boxf *d, const boxf *r0, const boxf *r1)
 {
-    double t;
-
-    t = (r0->LL.x > r1->LL.x) ? r0->LL.x : r1->LL.x;
-    d->UR.x = (r0->UR.x < r1->UR.x) ? r0->UR.x : r1->UR.x;
+    double t = fmax(r0->LL.x, r1->LL.x);
+    d->UR.x = fmin(r0->UR.x, r1->UR.x);
     d->LL.x = t;
     
-    t = (r0->LL.y > r1->LL.y) ? r0->LL.y : r1->LL.y;
-    d->UR.y = (r0->UR.y < r1->UR.y) ? r0->UR.y : r1->UR.y;
+    t = fmax(r0->LL.y, r1->LL.y);
+    d->UR.y = fmin(r0->UR.y, r1->UR.y);
     d->LL.y = t;
 
-    if ((d->LL.x >= d->UR.x) ||
-        (d->LL.y >= d->UR.y))
-    return 0;
-
-    return 1;
+    return !(d->LL.x >= d->UR.x || d->LL.y >= d->UR.y);
 }
 
 #if DEBUG > 1
@@ -694,7 +684,7 @@ dumpSegs (segment_t* sg, int n)
       sg++;
       fprintf (stderr, "%d : (%f,%f) (%f,%f) %d %d %d %d %d\n", i,
          sg->v0.x, sg->v0.y, sg->v1.x, sg->v1.y,
-         sg->is_inserted, sg->root0,  sg->root1, sg->next, sg->prev);
+         (int)sg->is_inserted, sg->root0,  sg->root1, sg->next, sg->prev);
     }
     fprintf (stderr, "====\n");
 }
