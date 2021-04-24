@@ -1028,10 +1028,14 @@ addPEdges (channel* cp, maze* mp)
 			    dir = 1;
 		    }
 
-		    decide_point(&p, segs[i], segs[j], 0, dir);
+		    if (decide_point(&p, segs[i], segs[j], 0, dir) != 0) {
+			return -1;
+		    }
 		    hops.a = p.a;
 		    prec1 = p.b;
-		    decide_point(&p, segs[i], segs[j], 1, 1-dir);
+		    if (decide_point(&p, segs[i], segs[j], 1, 1-dir) != 0) {
+			return -1;
+		    }
 		    hops.b = p.a;
 		    prec2 = p.b;
 
