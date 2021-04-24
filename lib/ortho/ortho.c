@@ -1063,7 +1063,7 @@ addPEdges (channel* cp, maze* mp)
     }
 }
 
-static void 
+static int
 add_p_edges (Dt_t* chans, maze* mp)
 {
     Dt_t* lp;
@@ -1076,6 +1076,8 @@ add_p_edges (Dt_t* chans, maze* mp)
 	    addPEdges ((channel*)l2, mp);
    	}
     }
+
+    return 0;
 }
 
 static int
