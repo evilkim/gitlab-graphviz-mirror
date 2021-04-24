@@ -18,6 +18,7 @@
 #include <sparse/mq.h>
 #include <sparse/color_palette.h>
 #include <sparse/colorutil.h>
+#include <string.h>
 
 typedef struct {
     Agrec_t h;
@@ -318,8 +319,7 @@ int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines){
       /* edge weight */
       if (sym) {
 	char *pos = agxget (e, sym);
-	(*xsplines)[i] = malloc(sizeof(char)*(strlen(pos)+1));
-	strcpy((*xsplines)[i], pos);
+	(*xsplines)[i] = strdup(pos);
       } else {
 	(*xsplines)[i] = NULL;
       }
@@ -918,13 +918,10 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
     }
 
    if (agget(n, "label") && strcmp(agget(n, "label"), "") != 0 && strcmp(agget(n, "label"), "\\N") != 0){
-     char *lbs;
-     lbs = agget(n, "label");
-      (*labels)[i] = MALLOC(sizeof(char)*(strlen(lbs)+1));
-      strcpy((*labels)[i], lbs);
+     char *lbs = agget(n, "label");
+      (*labels)[i] = strdup(lbs);
     } else {
-     (*labels)[i] = MALLOC(sizeof(char)*(strlen(agnameof(n))+1));
-      strcpy((*labels)[i], agnameof(n));
+     (*labels)[i] = strdup(agnameof(n));
     }
 
 
