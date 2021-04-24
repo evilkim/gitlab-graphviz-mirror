@@ -123,10 +123,9 @@ portable-source:
         - $ErrorActionPreference = "Stop"
         - $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
         - choco install --yes --no-progress python3
-        - copy C:\Python39\python.exe C:\Python39\python3.exe
         - $env:Path = "C:\Python39;" + $env:Path
-        - python3 --version
-        - python3 -m pip install --requirement requirements.txt
+        - python --version
+        - python -m pip install --requirement requirements.txt
         # Toolchain definitions
         - if($Env:project_platform -eq "x64") {
             $TARGET_ARCH = "x64";
@@ -146,8 +145,8 @@ portable-source:
         - echo "$CI_JOB_NAME-warnings $warnings_count" > metrics.txt
         - rm $logfile
         - cat metrics.txt
-        - python3 gen_version.py > VERSION
-        - python3 gen_version.py --collection > COLLECTION
+        - python gen_version.py > VERSION
+        - python gen_version.py --collection > COLLECTION
         # Package
         - $Env:GV_VERSION=$( cat VERSION )
         - >-
@@ -186,7 +185,7 @@ portable-source:
               # The following is per https://gitlab.com/graphviz/graphviz/-/merge_requests/1345
               $env:Path = $env:CI_PROJECT_DIR + "\" + $env:configuration + "\Graphviz\bin" + ";" + $env:Path;
             }
-        - python3 -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
+        - python -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
         # Create artifacts to archive
         - $ID = "windows"
         - $VERSION_ID = "10"
