@@ -937,13 +937,13 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
 
 
   if (x){
-    int has_position = FALSE;
+    bool has_position = false;
     *x = MALLOC(sizeof(real)*dim*nnodes);
     for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
       real xx,yy;
       i = ND_id(n);
       if (agget(n, "pos")){
-        has_position = TRUE;
+        has_position = true;
 	sscanf(agget(n, "pos"), "%lf,%lf", &xx, &yy);
 	(*x)[i*dim] = xx;
 	(*x)[i*dim+1] = yy;
