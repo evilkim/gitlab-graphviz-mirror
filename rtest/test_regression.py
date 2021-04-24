@@ -299,7 +299,7 @@ def test_1449():
     universal_newlines=True)
 
   # pass it some input that uses the SVG color scheme
-  stdout, stderr = p.communicate('graph g { colorscheme="svg"; }')
+  _, stderr = p.communicate('graph g { colorscheme="svg"; }')
 
   assert p.returncode == 0, "Graphviz exited with non-zero status"
 
