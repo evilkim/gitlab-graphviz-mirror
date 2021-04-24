@@ -1123,9 +1123,9 @@ addPoints(pointf p0, pointf p1)
 static void
 attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
 {
-    int ipt, npts;
+    int ipt;
     pointf* ispline = 0;
-    int splsz = 0;
+    size_t splsz = 0;
     pointf p, p1, q1;
     route rte;
     segment* seg;
@@ -1138,7 +1138,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, spli
 	q1 = addPoints(ND_coord(aghead(e)), ED_head_port(e).p);
 
 	rte = route_list[irte];
-	npts = 1 + 3*rte.n;
+	size_t npts = 1 + 3*rte.n;
 	if (npts > splsz) {
 		free (ispline);
 		ispline = N_GNEW(npts, pointf);
