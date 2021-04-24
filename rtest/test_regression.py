@@ -11,7 +11,7 @@ import tempfile
 import pytest
 
 sys.path.append(os.path.dirname(__file__))
-from gvtest import run_c
+from gvtest import run_c #pylint: disable=C0413
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
