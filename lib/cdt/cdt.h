@@ -22,7 +22,7 @@ extern "C" {
 #       define CDT_API __declspec(dllimport)
 #   endif
 #else
-#   define CDT_API extern
+#   define CDT_API /* nothing */
 #endif
 
 typedef struct _dtlink_s	Dtlink_t;
@@ -161,25 +161,25 @@ struct _dtstat_s
 #define DT_ENDCLOSE	6	/* dtclose() is done			*/
 #define DT_HASHSIZE	7	/* setting hash table size		*/
 
-CDT_API Dtmethod_t* 	Dtset;
-CDT_API Dtmethod_t* 	Dtbag;
-CDT_API Dtmethod_t* 	Dtoset;
-CDT_API Dtmethod_t* 	Dtobag;
-CDT_API Dtmethod_t*	Dtlist;
-CDT_API Dtmethod_t*	Dtstack;
-CDT_API Dtmethod_t*	Dtqueue;
-CDT_API Dtmethod_t*	Dtdeque;
+CDT_API extern Dtmethod_t* 	Dtset;
+CDT_API extern Dtmethod_t* 	Dtbag;
+CDT_API extern Dtmethod_t* 	Dtoset;
+CDT_API extern Dtmethod_t* 	Dtobag;
+CDT_API extern Dtmethod_t*	Dtlist;
+CDT_API extern Dtmethod_t*	Dtstack;
+CDT_API extern Dtmethod_t*	Dtqueue;
+CDT_API extern Dtmethod_t*	Dtdeque;
 
 /* compatibility stuff; will go away */
 #ifndef KPVDEL
-CDT_API Dtmethod_t*	Dtorder;
-CDT_API Dtmethod_t*	Dttree;
-CDT_API Dtmethod_t*	Dthash;
-CDT_API Dtmethod_t	_Dttree;
-CDT_API Dtmethod_t	_Dthash;
-CDT_API Dtmethod_t	_Dtlist;
-CDT_API Dtmethod_t	_Dtqueue;
-CDT_API Dtmethod_t	_Dtstack;
+CDT_API extern Dtmethod_t*	Dtorder;
+CDT_API extern Dtmethod_t*	Dttree;
+CDT_API extern Dtmethod_t*	Dthash;
+CDT_API extern Dtmethod_t	_Dttree;
+CDT_API extern Dtmethod_t	_Dthash;
+CDT_API extern Dtmethod_t	_Dtlist;
+CDT_API extern Dtmethod_t	_Dtqueue;
+CDT_API extern Dtmethod_t	_Dtstack;
 #endif
 
 CDT_API Dt_t*		dtopen(Dtdisc_t*, Dtmethod_t*);
