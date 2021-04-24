@@ -26,7 +26,7 @@ from gvtest import run_c #pylint: disable=C0413
 
 def test_regression_subset_differences():
   os.chdir(Path(__file__).resolve().parent)
-  subprocess.check_call(["python3", "rtest.py", "tests_subset.txt"])
+  subprocess.check_call([sys.executable, "rtest.py", "tests_subset.txt"])
 
 # Secondly, run all tests but ignore differences and fail the test
 # only if there is a crash. This will leave the differences for png
@@ -34,8 +34,8 @@ def test_regression_subset_differences():
 
 def test_regression_failure():
   os.chdir(Path(__file__).resolve().parent)
-  result = subprocess.Popen(["python3", "rtest.py"], stderr=subprocess.PIPE,
-                            universal_newlines=True)
+  result = subprocess.Popen([sys.executable, "rtest.py"],
+                            stderr=subprocess.PIPE, universal_newlines=True)
   text = result.communicate()[1]
   print(text)
   assert "Layout failures: 0" in text

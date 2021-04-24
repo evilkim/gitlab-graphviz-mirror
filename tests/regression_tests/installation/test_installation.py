@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import subprocess
+import sys
 import pytest
 
 def test_installation():
@@ -11,7 +12,7 @@ def test_installation():
   # they can live with that.
   if expected_version is None:
     ROOT = Path(__file__).parent.parent.parent.parent
-    expected_version = subprocess.check_output(["python3",
+    expected_version = subprocess.check_output([sys.executable,
       "gen_version.py"], cwd=ROOT, universal_newlines=True).strip()
 
   actual_version_string = subprocess.check_output(

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - $PATH is no longer assumed to be "/bin:/usr/bin:/usr/local/bin" if unset
+- test suite no longer assumes `python3` exists #2049
 
 ### Fixed
 
