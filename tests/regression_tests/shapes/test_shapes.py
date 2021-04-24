@@ -1,8 +1,7 @@
-import pytest
-
 from subprocess import Popen, PIPE
 import os.path, sys
 from pathlib import Path
+import pytest
 
 # Import helper function to compare graphs from tests/regressions_tests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))

@@ -4,10 +4,10 @@
 test cases that are only relevant to run in CI
 """
 
-import platform
-import pytest
-import shutil
 import os
+import platform
+import shutil
+import pytest
 
 @pytest.mark.parametrize("binary", [
   "acyclic",

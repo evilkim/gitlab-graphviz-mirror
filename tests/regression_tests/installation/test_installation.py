@@ -1,7 +1,7 @@
-import pytest
-import subprocess
 import os
 from pathlib import Path
+import subprocess
+import pytest
 
 def test_installation():
   expected_version = os.environ.get("GV_VERSION")

@@ -3,10 +3,10 @@
 import os
 from pathlib import Path
 import platform
-import pytest
 import shutil
 import subprocess
 import sys
+import pytest
 
 sys.path.append(os.path.dirname(__file__))
 from gvtest import run_c

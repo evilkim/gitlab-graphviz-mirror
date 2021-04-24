@@ -1,14 +1,14 @@
+import os
 from pathlib import Path
-import pytest
 import platform
+import re
 import shutil
 import signal
-import subprocess
-import os
-import re
-import sys
 import stat
+import subprocess
+import sys
 import tempfile
+import pytest
 
 sys.path.append(os.path.dirname(__file__))
 from gvtest import run_c

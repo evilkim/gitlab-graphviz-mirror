@@ -1,9 +1,7 @@
-import pytest
-
-import subprocess
 import os
 import platform
-
+import subprocess
+import pytest
 
 class TestLargeGraphs():
 	@pytest.mark.skipif(platform.system() == "Windows" and
