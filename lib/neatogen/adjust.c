@@ -33,7 +33,7 @@
 #endif
 #include <cgraph/strcasecmp.h>
 
-#define SEPFACT         0.8  /* default esep/sep */
+#define SEPFACT         0.8f  /* default esep/sep */
 
 static double margin = 0.05;	/* Create initial bounding box by adding
 				 * margin * dimension around box enclosing
@@ -91,54 +91,45 @@ static void freeNodes(void)
  */
 static void chkBoundBox(Agraph_t * graph)
 {
-    char *marg;
     Point ll, ur;
-    int i;
-    double x, y;
-    double xmin, xmax, ymin, ymax;
-    double xmn, xmx, ymn, ymx;
-    double ydelta, xdelta;
-    Info_t *ip;
-    Poly *pp;
-    /* int          cnt; */
 
-    ip = nodeInfo;
-    pp = &ip->poly;
-    x = ip->site.coord.x;
-    y = ip->site.coord.y;
-    xmin = pp->origin.x + x;
-    ymin = pp->origin.y + y;
-    xmax = pp->corner.x + x;
-    ymax = pp->corner.y + y;
-    for (i = 1; i < nsites; i++) {
+    Info_t *ip = nodeInfo;
+    Poly *pp = &ip->poly;
+    double x = ip->site.coord.x;
+    double y = ip->site.coord.y;
+    double x_min = pp->origin.x + x;
+    double y_min = pp->origin.y + y;
+    double x_max = pp->corner.x + x;
+    double y_max = pp->corner.y + y;
+    for (int i = 1; i < nsites; i++) {
 	ip++;
 	pp = &ip->poly;
 	x = ip->site.coord.x;
 	y = ip->site.coord.y;
-	xmn = pp->origin.x + x;
-	ymn = pp->origin.y + y;
-	xmx = pp->corner.x + x;
-	ymx = pp->corner.y + y;
-	if (xmn < xmin)
-	    xmin = xmn;
-	if (ymn < ymin)
-	    ymin = ymn;
-	if (xmx > xmax)
-	    xmax = xmx;
-	if (ymx > ymax)
-	    ymax = ymx;
+	double xmn = pp->origin.x + x;
+	double ymn = pp->origin.y + y;
+	double xmx = pp->corner.x + x;
+	double ymx = pp->corner.y + y;
+	if (xmn < x_min)
+	    x_min = xmn;
+	if (ymn < y_min)
+	    y_min = ymn;
+	if (xmx > x_max)
+	    x_max = xmx;
+	if (ymx > y_max)
+	    y_max = ymx;
     }
 
-    marg = agget(graph, "voro_margin");
-    if (marg && (*marg != '\0')) {
+    char *marg = agget(graph, "voro_margin");
+    if (marg && *marg != '\0') {
 	margin = atof(marg);
     }
-    ydelta = margin * (ymax - ymin);
-    xdelta = margin * (xmax - xmin);
-    ll.x = xmin - xdelta;
-    ll.y = ymin - ydelta;
-    ur.x = xmax + xdelta;
-    ur.y = ymax + ydelta;
+    double ydelta = margin * (y_max - y_min);
+    double xdelta = margin * (x_max - x_min);
+    ll.x = x_min - xdelta;
+    ll.y = y_min - ydelta;
+    ur.x = x_max + xdelta;
+    ur.y = y_max + ydelta;
 
     setBoundBox(&ll, &ur);
 }
@@ -228,7 +219,7 @@ static void sortSites(void)
     ip = nodeInfo;
     infoinit();
     for (i = 0; i < nsites; i++) {
-	*sp++ = &(ip->site);
+	*sp++ = &ip->site;
 	ip->verts = NULL;
 	ip->site.refcnt = 1;
 	ip++;
@@ -266,13 +257,10 @@ static void geomUpdate(int doSort)
 
 static Site *nextOne(void)
 {
-    Site *s;
-
     if (nextSite < endSite) {
-	s = *nextSite++;
-	return (s);
+	return *nextSite++;
     } else
-	return ((Site *) NULL);
+	return NULL;
 }
 
 /* rmEquality:
@@ -292,9 +280,9 @@ static void rmEquality(void)
 
     while (ip < endSite) {
 	jp = ip + 1;
-	if ((jp >= endSite) ||
-	    ((*jp)->coord.x != (*ip)->coord.x) ||
-	    ((*jp)->coord.y != (*ip)->coord.y)) {
+	if (jp >= endSite ||
+	    (*jp)->coord.x != (*ip)->coord.x ||
+	    (*jp)->coord.y != (*ip)->coord.y) {
 	    ip = jp;
 	    continue;
 	}
@@ -302,16 +290,16 @@ static void rmEquality(void)
 	/* Find first node kp with position different from ip */
 	cnt = 2;
 	kp = jp + 1;
-	while ((kp < endSite) &&
-	       ((*kp)->coord.x == (*ip)->coord.x) &&
-	       ((*kp)->coord.y == (*ip)->coord.y)) {
+	while (kp < endSite &&
+	       (*kp)->coord.x == (*ip)->coord.x &&
+	       (*kp)->coord.y == (*ip)->coord.y) {
 	    cnt++;
 	    jp = kp;
 	    kp = jp + 1;
 	}
 
 	/* If next node exists and is on the same line */
-	if ((kp < endSite) && ((*kp)->coord.y == (*ip)->coord.y)) {
+	if (kp < endSite && (*kp)->coord.y == (*ip)->coord.y) {
 	    xdel = ((*kp)->coord.x - (*ip)->coord.x) / cnt;
 	    i = 1;
 	    for (jp = ip + 1; jp < kp; jp++) {
@@ -392,10 +380,9 @@ static double areaOf(Point a, Point b, Point c)
 {
     double area;
 
-    area =
-	(double) (fabs
+    area = fabs
 		  (a.x * (b.y - c.y) + b.x * (c.y - a.y) +
-		   c.x * (a.y - b.y)) / 2);
+		   c.x * (a.y - b.y)) / 2;
     return area;
 }
 
@@ -535,10 +522,10 @@ static int vAdjust(void)
     int increaseCnt = 0;
     int cnt;
 
-    if (!useIter || (iterations > 0))
+    if (!useIter || iterations > 0)
 	overlapCnt = countOverlap(iterCnt);
 
-    if ((overlapCnt == 0) || (iterations == 0))
+    if (overlapCnt == 0 || iterations == 0)
 	return 0;
 
     rmEquality();
@@ -548,7 +535,7 @@ static int vAdjust(void)
 	newPos();
 	iterCnt++;
 
-	if (useIter && (iterCnt == iterations))
+	if (useIter && iterCnt == iterations)
 	    break;
 	cnt = countOverlap(iterCnt);
 	if (cnt == 0)
@@ -583,7 +570,7 @@ static int vAdjust(void)
     return 1;
 }
 
-static double rePos(Point c)
+static double rePos(void)
 {
     int i;
     Info_t *ip = nodeInfo;
@@ -602,22 +589,19 @@ static int sAdjust(void)
     int iterCnt = 0;
     int overlapCnt = 0;
     int cnt;
-    Point center;
 
-    if (!useIter || (iterations > 0))
+    if (!useIter || iterations > 0)
 	overlapCnt = countOverlap(iterCnt);
 
-    if ((overlapCnt == 0) || (iterations == 0))
+    if (overlapCnt == 0 || iterations == 0)
 	return 0;
 
     rmEquality();
-    center.x = (pxmin + pxmax) / 2.0;
-    center.y = (pymin + pymax) / 2.0;
     while (1) {
-	rePos(center);
+	rePos();
 	iterCnt++;
 
-	if (useIter && (iterCnt == iterations))
+	if (useIter && iterCnt == iterations)
 	    break;
 	cnt = countOverlap(iterCnt);
 	if (cnt == 0)
@@ -634,7 +618,7 @@ static int sAdjust(void)
  /* updateGraph:
   * Enter new node positions into the graph
   */
-static void updateGraph(Agraph_t * graph)
+static void updateGraph(void)
 {
     int i;
     Info_t *ip;
@@ -688,7 +672,7 @@ double *getSizes(Agraph_t * g, pointf pad, int* n_elabels, int** elabels)
  * Assumes g is connected and simple, i.e., we can have a->b and b->a
  * but not a->b and a->b
  */
-SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
+SparseMatrix makeMatrix(Agraph_t* g, SparseMatrix *D)
 {
     SparseMatrix A = 0;
     Agnode_t *n;
@@ -731,7 +715,7 @@ SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {
 	    I[i] = row;
 	    J[i] = ND_id(aghead(e));
-	    if (!sym || (sscanf(agxget(e, sym), "%lf", &v) != 1))
+	    if (!sym || sscanf(agxget(e, sym), "%lf", &v) != 1)
 		v = 1;
 	    val[i] = v;
 	/* edge length */
@@ -760,7 +744,7 @@ SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D)
 static int
 fdpAdjust (graph_t* g, adjust_data* am)
 {
-    SparseMatrix A0 = makeMatrix(g, Ndim, NULL);
+    SparseMatrix A0 = makeMatrix(g, NULL);
     SparseMatrix A = A0;
     real *sizes;
     real *pos = N_NEW(Ndim * agnnodes(g), real);
@@ -779,7 +763,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
     sizes = getSizes(g, pad, NULL, NULL);
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	real* npos = pos + (Ndim * ND_id(n));
+	real* npos = pos + Ndim * ND_id(n);
 	for (i = 0; i < Ndim; i++) {
 	    npos[i] = ND_pos(n)[i];
 	}
@@ -816,15 +800,15 @@ fdpAdjust (graph_t* g, adjust_data* am)
 static int
 vpscAdjust(graph_t* G)
 {
-    int dim = 2;
+    enum { dim = 2 };
     int nnodes = agnnodes(G);
     ipsep_options opt;
     pointf* nsize = N_GNEW(nnodes, pointf);
-    float** coords = N_GNEW(dim, float*);
+    float* coords[dim];
     float* f_storage = N_GNEW(dim * nnodes, float);
     int i, j;
     Agnode_t* v;
-    expand_t margin;
+    expand_t exp_margin;
 
     for (i = 0; i < dim; i++) {
 	coords[i] = f_storage + i * nnodes;
@@ -833,7 +817,7 @@ vpscAdjust(graph_t* G)
     j = 0;
     for (v = agfstnode(G); v; v = agnxtnode(G, v)) {
 	for (i = 0; i < dim; i++) {
-	    coords[i][j] =  (float) (ND_pos(v)[i]);
+	    coords[i][j] =  (float)ND_pos(v)[i];
 	}
 	nsize[j].x = ND_width(v);
 	nsize[j].y = ND_height(v);
@@ -844,11 +828,11 @@ vpscAdjust(graph_t* G)
     opt.edge_gap = 0;
     opt.noverlap = 2;
     opt.clusters = NEW(cluster_data);
-    margin = sepFactor (G);
+    exp_margin = sepFactor (G);
  	/* Multiply by 2 since opt.gap is the gap size, not the margin */
-    if (margin.doAdd) {
-	opt.gap.x = 2.0*PS2INCH(margin.x);
-	opt.gap.y = 2.0*PS2INCH(margin.y);
+    if (exp_margin.doAdd) {
+	opt.gap.x = 2.0*PS2INCH(exp_margin.x);
+	opt.gap.y = 2.0*PS2INCH(exp_margin.y);
     }
     else {
 	opt.gap.x = opt.gap.y = 2.0*PS2INCH(DFLT_MARGIN);
@@ -867,7 +851,6 @@ vpscAdjust(graph_t* G)
 
     free (opt.clusters);
     free (f_storage);
-    free (coords);
     free (nsize);
     return 0;
 }
@@ -885,7 +868,7 @@ angleSet (graph_t* g, double* phi)
     char* p;
     char* a = agget(g, "normalize");
 
-    if (!a || (*a == '\0'))
+    if (!a || *a == '\0')
 	return 0;
     ang = strtod (a, &p);
     if (p == a) {  /* no number */
@@ -1005,7 +988,7 @@ setPrismValues (Agraph_t* g, char* s, adjust_data* dp)
 {
     int v;
 
-    if ((sscanf (s, "%d", &v) > 0) && (v >= 0))
+    if (sscanf (s, "%d", &v) > 0 && v >= 0)
 	dp->value = v;
     else
 	dp->value = 1000;
@@ -1019,7 +1002,7 @@ setPrismValues (Agraph_t* g, char* s, adjust_data* dp)
 static adjust_data *getAdjustMode(Agraph_t* g, char *s, adjust_data* dp)
 {
     lookup_t *ap = adjustMode + 1;
-    if ((s == NULL) || (*s == '\0')) {
+    if (s == NULL || *s == '\0') {
 	dp->mode = adjustMode[0].mode;
 	dp->print = adjustMode[0].print;
     }
@@ -1065,7 +1048,7 @@ static adjust_data *getAdjustMode(Agraph_t* g, char *s, adjust_data* dp)
 adjust_data *graphAdjustMode(graph_t *G, adjust_data* dp, char* dflt)
 {
     char* am = agget(G, "overlap");
-    return (getAdjustMode (G, am ? am : (dflt ? dflt : ""), dp));
+    return getAdjustMode (G, am ? am : (dflt ? dflt : ""), dp);
 }
 
 #define ISZERO(d) ((fabs(d) < 0.000000001))
@@ -1084,7 +1067,7 @@ static int simpleScale (graph_t* g)
 	    if (ISZERO(sc.x)) return 0;
 	    if (i == 1) sc.y = sc.x;
 	    else if (ISZERO(sc.y)) return 0;
-	    if ((sc.y == 1) && (sc.x == 1)) return 0;
+	    if (sc.y == 1 && sc.x == 1) return 0;
 	    if (Verbose)
 		fprintf (stderr, "scale = (%.03f,%.03f)\n", sc.x, sc.y);
 	    for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
@@ -1120,7 +1103,6 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	fprintf(stderr, "Adjusting %s using %s\n", agnameof(G), am->print);
 
     if (am->mode > AM_SCALE) {
-/* start_timer(); */
 	switch (am->mode) {
 	case AM_NSCALE:
 	    ret = scAdjust(G, 1);
@@ -1162,17 +1144,15 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	    break;
 #endif
 	default:		/* to silence warnings */
-	    if ((am->mode != AM_VOR) && (am->mode != AM_SCALE))
+	    if (am->mode != AM_VOR && am->mode != AM_SCALE)
 		agerr(AGWARN, "Unhandled adjust option %s\n", am->print);
 	    ret = 0;
 	    break;
 	}
-/* fprintf (stderr, "%s %.4f sec\n", am->print, elapsed_sec()); */
 	return nret+ret;
     }
 
     /* create main array */
-/* start_timer(); */
     if (makeInfo(G)) {
 	freeNodes();
 	free(sites);
@@ -1189,12 +1169,11 @@ removeOverlapWith (graph_t * G, adjust_data* am)
 	ret = vAdjust();
 
     if (ret)
-	updateGraph(G);
+	updateGraph();
 
     freeNodes();
     free(sites);
     sites = 0;
-/* fprintf (stderr, "%s %.4f sec\n", am->print, elapsed_sec()); */
 
     return ret+nret;
 }
@@ -1220,7 +1199,7 @@ removeOverlapAs(graph_t * G, char* flag)
  */
 int adjustNodes(graph_t * G)
 {
-    return (removeOverlapAs(G, agget(G, "overlap")));
+    return removeOverlapAs(G, agget(G, "overlap"));
 }
 
 /* parseFactor:
@@ -1259,8 +1238,8 @@ parseFactor (char* s, expand_t* pp, float sepfact, float dflt)
 	    }
 	}
 	else {
-	    pp->x = 1.0 + x/sepfact;
-	    pp->y = 1.0 + y/sepfact;
+	    pp->x = 1.0f + x/sepfact;
+	    pp->y = 1.0f + y/sepfact;
 	}
 	return 1;
     }
@@ -1303,7 +1282,7 @@ esepFactor(graph_t* g)
 
     if ((marg = agget(g, "esep")) && parseFactor(marg, &pmargin, 1.0, 0)) {
     }
-    else if ((marg = agget(g, "sep")) && parseFactor(marg, &pmargin, 1.0/SEPFACT, SEPFACT*DFLT_MARGIN)) {
+    else if ((marg = agget(g, "sep")) && parseFactor(marg, &pmargin, 1.0f/SEPFACT, SEPFACT*DFLT_MARGIN)) {
     }
     else {
 	pmargin.x = pmargin.y = SEPFACT*DFLT_MARGIN;

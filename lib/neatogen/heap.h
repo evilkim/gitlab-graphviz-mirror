@@ -15,12 +15,13 @@ extern "C" {
 #endif
 
 #include <neatogen/hedges.h>
+#include <stdbool.h>
 
     extern void PQinitialize(void);
     extern void PQcleanup(void);
     extern Halfedge *PQextractmin(void);
     extern Point PQ_min(void);
-    extern int PQempty(void);
+    extern bool PQempty(void);
     extern void PQdelete(Halfedge *);
     extern void PQinsert(Halfedge *, Site *, double);
 

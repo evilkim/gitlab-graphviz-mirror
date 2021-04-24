@@ -41,13 +41,13 @@ static int compare(Point * o, PtItem * p, PtItem * q)
 
     if (q == NULL)
 	return -1;
-    if ((p->p.x == q->p.x) && (p->p.y == q->p.y))
+    if (p->p.x == q->p.x && p->p.y == q->p.y)
 	return 0;
 
-    x0 = ((double) (p->p.x)) - ((double) (o->x));
-    y0 = ((double) (p->p.y)) - ((double) (o->y));
-    x1 = ((double) (q->p.x)) - ((double) (o->x));
-    y1 = ((double) (q->p.y)) - ((double) (o->y));
+    x0 = (double)p->p.x - (double)o->x;
+    y0 = (double)p->p.y - (double)o->y;
+    x1 = (double)q->p.x - (double)o->x;
+    y1 = (double)q->p.y - (double)o->y;
     if (x0 >= 0.0) {
 	if (x1 < 0.0)
 	    return -1;
@@ -113,11 +113,11 @@ void addVertex(Site * s, double x, double y)
     PtItem *p;
     PtItem *curr;
     PtItem *prev;
-    Point *origin = &(s->coord);
+    Point *origin = &s->coord;
     PtItem tmp;
     int cmp;
 
-    ip = nodeInfo + (s->sitenbr);
+    ip = nodeInfo + s->sitenbr;
     curr = ip->verts;
 
     tmp.p.x = x;
@@ -127,7 +127,7 @@ void addVertex(Site * s, double x, double y)
     if (cmp == 0)
 	return;
     else if (cmp < 0) {
-	p = (PtItem *) getfree(&pfl);
+	p = getfree(&pfl);
 	p->p.x = x;
 	p->p.y = y;
 	p->next = curr;
@@ -143,14 +143,9 @@ void addVertex(Site * s, double x, double y)
     }
     if (cmp == 0)
 	return;
-    p = (PtItem *) getfree(&pfl);
+    p = getfree(&pfl);
     p->p.x = x;
     p->p.y = y;
     prev->next = p;
     p->next = curr;
-
-    /* This test should be unnecessary */
-    /* if (!sorted(origin,ip->verts))  */
-    /* error (ip,s,x,y); */
-
 }

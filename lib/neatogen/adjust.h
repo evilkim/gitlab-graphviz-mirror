@@ -49,7 +49,7 @@ typedef struct {
     extern int scAdjust(graph_t *, int);
     extern adjust_data *graphAdjustMode(graph_t *G, adjust_data*, char* dflt);
     extern double *getSizes(Agraph_t * g, pointf pad, int *n_elabels, int **elabels);
-    extern SparseMatrix makeMatrix(Agraph_t* g, int dim, SparseMatrix *D);
+    extern SparseMatrix makeMatrix(Agraph_t* g, SparseMatrix *D);
 
 #ifdef __cplusplus
 }
