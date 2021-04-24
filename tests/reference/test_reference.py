@@ -115,12 +115,10 @@ from typing import Optional
   ('digraph G {node [label="" shape=none]; a->b [URL="\\E.html"]}', 'svg', '090.003.svg'),
 ))
 def test_reference(src: str, format: str, reference: str):
-  '''
-  test some Graphviz input against a reference source
-  '''
+  """test some Graphviz input against a reference source"""
 
   # locate the reference output
-  ref = Path(__file__).resolve().parent / 'test_reference' / reference
+  ref = Path(__file__).resolve().parent / "test_reference" / reference
   assert ref.exists()
 
   # make a scratch space
@@ -129,11 +127,11 @@ def test_reference(src: str, format: str, reference: str):
 
     # process our input with Graphviz
     output = t / reference
-    subprocess.run(['dot', f'-T{format}', '-o', output], input=src, check=True,
+    subprocess.run(["dot", f"-T{format}", "-o", output], input=src, check=True,
       universal_newlines=True)
 
     # compare against the reference output
-    if output.suffix == '.png':
-      subprocess.check_call(['diffimg', ref, output])
+    if output.suffix == ".png":
+      subprocess.check_call(["diffimg", ref, output])
     else:
-      subprocess.check_call(['diff', '--unified', ref, output])
+      subprocess.check_call(["diff", "--unified", ref, output])
