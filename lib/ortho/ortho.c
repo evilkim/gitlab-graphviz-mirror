@@ -1260,7 +1260,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     epair_t* es = N_GNEW(agnedges(g), epair_t);
     cell* start;
     cell* dest;
-    PointSet* ps;
+    PointSet* ps = NULL;
     textlabel_t* lbl;
 
     if (Concentrate) 
