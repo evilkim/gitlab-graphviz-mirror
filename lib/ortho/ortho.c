@@ -756,9 +756,11 @@ add_edges_in_G(channel* cp)
     for(x=0;x+1<size;x++) {
 	for(y=x+1;y<size;y++) {
 	    int cmp = seg_cmp(seg_list[x],seg_list[y]);
-	    if (cmp > 0) {
+	    if (cmp == -2) {
+		return -1;
+	    } else if (cmp > 0) {
 		insert_edge(G,x,y);
-	    } else if (cmp < 0) {
+	    } else if (cmp == -1) {
 		insert_edge(G,y,x);
 	    }
 	}
@@ -868,6 +870,9 @@ decide_point(pair *ret, segment* si, segment* sj, int dir1, int dir2)
 	assert(0); /* FIXME */
     else {
 	temp = seg_cmp(np1, np2);
+	if (temp == -2) {
+	    return -1;
+	}
 	prec = propagate_prec(np1, temp, ans+1, 1-dir1);
     }
 		
