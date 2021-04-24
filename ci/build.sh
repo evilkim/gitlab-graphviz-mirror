@@ -4,7 +4,10 @@ set -x
 set -e
 set -o pipefail
 
-if test -f /etc/os-release; then
+if [ "$( uname -s )" = "Darwin" ]; then
+    ID=$( uname -s )
+    VERSION_ID=$( uname -r )
+else
     cat /etc/os-release
     . /etc/os-release
     if [ -z ${ID_LIKE:+x} ]; then
@@ -12,13 +15,6 @@ if test -f /etc/os-release; then
             ID_LIKE=${ID}
         fi
     fi
-elif [ "$( uname -s )" = "Darwin" ]; then
-    ID=$( uname -s )
-    VERSION_ID=$( uname -r )
-else
-    cat /etc/redhat-release
-    ID=$( cat /etc/redhat-release | cut -d' ' -f1 | tr 'A-Z' 'a-z' )
-    VERSION_ID=$( cat /etc/redhat-release | cut -d' ' -f3  | cut -d'.' -f1 )
 fi
 GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
