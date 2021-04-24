@@ -15,6 +15,7 @@
 #include <common/logic.h>
 #include <common/memory.h>
 #include <common/arith.h>
+#include <limits.h>
 #include <sparse/SparseMatrix.h>
 #include <sparse/BinaryHeap.h>
 #if PQ
@@ -659,10 +660,10 @@ void SparseMatrix_export_binary(char *name, SparseMatrix A, int *flag){
 
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   SparseMatrix A = NULL;
-  int m, n, nz, nzmax, type, format, property, iread;
+  int m, n, nz, nzmax, type, format, property;
   size_t sz;
 
-  iread = fread(&m, sizeof(int), 1, f);
+  size_t iread = fread(&m, sizeof(int), 1, f);
   if (iread != 1) return NULL;
   iread = fread(&n, sizeof(int), 1, f);
   if (iread != 1) return NULL;
@@ -685,17 +686,17 @@ SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   
   if (format == FORMAT_COORD){
     iread = fread(A->ia, sizeof(int), A->nz, f);
-    if (iread != A->nz) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
   } else {
     iread = fread(A->ia, sizeof(int), A->m + 1, f);
-    if (iread != A->m + 1) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->m + 1) return NULL;
   }
   iread = fread(A->ja, sizeof(int), A->nz, f);
-  if (iread != A->nz) return NULL;
+  if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
 
   if (A->size > 0) {
     iread = fread(A->a, A->size, A->nz, f);
-    if (iread != A->nz) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
   }
   fclose(f);
   return A;
