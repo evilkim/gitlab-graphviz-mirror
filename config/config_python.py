@@ -9,4 +9,3 @@ elif sys.argv[1] == "archsitelib":
   print(sysconfig.get_python_lib(1,0))
 elif sys.argv[1] == "sitelib":
   print(sysconfig.get_python_lib(0,0))
-
