@@ -12,21 +12,13 @@
 #include <sparse/colorutil.h>
 #include <stdio.h>
 
-static void r2hex(float r, char *h){
-  /* convert a number in [0,1] to 0 to 255 then to a hex */
-  static char hex[] = "0123456789abcdef";
-  int i = (int)(255*r+0.5);
-  int j = i%16;
-  int k = i/16;
-  h[0] = hex[k];
-  h[1] = hex[j];
+static int r2i(float r){
+  /* convert a number in [0,1] to 0 to 255 */
+  return (int)(255*r+0.5);
 }
 
 void rgb2hex(float r, float g, float b, char *cstring, char *opacity){
-  cstring[0] = '#';
-  r2hex(r, &(cstring[1]));
-  r2hex(g, &(cstring[3]));
-  r2hex(b, &(cstring[5]));
+  sprintf(cstring, "#%02x%02x%02x", r2i(r), r2i(g), r2i(b));
   //set to semitransparent for multiple sets vis
   if (opacity && strlen(opacity) >= 2){
     cstring[7] = opacity[0];
