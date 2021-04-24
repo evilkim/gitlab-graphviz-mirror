@@ -1338,7 +1338,8 @@ orthoEdges (Agraph_t* g, int doLbls)
     assignSegs (n_edges, route_list, mp);
     if (setjmp(jbuf))
 	goto orthofinish;
-    assignTracks (mp);
+    if (assignTracks(mp) != 0)
+	goto orthofinish;
 #ifdef DEBUG
     if (odb_flags & ODB_ROUTE) emitGraph (stderr, mp, n_edges, route_list, es);
 #endif
