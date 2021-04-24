@@ -40,7 +40,7 @@ def main():
     parser.print_help(file=sys.stderr)
     sys.exit(1)
 
-  if opts.colors == None:
+  if opts.colors is None:
     styles = {
         "Yes": "",
         "No": "",
