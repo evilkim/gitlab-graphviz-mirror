@@ -595,16 +595,6 @@ makeDotGraph (SparseMatrix A, char *name, int dim, real *x, int with_color, int 
   return g;
 }
 
-
-char *cat_string(char *s1, char *s2){
-  char *s;
-  s = malloc(sizeof(char)*(strlen(s1)+strlen(s2)+1+1));
-  strcpy(s,s1);
-  strcat(s,"|");
-  strcat(s,s2);
-  return s;
-}
-
 static char *cat_string3(char *s1, char *s2, char *s3, int id){
   return gv_sprint_or_exit("%s|%s|%s|%d", s1, s2, s3, id);
 }
