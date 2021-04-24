@@ -844,15 +844,15 @@ is_parallel(segment* s1, segment* s2)
            s1->l2 == s2->l2;
 }
 
-/* decide_point returns the number of hops needed in the given directions 
- * along the 2 edges to get to a deciding point (or NODES) and also puts 
- * into prec the appropriate dependency (follows same convention as seg_cmp)
+/* decide_point returns (through ret) the number of hops needed in the given
+ * directions along the 2 edges to get to a deciding point (or NODES) and also
+ * puts into prec the appropriate dependency (follows same convention as
+ * seg_cmp)
  */
-static pair 
-decide_point(segment* si, segment* sj, int dir1, int dir2)
+static int
+decide_point(pair *ret, segment* si, segment* sj, int dir1, int dir2)
 {
     int prec, ans = 0, temp;
-    pair ret;
     segment* np1;
     segment* np2;
     
@@ -871,9 +871,9 @@ decide_point(segment* si, segment* sj, int dir1, int dir2)
 	prec = propagate_prec(np1, temp, ans+1, 1-dir1);
     }
 		
-    ret.a = ans;
-    ret.b = prec;
-    return ret;
+    ret->a = ans;
+    ret->b = prec;
+    return 0;
 }
 
 /* sets the edges for a series of parallel segments along two edges starting 
@@ -1028,10 +1028,10 @@ addPEdges (channel* cp, maze* mp)
 			    dir = 1;
 		    }
 
-		    p = decide_point(segs[i], segs[j], 0, dir);
+		    decide_point(&p, segs[i], segs[j], 0, dir);
 		    hops.a = p.a;
 		    prec1 = p.b;
-		    p = decide_point(segs[i], segs[j], 1, 1-dir);
+		    decide_point(&p, segs[i], segs[j], 1, 1-dir);
 		    hops.b = p.a;
 		    prec2 = p.b;
 
