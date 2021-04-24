@@ -734,7 +734,6 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
   real* val;
   real v;
   int type = MATRIX_TYPE_REAL;
-  size_t sz = sizeof(real);
   char scluster[100];
   float ff;
 
@@ -819,7 +818,8 @@ SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim
       i++;
     }
   }
-  A = SparseMatrix_from_coordinate_arrays(nedges, nnodes, nnodes, I, J, val, type, sz);
+  A = SparseMatrix_from_coordinate_arrays(nedges, nnodes, nnodes, I, J, val,
+                                          type, sizeof(real));
 
   /* get clustering info */
   *clusters = MALLOC(sizeof(int)*nnodes);
