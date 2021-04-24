@@ -1075,7 +1075,9 @@ add_p_edges (Dt_t* chans, maze* mp)
     for (l1 = dtflatten (chans); l1; l1 = dtlink(chans,l1)) {
 	lp = ((chanItem*)l1)->chans;
 	for (l2 = dtflatten (lp); l2; l2 = dtlink(lp,l2)) {
-	    addPEdges ((channel*)l2, mp);
+	    if (addPEdges((channel*)l2, mp) != 0) {
+	        return -1;
+	    }
    	}
     }
 
