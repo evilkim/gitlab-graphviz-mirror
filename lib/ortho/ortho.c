@@ -765,7 +765,7 @@ add_edges_in_G(channel* cp)
     }
 }
 
-static void
+static int
 add_np_edges (Dt_t* chans)
 {
     Dt_t* lp;
@@ -781,6 +781,8 @@ add_np_edges (Dt_t* chans)
 		add_edges_in_G(cp);
    	}
     }
+
+    return 0;
 }
 
 static segment*
