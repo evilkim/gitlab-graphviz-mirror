@@ -103,7 +103,6 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
   real *val, *valD = NULL;
   real v;
   int type = MATRIX_TYPE_REAL;
-  size_t sz = sizeof(real);
   real padding = 10;
   int nedge_nodes = 0;
 
@@ -261,6 +260,7 @@ SparseMatrix_import_dot (Agraph_t* g, int dim, real **label_sizes, real **x, int
   else if (x)
     agerr (AGERR, "Error: graph %s has missing \"pos\" information", agnameof(g));
 
+  size_t sz = sizeof(real);
   if (format == FORMAT_CSR) A = SparseMatrix_from_coordinate_arrays(nedges, nnodes, nnodes, I, J, val, type, sz);
   if (edge_label_nodes) *n_edge_label_nodes = nedge_nodes;
 
