@@ -38,7 +38,7 @@ def main():
   if opts.output_format.upper() not in supported_output_formats:
     sys.stderr.write(f"Error: {opts.output_format} output format is not supported\n")
     parser.print_help(file=sys.stderr)
-    exit(1)
+    sys.exit(1)
 
   if opts.colors == None:
     styles = {
@@ -56,7 +56,7 @@ def main():
       else:
         sys.stderr.write(f"Error: {opts.colors} color specification is illegal\n")
         parser.print_help(file=sys.stderr)
-        exit(1)
+        sys.exit(1)
     styles = {
         "Yes": f' style="color: {yes_color};"',
         "No":  f' style="color: {no_color};"',
