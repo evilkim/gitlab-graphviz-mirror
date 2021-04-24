@@ -1366,6 +1366,7 @@ SparseMatrix SparseMatrix_multiply_by_scaler(SparseMatrix A, real s){
     FREE(A->a);
     A->a = b;
     A->type = MATRIX_TYPE_REAL;
+    // fall through
   case MATRIX_TYPE_REAL:
     a = (real*) A->a;
     ia = A->ia;
