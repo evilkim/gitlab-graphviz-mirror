@@ -1082,8 +1082,12 @@ assignTracks (maze* mp)
     create_graphs(mp->vchans);
 
     /* add edges between non-parallel segments */
-    add_np_edges(mp->hchans);
-    add_np_edges(mp->vchans);
+    if (add_np_edges(mp->hchans) != 0) {
+	return -1;
+    }
+    if (add_np_edges(mp->vchans) != 0) {
+	return -1;
+    }
 
     /* add edges between parallel segments + remove appropriate edges */
     add_p_edges(mp->hchans, mp);
