@@ -780,7 +780,9 @@ add_np_edges (Dt_t* chans)
 	for (l2 = dtflatten (lp); l2; l2 = dtlink(lp,l2)) {
 	    cp = (channel*)l2;
 	    if (cp->cnt)
-		add_edges_in_G(cp);
+		if (add_edges_in_G(cp)) {
+		  return -1;
+		}
    	}
     }
 
