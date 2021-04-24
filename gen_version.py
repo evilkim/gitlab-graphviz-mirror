@@ -105,7 +105,8 @@ if not patch_version.isnumeric() or args.date_format:
         "%Y-%m-%d %H:%M:%S",
     ).strftime(date_format)
   except (subprocess.CalledProcessError, FileNotFoundError):
-    print("Warning: build not started in a Git clone, or Git is not installed: setting version date to 0.", file=sys.stderr)
+    sys.stderr.write("Warning: build not started in a Git clone, or Git is not "
+                     "installed: setting version date to 0.\n")
     committer_date = "0"
 
 if not patch_version.isnumeric():

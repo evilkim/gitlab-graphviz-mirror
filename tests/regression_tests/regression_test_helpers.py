@@ -13,7 +13,9 @@ def compare_graphs(name, output_type):
     with open(filename_output) as output_file:
       reference = reference_file.readlines()
       output = output_file.readlines()
-      diff_generator = difflib.context_diff(output, reference, str(filename_output), str(filename_reference))
+      diff_generator = difflib.context_diff(output, reference,
+                                            str(filename_output),
+                                            str(filename_reference))
 
       # if diff contains at least one line, the files are different
       diff = []

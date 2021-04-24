@@ -108,7 +108,8 @@ def main():
     print(f"{indent}<style>")
     indent += "  "
     print(f"{indent}table {{text-align: left; white-space: nowrap; position: relative;}}")
-    print(f"{indent}thead tr th {{padding-right: 1em; padding-bottom: 5px; position: sticky; top: 0px;  background-color: white;}}")
+    print(f"{indent}thead tr th {{padding-right: 1em; padding-bottom: 5px; "
+          "position: sticky; top: 0px;  background-color: white;}")
     print(f"{indent}td, th {{padding-left: 1.5em;}}")
     indent = indent[:-2]
     print(f"{indent}</style>")

@@ -297,7 +297,8 @@ def doTest(TEST):
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
       doDiff(OUTFILE, OUTDIR, REFDIR, TESTNAME, i, SUBTEST["FMT"])
     else:
-      print(f"Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} for comparison ==", file=sys.stderr)
+      sys.stderr.write(f"Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} "
+                       "for comparison ==\n")
 
   # clear TESTTYPES
   TESTTYPES = {}

@@ -110,7 +110,8 @@ def generate_shape_graph(shape, output_type):
 
 class Test_File():
   @pytest.mark.parametrize(
-      "shape,output_type", [(shape, output_type) for shape in shapes for output_type in output_types]
+      "shape,output_type", [(shape, output_type) for shape in shapes
+                            for output_type in output_types]
   )
   def test_shape(self, shape, output_type):
     os.chdir(Path(__file__).resolve().parent)
