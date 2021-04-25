@@ -360,18 +360,18 @@ static void EmbedText(sdot_op* o, int param)
 
 }
 
-void drawBorders(ViewInfo * view)
+void drawBorders(ViewInfo * vi)
 {
-    if (view->bdVisible) {
-	glColor4f(view->borderColor.R, view->borderColor.G,
-		  view->borderColor.B, view->borderColor.A);
+    if (vi->bdVisible) {
+	glColor4f(vi->borderColor.R, vi->borderColor.G,
+		  vi->borderColor.B, vi->borderColor.A);
 	glLineWidth(2);
 	glBegin(GL_LINE_STRIP);
-	glVertex3d(view->bdxLeft, view->bdyBottom,-0.001);
-	glVertex3d(view->bdxRight, view->bdyBottom,-0.001);
-	glVertex3d(view->bdxRight, view->bdyTop,-0.001);
-	glVertex3d(view->bdxLeft, view->bdyTop,-0.001);
-	glVertex3d(view->bdxLeft, view->bdyBottom,-0.001);
+	glVertex3d(vi->bdxLeft, vi->bdyBottom,-0.001);
+	glVertex3d(vi->bdxRight, vi->bdyBottom,-0.001);
+	glVertex3d(vi->bdxRight, vi->bdyTop,-0.001);
+	glVertex3d(vi->bdxLeft, vi->bdyTop,-0.001);
+	glVertex3d(vi->bdxLeft, vi->bdyBottom,-0.001);
 	glEnd();
 	glLineWidth(1);
     }

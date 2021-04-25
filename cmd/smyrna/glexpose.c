@@ -68,36 +68,36 @@ static void drawRotatingAxis(void)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:always 1
 */
-static int glupdatecamera(ViewInfo * view)
+static int glupdatecamera(ViewInfo * vi)
 {
-    if (view->active_camera == -1)
-	glTranslatef(-view->panx, -view->pany, view->panz);
+    if (vi->active_camera == -1)
+	glTranslatef(-vi->panx, -vi->pany, vi->panz);
 
 
     /*toggle to active camera */
     else {
-	glMultMatrixf(view->arcball->Transform.M);	/*arcball transformations , experimental */
-	glTranslatef(-view->cameras[view->active_camera]->targetx,
-		     -view->cameras[view->active_camera]->targety, 0);
+	glMultMatrixf(vi->arcball->Transform.M);	/*arcball transformations , experimental */
+	glTranslatef(-vi->cameras[vi->active_camera]->targetx,
+		     -vi->cameras[vi->active_camera]->targety, 0);
     }
-    view->clipX1=0;
-    view->clipX2=0;
-    view->clipY1=0;
-    view->clipY2=0;
-    view->clipZ1=0;
-    view->clipZ2=0;
-    GetOGLPosRef(1, view->h - 5, &(view->clipX1), &(view->clipY1),
-		 &(view->clipZ1));
-    GetOGLPosRef(view->w - 1, 1, &(view->clipX2), &(view->clipY2),
-		 &(view->clipZ2));
+    vi->clipX1=0;
+    vi->clipX2=0;
+    vi->clipY1=0;
+    vi->clipY2=0;
+    vi->clipZ1=0;
+    vi->clipZ2=0;
+    GetOGLPosRef(1, vi->h - 5, &(vi->clipX1), &(vi->clipY1),
+		 &(vi->clipZ1));
+    GetOGLPosRef(vi->w - 1, 1, &(vi->clipX2), &(vi->clipY2),
+		 &(vi->clipZ2));
 
-    if (view->active_camera == -1) {
-	glScalef(1 / view->zoom * -1, 1 / view->zoom * -1,
-		 1 / view->zoom * -1);
+    if (vi->active_camera == -1) {
+	glScalef(1 / vi->zoom * -1, 1 / vi->zoom * -1,
+		 1 / vi->zoom * -1);
     } else {
-	glScalef(1 / view->cameras[view->active_camera]->r,
-		 1 / view->cameras[view->active_camera]->r,
-		 1 / view->cameras[view->active_camera]->r);
+	glScalef(1 / vi->cameras[vi->active_camera]->r,
+		 1 / vi->cameras[vi->active_camera]->r,
+		 1 / vi->cameras[vi->active_camera]->r);
     }
 
 
@@ -109,19 +109,19 @@ static int glupdatecamera(ViewInfo * view)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:none
 */
-static void glexpose_grid(ViewInfo * view)
+static void glexpose_grid(ViewInfo * vi)
 {
     //drawing grids
     float x, y;
-    if (view->gridVisible) {
+    if (vi->gridVisible) {
 	glPointSize(1);
 	glBegin(GL_POINTS);
-	glColor4f(view->gridColor.R, view->gridColor.G, view->gridColor.B,
-		  view->gridColor.A);
-	for (x = view->bdxLeft; x <= view->bdxRight;
-	     x = x + view->gridSize) {
-	    for (y = view->bdyBottom; y <= view->bdyTop;
-		 y = y + view->gridSize) {
+	glColor4f(vi->gridColor.R, vi->gridColor.G, vi->gridColor.B,
+		  vi->gridColor.A);
+	for (x = vi->bdxLeft; x <= vi->bdxRight;
+	     x = x + vi->gridSize) {
+	    for (y = vi->bdyBottom; y <= vi->bdyTop;
+		 y = y + vi->gridSize) {
 		glVertex3f(x, y, 0);
 	    }
 	}
@@ -134,14 +134,14 @@ static void glexpose_grid(ViewInfo * view)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:1 if there is a graph to draw else 0 
 */
-static int glexpose_drawgraph(ViewInfo * view)
+static int glexpose_drawgraph(ViewInfo * vi)
 {
 
-    if (view->activeGraph > -1) {
-	if (!view->Topview->fisheyeParams.active)
-	    renderSmGraph(view->g[view->activeGraph],view->Topview);	    
+    if (vi->activeGraph > -1) {
+	if (!vi->Topview->fisheyeParams.active)
+	    renderSmGraph(vi->g[vi->activeGraph],vi->Topview);
 	else {
-	    drawtopologicalfisheye(view->Topview);
+	    drawtopologicalfisheye(vi->Topview);
 	}
 
 	return 1;
@@ -155,13 +155,13 @@ static int glexpose_drawgraph(ViewInfo * view)
 	params:ViewInfo	, global view variable defined in viewport.c
 	return value:0 if something goes wrong with GL 1 , otherwise
 */
-int glexpose_main(ViewInfo * view)
+int glexpose_main(ViewInfo * vi)
 {
     static int doonce = 0;
-    if (!glupdatecamera(view))
+    if (!glupdatecamera(vi))
 	return 0;
 
-    if (view->activeGraph >= 0) {
+    if (vi->activeGraph >= 0) {
 	if (!doonce) {
 	    doonce = 1;
 	    btnToolZoomFit_clicked(NULL, NULL);
@@ -173,12 +173,12 @@ int glexpose_main(ViewInfo * view)
 
 
 
-    glexpose_grid(view);
-    drawBorders(view);
-    glexpose_drawgraph(view);
+    glexpose_grid(vi);
+    drawBorders(vi);
+    glexpose_drawgraph(vi);
     drawRotatingAxis();
-    draw_selpoly(&view->Topview->sel.selPoly);
-    glCompSetDraw(view->widgets);
+    draw_selpoly(&vi->Topview->sel.selPoly);
+    glCompSetDraw(vi->widgets);
 
 	 /*DEBUG*/ return 1;
 }

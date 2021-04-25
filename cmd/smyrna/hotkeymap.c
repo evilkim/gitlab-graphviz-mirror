@@ -10,7 +10,7 @@
 
 #include "hotkeymap.h"
 
-int static get_mouse_mode(const char *s)
+static int get_mouse_mode(const char *s)
 {
     if (strcmp(s, "MM_PAN") == 0)
 	return MM_PAN;
@@ -39,13 +39,10 @@ int static get_mouse_mode(const char *s)
     if (strcmp(s, "MM_FISHEYE_PICK") == 0)
 	return MM_FISHEYE_PICK;
 
-
     return -1;
-
 }
 
-
-int static get_button(const char *s)
+static int get_button(const char *s)
 {
     if(view->guiMode != GUI_FULLSCREEN)
     {
@@ -77,9 +74,9 @@ int static get_button(const char *s)
 	    return 0;
     }
     return 0;
-
 }
-int static get_view_mode(const char *s)
+
+static int get_view_mode(const char *s)
 {
     if (strcmp(s, "ALL") == 0)
 	return smyrna_all;
@@ -93,7 +90,8 @@ int static get_view_mode(const char *s)
 	return smyrna_all_but_fisheye;
     return -1;
 }
-int static get_mouse_button(const char *s)
+
+static int get_mouse_button(const char *s)
 {
 
     if (strcmp(s, "LEFT") == 0)
@@ -104,26 +102,16 @@ int static get_mouse_button(const char *s)
 	return glMouseMiddleButton;
     return -1;
 }
-int static get_drag(const char *s)
+
+static int get_drag(const char *s)
 {
     if (s[0] == '1')
 	return 1;
     return 0;
 }
 
-
-
-void load_mouse_actions(char *modefile, ViewInfo * v)
+void load_mouse_actions(ViewInfo * v)
 {
-/*#define MM_PAN					0
-#define MM_ZOOM					1
-#define MM_ROTATE				2
-#define MM_SINGLE_SELECT		3
-#define MM_RECTANGULAR_SELECT	4
-#define MM_RECTANGULAR_X_SELECT	5
-#define MM_MOVE					10
-#define MM_MAGNIFIER			20
-#define MM_FISHEYE_MAGNIFIER	21*/
     /*file parsing is temporarrily not available */
     int i = 0;
     FILE *file;
@@ -172,72 +160,6 @@ void load_mouse_actions(char *modefile, ViewInfo * v)
 	fclose(file);
     }
     free(action_file);
-
-
-/*
-    v->mouse_action_count=7;
-    v->mouse_actions=realloc(v->mouse_actions,v->mouse_action_count * sizeof(mouse_action_t));
-    v->mouse_actions[ind].action=MM_PAN;
-    v->mouse_actions[ind].drag=1;
-    v->mouse_actions[ind].hotkey=0;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_all;
-    v->mouse_actions[ind].type=glMouseLeftButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_ROTATE;
-    v->mouse_actions[ind].drag=1;
-    v->mouse_actions[ind].hotkey=B_LSHIFT;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_3D;
-    v->mouse_actions[ind].type=glMouseLeftButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_SINGLE_SELECT;
-    v->mouse_actions[ind].drag=0;
-    v->mouse_actions[ind].hotkey=0;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_all_but_fisheye;
-    v->mouse_actions[ind].type=glMouseLeftButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_RECTANGULAR_SELECT;
-    v->mouse_actions[ind].drag=1;
-    v->mouse_actions[ind].hotkey=0;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_all;
-    v->mouse_actions[ind].type=glMouseRightButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_MOVE;
-    v->mouse_actions[ind].drag=1;
-    v->mouse_actions[ind].hotkey=B_LCTRL;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_2D;
-    v->mouse_actions[ind].type=glMouseLeftButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_FISHEYE_MAGNIFIER;
-    v->mouse_actions[ind].drag=1;
-    v->mouse_actions[ind].hotkey=B_LSHIFT;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_2D;
-    v->mouse_actions[ind].type=glMouseLeftButton;
-
-    ind++;
-
-    v->mouse_actions[ind].action=MM_FISHEYE_PICK;
-    v->mouse_actions[ind].drag=0;
-    v->mouse_actions[ind].hotkey=0;
-    v->mouse_actions[ind].index=ind;
-    v->mouse_actions[ind].mode=smyrna_fisheye;
-    v->mouse_actions[ind].type=glMouseRightButton;
-*/
 }
 
 int get_key_action(ViewInfo * v, int key)
@@ -254,17 +176,6 @@ int get_key_action(ViewInfo * v, int key)
 
 int get_mode(ViewInfo * v)
 {
-
-
-/*#define F_BUTTON1   B_LSHIFT
-#define F_BUTTON2   B_RSHIFT
-#define F_BUTTON3   B_LCTRL
-#define F_BUTTON4   B_LCTRL
-
-#define MOUSE_BUTTON_1	LEFT_MOUSE_BUTTON
-#define MOUSE_BUTTON_2  RIGHT_MOUSE_BUTTON
-#define MOUSE_BUTTON_3	MIDDLE_MOUSE_BUTTON*/
-//typedef enum {smyrna_2D,smyrna_3D,smyrna_fisheye} smyrna_view_mode;
     int ind = 0;
     glMouseButtonType curMouseType = v->mouse.t;
     int curDragging = ((v->mouse.dragX != 0) || (v->mouse.dragY != 0));
@@ -292,22 +203,4 @@ int get_mode(ViewInfo * v)
 	}
     }
     return -1;
-
-
-
-
-
-/*    if ((view->mouse.t==MOUSE_BUTTON_1)&&(view->keymap.down) && (view->keymap.keyVal ==F_BUTTON1) && (view->active_camera==-1))
-	return MM_FISHEYE_MAGNIFIER;
-    if ((view->mouse.t==MOUSE_BUTTON_1)&&(view->keymap.down) && (view->keymap.keyVal == F_BUTTON1) && (view->active_camera>-1))
-	return MM_ROTATE;
-    if ((view->mouse.t==MOUSE_BUTTON_1)&&(view->keymap.down) && (view->keymap.keyVal == F_BUTTON3)) 
-	return MM_MOVE;
-    if ((view->mouse.t==MOUSE_BUTTON_1)&&(view->mouse.down) ) 
-	return MM_PAN;
-    if ((view->mouse.t==MOUSE_BUTTON_2)&&(view->mouse.down) ) 
-	return MM_RECTANGULAR_SELECT;*/
-
-
-
 }

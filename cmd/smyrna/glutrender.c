@@ -183,7 +183,9 @@ void cb_keyboard(unsigned char key,int x, int y)
 }
 void cb_keyboard_up(unsigned char key,int x, int y)
 {
-    appmouse_key_release(view,key);;
+    (void)key;
+
+    appmouse_key_release(view);
 }
 
 
@@ -202,7 +204,7 @@ void cb_special_key_up(int key, int x, int y)
     {
 	printf("Currently help is not available\n");
     }
-    appmouse_key_release(view,key);
+    appmouse_key_release(view);
 
 }
 

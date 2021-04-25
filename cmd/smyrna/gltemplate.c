@@ -129,6 +129,7 @@ static void examine_gl_config_attrib(GdkGLConfig * glconfig)
 */
 static void realize(GtkWidget * widget, gpointer data)
 {
+    (void)data;
 
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
     GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
@@ -174,6 +175,9 @@ static void realize(GtkWidget * widget, gpointer data)
 static gboolean configure_event(GtkWidget * widget,
 				GdkEventConfigure * event, gpointer data)
 {
+    (void)event;
+    (void)data;
+
     int vPort[4];
     float aspect;
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
@@ -223,6 +227,9 @@ static gboolean configure_event(GtkWidget * widget,
 gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 		      gpointer data)
 {
+    (void)event;
+    (void)data;
+
     GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
     GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
 
@@ -256,10 +263,10 @@ gboolean expose_event(GtkWidget * widget, GdkEventExpose * event,
 static gboolean button_press_event(GtkWidget * widget,
 				   GdkEventButton * event, gpointer data)
 {
-    Agraph_t* g;
+    (void)widget;
+    (void)data;
 
     if (view->g == 0) return FALSE;
-    g=view->g[view->activeGraph];
 
     begin_x = (float) event->x;
     begin_y = (float) event->y;
@@ -285,6 +292,9 @@ static gboolean button_press_event(GtkWidget * widget,
 static gboolean button_release_event(GtkWidget * widget,
 				     GdkEventButton * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     if (view->widgets == 0) return FALSE;
     view->FontSizeConst = GetOGLDistance(14);
     view->arcball->isDragging = 0;
@@ -306,24 +316,29 @@ static gboolean button_release_event(GtkWidget * widget,
 }
 static gboolean key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     appmouse_key_press(view,event->keyval);
     return FALSE;
-
-
-
-
 }
 static gboolean key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
-    appmouse_key_release(view,event->keyval);
-    return FALSE;
+    (void)widget;
+    (void)event;
+    (void)data;
 
+    appmouse_key_release(view);
+    return FALSE;
 }
 
 
 static gboolean
 scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 {
+    (void)widget;
+    (void)data;
+
     gdouble seconds;
 
     seconds = g_timer_elapsed(view->timer2, NULL);
@@ -349,6 +364,8 @@ scroll_event(GtkWidget * widget, GdkEventScroll * event, gpointer data)
 static gboolean motion_notify_event(GtkWidget * widget,
 				    GdkEventMotion * event, gpointer data)
 {
+    (void)data;
+
     float x = (float) event->x;
     float y = (float) event->y;
 

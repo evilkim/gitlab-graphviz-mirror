@@ -30,9 +30,9 @@ static void graph_zoom(float real_zoom)
 		old_zoom = view->cameras[view->active_camera]->r;
 
     if (real_zoom < view->Topview->fitin_zoom * MAX_ZOOM)
-		real_zoom = (float) view->Topview->fitin_zoom * MAX_ZOOM;
+		real_zoom = view->Topview->fitin_zoom * MAX_ZOOM;
     if (real_zoom > view->Topview->fitin_zoom * MIN_ZOOM)
-		real_zoom = (float) view->Topview->fitin_zoom * MIN_ZOOM;
+		real_zoom = view->Topview->fitin_zoom * MIN_ZOOM;
     if (view->active_camera == -1)
 		view->zoom = real_zoom;
     else
@@ -45,9 +45,9 @@ static void graph_zoom(float real_zoom)
 void glmotion_zoom_inc(int zoomin)
 {
     if (zoomin)			/*zooming in , zoom value should be decreased */
-	graph_zoom(view->zoom - view->zoom * 0.25);
+	graph_zoom(view->zoom - view->zoom * 0.25f);
     else
-	graph_zoom(view->zoom + view->zoom * 0.25);	/*zoom out */
+	graph_zoom(view->zoom + view->zoom * 0.25f);	/*zoom out */
     glexpose();
 
 }
