@@ -25,7 +25,7 @@ SparseMatrix call_tri(int n, int dim, real * x)
     int* edgelist = NULL;
     real* xv = N_GNEW(n, real);
     real* yv = N_GNEW(n, real);
-    int numberofedges;
+    int numberofedges = 0;
 
     for (i = 0; i < n; i++) {
 	xv[i] = x[i * 2];
@@ -34,8 +34,6 @@ SparseMatrix call_tri(int n, int dim, real * x)
 
     if (n > 2) {
 	edgelist = delaunay_tri (xv, yv, n, &numberofedges);
-    } else {
-	numberofedges = 0;
     }
 
     A = SparseMatrix_new(n, n, 1, MATRIX_TYPE_REAL, FORMAT_COORD);

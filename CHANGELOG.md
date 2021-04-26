@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - $PATH is no longer assumed to be "/bin:/usr/bin:/usr/local/bin" if unset
 
+### Fixed
+
+- Uninitialized variable read in delaunay_tri
+
 ## [2.47.1] - 2021-04-17
 
 ### Changed
