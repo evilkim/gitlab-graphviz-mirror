@@ -71,11 +71,11 @@ namespace Visio
 		gvprintf(job, "<LineWeight>%f</LineWeight>\n", _weight * job->scale.x * INCHES_PER_POINT);	/* scale line weight, VDX uses inches */
 		gvprintf(job, "<LineColor>#%02X%02X%02X</LineColor>\n", _red, _green, _blue);	/* VDX uses hex colors */
 		if (_pattern)
-			gvprintf(job, "<LinePattern>%d</LinePattern>\n", _pattern);
+			gvprintf(job, "<LinePattern>%u</LinePattern>\n", _pattern);
 		if (_beginArrow)
-			gvprintf(job, "<BeginArrow>%d</BeginArrow>\n", _beginArrow);
+			gvprintf(job, "<BeginArrow>%u</BeginArrow>\n", _beginArrow);
 		if (_endArrow)
-			gvprintf(job, "<EndArrow>%d</EndArrow>\n", _endArrow);	
+			gvprintf(job, "<EndArrow>%u</EndArrow>\n", _endArrow);	
 		gvputs(job, "</Line>\n");
 	}
 	
@@ -114,41 +114,36 @@ namespace Visio
 		
 	const Connection* Ellipse::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	Path::Path(pointf* points, int pointCount)
 	{
 		/* copy over the points */
-		_points = (pointf*)malloc(sizeof(_points[0]) * pointCount);
-		memcpy(_points, points, sizeof(_points[0]) * pointCount);
-		_pointCount = pointCount;
-	}
-	
-	Path::~Path()
-	{
-		/* since we copied, we need to free */
-		free(_points);
+		_points.reserve(pointCount);
+		for (int i = 0; i< pointCount; ++i) {
+			_points.push_back(points[i]);
+		}
 	}
 	
 	boxf Path::GetBounds() const
 	{
 		boxf bounds;
-		if (_points && _pointCount > 0)
+		if (!_points.empty())
 		{
 			/* lower left is the minimal point, upper right is maximal point */
 			bounds.LL.x = bounds.UR.x = _points[0].x;
 			bounds.LL.y = bounds.UR.y = _points[0].y;
-			for (int i = 1; i < _pointCount; ++i)
+			for (const pointf &p : _points)
 			{
-				if (bounds.LL.x > _points[i].x)
-					bounds.LL.x = _points[i].x;
-				if (bounds.LL.y > _points[i].y)
-					bounds.LL.y = _points[i].y;
-				if (bounds.UR.x < _points[i].x)
-					bounds.UR.x = _points[i].x;
-				if (bounds.UR.y < _points[i].y)
-					bounds.UR.y = _points[i].y;
+				if (bounds.LL.x > p.x)
+					bounds.LL.x = p.x;
+				if (bounds.LL.y > p.y)
+					bounds.LL.y = p.y;
+				if (bounds.UR.x < p.x)
+					bounds.UR.x = p.x;
+				if (bounds.UR.y < p.y)
+					bounds.UR.y = p.y;
 			}
 		}
 		else
@@ -183,15 +178,15 @@ namespace Visio
 	
 	pointf Bezier::GetCenter() const
 	{
-		if (_pointCount >= 4 && _pointCount % 2 == 0)
+		if (_points.size() >= 4 && _points.size() % 2 == 0)
 		{
 			pointf center;
 			
 			/* the central control polygon for the bezier curve */
-			pointf p0 = _points[_pointCount / 2 - 2];
-			pointf p1 = _points[_pointCount / 2 - 1];
-			pointf p2 = _points[_pointCount / 2];
-			pointf p3 = _points[_pointCount / 2 + 1];
+			pointf p0 = _points[_points.size() / 2 - 2];
+			pointf p1 = _points[_points.size() / 2 - 1];
+			pointf p2 = _points[_points.size() / 2];
+			pointf p3 = _points[_points.size() / 2 + 1];
 			
 			/* use de Casteljou's algorithm to get a midpoint */
 			center.x = 0.125 * p0.x + 0.375 * p1.x + 0.375 * p2.x + 0.125 * p3.x;
@@ -200,7 +195,7 @@ namespace Visio
 		}
 		else
 		/* just return the middle point */
-			return _points[_pointCount / 2];
+			return _points[_points.size() / 2];
 	}
 	
 	void Bezier::Print(GVJ_t* job, pointf first, pointf last, bool allowCurves) const
@@ -208,7 +203,7 @@ namespace Visio
 		gvputs(job, "<Geom>\n");
 		if (!_filled)
 			gvputs(job, "<NoFill>1</NoFill>\n");		
-		if (_pointCount > 0)
+		if (!_points.empty())
 		{
 			double xscale = 1.0 / (last.x - first.x);
 			double yscale = 1.0 / (last.y - first.y);
@@ -232,13 +227,13 @@ namespace Visio
 				gvputs(job, "<NURBSTo>");
 				
 				/* Ctl[P-1].X */
-				gvprintf(job, "<X F='Width*%f'/>", (_points[_pointCount - 1].x - first.x) * xscale);
+				gvprintf(job, "<X F='Width*%f'/>", (_points.back().x - first.x) * xscale);
 				
 				/* Ctl[P-1].Y */
-				gvprintf(job, "<Y F='Height*%f'/>", (_points[_pointCount - 1].y - first.y) * yscale);
+				gvprintf(job, "<Y F='Height*%f'/>", (_points.back().y - first.y) * yscale);
 				
 				/* Knot[P-1] */
-				gvprintf(job, "<A>%d</A>", max(_pointCount - 4, 0));
+				gvprintf(job, "<A>%zu</A>", _points.size() < 4 ? 0 : (_points.size() - 4));
 				
 				/* Ctl[P-1].Weight */
 				gvputs(job, "<B>1</B>");	
@@ -250,13 +245,13 @@ namespace Visio
 				gvputs(job, "<D>1</D>");	
 				
 				/* Knot[P], Degree, XType, YType */
-				gvprintf(job, "<E F='NURBS(%d, 3, 0, 0", max(_pointCount - 3, 0));				
-				for (int i = 1; i < _pointCount; ++i)
+				gvprintf(job, "<E F='NURBS(%zu, 3, 0, 0", _points.size() < 3 ? 0 : (_points.size() - 3));
+				for (size_t i = 1; i < _points.size(); ++i)
 				/* Ctl[i].X, Ctl[i].Y, Knot[i], Ctl[i].Weight */
-					gvprintf(job, ", %f, %f, %d, 1",					
+					gvprintf(job, ", %f, %f, %zu, 1",					
 							 (_points[i].x - first.x) * xscale,
 							 (_points[i].y - first.y) * yscale,
-							 max(i - 3, 0));	
+							 i < 3 ? 0 : (i - 3));	
 				gvputs(job, ")'/>");
 				
 				gvputs(job, "</NURBSTo>\n");
@@ -265,7 +260,7 @@ namespace Visio
 			{
 				/* output lines only, so skip all the Bezier control points i.e. use every 3rd point */
 				
-				if (_pointCount == 4)
+				if (_points.size() == 4)
 				{
 					/* single point, use VDX LineTo */
 					gvputs(job, "<LineTo>");
@@ -277,10 +272,10 @@ namespace Visio
 				{
 					/* multiple points, use VDX PolylineTo */
 					gvputs(job, "<PolylineTo>");
-					gvprintf(job, "<X F='Width*%f' />", (_points[_pointCount - 1].x - first.x) * xscale);
-					gvprintf(job, "<Y F='Height*%f' />", (_points[_pointCount - 1].y - first.y) * yscale);
+					gvprintf(job, "<X F='Width*%f' />", (_points.back().x - first.x) * xscale);
+					gvprintf(job, "<Y F='Height*%f' />", (_points.back().y - first.y) * yscale);
 					gvputs(job, "<A F='POLYLINE(0, 0");
-					for (int i = 3; i < _pointCount - 1; i += 3)
+					for (size_t i = 3; i + 1 < _points.size(); i += 3)
 						gvprintf(job, ", %f, %f", (_points[i].x - first.x) * xscale, (_points[i].y - first.y) * yscale);
 					gvputs(job, ")' />");
 					gvputs(job, "</PolylineTo>\n");
@@ -298,7 +293,7 @@ namespace Visio
 	
 	const Connection* Polygon::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	void Polygon::Print(GVJ_t* job, pointf first, pointf last, bool) const
@@ -306,7 +301,7 @@ namespace Visio
 		gvputs(job, "<Geom>\n");
 		if (!_filled)
 			gvputs(job, "<NoFill>1</NoFill>\n");		
-		if (_pointCount > 0)
+		if (!_points.empty())
 		{
 			/* compute scale. if infinite, scale by 0 instead */
 			double xscale = 1.0 / (last.x - first.x);
@@ -321,7 +316,7 @@ namespace Visio
 			gvprintf(job, "<Y F='Height*%f' />", (_points[0].y - first.y) * yscale);
 			gvputs(job, "</MoveTo>\n");
 			
-			if (_pointCount == 1)
+			if (_points.size() == 1)
 			{
 				/* single point, use VDX LineTo */
 				gvputs(job, "<LineTo>");
@@ -336,7 +331,7 @@ namespace Visio
 				gvprintf(job, "<X F='Width*%f' />", (_points[0].x - first.x) * xscale);
 				gvprintf(job, "<Y F='Height*%f' />", (_points[0].y - first.y) * yscale);
 				gvputs(job, "<A F='POLYLINE(0, 0");
-				for (int i = 1; i < _pointCount; ++i)
+				for (size_t i = 1; i < _points.size(); ++i)
 					gvprintf(job, ", %f, %f", (_points[i].x - first.x) * xscale, (_points[i].y - first.y) * yscale);
 				gvputs(job, ")' />");
 				gvputs(job, "</PolylineTo>\n");
@@ -352,13 +347,13 @@ namespace Visio
 	
 	const Connection* Polyline::GetConnection() const
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	void Polyline::Print(GVJ_t* job, pointf first, pointf last, bool) const
 	{
 		gvputs(job, "<Geom>\n");
-		if (_pointCount > 0)
+		if (!_points.empty())
 		{
 			/* compute scale. if infinite, scale by 0 instead */
 			double xscale = 1.0 / (last.x - first.x);
@@ -373,7 +368,7 @@ namespace Visio
 			gvprintf(job, "<Y F='Height*%f' />", (_points[0].y - first.y) * yscale);
 			gvputs(job, "</MoveTo>\n");
 			
-			if (_pointCount == 2)
+			if (_points.size() == 2)
 			{
 				/* single point, use VDX LineTo */
 				gvputs(job, "<LineTo>");
@@ -385,10 +380,10 @@ namespace Visio
 			{
 				/* multiple points, use VDX PolylineTo */
 				gvputs(job, "<PolylineTo>");
-				gvprintf(job, "<X F='Width*%f' />", (_points[_pointCount - 1].x - first.x) * xscale);
-				gvprintf(job, "<Y F='Height*%f' />", (_points[_pointCount - 1].y - first.y) * yscale);
+				gvprintf(job, "<X F='Width*%f' />", (_points.back().x - first.x) * xscale);
+				gvprintf(job, "<Y F='Height*%f' />", (_points.back().y - first.y) * yscale);
 				gvputs(job, "<A F='POLYLINE(0, 0");
-				for (int i = 1; i < _pointCount - 1; ++i)
+				for (size_t i = 1; i + 1 < _points.size(); ++i)
 					gvprintf(job, ", %f, %f", (_points[i].x - first.x) * xscale, (_points[i].y - first.y) * yscale);
 				gvputs(job, ")' />");
 				gvputs(job, "</PolylineTo>\n");
@@ -423,7 +418,7 @@ namespace Visio
 				job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Ellipse(A, filled));
 	}
 	
@@ -455,7 +450,7 @@ namespace Visio
 				job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Bezier(
 				A,
 				n,
@@ -487,7 +482,7 @@ namespace Visio
 			filled ? new Fill(job->obj->fillcolor.u.rgba[0],
 				job->obj->fillcolor.u.rgba[1],
 				job->obj->fillcolor.u.rgba[2],
-				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : NULL,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
+				(255 - job->obj->fillcolor.u.rgba[3]) / 255.0) : nullptr,	/* Graphviz alpha (00 - FF) to VDX transparency (1.0 - 0.0) */
 			new Polygon(
 				A,
 				n,
@@ -516,7 +511,7 @@ namespace Visio
 				job->obj->pencolor.u.rgba[1],
 				job->obj->pencolor.u.rgba[2],
 				pattern),
-			NULL,		/* polylines have no fill */
+			nullptr,		/* polylines have no fill */
 			new Polyline(
 				A,
 				n));
