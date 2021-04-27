@@ -770,6 +770,21 @@ def test_1931():
   assert "line 3\nline 4" in xdot
   assert "line 5\nline 6" in xdot
 
+@pytest.mark.xfail()
+def test_2057():
+  """
+  gvToolTred should be usable by user code
+  https://gitlab.com/graphviz/graphviz/-/issues/2057
+  """
+
+  # find co-located test source
+  c_src = (Path(__file__).parent / "2057.c").resolve()
+  assert c_src.exists(), "missing test case"
+
+  # run the test
+  ret, _, _ = run_c(c_src, link=["gvc"])
+  assert ret == 0
+
 def test_package_version():
   """
   The graphviz_version.h header should define a non-empty PACKAGE_VERSION
