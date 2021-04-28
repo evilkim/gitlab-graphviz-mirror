@@ -12,6 +12,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 #ifndef TCL_ERROR
 #define TCL_ERROR (1)
 #endif
@@ -20,8 +22,6 @@ extern "C" {
 #define TCL_OK (0)
 #endif
 
-#define ISSPACE(c) (isspace ((unsigned char) c))
-
 /*
  * Macro to rounded up a size to be a multiple of (void *).  This is required
  * for systems that have alignment restrictions on pointers and data.
@@ -29,8 +29,8 @@ extern "C" {
 #define ROUND_ENTRY_SIZE(size) ((((size) + tclhandleEntryAlignment - 1) / \
 		tclhandleEntryAlignment) * tclhandleEntryAlignment)
 
-#define NULL_IDX      -1
-#define ALLOCATED_IDX -2
+#define NULL_IDX      UINT64_MAX
+#define ALLOCATED_IDX (UINT64_MAX - 1)
 
     typedef unsigned char ubyte_t;
     typedef ubyte_t *ubyte_pt;
@@ -46,16 +46,16 @@ extern "C" {
  */
 
     typedef struct {
-	int entrySize;		/* Entry size in bytes, including overhead */
-	int tableSize;		/* Current number of entries in the table  */
-	int freeHeadIdx;	/* Index of first free entry in the table  */
+	uint64_t entrySize;	/* Entry size in bytes, including overhead */
+	uint64_t tableSize;	/* Current number of entries in the table  */
+	uint64_t freeHeadIdx;	/* Index of first free entry in the table  */
 	char *handleFormat;	/* Malloc'ed copy of prefix string + "%lu" */
 	ubyte_pt bodyPtr;	/* Pointer to table body                   */
     } tblHeader_t;
     typedef tblHeader_t *tblHeader_pt;
 
     typedef struct {
-	int freeLink;
+	uint64_t freeLink;
     } entryHeader_t;
     typedef entryHeader_t *entryHeader_pt;
 
@@ -90,9 +90,9 @@ extern "C" {
     void *tclhandleFreeIndex(tblHeader_pt headerPtr,
 			     uint64_t entryIdx);
     void *tclhandleFree(tblHeader_pt headerPtr, char *handle);
-    tblHeader_pt tclhandleInit(char *prefix, int entrySize,
-			       int initEntries);
-    int tclhandleReset(tblHeader_pt tblHdrPtr, int initEntries);
+    tblHeader_pt tclhandleInit(char *prefix, uint64_t entrySize,
+			       uint64_t initEntries);
+    int tclhandleReset(tblHeader_pt tblHdrPtr, uint64_t initEntries);
     int tclhandleDestroy(tblHeader_pt tblHdrPtr);
     void *tclhandleXlateIndex(tblHeader_pt headerPtr,
 			      uint64_t entryIdx);

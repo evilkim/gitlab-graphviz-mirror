@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Uninitialized variable read in delaunay_tri
+- potentially mismatched format string in tclpkg
 
 ## [2.47.1] - 2021-04-17
 

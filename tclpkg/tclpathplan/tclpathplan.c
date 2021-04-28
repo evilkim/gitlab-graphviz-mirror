@@ -25,6 +25,7 @@
 #define _GNU_SOURCE 1
 
 #include                <sys/types.h>
+#include                <stdint.h>
 #include                <stdlib.h>
 #include                <string.h>
 #include                <unistd.h>
@@ -195,9 +196,9 @@ void triangle_callback(void *vgparg, point pqr[])
 /*	    TBL_ENTRY((tblHeader_pt)vgpaneTable, (ubyte_pt)vgp));*/
 
     if (vgp->triangle_cmd) {
-	snprintf(vbuf, sizeof(vbuf), "vgpane%lu",
-		(uint64_t) (((ubyte_pt) vgp - (vgpaneTable->bodyPtr))
-				 / (vgpaneTable->entrySize)));
+	snprintf(vbuf, sizeof(vbuf), "vgpane%" PRIu64,
+		((uint64_t)((uintptr_t)vgp - (uintptr_t)vgpaneTable->bodyPtr))
+				 / vgpaneTable->entrySize);
 	expandPercentsEval(vgp->interp, vgp->triangle_cmd, vbuf, 3, pqr);
     }
 }
