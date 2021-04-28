@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -20,11 +21,11 @@
 static char *CmdName;
 static char **Files;
 static char **Nodes;
-static int setall = 0;		/* if false, don't set dist attribute for
+static bool setall;		/* if false, don't set dist attribute for
 				 * nodes in different components.
 				 */
-static int doPath = 0;		/* if 1, record shortest paths */
-static int doDirected;		/* if 1, use directed paths */
+static bool doPath;		/* if true, record shortest paths */
+static bool doDirected;	/* if true, use directed paths */
 static Agsym_t *len_sym;
 
 typedef struct nodedata_s {
@@ -233,13 +234,13 @@ static void init(int argc, char *argv[])
     while ((c = getopt(argc, argv, "adp?")) != -1) {
 	switch (c) {
 	case 'a':
-	    setall = 1;
+	    setall = true;
 	    break;
 	case 'd':
-	    doDirected = 1;
+	    doDirected = true;
 	    break;
 	case 'p':
-	    doPath = 1;
+	    doPath = true;
 	    break;
 	case '?':
 	    if (optopt == '\0' || optopt == '?')
