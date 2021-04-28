@@ -43,7 +43,7 @@ static double getlength(Agedge_t * e)
 
     if (len_sym && (*(lens = agxget(e, len_sym)))) {
 	len = strtod (lens, &p);
-	if ((len < 0) || (p == lens))
+	if (len < 0 || p == lens)
 	    len = 1;
     }
     else
@@ -267,7 +267,7 @@ static void init(int argc, char *argv[])
     Nodes = calloc(sizeof(char *), (size_t)argc / 2 + 2);
     for (j = i = 0; i < argc; i++) {
 	Nodes[j] = argv[i++];
-	Files[j] = (argv[i] ? argv[i] : "-");
+	Files[j] = argv[i] ? argv[i] : "-";
 	j++;
     }
     Nodes[j] = Files[j] = NULL;
