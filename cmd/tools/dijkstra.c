@@ -283,7 +283,7 @@ int main(int argc, char **argv)
     Agraph_t *g;
     Agnode_t *n;
     ingraph_state ig;
-    int i = 0;
+    size_t i = 0;
     int code = 0;
     Dict_t *Q;
 
