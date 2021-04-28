@@ -39,14 +39,6 @@ typedef struct nodedata_s {
     int done;                   /* > 0 if finished */
 } nodedata_t;
 
-#if 0
-typedef struct edgedata_s {
-    Agrec_t hdr;
-    double length;		/* non-negative */
-    int init;                   /* non-zero if length is set */
-} edgedata_t;
-#endif
-
 static double getlength(Agedge_t * e)
 {
     double len;
@@ -142,9 +134,6 @@ static void pre(Agraph_t * g)
 {
     len_sym = agattr(g, AGEDGE, "len", NULL);
     aginit(g, AGNODE, "dijkstra", sizeof(nodedata_t), 1);
-#if 0
-    aginit(g, AGEDGE, "dijkstra", sizeof(edgedata_t), 1);
-#endif
 }
 
 static void post(Agraph_t * g)
