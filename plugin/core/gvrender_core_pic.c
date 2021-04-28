@@ -149,10 +149,10 @@ static void picptarray(GVJ_t *job, pointf * A, int n, int close)
 static char *pic_string(char *s)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
-    int pos = 0;
+    static size_t bufsize = 0;
+    size_t pos = 0;
     char *p;
-    unsigned char c;
+    char c;
 
     if (!buf) {
         bufsize = 64;
@@ -175,7 +175,7 @@ static char *pic_string(char *s)
             pos++;
         } else {
             *p++ = '\\';
-            sprintf(p, "%03o", c);
+            sprintf(p, "%03o", (unsigned)c);
             p += 3;
             pos += 4;
         }
@@ -393,6 +393,10 @@ static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
 static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 	      int arrow_at_end, int filled)
 {
+    (void)arrow_at_start;
+    (void)arrow_at_end;
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     int line_style;		/* solid, dotted, dashed */
@@ -432,6 +436,8 @@ static void pic_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
 
 static void pic_polygon(GVJ_t * job, pointf * A, int n, int filled)
 {
+    (void)filled;
+
     obj_state_t *obj = job->obj;
 
     int line_style;		/* solid, dotted, dashed */

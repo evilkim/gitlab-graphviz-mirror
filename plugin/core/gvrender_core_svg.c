@@ -535,9 +535,8 @@ static int svg_gradstyle(GVJ_t * job, pointf * A, int n)
 /* svg_rgradstyle
  * Outputs the SVG statements that define the radial gradient pattern
  */
-static int svg_rgradstyle(GVJ_t * job, pointf * A, int n)
+static int svg_rgradstyle(GVJ_t * job)
 {
-    /* pointf G[2]; */
     float angle;
     int ifx, ify;
     static int rgradId;
@@ -584,7 +583,7 @@ static void svg_ellipse(GVJ_t * job, pointf * A, int filled)
     if (filled == GRADIENT) {
 	gid = svg_gradstyle(job, A, 2);
     } else if (filled == (RGRADIENT)) {
-	gid = svg_rgradstyle(job, A, 2);
+	gid = svg_rgradstyle(job);
     }
     gvputs(job, "<ellipse");
     svg_grstyle(job, filled, gid);
@@ -612,7 +611,7 @@ svg_bezier(GVJ_t * job, pointf * A, int n, int arrow_at_start,
     if (filled == GRADIENT) {
 	gid = svg_gradstyle(job, A, n);
     } else if (filled == (RGRADIENT)) {
-	gid = svg_rgradstyle(job, A, n);
+	gid = svg_rgradstyle(job);
     }
     gvputs(job, "<path");
     if (obj->labeledgealigned) {
@@ -632,7 +631,7 @@ static void svg_polygon(GVJ_t * job, pointf * A, int n, int filled)
     if (filled == GRADIENT) {
 	gid = svg_gradstyle(job, A, n);
     } else if (filled == (RGRADIENT)) {
-	gid = svg_rgradstyle(job, A, n);
+	gid = svg_rgradstyle(job);
     }
     gvputs(job, "<polygon");
     svg_grstyle(job, filled, gid);
