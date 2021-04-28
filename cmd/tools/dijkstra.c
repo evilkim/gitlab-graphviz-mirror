@@ -28,7 +28,7 @@ static bool doPath;		/* if true, record shortest paths */
 static bool doDirected;	/* if true, use directed paths */
 static Agsym_t *len_sym;
 
-typedef struct nodedata_s {
+typedef struct {
     Agrec_t hdr;
     double dist;		/* always positive for scanned nodes */
     Agnode_t* prev;
