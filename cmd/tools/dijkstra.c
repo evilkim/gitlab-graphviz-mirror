@@ -188,7 +188,7 @@ static void post(Agraph_t * g)
     agclean(g, AGEDGE, "dijkstra");
 }
 
-void dijkstra(Dict_t * Q, Agraph_t * G, Agnode_t * n)
+static void dijkstra(Dict_t * Q, Agraph_t * G, Agnode_t * n)
 {
     Agnode_t *u;
     Agedge_t *e;
