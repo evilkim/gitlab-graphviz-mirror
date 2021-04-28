@@ -76,6 +76,9 @@ static void setdist(Agnode_t * n, double dist)
 
 static int cmpf(Dt_t * d, void *key1, void *key2, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     double t;
     t = getdist((Agnode_t *) key1) - getdist((Agnode_t *) key2);
     if (t < 0)
