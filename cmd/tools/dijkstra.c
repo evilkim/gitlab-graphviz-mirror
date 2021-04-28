@@ -17,11 +17,6 @@
 #include <ingraphs/ingraphs.h>
 #include <getopt.h>
 
-#ifndef HUGE
-/* HUGE is not defined on 64bit HP-UX */
-#define HUGE HUGE_VAL
-#endif
-
 static char *CmdName;
 static char **Files;
 static char **Nodes;
@@ -152,7 +147,7 @@ static void post(Agraph_t * g)
 	psym = agattr(g, AGNODE, "prev", "");
 
     if (setall)
-	snprintf(dflt, sizeof(dflt), "%.3lf", HUGE);
+	snprintf(dflt, sizeof(dflt), "%.3lf", HUGE_VAL);
 
     for (v = agfstnode(g); v; v = agnxtnode(g, v)) {
 	dist = getdist(v);
