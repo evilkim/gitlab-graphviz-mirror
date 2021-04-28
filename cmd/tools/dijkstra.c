@@ -301,5 +301,7 @@ int main(int argc, char **argv)
 	agclose(g);
 	i++;
     }
+    free(Nodes);
+    free(Files);
     exit(code);
 }
