@@ -83,7 +83,7 @@ static void usage(int v)
 
 static void init(int argc, char *argv[])
 {
-    unsigned int c;
+    int c;
 
     opterr = 0;
     while ((c = getopt(argc, argv, "necCaDUrsv?")) != -1) {
