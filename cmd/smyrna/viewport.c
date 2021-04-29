@@ -547,7 +547,6 @@ void refreshViewport(int doClear)
     graphRecord(graph);
     initSmGraph(graph,view->Topview);
 
-    fill_key(view->orig_key, get_md5_key(graph));
     expose_event(view->drawing_area, NULL, NULL);
 }
 
@@ -658,7 +657,6 @@ int save_graph(void)
 					     GraphFileName);
 	} else
 	    return save_as_graph();
-        fill_key(view->orig_key, get_md5_key(view->g[view->activeGraph]));
     }
     return 1;
 
