@@ -857,6 +857,11 @@ docker_push_ubuntu-20.10:
   variables:
     IMAGE: ubuntu-20.10
 
+docker_push_ubuntu-21.04:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: ubuntu-21.04
+
 lint_pylint:
   image: "$CI_REGISTRY_IMAGE/ubuntu-20.10:$CI_COMMIT_SHA"
   stage: test
