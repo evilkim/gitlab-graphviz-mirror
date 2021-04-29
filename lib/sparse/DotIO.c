@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #define STANDALONE
+#include <cgraph/sprint.h>
 #include <sparse/general.h>
 #include <sparse/DotIO.h>
 #include <sparse/clustering.h>
@@ -604,10 +605,7 @@ char *cat_string(char *s1, char *s2){
 }
 
 static char *cat_string3(char *s1, char *s2, char *s3, int id){
-  size_t len = (size_t)snprintf(NULL, 0, "%s|%s|%s|%d", s1, s2, s3, id) + 1;
-  char *s = malloc(sizeof(char) * len);
-  snprintf(s, len, "%s|%s|%s|%d", s1, s2, s3, id);
-  return s;
+  return gv_sprint_or_exit("%s|%s|%s|%d", s1, s2, s3, id);
 }
 
 
