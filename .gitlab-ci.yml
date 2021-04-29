@@ -421,6 +421,25 @@ ubuntu21-04-cmake-build:
     variables:
       IMAGE: ubuntu-21.04
 
+ubuntu21-04-cmake-ASan-build:
+    <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-21.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
+    before_script:
+        - export build_system="cmake"
+        # fail on any compiler warnings
+        - export CFLAGS=-Werror
+        - export CXXFLAGS=-Werror
+        - export CMAKE_OPTIONS="-Duse_sanitizers=ON"
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
 centos7-cmake-build:
     <<: *rpm_build_definition
     needs:
