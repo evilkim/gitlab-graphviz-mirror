@@ -329,6 +329,18 @@ ubuntu20-10-build:
     variables:
       IMAGE: ubuntu-20.10
 
+ubuntu21-04-build:
+    <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-21.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
 macos-autotools-build:
     <<: *macos_build_definition
     before_script:
