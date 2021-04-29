@@ -88,7 +88,7 @@ static FILE *openFile(char *name, char *mode, char* cmd)
 
 static void init(int argc, char *argv[], opts_t* opts) {
   char* cmd = argv[0];
-  unsigned int c;
+  int c;
   int v;
 
   opts->maxcluster = 0;
