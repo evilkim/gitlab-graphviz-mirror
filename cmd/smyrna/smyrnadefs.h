@@ -694,7 +694,6 @@ typedef struct
 	float FontSizeConst;
 	glCompSet *widgets;	//for novice user open gl menu
 	int visiblenodecount;	/*helper variable to know the number of the nodes being rendered, good data to optimize speed */
-	md5_byte_t orig_key[16];	/*md5 result for original graph */
 	char *initFileName;	//file name from command line
 	int initFile;
 	int drawSplines;
