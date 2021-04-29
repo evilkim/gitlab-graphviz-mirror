@@ -26,7 +26,6 @@
 #include <common/colorprocs.h>
 #include <common/memory.h>
 #include "topviewsettings.h"
-#include "md5.h"
 #include "arcball.h"
 #include "hotkeymap.h"
 #include "topviewfuncs.h"
@@ -34,8 +33,6 @@
 
 
 static colorschemaset *create_color_theme(int themeid);
-static md5_byte_t *get_md5_key(Agraph_t * graph);
-
 
 #define countof( array ) ( sizeof( array )/sizeof( array[0] ) )
 
@@ -571,37 +568,6 @@ void switch_graph(int graphId)
 	return;			/*wrong entry */
     else
 	activate(graphId, 0);
-}
-
-static md5_byte_t md5_digest[16];
-static md5_state_t pms;
-
-static int append_to_md5(void *chan, const char *str)
-{
-    md5_append(&pms, (const unsigned char *) str, (int) strlen(str));
-    return 1;
-
-}
-static int flush_md5(void *chan)
-{
-    md5_finish(&pms, md5_digest);
-    return 1;
-}
-
-
-static md5_byte_t *get_md5_key(Agraph_t * graph)
-{
-    Agiodisc_t *xio;
-    Agiodisc_t a;
-    xio = graph->clos->disc.io;
-    a.afread = graph->clos->disc.io->afread;
-    a.putstr = append_to_md5;
-    a.flush = flush_md5;
-    graph->clos->disc.io = &a;
-    md5_init(&pms);
-    agwrite(graph, NULL);
-    graph->clos->disc.io = xio;
-    return md5_digest;
 }
 
 /* save_graph_with_file_name:

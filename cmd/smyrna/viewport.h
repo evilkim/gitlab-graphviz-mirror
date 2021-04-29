@@ -26,7 +26,6 @@ extern "C" {
 #if 0
     void clear_viewport(ViewInfo * view);
     colorschemaset *create_color_theme(int themeid);
-    md5_byte_t *get_md5_key(Agraph_t * graph);
     void movenode(void *n, float dx, float dy);
     void please_dont_wait(void);
     void please_wait(void);
