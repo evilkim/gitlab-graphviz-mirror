@@ -817,6 +817,11 @@ docker_build_ubuntu-20.10:
   variables:
     IMAGE: ubuntu-20.10
 
+docker_build_ubuntu-21.04:
+  <<: *docker_build_definition
+  variables:
+    IMAGE: ubuntu-21.04
+
 docker_push_centos7:
   <<: *docker_push_definition
   variables:
