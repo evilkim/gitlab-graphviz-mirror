@@ -713,6 +713,21 @@ ubuntu20-10-cmake-ASan-test:
     variables:
       IMAGE: ubuntu-20.10
 
+ubuntu21-04-cmake-test:
+    <<: *linux_test_definition
+    before_script:
+        - export build_system="cmake"
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu21-04-cmake-build"
+          artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
 centos7-cmake-test:
     <<: *linux_test_definition
     before_script:
