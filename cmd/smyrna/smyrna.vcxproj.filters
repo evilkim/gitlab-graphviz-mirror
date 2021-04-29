@@ -146,9 +146,6 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="md5.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gui\menucallbacks.c">
       <Filter>Source Files</Filter>
     </ClCompile>

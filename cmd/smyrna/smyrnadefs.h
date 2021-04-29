@@ -30,7 +30,6 @@
 #include <cgraph/cgraph.h>
 #include <glcomp/glcompset.h>
 #include "hier.h"
-#include "md5.h"
 #include <glcomp/glutils.h>
 
 #ifdef __cplusplus
