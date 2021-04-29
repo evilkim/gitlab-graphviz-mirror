@@ -81,14 +81,6 @@ static void *get_glut_font(int ind)
     }
 
 }
-static void fill_key(md5_byte_t * b, md5_byte_t * data)
-{
-    int ind = 0;
-    for (ind = 0; ind < 16; ind++) {
-	b[ind] = data[ind];
-    }
-
-}
 
 int close_graph(ViewInfo * view, int graphid)
 {
