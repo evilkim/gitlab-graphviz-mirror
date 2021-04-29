@@ -747,6 +747,27 @@ ubuntu21-04-cmake-test:
     variables:
       IMAGE: ubuntu-21.04
 
+ubuntu21.04-cmake-ASan-test:
+    <<: *linux_test_definition
+    before_script:
+        - export build_system="cmake"
+        - export CFLAGS=" -g -fsanitize=address,undefined"
+        - export CXXFLAGS=" -g -fsanitize=address,undefined"
+        - export LDFLAGS=" -g -fsanitize=address,undefined"
+        # FIXME: remove the following when Graphviz can pass the test suite
+        # leak-free
+        - export ASAN_OPTIONS=detect_leaks=0,alloc_dealloc_mismatch=0
+        - echo experimental > COLLECTION
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "ubuntu21-04-cmake-ASan-build"
+          artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
 centos7-cmake-test:
     <<: *linux_test_definition
     before_script:
