@@ -10,22 +10,15 @@
 
 #include <sparse/general.h>
 #include <sparse/colorutil.h>
+#include <stdio.h>
 
-static void r2hex(float r, char *h){
-  /* convert a number in [0,1] to 0 to 255 then to a hex */
-  static char hex[] = "0123456789abcdef";
-  int i = (int)(255*r+0.5);
-  int j = i%16;
-  int k = i/16;
-  h[0] = hex[k];
-  h[1] = hex[j];
+static int r2i(float r){
+  /* convert a number in [0,1] to 0 to 255 */
+  return (int)(255*r+0.5);
 }
 
 void rgb2hex(float r, float g, float b, char *cstring, char *opacity){
-  cstring[0] = '#';
-  r2hex(r, &(cstring[1]));
-  r2hex(g, &(cstring[3]));
-  r2hex(b, &(cstring[5]));
+  sprintf(cstring, "#%02x%02x%02x", r2i(r), r2i(g), r2i(b));
   //set to semitransparent for multiple sets vis
   if (opacity && strlen(opacity) >= 2){
     cstring[7] = opacity[0];
@@ -45,8 +38,6 @@ static real Hue2RGB(real v1, real v2, real H) {
   return v1;
 }
 
-char *hex[16]={"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
-
 char * hue2rgb(real hue, char *color){
   real v1, v2, lightness = .5, saturation = 1;
   int red, blue, green;
@@ -61,14 +52,7 @@ char * hue2rgb(real hue, char *color){
   red =   (int)(255.0 * Hue2RGB(v1, v2, hue + (1.0/3.0)) + 0.5);
   green = (int)(255.0 * Hue2RGB(v1, v2, hue) + 0.5);
   blue =  (int)(255.0 * Hue2RGB(v1, v2, hue - (1.0/3.0)) + 0.5);
-  color[0] = '#';
-  sprintf(color+1,"%s",hex[red/16]);
-  sprintf(color+2,"%s",hex[red%16]);
-  sprintf(color+3,"%s",hex[green/16]);
-  sprintf(color+4,"%s",hex[green%16]);
-  sprintf(color+5,"%s",hex[blue/16]);
-  sprintf(color+6,"%s",hex[blue%16]);
-  color[7] = '\0';
+  sprintf(color, "#%02x%02x%02x", red, green, blue);
   return color;
 }
 

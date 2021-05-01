@@ -53,10 +53,6 @@ static real Hue2RGB(real v1, real v2, real H)
     return v1;
 }
 
-char *hex[16] =
-    { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
-"e", "f" };
-
 static char *hue2rgb(real hue, char *color)
 {
     real v1, v2, lightness = .5, saturation = 1;
@@ -72,14 +68,7 @@ static char *hue2rgb(real hue, char *color)
     red = (int) (255.0 * Hue2RGB(v1, v2, hue + (1.0 / 3.0)) + 0.5);
     green = (int) (255.0 * Hue2RGB(v1, v2, hue) + 0.5);
     blue = (int) (255.0 * Hue2RGB(v1, v2, hue - (1.0 / 3.0)) + 0.5);
-    color[0] = '#';
-    sprintf(color + 1, "%s", hex[red / 16]);
-    sprintf(color + 2, "%s", hex[red % 16]);
-    sprintf(color + 3, "%s", hex[green / 16]);
-    sprintf(color + 4, "%s", hex[green % 16]);
-    sprintf(color + 5, "%s", hex[blue / 16]);
-    sprintf(color + 6, "%s", hex[blue % 16]);
-    color[7] = '\0';
+    sprintf(color, "#%02x%02x%02x", red, green, blue);
     return color;
 }
 
