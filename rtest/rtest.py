@@ -9,14 +9,12 @@
 
 import os
 import shutil
-import tempfile
 import shutil
 import subprocess
 import sys
 import platform
 import argparse
 import atexit
-import pathlib
 
 TESTFILE = os.path.join(os.path.dirname(__file__), "tests.txt")
                                       # Test specifications
@@ -46,8 +44,7 @@ def readLine():
   LINE = f3.readline()
   if LINE != "":
     return LINE.strip()
-  else:
-    return None
+  return None
 
 # Skip blank lines and comments (lines starting with #)
 # Use first real line as the test name
@@ -232,11 +229,15 @@ def doTest(TEST):
     OUTPATH = os.path.join(OUTDIR, OUTFILE)
     KFLAGS = SUBTEST["ALG"]
     TFLAGS = SUBTEST["FMT"]
-    if KFLAGS: KFLAGS = f"-K{KFLAGS}"
-    if TFLAGS: TFLAGS = f"-T{TFLAGS}"
+    if KFLAGS:
+      KFLAGS = f"-K{KFLAGS}"
+    if TFLAGS:
+      TFLAGS = f"-T{TFLAGS}"
     testcmd = [DOT]
-    if KFLAGS: testcmd += [KFLAGS]
-    if TFLAGS: testcmd += [TFLAGS]
+    if KFLAGS:
+      testcmd += [KFLAGS]
+    if TFLAGS:
+      testcmd += [TFLAGS]
     testcmd += SUBTEST["FLAGS"] + ["-o", OUTPATH, INFILE]
     if VERBOSE:
       print(" ".join(testcmd))
@@ -299,7 +300,8 @@ def doTest(TEST):
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
       doDiff(OUTFILE, OUTDIR, REFDIR, TESTNAME, i, SUBTEST["FMT"])
     else:
-      print(f"Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} for comparison ==", file=sys.stderr)
+      sys.stderr.write(f"Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} "
+                       "for comparison ==\n")
 
   # clear TESTTYPES
   TESTTYPES = {}

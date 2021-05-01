@@ -29,7 +29,6 @@ Some ideas for TODO:
 """
 
 import argparse
-from enum import Enum
 import os
 from pathlib import Path
 import platform
@@ -186,7 +185,7 @@ def main(args: List[str]) -> int:
   ) = list(range(3))
 
   # define our criteria for success
-  def judge(g: Graph, r: Result) -> int:
+  def judge(r: Result) -> int:
     if r.status == Result.TIMEOUT:
       return TOO_HOT
     if options.max_runtime is not None and options.max_runtime < r.runtime:
@@ -208,7 +207,7 @@ def main(args: List[str]) -> int:
   # run this to get a baseline
   result = process(argv, graph, options.max_runtime)
 
-  j = judge(graph, result)
+  j = judge(result)
 
   # only do the rest if we do not immediately hit the constraints
   if j != JUST_RIGHT:
@@ -236,7 +235,7 @@ def main(args: List[str]) -> int:
       print(f"graph with {c.nodes} nodes and {c.edges} used {r.rss}KB")
 
       # what did we learn?
-      j = judge(c, r)
+      j = judge(r)
       if j == TOO_COLD:
         lb = c
       elif j == JUST_RIGHT:

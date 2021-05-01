@@ -3,13 +3,13 @@
 import os
 from pathlib import Path
 import platform
-import pytest
 import shutil
 import subprocess
 import sys
+import pytest
 
 sys.path.append(os.path.dirname(__file__))
-from gvtest import run_c
+from gvtest import run_c #pylint: disable=C0413
 
 @pytest.mark.parametrize("src", ["demo.c", "dot.c", "example.c", "neatopack.c",
   "simple.c"])
@@ -33,7 +33,7 @@ def test_compile_example(src):
     pytest.skip("Executing neatopack gives segmentation fault (#1800)")
 
   # run the example
-  args = ["-Kneato"] if src in ["demo.c", "dot.c"] else [];
+  args = ["-Kneato"] if src in ["demo.c", "dot.c"] else []
 
   ret, out, err = run_c(filepath, args, "graph {a -- b}", link=libs)
 

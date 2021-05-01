@@ -1,18 +1,17 @@
+import os
 from pathlib import Path
-import pytest
 import platform
+import re
 import shutil
 import signal
-import subprocess
-import os
-import re
-import sys
 import stat
+import subprocess
+import sys
 import tempfile
-from typing import List, Optional, Tuple
+import pytest
 
 sys.path.append(os.path.dirname(__file__))
-from gvtest import run_c
+from gvtest import run_c #pylint: disable=C0413
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -300,7 +299,7 @@ def test_1449():
     universal_newlines=True)
 
   # pass it some input that uses the SVG color scheme
-  stdout, stderr = p.communicate('graph g { colorscheme="svg"; }')
+  _, stderr = p.communicate('graph g { colorscheme="svg"; }')
 
   assert p.returncode == 0, "Graphviz exited with non-zero status"
 

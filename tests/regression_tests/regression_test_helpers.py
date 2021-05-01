@@ -13,7 +13,9 @@ def compare_graphs(name, output_type):
     with open(filename_output) as output_file:
       reference = reference_file.readlines()
       output = output_file.readlines()
-      diff_generator = difflib.context_diff(output, reference, str(filename_output), str(filename_reference))
+      diff_generator = difflib.context_diff(output, reference,
+                                            str(filename_output),
+                                            str(filename_reference))
 
       # if diff contains at least one line, the files are different
       diff = []
@@ -23,18 +25,17 @@ def compare_graphs(name, output_type):
       if len(diff) == 0:
         print(f"Success: {filename}")
         return True
-      else:
-        difference = Path("difference")
-        if not difference.exists():
-          difference.mkdir(parents=True)
+      difference = Path("difference")
+      if not difference.exists():
+        difference.mkdir(parents=True)
 
-        # Write diff to console
-        for line in diff:
-          print(line)
+      # Write diff to console
+      for line in diff:
+        print(line)
 
-        # Store diff in file
-        with open("difference/" + str(filename), "w") as diff_file:
-          diff_file.writelines(diff)
+      # Store diff in file
+      with open("difference/" + str(filename), "w") as diff_file:
+        diff_file.writelines(diff)
 
-        print(f"Failure: {filename} - Generated file does not match reference file.")
-        return False
+      print(f"Failure: {filename} - Generated file does not match reference file.")
+      return False

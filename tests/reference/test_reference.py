@@ -1,8 +1,7 @@
 from pathlib import Path
-import pytest
 import subprocess
 import tempfile
-from typing import Optional
+import pytest
 
 @pytest.mark.xfail
 @pytest.mark.parametrize('src,format,reference', (

@@ -38,9 +38,9 @@ def main():
   if opts.output_format.upper() not in supported_output_formats:
     sys.stderr.write(f"Error: {opts.output_format} output format is not supported\n")
     parser.print_help(file=sys.stderr)
-    exit(1)
+    sys.exit(1)
 
-  if opts.colors == None:
+  if opts.colors is None:
     styles = {
         "Yes": "",
         "No": "",
@@ -56,7 +56,7 @@ def main():
       else:
         sys.stderr.write(f"Error: {opts.colors} color specification is illegal\n")
         parser.print_help(file=sys.stderr)
-        exit(1)
+        sys.exit(1)
     styles = {
         "Yes": f' style="color: {yes_color};"',
         "No":  f' style="color: {no_color};"',
@@ -81,16 +81,16 @@ def main():
           if item[1] == "":
             section_name = item[0]
             if section_name not in table:
-              table[section_name] = {};
+              table[section_name] = {}
               table_sections.append(section_name)
               component_names[section_name] = []
           else:
-            component_name, component_value = item;
+            component_name, component_value = item
             short_value = re.sub("(Yes|No).*", "\\1", component_value)
             if opts.short:
               component_value = short_value
             if component_name not in table[section_name]:
-              table[section_name][component_name] = {};
+              table[section_name][component_name] = {}
               component_names[section_name].append(component_name)
             table[section_name][component_name][platform] = component_value
 
@@ -108,7 +108,8 @@ def main():
     print(f"{indent}<style>")
     indent += "  "
     print(f"{indent}table {{text-align: left; white-space: nowrap; position: relative;}}")
-    print(f"{indent}thead tr th {{padding-right: 1em; padding-bottom: 5px; position: sticky; top: 0px;  background-color: white;}}")
+    print(f"{indent}thead tr th {{padding-right: 1em; padding-bottom: 5px; "
+          "position: sticky; top: 0px;  background-color: white;}")
     print(f"{indent}td, th {{padding-left: 1.5em;}}")
     indent = indent[:-2]
     print(f"{indent}</style>")

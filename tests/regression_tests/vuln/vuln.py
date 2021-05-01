@@ -24,7 +24,7 @@ def generate_vuln_graph(vulnfile, output_type):
 
   if process.wait() < 0:
     print(f"An error occurred while generating: {output_file}")
-    exit(1)
+    sys.exit(1)
 
 failures = 0
 for vulnfile in vulnfiles:
@@ -39,4 +39,4 @@ print(f"    Number of tests: {len(vulnfiles) * len(output_types)}")
 print(f"    Number of failures: {failures}")
 
 if not failures == 0:
-  exit(1) 
+  sys.exit(1)

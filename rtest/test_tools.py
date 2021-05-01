@@ -1,10 +1,9 @@
 import os
 import platform
-import pytest
 import re
 import shutil
 import subprocess
-import shutil
+import pytest
 
 @pytest.mark.parametrize("tool", [
     "acyclic",
