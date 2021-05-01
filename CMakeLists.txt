@@ -181,6 +181,8 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     # MSVC warning C4996 mostly fires on completely valid code. The changes
     # proposed in the warning text often seriously compromise the code
@@ -189,8 +191,6 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4996")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     # Enable common warnings flags
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
