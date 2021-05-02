@@ -117,7 +117,7 @@ static GLfloat getEdgeLength(Agedge_t *  edge)
     A=getEdgeTail(edge);
     B=getEdgeHead(edge);
     rv=(A.x-B.x)*(A.x-B.x) + (A.y-B.y)*(A.y-B.y) +(A.z-B.z)*(A.z-B.z);
-    rv=sqrt(rv);
+    rv=sqrtf(rv);
     return rv;
 }
 static void glCompColorxlate(glCompColor* c,char* str)
