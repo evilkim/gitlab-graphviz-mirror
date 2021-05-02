@@ -26,11 +26,6 @@ struct uniform_stress_matmul_data{
   SparseMatrix A;
 };
 
-
-void Operator_uniform_stress_matmul_delete(Operator o){
-  FREE(o->data);
-}
-
 static real *Operator_uniform_stress_matmul_apply(Operator o, real *x, real *y){
   struct uniform_stress_matmul_data *d = (struct uniform_stress_matmul_data*) (o->data);
   SparseMatrix A = d->A;
