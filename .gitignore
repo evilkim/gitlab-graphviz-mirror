@@ -63,7 +63,6 @@ doc/Makefile
 doc/info/Makefile
 doc/schema/Makefile
 !dot.demo/Makefile
-!lib/inkpot/test/Makefile
 !rtest2/Makefile
 !windows/build/Makefile
 !windows/prebuild/Makefile
