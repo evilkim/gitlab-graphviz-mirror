@@ -321,68 +321,6 @@ int mm_read_mtx_crd_entry(FILE * f, int *I, int *J,
 
 }
 
-
-/************************************************************************
-    mm_read_mtx_crd()  fills M, N, nz, array of values, and return
-                        type code, e.g. 'MCRS'
-
-                        if matrix is complex, values[] is of size 2*nz,
-                            (nz pairs of real/imaginary values)
-************************************************************************/
-
-int mm_read_mtx_crd(char *fname, int *M, int *N, int *nz, int **I, int **J,
-		    double **val, MM_typecode * matcode)
-{
-    int ret_code;
-    FILE *f;
-
-    if (strcmp(fname, "stdin") == 0)
-	f = stdin;
-    else if ((f = fopen(fname, "r")) == NULL)
-	return MM_COULD_NOT_READ_FILE;
-
-
-    if ((ret_code = mm_read_banner(f, matcode)) != 0)
-	return ret_code;
-
-    if (!(mm_is_valid(*matcode) && mm_is_sparse(*matcode) &&
-	  mm_is_matrix(*matcode)))
-	return MM_UNSUPPORTED_TYPE;
-
-    if ((ret_code = mm_read_mtx_crd_size(f, M, N, nz)) != 0)
-	return ret_code;
-
-
-    *I = malloc(*nz * sizeof(int));
-    *J = malloc(*nz * sizeof(int));
-    *val = NULL;
-
-    if (mm_is_complex(*matcode)) {
-	*val = malloc(*nz * 2 * sizeof(double));
-	ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val,
-					*matcode);
-	if (ret_code != 0)
-	    return ret_code;
-    } else if (mm_is_real(*matcode)) {
-	*val = malloc(*nz * sizeof(double));
-	ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val,
-					*matcode);
-	if (ret_code != 0)
-	    return ret_code;
-    }
-
-    else if (mm_is_pattern(*matcode)) {
-	ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val,
-					*matcode);
-	if (ret_code != 0)
-	    return ret_code;
-    }
-
-    if (f != stdin)
-	fclose(f);
-    return 0;
-}
-
 int mm_write_banner(FILE * f, MM_typecode matcode)
 {
     char *str = mm_typecode_to_str(matcode);
