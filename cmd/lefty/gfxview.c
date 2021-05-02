@@ -477,7 +477,7 @@ void GFXbuttoncb (int wi, void *data) {
     Mpopmark (fm);
 }
 
-void GFXarrayresizecb (int wi, Gawdata_t *dp) {
+static void GFXarrayresizecb (int wi, Gawdata_t *dp) {
     Tobj wo, fo, co, so, to, lrtno, sxo, syo;
     Tkvindex_t tkvi;
     Gawcarray_t *cp;
