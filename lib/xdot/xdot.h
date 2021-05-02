@@ -11,9 +11,6 @@
 #ifndef XDOT_H
 #define XDOT_H
 #include <stdio.h>
-#ifdef _WIN32
-#include <windows.h>
-#endif
 
 #ifdef __cplusplus
 extern "C" {
