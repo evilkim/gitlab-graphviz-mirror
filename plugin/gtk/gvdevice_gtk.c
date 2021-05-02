@@ -29,7 +29,7 @@
 #include "support.h"
 
 // note that we do not own the newly entered string - must copy
-void
+static void
 attr_value_edited_cb(GtkCellRendererText *renderer, gchar *pathStr, gchar *newText, gpointer data)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL(data);
