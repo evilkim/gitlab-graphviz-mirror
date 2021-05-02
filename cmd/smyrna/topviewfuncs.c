@@ -328,7 +328,7 @@ static void renderNodes(Agraph_t * g)
 
     x=parseXdotwithattrs(g);
     if (x) {
-	draw_xdot(x,-0.2);
+	draw_xdot(x,-0.2f);
 	freeXDot (x);
     }
     for (v = agfstnode(g); v; v = agnxtnode(g, v)) 
@@ -336,7 +336,7 @@ static void renderNodes(Agraph_t * g)
 	    if(!object_color(v,&c))
 		continue;
 	    x=parseXdotwithattrs(v);
-	    draw_xdot(x,-0.1);
+	    draw_xdot(x,-0.1f);
 
 	    if(x)
 		freeXDot (x);
@@ -426,8 +426,8 @@ static void renderSelectedEdges(Agraph_t * g)
 	    glColor4f(1,0,0,1);	    
 	    posT = ED_posTail(e);
 	    posH = ED_posHead(e);
-	    posT.z +=0.01;
-	    posH.z +=0.01;
+	    posT.z +=0.01f;
+	    posH.z +=0.01f;
 	    draw_edge(&posT,&posH,getEdgeLength(e),0);
 	}
     }
