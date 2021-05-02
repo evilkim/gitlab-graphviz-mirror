@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Uninitialized variable read in delaunay_tri
 - potentially mismatched format string in tclpkg
+- `gvToolTred` is now exported from gvc.dll on Windows mirroring the behavior on
+  Unix platforms.
 
 ## [2.47.1] - 2021-04-17
 
