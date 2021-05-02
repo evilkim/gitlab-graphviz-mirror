@@ -188,6 +188,9 @@
     <ClCompile Include="gvc\gvtextlayout.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gvc\gvtool_tred.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="gvc\gvusershape.c">
       <Filter>Source Files</Filter>
     </ClCompile>

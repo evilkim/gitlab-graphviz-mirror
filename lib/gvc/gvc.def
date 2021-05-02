@@ -157,6 +157,7 @@ gvFreeRenderData
 gvRenderFilename    
 gvRenderJobs    
 gvToggle    
+gvToolTred
 gvusershape_file_access    
 gvusershape_file_release    
 gvwrite    
