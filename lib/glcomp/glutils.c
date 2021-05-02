@@ -721,7 +721,7 @@ GLfloat distBetweenPts(glCompPoint A,glCompPoint B,float R)
 {
     GLfloat rv=0;	
     rv=(A.x-B.x)*(A.x-B.x) + (A.y-B.y)*(A.y-B.y) +(A.z-B.z)*(A.z-B.z);
-    rv=sqrt(rv);
+    rv=sqrtf(rv);
     if (rv <=R)
 	return 0;
     return rv;
