@@ -137,23 +137,6 @@ color_rgb XYZ2RGB(color_xyz color){
   return color_rgb_init(r, g, b);
 }
 
-void get_level(QuadTree qt, int *level0){
-  QuadTree q;
-  int level_max = 0, level;
-  int i;
-
-  if (!qt->qts) return;
-  for (i = 0; i < 1<<(qt->dim); i++){
-    q = qt->qts[i];
-    if (q) {
-      level = *level0 + 1;
-      get_level(q, &level);
-      level_max = MAX(level_max, level);
-    }
-  }
-  *level0 = level_max;
-}
-
 double *lab_gamut_from_file(char *gamut_file, const char *lightness, int *n){
   /* give a list of n points  in the file defining the LAB color gamut. return NULL if the mgamut file is not found.
      lightness is a string of the form 0,70, or NULL.
