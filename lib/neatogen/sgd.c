@@ -226,7 +226,7 @@ void sgd(graph_t *G, /* input graph */
 
             float dx = pos[2*terms[ij].i] - pos[2*terms[ij].j];
             float dy = pos[2*terms[ij].i+1] - pos[2*terms[ij].j+1];
-            float mag = sqrt(dx*dx + dy*dy);
+            float mag = hypotf(dx, dy);
 
             float r = (mu * (mag-terms[ij].d)) / (2*mag);
             float r_x = r * dx;
