@@ -390,7 +390,7 @@ void generateNonoverlapConstraints(CMajEnvVPSC * e,
 	/* grow a bit in the x dimension, so that if overlap is resolved
 	 * horizontally then it won't be considered overlapping vertically
 	 */
-	nsizeScale *= 1.0001;
+	nsizeScale *= 1.0001f;
     }
     for (i = 0; i < n; i++) {
 	bb[i].LL.x =
