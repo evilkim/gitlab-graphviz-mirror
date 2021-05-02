@@ -146,23 +146,6 @@ int Pobspath(vconfig_t * config, Ppoint_t p0, int poly0, Ppoint_t p1,
     return TRUE;
 }
 
-int Pobsbarriers(vconfig_t * config, Pedge_t ** barriers, int *n_barriers)
-{
-    int i, j;
-
-    *barriers = malloc(config->N * sizeof(Pedge_t));
-    *n_barriers = config->N;
-
-    for (i = 0; i < config->N; i++) {
-	barriers[i]->a.x = config->P[i].x;
-	barriers[i]->a.y = config->P[i].y;
-	j = config->next[i];
-	barriers[i]->b.x = config->P[j].x;
-	barriers[i]->b.y = config->P[j].y;
-    }
-    return 1;
-}
-
 #ifdef DEBUG
 static void printVconfig(vconfig_t * cp)
 {
