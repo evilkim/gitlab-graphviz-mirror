@@ -1409,8 +1409,8 @@ make_flat_labeled_edge(graph_t* g, spline_info_t* sp, path* P, edge_t* e, int et
 	lb.UR.y = ND_coord(ln).y + ND_ht(ln)/2;
 	ydelta = ND_coord(ln).y - GD_rank(g)[ND_rank(tn)].ht1 -
 		ND_coord(tn).y + GD_rank(g)[ND_rank(tn)].ht2;
-	ydelta /= 6.;
-	lb.LL.y = lb.UR.y - MAX(5.,ydelta); 
+	ydelta /= 6;
+	lb.LL.y = lb.UR.y - MAX(5,ydelta);
 
 	boxn = 0;
 	makeFlatEnd (g, sp, P, tn, e, &tend, TRUE);
