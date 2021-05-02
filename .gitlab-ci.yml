@@ -486,10 +486,10 @@ meta-data:
     stage: test
     script:
         - CONFIGURE_LOGS=Metadata/*/*/*/configure.log
-        - ci/generate-configuration-table.py --output-format html ${CONFIGURE_LOGS} > configuration-long-no-color.html
-        - ci/generate-configuration-table.py --output-format html --short ${CONFIGURE_LOGS} > configuration-short-no-color.html
-        - ci/generate-configuration-table.py --output-format html --short --color ${CONFIGURE_LOGS} > configuration-short-color-green-red.html
-        - ci/generate-configuration-table.py --output-format html --short --colors black:red ${CONFIGURE_LOGS} > configuration-short-color-red-only.html
+        - ci/generate_configuration_table.py --output-format html ${CONFIGURE_LOGS} > configuration-long-no-color.html
+        - ci/generate_configuration_table.py --output-format html --short ${CONFIGURE_LOGS} > configuration-short-no-color.html
+        - ci/generate_configuration_table.py --output-format html --short --color ${CONFIGURE_LOGS} > configuration-short-color-green-red.html
+        - ci/generate_configuration_table.py --output-format html --short --colors black:red ${CONFIGURE_LOGS} > configuration-short-color-red-only.html
     artifacts:
         paths:
             - configuration-*.html
