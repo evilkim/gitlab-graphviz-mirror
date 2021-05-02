@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glcomp/glcompdefs.h>
-/* #include "glexpose.h" */
 
 /* at given depth value, tranforms 2d Window location to 3d gl coords*/
 int GetFixedOGLPos(int x, int y, float kts, GLfloat * X, GLfloat * Y,
@@ -51,24 +50,20 @@ int GetFixedOGLPos(int x, int y, float kts, GLfloat * X, GLfloat * Y,
     *Z = (GLfloat) posZ;
 
     return 1;
-
 }
 
 /*transforms 2d windows location to 3d gl coords but depth is calculated unlike the previous function*/
 int GetOGLPosRef(int x, int y, float *X, float *Y, float *Z)
 {
-
     GLdouble wwinX;
     GLdouble wwinY;
     GLdouble wwinZ;
     GLdouble posX, posY, posZ;
 
-
     GLint viewport[4];
     GLdouble modelview[16];
     GLdouble projection[16];
     GLfloat winX, winY;
-    //glTranslatef (0.0,0.0,0.0);
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
     glGetDoublev(GL_PROJECTION_MATRIX, projection);
     glGetIntegerv(GL_VIEWPORT, viewport);
@@ -89,18 +84,12 @@ int GetOGLPosRef(int x, int y, float *X, float *Y, float *Z)
     *X = (float) posX;
     *Y = (float) posY;
     *Z = (float) posZ;
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//      printf("==>(%d,%d,%d) -> (%f,%f,%f)\n",x,y,wwinZ,*X,*Y,*Z);
-
 
     return 1;
-
 }
-
 
 float GetOGLDistance(int l)
 {
-
     int x, y;
     GLdouble wwinX;
     GLdouble wwinY;
@@ -108,15 +97,10 @@ float GetOGLDistance(int l)
     GLdouble posX, posY, posZ;
     GLdouble posXX, posYY, posZZ;
 
-
-
     GLint viewport[4];
     GLdouble modelview[16];
     GLdouble projection[16];
     GLfloat winX, winY;
-
-
-
 
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
     glGetDoublev(GL_PROJECTION_MATRIX, projection);
@@ -142,9 +126,7 @@ float GetOGLDistance(int l)
     winY = (float) viewport[3] - (float) y;
     gluUnProject(winX, winY, wwinZ, modelview, projection, viewport,
 		 &posXX, &posYY, &posZZ);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     return ((float) (posXX - posX));
-
 }
 
 /*
@@ -158,7 +140,6 @@ float GetOGLDistance(int l)
 
 void to3D(int x, int y, GLfloat * X, GLfloat * Y, GLfloat * Z)
 {
-
     int const WIDTH = 20;
 
     GLint viewport[4];
@@ -181,11 +162,9 @@ void to3D(int x, int y, GLfloat * X, GLfloat * Y, GLfloat * Z)
 		 GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
     comp = -9999999;
     for (idx = 0; idx < WIDTH * WIDTH; idx++) {
-//              printf ("Z value:%f ",winZ[idx]);
 	if ((winZ[idx] > comp) && (winZ[idx] < 1))
 	    comp = winZ[idx];
     }
-//      printf ("\n");
 
     gluUnProject(winX, winY, comp, modelview, projection, viewport, &posX,
 		 &posY, &posZ);
@@ -194,13 +173,7 @@ void to3D(int x, int y, GLfloat * X, GLfloat * Y, GLfloat * Z)
     *Y = (GLfloat) posY;
     *Z = (GLfloat) posZ;
     return;
-
-
-
-
-
 }
-
 
 int GetFixedOGLPoslocal(int x, int y, GLfloat * X, GLfloat * Y,
 			GLfloat * Z)
@@ -219,8 +192,6 @@ int GetFixedOGLPoslocal(int x, int y, GLfloat * X, GLfloat * Y,
     glGetDoublev(GL_PROJECTION_MATRIX, projection);
     glGetIntegerv(GL_VIEWPORT, viewport);
 
-
-
     glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
     glBegin(GL_POINTS);
     glVertex3f(10.00, 10.00, 0.00);
@@ -237,54 +208,10 @@ int GetFixedOGLPoslocal(int x, int y, GLfloat * X, GLfloat * Y,
     *Y = (GLfloat) posY;
     *Z = (GLfloat) posZ;
 
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    return 1;
-
-}
-#if 0
-void linear_interpolate(float x1, float y1, float x2, float y2, float x3,
-			 float *y3)
-{
-
-    float a, b;
-    a = (y1 - y2) / (x1 - x2);
-    b = y1 - a * x1;
-    *y3 = a * x3 + b;
-}
-
-int glreversecamera(ViewInfo * view)
-{
-
-    glLoadIdentity();
-    if (view->active_camera == -1) {
-	gluLookAt(view->panx, view->pany, 20, view->panx,
-		  view->pany, 0.0, 0.0, 1.0, 0.0);
-	glScalef(1 * view->zoom * -1, 1 * view->zoom * -1,
-		 1 * view->zoom * -1);
-    } else {
-	glScalef(1 * view->cameras[view->active_camera]->r,
-		 1 * view->cameras[view->active_camera]->r,
-		 1 * view->cameras[view->active_camera]->r);
-
-    }
-
     return 1;
 }
 
-#endif
 #include <math.h>
-
-
-
-#if 0
-static glCompPoint add(glCompPoint p, glCompPoint q)
-{
-    p.x += q.x;
-    p.y += q.y;
-    p.z += q.z;
-    return p;
-}
-#endif
 
 static glCompPoint sub(glCompPoint p, glCompPoint q)
 {
@@ -304,16 +231,6 @@ static double len(glCompPoint p)
     return sqrt(dot(p, p));
 }
 
-#if 0
-static glCompPoint scale(double d, glCompPoint p)
-{
-    p.x *= (float) d;
-    p.y *= (float) d;
-    p.z *= (float) d;
-    return p;
-}
-#endif
-
 static glCompPoint blend(glCompPoint p, glCompPoint q, float m)
 {
     glCompPoint r;
@@ -328,43 +245,6 @@ static double dist(glCompPoint p, glCompPoint q)
 {
     return (len(sub(p, q)));
 }
-
-#if 0
-static glCompPoint normalize(glCompPoint p)
-{
-    double d = len(p);
-
-    return scale(1 / d, p);
-}
-
-static glCompPoint intersect(line l, plane J)
-{
-    double t = -(J.d + dot(l.u, J.N)) / dot(l.v, J.N);
-    return (add(l.u, scale(t, l.v)));
-}
-
-/*
- * Given a line l determined by two points a and b, and a 3rd point p,
- * return the distance between the point and the line
- */
-double point_to_line_dist(glCompPoint p, glCompPoint a, glCompPoint b)
-{
-    line l;
-    plane J;
-    glCompPoint q;
-
-    l.u = a;
-    l.v = normalize(sub(b, a));
-
-    J.N = l.v;
-    J.d = -dot(p, l.v);
-
-    q = intersect(l, J);
-
-    return (dist(p, q));
-}
-#endif
-
 
 /*
  * Given a line segment determined by two points a and b, and a 3rd point p,
@@ -389,24 +269,8 @@ double point_to_lineseg_dist(glCompPoint p, glCompPoint a, glCompPoint b)
 	q = blend(a, b, U);
 
     return dist(p, q);
-
 }
 
-#if 0
-/*
-	Calculates the parameters of a plane via given 3 points on it
-*/
-
-void make_plane(glCompPoint a, glCompPoint b, glCompPoint c, plane * P)
-{
-    P->N.x = a.y * (b.z - c.z) + b.y * (c.z - a.z) + c.y * (a.z - b.z);	//+
-    P->N.y = a.z * (b.x - c.x) + b.z * (c.x - a.x) + c.z * (a.x - b.x);	//+
-    P->N.z = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);	//+
-    P->d =
-	(a.x * (b.y * c.z - c.y * b.z) + b.x * (c.y * a.z - a.y * c.z) +
-	 c.x * (a.y * b.z - b.y * a.z)) * -1;
-}
-#endif
 void replacestr(char *source, char **target)
 {
 
@@ -414,60 +278,9 @@ void replacestr(char *source, char **target)
     *target = strdup(source);
 }
 
-#if 0
-/*
-	move a point on the great circle of it (spherical)
-
-*/
-
-#define G_PI    3.1415926535897932384626433832795028841971693993751
-#define DEG2RAD  G_PI/180
-int rot_spherex(plane J, float tet, glCompPoint P, glCompPoint * P2)
-{
-    if (tet > 0) {
-	tet = 5;
-	tet = (float) DEG2RAD *tet;
-	P2->x =
-	    (float) (J.N.x * J.N.x +
-		     (float) cos(tet) * (1 - J.N.x * J.N.x)) * P.x +
-	    (J.N.x * J.N.y * (1 - (float) cos(tet)) -
-	     J.N.z * (float) sin(tet))
-	    + (J.N.z * J.N.x * (1 - (float) cos(tet)) +
-	       J.N.y * (float) sin(tet)) * P.z;
-	P2->y =
-	    (float) (J.N.x * J.N.y * (1 - (float) cos(tet)) +
-		     J.N.z * (float) sin(tet)) * P.x + (J.N.y * J.N.y +
-							(float) cos(tet) *
-							(1 -
-							 J.N.y * J.N.y)) *
-	    P.y + (J.N.y * J.N.z * (1 - (float) cos(tet)) -
-		   J.N.x * (float) sin(tet)) * P.z;
-	P2->z =
-	    (float) (J.N.z * J.N.x * (1 - (float) cos(tet)) -
-		     J.N.y * (float) sin(tet)) * P.x +
-	    (J.N.y * J.N.z * (1 - (float) cos(tet))
-	     + J.N.x * (float) sin(tet)) * P.y + (J.N.z * J.N.z +
-						  (float) cos(tet) * (1 -
-								      J.N.
-								      z *
-								      J.N.
-								      z)) *
-	    P.z;
-	return 1;
-    } else
-	return 0;
-
-}
-#endif
-
 void glCompSelectionBox(glCompSet * s)
 {
     static GLfloat x, y, w, h;
-/*	if (( h < 0)  || (w < 0))
-	{
-	    glEnable(GL_LINE_STIPPLE);
-		glLineStipple(1, 15);
-	}*/
 
     x = s->mouse.pos.x;
     y = s->mouse.pos.y;
@@ -475,14 +288,6 @@ void glCompSelectionBox(glCompSet * s)
     h = s->mouse.dragY;
     printf("%f %f  %f  %f \n", x, y, w, h);
     glColor4f(1, 1, 1, 1);
-/*	glBegin(GL_POLYGON);
-		glVertex2f(x,y);
-		glVertex2f(x, y+h);
-		glVertex2f(x-w, y+h);
-		glVertex2f(x-w, y);
-		glVertex2f(x-w, y);
-
-	glEnd();*/
 
     glBegin(GL_POLYGON);
     glVertex2f(0, 0);
@@ -495,14 +300,7 @@ void glCompSelectionBox(glCompSet * s)
 
 
     glDisable(GL_LINE_STIPPLE);
-
-
-
 }
-
-
-
-
 
 void glCompCalcWidget(glCompCommon * parent, glCompCommon * child,
 		      glCompCommon * ref)
@@ -597,15 +395,6 @@ void glCompCalcWidget(glCompCommon * parent, glCompCommon * child,
     child->height = ref->height;
 }
 
-#if 0
-// compiler reports this function is not used
-
-static void glCompVertex(glCompPoint * p)
-{
-    glVertex3f(p->x, p->y, p->z);
-}
-#endif
-
 static void glCompQuadVertex(glCompPoint * p0, glCompPoint * p1,
 			     glCompPoint * p2, glCompPoint * p3)
 {
@@ -693,30 +482,6 @@ void copy_glcomp_color(glCompColor * source, glCompColor * target)
 
 }
 
-#if 0
-static double area2(glCompPoint * p1p, glCompPoint * p2p, glCompPoint * p3p) 
-{
-    double d;
-
-    d = ((p1p->y - p2p->y) * (p3p->x - p2p->x)) -
-        ((p3p->y - p2p->y) * (p1p->x - p2p->x));
-    return d;
-}
-
-
-enum {ISCCW, ISON, ISCW};  /* counterclockwise; collinear; clockwise */ 
-static int sideOf (glCompPoint * p1p, glCompPoint * p2p, glCompPoint * p3p) {
-    double d = area2 (p1p,p2p,p3p);
-    if (d < 0) return ISCCW;
-    else if (d > 0) return ISCW;
-    else return ISON;
-}
-
-int lines_intersect (glCompPoint* a, glCompPoint* b, glCompPoint* c, glCompPoint* d) 
-{
-  return ((sideOf(a,b,c) != sideOf(a,b,d)) && (sideOf(c,d,a) != sideOf(c,d,b))); 
-}
-#endif
 GLfloat distBetweenPts(glCompPoint A,glCompPoint B,float R)
 {
     GLfloat rv=0;	
@@ -734,9 +499,3 @@ int is_point_in_rectangle(float X, float Y, float RX, float RY, float RW,float R
     else
 	return 0;
 }
-
-
-
-
-
-
