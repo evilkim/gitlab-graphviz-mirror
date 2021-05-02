@@ -30,9 +30,6 @@
     <ClInclude Include="draw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gui\filterscallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gui\glcompui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
