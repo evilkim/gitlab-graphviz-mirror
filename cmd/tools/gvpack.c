@@ -815,7 +815,7 @@ static Agraph_t **readGraphs(int *cp, GVC_t* gvc)
  * Compute the bounding box containing the graphs.
  * We can just use the bounding boxes of the graphs.
  */
-boxf compBB(Agraph_t ** gs, int cnt)
+static boxf compBB(Agraph_t ** gs, int cnt)
 {
     boxf bb, bb2;
     int i;
