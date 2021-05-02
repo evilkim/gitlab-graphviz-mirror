@@ -7,8 +7,8 @@
  *
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
-#ifndef SMYRNA_UTILS_H
-#define SMYRNA_UTILS_H
+
+#pragma once
 
 #include "smyrnadefs.h"
 #include <cgraph/cgraph.h>
@@ -31,5 +31,3 @@ extern int point_within_ellips_with_coords(float ex, float ey,
 extern int point_within_sphere_with_coords(float x0, float y0, float z0,
 					float r, float x, float y,
 					float z);
-
-#endif

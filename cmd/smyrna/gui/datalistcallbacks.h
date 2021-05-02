@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef DATALISTCALLBACKS_H
-#define DATALISTCALLBACKS_H
-
+#pragma once
 
 #include "gui.h"
 #include "tvnodes.h"
@@ -66,5 +64,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

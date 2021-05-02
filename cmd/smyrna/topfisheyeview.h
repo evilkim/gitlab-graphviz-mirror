@@ -7,8 +7,8 @@
  *
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
-#ifndef TOPFISHEYEVIEW_H
-#define TOPFISHEYEVIEW_H
+
+#pragma once
 
 #include "smyrnadefs.h"
 #include "hier.h"
@@ -37,5 +37,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef POLYTESS_H
-#define POLYTESS_H
+#pragma once
+
 #include "smyrnadefs.h"
 
 #ifdef __cplusplus
@@ -23,5 +23,4 @@ extern "C" {
     extern int testDraw(void);
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

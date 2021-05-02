@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GLEXPOSE_H
-#define GLEXPOSE_H
+#pragma once
 
 #include "viewport.h"
 
@@ -27,5 +26,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

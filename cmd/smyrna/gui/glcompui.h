@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GLCOMPUI_H
-#define GLCOMPUI_H
+#pragma once
+
 #include "smyrnadefs.h"
 
 #ifdef __cplusplus
@@ -25,5 +25,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

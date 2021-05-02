@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef APPMOUSE_H
-#define APPMOUSE_H
+#pragma once
+
 #include "smyrnadefs.h"
 
 extern void appmouse_left_click_down(ViewInfo* v,int x,int y);
@@ -26,7 +26,3 @@ extern void appmouse_middle_drag(ViewInfo* v,int x,int y);
 extern void appmouse_move(ViewInfo* v,int x,int y);
 extern void appmouse_key_release(ViewInfo* v);
 extern void appmouse_key_press(ViewInfo* v,int key);
-
-
-
-#endif

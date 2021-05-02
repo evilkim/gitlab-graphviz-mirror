@@ -1,6 +1,4 @@
-#ifndef GLUTRENDER_H
-#define	GLUTRENDER_H
-
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,5 +8,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TOPVIEWSETTINGS_H
-#define TOPVIEWSETTINGS_H
+#pragma once
 
 #include "smyrnadefs.h"
 
@@ -32,5 +31,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

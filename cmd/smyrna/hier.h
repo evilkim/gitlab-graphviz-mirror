@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef HIER_H
-#define HIER_H
+#pragma once
 
 #include <topfish/hierarchy.h>
 
@@ -57,5 +56,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TOPVIEWFUNCS_H
-#define TOPVIEWFUNCS_H
+#pragma once
 
 #include "smyrnadefs.h"
 
@@ -28,5 +27,4 @@ extern void updateSmGraph(Agraph_t * g,topview* t);
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif
