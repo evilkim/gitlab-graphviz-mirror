@@ -19,9 +19,6 @@
 extern "C" {
 #endif
 
-#if defined(_BLD_pathplan) && defined(__EXPORT__)
-#   define extern __EXPORT__
-#endif
 
 /* open a visibility graph 
  * Points in polygonal obstacles must be in clockwise order.

@@ -27,13 +27,6 @@ extern "C" {
 
 #undef	RS	/* hp.pa <signal.h> grabs this!! */
 
-#if _BLD_expr && defined(__EXPORT__)
-#define extern		__EXPORT__
-#endif
-#if !_BLD_expr && defined(__IMPORT__)
-#define extern		extern __IMPORT__
-#endif
-
 #include <expr/exparse.h>
 
 #undef	extern
@@ -277,9 +270,6 @@ struct Excc_s				/* excc() state			*/
 
 };
 
-#if _BLD_expr && defined(__EXPORT__)
-#define extern		__EXPORT__
-#endif
 
 extern Exnode_t*	excast(Expr_t*, Exnode_t*, int, Exnode_t*, int);
 extern Exnode_t*	exnoncast(Exnode_t *);
