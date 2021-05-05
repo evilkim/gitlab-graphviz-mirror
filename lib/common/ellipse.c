@@ -362,8 +362,7 @@ estimateError(ellipse_t * ep, int degree, double etaA, double etaB)
 	double dx = xB - xA;
 	double dy = yB - yA;
 
-	return fabs(x * dy - y * dx + xB * yA - xA * yB)
-	    / sqrt(dx * dx + dy * dy);
+	return fabs(x * dy - y * dx + xB * yA - xA * yB) / hypot(dx, dy);
 
     } else {
 
