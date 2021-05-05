@@ -193,7 +193,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     <ClCompile Include="main.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="md5.c" />
     <ClCompile Include="polytess.c" />
     <ClCompile Include="selectionfuncs.c" />
     <ClCompile Include="smyrna_utils.c" />

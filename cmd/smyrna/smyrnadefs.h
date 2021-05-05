@@ -30,7 +30,6 @@
 #include <cgraph/cgraph.h>
 #include <glcomp/glcompset.h>
 #include "hier.h"
-#include "md5.h"
 #include <glcomp/glutils.h>
 
 #ifdef __cplusplus
@@ -694,8 +693,6 @@ typedef struct
 	float FontSizeConst;
 	glCompSet *widgets;	//for novice user open gl menu
 	int visiblenodecount;	/*helper variable to know the number of the nodes being rendered, good data to optimize speed */
-	md5_byte_t orig_key[16];	/*md5 result for original graph */
-	md5_byte_t final_key[16];	/*md5 result right before graph is saved */
 	char *initFileName;	//file name from command line
 	int initFile;
 	int drawSplines;
