@@ -12,6 +12,7 @@
 #include "common.h"
 #include "g.h"
 #include "gcommon.h"
+#include <math.h>
 #include <string.h>
 
 #define WCU widget->u.c
@@ -426,7 +427,7 @@ int GCarrow(Gwidget_t * widget, Gpoint_t gp1, Gpoint_t gp2, Ggattr_t * ap)
     if (pd.x == 0 && pd.y == 0)
 	return 0;
     tangent = atan2((double) pd.y, (double) pd.x);
-    if ((l = sqrt((double) (pd.x * pd.x + pd.y * pd.y))) > 30)
+    if ((l = hypot(pd.x, pd.y)) > 30)
 	l = 30;
     pa.x = l * cos(tangent + M_PI / 7) + pp2.x;
     pa.y = l * sin(tangent + M_PI / 7) + pp2.y;
