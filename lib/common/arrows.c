@@ -708,7 +708,7 @@ boxf arrow_bb(pointf p, pointf u, double arrowsize, int flag)
     u.x -= p.x;
     u.y -= p.y;
     /* the EPSILONs are to keep this stable as length of u approaches 0.0 */
-    s = ARROW_LENGTH * arrowsize / (sqrt(u.x * u.x + u.y * u.y) + EPSILON);
+    s = ARROW_LENGTH * arrowsize / (hypot(u.x, u.y) + EPSILON);
     u.x += (u.x >= 0.0) ? EPSILON : -EPSILON;
     u.y += (u.y >= 0.0) ? EPSILON : -EPSILON;
     u.x *= s;
