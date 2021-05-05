@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -17,35 +18,22 @@
 #include <ingraphs/ingraphs.h>
 #include <getopt.h>
 
-#ifndef HUGE
-/* HUGE is not defined on 64bit HP-UX */
-#define HUGE HUGE_VAL
-#endif
-
 static char *CmdName;
 static char **Files;
 static char **Nodes;
-static int setall = 0;		/* if false, don't set dist attribute for
+static bool setall;		/* if false, don't set dist attribute for
 				 * nodes in different components.
 				 */
-static int doPath = 0;		/* if 1, record shortest paths */
-static int doDirected;		/* if 1, use directed paths */
+static bool doPath;		/* if true, record shortest paths */
+static bool doDirected;	/* if true, use directed paths */
 static Agsym_t *len_sym;
 
-typedef struct nodedata_s {
+typedef struct {
     Agrec_t hdr;
     double dist;		/* always positive for scanned nodes */
     Agnode_t* prev;
     int done;                   /* > 0 if finished */
 } nodedata_t;
-
-#if 0
-typedef struct edgedata_s {
-    Agrec_t hdr;
-    double length;		/* non-negative */
-    int init;                   /* non-zero if length is set */
-} edgedata_t;
-#endif
 
 static double getlength(Agedge_t * e)
 {
@@ -55,7 +43,7 @@ static double getlength(Agedge_t * e)
 
     if (len_sym && (*(lens = agxget(e, len_sym)))) {
 	len = strtod (lens, &p);
-	if ((len < 0) || (p == lens))
+	if (len < 0 || p == lens)
 	    len = 1;
     }
     else
@@ -88,6 +76,9 @@ static void setdist(Agnode_t * n, double dist)
 
 static int cmpf(Dt_t * d, void *key1, void *key2, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     double t;
     t = getdist((Agnode_t *) key1) - getdist((Agnode_t *) key2);
     if (t < 0)
@@ -142,9 +133,6 @@ static void pre(Agraph_t * g)
 {
     len_sym = agattr(g, AGEDGE, "len", NULL);
     aginit(g, AGNODE, "dijkstra", sizeof(nodedata_t), 1);
-#if 0
-    aginit(g, AGEDGE, "dijkstra", sizeof(edgedata_t), 1);
-#endif
 }
 
 static void post(Agraph_t * g)
@@ -163,7 +151,7 @@ static void post(Agraph_t * g)
 	psym = agattr(g, AGNODE, "prev", "");
 
     if (setall)
-	snprintf(dflt, sizeof(dflt), "%.3lf", HUGE);
+	snprintf(dflt, sizeof(dflt), "%.3lf", HUGE_VAL);
 
     for (v = agfstnode(g); v; v = agnxtnode(g, v)) {
 	dist = getdist(v);
@@ -200,7 +188,7 @@ static void post(Agraph_t * g)
     agclean(g, AGEDGE, "dijkstra");
 }
 
-void dijkstra(Dict_t * Q, Agraph_t * G, Agnode_t * n)
+static void dijkstra(Dict_t * Q, Agraph_t * G, Agnode_t * n)
 {
     Agnode_t *u;
     Agedge_t *e;
@@ -249,13 +237,13 @@ static void init(int argc, char *argv[])
     while ((c = getopt(argc, argv, "adp?")) != -1) {
 	switch (c) {
 	case 'a':
-	    setall = 1;
+	    setall = true;
 	    break;
 	case 'd':
-	    doDirected = 1;
+	    doDirected = true;
 	    break;
 	case 'p':
-	    doPath = 1;
+	    doPath = true;
 	    break;
 	case '?':
 	    if (optopt == '\0' || optopt == '?')
@@ -275,19 +263,19 @@ static void init(int argc, char *argv[])
 	fprintf(stderr, "%s: no node specified\n", CmdName);
 	usage(1);
     }
-    Files = malloc(sizeof(char *) * (argc / 2 + 2));
-    Nodes = malloc(sizeof(char *) * (argc / 2 + 2));
+    Files = calloc(sizeof(char *), (size_t)argc / 2 + 2);
+    Nodes = calloc(sizeof(char *), (size_t)argc / 2 + 2);
     for (j = i = 0; i < argc; i++) {
 	Nodes[j] = argv[i++];
-	Files[j] = (argv[i] ? argv[i] : "-");
+	Files[j] = argv[i] ? argv[i] : "-";
 	j++;
     }
-    Nodes[j] = Files[j] = 0;
+    Nodes[j] = Files[j] = NULL;
 }
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char **argv)
@@ -295,7 +283,7 @@ int main(int argc, char **argv)
     Agraph_t *g;
     Agnode_t *n;
     ingraph_state ig;
-    int i = 0;
+    size_t i = 0;
     int code = 0;
     Dict_t *Q;
 
@@ -317,5 +305,7 @@ int main(int argc, char **argv)
 	agclose(g);
 	i++;
     }
+    free(Nodes);
+    free(Files);
     exit(code);
 }
