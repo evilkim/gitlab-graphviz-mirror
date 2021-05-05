@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #define STANDALONE
+#include <cgraph/itos.h>
 #include <cgraph/sprint.h>
 #include <sparse/general.h>
 #include <sparse/DotIO.h>
@@ -1031,8 +1032,6 @@ void attached_clustering(Agraph_t* g, int maxcluster, int clustering_scheme){
   real v;
   int type = MATRIX_TYPE_REAL;
   size_t sz = sizeof(real);
-  char scluster[100];
-
 
   int *clusters;
 
@@ -1092,8 +1091,7 @@ void attached_clustering(Agraph_t* g, int maxcluster, int clustering_scheme){
     for (i = 0; i < nnodes; i++) (clusters)[i]++;/* make into 1 based */
     for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
       i = ND_id(n);
-      sprintf(scluster,"%d",(clusters)[i]);
-      agxset(n,clust_sym,scluster);
+      agxset(n, clust_sym, itos((clusters)[i]).str);
     }
     if (Verbose){
       fprintf(stderr," no complement clustering info in dot file, using modularity clustering. Modularity = %f, ncluster=%d\n",modularity, nc);
