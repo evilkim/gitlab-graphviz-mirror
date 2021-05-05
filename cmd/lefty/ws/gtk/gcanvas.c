@@ -75,8 +75,6 @@ static Gsize_t spixtodraw(Gwidget_t *, PIXsize_t);
 static Grect_t rpixtodraw(Gwidget_t *, PIXrect_t);
 static PIXrect_t rdrawtobpix(Gbitmap_t *, Grect_t);
 static PIXpoint_t pdrawtobpix(Gbitmap_t *, Gpoint_t);
-static void adjustclip(Gwidget_t *);
-
 
 int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 		   int attrn, Gwattr_t * attrp)
@@ -248,7 +246,6 @@ int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    break;
 	}
     }
-    adjustclip(widget);
     return 0;
 }
 
@@ -308,7 +305,6 @@ int GCsetwidgetattr(Gwidget_t * widget, int attrn, Gwattr_t * attrp)
 	    break;
 	case G_ATTRWINDOW:
 	    WCU->wrect = attrp[ai].u.r;
-	    adjustclip(widget);
 	    break;
 	case G_ATTRWINDOWID:
 	    Gerr(POS, G_ERRCANNOTSETATTR2, "windowid");
@@ -824,9 +820,6 @@ int GCcanvasclear(Gwidget_t * widget)
     WCU->needredraw = FALSE;
     gotit = FALSE;
 
-
-    if (gotit)
-	adjustclip(widget);
     return 0;
 }
 
@@ -950,7 +943,6 @@ gint cweventhandler(GtkWidget * w, GdkEvent * event, gpointer data)
 
     widget = findwidget((unsigned long) w, G_CANVASWIDGET);
     Gneedredraw = WCU->needredraw = TRUE;
-    adjustclip(widget);
 
     gtk_signal_connect(G_OBJECT(w), "visibility_notify_event",
 		       GTK_SIGNAL_FUNC(cweventhandler), NULL);
@@ -1133,13 +1125,4 @@ static PIXpoint_t pdrawtobpix(Gbitmap_t * bitmap, Gpoint_t gp)
     pp.x = gp.x + 0.5;
     pp.y = tvy - gp.y + 0.5;
     return pp;
-}
-
-
-static void adjustclip(Gwidget_t * widget)
-{
-    Gwidget_t *parent;
-    PIXrect_t pr;
-    int width, height;
-
 }
