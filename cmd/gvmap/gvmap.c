@@ -208,7 +208,7 @@ static void
 init(int argc, char **argv, params_t* pm)
 {
   char* cmd = argv[0];
-  unsigned int c;
+  int c;
   real s;
   int v, r;
   char stmp[3];  /* two character string plus '\0' */

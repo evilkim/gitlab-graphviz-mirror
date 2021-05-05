@@ -101,7 +101,7 @@ checkG (Agraph_t* g)
 
 static void init(int argc, char *argv[], real *angle, real *accuracy, char **infile, int *check_edges_with_same_endpoint, int *seed, char **color_scheme, char **lightness){
 
-  unsigned int c;
+  int c;
   char* cmd = argv[0];
   outfile = NULL;
 
