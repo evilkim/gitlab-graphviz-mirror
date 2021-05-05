@@ -755,7 +755,7 @@ void arrow_gen(GVJ_t * job, emit_state_t emit_state, pointf p, pointf u, double 
     u.x -= p.x;
     u.y -= p.y;
     /* the EPSILONs are to keep this stable as length of u approaches 0.0 */
-    s = ARROW_LENGTH / (sqrt(u.x * u.x + u.y * u.y) + EPSILON);
+    s = ARROW_LENGTH / (hypot(u.x, u.y) + EPSILON);
     u.x += (u.x >= 0.0) ? EPSILON : -EPSILON;
     u.y += (u.y >= 0.0) ? EPSILON : -EPSILON;
     u.x *= s;
