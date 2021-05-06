@@ -153,6 +153,12 @@ def main(args: List[str]) -> int:
   # list of assets we have uploaded
   assets: List[str] = []
 
+  # data for the website’s download page
+  webdata = {
+    "version":f"graphviz-{options.version}",
+    "archives":[],
+  }
+
   for tarball in (f"graphviz-{gv_version}.tar.gz",
                   f"graphviz-{gv_version}.tar.xz"):
 
@@ -160,10 +166,18 @@ def main(args: List[str]) -> int:
       log.error(f"source {tarball} not found")
       return -1
 
+    webentry = {"format":os.path.splitext(tarball)[-1][1:]}
+
     # accrue the source tarball and accompanying checksum(s)
-    assets.append(upload(package_version, tarball))
+    url = upload(package_version, tarball)
+    assets.append(url)
+    webentry["url"] = url
     for check in checksum(tarball):
-      assets.append(upload(package_version, check))
+      url = upload(package_version, check)
+      assets.append(url)
+      webentry[os.path.splitext(check)[-1][1:]] = url
+
+    webdata["archives"].append(webentry)
 
   for stem, _, leaves in os.walk("Packages"):
     for leaf in leaves:
@@ -201,6 +215,11 @@ def main(args: List[str]) -> int:
 
   # create the release
   subprocess.check_call(cmd)
+
+  # output JSON data for the website
+  log.info(f"dumping {webdata} to graphviz-{options.version}.json")
+  with open(f"graphviz-{options.version}.json", "wt") as f:
+    json.dump(webdata, f, indent=2)
 
   return 0
 
