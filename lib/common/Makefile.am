@@ -31,8 +31,6 @@ libcommon_C_la_SOURCES = arrows.c colxlate.c ellipse.c textspan.c \
 	output.c emit.c ps_font_equiv.txt ps_fontmap.txt fontmap.cfg \
 	color_names
 
-textfont.o textfont.lo: ps_font_equiv.h
-
 # ensure font names are properly sorted for bsearch operation 
 ps_font_equiv.h: $(srcdir)/ps_font_equiv.txt $(srcdir)/fontmap.cfg $(srcdir)/ps_fontmap.txt
 	cp $(srcdir)/ps_fontmap.txt ps_font_equiv.h
