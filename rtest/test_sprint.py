@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 
 sys.path.append(os.path.dirname(__file__))
-from gvtest import run_c
+from gvtest import run_c #pylint: disable=C0413
 
 def test_sprint():
   """run the sprint unit tests"""
