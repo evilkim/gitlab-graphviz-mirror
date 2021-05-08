@@ -313,13 +313,13 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 		varmap[vs[i]]=u;
 	}
 	for(unsigned i=0;i<n;i++) {
-		for(vector<Constraint*>::iterator c=vs[i]->in.begin();c!=vs[i]->in.end();c++) {
-			Variable *l=(*c)->left;
+		for(Constraint *c : vs[i]->in) {
+			Variable *l=c->left;
 			varmap[vs[i]]->in.insert(varmap[l]);
 		}
 
-		for(vector<Constraint*>::iterator c=vs[i]->out.begin();c!=vs[i]->out.end();c++) {
-			Variable *r=(*c)->right;
+		for(Constraint *c : vs[i]->out) {
+			Variable *r=c->right;
 			varmap[vs[i]]->out.insert(varmap[r]);
 		}
 	}
@@ -337,8 +337,7 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 			return true;
 		} else {
 			graph.erase(i);
-			for(set<node*>::iterator j=u->out.begin();j!=u->out.end();j++) {
-				node *v=*j;
+			for(node *v : u->out) {
 				v->in.erase(u);
 			}
 			delete u;
