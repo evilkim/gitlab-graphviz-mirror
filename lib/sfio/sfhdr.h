@@ -14,7 +14,7 @@ extern "C" {
 
 #ifndef _SFHDR_H
 #define _SFHDR_H	1
-#if !defined(_BLD_sfio) && !defined(_BLD_stdio)
+#if !defined(_BLD_sfio)
 #define _BLD_sfio	1
 #endif
 
