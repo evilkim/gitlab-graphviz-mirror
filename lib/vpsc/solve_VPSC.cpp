@@ -38,8 +38,8 @@ using std::set;
 IncVPSC::IncVPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint *cs[]) 
 	: VPSC(n,vs,m,cs) {
 	inactive.assign(cs,cs+m);
-	for(ConstraintList::iterator i=inactive.begin();i!=inactive.end();i++) {
-		(*i)->active=false;
+	for(Constraint *c : inactive) {
+		c->active=false;
 	}
 }
 VPSC::VPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint *cs[])
