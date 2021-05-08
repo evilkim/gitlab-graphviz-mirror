@@ -18,6 +18,7 @@
 #pragma once
 
 #include <vector>
+#include <vpsc/blocks.h>
 struct Variable;
 struct Constraint;
 class Blocks;
@@ -31,9 +32,9 @@ public:
 	virtual void solve();
 
 	VPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint *cs[]);
-	virtual ~VPSC();
+	virtual ~VPSC() = default;
 protected:
-	Blocks *bs;
+	Blocks bs;
 	Constraint **cs;
 	unsigned m;
 	void printBlocks();

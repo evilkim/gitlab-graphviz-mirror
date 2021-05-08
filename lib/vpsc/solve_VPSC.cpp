@@ -42,22 +42,19 @@ IncVPSC::IncVPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint 
 		(*i)->active=false;
 	}
 }
-VPSC::VPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint *cs[]) : cs(cs), m(m) {
-	bs=new Blocks(n, vs);
+VPSC::VPSC(const unsigned n, Variable *vs[], const unsigned m, Constraint *cs[])
+  : bs(n, vs), cs(cs), m(m) {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		printBlocks();
 		assert(!constraintGraphIsCyclic(n,vs));
 	}
-}
-VPSC::~VPSC() {
-	delete bs;
 }
 
 // useful in debugging
 void VPSC::printBlocks() {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		for(Block *b : *bs) {
+		for(Block *b : bs) {
 			f<<"  "<<*b<<"\n";
 		}
 		for(unsigned i=0;i<m;i++) {
@@ -76,14 +73,14 @@ void VPSC::printBlocks() {
 * another so that constraints internal to the block are satisfied.
 */
 void VPSC::satisfy() {
-	list<Variable*> *vs=bs->totalOrder();
+	list<Variable*> *vs=bs.totalOrder();
 	for(list<Variable*>::iterator i=vs->begin();i!=vs->end();i++) {
 		Variable *v=*i;
 		if(!v->block->deleted) {
-			bs->mergeLeft(v->block);
+			bs.mergeLeft(v->block);
 		}
 	}
-	bs->cleanup();
+	bs.cleanup();
 	for(unsigned i=0;i<m;i++) {
 		if(cs[i]->slack()<-0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
@@ -101,11 +98,11 @@ void VPSC::refine() {
 	bool solved=false;
 	while(!solved) {
 		solved=true;
-		for(Block *b : *bs) {
+		for(Block *b : bs) {
 			b->setUpInConstraints();
 			b->setUpOutConstraints();
 		}
-		for(Block *b : *bs) {
+		for(Block *b : bs) {
 			Constraint *c=b->findMinLM();
 			if(c!=nullptr && c->lm<0) {
 				if (RECTANGLE_OVERLAP_LOGGING) {
@@ -114,8 +111,8 @@ void VPSC::refine() {
 				}
 				// Split on c
 				Block *l=nullptr, *r=nullptr;
-				bs->split(b,l,r,c);
-				bs->cleanup();
+				bs.split(b,l,r,c);
+				bs.cleanup();
 				// split alters the block set so we have to restart
 				solved=false;
 				break;
@@ -145,12 +142,12 @@ void IncVPSC::solve() {
 		ofstream f(LOGFILE,ios::app);
 		f<<"solve_inc()...\n";
 	}
-	double lastcost,cost = bs->cost();
+	double lastcost,cost = bs.cost();
 	do {
 		lastcost=cost;
 		satisfy();
 		splitBlocks();
-		cost = bs->cost();
+		cost = bs.cost();
 		if (RECTANGLE_OVERLAP_LOGGING) {
 			ofstream f(LOGFILE,ios::app);
 			f<<"  cost="<<cost<<"\n";
@@ -190,14 +187,14 @@ void IncVPSC::satisfy() {
 			// constraint is within block, need to split first
 			inactive.push_back(lb->splitBetween(v->left,v->right,lb,rb));
 			lb->merge(rb,v);
-			bs->insert(lb);
+			bs.insert(lb);
 		}
 	}
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
 		f<<"  finished merges.\n";
 	}
-	bs->cleanup();
+	bs.cleanup();
 	for(unsigned i=0;i<m;i++) {
 		v=cs[i];
 		if(v->slack()<-0.0000001) {
@@ -218,7 +215,7 @@ void IncVPSC::moveBlocks() {
 		ofstream f(LOGFILE,ios::app);
 		f<<"moveBlocks()...\n";
 	}
-	for(Block *b : *bs) {
+	for(Block *b : bs) {
 		b->wposn = b->desiredWeightedPosition();
 		b->posn = b->wposn / b->weight;
 	}
@@ -231,7 +228,7 @@ void IncVPSC::splitBlocks() {
 	moveBlocks();
 	splitCnt=0;
 	// Split each block if necessary on min LM
-	for(Block *b : *bs) {
+	for(Block *b : bs) {
 		Constraint* v=b->findMinLM();
 		if(v!=nullptr && v->lm < -0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
@@ -246,8 +243,8 @@ void IncVPSC::splitBlocks() {
 			l->posn=r->posn=pos;
 			l->wposn = l->posn * l->weight;
 			r->wposn = r->posn * r->weight;
-			bs->insert(l);
-			bs->insert(r);
+			bs.insert(l);
+			bs.insert(r);
 			b->deleted=true;
 			inactive.push_back(v);
 			if (RECTANGLE_OVERLAP_LOGGING) {
@@ -260,7 +257,7 @@ void IncVPSC::splitBlocks() {
 		ofstream f(LOGFILE,ios::app);
 		f<<"  finished splits.\n";
 	}
-	bs->cleanup();
+	bs.cleanup();
 }
 
 /**
@@ -358,12 +355,12 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 bool VPSC::blockGraphIsCyclic() {
 	map<Block*, node*> bmap;
 	vector<node*> graph;
-	for(Block *b : *bs) {
+	for(Block *b : bs) {
 		node *u=new node;
 		graph.push_back(u);
 		bmap[b]=u;
 	}
-	for(Block *b : *bs) {
+	for(Block *b : bs) {
 		b->setUpInConstraints();
 		Constraint *c=b->findMinInConstraint();
 		while(c!=nullptr) {
