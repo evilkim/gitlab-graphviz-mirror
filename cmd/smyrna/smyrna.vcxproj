@@ -144,7 +144,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     <ClInclude Include="gui\beacon.h" />
     <ClInclude Include="gui\callbacks.h" />
     <ClInclude Include="gui\datalistcallbacks.h" />
-    <ClInclude Include="gui\filterscallbacks.h" />
     <ClInclude Include="gui\glcompui.h" />
     <ClInclude Include="gui\gui.h" />
     <ClInclude Include="gui\menucallbacks.h" />

@@ -8,14 +8,9 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TOPVIEWDEFS_H
-#define TOPVIEWDEFS_H
+#pragma once
+
 #include "smyrnadefs.h"
 #include "gui.h"
 #include "tvnodes.h"
 #include <glcomp/glcompset.h>
-
-
-
-
-#endif

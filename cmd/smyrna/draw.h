@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef DRAW_H
-#define DRAW_H
+#pragma once
+
 #include "smyrnadefs.h"
 #include <gtk/gtkgl.h>
 #include <xdot/xdot.h>
@@ -33,5 +33,4 @@ extern void draw_selpoly(glCompPoly* selPoly);
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

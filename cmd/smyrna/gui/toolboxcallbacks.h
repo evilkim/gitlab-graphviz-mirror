@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TOOLBOXCALLBACKS_H
-#define TOOLBOXCALLBACKS_H
+#pragma once
+
 #include <gtk/gtk.h>
 #include "gui.h"
 #if defined(_WIN32)
@@ -64,5 +64,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

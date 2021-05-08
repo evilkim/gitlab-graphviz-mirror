@@ -8,10 +8,9 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 //view data structure
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
-#define bool int
 #include "smyrnadefs.h"
 #include <gtk/gtk.h>
 #include <xdot/xdot.h>
@@ -55,5 +54,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

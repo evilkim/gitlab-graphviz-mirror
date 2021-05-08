@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef MENUCALLBACKS_H
-#define MENUCALLBACKS_H
+#pragma once
 
 #include "gui.h"
 
@@ -91,5 +90,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

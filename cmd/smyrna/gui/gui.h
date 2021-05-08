@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GUI_H
-#define GUI_H
+#pragma once
 
 #include "smyrnadefs.h"
 #include <gtk/gtk.h>
@@ -81,5 +80,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

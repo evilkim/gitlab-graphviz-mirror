@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GLMOTION_H
-#define GLMOTION_H
+#pragma once
 
 #include "viewport.h"
 
@@ -23,5 +22,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

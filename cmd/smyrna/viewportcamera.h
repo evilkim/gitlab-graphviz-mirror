@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VIEWPORTCAMERA_H
-#define VIEWPORTCAMERA_H
+#pragma once
 
 #include "smyrnadefs.h"
 #include <glcomp/glcompset.h>
@@ -36,5 +35,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

@@ -7,8 +7,8 @@
  *
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
-#ifndef CALLBACKS_H
-#define CALLBACKS_H 1
+
+#pragma once
 
 #include <gtk/gtk.h>
 #include "toolboxcallbacks.h"
@@ -79,5 +79,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

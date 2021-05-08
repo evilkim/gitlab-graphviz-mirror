@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef TVNODES_H
-#define TVNODES_H
+#pragma once
 
 #include "gui.h"
 #define MAX_NODE_PER_PAGE 100
@@ -130,5 +129,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

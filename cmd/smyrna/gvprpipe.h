@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GVPRPIPE_H
-#define GVPRPIPE_H
+#pragma once
 
 #include <cgraph/cgraph.h>
 
@@ -21,5 +20,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

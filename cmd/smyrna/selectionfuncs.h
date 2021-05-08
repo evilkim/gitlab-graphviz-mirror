@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SELECTIONFUNCS_H
-#define SELECTIONFUNCS_H
+#pragma once
 
 #include "draw.h"
 #include <GL/gl.h>
@@ -24,5 +23,4 @@ extern void add_selpoly(Agraph_t* g,glCompPoly* selPoly,glCompPoint pt);
 extern void clear_selpoly(glCompPoly* sp);
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif

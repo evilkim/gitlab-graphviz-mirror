@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef FRMOBJECTUI_H
-#define FRMOBJECTUI_H
+#pragma once
 
 #include "smyrnadefs.h"
 
@@ -37,5 +36,3 @@ _BB void on_attrSearchBtn_clicked (GtkWidget * widget, gpointer user_data);
 
 extern attr_list* load_attr_list(Agraph_t* g);
 extern void showAttrsWidget(topview* t);
-
-#endif

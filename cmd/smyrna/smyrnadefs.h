@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SMYRNADEFS_H
-#define SMYRNADEFS_H
+#pragma once
 
 #ifdef _WIN32
 #ifndef NO_WIN_HEADER
@@ -734,5 +733,4 @@ typedef struct
 
 #ifdef __cplusplus
 }				/* end extern "C" */
-#endif
 #endif
