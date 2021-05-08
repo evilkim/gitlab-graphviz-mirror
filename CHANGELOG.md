@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - no longer pass libcommon to the linker twice in mm2gv when building with CMake
+- Quartz plugin is now compiled with explicit `--tag=CC` to libtool #2065
 
 ## [2.47.2] - 2021-05-26
 
