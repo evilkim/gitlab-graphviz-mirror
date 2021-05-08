@@ -387,8 +387,7 @@ bool VPSC::blockGraphIsCyclic() {
 			return true;
 		} else {
 			graph.erase(i);
-			for(set<node*>::iterator j=u->out.begin();j!=u->out.end();j++) {
-				node *v=*j;
+			for(node * v : u->out) {
 				v->in.erase(u);
 			}
 			delete u;
