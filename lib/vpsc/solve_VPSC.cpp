@@ -348,11 +348,10 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 // useful in debugging - cycles would be BAD
 bool VPSC::blockGraphIsCyclic() {
 	map<Block*, node*> bmap;
-	vector<node*> graph;
+	vector<std::unique_ptr<node>> graph;
 	for(Block *b : bs) {
-		node *u=new node;
-		graph.push_back(u);
-		bmap[b]=u;
+		graph.emplace_back(new node);
+		bmap[b]=graph.back().get();
 	}
 	for(Block *b : bs) {
 		b->setUpInConstraints();
@@ -375,9 +374,9 @@ bool VPSC::blockGraphIsCyclic() {
 	}
 	while(!graph.empty()) {
 		node *u=nullptr;
-		vector<node*>::iterator i=graph.begin();
+		vector<std::unique_ptr<node>>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
-			u=*i;
+			u=(*i).get();
 			if(u->in.empty()) {
 				break;
 			}
@@ -390,11 +389,7 @@ bool VPSC::blockGraphIsCyclic() {
 			for(node * v : u->out) {
 				v->in.erase(u);
 			}
-			delete u;
 		}
-	}
-	for(unsigned i=0; i<graph.size(); i++) {
-		delete graph[i];
 	}
 	return false;
 }
