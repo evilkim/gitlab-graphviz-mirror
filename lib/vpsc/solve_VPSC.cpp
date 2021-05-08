@@ -22,6 +22,7 @@
 #include <vpsc/blocks.h>
 #include <vpsc/solve_VPSC.h>
 #include <math.h>
+#include <memory>
 #include <sstream>
 #include <fstream>
 using std::ios;
@@ -306,11 +307,10 @@ struct node {
 // useful in debugging - cycles would be BAD
 bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 	map<Variable*, node*> varmap;
-	vector<node*> graph;
+	vector<std::unique_ptr<node>> graph;
 	for(unsigned i=0;i<n;i++) {
-		node *u=new node;
-		graph.push_back(u);
-		varmap[vs[i]]=u;
+		graph.emplace_back(new node);
+		varmap[vs[i]]=graph.back().get();
 	}
 	for(unsigned i=0;i<n;i++) {
 		for(Constraint *c : vs[i]->in) {
@@ -325,9 +325,9 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 	}
 	while(!graph.empty()) {
 		node *u=nullptr;
-		vector<node*>::iterator i=graph.begin();
+		vector<std::unique_ptr<node>>::iterator i=graph.begin();
 		for(;i!=graph.end();i++) {
-			u=*i;
+			u=(*i).get();
 			if(u->in.empty()) {
 				break;
 			}
@@ -340,11 +340,7 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 			for(node *v : u->out) {
 				v->in.erase(u);
 			}
-			delete u;
 		}
-	}
-	for(unsigned i=0; i<graph.size(); i++) {
-		delete graph[i];
 	}
 	return false;
 }
