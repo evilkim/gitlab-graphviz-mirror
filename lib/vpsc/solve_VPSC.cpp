@@ -57,8 +57,7 @@ VPSC::~VPSC() {
 void VPSC::printBlocks() {
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
-		for(set<Block*>::iterator i=bs->begin();i!=bs->end();i++) {
-			Block *b=*i;
+		for(Block *b : *bs) {
 			f<<"  "<<*b<<"\n";
 		}
 		for(unsigned i=0;i<m;i++) {
@@ -102,13 +101,11 @@ void VPSC::refine() {
 	bool solved=false;
 	while(!solved) {
 		solved=true;
-		for(set<Block*>::const_iterator i=bs->begin();i!=bs->end();i++) {
-			Block *b=*i;
+		for(Block *b : *bs) {
 			b->setUpInConstraints();
 			b->setUpOutConstraints();
 		}
-		for(set<Block*>::const_iterator i=bs->begin();i!=bs->end();i++) {
-			Block *b=*i;
+		for(Block *b : *bs) {
 			Constraint *c=b->findMinLM();
 			if(c!=nullptr && c->lm<0) {
 				if (RECTANGLE_OVERLAP_LOGGING) {
@@ -221,8 +218,7 @@ void IncVPSC::moveBlocks() {
 		ofstream f(LOGFILE,ios::app);
 		f<<"moveBlocks()...\n";
 	}
-	for(set<Block*>::const_iterator i(bs->begin());i!=bs->end();i++) {
-		Block *b = *i;
+	for(Block *b : *bs) {
 		b->wposn = b->desiredWeightedPosition();
 		b->posn = b->wposn / b->weight;
 	}
@@ -235,8 +231,7 @@ void IncVPSC::splitBlocks() {
 	moveBlocks();
 	splitCnt=0;
 	// Split each block if necessary on min LM
-	for(set<Block*>::const_iterator i(bs->begin());i!=bs->end();i++) {
-		Block* b = *i;
+	for(Block *b : *bs) {
 		Constraint* v=b->findMinLM();
 		if(v!=nullptr && v->lm < -0.0000001) {
 			if (RECTANGLE_OVERLAP_LOGGING) {
@@ -363,14 +358,12 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 bool VPSC::blockGraphIsCyclic() {
 	map<Block*, node*> bmap;
 	vector<node*> graph;
-	for(set<Block*>::const_iterator i=bs->begin();i!=bs->end();i++) {
-		Block *b=*i;
+	for(Block *b : *bs) {
 		node *u=new node;
 		graph.push_back(u);
 		bmap[b]=u;
 	}
-	for(set<Block*>::const_iterator i=bs->begin();i!=bs->end();i++) {
-		Block *b=*i;
+	for(Block *b : *bs) {
 		b->setUpInConstraints();
 		Constraint *c=b->findMinInConstraint();
 		while(c!=nullptr) {
