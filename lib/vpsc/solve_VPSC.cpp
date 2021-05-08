@@ -382,7 +382,7 @@ bool VPSC::blockGraphIsCyclic() {
 				break;
 			}
 		}
-		if(i==graph.end() && !graph.empty()) {
+		if(i==graph.end()) {
 			//cycle found!
 			return true;
 		} else {
