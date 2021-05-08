@@ -1701,7 +1701,7 @@ boolean overlap_edge(edge_t *e, boxf b)
 /* edgeType:
  * Convert string to edge type.
  */
-static int edgeType (char* s, int dflt)
+static int edgeType(const char *s, int dflt)
 {
     if (s == NULL || strcmp(s, "") == 0) {
 	return dflt;
