@@ -79,7 +79,6 @@ E_taillabel
 E_visitedfillcolor    
 E_visitedpencolor    
 E_weight   
-edgeType    
 elapsed_sec    
 emit_clusters    
 emit_graph    

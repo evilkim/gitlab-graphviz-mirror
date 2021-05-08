@@ -93,7 +93,6 @@ extern "C" {
 
     extern Agsym_t *setAttr(graph_t*, void*, char*name, char *value, Agsym_t*);
     extern void setEdgeType (graph_t* g, int dflt);
-    extern int edgeType (char* s, int dflt);
     extern int is_a_cluster (Agraph_t* g);
 
     /* from postproc.c */ 
