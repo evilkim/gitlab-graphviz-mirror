@@ -332,7 +332,7 @@ bool VPSC::constraintGraphIsCyclic(const unsigned n, Variable *vs[]) {
 				break;
 			}
 		}
-		if(i==graph.end() && !graph.empty()) {
+		if(i==graph.end()) {
 			//cycle found!
 			return true;
 		} else {
