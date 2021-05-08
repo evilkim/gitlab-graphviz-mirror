@@ -74,8 +74,7 @@ void VPSC::printBlocks() {
 */
 void VPSC::satisfy() {
 	list<Variable*> *vs=bs.totalOrder();
-	for(list<Variable*>::iterator i=vs->begin();i!=vs->end();i++) {
-		Variable *v=*i;
+	for(Variable *v : *vs) {
 		if(!v->block->deleted) {
 			bs.mergeLeft(v->block);
 		}
