@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 
-# Generate version
-#
-# Release version entry format : <major>.<minor>.<patch>
-#
-# Stable release version output format     : <major>.<minor>.<patch>
-# Development release version output format: <major>.<minor>.<patch>~dev.<YYYYmmdd.HHMM>
+"""
+Generate version
 
-# The patch version of a development release should be the same as the
-# next stable release patch number. The string "~dev." and the
-# committer date will be added.
-#
-# Example sequence:
-#
-# Entry version   Entry collection          Output
-# 2.44.1          stable                 => 2.44.1
-# 2.44.2          development            => 2.44.2~dev.20200704.1652
-# 2.44.2          stable                 => 2.44.2
-# 2.44.3          development            => 2.44.3~dev.20200824.1337
+Release version entry format : <major>.<minor>.<patch>
+
+Stable release version output format     : <major>.<minor>.<patch>
+Development release version output format: <major>.<minor>.<patch>~dev.<YYYYmmdd.HHMM>
+
+The patch version of a development release should be the same as the
+next stable release patch number. The string "~dev." and the
+committer date will be added.
+
+Example sequence:
+
+Entry version   Entry collection          Output
+2.44.1          stable                 => 2.44.1
+2.44.2          development            => 2.44.2~dev.20200704.1652
+2.44.2          stable                 => 2.44.2
+2.44.3          development            => 2.44.3~dev.20200824.1337
+"""
 
 import argparse
 from datetime import datetime
