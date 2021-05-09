@@ -281,9 +281,6 @@ extern "C" {
 #define sfstderr	((Sfio_t*)_ast_dll->_ast_stderr)
 #endif
 
-#if defined(_BLD_sfio) && defined(__EXPORT__)
-#define extern	__EXPORT__
-#endif
 
     extern Sfio_t *sfnew(Sfio_t *, void *, size_t, int, int);
     extern Sfio_t *sfopen(Sfio_t *, const char *, const char *);

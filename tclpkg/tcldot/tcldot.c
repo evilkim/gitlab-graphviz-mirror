@@ -151,9 +151,6 @@ static int dotstring(ClientData clientData, Tcl_Interp * interp,
     return TCL_OK;
 }
 
-#if defined(_BLD_tcldot) && defined(_DLL)
-__EXPORT__
-#endif
 int Tcldot_Init(Tcl_Interp * interp)
 {
     ictx_t *ictx;

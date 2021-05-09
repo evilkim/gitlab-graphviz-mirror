@@ -20,9 +20,6 @@ extern "C" {
 #endif
 
 
-#if defined(_BLD_pathplan) && defined(__EXPORT__)
-#   define extern __EXPORT__
-#endif
 
 /* find shortest euclidean path within a simple polygon */
     extern int Pshortestpath(Ppoly_t * boundary, Ppoint_t endpoints[2],
