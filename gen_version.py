@@ -19,16 +19,15 @@
 # 2.44.2          stable                 => 2.44.2
 # 2.44.3          development            => 2.44.3~dev.20200824.1337
 
+import argparse
+from datetime import datetime
+import os
+import subprocess
+import sys
+
 collection = "development"
 
 version = "2.47.2"
-
-import os
-import sys
-import subprocess
-import argparse
-
-from datetime import datetime
 
 graphviz_date_format = "%Y%m%d.%H%M"
 iso_date_format = "%Y-%m-%d %H:%M:%S"
