@@ -9,6 +9,8 @@ add_library(cgraph SHARED
     agxbuf.h
     cghdr.h
     cgraph.h
+    itos.h
+    sprint.h
     strcasecmp.h
 
     # Source files
