@@ -837,6 +837,11 @@ deployment:
     # do not run this job for MRs, developer’s forks, etc.
     only:
         - main@graphviz/graphviz
+    artifacts:
+        when: on_success
+        expire_in: 1 week
+        paths:
+            - graphviz-*.json
 
 .docker_template: &docker_definition
   image: docker:stable
