@@ -10,6 +10,7 @@
 
 
 #include <common/render.h>
+#include <math.h>
 
 #define EPSILON .0001
 
@@ -620,7 +621,7 @@ static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, do
     double r;
     pointf AF[2];
 
-    r = sqrt(u.x * u.x + u.y * u.y) / 2.;
+    r = hypot(u.x, u.y) / 2.;
     AF[0].x = p.x + u.x / 2. - r;
     AF[0].y = p.y + u.y / 2. - r;
     AF[1].x = p.x + u.x / 2. + r;
@@ -707,7 +708,7 @@ boxf arrow_bb(pointf p, pointf u, double arrowsize, int flag)
     u.x -= p.x;
     u.y -= p.y;
     /* the EPSILONs are to keep this stable as length of u approaches 0.0 */
-    s = ARROW_LENGTH * arrowsize / (sqrt(u.x * u.x + u.y * u.y) + EPSILON);
+    s = ARROW_LENGTH * arrowsize / (hypot(u.x, u.y) + EPSILON);
     u.x += (u.x >= 0.0) ? EPSILON : -EPSILON;
     u.y += (u.y >= 0.0) ? EPSILON : -EPSILON;
     u.x *= s;
@@ -754,7 +755,7 @@ void arrow_gen(GVJ_t * job, emit_state_t emit_state, pointf p, pointf u, double 
     u.x -= p.x;
     u.y -= p.y;
     /* the EPSILONs are to keep this stable as length of u approaches 0.0 */
-    s = ARROW_LENGTH / (sqrt(u.x * u.x + u.y * u.y) + EPSILON);
+    s = ARROW_LENGTH / (hypot(u.x, u.y) + EPSILON);
     u.x += (u.x >= 0.0) ? EPSILON : -EPSILON;
     u.y += (u.y >= 0.0) ? EPSILON : -EPSILON;
     u.x *= s;

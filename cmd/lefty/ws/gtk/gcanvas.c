@@ -12,6 +12,7 @@
 #include "common.h"
 #include "g.h"
 #include "gcommon.h"
+#include <math.h>
 #include <string.h>
 
 #define WCU widget->u.c
@@ -74,8 +75,6 @@ static Gsize_t spixtodraw(Gwidget_t *, PIXsize_t);
 static Grect_t rpixtodraw(Gwidget_t *, PIXrect_t);
 static PIXrect_t rdrawtobpix(Gbitmap_t *, Grect_t);
 static PIXpoint_t pdrawtobpix(Gbitmap_t *, Gpoint_t);
-static void adjustclip(Gwidget_t *);
-
 
 int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 		   int attrn, Gwattr_t * attrp)
@@ -195,9 +194,6 @@ int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	WCU->colors[i].inuse = FALSE;
 
     WCU->gattr.color = 1;
-/*	gdk_gc_set_background(GC, widget->w->style->white_gc);
-	gdk_gc_set_foreground(GC, widget->w->style->black_gc);
-*/
 
     WCU->gattr.width = 0;
     WCU->gattr.mode = 0;
@@ -250,7 +246,6 @@ int GCcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    break;
 	}
     }
-    adjustclip(widget);
     return 0;
 }
 
@@ -310,7 +305,6 @@ int GCsetwidgetattr(Gwidget_t * widget, int attrn, Gwattr_t * attrp)
 	    break;
 	case G_ATTRWINDOW:
 	    WCU->wrect = attrp[ai].u.r;
-	    adjustclip(widget);
 	    break;
 	case G_ATTRWINDOWID:
 	    Gerr(POS, G_ERRCANNOTSETATTR2, "windowid");
@@ -345,8 +339,6 @@ int GCgetwidgetattr(Gwidget_t * widget, int attrn, Gwattr_t * attrp)
 	    attrp[ai].u.i = width;
 	    break;
 	case G_ATTRCURSOR:
-/*				attrp[ai].u.t = (curcursori == -1) ? "default" : cursormap[curcursori].name;
-*/
 	    attrp[ai].u.t = (curcursori == -1) ? "default" : "watch";
 	    break;
 	case G_ATTRCOLOR:
@@ -426,7 +418,7 @@ int GCarrow(Gwidget_t * widget, Gpoint_t gp1, Gpoint_t gp2, Ggattr_t * ap)
     if (pd.x == 0 && pd.y == 0)
 	return 0;
     tangent = atan2((double) pd.y, (double) pd.x);
-    if ((l = sqrt((double) (pd.x * pd.x + pd.y * pd.y))) > 30)
+    if ((l = hypot(pd.x, pd.y)) > 30)
 	l = 30;
     pa.x = l * cos(tangent + M_PI / 7) + pp2.x;
     pa.y = l * sin(tangent + M_PI / 7) + pp2.y;
@@ -455,10 +447,6 @@ int GCline(Gwidget_t * widget, Gpoint_t gp1, Gpoint_t gp2, Ggattr_t * ap)
     else
 	gr.o.y = gp2.y, gr.c.y = gp1.y;
 
-/*	if(!ISVISIBLE(gr))
-		return 1;
-*/
-
     pp1 = pdrawtopix(widget, gp1), pp2 = pdrawtopix(widget, gp2);
     setgattr(widget, ap);
     gdk_draw_line(widget->w->window, GC, pp1.x, pp1.y, pp2.x, pp2.y);
@@ -475,9 +463,6 @@ int GCbox(Gwidget_t * widget, Grect_t gr, Ggattr_t * ap)
 	p.x = gr.o.x, gr.o.x = gr.c.x, gr.c.x = p.x;
     if (gr.o.y > gr.c.y)
 	p.y = gr.o.y, gr.o.y = gr.c.y, gr.c.y = p.y;
-/*	if(!ISVISIBLE(gr))
-		return 1;
-*/
 
     pr = rdrawtopix(widget, gr);
     setgattr(widget, ap);
@@ -509,9 +494,6 @@ int GCpolygon(Gwidget_t * widget, int gpn, Gpoint_t * gpp, Ggattr_t * ap)
 	gr.c.x = min(gr.c.x, gpp[i].x);
 	gr.c.y = min(gr.c.y, gpp[i].y);
     }
-/*	if(!ISVISIBLE(gr))
-		return 1;
-*/
     if (gpn + 1 > Gppn) {
 	n = (((gpn + 1) + PPINCR - 1) / PPINCR) * PPINCR;
 	Gppp = Marraygrow(Gppp, (long) n * PPSIZE);
@@ -623,9 +605,6 @@ int GCarc(Gwidget_t * widget, Gpoint_t gc, Gsize_t gs, double ang1,
 
     gr.o.x = gc.x - gs.x, gr.o.y = gc.y - gs.y;
     gr.c.x = gc.x + gs.x, gr.c.y = gc.y + gs.y;
-/*	if(!ISVISIBLE(gr))
-		return 1;
-*/
 
     pc = pdrawtopix(widget, gc), ps = sdrawtopix(widget, gs);
     setgattr(widget, ap);
@@ -730,10 +709,6 @@ int GCtext(Gwidget_t * widget, Gtextline_t * tlp, int n, Gpoint_t go,
     pr.o.x = po.x - w / 2, pr.o.y = po.y;
     pr.c.x = po.x + w / 2, pr.c.y = po.y + h;
     gr = rpixtodraw(widget, pr);
-
-/*	if(!ISVISIBLE(gr))
-		return 1;
-*/
 
     for (i = 0; i < n; i++) {
 	switch (tlp[i].j) {
@@ -845,9 +820,6 @@ int GCcanvasclear(Gwidget_t * widget)
     WCU->needredraw = FALSE;
     gotit = FALSE;
 
-
-    if (gotit)
-	adjustclip(widget);
     return 0;
 }
 
@@ -971,7 +943,6 @@ gint cweventhandler(GtkWidget * w, GdkEvent * event, gpointer data)
 
     widget = findwidget((unsigned long) w, G_CANVASWIDGET);
     Gneedredraw = WCU->needredraw = TRUE;
-    adjustclip(widget);
 
     gtk_signal_connect(G_OBJECT(w), "visibility_notify_event",
 		       GTK_SIGNAL_FUNC(cweventhandler), NULL);
@@ -1005,32 +976,11 @@ static void setgattr(Gwidget_t * widget, Ggattr_t * ap)
     if (color != WCU->gattr.color) {
 
 	WCU->gattr.color = color;
-	/*if (ap->mode == GDK_XOR) {
-	   gdk_gc_set_foreground (GC, widget->w->style->white_gc);
-	   }
-	   else {
-	 */
 	gdk_gc_set_foreground(GC, &WCU->colors[WCU->gattr.color].color);
-	/* } */
-
-/*	    if (Gdepth == 1) {
-	        cp = &WCU->colors[color].color;
-	        intens = (0.3 * cp->blue + 0.59 * cp->red +
-	                        0.11 * cp->green) / 65535.0;
-	        pati = (intens <= 0.0625) ? 16 :
-	                    -16.0 * (log (intens) / 2.7725887222);
-	        XSetTile (Gdisplay, GC, WCU->grays[pati]);
-            }
-*/
     }
     mode = ap->mode;
     if (mode != WCU->gattr.mode) {
 	WCU->gattr.mode = mode;
-/*	    XSetFunction (Gdisplay, GC, WCU->gattr.mode);
-	    if (mode == GDK_XOR)
-            	gdk_gc_set_foreground (GC, &WCU->colors[0].color);
-            else
-*/
 	gdk_gc_set_foreground(GC, &WCU->colors[WCU->gattr.color].color);
     }
     width = ap->width;
@@ -1175,13 +1125,4 @@ static PIXpoint_t pdrawtobpix(Gbitmap_t * bitmap, Gpoint_t gp)
     pp.x = gp.x + 0.5;
     pp.y = tvy - gp.y + 0.5;
     return pp;
-}
-
-
-static void adjustclip(Gwidget_t * widget)
-{
-    Gwidget_t *parent;
-    PIXrect_t pr;
-    int width, height;
-
 }

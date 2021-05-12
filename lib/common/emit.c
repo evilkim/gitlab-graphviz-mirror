@@ -17,6 +17,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
+#include <math.h>
 #include <common/render.h>
 #include <cgraph/agxbuf.h>
 #include <common/htmltable.h>
@@ -1996,7 +1997,7 @@ static pointf computeoffset_qr(pointf p, pointf q, pointf r, pointf s,
     double len;
     double x = q.x - r.x, y = q.y - r.y;
 
-    len = sqrt(x * x + y * y);
+    len = hypot(x, y);
     if (len < EPSILON) {
 	/* control points are on top of each other
 	   use slope between endpoints instead */
