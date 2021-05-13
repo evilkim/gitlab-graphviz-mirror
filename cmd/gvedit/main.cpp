@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <QApplication>
 #include <QFile>
-/* #include <QTextStream> */
 #include "mainwindow.h"
 
 #include <getopt.h>
@@ -25,7 +24,6 @@
 
 
 #ifdef _WIN32
-/*gvc.lib cgraph.lib*/
 #pragma comment( lib, "cgraph.lib" )
 #pragma comment( lib, "gvc.lib" )
 #pragma comment( lib, "ingraphs.lib" )
@@ -33,8 +31,6 @@
 #endif
 
 static char *cmd;
-
-//extern int Verbose;
 
 QTextStream errout(stderr, QIODevice::WriteOnly);
 

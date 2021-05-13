@@ -71,14 +71,11 @@ void CMainWindow::createConsole()
 
     dock->
 	setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
-//    dock->setWidget(textEdit);
     addDockWidget(Qt::BottomDockWidgetArea, dock);
     QVBoxLayout *vL = new QVBoxLayout();
 
 
     textEdit->setObjectName(QString::fromUtf8("textEdit"));
-/*    textEdit->setMinimumSize(QSize(0, 80));
-    textEdit->setMaximumSize(QSize(16777215, 120));*/
     globTextEdit = textEdit;
     agseterrf(errorPipe);
 
@@ -138,11 +135,6 @@ CMainWindow::CMainWindow(char*** Files)
 
     createConsole();
 
-
-
-
-
-
     connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)),
 	    this, SLOT(slotRefreshMenus()));
     windowMapper = new QSignalMapper(this);
@@ -163,7 +155,6 @@ CMainWindow::CMainWindow(char*** Files)
     this->resize(1024, 900);
     this->move(0, 0);
     setUnifiedTitleAndToolBarOnMac(true);
-//    (QComboBox*)frmSettings->findChild<QComboBox*>("cbLayout")
     QComboBox *cb =
 	(QComboBox *) frmSettings->findChild < QComboBox * >("cbLayout");
     dfltLayoutIdx = LoadPlugins(cb, frmSettings->gvc, "layout", NULL, "dot");
@@ -180,9 +171,6 @@ CMainWindow::CMainWindow(char*** Files)
 	    addFile(QString(*files));
 	    files++;
 	}
-
-
-
 }
 
 void CMainWindow::closeEvent(QCloseEvent * event)
@@ -229,10 +217,8 @@ void CMainWindow::slotOpen()
     filters << "*.cpp" << "*.cxx" << "*.cc";
 
     QFileDialog fd;
-//    fd.setProxyModel(new FileFilterProxyModel());
     fd.setNameFilter("XML (*.xml)");
     QString fileName = fd.getOpenFileName(this);
-//    QFileDialog::getOpenFileName(this);
 
     addFile(fileName);
 }
@@ -299,20 +285,11 @@ void CMainWindow::slotRun(MdiChild * m)
 {
     setChild ();
 
-    
-    
-//    if ((activeMdiChild()) && (!activeMdiChild()->firstTime()))
     if(m)
 	frmSettings->runSettings(m);
     else
 	frmSettings->runSettings(activeMdiChild());
-//    if ((activeMdiChild()) && (activeMdiChild()->firstTime()))
-//	frmSettings->showSettings(activeMdiChild());
-
-
 }
-
-
 
 void CMainWindow::slotNewLog()
 {

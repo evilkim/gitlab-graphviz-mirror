@@ -369,12 +369,6 @@ void CFrmSettings::doPreview(QString fileName)
 	gvRenderFilename(gvc, graph, "png",
 			 (char *) prevFile.toUtf8().constData());
 	getActiveWindow()->loadPreview(prevFile);
-#if 0
-	if (!this->getActiveWindow()->loadPreview(prevFile))
-	    QMessageBox::information(this, tr("GVEdit"),
-				     tr
-				     ("Preview file can not be opened."));
-#endif
     }
 }
 
@@ -477,7 +471,6 @@ int CFrmSettings::drawGraph()
     agreseterrors();
 
     return rc;
-    /* return QDialog::Rejected; */
 }
 
 int CFrmSettings::runSettings(MdiChild * m)

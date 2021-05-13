@@ -25,7 +25,6 @@ class QScrollBar;
 class MdiChild;
 QT_END_NAMESPACE
 
-//! [0]
 class ImageViewer : public QMainWindow
 {
     Q_OBJECT
@@ -71,13 +70,10 @@ private:
     QAction *aboutAct;
     QAction *aboutQtAct;
 
-//    QMenu *fileMenu;
     QMenu *viewMenu;
-//    QMenu *helpMenu;
 	protected:
         void closeEvent(QCloseEvent *event);
 
 };
-//! [0]
 
 #endif
