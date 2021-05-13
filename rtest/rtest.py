@@ -7,6 +7,7 @@
 # TODO:
 #  Report differences with shared version and with new output.
 
+import filecmp
 import os
 import shutil
 import subprocess
@@ -122,10 +123,7 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
         ["awk", "-f", "strps.awk", FILE2],
         stdout=fd,
       )
-    returncode = subprocess.call(
-      ["diff", "-q", TMPFILE1, TMPFILE2],
-      stdout=subprocess.DEVNULL,
-    )
+    returncode = 0 if filecmp.cmp(TMPFILE1, TMPFILE2) else -1
   elif F == "svg":
     with open(TMPFILE1, mode="w") as fd:
       subprocess.check_call(
@@ -137,10 +135,9 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
         ["sed", "/^<!--/d;/-->$/d", FILE2],
         stdout=fd,
       )
-    returncode = subprocess.call(
-      ["diff", "-q", "--strip-trailing-cr", TMPFILE1, TMPFILE2],
-      stdout=subprocess.DEVNULL,
-    )
+    with open(TMPFILE1) as a:
+      with open(TMPFILE2) as b:
+        returncode = 0 if a.read().strip() == b.read().strip() else -1
   elif F == "png":
     # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1788 is fixed
     if os.environ.get("build_system") == "cmake":
@@ -163,10 +160,9 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
     else:
       os.unlink(os.path.join(OUTHTML, f"dif_{OUTFILE}"))
   else:
-    returncode = subprocess.call(
-      ["diff", "--strip-trailing-cr", FILE2, FILE1],
-      stdout=subprocess.DEVNULL,
-    )
+    with open(FILE2) as a:
+      with open(FILE1) as b:
+        returncode = 0 if a.read().strip() == b.read().strip() else -1
   if returncode != 0:
     print(f"Test {testname}:{subtest_index} : == Failed == {OUTFILE}", file=sys.stderr)
     DIFF_CNT += 1
