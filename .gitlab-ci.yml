@@ -142,7 +142,7 @@ portable-source:
         - $logfile = New-TemporaryFile
         - windows/bin/setup-build-utilities.ps1 2>&1 | tee $logfile
         - python ci/build_windows.py --build-system $env:build_system --platform $Env:project_platform --configuration $env:configuration 2>&1 | tee -a $logfile
-        - $warnings_count = Invoke-Expression "grep -c ' warning ' $logfile"
+        - $warnings_count = (Select-String -Pattern " warning " -Path $logfile).length
         - echo "$CI_JOB_NAME-warnings $warnings_count" > metrics.txt
         - rm $logfile
         - cat metrics.txt
