@@ -53,7 +53,7 @@ find_or_fallback "awk sed swig" "$build_utilities_path"
 find_or_fallback "win_bison win_flex" "$build_utilities_path\winflexbison"
 find_or_fallback "makensis" "$build_utilities_path\NSIS\Bin"
 find_or_fallback "perl" "$build_utilities_path\Perl64\Bin"
-find_or_fallback "diff grep" "$build_utilities_path\GnuWin\bin"
+find_or_fallback "diff" "$build_utilities_path\GnuWin\bin"
 find_or_fallback "cmake cpack" "$CMAKE_BIN"
 find_or_fallback "msbuild" "$MSBUILD_BIN"
 
