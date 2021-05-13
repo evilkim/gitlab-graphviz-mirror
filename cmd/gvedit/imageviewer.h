@@ -8,10 +8,10 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #define QT_NO_PRINTER 1
 
-#ifndef IMAGEVIEWER_H
-#define IMAGEVIEWER_H
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QPrinter>
@@ -75,5 +75,3 @@ private:
         void closeEvent(QCloseEvent *event);
 
 };
-
-#endif

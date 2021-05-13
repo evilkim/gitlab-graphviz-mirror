@@ -13,8 +13,7 @@ Core structures of mdi windowing code is either inspired or directly copied from
 These examples are published under the terms of the BSD
 */
 
-#ifndef CMAINWINDOW_H
-#define CMAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QTextStream>
@@ -114,5 +113,3 @@ private:
     QMenu *mHelp;
 
 };
-
-#endif
