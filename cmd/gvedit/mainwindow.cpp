@@ -322,7 +322,7 @@ void CMainWindow::slotNewLog()
 void CMainWindow::slotSaveLog()
 {
 
-    if (globTextEdit->toPlainText().trimmed().length() == 0) {
+    if (globTextEdit->toPlainText().trimmed().isEmpty()) {
 	QMessageBox::warning(this, tr("GvEdit"), tr("Nothing to save!"),
 			     QMessageBox::Ok, QMessageBox::Ok);
 	return;

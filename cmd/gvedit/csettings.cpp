@@ -199,7 +199,7 @@ void CFrmSettings::addSlot()
     }
     QString _value = WIDGET(QLineEdit, leValue)->text();
 
-    if (_value.trimmed().length() == 0)
+    if (_value.trimmed().isEmpty())
 	QMessageBox::warning(this, tr("GvEdit"),
 			     tr
 			     ("Please enter a value for selected attribute!"),
@@ -268,8 +268,7 @@ void CFrmSettings::openSlot()
 void CFrmSettings::saveSlot()
 {
 
-    if (WIDGET(QTextEdit, teAttributes)->toPlainText().trimmed().
-	length() == 0) {
+    if (WIDGET(QTextEdit, teAttributes)->toPlainText().trimmed().isEmpty()) {
 	QMessageBox::warning(this, tr("GvEdit"), tr("Nothing to save!"),
 			     QMessageBox::Ok, QMessageBox::Ok);
 	return;
