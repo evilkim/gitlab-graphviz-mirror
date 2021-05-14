@@ -25,7 +25,6 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include <setjmp.h>
 #include <ortho/maze.h>
 #include <ortho/fPQ.h>
 #include <ortho/ortho.h>
@@ -38,8 +37,6 @@ typedef struct {
     int d;
     Agedge_t* e;
 } epair_t;
-
-static jmp_buf jbuf;
 
 #ifdef DEBUG
 static void emitSearchGraph (FILE* fp, sgraph* sg);
@@ -723,6 +720,7 @@ segCmp (segment* S1, segment* S2, bend T1, bend T2)
  *   0 if a crossing is unavoidable or there is no crossing at all or 
  *     the segments are parallel,
  *   1 if S1 HAS TO BE to the left/above S2 to avoid a crossing
+ *  -2 if S1 and S2 are incomparable
  *
  * Note: This definition means horizontal segments have track numbers
  * increasing as y decreases, while vertical segments have track numbers
@@ -737,7 +735,7 @@ seg_cmp(segment* S1, segment* S2)
 {
     if(S1->isVert!=S2->isVert||S1->comm_coord!=S2->comm_coord) {
 	agerr (AGERR, "incomparable segments !! -- Aborting\n");
-	longjmp(jbuf, 1);
+	return -2;
     }
     if(S1->isVert)
 	return segCmp (S1, S2, B_RIGHT, B_LEFT);
@@ -745,7 +743,7 @@ seg_cmp(segment* S1, segment* S2)
 	return segCmp (S1, S2, B_DOWN, B_UP);
 }
 
-static void 
+static int
 add_edges_in_G(channel* cp)
 {
     int x,y;
@@ -756,16 +754,20 @@ add_edges_in_G(channel* cp)
     for(x=0;x+1<size;x++) {
 	for(y=x+1;y<size;y++) {
 	    int cmp = seg_cmp(seg_list[x],seg_list[y]);
-	    if (cmp > 0) {
+	    if (cmp == -2) {
+		return -1;
+	    } else if (cmp > 0) {
 		insert_edge(G,x,y);
-	    } else if (cmp < 0) {
+	    } else if (cmp == -1) {
 		insert_edge(G,y,x);
 	    }
 	}
     }
+
+    return 0;
 }
 
-static void
+static int
 add_np_edges (Dt_t* chans)
 {
     Dt_t* lp;
@@ -778,9 +780,13 @@ add_np_edges (Dt_t* chans)
 	for (l2 = dtflatten (lp); l2; l2 = dtlink(lp,l2)) {
 	    cp = (channel*)l2;
 	    if (cp->cnt)
-		add_edges_in_G(cp);
+		if (add_edges_in_G(cp)) {
+		  return -1;
+		}
    	}
     }
+
+    return 0;
 }
 
 static segment*
@@ -838,15 +844,15 @@ is_parallel(segment* s1, segment* s2)
            s1->l2 == s2->l2;
 }
 
-/* decide_point returns the number of hops needed in the given directions 
- * along the 2 edges to get to a deciding point (or NODES) and also puts 
- * into prec the appropriate dependency (follows same convention as seg_cmp)
+/* decide_point returns (through ret) the number of hops needed in the given
+ * directions along the 2 edges to get to a deciding point (or NODES) and also
+ * puts into prec the appropriate dependency (follows same convention as
+ * seg_cmp)
  */
-static pair 
-decide_point(segment* si, segment* sj, int dir1, int dir2)
+static int
+decide_point(pair *ret, segment* si, segment* sj, int dir1, int dir2)
 {
     int prec, ans = 0, temp;
-    pair ret;
     segment* np1;
     segment* np2;
     
@@ -862,12 +868,15 @@ decide_point(segment* si, segment* sj, int dir1, int dir2)
 	assert(0); /* FIXME */
     else {
 	temp = seg_cmp(np1, np2);
+	if (temp == -2) {
+	    return -1;
+	}
 	prec = propagate_prec(np1, temp, ans+1, 1-dir1);
     }
 		
-    ret.a = ans;
-    ret.b = prec;
-    return ret;
+    ret->a = ans;
+    ret->b = prec;
+    return 0;
 }
 
 /* sets the edges for a series of parallel segments along two edges starting 
@@ -983,7 +992,7 @@ removeEdge(segment* seg1, segment* seg2, int dir, maze* mp)
     remove_redge (chan->G, ptr1->ind_no, ptr2->ind_no);
 }
 
-static void
+static int
 addPEdges (channel* cp, maze* mp)
 {
     int i,j;
@@ -1022,10 +1031,14 @@ addPEdges (channel* cp, maze* mp)
 			    dir = 1;
 		    }
 
-		    p = decide_point(segs[i], segs[j], 0, dir);
+		    if (decide_point(&p, segs[i], segs[j], 0, dir) != 0) {
+			return -1;
+		    }
 		    hops.a = p.a;
 		    prec1 = p.b;
-		    p = decide_point(segs[i], segs[j], 1, 1-dir);
+		    if (decide_point(&p, segs[i], segs[j], 1, 1-dir) != 0) {
+			return -1;
+		    }
 		    hops.b = p.a;
 		    prec2 = p.b;
 
@@ -1055,9 +1068,11 @@ addPEdges (channel* cp, maze* mp)
 	    }
 	}
     }
+
+    return 0;
 }
 
-static void 
+static int
 add_p_edges (Dt_t* chans, maze* mp)
 {
     Dt_t* lp;
@@ -1067,12 +1082,16 @@ add_p_edges (Dt_t* chans, maze* mp)
     for (l1 = dtflatten (chans); l1; l1 = dtlink(chans,l1)) {
 	lp = ((chanItem*)l1)->chans;
 	for (l2 = dtflatten (lp); l2; l2 = dtlink(lp,l2)) {
-	    addPEdges ((channel*)l2, mp);
+	    if (addPEdges((channel*)l2, mp) != 0) {
+	        return -1;
+	    }
    	}
     }
+
+    return 0;
 }
 
-static void
+static int
 assignTracks (maze* mp)
 {
     /* Create the graphs for each channel */
@@ -1080,16 +1099,26 @@ assignTracks (maze* mp)
     create_graphs(mp->vchans);
 
     /* add edges between non-parallel segments */
-    add_np_edges(mp->hchans);
-    add_np_edges(mp->vchans);
+    if (add_np_edges(mp->hchans) != 0) {
+	return -1;
+    }
+    if (add_np_edges(mp->vchans) != 0) {
+	return -1;
+    }
 
     /* add edges between parallel segments + remove appropriate edges */
-    add_p_edges(mp->hchans, mp);
-    add_p_edges(mp->vchans, mp);
+    if (add_p_edges(mp->hchans, mp) != 0) {
+	return -1;
+    }
+    if (add_p_edges(mp->vchans, mp) != 0) {
+	return -1;
+    }
 
     /* Assign the tracks after a top sort */
     assignTrackNo (mp->hchans);
     assignTrackNo (mp->vchans);
+
+    return 0;
 }
 
 static double
@@ -1123,9 +1152,9 @@ addPoints(pointf p0, pointf p1)
 static void
 attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, splineInfo *sinfo, epair_t es[], int doLbls)
 {
-    int ipt, npts;
+    int ipt;
     pointf* ispline = 0;
-    int splsz = 0;
+    size_t splsz = 0;
     pointf p, p1, q1;
     route rte;
     segment* seg;
@@ -1138,7 +1167,7 @@ attachOrthoEdges (Agraph_t* g, maze* mp, size_t n_edges, route* route_list, spli
 	q1 = addPoints(ND_coord(aghead(e)), ED_head_port(e).p);
 
 	rte = route_list[irte];
-	npts = 1 + 3*rte.n;
+	size_t npts = 1 + 3*rte.n;
 	if (npts > splsz) {
 		free (ispline);
 		ispline = N_GNEW(npts, pointf);
@@ -1231,7 +1260,7 @@ orthoEdges (Agraph_t* g, int doLbls)
     epair_t* es = N_GNEW(agnedges(g), epair_t);
     cell* start;
     cell* dest;
-    PointSet* ps;
+    PointSet* ps = NULL;
     textlabel_t* lbl;
 
     if (Concentrate) 
@@ -1334,9 +1363,8 @@ orthoEdges (Agraph_t* g, int doLbls)
     mp->hchans = extractHChans (mp);
     mp->vchans = extractVChans (mp);
     assignSegs (n_edges, route_list, mp);
-    if (setjmp(jbuf))
+    if (assignTracks(mp) != 0)
 	goto orthofinish;
-    assignTracks (mp);
 #ifdef DEBUG
     if (odb_flags & ODB_ROUTE) emitGraph (stderr, mp, n_edges, route_list, es);
 #endif
@@ -1518,7 +1546,7 @@ emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
     fprintf (fp, "%d %d translate\n", TRANS, TRANS);
 
     fputs ("0 0 1 setrgbcolor\n", fp);
-    for (size_t i = 0; i < mp->ngcells; i++) {
+    for (int i = 0; i < mp->ngcells; i++) {
       bb = mp->gcells[i].bb;
       fprintf (fp, "%f %f %f %f node\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
     }
@@ -1528,7 +1556,7 @@ emitGraph (FILE* fp, maze* mp, size_t n_edges, route* route_list, epair_t es[])
     }
     
     fputs ("0.8 0.8 0.8 setrgbcolor\n", fp);
-    for (size_t i = 0; i < mp->ncells; i++) {
+    for (int i = 0; i < mp->ncells; i++) {
       bb = mp->cells[i].bb;
       fprintf (fp, "%f %f %f %f cell\n", bb.LL.x, bb.LL.y, bb.UR.x, bb.UR.y);
       absbb.LL.x = MIN(absbb.LL.x, bb.LL.x);

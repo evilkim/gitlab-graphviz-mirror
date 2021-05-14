@@ -15,6 +15,7 @@
 #include <common/logic.h>
 #include <common/memory.h>
 #include <common/arith.h>
+#include <limits.h>
 #include <sparse/SparseMatrix.h>
 #include <sparse/BinaryHeap.h>
 #if PQ
@@ -659,10 +660,10 @@ void SparseMatrix_export_binary(char *name, SparseMatrix A, int *flag){
 
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   SparseMatrix A = NULL;
-  int m, n, nz, nzmax, type, format, property, iread;
+  int m, n, nz, nzmax, type, format, property;
   size_t sz;
 
-  iread = fread(&m, sizeof(int), 1, f);
+  size_t iread = fread(&m, sizeof(int), 1, f);
   if (iread != 1) return NULL;
   iread = fread(&n, sizeof(int), 1, f);
   if (iread != 1) return NULL;
@@ -685,17 +686,17 @@ SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   
   if (format == FORMAT_COORD){
     iread = fread(A->ia, sizeof(int), A->nz, f);
-    if (iread != A->nz) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
   } else {
     iread = fread(A->ia, sizeof(int), A->m + 1, f);
-    if (iread != A->m + 1) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->m + 1) return NULL;
   }
   iread = fread(A->ja, sizeof(int), A->nz, f);
-  if (iread != A->nz) return NULL;
+  if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
 
   if (A->size > 0) {
     iread = fread(A->a, A->size, A->nz, f);
-    if (iread != A->nz) return NULL;
+    if (iread > (size_t)INT_MAX || (int)iread != A->nz) return NULL;
   }
   fclose(f);
   return A;
@@ -1365,6 +1366,7 @@ SparseMatrix SparseMatrix_multiply_by_scaler(SparseMatrix A, real s){
     FREE(A->a);
     A->a = b;
     A->type = MATRIX_TYPE_REAL;
+    // fall through
   case MATRIX_TYPE_REAL:
     a = (real*) A->a;
     ia = A->ia;
@@ -2292,60 +2294,6 @@ SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A){
   }
   return A;
 }
-
-
-SparseMatrix SparseMatrix_to_complex(SparseMatrix A){
-  int i;
-  
-  if (!A) return A;
-  if (A->format != FORMAT_CSR) {
-#ifdef DEBUG
-    printf("only CSR format supported.\n");
-#endif
-    return A;
-  }
-
-  switch (A->type){
-  case MATRIX_TYPE_REAL:{
-    real *a = (real*) A->a;
-    int nz = A->nz;
-    A->a = a = REALLOC(a, 2*sizeof(real)*nz);
-    for (i = nz - 1; i >= 0; i--){
-      a[2*i] = a[i];
-      a[2*i - 1] = 0;
-    }
-    A->type = MATRIX_TYPE_COMPLEX;
-    A->size = 2*sizeof(real);
-    break;
-  }
-  case MATRIX_TYPE_COMPLEX:{
-    break;
-  }
-  case MATRIX_TYPE_INTEGER:{
-    int *a = (int*) A->a;
-    int nz = A->nz;
-    real *aa = A->a = MALLOC(2*sizeof(real)*nz);
-    for (i = nz - 1; i >= 0; i--){
-      aa[2*i] = (real) a[i];
-      aa[2*i - 1] = 0;
-    }
-    A->type = MATRIX_TYPE_COMPLEX;
-    A->size = 2*sizeof(real);
-    FREE(a);
-    break;
-  }
-  case MATRIX_TYPE_PATTERN:{
-    break;
-  }
-  case MATRIX_TYPE_UNKNOWN:
-    return NULL;
-  default:
-    return NULL;
-  }
-
-  return A;
-}
-
 
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x)){
   int i, j;
