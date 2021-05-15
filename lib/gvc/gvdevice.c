@@ -545,7 +545,7 @@ static void gv_trim_zeros(char* buf)
 void gvprintdouble(GVJ_t * job, double num)
 {
     // Prevents values like -0
-    if (num > -0.00000001 && num < 0.00000001)
+    if (num > -0.005 && num < 0.005)
     {
         gvwrite(job, "0", 1);
         return;
