@@ -14,6 +14,7 @@
 
 #include "config.h"
 
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -524,22 +525,25 @@ int main (int argc, char *argv[])
 
 /* gv_trim_zeros
 * Trailing zeros are removed and decimal point, if possible.
+* Assumes the input is the result of %.02f printing.
 */
 static void gv_trim_zeros(char* buf)
 {
-    char* dotp;
-    char* p;
+  char *dotp = strchr(buf, '.');
+  if (dotp == NULL) {
+    return;
+  }
 
-    if ((dotp = strchr(buf, '.'))) {
-        p = dotp + 1;
-        while (*p) p++;  // find end of string
-        p--;
-        while (*p == '0') *p-- = '\0';
-        if (*p == '.')        // If all decimals were zeros, remove ".".
-            *p = '\0';
-        else
-            p++;
+  // check this really is the result of %.02f printing
+  assert(isdigit(dotp[1]) && isdigit(dotp[2]) && dotp[3] == '\0');
+
+  if (dotp[2] == '0') {
+    if (dotp[1] == '0') {
+      *dotp = '\0';
+    } else {
+      dotp[2] = '\0';
     }
+  }
 }
 
 void gvprintdouble(GVJ_t * job, double num)
