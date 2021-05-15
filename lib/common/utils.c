@@ -1701,81 +1701,42 @@ boolean overlap_edge(edge_t *e, boxf b)
 /* edgeType:
  * Convert string to edge type.
  */
-int edgeType (char* s, int dflt)
+static int edgeType(const char *s, int dflt)
 {
-    int et;
-
-    if (!s || (*s == '\0')) return dflt;
-
-    et = ET_NONE;
-    switch (*s) {
-    case '0' :    /* false */
-	et = ET_LINE;
-	break;
-    case '1' :    /* true */
-    case '2' :
-    case '3' :
-    case '4' :
-    case '5' :
-    case '6' :
-    case '7' :
-    case '8' :
-    case '9' :
-	et = ET_SPLINE;
-	break;
-    case 'c' :
-    case 'C' :
-	if (!strcasecmp (s+1, "urved"))
-	    et = ET_CURVED;
-	else if (!strcasecmp (s+1, "ompound"))
-	    et = ET_COMPOUND;
-	break;
-    case 'f' :
-    case 'F' :
-	if (!strcasecmp (s+1, "alse"))
-	    et = ET_LINE;
-	break;
-    case 'l' :
-    case 'L' :
-	if (!strcasecmp (s+1, "ine"))
-	    et = ET_LINE;
-	break;
-    case 'n' :
-    case 'N' :
-	if (!strcasecmp (s+1, "one")) return et;
-	if (!strcasecmp (s+1, "o")) return ET_LINE;
-	break;
-    case 'o' :
-    case 'O' :
-	if (!strcasecmp (s+1, "rtho"))
-	    et = ET_ORTHO;
-	break;
-    case 'p' :
-    case 'P' :
-	if (!strcasecmp (s+1, "olyline"))
-	    et = ET_PLINE;
-	break;
-    case 's' :
-    case 'S' :
-	if (!strcasecmp (s+1, "pline"))
-	    et = ET_SPLINE;
-	break;
-    case 't' :
-    case 'T' :
-	if (!strcasecmp (s+1, "rue"))
-	    et = ET_SPLINE;
-	break;
-    case 'y' :
-    case 'Y' :
-	if (!strcasecmp (s+1, "es"))
-	    et = ET_SPLINE;
-	break;
+    if (s == NULL || strcmp(s, "") == 0) {
+	return dflt;
     }
-    if (!et) {
-	agerr(AGWARN, "Unknown \"splines\" value: \"%s\" - ignored\n", s);
-	et = dflt;
+
+    if (*s == '0') { /* false */
+	return ET_LINE;
+    } else if (*s >= '1' && *s <= '9') { /* true */
+	return ET_SPLINE;
+    } else if (strcasecmp(s, "curved") == 0) {
+	return ET_CURVED;
+    } else if (strcasecmp(s, "compound") == 0) {
+	return ET_COMPOUND;
+    } else if (strcasecmp(s, "false") == 0) {
+	return ET_LINE;
+    } else if (strcasecmp(s, "line") == 0) {
+	return ET_LINE;
+    } else if (strcasecmp(s, "none") == 0) {
+	return ET_NONE;
+    } else if (strcasecmp(s, "no") == 0) {
+	return ET_LINE;
+    } else if (strcasecmp(s, "ortho") == 0) {
+	return ET_ORTHO;
+    } else if (strcasecmp(s, "polyline") == 0) {
+	return ET_PLINE;
+    } else if (strcasecmp(s, "spline") == 0) {
+	return ET_SPLINE;
+    } else if (strcasecmp(s, "true") == 0) {
+	return ET_SPLINE;
+    } else if (strcasecmp(s, "yes") == 0) {
+	return ET_SPLINE;
     }
-    return et;
+
+    agerr(AGWARN, "Unknown \"splines\" value: \"%s\" - ignored\n", s);
+    return dflt;
 }
 
 /* setEdgeType:
