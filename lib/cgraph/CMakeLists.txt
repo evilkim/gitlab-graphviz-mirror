@@ -12,6 +12,7 @@ add_library(cgraph SHARED
     itos.h
     sprint.h
     strcasecmp.h
+    xml.h
 
     # Source files
     agerror.c
@@ -33,6 +34,7 @@ add_library(cgraph SHARED
     subg.c
     utils.c
     write.c
+    xml.c
 
     # Generated files
     ${BISON_Grammar_OUTPUTS}

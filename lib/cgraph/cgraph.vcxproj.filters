@@ -33,6 +33,9 @@
     <ClInclude Include="strcasecmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="agerror.c">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="write.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xml.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/lib/cdt
 
 pkginclude_HEADERS = cgraph.h
-noinst_HEADERS = agxbuf.h cghdr.h itos.h sprint.h strcasecmp.h
+noinst_HEADERS = agxbuf.h cghdr.h itos.h sprint.h strcasecmp.h xml.h
 noinst_LTLIBRARIES = libcgraph_C.la
 lib_LTLIBRARIES = libcgraph.la
 pkgconfig_DATA = libcgraph.pc
@@ -29,7 +29,8 @@ endif
 
 libcgraph_C_la_SOURCES = agerror.c agxbuf.c apply.c attr.c edge.c \
 	flatten.c graph.c grammar.y id.c imap.c io.c mem.c node.c \
-	obj.c pend.c rec.c refstr.c scan.l sprint.c subg.c utils.c write.c
+	obj.c pend.c rec.c refstr.c scan.l sprint.c subg.c utils.c write.c xml.c \
+	xml-map.inc
 
 libcgraph_la_LDFLAGS = -version-info $(CGRAPH_VERSION) -no-undefined
 libcgraph_la_SOURCES = $(libcgraph_C_la_SOURCES)
