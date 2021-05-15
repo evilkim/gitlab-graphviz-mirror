@@ -244,6 +244,8 @@ static void core_loadimage_pslib(GVJ_t * job, usershape_t *us, boxf b, boolean f
 
 static void core_loadimage_vml(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     unsigned int  graphHeight;
     graphHeight =(int)(job->bb.UR.y - job->bb.LL.y);
     gvprintf (job, "<v:image src=\"%s\" style=\" position:absolute; width:%.2f; height:%.2f; left:%.2f ; top:%.2f\"",
