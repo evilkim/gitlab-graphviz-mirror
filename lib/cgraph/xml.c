@@ -398,3 +398,12 @@ char *gv_xml_esc(const char *s, struct gv_xml_esc_options options) {
 
   return r;
 }
+
+char *gv_xml_esc_or_exit(const char *s, struct gv_xml_esc_options options) {
+  char *r = gv_xml_esc(s, options);
+  if (r == NULL) {
+    fprintf(stderr, "gv_xml_esc failed\n");
+    exit(EXIT_FAILURE);
+  }
+  return r;
+}

@@ -43,3 +43,7 @@ struct gv_xml_esc_options {
  * @return XML-escaped string. The caller should later free this pointer.
  */
 CGRAPH_API char *gv_xml_esc(const char *s, struct gv_xml_esc_options options);
+
+// gv_xml_esc, exiting on failure
+CGRAPH_API char *gv_xml_esc_or_exit(const char *s,
+                                    struct gv_xml_esc_options options);
