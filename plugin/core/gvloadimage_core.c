@@ -42,6 +42,7 @@ typedef enum {
 
 static void core_loadimage_svg(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
 
     double width = (b.UR.x-b.LL.x);
     double height = (b.UR.y-b.LL.y);
