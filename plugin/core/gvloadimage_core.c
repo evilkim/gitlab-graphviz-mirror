@@ -266,6 +266,10 @@ static void core_loadimage_tk(GVJ_t * job, usershape_t *us, boxf b, boolean fill
 static void core_loadimage_null(GVJ_t *gvc, usershape_t *us, boxf b, boolean filled)
 {
     /* null function - basically suppress the missing loader message */
+    (void)gvc;
+    (void)us;
+    (void)b;
+    (void)filled;
 }
 
 static gvloadimage_engine_t engine_svg = {
