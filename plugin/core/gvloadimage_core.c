@@ -115,6 +115,9 @@ static void core_loadimage_fig(GVJ_t * job, usershape_t *us, boxf bf, boolean fi
 
 static void core_loadimage_vrml(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)b;
+    (void)filled;
+
     obj_state_t *obj;
     node_t *n;
 
