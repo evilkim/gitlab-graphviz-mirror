@@ -72,6 +72,8 @@ static void core_loadimage_svg(GVJ_t * job, usershape_t *us, boxf b, boolean fil
 
 static void core_loadimage_fig(GVJ_t * job, usershape_t *us, boxf bf, boolean filled)
 {
+    (void)filled;
+
     int object_code = 2;        /* always 2 for polyline */
     int sub_type = 5;           /* always 5 for image */
     int line_style = 0;		/* solid, dotted, dashed */
