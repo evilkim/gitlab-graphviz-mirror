@@ -255,6 +255,8 @@ static void core_loadimage_vml(GVJ_t * job, usershape_t *us, boxf b, boolean fil
 
 static void core_loadimage_tk(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     gvprintf (job, "image create photo \"photo_%s\" -file \"%s\"\n",
 	us->name, us->name);
     gvprintf (job, "$c create image %.2f %.2f -image \"photo_%s\"\n",
