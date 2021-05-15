@@ -153,6 +153,8 @@ static void ps_freeimage(usershape_t *us)
 /* usershape described by a postscript file */
 static void core_loadimage_ps(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     assert(job);
     assert(us);
     assert(us->name);
