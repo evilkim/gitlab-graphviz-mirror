@@ -317,12 +317,7 @@ static attr_t *pBinarySearch(attr_list * l, char *searchKey)
 
 }
 
-
-
-
-
-
-void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
+static void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
 {
     int res;
     char buf[512];
