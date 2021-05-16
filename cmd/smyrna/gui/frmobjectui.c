@@ -186,7 +186,7 @@ void print_attr_list(attr_list * l)
     }
 }
 
-int attr_compare(const void *a, const void *b)
+static int attr_compare(const void *a, const void *b)
 {
     const attr_t *a1 = *(attr_t *const *) a;
     const attr_t *a2 = *(attr_t *const *) b;
