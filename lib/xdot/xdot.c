@@ -1003,25 +1003,6 @@ int statXDot (xdot* x, xdot_stats* sp)
     return 0;
 }
 
-xdot_grad_type 
-colorType (char* cp)
-{
-    xdot_grad_type rv;
-
-    switch (*cp) {
-    case '[' :
-	rv = xd_linear;
-	break;
-    case '(' :
-	rv = xd_radial;
-	break;
-    default :
-	rv = xd_none;
-	break;
-    }
-    return rv;
-}
-
 #define CHK1(s) if(!s){free(stops);return NULL;}
 
 /* radGradient:

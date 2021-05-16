@@ -19,6 +19,7 @@
 #include "parse.h"
 #include "exec.h"
 #include "gfxview.h"
+#include <math.h>
 
 #define max(a, b) (((a) >= (b)) ? (a) : (b))
 #define min(a, b) (((a) >= (b)) ? (b) : (a))
@@ -477,7 +478,7 @@ void GFXbuttoncb (int wi, void *data) {
     Mpopmark (fm);
 }
 
-void GFXarrayresizecb (int wi, Gawdata_t *dp) {
+static void GFXarrayresizecb (int wi, Gawdata_t *dp) {
     Tobj wo, fo, co, so, to, lrtno, sxo, syo;
     Tkvindex_t tkvi;
     Gawcarray_t *cp;
@@ -1754,22 +1755,22 @@ static void hsv2rgb (float h, float s, float v, Gcolor_t *cp) {
     int i;
 
     /* clip to reasonable values */
-    h = max (min (h, 1.0), 0.0);
-    s = max (min (s, 1.0), 0.0);
-    v = max (min (v, 1.0), 0.0);
-    r = g = b = 0.0;
+    h = fmaxf (fminf (h, 1.0f), 0.0f);
+    s = fmaxf (fminf (s, 1.0f), 0.0f);
+    v = fmaxf (fminf (v, 1.0f), 0.0f);
+    r = g = b = 0.0f;
 
-    if (s == 0.0)
+    if (s == 0.0f)
         r = g = b = v;
     else {
-        if (h == 1.0)
-            h = 0.0;
-        h = h * 6.0;
+        if (h == 1.0f)
+            h = 0.0f;
+        h = h * 6.0f;
         i = (int) h;
         f = h - (float) i;
-        p = v * (1 - s);
-        q = v * (1 - (s * f));
-        t = v * (1 - (s * (1 - f)));
+        p = v * (1.0f - s);
+        q = v * (1.0f - (s * f));
+        t = v * (1.0f - (s * (1.0f - f)));
         switch (i) {
             case 0: r = v; g = t; b = p; break;
             case 1: r = q; g = v; b = p; break;
@@ -1779,7 +1780,7 @@ static void hsv2rgb (float h, float s, float v, Gcolor_t *cp) {
             case 5: r = v; g = p; b = q; break;
         }
     }
-    cp->r = (int) (255.0 * r);
-    cp->g = (int) (255.0 * g);
-    cp->b = (int) (255.0 * b);
+    cp->r = (int) (255.0f * r);
+    cp->g = (int) (255.0f * g);
+    cp->b = (int) (255.0f * b);
 }

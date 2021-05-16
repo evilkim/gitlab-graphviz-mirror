@@ -701,7 +701,6 @@ typedef struct
 	char *template_file;
 	char *attr_file;
 	int flush;
-	line interpol;
 	gvprscript *scripts;
 	int script_count;	/*# of scripts */
 	GtkComboBox *graphComboBox;	/*pointer to graph combo box at top right */

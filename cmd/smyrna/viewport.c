@@ -674,7 +674,7 @@ void glexpose(void)
     expose_event(view->drawing_area, NULL, NULL);
 }
 
-float interpol(float minv, float maxv, float minc, float maxc, float x)
+static float interpol(float minv, float maxv, float minc, float maxc, float x)
 {
     return ((x - minv) * (maxc - minc) / (maxv - minv) + minc);
 }

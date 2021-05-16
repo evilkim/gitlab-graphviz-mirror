@@ -29,11 +29,10 @@
 #include "support.h"
 
 // note that we do not own the newly entered string - must copy
-void
+static void
 attr_value_edited_cb(GtkCellRendererText *renderer, gchar *pathStr, gchar *newText, gpointer data)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL(data);
-//	GVJ_t *job = (GVJ_t *)g_object_get_data(G_OBJECT(model), "job");
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	gchar *old_attr;
@@ -60,28 +59,10 @@ static void gtk_initialize(GVJ_t *firstjob)
     Display *dpy;
     const char *display_name = NULL;
     int scr;
-//    GdkScreen *scr1;
-//    GtkWidget *window1;
-
-#if 0
-#ifdef ENABLE_NLS
-    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-    textdomain (GETTEXT_PACKAGE);
-#endif
-#endif
 
     gtk_set_locale ();
-//    gtk_init (&argc, &argv);
     gtk_init (NULL, NULL);
 
-//  add_pixmap_directory (PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
-
-//    window1 = create_window1 ();
-
-//    scr = gdk_drawable_get_screen (window1);
-//    firstjob->device_dpi.x = gdk_screen_get_width(scr) * 25.4 / gdk_screen_get_width_mm(scr);  /* pixels_per_inch */
-//    firstjob->device_dpi.y = gdk_screen_get_height(scr) * 25.4 / gdk_screen_get_height_mm(scr);
     dpy = XOpenDisplay(display_name);
     if (dpy == NULL) {
         fprintf(stderr, "Failed to open XLIB display: %s\n",

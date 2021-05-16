@@ -96,7 +96,6 @@
     <ClCompile Include="exerror.c" />
     <ClCompile Include="exeval.c" />
     <ClCompile Include="exexpr.c" />
-    <ClCompile Include="exlexname.c" />
     <ClCompile Include="exnospace.c" />
     <ClCompile Include="exopen.c" />
     <ClCompile Include="exrewind.c" />

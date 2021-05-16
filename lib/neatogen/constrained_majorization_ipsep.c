@@ -214,8 +214,8 @@ int stress_majorization_cola(vtx_data * graph,	/* Input graph in sparse represen
 		    if (j == 1 && i % 2 == 1) {
 			v = maxEdgeLen;
 			v *= v;
-			if (v > 0.01) {
-			    v = 1.0 / v;
+			if (v > 0.01f) {
+			    v = 1.0f / v;
 			}
 		    } else
 			v = 0;

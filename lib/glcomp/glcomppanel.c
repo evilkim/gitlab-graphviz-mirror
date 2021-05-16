@@ -71,17 +71,17 @@ int glCompPanelDraw(glCompObj * o)
     r.w = ref.width;
     r.pos.x = ref.pos.x + p->shadowwidth;
     r.pos.y = ref.pos.y - p->shadowwidth;
-    r.pos.z = -0.001;
+    r.pos.z = -0.001f;
     glCompDrawRectangle(&r);
     r.h = ref.height;
     r.w = p->shadowwidth;
     r.pos.x = ref.pos.x + ref.width;
     r.pos.y = ref.pos.y - p->shadowwidth;
-    r.pos.z = -0.001;
+    r.pos.z = -0.001f;
     glCompDrawRectangle(&r);
     /*draw panel */
     glCompDrawRectPrism(&(ref.pos), ref.width, ref.height,
-			p->common.borderWidth, 0.01, &(ref.color), 1);
+			p->common.borderWidth, 0.01f, &(ref.color), 1);
     /*draw image if there is */
     if (p->image) {
 	p->image->common.callbacks.draw((void *) p->image);
