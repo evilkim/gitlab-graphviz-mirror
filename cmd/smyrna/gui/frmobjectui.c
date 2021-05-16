@@ -77,7 +77,7 @@ attr_t *new_attr(void)
 }
 
 
-attr_t *new_attr_with_ref(Agsym_t * sym)
+static attr_t *new_attr_with_ref(Agsym_t * sym)
 {
     attr_t *attr = new_attr();
     attr->name = safestrdup(sym->name);
