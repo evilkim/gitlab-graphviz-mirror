@@ -117,22 +117,9 @@ void mkQueue(Queue * qp, int size)
     qp->start = qp->end = 0;
 }
 
-Queue *newQueue(int size)
-{
-    Queue *qp = GNEW(Queue);
-    mkQueue(qp, size);
-    return qp;
-}
-
 void freeQueue(Queue * qp)
 {
     free(qp->data);
-}
-
-void delQueue(Queue * qp)
-{
-    free(qp->data);
-    free(qp);
 }
 
 void initQueue(Queue * qp, int startVertex)
