@@ -101,7 +101,7 @@ static attr_t *new_attr_with_ref(Agsym_t * sym)
     return attr;
 }
 
-attr_t *new_attr_ref(attr_t * refAttr)
+static attr_t *new_attr_ref(attr_t * refAttr)
 {
     attr_t *attr = malloc(sizeof(attr_t));
     *attr = *refAttr;
