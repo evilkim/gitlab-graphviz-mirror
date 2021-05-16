@@ -1874,7 +1874,7 @@ refval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
  * Return -1 if operation cannot be done, 0 otherwise.
  * If arg is > 0, operation unnecessary; just report possibility.
  */
-int
+static int
 binary(Expr_t * pg, Exnode_t * l, Exnode_t * ex, Exnode_t * r, int arg,
        Exdisc_t * disc)
 {
