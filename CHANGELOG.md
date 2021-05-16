@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.47.2] - 2021-05-26
+
 ### Added
 
 - CMake option `use_sanitizers` which enables building with address and
@@ -1404,7 +1406,8 @@ March 13, 2000: Use AM_PROG_LIBTOOL instead of AC_PROG_LIBTOOL
    in configure.in.  John Ellson <ellson@graphviz.org>
 ```
 
-[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.47.1...main
+[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.47.2...main
+[2.47.2]: https://gitlab.com/graphviz/graphviz/compare/2.47.1...2.47.2
 [2.47.1]: https://gitlab.com/graphviz/graphviz/compare/2.47.0...2.47.1
 [2.47.0]: https://gitlab.com/graphviz/graphviz/compare/2.46.1...2.47.0
 [2.46.1]: https://gitlab.com/graphviz/graphviz/compare/2.46.0...2.46.1
