@@ -59,7 +59,7 @@
  * simple example, though, so that is left as an Exercise for the
  * Programmer.
  */
-#define TRACKBALLSIZE  (0.8)
+#define TRACKBALLSIZE  0.8f
 
 /*
  * Local function prototypes (not defined in trackball.h)
@@ -156,7 +156,7 @@ void trackball(float q[4], float p1x, float p1y, float p2x, float p2y)
     if (p1x == p2x && p1y == p2y) {
 	/* Zero rotation */
 	vzero(q);
-	q[3] = 1.0;
+	q[3] = 1.0f;
 	return;
     }
 
@@ -176,16 +176,16 @@ void trackball(float q[4], float p1x, float p1y, float p2x, float p2y)
      *  Figure out how much to rotate around that axis.
      */
     vsub(p1, p2, d);
-    t = vlength(d) / (2.0 * TRACKBALLSIZE);
+    t = vlength(d) / (2.0f * TRACKBALLSIZE);
 
     /*
      * Avoid problems with out-of-control values...
      */
-    if (t > 1.0)
-	t = 1.0;
-    if (t < -1.0)
-	t = -1.0;
-    phi = 2.0 * asin(t);
+    if (t > 1.0f)
+	t = 1.0f;
+    if (t < -1.0f)
+	t = -1.0f;
+    phi = 2.0f * asinf(t);
 
     axis_to_quat(a, phi, q);
 }
