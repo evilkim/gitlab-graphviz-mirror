@@ -195,8 +195,8 @@ void axis_to_quat(float a[3], float phi, float q[4])
 {
     vnormal(a);
     vcopy(a, q);
-    vscale(q, sin(phi / 2.0));
-    q[3] = cos(phi / 2.0);
+    vscale(q, sinf(phi / 2.0f));
+    q[3] = cosf(phi / 2.0f);
 }
 
 /*
