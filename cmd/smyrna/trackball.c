@@ -119,7 +119,7 @@ static void vscale(float *v, float div)
 
 static void vnormal(float *v)
 {
-    vscale(v, 1.0 / vlength(v));
+    vscale(v, 1.0f / vlength(v));
 }
 
 static float vdot(const float *v1, const float *v2)
