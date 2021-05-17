@@ -107,7 +107,7 @@ static void vcross(const float *v1, const float *v2, float *cross)
 
 static float vlength(const float *v)
 {
-    return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 }
 
 static void vscale(float *v, float div)
