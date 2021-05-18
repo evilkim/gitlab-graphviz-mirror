@@ -27,7 +27,7 @@ extern gvplugin_installed_t gvdevice_quartz_types_for_cairo;
 
 static size_t device_data_consumer_put_bytes (void *info, const void *buffer, size_t count)
 {
-	return gvwrite((GVJ_t *)info, (const char*)buffer, count);
+	return gvwrite(info, buffer, count);
 }
 
 CGDataConsumerCallbacks device_data_consumer_callbacks = {
