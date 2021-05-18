@@ -108,10 +108,6 @@ extern "C" {
 Agnodeinfo_t* ninf(Agnode_t* n);
 Agraphinfo_t* ginf(Agraph_t* g);
 Agedgeinfo_t* einf(Agedge_t* e);
-    /**/
-#ifdef _WIN32	
-	extern void fix_fc(void);
-#endif
 
 #undef extern
 
