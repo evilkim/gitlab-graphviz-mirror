@@ -53,11 +53,10 @@ find_or_fallback "awk sed swig" "$build_utilities_path"
 find_or_fallback "win_bison win_flex" "$build_utilities_path\winflexbison"
 find_or_fallback "makensis" "$build_utilities_path\NSIS\Bin"
 find_or_fallback "perl" "$build_utilities_path\Perl64\Bin"
-find_or_fallback "diff grep" "$build_utilities_path\GnuWin\bin"
 find_or_fallback "cmake cpack" "$CMAKE_BIN"
 find_or_fallback "msbuild" "$MSBUILD_BIN"
 
-if (-NOT (cpack.exe --help | grep 'CPACK_GENERATOR')) {
+if (-NOT (cpack.exe --help | Select-String 'CPACK_GENERATOR')) {
     echo "Moving $CMAKE_BIN to front of PATH in order to find CMake's cpack"
     $CMAKE_BIN_ESCAPED = echo $CMAKE_BIN | sed 's#\\#\\\\#g'
     $path = (Invoke-Expression 'echo $Env:Path' | sed "s#;$CMAKE_BIN_ESCAPED##")
@@ -65,7 +64,7 @@ if (-NOT (cpack.exe --help | grep 'CPACK_GENERATOR')) {
 }
 
 $ErrorActionPreference = "Continue"
-if (-NOT (sort.exe /? 2>$null | grep "SORT")) {
+if (-NOT (sort.exe /? 2>$null | Select-String "SORT")) {
     $ErrorActionPreference = "Stop"
     echo "Moving C:\WINDOWS\system32 to front of PATH in order to find Windows' sort"
     $path = (Invoke-Expression 'echo $Env:Path' | sed 's#;C:\\WINDOWS\\system32;#;#')
@@ -90,14 +89,14 @@ $script:all_programs.Trim().Split(" ") | ForEach {
 
 # Special checks
 
-if (-NOT (cpack.exe --help | grep 'CPACK_GENERATOR')) {
+if (-NOT (cpack.exe --help | Select-String 'CPACK_GENERATOR')) {
     $exe = (Get-Command cpack.exe 2>$null).Source
     Write-Error -EA Continue "Found an unknown cpack at $exe"
     $exit_status = 1
 }
 
 $ErrorActionPreference = "Continue"
-if (-NOT (sort.exe /? 2>$null | grep "SORT")) {
+if (-NOT (sort.exe /? 2>$null | Select-String "SORT")) {
     $ErrorActionPreference = "Stop"
     $exe = (Get-Command sort.exe 2>$null).Source
     Write-Error -EA Continue "Found an unknown sort at $exe"

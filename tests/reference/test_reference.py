@@ -1,5 +1,7 @@
+import difflib
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import pytest
 
@@ -133,4 +135,13 @@ def test_reference(src: str, format: str, reference: str):
     if output.suffix == ".png":
       subprocess.check_call(["diffimg", ref, output])
     else:
-      subprocess.check_call(["diff", "--unified", ref, output])
+      fail = False
+      with open(ref, 'rt') as a:
+        with open(output, 'rt') as b:
+          for line in difflib.unified_diff(a.read(), b.read(),
+                                           fromfile=str(ref),
+                                           tofile=str(output)):
+            sys.stderr.write(f"{line}\n")
+            fail = True
+      if fail:
+        raise RuntimeError(f"diff {ref} {output} failed")
