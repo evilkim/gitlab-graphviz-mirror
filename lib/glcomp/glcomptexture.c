@@ -102,8 +102,7 @@ glCompTex *glCompSetAddNewTexLabel(glCompSet * s, char *def, int fs,
     int ind, Er, width, height;
     glCompTex *t;
     cairo_surface_t *surface = NULL;
-    unsigned char *data;
-    data = (unsigned char *) 0;
+    unsigned char *data = NULL;
     Er = 0;
     if (!def)
 	return NULL;
