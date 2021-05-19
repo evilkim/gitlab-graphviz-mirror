@@ -41,11 +41,6 @@ extern "C" {
     glCompObj *glCompGetObjByMouse(glCompSet * s, glCompMouse * m,
 				   int onlyClickable);
     extern void glCompGetObjectType(glCompObj * p);
-/*
-	change all components's fonts  in s 
-	to sourcefont
-*/
-/* void change_fonts(glCompSet * s,const texFont_t* sourcefont); */
 
 #ifdef __cplusplus
 }

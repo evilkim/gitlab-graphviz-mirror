@@ -386,24 +386,3 @@ extern int glcompsetNextGroupId(glCompSet * s)
     s->groupCount++;
     return rv;
 }
-
-
-
-
-#if 0
-static void change_fonts(glCompSet * s, const texFont_t * sourcefont)
-{
-    int ind;
-
-    for (ind = 0; ind < s->buttoncount; ind++) {
-	copy_font((s->buttons[ind]->font), sourcefont);
-    }
-    for (ind = 0; ind < s->labelcount; ind++) {
-	copy_font((s->labels[ind]->font), sourcefont);
-
-    }
-    for (ind = 0; ind < s->panelcount; ind++) {
-	copy_font((s->panels[ind]->font), sourcefont);
-    }
-}
-#endif
