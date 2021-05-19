@@ -23,7 +23,6 @@ glCompButton *glCompButtonNew(glCompObj * par, GLfloat x, GLfloat y,
 			      GLfloat w, GLfloat h, char *caption)
 {
     glCompButton *p;
-//      glCompCommon* parent=&par->common;
     p = NEW(glCompButton);
     glCompInitCommon((glCompObj *) p, par, x, y);
     p->objType = glButtonObj;
@@ -228,5 +227,4 @@ void glCompButtonMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
 
 void glCompButtonSetText(glCompButton * p, char *str)
 {
-//    replacestr(str, &p->text);
 }
