@@ -26,7 +26,6 @@ extern "C" {
 				 GLfloat y);
     void glCompEmptyCommon(glCompCommon * c);
     extern glCompSet *glCompSetNew(int w, int h);
-    extern void glCompSetClear(glCompSet * s);
     extern int glCompSetDraw(glCompSet * s);
     extern int glCompSetHide(glCompSet * s);
     extern int glCompSetShow(glCompSet * s);

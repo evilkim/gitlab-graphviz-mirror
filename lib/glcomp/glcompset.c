@@ -295,10 +295,6 @@ void glCompDrawEnd(void)	//pops the gl stack
 
 }
 
-void glCompSetClear(glCompSet * s)
-{
-}
-
 int glCompSetDraw(glCompSet * s)
 {
     int ind = 0;
