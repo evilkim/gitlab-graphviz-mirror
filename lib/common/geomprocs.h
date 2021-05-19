@@ -25,7 +25,9 @@ extern "C" {
 #ifdef GVDLL
 #define extern __declspec(dllexport)
 #else
+#ifndef GVC_EXPORTS
 #define extern __declspec(dllimport)
+#endif
 #endif
 #endif
 
