@@ -16,7 +16,6 @@
 #include <glcomp/glcompmouse.h>
 
 #include <glcomp/glutils.h>
-//typedef enum {glPanelObj,glbuttonObj,glLabelObj,glImageObj}glObjType;
 
 static GLfloat startX, startY;
 
@@ -88,11 +87,7 @@ static void glCompMouseMove(void *obj, GLfloat x, GLfloat y)
 	((glCompSet *) obj)->mouse.pos.x - startX;
     if (((glCompSet *) obj)->common.callbacks.mouseover)
 	((glCompSet *) obj)->common.callbacks.mouseover(obj, x, y);
-/*	if (((glCompSet*)obj)->mouse.down)
-		printf ("%f %f \n",((glCompSet*)obj)->mouse.dragX,((glCompSet*)obj)->mouse.dragX);*/
 }
-
-
 
 static void glCompSetMouseClick(void *obj, GLfloat x, GLfloat y,
 				glMouseButtonType t)
@@ -268,43 +263,6 @@ void glCompSetAddObj(glCompSet * s, glCompObj * obj)
     obj->common.compset = s;
 }
 
-#if 0
-// compiler reports this function is not used.
-
-//converts screen location to opengl coordinates
-static void glCompSetGetPos(int x, int y, float *X, float *Y, float *Z)
-{
-    GLdouble wwinX;
-    GLdouble wwinY;
-    GLdouble wwinZ;
-    GLdouble posX, posY, posZ;
-
-
-    GLint viewport[4];
-    GLdouble modelview[16];
-    GLdouble projection[16];
-    GLfloat winX, winY;
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-    glGetDoublev(GL_PROJECTION_MATRIX, projection);
-    glGetIntegerv(GL_VIEWPORT, viewport);
-
-    //draw a point  to a not important location to get window coordinates
-    glBegin(GL_POINTS);
-    glVertex3f(10.00, 10.00, 0.00);
-    glEnd();
-    gluProject(10.0, 10.0, 0.00, modelview, projection, viewport, &wwinX,
-	       &wwinY, &wwinZ);
-    winX = (float) x;
-    winY = (float) viewport[3] - (float) y;
-    gluUnProject(winX, winY, wwinZ, modelview, projection, viewport, &posX,
-		 &posY, &posZ);
-
-    *X = (float) posX;
-    *Y = (float) posY;
-    *Z = (float) posZ;
-}
-#endif
-
 void glCompDrawBegin(void)	//pushes a gl stack 
 {
     int vPort[4];
@@ -339,24 +297,7 @@ void glCompDrawEnd(void)	//pops the gl stack
 
 void glCompSetClear(glCompSet * s)
 {
-/*    int ind = 0;
-    for (ind = 0; ind < s->buttoncount; ind++) {
-	glCompSetRemoveButton(s, s->buttons[ind]);
-    }
-    free(s->buttons);
-    for (ind = 0; ind < s->labelcount; ind++) {
-	free(s->labels[ind]->text);
-	free(s->labels[ind]);
-    }
-    free(s->labels);
-    for (ind = 0; ind < s->panelcount; ind++) {
-	free(s->panels[ind]);
-    }
-    free(s->panels);
-    free(s);*/
 }
-
-
 
 int glCompSetDraw(glCompSet * s)
 {
