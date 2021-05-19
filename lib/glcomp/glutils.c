@@ -30,9 +30,9 @@ int GetFixedOGLPos(int x, int y, float kts, GLfloat * X, GLfloat * Y,
     /* unused */
     (void)kts;
 
-    glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
+    glColor4f(0.0f, 0.0f, 0.0f, 0.001f);
     glBegin(GL_POINTS);
-    glVertex3f((GLfloat) - 100.00, (GLfloat) - 100.00, (GLfloat) 1.00);
+    glVertex3f(-100.0f, -100.0f, 1.0f);
     glEnd();
 
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
@@ -69,10 +69,10 @@ int GetOGLPosRef(int x, int y, float *X, float *Y, float *Z)
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     //draw a point  to a not important location to get window coordinates
-    glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
+    glColor4f(0.0f, 0.0f, 0.0f, 0.001f);
 
     glBegin(GL_POINTS);
-    glVertex3f(-100.00, -100.00, 0.00);
+    glVertex3f(-100.0f, -100.0f, 0.0f);
     glEnd();
     gluProject(-100.0, -100.0, 0.00, modelview, projection, viewport,
 	       &wwinX, &wwinY, &wwinZ);
@@ -107,10 +107,10 @@ float GetOGLDistance(int l)
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     //draw a point  to a not important location to get window coordinates
-    glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
+    glColor4f(0.0f, 0.0f, 0.0f, 0.001f);
 
     glBegin(GL_POINTS);
-    glVertex3f(10.00, 10.00, 1.00);
+    glVertex3f(10.0f, 10.0f, 1.0f);
     glEnd();
     gluProject(10.0, 10.0, 1.00, modelview, projection, viewport, &wwinX,
 	       &wwinY, &wwinZ);
@@ -192,9 +192,9 @@ int GetFixedOGLPoslocal(int x, int y, GLfloat * X, GLfloat * Y,
     glGetDoublev(GL_PROJECTION_MATRIX, projection);
     glGetIntegerv(GL_VIEWPORT, viewport);
 
-    glColor4f((GLfloat) 0, (GLfloat) 0, (GLfloat) 0, (GLfloat) 0.001);
+    glColor4f(0.0f, 0.0f, 0.0f, 0.001f);
     glBegin(GL_POINTS);
-    glVertex3f(10.00, 10.00, 0.00);
+    glVertex3f(10.0f, 10.0f, 0.0f);
     glEnd();
 
     gluProject(10.0, 10.0, 1.00, modelview, projection, viewport, &wwinX,
@@ -287,7 +287,7 @@ void glCompSelectionBox(glCompSet * s)
     w = s->mouse.dragX;
     h = s->mouse.dragY;
     printf("%f %f  %f  %f \n", x, y, w, h);
-    glColor4f(1, 1, 1, 1);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     glBegin(GL_POLYGON);
     glVertex2f(0, 0);
