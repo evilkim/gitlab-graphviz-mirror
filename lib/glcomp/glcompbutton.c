@@ -221,10 +221,3 @@ void glCompButtonMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
     if (((glCompButton *) obj)->common.callbacks.mouseup)
 	((glCompButton *) obj)->common.callbacks.mouseup(obj, x, y, t);
 }
-
-
-
-
-void glCompButtonSetText(glCompButton * p, char *str)
-{
-}
