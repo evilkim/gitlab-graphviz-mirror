@@ -316,15 +316,15 @@ void glCompCalcWidget(glCompCommon * parent, glCompCommon * child,
 	return;
     }
     if (parent->borderType == glBorderNone)
-	borderWidth = 0;
+	borderWidth = 0.0f;
     else
 	borderWidth = parent->borderWidth;
     if (child->align != glAlignNone)	//if alignment, make sure width and height is no greater than parent
     {
 	if (child->width > parent->width)
-	    ref->width = parent->width - (float) 2.0 *borderWidth;
+	    ref->width = parent->width - 2.0f *borderWidth;
 	if (child->height > parent->height)
-	    ref->height = parent->height - (float) 2.0 *borderWidth;;
+	    ref->height = parent->height - 2.0f *borderWidth;;
 
     }
 
@@ -336,13 +336,13 @@ void glCompCalcWidget(glCompCommon * parent, glCompCommon * child,
     case glAlignLeft:
 	ref->pos.x = parent->refPos.x + borderWidth;
 	ref->pos.y = parent->refPos.y + borderWidth;
-	ref->height = parent->height - 2 * borderWidth;
+	ref->height = parent->height - 2.0f * borderWidth;
 	break;
     case glAlignRight:
 	ref->pos.x =
 	    parent->refPos.x + parent->width - child->width - borderWidth;
 	ref->pos.y = parent->refPos.y + borderWidth;
-	ref->height = parent->height - 2 * borderWidth;
+	ref->height = parent->height - 2.0f * borderWidth;
 	break;
 
     case glAlignTop:
@@ -350,19 +350,19 @@ void glCompCalcWidget(glCompCommon * parent, glCompCommon * child,
 	    parent->refPos.y + parent->height - child->height -
 	    borderWidth;
 	ref->pos.x = parent->refPos.x;
-	ref->width = parent->width - 2 * borderWidth;
+	ref->width = parent->width - 2.0f * borderWidth;
 	break;
 
     case glAlignBottom:
 	ref->pos.y = parent->refPos.y + borderWidth;
 	ref->pos.x = parent->refPos.x + borderWidth;
-	ref->width = parent->width - 2 * borderWidth;
+	ref->width = parent->width - 2.0f * borderWidth;
 	break;
     case glAlignParent:
 	ref->pos.y = parent->refPos.y + borderWidth;
 	ref->pos.x = parent->refPos.x + borderWidth;;
-	ref->width = parent->width - 2 * borderWidth;;
-	ref->height = parent->height - 2 * borderWidth;
+	ref->width = parent->width - 2.0f * borderWidth;;
+	ref->height = parent->height - 2.0f * borderWidth;
 	break;
     case glAlignCenter:
     case glAlignNone:
