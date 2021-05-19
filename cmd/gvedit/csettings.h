@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef CSETTINGS_H
-#define CSETTINGS_H
+#pragma once
 
 class MdiChild;
 #include <QDialog>
@@ -65,5 +63,3 @@ private:
     bool createLayout();
     bool renderLayout();
 };
-
-#endif

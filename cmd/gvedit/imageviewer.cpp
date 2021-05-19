@@ -14,8 +14,6 @@
 
 extern int errorPipe(char *errMsg);
 
-
-//! [0]
 ImageViewer::ImageViewer()
 {
     imageLabel = new QLabel;
@@ -38,11 +36,7 @@ ImageViewer::ImageViewer()
 
 }
 
-//! [0]
-
-//! [1]
 bool ImageViewer::open(QString fileName)
-//! [1] //! [2]
 {
     if (!fileName.isEmpty()) {
 	QImage image(fileName);
@@ -64,9 +58,7 @@ void ImageViewer::print()
 {
     Q_ASSERT(imageLabel->pixmap());
 #ifndef QT_NO_PRINTER
-//! [6] //! [7]
     QPrintDialog dialog(&printer, this);
-//! [7] //! [8]
     if (dialog.exec()) {
 	QPainter painter(&printer);
 	QRect rect = painter.viewport();
@@ -167,11 +159,6 @@ void ImageViewer::createActions()
 void ImageViewer::createMenus()
 {
 
-/*    fileMenu = new QMenu(tr("&File"), this);
-    fileMenu->addAction(printAct);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);*/
-
     viewMenu = new QMenu(tr("&View"), this);
     viewMenu->addAction(zoomInAct);
     viewMenu->addAction(zoomOutAct);
@@ -179,14 +166,7 @@ void ImageViewer::createMenus()
     viewMenu->addSeparator();
     viewMenu->addAction(fitToWindowAct);
 
-/*    helpMenu = new QMenu(tr("&Help"), this);
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);*/
-
-//    menuBar()->addMenu(fileMenu);
     menuBar()->addMenu(viewMenu);
-    //menuBar()->addMenu(helpMenu);
-
 }
 
 void ImageViewer::updateActions()

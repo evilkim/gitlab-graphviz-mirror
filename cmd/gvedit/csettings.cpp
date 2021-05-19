@@ -199,7 +199,7 @@ void CFrmSettings::addSlot()
     }
     QString _value = WIDGET(QLineEdit, leValue)->text();
 
-    if (_value.trimmed().length() == 0)
+    if (_value.trimmed().isEmpty())
 	QMessageBox::warning(this, tr("GvEdit"),
 			     tr
 			     ("Please enter a value for selected attribute!"),
@@ -268,8 +268,7 @@ void CFrmSettings::openSlot()
 void CFrmSettings::saveSlot()
 {
 
-    if (WIDGET(QTextEdit, teAttributes)->toPlainText().trimmed().
-	length() == 0) {
+    if (WIDGET(QTextEdit, teAttributes)->toPlainText().trimmed().isEmpty()) {
 	QMessageBox::warning(this, tr("GvEdit"), tr("Nothing to save!"),
 			     QMessageBox::Ok, QMessageBox::Ok);
 	return;
@@ -370,12 +369,6 @@ void CFrmSettings::doPreview(QString fileName)
 	gvRenderFilename(gvc, graph, "png",
 			 (char *) prevFile.toUtf8().constData());
 	getActiveWindow()->loadPreview(prevFile);
-#if 0
-	if (!this->getActiveWindow()->loadPreview(prevFile))
-	    QMessageBox::information(this, tr("GVEdit"),
-				     tr
-				     ("Preview file can not be opened."));
-#endif
     }
 }
 
@@ -478,7 +471,6 @@ int CFrmSettings::drawGraph()
     agreseterrors();
 
     return rc;
-    /* return QDialog::Rejected; */
 }
 
 int CFrmSettings::runSettings(MdiChild * m)

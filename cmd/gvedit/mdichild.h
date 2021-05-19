@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef MDICHILD_H
-#define MDICHILD_H
+#pragma once
 
 #include <QTextEdit>
 #include "imageviewer.h"
@@ -55,5 +53,3 @@ private:
     QString curFile;
     bool isUntitled;
 };
-
-#endif
