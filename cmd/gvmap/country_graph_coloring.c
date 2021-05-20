@@ -16,8 +16,6 @@
 #include <sfdpgen/PriorityQueue.h>
 #include <time.h>
 
-/* int Verbose = FALSE; */
-
 static void get_local_12_norm(int n, int i, int *ia, int *ja, int *p, real *norm){
   int j, nz = 0;
   norm[0] = n; norm[1] = 0;
@@ -245,8 +243,6 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
 	get_local_12_norm(n, i, ia, ja, p, norm11);
 	get_local_12_norm(n, j, ia, ja, p, norm22);
 	if (MIN(norm11[0],norm22[0]) > MIN(norm1[0],norm2[0])){
-	  //	    ||
-	  //(MIN(norm11[0],norm22[0]) == MIN(norm1[0],norm2[0]) && norm11[1]+norm22[1] > norm1[1]+norm2[1])) {
 	  improved = TRUE;
 	  norm1[0] = norm11[0];
 	  norm1[1] = norm11[1];
