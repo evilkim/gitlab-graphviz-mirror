@@ -14,6 +14,7 @@
 #include "power.h"
 
 #include <sfdpgen/PriorityQueue.h>
+#include <stdbool.h>
 #include <time.h>
 
 static void get_local_12_norm(int n, int i, int *ia, int *ja, int *p, real *norm){
@@ -63,7 +64,7 @@ static void update_pmin_pmax_aband(int n, int u, int *ia, int *ja, int *p, int *
 }
 
 
-static int check_swap(int n, int *ia, int *ja,
+static bool check_swap(int n, int *ia, int *ja,
 		      int u, int p_u, int v, int p_v, int *aband_local, int *p, int *p_inv, int aband, int *pmax, int *pmin, real lambda){
   /* check if u should swap with v to improve u, without demaging v. Return TRUE if swap is successful. FALSE otherwise. */
 
@@ -75,15 +76,15 @@ static int check_swap(int n, int *ia, int *ja,
   /* if swaping u and v makes v worse & becomes/remains critical, don't do. We first quick check using the max/min neighbor indices.
      No need to check the other way around since the calling function have ensured that.
    */
-  if (abs(p_u - pmin[v]) < aband_v && abs(p_u - pmin[v]) <= lambda*aband) return FALSE;
-  if (abs(p_u - pmax[v]) < aband_v && abs(p_u - pmax[v]) <= lambda*aband) return FALSE;
+  if (abs(p_u - pmin[v]) < aband_v && abs(p_u - pmin[v]) <= lambda*aband) return false;
+  if (abs(p_u - pmax[v]) < aband_v && abs(p_u - pmax[v]) <= lambda*aband) return false;
 
   /* now check in details whether v should swap to u. Do not accept if this makes the antiband width of u worse */
   aband_u1 = n;
   for (j = ja[u]; j < ja[u+1]; j++){
     if (ja[j] == u) continue;
     if (abs(p_v - p[ja[j]]) < aband_u) {
-      return FALSE;
+      return false;
     }
     aband_u1 = MIN(aband_u1, abs(p_v - p[ja[j]]));
   }
@@ -93,7 +94,7 @@ static int check_swap(int n, int *ia, int *ja,
   for (j = ja[v]; j < ja[v+1]; j++){
     if (ja[j] == v) continue;
     if (abs(p_u - p[ja[j]]) < aband_v && abs(p_u - p[ja[j]]) <= lambda*aband) {
-      return FALSE;
+      return false;
     }
     aband_v1 = MIN(aband_v1, abs(p_u - p[ja[j]]));
   }
@@ -117,11 +118,11 @@ static int check_swap(int n, int *ia, int *ja,
     for (j = ia[u]; j < ia[u+1]; j++) {
       update_pmin_pmax_aband(n, ja[j], ia, ja, p, pmin, pmax, aband_local);
     }
-    return TRUE;
+    return true;
   }
   
 
-  return FALSE;
+  return false;
 }
 
 static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
@@ -138,7 +139,8 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
   int aband = n;/* global antibandwidth*/
   int *aband_local;/* antibandwidth for each node */
   PriorityQueue pq = NULL;
-  int progress = TRUE, u, v, gain, aband_u, p_u, p_v, swapped;
+  bool progress = true, swapped;
+  int u, v, gain, aband_u, p_u, p_v;
   
   pq = PriorityQueue_new(n, n);
   p_inv = MALLOC(sizeof(int)*n);
@@ -147,7 +149,7 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
   aband_local = MALLOC(sizeof(int)*n);
 
   while (progress) {
-    progress = FALSE;
+    progress = false;
     for (i = 0; i < n; i++){
       pmax[i] = -1; pmin[i] = n+1;
       assert(p[i] >= 0 && p[i] < n);
@@ -176,11 +178,11 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       p_u = p[u];
       assert(aband_u <= lambda*aband);
       assert(aband_u == aband_local[u]);
-      swapped = FALSE;
+      swapped = false;
       for (p_v = 0; p_v <= pmin[u] - aband_u; p_v++){
 	v = p_inv[p_v];
 	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  swapped = TRUE; progress = TRUE;
+	  swapped = true; progress = true;
 	  break;
 	}
       }
@@ -189,7 +191,7 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       for (p_v = pmax[u] + aband_u; p_v < n; p_v++){
 	v = p_inv[p_v];
 	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  swapped = TRUE; progress = TRUE;
+	  swapped = true; progress = true;
 	  break;
 	}
       }
@@ -198,7 +200,7 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       for (p_v = pmin[u] + aband_u; p_v <= pmax[u] - aband_u; p_v++) {
 	v = p_inv[p_v];
 	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  progress = TRUE;
+	  progress = true;
 	  break;
 	}
       }
@@ -217,7 +219,7 @@ static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
 }
 
 void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
-  int improved = TRUE;
+  bool improved = true;
   int cnt = 1, n = A->m, i, j, *ia = A->ia, *ja = A->ja;
   real norm = n, norm1[3], norm2[3], norm11[3], norm22[3];
   real pi, pj;
@@ -230,7 +232,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   }
   assert(SparseMatrix_is_symmetric(A, TRUE));
   while (improved){
-    improved = FALSE; norm = n;
+    improved = false; norm = n;
     for (i = 0; i < n; i++){
       get_local_12_norm(n, i, ia, ja, p, norm1);
       for (j = 0; j < n; j++){
@@ -243,7 +245,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
 	get_local_12_norm(n, i, ia, ja, p, norm11);
 	get_local_12_norm(n, j, ia, ja, p, norm22);
 	if (fmin(norm11[0], norm22[0]) > fmin(norm1[0], norm2[0])){
-	  improved = TRUE;
+	  improved = true;
 	  norm1[0] = norm11[0];
 	  norm1[1] = norm11[1];
 	  continue;
