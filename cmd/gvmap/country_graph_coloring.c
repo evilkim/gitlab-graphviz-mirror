@@ -400,10 +400,3 @@ void improve_antibandwidth_by_swapping_for_fortran_(int *n, int *nz, int *ja, in
 void IMPROVE_ANTIBANDWIDTH_BY_SWAPPING_FOR_FORTRAN(int *n, int *nz, int *ja, int *ia, int *p, int *aprof, int *Verbose){
   improve_antibandwidth_by_swapping_for_fortran(n, nz, ja, ia, p, aprof, Verbose);
 }
-void IMPROVE_ANTIBANDWIDTH_BY_SWAPPING_FOR_FORTRAN_(int *n, int *nz, int *ja, int *ia, int *p, int *aprof, int *Verbose){
-  improve_antibandwidth_by_swapping_for_fortran(n, nz, ja, ia, p, aprof, Verbose);
-}
-
-
-
-
