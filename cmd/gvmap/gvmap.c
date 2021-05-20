@@ -59,7 +59,7 @@ typedef struct {
     int seed;      /* seed used to calculate Fiedler vector */
 } params_t;
 
-static char* usestr =
+static const char usestr[] =
 "   where graphfile must contain node positions, and widths and heights for each node. No overlap between nodes should be present. Acceptable options are: \n\
     -a k - average number of artificial points added along the bounding box of the labels. If < 0, a suitable value is selected automatically. (-1)\n\
     -b v - polygon line width, with v < 0 for no line. (0)\n\
