@@ -29,8 +29,6 @@
 #include <sparse/colorutil.h>
 #include <sparse/color_palette.h>
 
-enum {MAX_GRPS = 10000};
-
 typedef struct {
     char* cmd;
     char **infiles; 
@@ -357,7 +355,6 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
   int npolys, nverts, *polys_groups, exclude_random;
   real *x_poly, *xcombined;
   enum {max_string_length = 1000};
-  enum {MAX_GRPS = 10000};
   SparseMatrix country_graph;
   int improve_contiguity_n = pm->improve_contiguity_n;
 #ifdef TIME
