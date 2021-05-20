@@ -187,7 +187,6 @@ static void normal(real v[], real normal[]){
     normal[0] = -v[1];
     normal[1] = v[0];
   }
-  return;
 }
 
 static void triangle_center(real x[], real y[], real z[], real c[]){
@@ -224,8 +223,6 @@ static void triangle_center(real x[], real y[], real z[], real c[]){
   beta = ((x[0] - y[0])*(xy[0] - yz[0])+(x[1] - y[1])*(xy[1] - yz[1]))/bot;
   c[0] = yz[0] + beta*nyz[0];
   c[1] = yz[1] + beta*nyz[1];
-  return;
-
 }
 
 static SparseMatrix matrix_add_entry(SparseMatrix A, int i, int j, int val){
@@ -426,8 +423,6 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   *nt = ntri;
 
   FREE(trilist);
-
-  return;
 }
 
 static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, int GRP_RANDOM, int GRP_BBOX){
