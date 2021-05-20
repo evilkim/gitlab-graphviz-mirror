@@ -29,9 +29,7 @@
 #include <sparse/colorutil.h>
 #include <sparse/color_palette.h>
 
-enum {maxlen = 10000000};
 enum {MAX_GRPS = 10000};
-static char swork[maxlen];
 
 typedef struct {
     char* cmd;
@@ -61,57 +59,6 @@ typedef struct {
     int highlight_cluster;
     int seed;      /* seed used to calculate Fiedler vector */
 } params_t;
-
-int string_split(char *s, char sp, char ***ss0, int *ntokens0){
-  /* give a string s ending with a \0, split into an array of strings using separater sp, 
-     with \0 inserted. Return 0 if successful, 1 if length of string exceed buffer size */
-  int ntokens = 0, len = 0;
-
-  int i;
-  char **ss;
-  char *swork1 = swork;
-  if (strlen(s) > maxlen) {
-    swork1 = MALLOC(sizeof(char)*maxlen);
-  }
-
-  for (i = 0; i < strlen(s); i++){
-    if (s[i] == sp){
-      ntokens++;
-    } else if (s[i] == '\n' || s[i]== EOF){
-      ntokens++;
-      break;
-    }
-  }
-
-  ss = malloc(sizeof(char*)*(ntokens+1));
-  ntokens = 0;
-  for (i = 0; i < strlen(s); i++){
-    if (s[i] == sp){
-      swork1[len++] = '\0';
-      ss[ntokens] = malloc(sizeof(char)*(len+1));
-      strcpy(ss[ntokens], swork1);
-      len = 0;
-      ntokens++;
-      continue;
-    } else if (s[i] == '\n' || s[i] == EOF){
-      swork1[len++] = '\0';
-      ss[ntokens] = malloc(sizeof(char)*(len+1));
-      strcpy(ss[ntokens], swork1);
-      len = 0;
-      ntokens++;
-      break;
-    }
-    swork1[len++] = s[i];
-  }
-
-  *ntokens0 = ntokens;
-
-  *ss0 = ss;
-
-  if (swork1 != swork) FREE(swork1);
-  return 0;
-
-}
 
 static char* usestr =
 "   where graphfile must contain node positions, and widths and heights for each node. No overlap between nodes should be present. Acceptable options are: \n\
