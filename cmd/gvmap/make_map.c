@@ -966,8 +966,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
 }
 static void get_polygons(int exclude_random, int n, int nrandom, int dim, SparseMatrix graph, int *grouping,
 			 int nt, struct Triangle *Tp, SparseMatrix E, int *nverts, real **x_poly, 
-			 int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, SparseMatrix *country_graph,
-			 int *flag){
+			 int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, SparseMatrix *country_graph){
   int i, j;
   int *mask;
   int *groups;
@@ -975,8 +974,6 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
   int *comps = NULL, *comps_ptr = NULL, ncomps;
   int GRP_RANDOM, GRP_BBOX;
   SparseMatrix B;
-
-  *flag = 0;
 
   assert(dim == 2);
   *nverts = nt;
@@ -1306,7 +1303,7 @@ static int make_map_internal(int exclude_random, int include_OK_points,
 
   get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E);
   get_polygons(exclude_random, n, *nrandom, dim2, graph, grouping, nt, Tp, E, nverts, x_poly, npolys, poly_lines, polys, polys_groups,
-	       poly_point_map, country_graph, flag);
+	       poly_point_map, country_graph);
 
   SparseMatrix_delete(E);
   FREE(Tp);
