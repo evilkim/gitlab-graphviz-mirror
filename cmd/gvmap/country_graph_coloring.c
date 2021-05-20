@@ -126,7 +126,7 @@ static int check_swap(int n, int *ia, int *ja,
   return FALSE;
 }
 
-void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
+static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
   /*on entry:
     A: the graph, must be symmetric matrix
     p: a permutation array of length n
