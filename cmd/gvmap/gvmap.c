@@ -354,7 +354,6 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
   real edge_bridge_tol = 0.;
   int npolys, nverts, *polys_groups, exclude_random;
   real *x_poly, *xcombined;
-  enum {max_string_length = 1000};
   SparseMatrix country_graph;
   int improve_contiguity_n = pm->improve_contiguity_n;
 #ifdef TIME
