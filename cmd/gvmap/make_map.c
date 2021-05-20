@@ -386,7 +386,7 @@ void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, Spa
   agxbfree(&sbuff);
 }
 
-static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, SparseMatrix *E, int *flag) {
+static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, SparseMatrix *E) {
    /* always contains a self edge and is symmetric.
      input:
      n: number of points
@@ -402,8 +402,6 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   SparseMatrix A, B;
 
   int* trilist = get_triangles(x, n, &ntri);
-  *flag = 0;
-
 
   *T = N_NEW(ntri,struct Triangle);
 
@@ -1311,7 +1309,7 @@ static int make_map_internal(int exclude_random, int include_OK_points,
     }
   }
 
-  get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E, flag);
+  get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E);
   get_polygons(exclude_random, n, *nrandom, dim2, graph, grouping, nt, Tp, E, nverts, x_poly, npolys, poly_lines, polys, polys_groups,
 	       poly_point_map, country_graph, flag);
 
