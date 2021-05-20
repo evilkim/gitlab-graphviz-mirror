@@ -269,7 +269,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   fclose(fp);
 }
   
-void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
+static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
   int n = A->m, i, j, jj;
   SparseMatrix L, A2;
   int *ia = A->ia, *ja = A->ja;
