@@ -180,8 +180,7 @@ init(int argc, char **argv, params_t* pm)
 
   pm->cmd = cmd;
   pm->infiles = NULL;
-  pm->line_color = N_NEW(10,char);
-  strcpy(pm->line_color,"#000000");
+  pm->line_color = strdup("#000000");
   pm->include_OK_points = FALSE;
   pm->seed = 123;
 
