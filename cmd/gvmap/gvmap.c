@@ -29,7 +29,6 @@
 #include <sparse/colorutil.h>
 #include <sparse/color_palette.h>
 
-enum {POINTS_ALL = 1, POINTS_LABEL, POINTS_RANDOM};
 enum {maxlen = 10000000};
 enum {MAX_GRPS = 10000};
 static char swork[maxlen];

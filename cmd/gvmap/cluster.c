@@ -40,7 +40,6 @@
     #pragma comment( lib, "cdt.lib" )
 #endif   /* not _WIN32 */
 
-enum {POINTS_ALL = 1, POINTS_LABEL, POINTS_RANDOM};
 enum {maxlen = 10000000};
 enum {MAX_GRPS = 10000};
 
