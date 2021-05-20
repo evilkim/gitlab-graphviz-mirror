@@ -339,11 +339,6 @@ void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1){
   country_graph_coloring_internal(seed, A, p, norm_1, DO_SWAPPING);
 }
 
-void country_graph_coloring_general(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
-  country_graph_coloring_internal(seed, A, p, norm_1, do_swapping);
-}
-
-
 void improve_antibandwidth_by_swapping_for_fortran(int *n, int *nz, int *ja, int *ia, int *p, int *aprof, int *verbose){
   /* n: dimension
      nz: number of nonzeros
