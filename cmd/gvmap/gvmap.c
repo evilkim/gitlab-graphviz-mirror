@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define STANDALONE
@@ -40,7 +41,7 @@ typedef struct {
     real bbox_margin[2]; 
     int useClusters;
     int clusterMethod;
-    int plotedges;
+    bool plotedges;
     int color_scheme;
     real line_width;
     char *color_scheme_str;
@@ -49,7 +50,7 @@ typedef struct {
     real *bg_color;
     int improve_contiguity_n;
     int nart;
-    int color_optimize;
+    bool color_optimize;
     int maxcluster;
     int nedgep;
     char *line_color;
@@ -166,7 +167,7 @@ init(int argc, char **argv, params_t* pm)
   pm->highlight_cluster = 0;
   pm->useClusters = 0;
   pm->clusterMethod = CLUSTERING_MODULARITY;
-  pm->plotedges = 0;
+  pm->plotedges = false;
   pm->show_points = 0;
   pm->color_scheme = COLOR_SCHEME_PASTEL; 
   pm->line_width = 0;
@@ -174,7 +175,7 @@ init(int argc, char **argv, params_t* pm)
   pm->bg_color = NULL;
   pm->improve_contiguity_n = 0;
   pm->nart = -1;
-  pm->color_optimize = 1;
+  pm->color_optimize = true;
   pm->maxcluster = 0;
   pm->nedgep = 0;
 
@@ -242,13 +243,13 @@ init(int argc, char **argv, params_t* pm)
       pm->useClusters = 1;
       break;
     case 'e':
-      pm->plotedges = 1;
+      pm->plotedges = true;
       break;
     case 'o':
 	  pm->outfile = openFile(optarg, "w", pm->cmd);
       break;
     case 'O':
-      pm->color_optimize = 0;
+      pm->color_optimize = false;
       break;
     case 'a':
       if ((sscanf(optarg,"%d",&r) > 0)){
