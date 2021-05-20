@@ -236,13 +236,13 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
       for (j = 0; j < n; j++){
 	if (j == i) continue;
 	get_local_12_norm(n, j, ia, ja, p, norm2);
-	norm = MIN(norm, norm2[0]);
+	norm = fmin(norm, norm2[0]);
 	pi = (p)[i]; pj = (p)[j];
 	(p)[i] = pj;
 	(p)[j] = pi;
 	get_local_12_norm(n, i, ia, ja, p, norm11);
 	get_local_12_norm(n, j, ia, ja, p, norm22);
-	if (MIN(norm11[0],norm22[0]) > MIN(norm1[0],norm2[0])){
+	if (fmin(norm11[0], norm22[0]) > fmin(norm1[0], norm2[0])){
 	  improved = TRUE;
 	  norm1[0] = norm11[0];
 	  norm1[1] = norm11[1];
