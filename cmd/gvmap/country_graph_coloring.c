@@ -393,7 +393,3 @@ void improve_antibandwidth_by_swapping_for_fortran(int *n, int *nz, int *ja, int
   SparseMatrix_delete(A2);
   for (i = 0; i < *n; i++) p[i]++;
 }
-
-void improve_antibandwidth_by_swapping_for_fortran_(int *n, int *nz, int *ja, int *ia, int *p, int *aprof, int *Verbose){
-  improve_antibandwidth_by_swapping_for_fortran(n, nz, ja, ia, p, aprof, Verbose);
-}
