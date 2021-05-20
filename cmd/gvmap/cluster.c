@@ -40,9 +40,6 @@
     #pragma comment( lib, "cdt.lib" )
 #endif   /* not _WIN32 */
 
-enum {maxlen = 10000000};
-enum {MAX_GRPS = 10000};
-
 typedef struct {
   FILE* outfp;
   char** infiles;
