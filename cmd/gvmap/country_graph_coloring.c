@@ -271,7 +271,7 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
   int n = A->m, i, j, jj;
   SparseMatrix L, A2;
   int *ia = A->ia, *ja = A->ja;
-  int a = -1.;
+  int a = -1;
   real nrow;
   real *v = NULL;
   real norm1[3];
