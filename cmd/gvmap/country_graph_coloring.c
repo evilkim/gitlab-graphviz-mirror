@@ -66,7 +66,7 @@ static void update_pmin_pmax_aband(int n, int u, int *ia, int *ja, int *p, int *
 
 
 static int check_swap(int n, int *ia, int *ja,
-		      int u, int p_u, int v, int p_v, int *aband_local, int *p, int *p_inv, int aband, PriorityQueue pq, int *pmax, int *pmin, real lambda){
+		      int u, int p_u, int v, int p_v, int *aband_local, int *p, int *p_inv, int aband, int *pmax, int *pmin, real lambda){
   /* check if u should swap with v to improve u, without demaging v. Return TRUE if swap is successful. FALSE otherwise. */
 
   int j, aband_v, aband_v1, aband_u, aband_u1;
@@ -181,7 +181,7 @@ void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       swapped = FALSE;
       for (p_v = 0; p_v <= pmin[u] - aband_u; p_v++){
 	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pq, pmax, pmin, lambda)){
+	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
 	  swapped = TRUE; progress = TRUE;
 	  break;
 	}
@@ -190,7 +190,7 @@ void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       
       for (p_v = pmax[u] + aband_u; p_v < n; p_v++){
 	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pq, pmax, pmin, lambda)){
+	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
 	  swapped = TRUE; progress = TRUE;
 	  break;
 	}
@@ -199,7 +199,7 @@ void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
       
       for (p_v = pmin[u] + aband_u; p_v <= pmax[u] - aband_u; p_v++) {
 	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pq, pmax, pmin, lambda)){
+	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
 	  progress = TRUE;
 	  break;
 	}
