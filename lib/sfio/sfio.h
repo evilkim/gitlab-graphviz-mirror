@@ -272,15 +272,6 @@ extern "C" {
     EXTERN extern Sfio_t _Sfstderr;
 #undef EXTERN
 
-#if defined(_DLL) && defined(_DLL_INDIRECT_DATA)
-/* The Uwin shared library environment requires these to be defined
-   in a global structure set up by the Uwin start-up procedure.
-*/
-#define sfstdin		((Sfio_t*)_ast_dll->_ast_stdin)
-#define sfstdout	((Sfio_t*)_ast_dll->_ast_stdout)
-#define sfstderr	((Sfio_t*)_ast_dll->_ast_stderr)
-#endif
-
 
     extern Sfio_t *sfnew(Sfio_t *, void *, size_t, int, int);
     extern Sfio_t *sfopen(Sfio_t *, const char *, const char *);
