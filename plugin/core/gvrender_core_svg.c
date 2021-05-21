@@ -426,14 +426,14 @@ static void svg_textspan(GVJ_t * job, pointf p, textspan_t * span)
 	gvprintf(job, " font-family=\"%s\"", span->font->name);
     if ((span->font) && (flags = span->font->flags)) {
 	if ((flags & HTML_BF) && !weight)
-	    gvprintf(job, " font-weight=\"bold\"");
+	    gvputs(job, " font-weight=\"bold\"");
 	if ((flags & HTML_IF) && !style)
-	    gvprintf(job, " font-style=\"italic\"");
+	    gvputs(job, " font-style=\"italic\"");
 	if ((flags & (HTML_UL|HTML_S|HTML_OL))) {
 	    int comma = 0;
-	    gvprintf(job, " text-decoration=\"");
+	    gvputs(job, " text-decoration=\"");
 	    if ((flags & HTML_UL)) {
-		gvprintf(job, "underline");
+		gvputs(job, "underline");
 		comma = 1;
 	    }
 	    if ((flags & HTML_OL)) {
@@ -442,12 +442,12 @@ static void svg_textspan(GVJ_t * job, pointf p, textspan_t * span)
 	    }
 	    if ((flags & HTML_S))
 		gvprintf(job, "%sline-through", (comma?",":""));
-	    gvprintf(job, "\"");
+	    gvputs(job, "\"");
 	}
 	if ((flags & HTML_SUP))
-	    gvprintf(job, " baseline-shift=\"super\"");
+	    gvputs(job, " baseline-shift=\"super\"");
 	if ((flags & HTML_SUB))
-	    gvprintf(job, " baseline-shift=\"sub\"");
+	    gvputs(job, " baseline-shift=\"sub\"");
     }
 
     gvprintf(job, " font-size=\"%.2f\"", span->font->size);
@@ -475,7 +475,7 @@ static void svg_textspan(GVJ_t * job, pointf p, textspan_t * span)
     }
     gvputs(job, xml_string0(span->str, TRUE));
     if (obj->labeledgealigned)
-	gvprintf (job, "</tspan></textPath>");
+	gvputs(job, "</tspan></textPath>");
     gvputs(job, "</text>\n");
 }
 
