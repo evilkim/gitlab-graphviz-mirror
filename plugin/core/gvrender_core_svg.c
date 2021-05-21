@@ -59,7 +59,7 @@ static void svg_bzptarray(GVJ_t * job, pointf * A, int n)
     if (A[0].x <= A[n-1].x) {
 #endif
 	for (i = 0; i < n; i++) {
-	    gvprintf(job, "%c", c);
+	    gvwrite(job, &c, 1);
             gvprintdouble(job, A[i].x);
             gvputs(job, ",");
             gvprintdouble(job, -A[i].y);
@@ -71,7 +71,7 @@ static void svg_bzptarray(GVJ_t * job, pointf * A, int n)
 #if EDGEALIGN
     } else {
 	for (i = n-1; i >= 0; i--) {
-	    gvprintf(job, "%c", c);
+	    gvwrite(job, &c, 1);
             gvprintdouble(job, A[i].x);
             gvputs(job, ",");
             gvprintdouble(job, -A[i].y);
