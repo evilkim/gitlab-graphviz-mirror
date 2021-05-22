@@ -638,22 +638,6 @@ void SparseMatrix_export_binary_fp(FILE *f, SparseMatrix A){
 
 }
 
-void SparseMatrix_export_binary(char *name, SparseMatrix A, int *flag){
-  FILE *f;
-
-  *flag = 0;
-  f = fopen(name, "wb");
-  if (!f) {
-    *flag = 1;
-    return;
-  }
-  SparseMatrix_export_binary_fp(f, A);
-  fclose(f);
-
-}
-
-
-
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   SparseMatrix A = NULL;
   int m, n, nz, nzmax, type, format, property;
