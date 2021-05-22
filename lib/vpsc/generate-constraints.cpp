@@ -37,6 +37,7 @@ Rectangle::Rectangle(double x, double X, double y, double Y)
 		assert(y<=Y);
 }
 
+namespace {
 struct Node;
 struct CmpNodePos { bool operator()(const Node* u, const Node* v) const; };
 
@@ -77,6 +78,7 @@ bool CmpNodePos::operator() (const Node* u, const Node* v) const {
 		return false;
 	}
 	return u < v;
+}
 }
 
 static NodeSet getLeftNeighbours(NodeSet &scanline,Node *v) {
