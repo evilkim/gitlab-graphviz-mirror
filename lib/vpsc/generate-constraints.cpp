@@ -84,11 +84,11 @@ static NodeSet getLeftNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet::iterator i=scanline.find(v);
 	while(i!=scanline.begin()) {
 		Node *u=*(--i);
-		if(u->r->overlapX(v->r)<=0) {
+		if(u->r->overlapX(*v->r)<=0) {
 			leftv.insert(u);
 			return leftv;
 		}
-		if(u->r->overlapX(v->r)<=u->r->overlapY(v->r)) {
+		if(u->r->overlapX(*v->r)<=u->r->overlapY(*v->r)) {
 			leftv.insert(u);
 		}
 	}
@@ -99,11 +99,11 @@ static NodeSet getRightNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet::iterator i=scanline.find(v);
 	for(i++;i!=scanline.end(); i++) {
 		Node *u=*(i);
-		if(u->r->overlapX(v->r)<=0) {
+		if(u->r->overlapX(*v->r)<=0) {
 			rightv.insert(u);
 			return rightv;
 		}
-		if(u->r->overlapX(v->r)<=u->r->overlapY(v->r)) {
+		if(u->r->overlapX(*v->r)<=u->r->overlapY(*v->r)) {
 			rightv.insert(u);
 		}
 	}
