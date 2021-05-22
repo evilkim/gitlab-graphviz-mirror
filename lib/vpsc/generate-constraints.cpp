@@ -44,13 +44,13 @@ typedef set<Node*,CmpNodePos> NodeSet;
 
 struct Node {
 	Variable *v;
-	Rectangle *r;
+	const Rectangle &r;
 	double pos;
 	Node *firstAbove, *firstBelow;
 	NodeSet leftNeighbours, rightNeighbours;
-	Node(Variable *v, Rectangle *r, double p) : v(v),r(r),pos(p) {
+	Node(Variable *v, const Rectangle &r, double p) : v(v),r(r),pos(p) {
 		firstAbove=firstBelow=nullptr;
-		assert(r->width()<1e40);
+		assert(r.width()<1e40);
 	}
 	void addLeftNeighbour(Node *u) {
 		leftNeighbours.insert(u);
@@ -84,11 +84,11 @@ static NodeSet getLeftNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet::iterator i=scanline.find(v);
 	while(i!=scanline.begin()) {
 		Node *u=*(--i);
-		if(u->r->overlapX(*v->r)<=0) {
+		if(u->r.overlapX(v->r)<=0) {
 			leftv.insert(u);
 			return leftv;
 		}
-		if(u->r->overlapX(*v->r)<=u->r->overlapY(*v->r)) {
+		if(u->r.overlapX(v->r)<=u->r.overlapY(v->r)) {
 			leftv.insert(u);
 		}
 	}
@@ -99,11 +99,11 @@ static NodeSet getRightNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet::iterator i=scanline.find(v);
 	for(i++;i!=scanline.end(); i++) {
 		Node *u=*(i);
-		if(u->r->overlapX(*v->r)<=0) {
+		if(u->r.overlapX(v->r)<=0) {
 			rightv.insert(u);
 			return rightv;
 		}
-		if(u->r->overlapX(*v->r)<=u->r->overlapY(*v->r)) {
+		if(u->r.overlapX(v->r)<=u->r.overlapY(v->r)) {
 			rightv.insert(u);
 		}
 	}
@@ -119,7 +119,7 @@ struct Event {
 };
 
 static bool compare_events(const Event &ea, const Event &eb) {
-	if(ea.v->r==eb.v->r) {
+	if(&ea.v->r==&eb.v->r) {
 		// when comparing opening and closing from the same rect
 		// open must come first
 		if(ea.type == Open && eb.type != Open) return true;
@@ -144,7 +144,7 @@ int generateXConstraints(vector<Rectangle*> &rs, Variable** vars,
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreX();
-		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreX());
+		Node *v = new Node(vars[i],*rs[i],rs[i]->getCentreX());
 		events.emplace_back(Open,v,rs[i]->getMinY());
 		events.emplace_back(Close,v,rs[i]->getMaxY());
 	}
@@ -179,25 +179,25 @@ int generateXConstraints(vector<Rectangle*> &rs, Variable** vars,
 			// Close event
 			if(useNeighbourLists) {
 				for(Node *u : v->leftNeighbours) {
-					double sep = (v->r->width()+u->r->width())/2.0;
+					double sep = (v->r.width()+u->r.width())/2.0;
 					constraints.push_back(new Constraint(u->v,v->v,sep));
 					u->rightNeighbours.erase(v);
 				}
 				
 				for(Node *u : v->rightNeighbours) {
-					double sep = (v->r->width()+u->r->width())/2.0;
+					double sep = (v->r.width()+u->r.width())/2.0;
 					constraints.push_back(new Constraint(v->v,u->v,sep));
 					u->leftNeighbours.erase(v);
 				}
 			} else {
 				Node *l=v->firstAbove, *r=v->firstBelow;
 				if(l!=nullptr) {
-					double sep = (v->r->width()+l->r->width())/2.0;
+					double sep = (v->r.width()+l->r.width())/2.0;
 					constraints.push_back(new Constraint(l->v,v->v,sep));
 					l->firstBelow=v->firstBelow;
 				}
 				if(r!=nullptr) {
-					double sep = (v->r->width()+r->r->width())/2.0;
+					double sep = (v->r.width()+r->r.width())/2.0;
 					constraints.push_back(new Constraint(v->v,r->v,sep));
 					r->firstAbove=v->firstAbove;
 				}
@@ -222,7 +222,7 @@ int generateYConstraints(vector<Rectangle*> &rs, Variable** vars,
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
 		vars[i]->desiredPosition=rs[i]->getCentreY();
-		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreY());
+		Node *v = new Node(vars[i],*rs[i],rs[i]->getCentreY());
 		events.emplace_back(Open,v,rs[i]->getMinX());
 		events.emplace_back(Close,v,rs[i]->getMaxX());
 	}
@@ -249,12 +249,12 @@ int generateYConstraints(vector<Rectangle*> &rs, Variable** vars,
 			// Close event
 			Node *l=v->firstAbove, *r=v->firstBelow;
 			if(l!=nullptr) {
-				double sep = (v->r->height()+l->r->height())/2.0;
+				double sep = (v->r.height()+l->r.height())/2.0;
 				constraints.push_back(new Constraint(l->v,v->v,sep));
 				l->firstBelow=v->firstBelow;
 			}
 			if(r!=nullptr) {
-				double sep = (v->r->height()+r->r->height())/2.0;
+				double sep = (v->r.height()+r->r.height())/2.0;
 				constraints.push_back(new Constraint(v->v,r->v,sep));
 				r->firstAbove=v->firstAbove;
 			}
