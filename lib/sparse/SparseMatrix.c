@@ -21,7 +21,7 @@
 #include <stddef.h>
 
 static size_t size_of_matrix_type(int type){
-  int size = 0;
+  size_t size = 0;
   switch (type){
   case MATRIX_TYPE_REAL:
     size = sizeof(real);
