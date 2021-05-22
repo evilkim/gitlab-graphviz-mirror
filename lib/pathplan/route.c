@@ -49,15 +49,6 @@ typedef struct elist_t {
 
 static jmp_buf jbuf;
 
-#if 0
-static p2e_t *p2es;
-static int p2en;
-#endif
-
-#if 0
-static elist_t *elist;
-#endif
-
 static Ppoint_t *ops;
 static int opn, opl;
 
@@ -87,13 +78,6 @@ static double B2(double t);
 static double B3(double t);
 static double B01(double t);
 static double B23(double t);
-#if 0
-static int cmpp2efunc(const void *, const void *);
-
-static void listdelete(Pedge_t *);
-static void listreplace(Pedge_t *, Pedge_t *);
-static void listinsert(Pedge_t *, Ppoint_t);
-#endif
 
 /* Proutespline:
  * Given a set of edgen line segments edges as obstacles, a template
@@ -104,14 +88,6 @@ static void listinsert(Pedge_t *, Ppoint_t);
 int Proutespline(Pedge_t * edges, int edgen, Ppolyline_t input,
 		 Ppoint_t * evs, Ppolyline_t * output)
 {
-#if 0
-    Ppoint_t p0, p1, p2, p3;
-    Ppoint_t *pp;
-    Pvector_t v1, v2, v12, v23;
-    int ipi, opi;
-    int ei, p2ei;
-    Pedge_t *e0p, *e1p;
-#endif
     Ppoint_t *inps;
     int inpn;
 
@@ -119,44 +95,6 @@ int Proutespline(Pedge_t * edges, int edgen, Ppolyline_t input,
     inps = input.ps;
     inpn = input.pn;
 
-#if 0
-    if (!(p2es = (p2e_t *) malloc(sizeof(p2e_t) * (p2en = edgen * 2)))) {
-	prerror("cannot malloc p2es");
-	return -1;
-    }
-    for (ei = 0, p2ei = 0; ei < edgen; ei++) {
-	if (edges[ei].a.x == edges[ei].b.x
-	    && edges[ei].a.y == edges[ei].b.y)
-	    continue;
-	p2es[p2ei].pp = &edges[ei].a;
-	p2es[p2ei++].ep = &edges[ei];
-	p2es[p2ei].pp = &edges[ei].b;
-	p2es[p2ei++].ep = &edges[ei];
-    }
-    p2en = p2ei;
-    qsort(p2es, p2en, sizeof(p2e_t), cmpp2efunc);
-    elist = NULL;
-    for (p2ei = 0; p2ei < p2en; p2ei += 2) {
-	pp = p2es[p2ei].pp;
-#if DEBUG >= 1
-	fprintf(stderr, "point: %d %lf %lf\n", p2ei, pp->x, pp->y);
-#endif
-	e0p = p2es[p2ei].ep;
-	e1p = p2es[p2ei + 1].ep;
-	p0 = (&e0p->a == p2es[p2ei].pp) ? e0p->b : e0p->a;
-	p1 = (&e0p->a == p2es[p2ei + 1].pp) ? e1p->b : e1p->a;
-	if (LT(p0, pp) && LT(p1, pp)) {
-	    listdelete(e0p), listdelete(e1p);
-	} else if (GT(p0, pp) && GT(p1, pp)) {
-	    listinsert(e0p, *pp), listinsert(e1p, *pp);
-	} else {
-	    if (LT(p0, pp))
-		listreplace(e0p, e1p);
-	    else
-		listreplace(e1p, e0p);
-	}
-    }
-#endif
     if (setjmp(jbuf))
 	return -1;
 
@@ -170,16 +108,6 @@ int Proutespline(Pedge_t * edges, int edgen, Ppolyline_t input,
 	return -1;
     output->pn = opl;
     output->ps = ops;
-
-#if 0
-    fprintf(stderr, "edge\na\nb\n");
-    fprintf(stderr, "points\n%d\n", inpn);
-    for (ipi = 0; ipi < inpn; ipi++)
-	fprintf(stderr, "%f %f\n", inps[ipi].x, inps[ipi].y);
-    fprintf(stderr, "splpoints\n%d\n", opl);
-    for (opi = 0; opi < opl; opi++)
-	fprintf(stderr, "%f %f\n", ops[opi].x, ops[opi].y);
-#endif
 
     return 0;
 }
@@ -294,22 +222,13 @@ static int splinefits(Pedge_t * edges, int edgen, Ppoint_t pa,
 {
     Ppoint_t sps[4];
     double a, b;
-#if 0
-    double d;
-#endif
     int pi;
     int forceflag;
     int first = 1;
 
     forceflag = (inpn == 2 ? 1 : 0);
 
-#if 0
-    d = sqrt((pb.x - pa.x) * (pb.x - pa.x) +
-	     (pb.y - pa.y) * (pb.y - pa.y));
-    a = d, b = d;
-#else
     a = b = 4;
-#endif
     for (;;) {
 	sps[0].x = pa.x;
 	sps[0].y = pa.y;
@@ -374,8 +293,6 @@ static int splineisinside(Pedge_t * edges, int edgen, Ppoint_t * sps)
 
     for (ei = 0; ei < edgen; ei++) {
 	lps[0] = edges[ei].a, lps[1] = edges[ei].b;
-	/* if ((rootn = splineintersectsline (sps, lps, roots)) == 4)
-	   return 1; */
 	if ((rootn = splineintersectsline(sps, lps, roots)) == 4)
 	    continue;
 	for (rooti = 0; rooti < rootn; rooti++) {
@@ -582,103 +499,3 @@ static double B23(double t)
     double tmp = 1.0 - t;
     return t * t * (3 * tmp + t);
 }
-
-#if 0
-static int cmpp2efunc(const void *v0p, const void *v1p)
-{
-    p2e_t *p2e0p, *p2e1p;
-    double x0, x1;
-
-    p2e0p = (p2e_t *) v0p, p2e1p = (p2e_t *) v1p;
-    if (p2e0p->pp->y > p2e1p->pp->y)
-	return -1;
-    else if (p2e0p->pp->y < p2e1p->pp->y)
-	return 1;
-    if (p2e0p->pp->x < p2e1p->pp->x)
-	return -1;
-    else if (p2e0p->pp->x > p2e1p->pp->x)
-	return 1;
-    x0 = (p2e0p->pp == &p2e0p->ep->a) ? p2e0p->ep->b.x : p2e0p->ep->a.x;
-    x1 = (p2e1p->pp == &p2e1p->ep->a) ? p2e1p->ep->b.x : p2e1p->ep->a.x;
-    if (x0 < x1)
-	return -1;
-    else if (x0 > x1)
-	return 1;
-    return 0;
-}
-
-static void listdelete(Pedge_t * ep)
-{
-    elist_t *lp;
-
-    for (lp = elist; lp; lp = lp->next) {
-	if (lp->ep != ep)
-	    continue;
-	if (lp->prev)
-	    lp->prev->next = lp->next;
-	if (lp->next)
-	    lp->next->prev = lp->prev;
-	if (elist == lp)
-	    elist = lp->next;
-	free(lp);
-	return;
-    }
-    if (!lp) {
-	prerror("cannot find list element to delete");
-	abort();
-    }
-}
-
-static void listreplace(Pedge_t * oldep, Pedge_t * newep)
-{
-    elist_t *lp;
-
-    for (lp = elist; lp; lp = lp->next) {
-	if (lp->ep != oldep)
-	    continue;
-	lp->ep = newep;
-	return;
-    }
-    if (!lp) {
-	prerror("cannot find list element to replace");
-	abort();
-    }
-}
-
-static void listinsert(Pedge_t * ep, Ppoint_t p)
-{
-    elist_t *lp, *newlp, *lastlp;
-    double lx;
-
-    if (!(newlp = (elist_t *) malloc(sizeof(elist_t)))) {
-	prerror("cannot malloc newlp");
-	abort();
-    }
-    newlp->ep = ep;
-    newlp->next = newlp->prev = NULL;
-    if (!elist) {
-	elist = newlp;
-	return;
-    }
-    for (lp = elist; lp; lp = lp->next) {
-	lastlp = lp;
-	lx = lp->ep->a.x + (lp->ep->b.x - lp->ep->a.x) * (p.y -
-							  lp->ep->a.y) /
-	    (lp->ep->b.y - lp->ep->a.y);
-	if (lx <= p.x)
-	    continue;
-	if (lp->prev)
-	    lp->prev->next = newlp;
-	newlp->prev = lp->prev;
-	newlp->next = lp;
-	lp->prev = newlp;
-	if (elist == lp)
-	    elist = newlp;
-	return;
-    }
-    lastlp->next = newlp;
-    newlp->prev = lastlp;
-    if (!elist)
-	elist = newlp;
-}
-#endif
