@@ -56,7 +56,6 @@ void SparseMatrix_print(char *, SparseMatrix A);/*print to stdout in Mathematica
 
 void SparseMatrix_export(FILE *f, SparseMatrix A);/* export into MM format except the header */
 
-SparseMatrix SparseMatrix_import_binary(char *name);
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f);/* import into a preopenned file */
 
 void SparseMatrix_delete(SparseMatrix A);

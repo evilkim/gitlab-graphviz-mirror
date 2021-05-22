@@ -662,16 +662,6 @@ SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   return A;
 }
 
-
-SparseMatrix SparseMatrix_import_binary(char *name){
-  SparseMatrix A = NULL;
-  FILE *f;
-  f = fopen(name, "rb");
-
-  A = SparseMatrix_import_binary_fp(f);
-  return A;
-}
-
 static void SparseMatrix_export_coord(FILE *f, SparseMatrix A){
   int *ia, *ja;
   real *a;
