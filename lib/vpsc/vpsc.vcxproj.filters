@@ -36,9 +36,6 @@
     <ClInclude Include="pairingheap\PairingHeap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="remove_rectangle_overlap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="solve_VPSC.h">
       <Filter>Header Files</Filter>
     </ClInclude>

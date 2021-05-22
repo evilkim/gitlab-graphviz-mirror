@@ -83,7 +83,6 @@
     <ClInclude Include="generate-constraints.h" />
     <ClInclude Include="pairingheap\dsexceptions.h" />
     <ClInclude Include="pairingheap\PairingHeap.h" />
-    <ClInclude Include="remove_rectangle_overlap.h" />
     <ClInclude Include="solve_VPSC.h" />
     <ClInclude Include="variable.h" />
   </ItemGroup>
