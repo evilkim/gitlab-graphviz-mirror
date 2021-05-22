@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <iostream>
+#include <vector>
 
 class Rectangle {	
 	friend std::ostream& operator <<(std::ostream &os, const Rectangle &r);
@@ -76,5 +77,6 @@ struct Variable;
 struct Constraint;
 
 // returns number of constraints generated
-int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists);
+int generateXConstraints(std::vector<Rectangle*> &rs, Variable** vars,
+	Constraint** &cs, const bool useNeighbourLists);
 int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs);

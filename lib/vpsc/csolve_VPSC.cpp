@@ -43,7 +43,7 @@ int genXConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs,int transit
 	for(int i=0;i<n;i++) {
 		rs[i]=new Rectangle(bb[i].LL.x,bb[i].UR.x,bb[i].LL.y,bb[i].UR.y);
 	}
-	int m = generateXConstraints(n,rs.data(),vs,*cs,transitiveClosure?true:false);
+	int m = generateXConstraints(rs,vs,*cs,transitiveClosure?true:false);
 	for(int i=0;i<n;i++) {
 		delete rs[i];
 	}
