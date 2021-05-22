@@ -217,7 +217,7 @@ int generateXConstraints(const vector<Rectangle*> &rs, Variable** vars,
 /**
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
-int generateYConstraints(vector<Rectangle*> &rs, Variable** vars,
+int generateYConstraints(const vector<Rectangle*> &rs, Variable** vars,
 	  Constraint** &cs) {
 
 	vector<Event> events;
