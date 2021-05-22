@@ -139,7 +139,7 @@ static bool compare_events(const Event &ea, const Event &eb) {
  * useNeighbourLists determines whether or not a heuristic is used to deciding whether to resolve
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
-int generateXConstraints(vector<Rectangle*> &rs, Variable** vars,
+int generateXConstraints(const vector<Rectangle*> &rs, Variable** vars,
 	  Constraint** &cs, const bool useNeighbourLists) {
 
 	vector<Event> events;
