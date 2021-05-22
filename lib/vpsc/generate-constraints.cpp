@@ -217,16 +217,16 @@ int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
 /**
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
-int generateYConstraints(const vector<Rectangle*> &rs, Variable** vars,
+int generateYConstraints(const vector<Rectangle> &rs, Variable** vars,
 	  Constraint** &cs) {
 
 	vector<Event> events;
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
-		vars[i]->desiredPosition=rs[i]->getCentreY();
-		Node *v = new Node(vars[i],*rs[i],rs[i]->getCentreY());
-		events.emplace_back(Open,v,rs[i]->getMinX());
-		events.emplace_back(Close,v,rs[i]->getMaxX());
+		vars[i]->desiredPosition=rs[i].getCentreY();
+		Node *v = new Node(vars[i],rs[i],rs[i].getCentreY());
+		events.emplace_back(Open,v,rs[i].getMinX());
+		events.emplace_back(Close,v,rs[i].getMaxX());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 	NodeSet scanline;

@@ -47,14 +47,11 @@ int genXConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs,int transit
 	return m;
 }
 int genYConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs) {
-	std::vector<Rectangle*> rs(n);
+	std::vector<Rectangle> rs;
 	for(int i=0;i<n;i++) {
-		rs[i]=new Rectangle(bb[i].LL.x,bb[i].UR.x,bb[i].LL.y,bb[i].UR.y);
+		rs.emplace_back(bb[i].LL.x,bb[i].UR.x,bb[i].LL.y,bb[i].UR.y);
 	}
 	int m = generateYConstraints(rs,vs,*cs);
-	for(int i=0;i<n;i++) {
-		delete rs[i];
-	}
 	return m;
 }
 
