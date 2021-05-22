@@ -618,26 +618,6 @@ static void SparseMatrix_export_csr(FILE *f, SparseMatrix A){
 
 }
 
-void SparseMatrix_export_binary_fp(FILE *f, SparseMatrix A){
-
-  fwrite(&(A->m), sizeof(int), 1, f);
-  fwrite(&(A->n), sizeof(int), 1, f);
-  fwrite(&(A->nz), sizeof(int), 1, f);
-  fwrite(&(A->nzmax), sizeof(int), 1, f);
-  fwrite(&(A->type), sizeof(int), 1, f);
-  fwrite(&(A->format), sizeof(int), 1, f);
-  fwrite(&(A->property), sizeof(int), 1, f);
-  fwrite(&(A->size), sizeof(size_t), 1, f);
-  if (A->format == FORMAT_COORD){
-    fwrite(A->ia, sizeof(int), A->nz, f);
-  } else {
-    fwrite(A->ia, sizeof(int), A->m + 1, f);
-  }
-  fwrite(A->ja, sizeof(int), A->nz, f);
-  if (A->size > 0) fwrite(A->a, A->size, A->nz, f);
-
-}
-
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f){
   SparseMatrix A = NULL;
   int m, n, nz, nzmax, type, format, property;

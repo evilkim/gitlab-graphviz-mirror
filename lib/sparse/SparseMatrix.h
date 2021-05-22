@@ -59,8 +59,6 @@ void SparseMatrix_export(FILE *f, SparseMatrix A);/* export into MM format excep
 SparseMatrix SparseMatrix_import_binary(char *name);
 SparseMatrix SparseMatrix_import_binary_fp(FILE *f);/* import into a preopenned file */
 
-void SparseMatrix_export_binary_fp(FILE *f, SparseMatrix A);/* export binary into a file preopened */
-
 void SparseMatrix_delete(SparseMatrix A);
 
 SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B);
