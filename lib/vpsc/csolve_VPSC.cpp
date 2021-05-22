@@ -39,14 +39,11 @@ VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
 }
 
 int genXConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs,int transitiveClosure) {
-	std::vector<Rectangle*> rs(n);
+	std::vector<Rectangle> rs;
 	for(int i=0;i<n;i++) {
-		rs[i]=new Rectangle(bb[i].LL.x,bb[i].UR.x,bb[i].LL.y,bb[i].UR.y);
+		rs.emplace_back(bb[i].LL.x,bb[i].UR.x,bb[i].LL.y,bb[i].UR.y);
 	}
 	int m = generateXConstraints(rs,vs,*cs,transitiveClosure?true:false);
-	for(int i=0;i<n;i++) {
-		delete rs[i];
-	}
 	return m;
 }
 int genYConstraints(int n, boxf* bb, Variable** vs, Constraint*** cs) {

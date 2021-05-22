@@ -139,16 +139,16 @@ static bool compare_events(const Event &ea, const Event &eb) {
  * useNeighbourLists determines whether or not a heuristic is used to deciding whether to resolve
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
-int generateXConstraints(const vector<Rectangle*> &rs, Variable** vars,
+int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
 	  Constraint** &cs, const bool useNeighbourLists) {
 
 	vector<Event> events;
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
-		vars[i]->desiredPosition=rs[i]->getCentreX();
-		Node *v = new Node(vars[i],*rs[i],rs[i]->getCentreX());
-		events.emplace_back(Open,v,rs[i]->getMinY());
-		events.emplace_back(Close,v,rs[i]->getMaxY());
+		vars[i]->desiredPosition=rs[i].getCentreX();
+		Node *v = new Node(vars[i],rs[i],rs[i].getCentreX());
+		events.emplace_back(Open,v,rs[i].getMinY());
+		events.emplace_back(Close,v,rs[i].getMaxY());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 

@@ -77,7 +77,7 @@ struct Variable;
 struct Constraint;
 
 // returns number of constraints generated
-int generateXConstraints(const std::vector<Rectangle*> &rs, Variable** vars,
+int generateXConstraints(const std::vector<Rectangle> &rs, Variable** vars,
 	Constraint** &cs, const bool useNeighbourLists);
 int generateYConstraints(const std::vector<Rectangle*> &rs, Variable** vars,
 	Constraint** &cs);
