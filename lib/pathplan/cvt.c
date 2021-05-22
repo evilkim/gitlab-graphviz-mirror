@@ -97,7 +97,7 @@ void Pobsclose(vconfig_t * config)
 int Pobspath(vconfig_t * config, Ppoint_t p0, int poly0, Ppoint_t p1,
 	     int poly1, Ppolyline_t * output_route)
 {
-    int i, j, *dad;
+    int i, *dad;
     size_t opn;
     Ppoint_t *ops;
     COORD *ptvis0, *ptvis1;
@@ -120,7 +120,7 @@ int Pobspath(vconfig_t * config, Ppoint_t p0, int poly0, Ppoint_t p1,
     opn++;
     ops = malloc(opn * sizeof(Ppoint_t));
 
-    j = opn - 1;
+    size_t j = opn - 1;
     ops[j--] = p1;
     for (i = dad[config->N]; i != config->N + 1; i = dad[i])
 	ops[j--] = config->P[i];
