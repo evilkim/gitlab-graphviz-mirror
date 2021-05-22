@@ -1347,52 +1347,6 @@ SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to
   return A;
 
 }
-SparseMatrix SparseMatrix_multiply_by_scaler(SparseMatrix A, real s){
-  /* A scaled by a number */
-  int i, j, *ia, m;
-  real *a, *b = NULL;
-  int *ai;
-  assert(A->format == FORMAT_CSR);
-
-  switch (A->type){
-  case MATRIX_TYPE_INTEGER:
-    b = MALLOC(sizeof(real)*A->nz);
-    ai = (int*) A->a;
-    for (i = 0; i < A->nz; i++) b[i] = ai[i];
-    FREE(A->a);
-    A->a = b;
-    A->type = MATRIX_TYPE_REAL;
-    // fall through
-  case MATRIX_TYPE_REAL:
-    a = (real*) A->a;
-    ia = A->ia;
-    m = A->m;
-    for (i = 0; i < m; i++){
-      for (j = ia[i]; j < ia[i+1]; j++){
-	a[j] *= s;
-      }
-    }
-    break;
-  case MATRIX_TYPE_COMPLEX:
-    a = (real*) A->a;
-    ia = A->ia;
-    m = A->m;
-    for (i = 0; i < m; i++){
-      for (j = ia[i]; j < ia[i+1]; j++){
-	a[2*j] *= s;
-	a[2*j+1] *= s;
-      }
-    }
-
-    break;
-  default:
-    fprintf(stderr,"warning: scaling of matrix this type is not supported\n");
-  }
-
-  return A;
-
-}
-
 
 SparseMatrix SparseMatrix_multiply(SparseMatrix A, SparseMatrix B){
   int m;

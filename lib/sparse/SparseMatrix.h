@@ -97,7 +97,6 @@ int SparseMatrix_has_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A);/* divide by max of each row */
 SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon);/*remove any entry <= epsilon*/
 SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to_row);
-SparseMatrix SparseMatrix_multiply_by_scaler(SparseMatrix A, real s);
 SparseMatrix SparseMatrix_make_undirected(SparseMatrix A);/* make it strictly low diag only, and set flag to undirected */
 int SparseMatrix_connectedQ(SparseMatrix A);
 real SparseMatrix_pseudo_diameter_only(SparseMatrix A);
