@@ -45,7 +45,6 @@ find_package(AWK REQUIRED)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(Git REQUIRED)
-find_package(Perl REQUIRED)
 
 # ================== Convenient values for CMake configuration =================
 set(BINARY_INSTALL_DIR      bin)
