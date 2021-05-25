@@ -10,6 +10,7 @@
 
 #include	<sfio/sfhdr.h>
 #include	<stddef.h>
+#include	<string.h>
 
 char **_sfgetpath(char *path)
 {
@@ -30,11 +31,10 @@ char **_sfgetpath(char *path)
     }
     if (n == 0 || !(dirs = malloc((n + 1) * sizeof(char *))))
 	return NULL;
-    if (!(p = malloc(strlen(path) + 1))) {
+    if (!(p = strdup(path))) {
 	free(dirs);
 	return NULL;
     }
-    strcpy(p, path);
     for (n = 0;; ++n) {
 	while (*p == ':')
 	    ++p;
