@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
 
 	smyrnaDir = N_NEW(strlen(line)+sizeof(SMYRNA), char);
 	strcpy (smyrnaDir, line);
-	strcat(smyrnaDir, "\\share\\graphviz\\smyrna");
+	strcat(smyrnaDir, SMYRNA);
 #else
 	smyrnaDir = SMYRNA_PATH;
 #endif
