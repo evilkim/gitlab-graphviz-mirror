@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - marginally more accurate computations in Smyrna sphere projection
 - Perl is no longer required to build Graphviz #2067
 
+### Fixed
+
+- no longer pass libcommon to the linker twice in mm2gv when building with CMake
+
 ## [2.47.2] - 2021-05-26
 
 ### Added

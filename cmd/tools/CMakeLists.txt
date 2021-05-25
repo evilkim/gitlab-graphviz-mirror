@@ -355,7 +355,6 @@ target_include_directories(mm2gv PRIVATE
 target_link_libraries(mm2gv
     sparse
     cgraph
-    common
     gvc
     pathplan
 )
