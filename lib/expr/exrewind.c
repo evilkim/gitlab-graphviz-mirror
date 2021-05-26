@@ -47,10 +47,3 @@ exrewind(Expr_t* ex)
 	setcontext(ex);
 	return 0;
 }
-
-void
-exstatement(Expr_t* ex)
-{
-	ex->nesting = ex->input->nesting;
-	setcontext(ex);
-}

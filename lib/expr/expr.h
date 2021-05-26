@@ -291,7 +291,6 @@ extern int		expop(Expr_t*);
 extern int		expush(Expr_t*, const char*, int, const char*, Sfio_t*);
 extern int		exrewind(Expr_t*);
 extern char*		exstash(Sfio_t*, Vmalloc_t*);
-extern void		exstatement(Expr_t*);
 extern int		extoken_fn(Expr_t*);
 extern char*		exstring(Expr_t *, char *);
 extern void*		exstralloc(Expr_t *, void *, size_t);
