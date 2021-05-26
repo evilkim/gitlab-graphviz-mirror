@@ -98,7 +98,6 @@
     <ClCompile Include="exexpr.c" />
     <ClCompile Include="exnospace.c" />
     <ClCompile Include="exopen.c" />
-    <ClCompile Include="exrewind.c" />
     <ClCompile Include="exstash.c" />
     <ClCompile Include="extoken.c" />
     <ClCompile Include="extype.c" />

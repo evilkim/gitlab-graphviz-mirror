@@ -47,7 +47,6 @@ add_library(expr STATIC
     exeval.c
     exexpr.c
     exopen.c
-    exrewind.c
     extoken.c
     extype.c
     exzero.c

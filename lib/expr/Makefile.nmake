@@ -11,7 +11,7 @@ CCFLAGS = $(CC.OPTIMIZE) $(CC.SUFFIX.DYNAMIC:@?$(CC.DLL)??)
 
 expr 2.0 :LIBRARY: expr.h exlib.h exgram.h exparse.y \
 		excc.c excontext.c exdata.c exeval.c exexpr.c \
-		exerror.c exopen.c exrewind.c extoken.c extype.c \
+		exerror.c exopen.c extoken.c extype.c \
 		exzero.c
 
 if CC.HOSTTYPE == "*.i386" || "$(-mam)" == "static*"

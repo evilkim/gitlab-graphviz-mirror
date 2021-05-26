@@ -46,7 +46,6 @@ void             exfreenode(Expr_t*, Exnode_t*);
 int              expush(Expr_t*, const char*, int, const char*, Sfio_t*);
 int              expop(Expr_t*);
 int              excomp(Expr_t*, const char*, int, const char*, Sfio_t*);
-int              exrewind(Expr_t*);
 int              extoken(Expr_t*);
 char*            extype(int);
 Extype_t         exzero(int);
@@ -58,6 +57,5 @@ exopen() is the first function called.
 exclose() is the last function called.
 exccopen() is the called if code generation will be used.
 exccclose() releases the state information allocated in exccopen().
-exrewind() restores statement start information saved by exstatement().
 
 .SH "SEE ALSO"

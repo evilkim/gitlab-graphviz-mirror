@@ -28,7 +28,7 @@ pdf =
 endif
 
 libexpr_C_la_SOURCES = excc.c excontext.c exdata.c exerror.c \
-	exeval.c exexpr.c exopen.c exrewind.c extoken.c \
+	exeval.c exexpr.c exopen.c extoken.c \
 	extype.c exzero.c exparse.y exnospace.c exstash.c 
 libexpr_C_la_LIBADD = \
 	$(top_builddir)/lib/ast/libast_C.la \
