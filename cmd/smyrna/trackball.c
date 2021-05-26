@@ -208,10 +208,10 @@ static float tb_project_to_sphere(float r, float x, float y)
     float d, t, z;
 
     d = hypotf(x, y);
-    if (d < r * 0.70710678118654752440) {	/* Inside sphere */
+    if (d < r * (1.0f / sqrtf(2.0f))) {	/* Inside sphere */
 	z = sqrt(r * r - d * d);
     } else {			/* On hyperbola */
-	t = r / 1.41421356237309504880;
+	t = r / sqrtf(2.0f);
 	z = t * t / d;
     }
     return z;

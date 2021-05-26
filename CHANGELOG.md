@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- marginally more accurate computations in Smyrna sphere projection
+
 ## [2.47.2] - 2021-05-26
 
 ### Added
