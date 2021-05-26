@@ -273,7 +273,6 @@ struct Excc_s				/* excc() state			*/
 
 extern Exnode_t*	excast(Expr_t*, Exnode_t*, int, Exnode_t*, int);
 extern Exnode_t*	exnoncast(Exnode_t *);
-extern int		excc(Excc_t*, const char*, Exid_t*, int);
 extern int		exccclose(Excc_t*);
 extern Excc_t*		exccopen(Expr_t*, Exccdisc_t*);
 extern void		exclose(Expr_t*, int);
