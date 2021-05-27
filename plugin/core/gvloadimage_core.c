@@ -42,6 +42,7 @@ typedef enum {
 
 static void core_loadimage_svg(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
 
     double width = (b.UR.x-b.LL.x);
     double height = (b.UR.y-b.LL.y);
@@ -71,6 +72,8 @@ static void core_loadimage_svg(GVJ_t * job, usershape_t *us, boxf b, boolean fil
 
 static void core_loadimage_fig(GVJ_t * job, usershape_t *us, boxf bf, boolean filled)
 {
+    (void)filled;
+
     int object_code = 2;        /* always 2 for polyline */
     int sub_type = 5;           /* always 5 for image */
     int line_style = 0;		/* solid, dotted, dashed */
@@ -112,6 +115,9 @@ static void core_loadimage_fig(GVJ_t * job, usershape_t *us, boxf bf, boolean fi
 
 static void core_loadimage_vrml(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)b;
+    (void)filled;
+
     obj_state_t *obj;
     node_t *n;
 
@@ -147,6 +153,8 @@ static void ps_freeimage(usershape_t *us)
 /* usershape described by a postscript file */
 static void core_loadimage_ps(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     assert(job);
     assert(us);
     assert(us->name);
@@ -171,9 +179,9 @@ static void core_loadimage_ps(GVJ_t * job, usershape_t *us, boxf b, boolean fill
             case FT_PS:
             case FT_EPS:
 		fstat(fd, &statbuf);
-		us->datasize = statbuf.st_size;
+		us->datasize = (size_t)statbuf.st_size;
 #ifdef HAVE_SYS_MMAN_H
-		us->data = mmap(0, statbuf.st_size, PROT_READ, MAP_SHARED, fd, 0);
+		us->data = mmap(0, us->datasize, PROT_READ, MAP_SHARED, fd, 0);
 		if (us->data == MAP_FAILED)
 			us->data = NULL;
 #else
@@ -236,6 +244,8 @@ static void core_loadimage_pslib(GVJ_t * job, usershape_t *us, boxf b, boolean f
 
 static void core_loadimage_vml(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     unsigned int  graphHeight;
     graphHeight =(int)(job->bb.UR.y - job->bb.LL.y);
     gvprintf (job, "<v:image src=\"%s\" style=\" position:absolute; width:%.2f; height:%.2f; left:%.2f ; top:%.2f\"",
@@ -245,6 +255,8 @@ static void core_loadimage_vml(GVJ_t * job, usershape_t *us, boxf b, boolean fil
 
 static void core_loadimage_tk(GVJ_t * job, usershape_t *us, boxf b, boolean filled)
 {
+    (void)filled;
+
     gvprintf (job, "image create photo \"photo_%s\" -file \"%s\"\n",
 	us->name, us->name);
     gvprintf (job, "$c create image %.2f %.2f -image \"photo_%s\"\n",
@@ -254,6 +266,10 @@ static void core_loadimage_tk(GVJ_t * job, usershape_t *us, boxf b, boolean fill
 static void core_loadimage_null(GVJ_t *gvc, usershape_t *us, boxf b, boolean filled)
 {
     /* null function - basically suppress the missing loader message */
+    (void)gvc;
+    (void)us;
+    (void)b;
+    (void)filled;
 }
 
 static gvloadimage_engine_t engine_svg = {
