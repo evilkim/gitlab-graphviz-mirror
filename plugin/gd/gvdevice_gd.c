@@ -140,13 +140,6 @@ static void gd_format(GVJ_t * job)
 	break;
 #endif
 
-#if 0
-/* libgd only supports reading of xpm files */
-#ifdef HAVE_GD_XPM
-    case FORMAT_XBM:
-	gdImageXbm(im, job->output_file);
-#endif
-#endif
 	break;
     default:
 	break;
@@ -199,13 +192,6 @@ gvplugin_installed_t gvdevice_gd_types[] = {
 
     {FORMAT_GD, "gd:cairo", 5, &gd_engine, &device_features_gd_no_writer},
     {FORMAT_GD2, "gd2:cairo", 5, &gd_engine, &device_features_gd_no_writer},
-
-#if 0
-/* libgd only supports reading of xpm files */
-#ifdef HAVE_GD_XPM
-    {FORMAT_XBM, "xbm:cairo", 5, &gd_engine, &device_features_gd},
-#endif
-#endif
 
 #endif
     {0, NULL, 0, NULL, NULL}

@@ -1889,24 +1889,6 @@ void gv_nodesize(node_t * n, boolean flip)
     }
 }
 
-#ifdef _WIN32
-void fix_fc(void)
-{
-    char buf[28192];
-    char buf2[28192];
-    int cur=0;
-    FILE* fp;
-
-    if((fp = fopen("fix-fc.exe", "r")) == NULL)
-	    return ;
-    fclose (fp);
-    if (!system ("fix-fc.exe")) {
-	system ("del fix-fc.exe");
-	system ("dot -c");	//run dot -c once too since we already run things :)
-    }
-}
-#endif
-
 #ifndef HAVE_DRAND48
 #pragma weak drand48
 double drand48(void)
