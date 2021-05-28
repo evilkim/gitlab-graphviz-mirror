@@ -77,7 +77,7 @@ attr_t *new_attr(void)
 }
 
 
-attr_t *new_attr_with_ref(Agsym_t * sym)
+static attr_t *new_attr_with_ref(Agsym_t * sym)
 {
     attr_t *attr = new_attr();
     attr->name = safestrdup(sym->name);
@@ -101,7 +101,7 @@ attr_t *new_attr_with_ref(Agsym_t * sym)
     return attr;
 }
 
-attr_t *new_attr_ref(attr_t * refAttr)
+static attr_t *new_attr_ref(attr_t * refAttr)
 {
     attr_t *attr = malloc(sizeof(attr_t));
     *attr = *refAttr;
@@ -186,7 +186,7 @@ void print_attr_list(attr_list * l)
     }
 }
 
-int attr_compare(const void *a, const void *b)
+static int attr_compare(const void *a, const void *b)
 {
     const attr_t *a1 = *(attr_t *const *) a;
     const attr_t *a2 = *(attr_t *const *) b;
@@ -317,12 +317,7 @@ static attr_t *pBinarySearch(attr_list * l, char *searchKey)
 
 }
 
-
-
-
-
-
-void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
+static void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
 {
     int res;
     char buf[512];

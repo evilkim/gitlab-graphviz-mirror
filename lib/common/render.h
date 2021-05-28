@@ -147,7 +147,6 @@ extern "C" {
     extern void make_simple_label (GVC_t * gvc, textlabel_t* rv);
     extern int stripedBox (GVJ_t * job, pointf* AF, char* clrs, int rotate);
     extern stroke_t* taper (bezier*, double (*radfunc_t)(double,double,double), double initwid, int linejoin, int linecap);
-    extern stroke_t* taper0 (bezier* bez, double initwid);
     extern pointf textspan_size(GVC_t * gvc, textspan_t * span);
     extern Dt_t * textfont_dict_open(GVC_t *gvc);
     extern void textfont_dict_close(GVC_t *gvc);

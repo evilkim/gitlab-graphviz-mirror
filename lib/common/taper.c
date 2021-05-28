@@ -412,17 +412,12 @@ stroke_t* taper (bezier* bez, radfunc_t radfunc, double initwid, int linejoin, i
     return p;
 }
 
+#ifdef TEST
 static double halffunc (double curlen, double totallen, double initwid)
 {
     return ((1 - (curlen/totallen))*initwid/2.0);
 }
 
-stroke_t* taper0 (bezier* bez, double initwid)
-{
-    return taper(bez, halffunc, initwid, 0, 0);
-}
-
-#ifdef TEST
 static pointf pts[] = {
   {100,100},
   {150,150},
@@ -438,7 +433,7 @@ main ()
 
     bez.size = sizeof(pts)/sizeof(pointf);
     bez.list = pts;
-    sp = taper0 (&bez, 20);
+    sp = taper(&bez, halffunc, 20.0, 0, 0);
     printf ("newpath\n");
     printf ("%.02f %.02f moveto\n", sp->vertices[0].x, sp->vertices[0].y);
     for (i=1; i<sp->nvertices; i++)

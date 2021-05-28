@@ -74,7 +74,7 @@ static void vzero(float *v)
     v[2] = 0.0;
 }
 
-void vset(float *v, float x, float y, float z)
+static void vset(float *v, float x, float y, float z)
 {
     v[0] = x;
     v[1] = y;

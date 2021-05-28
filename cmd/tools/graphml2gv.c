@@ -603,7 +603,7 @@ static void characterDataHandler(void *userData, const char *s, int length)
     agxbput_n(&ud->xml_attr_value, (char *) s, length);
 }
 
-Agraph_t *graphml_to_gv(char* gname, FILE * graphmlFile, int* rv)
+static Agraph_t *graphml_to_gv(char* gname, FILE * graphmlFile, int* rv)
 {
     char buf[BUFSIZE];
     int done;
