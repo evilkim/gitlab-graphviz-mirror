@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define STANDALONE
@@ -29,11 +30,6 @@
 #include <sparse/colorutil.h>
 #include <sparse/color_palette.h>
 
-enum {POINTS_ALL = 1, POINTS_LABEL, POINTS_RANDOM};
-enum {maxlen = 10000000};
-enum {MAX_GRPS = 10000};
-static char swork[maxlen];
-
 typedef struct {
     char* cmd;
     char **infiles; 
@@ -45,7 +41,7 @@ typedef struct {
     real bbox_margin[2]; 
     int useClusters;
     int clusterMethod;
-    int plotedges;
+    bool plotedges;
     int color_scheme;
     real line_width;
     char *color_scheme_str;
@@ -54,7 +50,7 @@ typedef struct {
     real *bg_color;
     int improve_contiguity_n;
     int nart;
-    int color_optimize;
+    bool color_optimize;
     int maxcluster;
     int nedgep;
     char *line_color;
@@ -63,58 +59,7 @@ typedef struct {
     int seed;      /* seed used to calculate Fiedler vector */
 } params_t;
 
-int string_split(char *s, char sp, char ***ss0, int *ntokens0){
-  /* give a string s ending with a \0, split into an array of strings using separater sp, 
-     with \0 inserted. Return 0 if successful, 1 if length of string exceed buffer size */
-  int ntokens = 0, len = 0;
-
-  int i;
-  char **ss;
-  char *swork1 = swork;
-  if (strlen(s) > maxlen) {
-    swork1 = MALLOC(sizeof(char)*maxlen);
-  }
-
-  for (i = 0; i < strlen(s); i++){
-    if (s[i] == sp){
-      ntokens++;
-    } else if (s[i] == '\n' || s[i]== EOF){
-      ntokens++;
-      break;
-    }
-  }
-
-  ss = malloc(sizeof(char*)*(ntokens+1));
-  ntokens = 0;
-  for (i = 0; i < strlen(s); i++){
-    if (s[i] == sp){
-      swork1[len++] = '\0';
-      ss[ntokens] = malloc(sizeof(char)*(len+1));
-      strcpy(ss[ntokens], swork1);
-      len = 0;
-      ntokens++;
-      continue;
-    } else if (s[i] == '\n' || s[i] == EOF){
-      swork1[len++] = '\0';
-      ss[ntokens] = malloc(sizeof(char)*(len+1));
-      strcpy(ss[ntokens], swork1);
-      len = 0;
-      ntokens++;
-      break;
-    }
-    swork1[len++] = s[i];
-  }
-
-  *ntokens0 = ntokens;
-
-  *ss0 = ss;
-
-  if (swork1 != swork) FREE(swork1);
-  return 0;
-
-}
-
-static char* usestr =
+static const char usestr[] =
 "   where graphfile must contain node positions, and widths and heights for each node. No overlap between nodes should be present. Acceptable options are: \n\
     -a k - average number of artificial points added along the bounding box of the labels. If < 0, a suitable value is selected automatically. (-1)\n\
     -b v - polygon line width, with v < 0 for no line. (0)\n\
@@ -222,7 +167,7 @@ init(int argc, char **argv, params_t* pm)
   pm->highlight_cluster = 0;
   pm->useClusters = 0;
   pm->clusterMethod = CLUSTERING_MODULARITY;
-  pm->plotedges = 0;
+  pm->plotedges = false;
   pm->show_points = 0;
   pm->color_scheme = COLOR_SCHEME_PASTEL; 
   pm->line_width = 0;
@@ -230,14 +175,13 @@ init(int argc, char **argv, params_t* pm)
   pm->bg_color = NULL;
   pm->improve_contiguity_n = 0;
   pm->nart = -1;
-  pm->color_optimize = 1;
+  pm->color_optimize = true;
   pm->maxcluster = 0;
   pm->nedgep = 0;
 
   pm->cmd = cmd;
   pm->infiles = NULL;
-  pm->line_color = N_NEW(10,char);
-  strcpy(pm->line_color,"#000000");
+  pm->line_color = strdup("#000000");
   pm->include_OK_points = FALSE;
   pm->seed = 123;
 
@@ -299,13 +243,13 @@ init(int argc, char **argv, params_t* pm)
       pm->useClusters = 1;
       break;
     case 'e':
-      pm->plotedges = 1;
+      pm->plotedges = true;
       break;
     case 'o':
 	  pm->outfile = openFile(optarg, "w", pm->cmd);
       break;
     case 'O':
-      pm->color_optimize = 0;
+      pm->color_optimize = false;
       break;
     case 'a':
       if ((sscanf(optarg,"%d",&r) > 0)){
@@ -410,8 +354,6 @@ makeMap (SparseMatrix graph, int n, real* x, real* width, int* grouping,
   real edge_bridge_tol = 0.;
   int npolys, nverts, *polys_groups, exclude_random;
   real *x_poly, *xcombined;
-  enum {max_string_length = 1000};
-  enum {MAX_GRPS = 10000};
   SparseMatrix country_graph;
   int improve_contiguity_n = pm->improve_contiguity_n;
 #ifdef TIME

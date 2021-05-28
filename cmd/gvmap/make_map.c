@@ -70,7 +70,6 @@ void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMat
     SparseMatrix_export(stdout, A);
   }
 
-  //  A = SparseMatrix_multiply(A0, A0);
   node_distinct_coloring(color_scheme, lightness, weightedQ, A, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum, &flag);
 
   if (A != A0){
@@ -120,7 +119,6 @@ void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_m
      .  If j < n, it is the original point, otherwise it is artificial point (forming the rectangle around a label) or random points.
   */
   int i, j, *ia, *ja, u, v;
-  //int *ib, *jb;
   real *a;
   SparseMatrix point_poly_map, D;
   real dist;
@@ -137,23 +135,11 @@ void improve_contiguity(int n, int dim, int *grouping, SparseMatrix poly_point_m
   /* point_poly_map: each row i has only 1 entry at column j, which says that point i is in polygon j */
   point_poly_map = SparseMatrix_transpose(poly_point_map);
 
-  //  ib = point_poly_map->ia;
-  //  jb = point_poly_map->ja;
-
-
   for (i = 0; i < n; i++){
     u = i;
     for (j = ia[i]; j < ia[i+1]; j++){
       v = ja[j];
       dist = distance_cropped(x, dim, u, v);
-      /*
-	if ((grouping[u] != grouping[v]) || (get_poly_id(u, point_poly_map) == get_poly_id(v, point_poly_map))){
-	a[j] = 1.1*dist;
-	} else {
-	nbad++;
-	a[j] = 0.9*dist;
-	}
-      */
       if (grouping[u] != grouping[v]){
 	a[j] = 1.1*dist;
       }	else if (get_poly_id(u, point_poly_map) == get_poly_id(v, point_poly_map)){
@@ -187,7 +173,6 @@ static void normal(real v[], real normal[]){
     normal[0] = -v[1];
     normal[1] = v[0];
   }
-  return;
 }
 
 static void triangle_center(real x[], real y[], real z[], real c[]){
@@ -224,8 +209,6 @@ static void triangle_center(real x[], real y[], real z[], real c[]){
   beta = ((x[0] - y[0])*(xy[0] - yz[0])+(x[1] - y[1])*(xy[1] - yz[1]))/bot;
   c[0] = yz[0] + beta*nyz[0];
   c[1] = yz[1] + beta*nyz[1];
-  return;
-
 }
 
 static SparseMatrix matrix_add_entry(SparseMatrix A, int i, int j, int val){
@@ -353,7 +336,6 @@ void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, Spa
     agattr(gr, AGRAPH, "outputorder", "edgesfirst");
     agattr(gr, AGRAPH, "bgcolor", "#dae2ff");
     if (!A) agattr(gr, AGEDGE, "style","invis");/* do not plot edges */
-    //    agedgeattr(gr, "color", "#55555515"); 
   }
 
   /*polygons */
@@ -386,7 +368,7 @@ void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, Spa
   agxbfree(&sbuff);
 }
 
-static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, SparseMatrix *E, int *flag) {
+static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, SparseMatrix *E) {
    /* always contains a self edge and is symmetric.
      input:
      n: number of points
@@ -402,8 +384,6 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   SparseMatrix A, B;
 
   int* trilist = get_triangles(x, n, &ntri);
-  *flag = 0;
-
 
   *T = N_NEW(ntri,struct Triangle);
 
@@ -428,8 +408,6 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
   *nt = ntri;
 
   FREE(trilist);
-
-  return;
 }
 
 static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, int GRP_RANDOM, int GRP_BBOX){
@@ -538,7 +516,6 @@ static void get_poly_lines(int exclude_random, int nt, SparseMatrix graph, Spars
   ipoly = 1;
 
   for (i = 0; i < ncomps; i++){
-    /*fprintf(stderr, "comp %d has %d members\n",i, comps_ptr[i+1]-comps_ptr[i]);*/
     nnt = 0;
     for (j = comps_ptr[i]; j < comps_ptr[i+1]; j++){
       ii = comps[j];
@@ -555,12 +532,7 @@ static void get_poly_lines(int exclude_random, int nt, SparseMatrix graph, Spars
       /* always skip bounding box */
       if (groups[ii] == GRP_BBOX) continue;
 
-      /*fprintf(stderr, "member %d is in group %d, it is\n",ii, groups[ii]);*/
       for (jj = ie[ii]; jj < ie[ii+1]; jj++){
-	/*
-	fprintf(stderr, "connected with %d in group %d\n",je[jj], groups[je[jj]]);
-	fprintf(stderr, "jj=%d nz = %d je[jj]=%d je[jj+1]=%d\n",jj,nz, je[jj],je[jj+1]);
-	*/
 	if (groups[je[jj]] != groups[ii] && jj < nz - 1  && je[jj] == je[jj+1]){/* an triangle edge neighboring 2 triangles and two ends not in the same groups */
 	  t1 = e[jj];
 	  t2 = e[jj+1];
@@ -973,8 +945,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
 }
 static void get_polygons(int exclude_random, int n, int nrandom, int dim, SparseMatrix graph, int *grouping,
 			 int nt, struct Triangle *Tp, SparseMatrix E, int *nverts, real **x_poly, 
-			 int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, SparseMatrix *country_graph,
-			 int *flag){
+			 int *npolys, SparseMatrix *poly_lines, SparseMatrix *polys, int **polys_groups, SparseMatrix *poly_point_map, SparseMatrix *country_graph){
   int i, j;
   int *mask;
   int *groups;
@@ -982,8 +953,6 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
   int *comps = NULL, *comps_ptr = NULL, ncomps;
   int GRP_RANDOM, GRP_BBOX;
   SparseMatrix B;
-
-  *flag = 0;
 
   assert(dim == 2);
   *nverts = nt;
@@ -1311,9 +1280,9 @@ static int make_map_internal(int exclude_random, int include_OK_points,
     }
   }
 
-  get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E, flag);
+  get_tri(n + *nrandom, dim2, *xcombined, &nt, &Tp, &E);
   get_polygons(exclude_random, n, *nrandom, dim2, graph, grouping, nt, Tp, E, nverts, x_poly, npolys, poly_lines, polys, polys_groups,
-	       poly_point_map, country_graph, flag);
+	       poly_point_map, country_graph);
 
   SparseMatrix_delete(E);
   FREE(Tp);
@@ -1478,16 +1447,10 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
     } else if (shore_depth_tol == 0){
       real area;
       get_boundingbox(n, dim, x, sizes, bbox);
-      //shore_depth_tol = MIN(bbox[1] - bbox[0], bbox[3] - bbox[2])*0.05;
       area = (bbox[1] - bbox[0])*(bbox[3] - bbox[2]);
       shore_depth_tol = sqrt(area/(real) n); 
       if (Verbose) fprintf(stderr,"setting shore length ======%f\n",shore_depth_tol);
     } else {
-      /*
-      get_boundingbox(n, dim, x, sizes, bbox);
-      shore_depth_tol = MIN(bbox[1] - bbox[0], bbox[3] - bbox[2])*shore_depth_tol;
-      */
-
     }
 
     /* add artificial points in an anti-clockwise fashion */
