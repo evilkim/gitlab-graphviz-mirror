@@ -41,9 +41,9 @@ int pathexists(char *path, int mode)
     char *e;
     Tree_t *p;
     Tree_t *t;
-    int c;
+    char c;
     char *ee;
-    int cc = 0;
+    char cc = '\0';
     int x;
     struct stat st;
 

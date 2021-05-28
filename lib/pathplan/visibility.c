@@ -64,21 +64,6 @@ int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c)
     return (w > .0001) ? 1 : ((w < -.0001) ? -1 : 0);
 }
 
-#if 0				/* NOT USED */
-/* open_intersect:
- * Returns true iff segment ab intersects segment cd.
- * NB: segments are considered open sets
- */
-static int open_intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
-{
-    return (((area2(a, b, c) > 0 && area2(a, b, d) < 0) ||
-	     (area2(a, b, c) < 0 && area2(a, b, d) > 0))
-	    &&
-	    ((area2(c, d, a) > 0 && area2(c, d, b) < 0) ||
-	     (area2(c, d, a) < 0 && area2(c, d, b) > 0)));
-}
-#endif
-
 /* inBetween:
  * Return true if c is in (a,b), assuming a,b,c are collinear.
  */
@@ -182,23 +167,6 @@ static int in_cone(Ppoint_t a0, Ppoint_t a1, Ppoint_t a2, Ppoint_t b)
     else
 	return (m >= 0 || p >= 0);	/* reflex at a */
 }
-
-#if 0				/* NOT USED */
-/* in_open_cone:
- * Returns true iff point b is in the cone a0,a1,a2
- * NB: the cone is considered an open set
- */
-static int in_open_cone(Ppoint_t a0, Ppoint_t a1, Ppoint_t a2, Ppoint_t b)
-{
-    int m = wind(b, a0, a1);
-    int p = wind(b, a1, a2);
-
-    if (wind(a0, a1, a2) >= 0)
-	return (m > 0 && p > 0);	/* convex at a */
-    else
-	return (m > 0 || p > 0);	/* reflex at a */
-}
-#endif
 
 /* dist2:
  * Returns the square of the distance between points a and b.
@@ -395,7 +363,6 @@ int directVis(Ppoint_t p, int pp, Ppoint_t q, int qp, vconfig_t * conf)
     int V = conf->N;
     Ppoint_t *pts = conf->P;
     int *nextPt = conf->next;
-    /* int*   prevPt = conf->prev; */
     int k;
     int s1, e1;
     int s2, e2;

@@ -56,12 +56,6 @@ void SparseMatrix_print(char *, SparseMatrix A);/*print to stdout in Mathematica
 
 void SparseMatrix_export(FILE *f, SparseMatrix A);/* export into MM format except the header */
 
-SparseMatrix SparseMatrix_import_binary(char *name);
-SparseMatrix SparseMatrix_import_binary_fp(FILE *f);/* import into a preopenned file */
-
-void SparseMatrix_export_binary(char *name, SparseMatrix A, int *flag);
-void SparseMatrix_export_binary_fp(FILE *f, SparseMatrix A);/* export binary into a file preopened */
-
 void SparseMatrix_delete(SparseMatrix A);
 
 SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B);
@@ -97,7 +91,6 @@ int SparseMatrix_has_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A);/* divide by max of each row */
 SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon);/*remove any entry <= epsilon*/
 SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to_row);
-SparseMatrix SparseMatrix_multiply_by_scaler(SparseMatrix A, real s);
 SparseMatrix SparseMatrix_make_undirected(SparseMatrix A);/* make it strictly low diag only, and set flag to undirected */
 int SparseMatrix_connectedQ(SparseMatrix A);
 real SparseMatrix_pseudo_diameter_only(SparseMatrix A);
