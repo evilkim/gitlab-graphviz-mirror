@@ -15,26 +15,21 @@ AM_CFLAGS = -D_BLD_gvc=1
 AM_CPPFLAGS += -O0
 endif
 
-BUILT_SOURCES = colortbl.h ps_font_equiv.h htmlparse.h
+BUILT_SOURCES = colortbl.h htmlparse.h
 
 pkginclude_HEADERS = arith.h geom.h color.h types.h textspan.h usershape.h
 noinst_HEADERS = render.h utils.h memory.h \
 	geomprocs.h colorprocs.h colortbl.h entities.h globals.h \
 	logic.h const.h macros.h htmllex.h htmltable.h pointset.h intset.h \
-	timing.h
+	timing.h ps_font_equiv.h
 noinst_LTLIBRARIES = libcommon_C.la
 
 libcommon_C_la_SOURCES = arrows.c colxlate.c ellipse.c textspan.c \
 	args.c memory.c globals.c htmllex.c htmlparse.y htmltable.c input.c \
 	pointset.c intset.c postproc.c routespl.c splines.c psusershape.c \
 	timing.c labels.c ns.c shapes.c utils.c geom.c taper.c \
-	output.c emit.c ps_font_equiv.txt ps_fontmap.txt fontmap.cfg \
+	output.c emit.c \
 	color_names
-
-# ensure font names are properly sorted for bsearch operation 
-ps_font_equiv.h: $(srcdir)/ps_font_equiv.txt $(srcdir)/fontmap.cfg $(srcdir)/ps_fontmap.txt
-	cp $(srcdir)/ps_fontmap.txt ps_font_equiv.h
-	./mksvgfonts.pl fontmap.cfg ps_font_equiv.txt | LC_ALL=C $(SORT) >>ps_font_equiv.h
 
 colxlate.o colxlate.lo : colortbl.h
 
@@ -57,11 +52,11 @@ htmlparse.o htmlparse.lo: htmlparse.c htmlparse.h
 htmlparse.c htmlparse.h: $(top_srcdir)/lib/common/htmlparse.y
 	@YACC@ -Wno-yacc -dv $(top_srcdir)/lib/common/htmlparse.y -o htmlparse.c
 
-DISTCLEANFILES = brewer_lib color_lib colortbl.h ps_font_equiv.h \
+DISTCLEANFILES = brewer_lib color_lib colortbl.h \
 	htmlparse.[ch]
 
-EXTRA_DIST = README.imap chars.tcl ps_font_equiv.h \
+EXTRA_DIST = README.imap chars.tcl \
 	htmlparse.c htmlparse.h \
 	entities.html entities.tcl \
 	brewer_colors brewer_lib svgcolor_names svgcolor_lib \
-	color_names color_lib colortbl.h mksvgfonts.pl
+	color_names color_lib colortbl.h

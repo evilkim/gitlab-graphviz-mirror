@@ -163,7 +163,6 @@ lib/common/colortbl.h
 lib/common/htmlparse.c
 lib/common/htmlparse.h
 lib/common/htmlparse.output
-lib/common/ps_font_equiv.h
 lib/common/svgcolor_lib
 lib/expr/exparse.c
 lib/expr/exparse.h

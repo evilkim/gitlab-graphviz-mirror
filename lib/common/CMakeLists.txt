@@ -33,22 +33,6 @@ add_custom_command(
             ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
 )
 
-# Generate ps_font_equiv.h from sources
-add_custom_command(
-    OUTPUT ps_font_equiv.h
-    DEPENDS
-        ${CMAKE_CURRENT_SOURCE_DIR}/mksvgfonts.pl
-        ${CMAKE_CURRENT_SOURCE_DIR}/ps_font_equiv.txt
-        ${CMAKE_CURRENT_SOURCE_DIR}/fontmap.cfg
-        ${CMAKE_CURRENT_SOURCE_DIR}/ps_fontmap.txt
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/ps_fontmap.txt
-                                     ${CMAKE_CURRENT_BINARY_DIR}/ps_font_equiv.h
-    COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/mksvgfonts.pl
-                               ${CMAKE_CURRENT_SOURCE_DIR}/fontmap.cfg
-                               ${CMAKE_CURRENT_SOURCE_DIR}/ps_font_equiv.txt
-                               >> ${CMAKE_CURRENT_BINARY_DIR}/ps_font_equiv.h
-)
-
 add_library(common_obj OBJECT
     # Header files
     arith.h

@@ -162,10 +162,6 @@ estimate_textspan_size(textspan_t * span, char **fontpath)
 
 /*
  * This table maps standard Postscript font names to URW Type 1 fonts.
- *
- *   The original source is in ps_font_equiv.txt.  This is sorted 
- *   during make into ps_font_equiv.h to ensure that it is in the right
- *   order for bsearch()
  */
 static PostscriptAlias postscript_alias[] = {
 #include "ps_font_equiv.h"
