@@ -556,7 +556,6 @@ static int left2right(graph_t * g, node_t * v, node_t * w)
 	    if (ND_ranktype(w) == CLUSTER && ND_node_type(w) == VIRTUAL)
 		return FALSE;
 	    return TRUE;
-	    /*return ((ND_ranktype(v) != CLUSTER) && (ND_ranktype(w) != CLUSTER)); */
 	}
     } else {
 	if (ND_clust(v) != ND_clust(w))
@@ -806,7 +805,6 @@ static void transpose(graph_t * g, int reverse)
 		delta += transpose_step(g, r, reverse);
 	    }
 	}
-	/*} while (delta > ncross(g)*(1.0 - Convergence)); */
     } while (delta >= 1);
 }
 
@@ -879,8 +877,6 @@ static void restore_best(graph_t * g)
     node_t *n;
     int i, r;
 
-    /* for (n = GD_nlist(g); n; n = ND_next(n)) */
-	/* ND_order(n) = saveorder(n); */
     for (r = GD_minrank(g); r <= GD_maxrank(g); r++) {
 	for (i = 0; i < GD_rank(g)[r].n; i++) {
 	    n = GD_rank(g)[r].v[i];
@@ -897,8 +893,6 @@ static void restore_best(graph_t * g)
 static void save_best(graph_t * g)
 {
     node_t *n;
-    /* for (n = GD_nlist(g); n; n = ND_next(n)) */
-	/* saveorder(n) = ND_order(n); */
     int i, r;
     for (r = GD_minrank(g); r <= GD_maxrank(g); r++) {
 	for (i = 0; i < GD_rank(g)[r].n; i++) {
