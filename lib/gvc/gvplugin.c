@@ -129,8 +129,8 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
  * manually changed in the config file.
  */
 static boolean gvplugin_activate(GVC_t * gvc, api_t api,
-                                 const char *typestr, char *name,
-                                 char *plugin_path,
+                                 const char *typestr, const char *name,
+                                 const char *plugin_path,
                                  gvplugin_installed_t * typeptr)
 {
     gvplugin_available_t *pnext;
