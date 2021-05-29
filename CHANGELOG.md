@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   characters
 - out of bounds read when examining a registered plugin whose name is ≥63
   characters
+- do not `fclose(NULL)` in gvmap
 
 ## [2.47.2] - 2021-05-26
 

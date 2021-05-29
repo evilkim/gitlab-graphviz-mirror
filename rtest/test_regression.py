@@ -949,7 +949,7 @@ def test_vcxproj_inclusive(vcxproj: Path):
     assert srcs1 == srcs2, \
       "mismatch between sources in {str(vcxproj)} and {str(filters)}"
 
-@pytest.mark.xfail()
+@pytest.mark.xfail() # FIXME: fails on CentOS 7/8, macOS Autotools, MSBuild
 @pytest.mark.skipif(shutil.which("gvmap") is None, reason="gvmap not available")
 def test_gvmap_fclose():
   """
