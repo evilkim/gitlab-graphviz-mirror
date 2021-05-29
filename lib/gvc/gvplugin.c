@@ -49,9 +49,7 @@ static char *api_names[] = { APIS };    /* "render", "layout", ... */
 /* translate a string api name to its type, or -1 on error */
 api_t gvplugin_api(const char *str)
 {
-    int api;
-
-    for (api = 0; api < ARRAY_SIZE(api_names); api++) {
+    for (size_t api = 0; api < ARRAY_SIZE(api_names); api++) {
         if (strcmp(str, api_names[api]) == 0)
             return (api_t) api;
     }
