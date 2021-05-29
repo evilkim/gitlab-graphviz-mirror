@@ -155,9 +155,9 @@ gvplugin_library_t *gvplugin_library_load(GVC_t * gvc, char *path)
     lt_dlhandle hndl;
     lt_ptr ptr;
     char *s, *sym;
-    int len;
+    size_t len;
     static char *p;
-    static int lenp;
+    static size_t lenp;
     char *libdir;
     char *suffix = "_LTX_library";
     struct stat sb;
