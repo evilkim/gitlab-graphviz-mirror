@@ -315,7 +315,7 @@ void routesplinesterm()
 }
 
 static void
-limitBoxes (boxf* boxes, int boxn, pointf *pps, int pn, int delta)
+limitBoxes (boxf* boxes, int boxn, const pointf *pps, int pn, int delta)
 {
     int bi, si, splinepi;
     double t;
