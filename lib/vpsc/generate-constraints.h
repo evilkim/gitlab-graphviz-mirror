@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <iostream>
+#include <vector>
 
 class Rectangle {	
 	friend std::ostream& operator <<(std::ostream &os, const Rectangle &r);
@@ -53,18 +54,18 @@ public:
 		maxY=y+height()-yBorder;
 		minY=y;
 	}
-	inline double overlapX(Rectangle *r) const {
-		if (getCentreX() <= r->getCentreX() && r->minX < getMaxX())
-			return getMaxX() - r->minX;
-		if (r->getCentreX() <= getCentreX() && minX < r->getMaxX())
-			return r->getMaxX() - minX;
+	inline double overlapX(const Rectangle &r) const {
+		if (getCentreX() <= r.getCentreX() && r.minX < getMaxX())
+			return getMaxX() - r.minX;
+		if (r.getCentreX() <= getCentreX() && minX < r.getMaxX())
+			return r.getMaxX() - minX;
 		return 0;
 	}
-	inline double overlapY(Rectangle *r) const {
-		if (getCentreY() <= r->getCentreY() && r->minY < getMaxY())
-			return getMaxY() - r->minY;
-		if (r->getCentreY() <= getCentreY() && minY < r->getMaxY())
-			return r->getMaxY() - minY;
+	inline double overlapY(const Rectangle &r) const {
+		if (getCentreY() <= r.getCentreY() && r.minY < getMaxY())
+			return getMaxY() - r.minY;
+		if (r.getCentreY() <= getCentreY() && minY < r.getMaxY())
+			return r.getMaxY() - minY;
 		return 0;
 	}
 private:
@@ -76,5 +77,7 @@ struct Variable;
 struct Constraint;
 
 // returns number of constraints generated
-int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists);
-int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs);
+int generateXConstraints(const std::vector<Rectangle> &rs, Variable** vars,
+	Constraint** &cs, const bool useNeighbourLists);
+int generateYConstraints(const std::vector<Rectangle> &rs, Variable** vars,
+	Constraint** &cs);

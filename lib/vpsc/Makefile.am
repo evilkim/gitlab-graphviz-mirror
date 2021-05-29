@@ -8,7 +8,7 @@ endif
 
 noinst_HEADERS = \
 	solve_VPSC.h block.h blocks.h variable.h constraint.h \
-	generate-constraints.h remove_rectangle_overlap.h \
+	generate-constraints.h \
 	solve_VPSC.h csolve_VPSC.h pairingheap/PairingHeap.h \
 	pairingheap/dsexceptions.h
 

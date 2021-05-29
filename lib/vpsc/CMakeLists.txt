@@ -9,7 +9,6 @@ add_library(vpsc STATIC
     generate-constraints.h
     pairingheap/PairingHeap.h
     pairingheap/dsexceptions.h
-    remove_rectangle_overlap.h
     solve_VPSC.h
     variable.h
 

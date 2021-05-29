@@ -37,6 +37,7 @@ Rectangle::Rectangle(double x, double X, double y, double Y)
 		assert(y<=Y);
 }
 
+namespace {
 struct Node;
 struct CmpNodePos { bool operator()(const Node* u, const Node* v) const; };
 
@@ -44,13 +45,13 @@ typedef set<Node*,CmpNodePos> NodeSet;
 
 struct Node {
 	Variable *v;
-	Rectangle *r;
+	const Rectangle &r;
 	double pos;
 	Node *firstAbove, *firstBelow;
 	NodeSet leftNeighbours, rightNeighbours;
-	Node(Variable *v, Rectangle *r, double p) : v(v),r(r),pos(p) {
+	Node(Variable *v, const Rectangle &r, double p) : v(v),r(r),pos(p) {
 		firstAbove=firstBelow=nullptr;
-		assert(r->width()<1e40);
+		assert(r.width()<1e40);
 	}
 	void addLeftNeighbour(Node *u) {
 		leftNeighbours.insert(u);
@@ -78,17 +79,18 @@ bool CmpNodePos::operator() (const Node* u, const Node* v) const {
 	}
 	return u < v;
 }
+}
 
 static NodeSet getLeftNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet leftv;
 	NodeSet::iterator i=scanline.find(v);
 	while(i!=scanline.begin()) {
 		Node *u=*(--i);
-		if(u->r->overlapX(v->r)<=0) {
+		if(u->r.overlapX(v->r)<=0) {
 			leftv.insert(u);
 			return leftv;
 		}
-		if(u->r->overlapX(v->r)<=u->r->overlapY(v->r)) {
+		if(u->r.overlapX(v->r)<=u->r.overlapY(v->r)) {
 			leftv.insert(u);
 		}
 	}
@@ -99,11 +101,11 @@ static NodeSet getRightNeighbours(NodeSet &scanline,Node *v) {
 	NodeSet::iterator i=scanline.find(v);
 	for(i++;i!=scanline.end(); i++) {
 		Node *u=*(i);
-		if(u->r->overlapX(v->r)<=0) {
+		if(u->r.overlapX(v->r)<=0) {
 			rightv.insert(u);
 			return rightv;
 		}
-		if(u->r->overlapX(v->r)<=u->r->overlapY(v->r)) {
+		if(u->r.overlapX(v->r)<=u->r.overlapY(v->r)) {
 			rightv.insert(u);
 		}
 	}
@@ -119,7 +121,7 @@ struct Event {
 };
 
 static bool compare_events(const Event &ea, const Event &eb) {
-	if(ea.v->r==eb.v->r) {
+	if(&ea.v->r==&eb.v->r) {
 		// when comparing opening and closing from the same rect
 		// open must come first
 		if(ea.type == Open && eb.type != Open) return true;
@@ -137,14 +139,16 @@ static bool compare_events(const Event &ea, const Event &eb) {
  * useNeighbourLists determines whether or not a heuristic is used to deciding whether to resolve
  * all overlap in the x pass, or leave some overlaps for the y pass.
  */
-int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs, const bool useNeighbourLists) {
+int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
+	  Constraint** &cs, const bool useNeighbourLists) {
+
 	vector<Event> events;
-	events.reserve(2 * n);
-	for(int i=0;i<n;i++) {
-		vars[i]->desiredPosition=rs[i]->getCentreX();
-		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreX());
-		events.emplace_back(Open,v,rs[i]->getMinY());
-		events.emplace_back(Close,v,rs[i]->getMaxY());
+	events.reserve(2 * rs.size());
+	for(size_t i=0;i<rs.size();i++) {
+		vars[i]->desiredPosition=rs[i].getCentreX();
+		Node *v = new Node(vars[i],rs[i],rs[i].getCentreX());
+		events.emplace_back(Open,v,rs[i].getMinY());
+		events.emplace_back(Close,v,rs[i].getMaxY());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 
@@ -177,25 +181,25 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			// Close event
 			if(useNeighbourLists) {
 				for(Node *u : v->leftNeighbours) {
-					double sep = (v->r->width()+u->r->width())/2.0;
+					double sep = (v->r.width()+u->r.width())/2.0;
 					constraints.push_back(new Constraint(u->v,v->v,sep));
 					u->rightNeighbours.erase(v);
 				}
 				
 				for(Node *u : v->rightNeighbours) {
-					double sep = (v->r->width()+u->r->width())/2.0;
+					double sep = (v->r.width()+u->r.width())/2.0;
 					constraints.push_back(new Constraint(v->v,u->v,sep));
 					u->leftNeighbours.erase(v);
 				}
 			} else {
 				Node *l=v->firstAbove, *r=v->firstBelow;
 				if(l!=nullptr) {
-					double sep = (v->r->width()+l->r->width())/2.0;
+					double sep = (v->r.width()+l->r.width())/2.0;
 					constraints.push_back(new Constraint(l->v,v->v,sep));
 					l->firstBelow=v->firstBelow;
 				}
 				if(r!=nullptr) {
-					double sep = (v->r->width()+r->r->width())/2.0;
+					double sep = (v->r.width()+r->r.width())/2.0;
 					constraints.push_back(new Constraint(v->v,r->v,sep));
 					r->firstAbove=v->firstAbove;
 				}
@@ -213,14 +217,16 @@ int generateXConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 /**
  * Prepares constraints in order to apply VPSC vertically to remove ALL overlap.
  */
-int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constraint** &cs) {
+int generateYConstraints(const vector<Rectangle> &rs, Variable** vars,
+	  Constraint** &cs) {
+
 	vector<Event> events;
-	events.reserve(2 * n);
-	for(int i=0;i<n;i++) {
-		vars[i]->desiredPosition=rs[i]->getCentreY();
-		Node *v = new Node(vars[i],rs[i],rs[i]->getCentreY());
-		events.emplace_back(Open,v,rs[i]->getMinX());
-		events.emplace_back(Close,v,rs[i]->getMaxX());
+	events.reserve(2 * rs.size());
+	for(size_t i=0;i<rs.size();i++) {
+		vars[i]->desiredPosition=rs[i].getCentreY();
+		Node *v = new Node(vars[i],rs[i],rs[i].getCentreY());
+		events.emplace_back(Open,v,rs[i].getMinX());
+		events.emplace_back(Close,v,rs[i].getMaxX());
 	}
 	std::sort(events.begin(), events.end(), compare_events);
 	NodeSet scanline;
@@ -245,12 +251,12 @@ int generateYConstraints(const int n, Rectangle** rs, Variable** vars, Constrain
 			// Close event
 			Node *l=v->firstAbove, *r=v->firstBelow;
 			if(l!=nullptr) {
-				double sep = (v->r->height()+l->r->height())/2.0;
+				double sep = (v->r.height()+l->r.height())/2.0;
 				constraints.push_back(new Constraint(l->v,v->v,sep));
 				l->firstBelow=v->firstBelow;
 			}
 			if(r!=nullptr) {
-				double sep = (v->r->height()+r->r->height())/2.0;
+				double sep = (v->r.height()+r->r.height())/2.0;
 				constraints.push_back(new Constraint(v->v,r->v,sep));
 				r->firstAbove=v->firstAbove;
 			}
