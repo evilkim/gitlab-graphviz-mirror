@@ -13,15 +13,9 @@
 
 #include <common/memory.h>
 
-#if 0
-void glCompSetRemoveTexLabel(glCompSet * s, glCompFont * t)
-{
-}
-#endif
-
 static glCompTex *glCompSetAddNewTexture(glCompSet * s, int width,
 					 int height, unsigned char *data,
-					 int is2D,int fs)
+					 int is2D)
 {
     int Er, offset, ind;
     glCompTex *t;
@@ -94,7 +88,7 @@ glCompTex *glCompSetAddNewTexImage(glCompSet * s, int width, int height,
     glCompTex *t;
     if (!data)
 	return NULL;
-    t = glCompSetAddNewTexture(s, width, height, data, is2D,-1);
+    t = glCompSetAddNewTexture(s, width, height, data, is2D);
     if (!t)
 	return NULL;
     t->type = glTexImage;
@@ -102,18 +96,13 @@ glCompTex *glCompSetAddNewTexImage(glCompSet * s, int width, int height,
 
 }
 
-
-
-
 glCompTex *glCompSetAddNewTexLabel(glCompSet * s, char *def, int fs,
 				   char *text, int is2D)
 {
     int ind, Er, width, height;
-//      int ind2=0;
     glCompTex *t;
     cairo_surface_t *surface = NULL;
-    unsigned char *data;
-    data = (unsigned char *) 0;
+    unsigned char *data = NULL;
     Er = 0;
     if (!def)
 	return NULL;
@@ -136,7 +125,7 @@ glCompTex *glCompSetAddNewTexLabel(glCompSet * s, char *def, int fs,
     data = glCompCreatePangoTexture(def, fs, text, surface, &width, &height);
     if (!data)			/*pango error , */
 	Er = 1;
-    t = glCompSetAddNewTexture(s, width, height, data, is2D,fs);
+    t = glCompSetAddNewTexture(s, width, height, data, is2D);
     if (!t)
 	Er = 1;
     cairo_surface_destroy(surface);

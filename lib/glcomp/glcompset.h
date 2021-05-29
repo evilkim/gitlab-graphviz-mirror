@@ -26,7 +26,6 @@ extern "C" {
 				 GLfloat y);
     void glCompEmptyCommon(glCompCommon * c);
     extern glCompSet *glCompSetNew(int w, int h);
-    extern void glCompSetClear(glCompSet * s);
     extern int glCompSetDraw(glCompSet * s);
     extern int glCompSetHide(glCompSet * s);
     extern int glCompSetShow(glCompSet * s);
@@ -41,11 +40,6 @@ extern "C" {
     glCompObj *glCompGetObjByMouse(glCompSet * s, glCompMouse * m,
 				   int onlyClickable);
     extern void glCompGetObjectType(glCompObj * p);
-/*
-	change all components's fonts  in s 
-	to sourcefont
-*/
-/* void change_fonts(glCompSet * s,const texFont_t* sourcefont); */
 
 #ifdef __cplusplus
 }
