@@ -16,8 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FREE_STATE 1
-
 typedef struct {
     char *dummy;
 } Agraph_t;
