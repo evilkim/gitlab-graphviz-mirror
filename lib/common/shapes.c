@@ -602,11 +602,6 @@ void round_corners(GVJ_t * job, pointf * AF, int sides, int style, int filled)
 	gvrender_polygon(job, AF, sides, filled);
 
 	for (seg = 0; seg < sides; seg++) {
-#ifdef NOTDEF
-	    C[0] = B[3 * seg];
-	    C[1] = B[3 * seg + 3];
-	    gvrender_polyline(job, C, 2);
-#endif
 	    C[0] = B[3 * seg + 2];
 	    C[1] = B[3 * seg + 4];
 	    gvrender_polyline(job, C, 2);

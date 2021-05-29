@@ -235,11 +235,6 @@ static gstack_t *pop(gstack_t *s)
 	return rv;
 }
 
-#ifdef NOTDEF
-static item *cons_edge(Agedge_t *e)
-	{ return newitem(T_edge,e,NULL); }
-#endif
-
 static void delete_items(item *ilist)
 {
 	item	*p,*pn;
@@ -254,27 +249,11 @@ static void delete_items(item *ilist)
 	}
 }
 
-#ifdef NOTDEF
-static void initlist(list_t *list)
-{
-	list->first = list->last = NULL;
-}
-#endif
-
 static void deletelist(list_t *list)
 {
 	delete_items(list->first);
 	list->first = list->last = NULL;
 }
-
-#ifdef NOTDEF
-static void listins(list_t *list, item *v)
-{
-	v->next = list->first;
-	list->first = v;
-	if (list->last == NULL) list->last = v;
-}
-#endif
 
 static void listapp(list_t *list, item *v)
 {

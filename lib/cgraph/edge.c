@@ -519,17 +519,3 @@ CGRAPH_API Agedge_t *agopp(Agedge_t * e)
 {
     return AGOPP(e);
 }
-
-#ifdef NOTDEF
-	/* could be useful if we write relabel_edge */
-static Agedge_t *agfindedge_by_name(Agraph_t * g, Agnode_t * t,
-				    Agnode_t * h, char *name)
-{
-    uint64_t id;
-
-    if (agmapnametoid(agraphof(t), AGEDGE, name, &id, FALSE))
-	return agfindedge_by_id(g, t, h, id);
-    else
-	return NULL;
-}
-#endif

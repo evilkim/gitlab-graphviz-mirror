@@ -801,14 +801,6 @@ static void transpose(graph_t * g, int reverse)
 	GD_rank(g)[r].candidate = TRUE;
     do {
 	delta = 0;
-#ifdef NOTDEF
-	/* don't run both the upward and downward passes- they cancel. 
-	   i tried making it depend on whether an odd or even pass, 
-	   but that didn't help. */
-	for (r = GD_maxrank(g); r >= GD_minrank(g); r--)
-	    if (GD_rank(g)[r].candidate)
-		delta += transpose_step(g, r, reverse);
-#endif
 	for (r = GD_minrank(g); r <= GD_maxrank(g); r++) {
 	    if (GD_rank(g)[r].candidate) {
 		delta += transpose_step(g, r, reverse);
