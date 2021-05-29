@@ -128,10 +128,9 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
  * NB the quality value is not replaced as it might have been
  * manually changed in the config file.
  */
-static boolean gvplugin_activate(GVC_t * gvc, api_t api,
-                                 const char *typestr, const char *name,
-                                 const char *plugin_path,
-                                 gvplugin_installed_t * typeptr)
+static void gvplugin_activate(GVC_t * gvc, api_t api, const char *typestr,
+                              const char *name, const char *plugin_path,
+                              gvplugin_installed_t * typeptr)
 {
     gvplugin_available_t *pnext;
 
@@ -144,11 +143,10 @@ static boolean gvplugin_activate(GVC_t * gvc, api_t api,
             && (pnext->package->path != 0)
             && (strcasecmp(plugin_path, pnext->package->path) == 0)) {
             pnext->typeptr = typeptr;
-            return TRUE;
+            return;
         }
         pnext = pnext->next;
     }
-    return FALSE;
 }
 
 gvplugin_library_t *gvplugin_library_load(GVC_t * gvc, char *path)
