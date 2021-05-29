@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - out of bounds read when attempting to load a plugin whose name is ≥63
   characters
+- out of bounds read when examining a registered plugin whose name is ≥63
+  characters
 
 ## [2.47.2] - 2021-05-26
 
