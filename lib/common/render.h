@@ -140,7 +140,6 @@ extern "C" {
     extern pointf* simpleSplineRoute (pointf, pointf, Ppoly_t, int*, int);
     extern pointf *routepolylines(path* pp, int* npoints);
     extern int selfRightSpace (edge_t* e);
-    extern void setup_graph(GVC_t * gvc, graph_t * g);
     extern shape_kind shapeOf(node_t *);
     extern void shape_clip(node_t * n, pointf curve[4]);
     extern void make_simple_label (GVC_t * gvc, textlabel_t* rv);
