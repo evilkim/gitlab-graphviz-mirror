@@ -8,7 +8,7 @@ import stat
 import subprocess
 import sys
 import tempfile
-from typing import List, Optional, Tuple
+from typing import List
 import xml.etree.ElementTree as ET
 import pytest
 
