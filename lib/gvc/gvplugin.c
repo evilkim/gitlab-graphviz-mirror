@@ -261,9 +261,6 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     gvplugin_library_t *library;
     gvplugin_api_t *apis;
     gvplugin_installed_t *types;
-#define TYPBUFSIZ 64
-    char typ[TYPBUFSIZ] = {0};
-    char *dep = NULL;
     int i;
     api_t apidep;
 
@@ -297,11 +294,14 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
 
     /* iterate the linked list of plugins for this api */
     for (pnext = gvc->apis[api]; pnext; pnext = pnext->next) {
-        strncpy(typ, pnext->typestr, TYPBUFSIZ - 1);
-        dep = strchr(typ, ':');
-        if (dep)
-            *dep++ = '\0';
-        if (strlen(typ) != reqtyp_len || strncmp(typ, reqtyp, reqtyp_len))
+        const char *typ = pnext->typestr;
+        const char *typ_end = strchr(typ, ':');
+        size_t typ_len =
+          typ_end == NULL ? strlen(typ) : (size_t)(typ_end - typ);
+
+        const char *dep = typ_end == NULL ? NULL : (typ_end + strlen(":"));
+
+        if (typ_len != reqtyp_len || strncmp(typ, reqtyp, reqtyp_len))
             continue;           /* types empty or mismatched */
         if (dep && reqdep) {
             if (strlen(dep) != reqdep_len || strncmp(dep, reqdep, reqdep_len)) {

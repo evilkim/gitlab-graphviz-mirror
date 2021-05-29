@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - marginally more accurate computations in Smyrna sphere projection
 - Perl is no longer required to build Graphviz #2067
 - nop more reliably returns success and failure exit statuses
+- implicit 63 character limit on plugin names is removed in GVC
 
 ### Fixed
 
