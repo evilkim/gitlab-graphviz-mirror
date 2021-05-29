@@ -12,6 +12,7 @@
 
 #include <cgraph/cgraph.h>
 #include <ingraphs/ingraphs.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_UNISTD_H
@@ -21,7 +22,7 @@
 #include <getopt.h>
 
 char **Files;
-int chkOnly;
+bool chkOnly;
 
 static const char useString[] = "Usage: nop [-p?] <files>\n\
   -p - check for valid DOT\n\
@@ -42,7 +43,7 @@ static void init(int argc, char *argv[])
     while ((c = getopt(argc, argv, "p?")) != -1) {
 	switch (c) {
 	case 'p':
-	    chkOnly = 1;
+	    chkOnly = true;
 	    break;
 	case '?':
 	    if (optopt == '\0' || optopt == '?')
