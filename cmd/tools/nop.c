@@ -23,7 +23,7 @@
 char **Files;
 int chkOnly;
 
-static char *useString = "Usage: nop [-p?] <files>\n\
+static const char useString[] = "Usage: nop [-p?] <files>\n\
   -p - check for valid DOT\n\
   -? - print usage\n\
 If no files are specified, stdin is used\n";
