@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef INGRAPHS_H
-#define INGRAPHS_H
+#pragma once
 
 /* The ingraphs library works with libcgraph with all user-supplied data. For
  * this to work, the include file relies upon its context to supply a definition
@@ -53,5 +52,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif
