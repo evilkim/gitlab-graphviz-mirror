@@ -151,7 +151,7 @@ static void *dflt_open(char *f)
 
 static int dflt_close(void *fp)
 {
-    return fclose((FILE *) fp);
+    return fclose(fp);
 }
 
 typedef Agraph_t *(*xopengfn) (void *);
