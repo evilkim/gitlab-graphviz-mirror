@@ -46,11 +46,11 @@ static void init(int argc, char *argv[])
 	    break;
 	case '?':
 	    if (optopt == '\0' || optopt == '?')
-		usage(0);
+		usage(EXIT_SUCCESS);
 	    else {
 		fprintf(stderr, "nop: option -%c unrecognized\n",
 			optopt);
-		usage(1);
+		usage(EXIT_FAILURE);
 	    }
 	    break;
 	default:
@@ -83,5 +83,5 @@ int main(int argc, char **argv)
 	agclose(g);
     }
 
-    return(ig.errors | agerrors());
+    return (ig.errors != 0 || agerrors() != 0) ? EXIT_FAILURE : EXIT_SUCCESS;
 }
