@@ -262,7 +262,7 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     gvplugin_api_t *apis;
     gvplugin_installed_t *types;
 #define TYPBUFSIZ 64
-    char reqtyp[TYPBUFSIZ], typ[TYPBUFSIZ];
+    char reqtyp[TYPBUFSIZ] = {0}, typ[TYPBUFSIZ];
     char *reqdep, *dep = NULL, *reqpkg;
     int i;
     api_t apidep;

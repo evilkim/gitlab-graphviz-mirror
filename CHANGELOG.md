@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - no longer pass libcommon to the linker twice in mm2gv when building with CMake
 - Quartz plugin is now compiled with explicit `--tag=CC` to libtool #2065
 
+### Fixed
+
+- out of bounds read when attempting to load a plugin whose name is ≥63
+  characters
+
 ## [2.47.2] - 2021-05-26
 
 ### Added
