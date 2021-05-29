@@ -262,8 +262,8 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     gvplugin_api_t *apis;
     gvplugin_installed_t *types;
 #define TYPBUFSIZ 64
-    char reqtyp[TYPBUFSIZ] = {0}, typ[TYPBUFSIZ] = {0};
-    char *reqdep, *dep = NULL, *reqpkg;
+    char typ[TYPBUFSIZ] = {0};
+    char *dep = NULL;
     int i;
     api_t apidep;
 
@@ -273,15 +273,27 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     else
         apidep = api;
 
-    strncpy(reqtyp, str, TYPBUFSIZ - 1);
-    reqdep = strchr(reqtyp, ':');
-    if (reqdep) {
-        *reqdep++ = '\0';
-        reqpkg = strchr(reqdep, ':');
-        if (reqpkg)
-            *reqpkg++ = '\0';
-    } else
-        reqpkg = NULL;
+    const char *reqtyp = str;
+    const char *reqtyp_end = strchr(reqtyp, ':');
+    size_t reqtyp_len =
+      reqtyp_end == NULL ? strlen(reqtyp) : (size_t)(reqtyp_end - reqtyp);
+
+    const char *reqdep = NULL;
+    const char *reqdep_end = NULL;
+    size_t reqdep_len = 0;
+
+    const char *reqpkg = NULL;
+
+    if (reqtyp_end != NULL) {
+        reqdep = reqtyp_end + strlen(":");
+        reqdep_end = strchr(reqdep, ':');
+        if (reqdep_end != NULL) {
+            reqdep_len = (size_t)(reqdep_end - reqdep);
+            reqpkg = reqdep_end + strlen(":");
+        } else {
+            reqdep_len = strlen(reqdep);
+        }
+    }
 
     /* iterate the linked list of plugins for this api */
     for (pnext = gvc->apis[api]; pnext; pnext = pnext->next) {
@@ -289,10 +301,13 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
         dep = strchr(typ, ':');
         if (dep)
             *dep++ = '\0';
-        if (strcmp(typ, reqtyp))
+        if (strlen(typ) != reqtyp_len || strncmp(typ, reqtyp, reqtyp_len))
             continue;           /* types empty or mismatched */
-        if (dep && reqdep && strcmp(dep, reqdep))
-            continue;           /* dependencies not empty, but mismatched */
+        if (dep && reqdep) {
+            if (strlen(dep) != reqdep_len || strncmp(dep, reqdep, reqdep_len)) {
+                continue;           /* dependencies not empty, but mismatched */
+            }
+        }
         if (!reqpkg || strcmp(reqpkg, pnext->package->name) == 0) {
             /* found with no packagename constraints, or with required matching packagname */
 
