@@ -152,7 +152,6 @@ extern "C" {
     extern int wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs);
     extern void update_bb_bz(boxf *bb, pointf *cp);
     extern boxf xdotBB (graph_t* g);
-    extern char *findAttrColor(void *obj, attrsym_t *colorattr, char *dflt);
 
 #undef extern
 
