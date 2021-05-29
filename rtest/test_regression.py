@@ -948,3 +948,39 @@ def test_vcxproj_inclusive(vcxproj: Path):
 
     assert srcs1 == srcs2, \
       "mismatch between sources in {str(vcxproj)} and {str(filters)}"
+
+@pytest.mark.xfail()
+@pytest.mark.skipif(shutil.which("gvmap") is None, reason="gvmap not available")
+def test_gvmap_fclose():
+  """
+  gvmap should not attempt to fclose(NULL). This example will trigger a crash if
+  this bug has been reintroduced and Graphviz is built with ASan support.
+  """
+
+  # a reasonable input graph
+  input = 'graph "Alík: Na vlastní oči" {\n'                                  \
+          '	graph [bb="0,0,128.9,36",\n'                                      \
+          '		concentrate=true,\n'                                            \
+          '		overlap=prism,\n'                                               \
+          '		start=3\n'                                                      \
+          '	];\n'                                                             \
+          '	node [label="\\N"];\n'                                            \
+          '	{\n'                                                              \
+          '		bob	[height=0.5,\n'                                             \
+          '			pos="100.95,18",\n'                                           \
+          '			width=0.77632];\n'                                            \
+          '	}\n'                                                              \
+          '	{\n'                                                              \
+          '		alice	[height=0.5,\n'                                           \
+          '			pos="32.497,18",\n'                                           \
+          '			width=0.9027];\n'                                             \
+          '	}\n'                                                              \
+          '	alice -- bob	[pos="65.119,18 67.736,18 70.366,18 72.946,18"];\n' \
+          '	bob -- alice;\n'                                                  \
+          '}'
+
+  # pass this through gvmap
+  p = subprocess.Popen(["gvmap"], stdin=subprocess.PIPE)
+  p.communicate(input.encode("utf-8"))
+
+  assert p.returncode == 0
