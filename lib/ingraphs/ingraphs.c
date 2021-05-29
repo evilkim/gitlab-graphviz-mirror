@@ -211,5 +211,3 @@ char *fileName(ingraph_state * sp)
     } else
 	return "<stdin>";
 }
-
-#include "config.h"
