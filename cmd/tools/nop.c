@@ -53,6 +53,9 @@ static void init(int argc, char *argv[])
 		usage(1);
 	    }
 	    break;
+	default:
+	    fprintf(stderr, "nop: unexpected error\n");
+	    exit(EXIT_FAILURE);
 	}
     }
     argv += optind;
