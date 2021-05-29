@@ -151,7 +151,6 @@ extern "C" {
     extern void translate_bb(Agraph_t *, int);
     extern int wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs);
     extern void update_bb_bz(boxf *bb, pointf *cp);
-    extern void write_attributed_dot(graph_t *g, FILE *f);
     extern void write_canonical_dot(graph_t *g, FILE *f);
     extern boxf xdotBB (graph_t* g);
     extern char *findAttrColor(void *obj, attrsym_t *colorattr, char *dflt);
