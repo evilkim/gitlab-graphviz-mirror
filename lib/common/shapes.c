@@ -578,24 +578,6 @@ void round_corners(GVJ_t * job, pointf * AF, int sides, int style, int filled)
 	gvrender_beziercurve(job, pts+1, i-1, FALSE, FALSE, filled);
 	free (pts);
 	
-#if 0
-	if (filled) {
-	    pointf *pts = N_GNEW(2 * sides, pointf);
-		pts[j++] = B[4 * seg + 1];
-		pts[j++] = B[4 * seg + 2];
-	    }
-	    gvrender_polygon(job, pts, 2 * sides, filled);
-	    free(pts);
-	    for (seg = 0; seg < sides; seg++) {
-	    }
-	}
-	if (penc) {
-	    for (seg = 0; seg < sides; seg++) {
-		gvrender_polyline(job, B + 4 * seg + 1, 2);
-		gvrender_beziercurve(job, B + 4 * seg + 2, 4, FALSE, FALSE, FALSE);
-	    }
-	}
-#endif
 	break;
     case DIAGONALS:
 	/* diagonals are weird.  rewrite someday. */
@@ -2447,20 +2429,12 @@ static double invflip_angle(double angle, int rankdir)
 	    angle = -0.25 * M_PI;
 	else if (angle == M_PI * 0.5)
 	    angle = 0;
-/* clang complains about self assignment of double
-	else if (angle == M_PI * 0.25)
-	    angle = angle;
- */
 	else if (angle == 0)
 	    angle = M_PI * 0.5;
 	else if (angle == M_PI * -0.25)
 	    angle = M_PI * 0.75;
 	else if (angle == M_PI * -0.5)
 	    angle = M_PI;
-/* clang complains about self assignment of double
-	else if (angle == M_PI * -0.75)
-	    angle = angle;
- */
 	break;
     }
     return angle;
