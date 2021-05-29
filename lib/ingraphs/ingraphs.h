@@ -15,6 +15,7 @@
  * of Agraph_t.
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #ifdef __cplusplus
@@ -39,7 +40,7 @@ extern "C" {
 	int ingraphs;
 	void *fp;
 	ingdisc *fns;
-	char heap;
+	bool heap;
 	unsigned errors;
     } ingraph_state;
 

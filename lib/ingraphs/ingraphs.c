@@ -13,6 +13,7 @@
  * Written by Emden Gansner
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -95,9 +96,9 @@ new_ing(ingraph_state * sp, char **files, Agraph_t** graphs, ingdisc * disc)
 	    fprintf(stderr, "ingraphs: out of memory\n");
 	    return 0;
 	}
-	sp->heap = 1;
+	sp->heap = true;
     } else
-	sp->heap = 0;
+	sp->heap = false;
     if (graphs) {
 	sp->ingraphs = 1;
 	sp->u.Graphs = graphs;
