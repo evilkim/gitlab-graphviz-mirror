@@ -129,7 +129,9 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
  * manually changed in the config file.
  */
 static boolean gvplugin_activate(GVC_t * gvc, api_t api,
-                                 const char *typestr, char *name, char *path, gvplugin_installed_t * typeptr)
+                                 const char *typestr, char *name,
+                                 char *plugin_path,
+                                 gvplugin_installed_t * typeptr)
 {
     gvplugin_available_t *pnext;
 
@@ -140,7 +142,7 @@ static boolean gvplugin_activate(GVC_t * gvc, api_t api,
         if ((strcasecmp(typestr, pnext->typestr) == 0)
             && (strcasecmp(name, pnext->package->name) == 0)
             && (pnext->package->path != 0)
-            && (strcasecmp(path, pnext->package->path) == 0)) {
+            && (strcasecmp(plugin_path, pnext->package->path) == 0)) {
             pnext->typeptr = typeptr;
             return TRUE;
         }
