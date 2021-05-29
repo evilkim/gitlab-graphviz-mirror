@@ -21,8 +21,8 @@
 
 #include <getopt.h>
 
-char **Files;
-bool chkOnly;
+static char **Files;
+static bool chkOnly;
 
 static const char useString[] = "Usage: nop [-p?] <files>\n\
   -p - check for valid DOT\n\
