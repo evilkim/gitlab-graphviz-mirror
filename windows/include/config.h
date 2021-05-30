@@ -33,9 +33,6 @@
 /* Define if you have the ann library */
 #define HAVE_ANN 1
 
-/* Define to 1 if you have the `cbrt' function. */
-//#define HAVE_CBRT 1
-
 /* Define to 1 if you have the `deflateBound' function. */
 /* #undef HAVE_DEFLATEBOUND */
 
