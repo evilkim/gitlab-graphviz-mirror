@@ -34,9 +34,6 @@ typedef struct tna_t {
 
 #define POINTSIZE sizeof (Ppoint_t)
 
-#define LT(pa, pbp) ((pa.y > pbp->y) || ((pa.y == pbp->y) && (pa.x < pbp->x)))
-#define GT(pa, pbp) ((pa.y < pbp->y) || ((pa.y == pbp->y) && (pa.x > pbp->x)))
-
 typedef struct p2e_t {
     Ppoint_t *pp;
     Pedge_t *ep;
