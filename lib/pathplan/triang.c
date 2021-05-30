@@ -15,10 +15,6 @@
 #include <pathplan/pathutil.h>
 #include <pathplan/tri.h>
 
-typedef struct lvertex_2_t {
-    double x, y;
-} lvertex_2_t;
-
 typedef struct dpd_triangle {
     Ppoint_t *v[3];
 } ltriangle_t;
