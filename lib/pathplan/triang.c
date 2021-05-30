@@ -15,10 +15,6 @@
 #include <pathplan/pathutil.h>
 #include <pathplan/tri.h>
 
-typedef struct dpd_triangle {
-    Ppoint_t *v[3];
-} ltriangle_t;
-
 #define ISCCW 1
 #define ISCW  2
 #define ISON  3
