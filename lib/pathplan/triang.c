@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -19,15 +19,10 @@
 #define ISCW  2
 #define ISON  3
 
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif
-
 static int dpd_ccw(Ppoint_t *, Ppoint_t *, Ppoint_t *);
-static int dpd_isdiagonal(int, int, Ppoint_t **, int);
-static int dpd_intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
-static int dpd_between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
+static bool dpd_isdiagonal(int, int, Ppoint_t **, int);
+static bool dpd_intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
+static bool dpd_between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int triangulate(Ppoint_t ** pointp, int pointn,
 			void (*fn) (void *, Ppoint_t *), void *vc);
 
@@ -102,7 +97,7 @@ triangulate(Ppoint_t ** pointp, int pointn,
 }
 
 /* check if (i, i + 2) is a diagonal */
-static int dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
+static bool dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
 {
     int ip1, im1, j, jp1, res;
 
@@ -121,7 +116,7 @@ static int dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
                 (dpd_ccw (pointp[ip2], pointp[i], pointp[im1]) != ISCW));
 */
     if (!res) {
-	return FALSE;
+	return false;
     }
 
     /* check against all other edges */
@@ -130,14 +125,14 @@ static int dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
 	if (!(j == i || jp1 == i || j == ip2 || jp1 == ip2))
 	    if (dpd_intersects
 		(pointp[i], pointp[ip2], pointp[j], pointp[jp1])) {
-		return FALSE;
+		return false;
 	    }
     }
-    return TRUE;
+    return true;
 }
 
 /* line to line intersection */
-static int dpd_intersects(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc,
+static bool dpd_intersects(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc,
 			  Ppoint_t * pd)
 {
     int ccw1, ccw2, ccw3, ccw4;
@@ -146,7 +141,7 @@ static int dpd_intersects(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc,
 	dpd_ccw(pc, pd, pa) == ISON || dpd_ccw(pc, pd, pb) == ISON) {
 	if (dpd_between(pa, pb, pc) || dpd_between(pa, pb, pd) ||
 	    dpd_between(pc, pd, pa) || dpd_between(pc, pd, pb))
-	    return TRUE;
+	    return true;
     } else {
 	ccw1 = dpd_ccw(pa, pb, pc) == ISCCW ? 1 : 0;
 	ccw2 = dpd_ccw(pa, pb, pd) == ISCCW ? 1 : 0;
@@ -154,17 +149,17 @@ static int dpd_intersects(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc,
 	ccw4 = dpd_ccw(pc, pd, pb) == ISCCW ? 1 : 0;
 	return (ccw1 ^ ccw2) && (ccw3 ^ ccw4);
     }
-    return FALSE;
+    return false;
 }
 
-static int dpd_between(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc)
+static bool dpd_between(Ppoint_t * pa, Ppoint_t * pb, Ppoint_t * pc)
 {
     Ppoint_t pba, pca;
 
     pba.x = pb->x - pa->x, pba.y = pb->y - pa->y;
     pca.x = pc->x - pa->x, pca.y = pc->y - pa->y;
     if (dpd_ccw(pa, pb, pc) != ISON)
-	return FALSE;
+	return false;
     return pca.x * pba.x + pca.y * pba.y >= 0 &&
 	pca.x * pca.x + pca.y * pca.y <= pba.x * pba.x + pba.y * pba.y;
 }
