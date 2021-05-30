@@ -110,10 +110,6 @@ static bool dpd_isdiagonal(int i, int ip2, Ppoint_t ** pointp, int pointn)
     /* Assume (i - 1, i, i + 1) not collinear. */
     else
 	res = dpd_ccw(pointp[i], pointp[ip2], pointp[ip1]) == ISCW;
-/*
-		&&
-                (dpd_ccw (pointp[ip2], pointp[i], pointp[im1]) != ISCW));
-*/
     if (!res) {
 	return false;
     }
