@@ -100,10 +100,10 @@ def test_tools(tool):
     assert has_pass, "could not find passing execution"
     assert has_fail, "could not find failing execution (#1934 fixed?)"
 
-  assert ret == 0, f"`{tool} -?` failed"
+  assert ret == 0, f"`{tool} -?` failed. Output was: {output}"
 
   assert re.match("usage", output, flags=re.IGNORECASE) is not None, \
-    f"{tool} -? did not show usage"
+    f"{tool} -? did not show usage. Output was: {output}"
 
   # Test unsupported option
   returncode = subprocess.call(
