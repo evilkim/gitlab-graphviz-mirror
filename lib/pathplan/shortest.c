@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -21,11 +21,6 @@
 
 #define DQ_FRONT 1
 #define DQ_BACK  2
-
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif
 
 #define prerror(msg) \
         fprintf (stderr, "libpath/%s:%d: %s\n", __FILE__, __LINE__, (msg))
@@ -71,18 +66,18 @@ static Ppoint_t *ops;
 static int opn;
 
 static int triangulate(pointnlink_t **, int);
-static int isdiagonal(int, int, pointnlink_t **, int);
+static bool isdiagonal(int, int, pointnlink_t **, int);
 static int loadtriangle(pointnlink_t *, pointnlink_t *, pointnlink_t *);
 static void connecttris(int, int);
-static int marktripath(int, int);
+static bool marktripath(int, int);
 
 static void add2dq(int, pointnlink_t *);
 static void splitdq(int, int);
 static int finddqsplit(pointnlink_t *);
 
 static int ccw(Ppoint_t *, Ppoint_t *, Ppoint_t *);
-static int intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
-static int between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
+static bool intersects(Ppoint_t *, Ppoint_t *, Ppoint_t *, Ppoint_t *);
+static bool between(Ppoint_t *, Ppoint_t *, Ppoint_t *);
 static int pointintri(int, Ppoint_t *);
 
 static int growpnls(int);
@@ -324,7 +319,7 @@ static int triangulate(pointnlink_t ** pnlps, int pnln)
 }
 
 /* check if (i, i + 2) is a diagonal */
-static int isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
+static bool isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
 		      int pnln)
 {
     int pnlip1, pnlim1, pnlj, pnljp1, res;
@@ -345,7 +340,7 @@ static int isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
 	res = (ccw(pnlps[pnli]->pp, pnlps[pnlip2]->pp,
 		   pnlps[pnlip1]->pp) == ISCW);
     if (!res)
-	return FALSE;
+	return false;
 
     /* check against all other edges */
     for (pnlj = 0; pnlj < pnln; pnlj++) {
@@ -354,9 +349,9 @@ static int isdiagonal(int pnli, int pnlip2, pointnlink_t ** pnlps,
 	      (pnlj == pnlip2) || (pnljp1 == pnlip2)))
 	    if (intersects(pnlps[pnli]->pp, pnlps[pnlip2]->pp,
 			   pnlps[pnlj]->pp, pnlps[pnljp1]->pp))
-		return FALSE;
+		return false;
     }
-    return TRUE;
+    return true;
 }
 
 static int loadtriangle(pointnlink_t * pnlap, pointnlink_t * pnlbp,
@@ -403,21 +398,21 @@ static void connecttris(int tri1, int tri2)
 }
 
 /* find and mark path from trii, to trij */
-static int marktripath(int trii, int trij)
+static bool marktripath(int trii, int trij)
 {
     int ei;
 
     if (tris[trii].mark)
-	return FALSE;
+	return false;
     tris[trii].mark = 1;
     if (trii == trij)
-	return TRUE;
+	return true;
     for (ei = 0; ei < 3; ei++)
 	if (tris[trii].e[ei].rtp &&
 	    marktripath(tris[trii].e[ei].rtp - tris, trij))
-	    return TRUE;
+	    return true;
     tris[trii].mark = 0;
-    return FALSE;
+    return false;
 }
 
 /* add a new point to the deque, either front or back */
@@ -470,7 +465,7 @@ static int ccw(Ppoint_t * p1p, Ppoint_t * p2p, Ppoint_t * p3p)
 }
 
 /* line to line intersection */
-static int intersects(Ppoint_t * pap, Ppoint_t * pbp,
+static bool intersects(Ppoint_t * pap, Ppoint_t * pbp,
 		      Ppoint_t * pcp, Ppoint_t * pdp)
 {
     int ccw1, ccw2, ccw3, ccw4;
@@ -479,7 +474,7 @@ static int intersects(Ppoint_t * pap, Ppoint_t * pbp,
 	ccw(pcp, pdp, pap) == ISON || ccw(pcp, pdp, pbp) == ISON) {
 	if (between(pap, pbp, pcp) || between(pap, pbp, pdp) ||
 	    between(pcp, pdp, pap) || between(pcp, pdp, pbp))
-	    return TRUE;
+	    return true;
     } else {
 	ccw1 = (ccw(pap, pbp, pcp) == ISCCW) ? 1 : 0;
 	ccw2 = (ccw(pap, pbp, pdp) == ISCCW) ? 1 : 0;
@@ -487,18 +482,18 @@ static int intersects(Ppoint_t * pap, Ppoint_t * pbp,
 	ccw4 = (ccw(pcp, pdp, pbp) == ISCCW) ? 1 : 0;
 	return (ccw1 ^ ccw2) && (ccw3 ^ ccw4);
     }
-    return FALSE;
+    return false;
 }
 
 /* is pbp between pap and pcp */
-static int between(Ppoint_t * pap, Ppoint_t * pbp, Ppoint_t * pcp)
+static bool between(Ppoint_t * pap, Ppoint_t * pbp, Ppoint_t * pcp)
 {
     Ppoint_t p1, p2;
 
     p1.x = pbp->x - pap->x, p1.y = pbp->y - pap->y;
     p2.x = pcp->x - pap->x, p2.y = pcp->y - pap->y;
     if (ccw(pap, pbp, pcp) != ISON)
-	return FALSE;
+	return false;
     return (p2.x * p1.x + p2.y * p1.y >= 0) &&
 	(p2.x * p2.x + p2.y * p2.y <= p1.x * p1.x + p1.y * p1.y);
 }
