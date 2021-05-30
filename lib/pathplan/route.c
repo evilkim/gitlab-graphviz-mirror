@@ -34,11 +34,6 @@ typedef struct tna_t {
 
 #define POINTSIZE sizeof (Ppoint_t)
 
-typedef struct elist_t {
-    Pedge_t *ep;
-    struct elist_t *next, *prev;
-} elist_t;
-
 static jmp_buf jbuf;
 
 static Ppoint_t *ops;
