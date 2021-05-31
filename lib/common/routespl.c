@@ -346,10 +346,8 @@ limitBoxes (boxf* boxes, int boxn, const pointf *pps, int pn, int delta)
  *     or graphs/directed/records.gv fails */
 #define FUDGE .0001
 		if (sp[0].y <= boxes[bi].UR.y+FUDGE && sp[0].y >= boxes[bi].LL.y-FUDGE) {
-		    if (boxes[bi].LL.x > sp[0].x)
-			boxes[bi].LL.x = sp[0].x;
-		    if (boxes[bi].UR.x < sp[0].x)
-			boxes[bi].UR.x = sp[0].x;
+		    boxes[bi].LL.x = fmin(boxes[bi].LL.x, sp[0].x);
+		    boxes[bi].UR.x = fmax(boxes[bi].UR.x, sp[0].x);
 		}
 	    }
 	}
