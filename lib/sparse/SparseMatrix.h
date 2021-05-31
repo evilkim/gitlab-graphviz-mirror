@@ -106,8 +106,6 @@ SparseMatrix SparseMatrix_get_augmented(SparseMatrix A);
 */
 SparseMatrix SparseMatrix_to_square_matrix(SparseMatrix A, int bipartite_options);
 
-SparseMatrix SparseMatrix_largest_component(SparseMatrix A);
-
 /* columns with <= threhold entries are deleted */
 SparseMatrix SparseMatrix_delete_empty_columns(SparseMatrix A, int **new2old, int *nnew, int inplace);
 SparseMatrix SparseMatrix_delete_sparse_columns(SparseMatrix A, int threshold, int **new2old, int *nnew, int inplace);

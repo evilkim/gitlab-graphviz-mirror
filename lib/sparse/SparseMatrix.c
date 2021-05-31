@@ -2818,36 +2818,6 @@ SparseMatrix SparseMatrix_get_submatrix(SparseMatrix A, int nrow, int ncol, int 
 
 }
 
-SparseMatrix SparseMatrix_largest_component(SparseMatrix A){
-  SparseMatrix B;
-  int ncomp;
-  int *comps = NULL;
-  int *comps_ptr = NULL;
-  int i;
-  int nmax, imax = 0;
-
-  if (!A) return NULL;
-  A = SparseMatrix_to_square_matrix(A, BIPARTITE_RECT);
-  SparseMatrix_weakly_connected_components(A, &ncomp, &comps, &comps_ptr);
-  if (ncomp == 1) {
-    B = A;
-  } else {
-    nmax = 0;
-    for (i = 0; i < ncomp; i++){
-      if (nmax < comps_ptr[i+1] - comps_ptr[i]){
-	nmax = comps_ptr[i+1] - comps_ptr[i];
-	imax = i;
-      }
-    }
-    B = SparseMatrix_get_submatrix(A, nmax, nmax, &comps[comps_ptr[imax]], &comps[comps_ptr[imax]]);
-  }
-  FREE(comps);
-  FREE(comps_ptr);
-  return B;
-
-
-}
-
 SparseMatrix SparseMatrix_delete_sparse_columns(SparseMatrix A, int threshold, int **new2old, int *nnew, int inplace){
   /* delete sparse columns of threshold or less entries in A. After than number of columns will be nnew, and 
      the mapping from new matrix column to old matrix column is new2old.
