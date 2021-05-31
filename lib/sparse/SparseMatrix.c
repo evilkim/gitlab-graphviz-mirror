@@ -2498,27 +2498,6 @@ real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggr
   return (real) nlevel0 - 1;
 }
 
-int SparseMatrix_connectedQ(SparseMatrix A0){
-  int root = 0, nlevel, *levelset_ptr = NULL, *levelset = NULL, *mask = NULL, connected;
-  SparseMatrix A = A0;
-
-  if (!SparseMatrix_is_symmetric(A, TRUE)){
-    if (A->m != A->n) return FALSE;
-    A = SparseMatrix_symmetrize(A, TRUE);
-  }
-
-  SparseMatrix_level_sets(A, root, &nlevel, &levelset_ptr, &levelset, &mask, TRUE);
-  connected = (levelset_ptr[nlevel] == A->m);
-
-  FREE(levelset_ptr);
-  FREE(levelset);
-  FREE(mask);
-  if (A != A0) SparseMatrix_delete(A);
-
-  return connected;
-}
-
-
 void SparseMatrix_decompose_to_supervariables(SparseMatrix A, int *ncluster, int **cluster, int **clusterp){
   /* nodes for a super variable if they share exactly the same neighbors. This is know as modules in graph theory.
      We work on columns only and columns with the same pattern are grouped as a super variable
