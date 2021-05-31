@@ -2818,45 +2818,6 @@ SparseMatrix SparseMatrix_get_submatrix(SparseMatrix A, int nrow, int ncol, int 
 
 }
 
-SparseMatrix SparseMatrix_exclude_submatrix(SparseMatrix A, int nrow, int ncol, int *rindices, int *cindices){
-  /* get a submatrix by excluding rows and columns */
-  int *r, *c, nr, nc, i;
-  SparseMatrix B;
-
-  if (nrow <= 0 && ncol <= 0) return A;
-
-  r = MALLOC(sizeof(int)*((size_t)A->m));
-  c = MALLOC(sizeof(int)*((size_t)A->n));
-
-  for (i = 0; i < A->m; i++) r[i] = i;
-  for (i = 0; i < A->n; i++) c[i] = i;
-  for (i = 0; i < nrow; i++) {
-    if (rindices[i] >= 0 && rindices[i] < A->m){
-      r[rindices[i]] = -1;
-    }
-  }
-  for (i = 0; i < ncol; i++) {
-    if (cindices[i] >= 0 && cindices[i] < A->n){
-      c[cindices[i]] = -1;
-    }
-  }
-
-  nr = nc = 0;
-  for (i = 0; i < A->m; i++) {
-    if (r[i] > 0) r[nr++] = r[i];
-  }
-  for (i = 0; i < A->n; i++) {
-    if (c[i] > 0) c[nc++] = c[i];
-  }
-
-  B = SparseMatrix_get_submatrix(A, nr, nc, r, c);
-
-  FREE(r);
-  FREE(c);
-  return B;
-
-}
-
 SparseMatrix SparseMatrix_largest_component(SparseMatrix A){
   SparseMatrix B;
   int ncomp;

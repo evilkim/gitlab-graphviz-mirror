@@ -95,7 +95,6 @@ void SparseMatrix_level_sets_khops(int khops, SparseMatrix A, int root, int *nle
 void SparseMatrix_weakly_connected_components(SparseMatrix A0, int *ncomp, int **comps, int **comps_ptr);
 void SparseMatrix_decompose_to_supervariables(SparseMatrix A, int *ncluster, int **cluster, int **clusterp);
 SparseMatrix SparseMatrix_get_submatrix(SparseMatrix A, int nrow, int ncol, int *rindices, int *cindices);
-SparseMatrix SparseMatrix_exclude_submatrix(SparseMatrix A, int nrow, int ncol, int *rindices, int *cindices);
 
 SparseMatrix SparseMatrix_get_augmented(SparseMatrix A);
 
