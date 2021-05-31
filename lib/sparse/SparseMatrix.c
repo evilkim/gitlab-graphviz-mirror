@@ -2097,33 +2097,6 @@ SparseMatrix SparseMatrix_get_real_adjacency_matrix_symmetrized(SparseMatrix A){
   return A;
 }
 
-SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A){
-  int i, j;
-  real max, *a;
-
-  if (!A) return A;
-  if (A->format != FORMAT_CSR && A->type != MATRIX_TYPE_REAL) {
-#ifdef DEBUG
-    printf("only CSR and real matrix supported.\n");
-#endif
-    return A;
-  }
-
-  a = (real*) A->a;
-  for (i = 0; i < A->m; i++){
-    max = 0;
-    for (j = A->ia[i]; j < A->ia[i+1]; j++){
-      max = MAX(fabs(a[j]), max);
-    }
-    if (max != 0){
-      for (j = A->ia[i]; j < A->ia[i+1]; j++){
-	a[j] /= max;
-      }
-    }
-  }
-  return A;
-}
-
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x)){
   int i, j;
   real *a;
