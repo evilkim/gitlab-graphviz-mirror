@@ -2120,30 +2120,6 @@ SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x)){
   return A;
 }
 
-SparseMatrix SparseMatrix_apply_fun_general(SparseMatrix A, void (*fun)(int i, int j, int n, double *x)){
-  int i, j;
-  real *a;
-  int len = 1;
-
-  if (!A) return A;
-  if (A->format != FORMAT_CSR || (A->type != MATRIX_TYPE_REAL&&A->type != MATRIX_TYPE_COMPLEX)) {
-#ifdef DEBUG
-    printf("SparseMatrix_apply_fun: only CSR and real/complex matrix supported.\n");
-#endif
-    return A;
-  }
-  if (A->type == MATRIX_TYPE_COMPLEX) len = 2;
-
-  a = (real*) A->a;
-  for (i = 0; i < A->m; i++){
-    for (j = A->ia[i]; j < A->ia[i+1]; j++){
-      fun(i, A->ja[j], len, &a[len*j]);
-    }
-  }
-  return A;
-}
-
-
 SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon){
   int i, j, *ia, *ja, nz, sta;
 
