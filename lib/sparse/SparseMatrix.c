@@ -2868,10 +2868,6 @@ SparseMatrix SparseMatrix_delete_sparse_columns(SparseMatrix A, int threshold, i
 
 }
 
-SparseMatrix SparseMatrix_delete_empty_columns(SparseMatrix A, int **new2old, int *nnew, int inplace){
-  return SparseMatrix_delete_sparse_columns(A, 0, new2old, nnew, inplace);
-}
-
 SparseMatrix SparseMatrix_set_entries_to_real_one(SparseMatrix A){
   real *a;
   int i;
