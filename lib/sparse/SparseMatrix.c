@@ -2498,11 +2498,6 @@ real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggr
   return (real) nlevel0 - 1;
 }
 
-real SparseMatrix_pseudo_diameter_only(SparseMatrix A){
-  int end1, end2, connectedQ;
-  return SparseMatrix_pseudo_diameter_unweighted(A, 0, FALSE, &end1, &end2, &connectedQ);
-}
-
 int SparseMatrix_connectedQ(SparseMatrix A0){
   int root = 0, nlevel, *levelset_ptr = NULL, *levelset = NULL, *mask = NULL, connected;
   SparseMatrix A = A0;
