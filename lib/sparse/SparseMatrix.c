@@ -2818,56 +2818,6 @@ SparseMatrix SparseMatrix_get_submatrix(SparseMatrix A, int nrow, int ncol, int 
 
 }
 
-SparseMatrix SparseMatrix_delete_sparse_columns(SparseMatrix A, int threshold, int **new2old, int *nnew, int inplace){
-  /* delete sparse columns of threshold or less entries in A. After than number of columns will be nnew, and 
-     the mapping from new matrix column to old matrix column is new2old.
-     On entry, if new2old is NULL, it is allocated.
-  */
-  SparseMatrix B;
-  int *ia, *ja;
-  int *old2new;
-  int i;
-  old2new = MALLOC(sizeof(int)*((size_t)A->n));
-  for (i = 0; i < A->n; i++) old2new[i] = -1;
-
-  *nnew = 0;
-  B = SparseMatrix_transpose(A);
-  ia = B->ia; ja = B->ja;
-  for (i = 0; i < B->m; i++){
-    if (ia[i+1] > ia[i] + threshold){
-      (*nnew)++;
-    }
-  }
-  if (!(*new2old)) *new2old = MALLOC(sizeof(int)*((size_t)(*nnew)));
-
-  *nnew = 0;
-  for (i = 0; i < B->m; i++){
-    if (ia[i+1] > ia[i] + threshold){
-      (*new2old)[*nnew] = i;
-      old2new[i] = *nnew;
-      (*nnew)++;
-    }
-  }
-  SparseMatrix_delete(B);
-
-  if (inplace){
-    B = A;
-  } else {
-    B = SparseMatrix_copy(A);
-  }
-  ia = B->ia; ja = B->ja;
-  for (i = 0; i < ia[B->m]; i++){
-    assert(old2new[ja[i]] >= 0);
-    ja[i] = old2new[ja[i]];
-  }
-  B->n = *nnew;
-
-  FREE(old2new);
-  return B;
-  
-
-}
-
 SparseMatrix SparseMatrix_set_entries_to_real_one(SparseMatrix A){
   real *a;
   int i;
