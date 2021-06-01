@@ -70,7 +70,10 @@ if (NOT WIN32)
 endif()
 
 if (${with_ortho})
-    target_link_libraries(gvc PUBLIC ortho)
+    target_link_libraries(gvc PRIVATE
+        $<TARGET_OBJECTS:ortho_obj>
+    )
+    target_link_libraries(gvc PRIVATE ortho)
 endif()
 
 # Installation location of library files
