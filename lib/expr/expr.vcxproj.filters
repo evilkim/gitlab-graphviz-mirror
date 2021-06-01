@@ -56,9 +56,6 @@
     <ClCompile Include="exopen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="exrewind.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="exstash.c">
       <Filter>Source Files</Filter>
     </ClCompile>

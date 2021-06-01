@@ -273,7 +273,6 @@ struct Excc_s				/* excc() state			*/
 
 extern Exnode_t*	excast(Expr_t*, Exnode_t*, int, Exnode_t*, int);
 extern Exnode_t*	exnoncast(Exnode_t *);
-extern int		excc(Excc_t*, const char*, Exid_t*, int);
 extern int		exccclose(Excc_t*);
 extern Excc_t*		exccopen(Expr_t*, Exccdisc_t*);
 extern void		exclose(Expr_t*, int);
@@ -290,9 +289,7 @@ extern char*		exnospace(void);
 extern Expr_t*		exopen(Exdisc_t*);
 extern int		expop(Expr_t*);
 extern int		expush(Expr_t*, const char*, int, const char*, Sfio_t*);
-extern int		exrewind(Expr_t*);
 extern char*		exstash(Sfio_t*, Vmalloc_t*);
-extern void		exstatement(Expr_t*);
 extern int		extoken_fn(Expr_t*);
 extern char*		exstring(Expr_t *, char *);
 extern void*		exstralloc(Expr_t *, void *, size_t);

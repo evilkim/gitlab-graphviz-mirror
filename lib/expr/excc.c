@@ -685,33 +685,6 @@ exccclose(Excc_t* cc)
 }
 
 /*
- * generate the program for name or sym coerced to type
- */
-
-int
-excc(Excc_t* cc, const char* name, Exid_t* sym, int type)
-{
-	char*	t;
-
-	if (!cc)
-		return -1;
-	if (!sym)
-		sym = name ? dtmatch(cc->expr->symbols, name) : &cc->expr->main;
-	if (sym && sym->lex == PROCEDURE && sym->value)
-	{
-		t = extype(type);
-		sfprintf(cc->ccdisc->text, "\n%s %s%s(data) char** data; {\n%s _%svalue = 0;\n", t, cc->id, sym->name, t, cc->id);
-		gen(cc, sym->value->data.procedure.body);
-		sfprintf(cc->ccdisc->text, ";\n");
-		if (cc->lastop != RETURN)
-			sfprintf(cc->ccdisc->text, "return _%svalue;\n", cc->id);
-		sfprintf(cc->ccdisc->text, "}\n");
-		return 0;
-	}
-	return -1;
-}
-
-/*
  * dump an expression tree on sp
  */
 
