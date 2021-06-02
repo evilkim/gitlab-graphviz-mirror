@@ -18,12 +18,10 @@ glCompLabel *glCompLabelNew(glCompObj * par, GLfloat x, GLfloat y,
 			    char *text)
 {
     glCompLabel *p;
-//      glCompCommon* parent=&par->common;
     p = NEW(glCompLabel);
     glCompInitCommon((glCompObj *) p, par, x, y);
     p->objType = glLabelObj;
     p->transparent=1;
-    //typedef enum {glPanelObj,glbuttonObj,glLabelObj,glImageObj}glObjType;
 
     p->text = strdup(text);
     p->common.font = glNewFontFromParent ((glCompObj*)p, text);
