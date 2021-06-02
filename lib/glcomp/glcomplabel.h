@@ -18,7 +18,6 @@ extern "C" {
 
     extern glCompLabel *glCompLabelNew(glCompObj * par, GLfloat x,
 				       GLfloat y, char *text);
-    extern int glCompSetAddLabel(glCompSet * s, glCompLabel * p);
     extern int glCompSetRemoveLabel(glCompSet * s, glCompLabel * p);
 
 /*events*/
