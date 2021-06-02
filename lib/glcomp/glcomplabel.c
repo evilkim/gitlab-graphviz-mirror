@@ -86,14 +86,6 @@ void glCompLabelSetFontName(glCompLabel * p, char* fontName)
     update_font(p,p->text,fontName,temp->size);
 }
 
-void glCompLabelDoubleClick(glCompObj * obj, GLfloat x, GLfloat y,
-			    glMouseButtonType t)
-{
-    /*Put your internal code here */
-    if (((glCompLabel *) obj)->common.callbacks.doubleclick)
-	((glCompLabel *) obj)->common.callbacks.doubleclick(obj, x, y, t);
-}
-
 void glCompLabelMouseDown(glCompObj * obj, GLfloat x, GLfloat y,
 			  glMouseButtonType t)
 {
