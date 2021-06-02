@@ -70,11 +70,6 @@ static void update_font(glCompLabel * p,char* text,char* desc,int fs)
 
 }
 
-void glCompLabelSetText(glCompLabel * p, char *text)
-{
-    glCompFont* temp=p->common.font;
-    update_font(p,text,temp->fontdesc,temp->size);
-}
 void glCompLabelSetFontSize(glCompLabel * p, int size)
 {
     glCompFont* temp=p->common.font;
