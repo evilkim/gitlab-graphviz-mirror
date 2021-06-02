@@ -21,8 +21,6 @@ extern "C" {
 
 /*events*/
     extern int glCompLabelDraw(glCompLabel * p);
-    extern void glCompLabelMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
-				   glMouseButtonType t);
 
     extern void glCompLabelSetText(glCompLabel * p, char *text);
     extern void glCompLabelSetFontSize(glCompLabel * p, int size);
