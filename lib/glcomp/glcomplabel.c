@@ -86,13 +86,6 @@ void glCompLabelSetFontName(glCompLabel * p, char* fontName)
     update_font(p,p->text,fontName,temp->size);
 }
 
-void glCompLabelMouseOver(glCompObj * obj, GLfloat x, GLfloat y)
-{
-    /*Put your internal code here */
-    if (((glCompLabel *) obj)->common.callbacks.mouseover)
-	((glCompLabel *) obj)->common.callbacks.mouseover(obj, x, y);
-}
-
 void glCompLabelMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
 			glMouseButtonType t)
 {
