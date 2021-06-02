@@ -22,8 +22,6 @@ extern "C" {
 /*events*/
     extern int glCompLabelDraw(glCompLabel * p);
 
-    extern void glCompLabelSetFontName(glCompLabel * p, char* fontName);
-
 #ifdef __cplusplus
 }
 #endif

@@ -54,24 +54,3 @@ int glCompLabelDraw(glCompLabel * p)
     return 1;
 
 }
-static void update_font(glCompLabel * p,char* text,char* desc,int fs)
-{
-
-    glCompFont* temp=p->common.font;
-    if (strlen(text) >512)
-	return ;
-
-    p->common.font=glNewFont (p->common.compset,text,&p->common.color,temp->type,desc,fs,temp->is2D);
-    if(temp)
-	glDeleteFont(temp);
-    free(p->text);
-    p->text = strdup(text);
-
-
-}
-
-void glCompLabelSetFontName(glCompLabel * p, char* fontName)
-{
-    glCompFont* temp=p->common.font;
-    update_font(p,p->text,fontName,temp->size);
-}
