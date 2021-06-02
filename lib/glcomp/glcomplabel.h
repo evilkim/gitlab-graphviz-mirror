@@ -21,8 +21,6 @@ extern "C" {
 
 /*events*/
     extern int glCompLabelDraw(glCompLabel * p);
-    extern void glCompLabelClick(glCompObj * o, GLfloat x, GLfloat y,
-				 glMouseButtonType t);
     extern void glCompLabelDoubleClick(glCompObj * obj, GLfloat x,
 				       GLfloat y, glMouseButtonType t);
     extern void glCompLabelMouseDown(glCompObj * obj, GLfloat x, GLfloat y,
