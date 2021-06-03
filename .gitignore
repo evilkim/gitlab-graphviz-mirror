@@ -132,7 +132,6 @@ tclpkg/gv/gv_ocaml.cpp
 tclpkg/gv/gv_perl.cpp
 tclpkg/gv/gv_php.cpp
 tclpkg/gv/gv_python.cpp
-tclpkg/gv/gv_python2.cpp
 tclpkg/gv/gv_python3.cpp
 tclpkg/gv/gv_ruby.cpp
 tclpkg/gv/gv_sharp.cpp

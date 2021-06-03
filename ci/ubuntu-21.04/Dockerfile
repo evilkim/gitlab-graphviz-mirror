@@ -72,8 +72,6 @@ libperl-dev \
 php-dev \
 libsodium-dev \
 libargon2-0-dev \
-# Language extension gv_python & gv_python2
-python2.7-dev \
 # Language extension gv_python3
 libpython3-dev \
 # Language extension gv_ruby

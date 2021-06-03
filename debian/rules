@@ -33,7 +33,7 @@ LUA_PACKAGE       = $(CURDIR)/debian/libgv-lua
 
 DEV_PACKAGE       = $(CURDIR)/debian/libgraphviz-dev
 
-PYTHON_VERSIONS   = $(shell python2 --version 2>&1 | sed 's/.* \(.*\)\..*/python\1/'; python3 --version 2>&1 | sed 's/.* \(.*\)\..*/python\1/')
+PYTHON_VERSIONS   = $(shell python3 --version 2>&1 | sed 's/.* \(.*\)\..*/python\1/')
 PYTHON_PACKAGE    = $(CURDIR)/debian/libgv-python
 
 RUBY_VERSION      = 1.8
@@ -259,7 +259,6 @@ binary-arch: build install
 	dh_installman -a
 	dh_installchangelogs CHANGELOG.md -a
 	dh_perl -a
-	dh_python2 -a
 	dh_link -a
 	dh_strip -a
 	dh_compress -a

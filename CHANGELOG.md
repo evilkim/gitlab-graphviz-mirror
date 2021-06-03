@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - implicit 63 character limit on plugin names is removed in GVC
 - the packaging work flow on CentOS 7 now selects the Python 3 bindings, instead
   of Python 2 bindings
+- remove Python 2 bindings #1992
 
 ### Fixed
 

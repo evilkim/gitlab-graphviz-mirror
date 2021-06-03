@@ -228,17 +228,6 @@ $(PYTHON_data): gv_python.cpp
 gv_python.cpp: gv.i
 	$(SWIG) -c++ -python -o gv_python.cpp $(srcdir)/gv.i
 
-pkgpython2dir = $(pkglibdir)/python2
-PYTHON2_data = gv.py
-nodist_libgv_python2_la_SOURCES = gv_python2.cpp $(PYTHON2_data)
-libgv_python2_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
-libgv_python2_la_LIBADD = $(BASELIBS) $(PYTHON2_LIBS)
-libgv_python2_la_LDFLAGS = -module -avoid-version
-libgv_python2_la_CPPFLAGS = $(BASECPPFLAGS) $(PYTHON2_INCLUDES)
-$(PYTHON2_data): gv_python2.cpp
-gv_python2.cpp: gv.i
-	$(SWIG) -c++ -python -o gv_python2.cpp $(srcdir)/gv.i
-
 pkgpython3dir = $(pkglibdir)/python3
 PYTHON3_data = gv.py
 nodist_libgv_python3_la_SOURCES = gv_python3.cpp $(PYTHON3_data)
@@ -386,11 +375,6 @@ if WITH_PYTHON
 pkgpython_DATA = $(PYTHON_data)
 pkgpython_LTLIBRARIES = libgv_python.la
 DEVTSTS += test_python
-endif
-if WITH_PYTHON2
-pkgpython2_DATA = $(PYTHON2_data)
-pkgpython2_LTLIBRARIES = libgv_python2.la
-DEVTSTS += test_python2
 endif
 if WITH_PYTHON3
 pkgpython3_DATA = $(PYTHON3_data)
@@ -549,9 +533,6 @@ endif
 if WITH_PYTHON
 	(cd $(DESTDIR)$(pkgpythondir); rm -f _gv.so; $(LN_S) libgv_python.so _gv.so;)
 endif
-if WITH_PYTHON2
-	(cd $(DESTDIR)$(pkgpython2dir); rm -f _gv.so; $(LN_S) libgv_python2.so _gv.so;)
-endif
 if WITH_PYTHON3
 	(cd $(DESTDIR)$(pkgpython3dir); rm -f _gv.so; $(LN_S) libgv_python3.so _gv.so;)
 endif
@@ -642,13 +623,6 @@ test_python: libgv_python.la
 		ln -fs ../$(srcdir)/*.gv ../$(srcdir)/*.py .; \
 		PYTHONPATH=. $(PYTHON) test.py)
 
-.PHONY: test_python2
-test_python2: libgv_python2.la
-	-(mkdir -p test_python2; cd test_python2; \
-		ln -fs ../.libs/libgv_python2.so _gv.so; \
-		ln -fs ../$(srcdir)/*.gv ../$(srcdir)/*.py .; \
-		PYTHONPATH=. $(PYTHON2) test.py)
-
 .PHONY: test_python3
 test_python3: libgv_python3.la
 	-(mkdir -p test_python3; cd test_python3; \
@@ -690,7 +664,6 @@ CLEANFILES = test_*/* pkgIndex.tcl \
 	gv_perl.cpp $(PERL_data) \
 	gv_php.cpp $(PHP_data) \
 	gv_python.cpp $(PYTHON_data) gv.pyc \
-	gv_python2.cpp $(PYTHON2_data) gv.pyc \
 	gv_python3.cpp $(PYTHON3_data) gv.pyc \
 	gv_R.cpp $(R_data) \
 	gv_ruby.cpp $(RUBY_data) \
