@@ -1309,7 +1309,6 @@ else
 	           PYTHON2=
           fi
         fi
-        PYTHON2_PREFIX=`$PYTHON2 -c "import sys; print(sys.prefix)"`
         PYTHON2_INSTALL_DIR="`$PYTHON2 $srcdir/config/config_python.py archsitelib`"
         save_CPPFLAGS=$CPPFLAGS
         CPPFLAGS=$save_CPPFLAGS
@@ -1378,7 +1377,6 @@ else
 	           use_python3="No (python-$PYTHON3_VERSION.pc not found)"
           fi
         fi
-        PYTHON3_PREFIX=`$PYTHON3 -c "import sys; print(sys.prefix)"`
         PYTHON3_INSTALL_DIR="`$PYTHON3 $srcdir/config/config_python.py archsitelib`"
         save_CPPFLAGS=$CPPFLAGS
         CPPFLAGS="$CPPFLAGS $PYTHON3_INCLUDES"
