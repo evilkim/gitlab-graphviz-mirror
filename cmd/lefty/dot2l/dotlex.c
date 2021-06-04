@@ -84,14 +84,14 @@ int yylex (void) {
     /* scan quoted strings */
     if (lexptr[0] == '\"') {
         lexptr = quoted_string (lexptr);
-        yylval.s = (char *) strdup (lexbuf);
+        yylval.s = strdup (lexbuf);
         return T_id;
     }
 
     /* scan html strings */
     if (lexptr[0] == '<') {
         lexptr = html_string (lexptr);
-        yylval.s = (char *) strdup (lexbuf);
+        yylval.s = strdup (lexbuf);
         return T_id;
     }
 
