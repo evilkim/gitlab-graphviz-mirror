@@ -85,7 +85,7 @@ static void addstr(char *src) {
 			long	sz = Send - Sbuf;
 			long	off = Sptr - Sbuf;
 			sz *= 2;
-			Sbuf = (char*)realloc(Sbuf,sz);
+			Sbuf = realloc(Sbuf,sz);
 			Send = Sbuf + sz;
 			Sptr = Sbuf + off;
 		}
@@ -109,7 +109,7 @@ storeFileName (char* fname, int len)
     static char* buf;
 
     if (len > cnt) {
-	buf = (char*)realloc (buf, len+1);
+	buf = realloc (buf, len+1);
 	cnt = len;
     }
     strcpy (buf, fname);
