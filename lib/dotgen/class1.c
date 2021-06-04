@@ -95,25 +95,6 @@ void class1(graph_t * g)
 		merge_oneway(e, rep);
 	    else
 		virtual_edge(t, h, e);
-
-#ifdef NOTDEF
-	    if ((t == agtail(e)) && (h == aghead(e))) {
-		if (rep = find_fast_edge(t, h))
-		    merge_oneway(e, rep);
-		else
-		    virtual_edge(t, h, e);
-	    } else {
-		f = agfindedge(g, t, h);
-		if (f && (ED_to_virt(f) == NULL))
-		    rep = virtual_edge(t, h, f);
-		else
-		    rep = find_fast_edge(t, h);
-		if (rep)
-		    merge_oneway(e, rep);
-		else
-		    virtual_edge(t, h, e);
-	    }
-#endif
 	}
     }
 }

@@ -33,58 +33,6 @@ typedef struct Pedge_t {
 } Pedge_t;
 
 
-#ifdef NOTDEF
-int main(int argc, char **argv)
-{
-    Ppoly_t polys[2], *polys_ptr[2];
-
-    polys[0].ps = malloc(3 * sizeof(Ppoint_t));
-    polys[1].ps = malloc(3 * sizeof(Ppoint_t));
-    polys[0].pn = 3;
-    polys[1].pn = 3;
-
-    polys[0].ps[0].x = 0.0;
-    polys[0].ps[0].y = 0.0;
-    polys[0].ps[1].x = 0.0;
-    polys[0].ps[1].y = 100.0;
-    polys[0].ps[2].x = 100.0;
-    polys[0].ps[2].y = 0.0;
-
-    polys[1].ps[0].x = 70.0;
-    polys[1].ps[0].y = 70.0;
-    polys[1].ps[1].x = 70.0;
-    polys[1].ps[1].y = 100.0;
-    polys[1].ps[2].x = 100.0;
-    polys[1].ps[2].y = 70.0;
-
-    polys_ptr[0] = &polys[0];
-    polys_ptr[1] = &polys[1];
-
-    if (Plegal_arrangement(polys_ptr, 2))
-	printf(" it is legal\n");
-    else
-	printf(" it is not legal\n");
-}
-#endif
-
-#ifdef NOTDEF
-struct vertex *after(struct vertex *v)
-{
-    if (v == v->poly->finish)
-	return v->poly->start;
-    else
-	return v + 1;
-}
-
-struct vertex *before(struct vertex *v)
-{
-    if (v == v->poly->start)
-	return v->poly->finish;
-    else
-	return v - 1;
-}
-#endif
-
 void find_ints(struct vertex vertex_list[], struct polygon polygon_list[],
 	       struct data *input, struct intersection ilist[]);
 

@@ -101,7 +101,6 @@ extern "C" {
     extern void emit_graph(GVJ_t * job, graph_t * g);
     extern void emit_label(GVJ_t * job, emit_state_t emit_state, textlabel_t *);
     extern int emit_once(char *message);
-    extern void emit_jobs_eof(GVC_t * gvc);
     extern void emit_map_rect(GVJ_t *job, boxf b);
     extern void endpath(path *, Agedge_t *, int, pathend_t *, boolean);
     extern void epsf_init(node_t * n);
@@ -141,7 +140,6 @@ extern "C" {
     extern pointf* simpleSplineRoute (pointf, pointf, Ppoly_t, int*, int);
     extern pointf *routepolylines(path* pp, int* npoints);
     extern int selfRightSpace (edge_t* e);
-    extern void setup_graph(GVC_t * gvc, graph_t * g);
     extern shape_kind shapeOf(node_t *);
     extern void shape_clip(node_t * n, pointf curve[4]);
     extern void make_simple_label (GVC_t * gvc, textlabel_t* rv);
@@ -153,10 +151,7 @@ extern "C" {
     extern void translate_bb(Agraph_t *, int);
     extern int wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs);
     extern void update_bb_bz(boxf *bb, pointf *cp);
-    extern void write_attributed_dot(graph_t *g, FILE *f);
-    extern void write_canonical_dot(graph_t *g, FILE *f);
     extern boxf xdotBB (graph_t* g);
-    extern char *findAttrColor(void *obj, attrsym_t *colorattr, char *dflt);
 
 #undef extern
 
