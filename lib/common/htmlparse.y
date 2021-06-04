@@ -142,7 +142,7 @@ free_fspan(Dt_t* d, fspan* p, Dtdisc_t* ds)
 	int i;
 	ti = p->lp.items;
 	for (i = 0; i < p->lp.nitems; i++) {
-	    if (ti->str) free (ti->str);
+	    free (ti->str);
 	    ti++;
 	}
 	free (p->lp.items);
