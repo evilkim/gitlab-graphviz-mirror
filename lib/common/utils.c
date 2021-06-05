@@ -269,12 +269,6 @@ Agnodeinfo_t* ND_info(node_t * n) { return ((Agnodeinfo_t*)AGDATA(n));}
 #if !defined(_WIN32)
 #include	<pwd.h>
 
-#if 0
-static void cleanup(void)
-{
-    agxbfree(&xb);
-}
-#endif
 #endif
 
 /* Fgets:
@@ -547,20 +541,11 @@ pointf spline_at_y(splines * spl, double y)
 /* this caching seems to prevent p.x from getting set from bz.list[0].x
 	- optimizer problem ? */
 
-#if 0
-    static splines *mem = NULL;
-
-    if (mem != spl) {
-	mem = spl;
-#endif
 	for (i = 0; i < spl->size; i++) {
 	    bz = spl->list[i];
 	    if (BETWEEN(bz.list[bz.size - 1].y, y, bz.list[0].y))
 		break;
 	}
-#if 0
-    }
-#endif
     if (y > bz.list[0].y)
 	p = bz.list[0];
     else if (y < bz.list[bz.size - 1].y)
@@ -963,15 +948,12 @@ static node_t *clustNode(node_t * n, graph_t * cg, agxbuf * xb,
 
     SET_CLUST_NODE(cn);
 	agsubnode(cg,cn,1);
-	//aginsert(cg, cn);
 	agsubnode(clg,n,1);
-	//aginsert(clg, n);
 
     /* set attributes */
     N_label = setAttr(agraphof(cn), cn, "label", "", N_label);
     N_style = setAttr(agraphof(cn), cn, "style", "invis", N_style);
     N_shape = setAttr(agraphof(cn), cn, "shape", "box", N_shape);
-    /* N_width = setAttr (cn->graph, cn, "width", "0.0001", N_width); */
 
     return cn;
 }
@@ -1968,5 +1950,3 @@ findCluster (Dt_t* map, char* name)
     else
 	return NULL;
 }
-
-/* void dumpG(Agraph_t* g) { agwrite(g, stderr); } */
