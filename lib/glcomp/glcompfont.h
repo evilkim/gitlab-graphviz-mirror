@@ -25,17 +25,6 @@ typedef float GLfloat;
 #ifdef __cplusplus
 extern "C" {
 #endif
-#if 0
-    void copy_font(glCompFont * targetfont, const glCompFont * sourcefont);
-    fontset_t *fontset_init(void);
-    void free_font_set(fontset_t * fontset);
-    glCompFont *add_font(fontset_t * fontset, char *fontdesc, int fs);
-    glCompFont *add_glut_font(fontset_t * fontset, void *glutfont);
-    void fontColor(glCompFont * font, float r, float g, float b, float a);
-    glCompFont *font_init(void);
-    int glCompLoadFontPNG(char *name, int id);
-    void glprintf(glCompFont *, GLfloat, GLfloat, GLfloat, GLfloat, char *);
-#endif
 
     void glprintfglut(void *font, GLfloat xpos, GLfloat ypos, GLfloat zpos, char *bf);
 

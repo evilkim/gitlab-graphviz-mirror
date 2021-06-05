@@ -21,7 +21,6 @@ static void print_bitmap_string(void *font, char *s)
     if (s && strlen(s)) {
 	while (*s) {
 	    glutBitmapCharacter(font, *s);
-//         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *s);
 	    s++;
 	}
     }
@@ -142,7 +141,6 @@ void glCompDrawText3D(glCompFont * f,GLfloat x,GLfloat y,GLfloat z,GLfloat w,GLf
 
 void glCompDrawText(glCompFont * f,GLfloat x,GLfloat y)
 {
-//    change_fontC(f->tex->data,f->tex->width,f->tex->height,&f->color);
     glRasterPos2f(x, y);
     glDrawPixels(f->tex->width, f->tex->height, GL_RGBA, GL_UNSIGNED_BYTE,  f->tex->data);
 }
