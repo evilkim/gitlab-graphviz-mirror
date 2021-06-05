@@ -313,7 +313,3 @@ void glcompsetUpdateBorder(glCompSet * s, int w, int h)
 	s->common.height = (GLfloat) h;
     }
 }
-extern int glcompsetGetGroupId(glCompSet * s)
-{
-    return s->groupCount;
-}

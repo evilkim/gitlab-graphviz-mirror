@@ -28,7 +28,6 @@ extern "C" {
     extern glCompSet *glCompSetNew(int w, int h);
     extern int glCompSetDraw(glCompSet * s);
     extern void glcompsetUpdateBorder(glCompSet * s, int w, int h);
-    extern int glcompsetGetGroupId(glCompSet * s);
     extern void glCompDrawBegin(void);
     extern void glCompDrawEnd(void);
     extern void glCompSetAddObj(glCompSet * s, glCompObj * obj);
