@@ -1282,14 +1282,8 @@ else
         else
           PYTHON2_VERSION_MAJOR=`echo $PYTHON2_VERSION | cut -d '.' -f 1`
           PYTHON2_VERSION_MINOR=`echo $PYTHON2_VERSION | cut -d '.' -f 2`
-          if test $PYTHON2_VERSION_MAJOR -lt 3; then
-            if test $PYTHON2_VERSION_MAJOR -lt 2; then
-	      PYTHON2=
-            else
-              if test $PYTHON2_VERSION_MINOR -lt 3; then
-	        PYTHON2=
-              fi
-            fi
+          if test $PYTHON2_VERSION_MINOR -lt 3; then
+            PYTHON2=
           fi
         fi
       fi
