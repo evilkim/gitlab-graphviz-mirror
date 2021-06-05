@@ -264,7 +264,9 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
       fprintf(fp,"%f %f %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC), norm1[0], norm1[2]);
     }
   }
-  fclose(fp);
+  if (fp != NULL) {
+    fclose(fp);
+  }
 }
   
 static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
