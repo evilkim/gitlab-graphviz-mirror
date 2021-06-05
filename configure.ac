@@ -1303,8 +1303,6 @@ else
           fi
         fi
         PYTHON2_INSTALL_DIR="`$PYTHON2 $srcdir/config/config_python.py archsitelib`"
-        save_CPPFLAGS=$CPPFLAGS
-        CPPFLAGS=$save_CPPFLAGS
 	if test "x$PYTHON2" != "x"; then
 	  use_python2="Yes"
           AC_SUBST([PYTHON2_INSTALL_DIR])
