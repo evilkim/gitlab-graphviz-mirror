@@ -151,18 +151,6 @@ static inline pointf exch_xyf(pointf p)
     return r;
 }
 
-static inline box box_bb(box b0, box b1)
-{
-    box b;
-
-    b.LL.x = MIN(b0.LL.x, b1.LL.x);
-    b.LL.y = MIN(b0.LL.y, b1.LL.y);
-    b.UR.x = MAX(b0.UR.x, b1.UR.x);
-    b.UR.y = MAX(b0.UR.y, b1.UR.y);
-
-    return b;
-}
-
 static inline boxf boxf_bb(boxf b0, boxf b1)
 {
     boxf b;
