@@ -12,6 +12,7 @@
 
 #include <cgraph/cgraph.h>
 #include <ingraphs/ingraphs.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_UNISTD_H
@@ -20,10 +21,10 @@
 
 #include <getopt.h>
 
-char **Files;
-int chkOnly;
+static char **Files;
+static bool chkOnly;
 
-static char *useString = "Usage: nop [-p?] <files>\n\
+static const char useString[] = "Usage: nop [-p?] <files>\n\
   -p - check for valid DOT\n\
   -? - print usage\n\
 If no files are specified, stdin is used\n";
@@ -42,17 +43,20 @@ static void init(int argc, char *argv[])
     while ((c = getopt(argc, argv, "p?")) != -1) {
 	switch (c) {
 	case 'p':
-	    chkOnly = 1;
+	    chkOnly = true;
 	    break;
 	case '?':
 	    if (optopt == '\0' || optopt == '?')
-		usage(0);
+		usage(EXIT_SUCCESS);
 	    else {
 		fprintf(stderr, "nop: option -%c unrecognized\n",
 			optopt);
-		usage(1);
+		usage(EXIT_FAILURE);
 	    }
 	    break;
+	default:
+	    fprintf(stderr, "nop: unexpected error\n");
+	    exit(EXIT_FAILURE);
 	}
     }
     argv += optind;
@@ -64,7 +68,7 @@ static void init(int argc, char *argv[])
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char **argv)
@@ -80,5 +84,5 @@ int main(int argc, char **argv)
 	agclose(g);
     }
 
-    return(ig.errors | agerrors());
+    return (ig.errors != 0 || agerrors() != 0) ? EXIT_FAILURE : EXIT_SUCCESS;
 }

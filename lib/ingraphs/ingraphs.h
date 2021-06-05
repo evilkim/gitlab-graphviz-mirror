@@ -8,14 +8,14 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef INGRAPHS_H
-#define INGRAPHS_H
+#pragma once
 
 /* The ingraphs library works with libcgraph with all user-supplied data. For
  * this to work, the include file relies upon its context to supply a definition
  * of Agraph_t.
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #ifdef __cplusplus
@@ -40,8 +40,8 @@ extern "C" {
 	int ingraphs;
 	void *fp;
 	ingdisc *fns;
-	char heap;
-	int errors;
+	bool heap;
+	unsigned errors;
     } ingraph_state;
 
     extern ingraph_state *newIngraph(ingraph_state *, char **, opengfn);
@@ -53,5 +53,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

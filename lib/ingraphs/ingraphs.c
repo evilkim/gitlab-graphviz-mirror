@@ -13,10 +13,9 @@
  * Written by Emden Gansner
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define FREE_STATE 1
 
 typedef struct {
     char *dummy;
@@ -97,9 +96,9 @@ new_ing(ingraph_state * sp, char **files, Agraph_t** graphs, ingdisc * disc)
 	    fprintf(stderr, "ingraphs: out of memory\n");
 	    return 0;
 	}
-	sp->heap = 1;
+	sp->heap = true;
     } else
-	sp->heap = 0;
+	sp->heap = false;
     if (graphs) {
 	sp->ingraphs = 1;
 	sp->u.Graphs = graphs;
@@ -152,7 +151,7 @@ static void *dflt_open(char *f)
 
 static int dflt_close(void *fp)
 {
-    return fclose((FILE *) fp);
+    return fclose(fp);
 }
 
 typedef Agraph_t *(*xopengfn) (void *);
@@ -211,5 +210,3 @@ char *fileName(ingraph_state * sp)
     } else
 	return "<stdin>";
 }
-
-#include "config.h"
