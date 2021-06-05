@@ -1340,18 +1340,6 @@ else
         PYTHON3_VERSION=`$PYTHON3 -c "import sys; print('%d.%d' % sys.version_info[[0:2]])"`
         if test "x$PYTHON3_VERSION" = "x"; then
           PYTHON3=
-        else
-          PYTHON3_VERSION_MAJOR=`echo $PYTHON3_VERSION | cut -d '.' -f 1`
-          PYTHON3_VERSION_MINOR=`echo $PYTHON3_VERSION | cut -d '.' -f 2`
-          if test $PYTHON3_VERSION_MAJOR -lt 3; then
-            if test $PYTHON3_VERSION_MAJOR -lt 2; then
-	      PYTHON3=
-            else
-              if test $PYTHON3_VERSION_MINOR -lt 3; then
-	        PYTHON3=
-              fi
-            fi
-          fi
         fi
       fi
       if test "x$PYTHON3" = "x"; then
