@@ -52,16 +52,6 @@ extern int line_intersect (pointf a, pointf b, pointf c, pointf d, pointf* p);
 #define inline __inline
 #endif
 
-
-static inline point pointof(int x, int y)
-{
-    point r;
-
-    r.x = x;
-    r.y = y;
-    return r;
-}
-
 static inline pointf pointfof(double x, double y)
 {
     pointf r;
