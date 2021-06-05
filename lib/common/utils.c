@@ -1969,5 +1969,4 @@ findCluster (Dt_t* map, char* name)
 	return NULL;
 }
 
-Agnodeinfo_t* ninf(Agnode_t* n) {return (Agnodeinfo_t*)AGDATA(n);}
 /* void dumpG(Agraph_t* g) { agwrite(g, stderr); } */
