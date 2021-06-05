@@ -24,7 +24,6 @@ check_include_file( getopt.h            HAVE_GETOPT_H           )
 include(CheckFunctionExists)
 
 check_function_exists( drand48          HAVE_DRAND48        )
-check_function_exists( cbrt             HAVE_CBRT           )
 check_function_exists( getpagesize      HAVE_GETPAGESIZE    )
 check_function_exists( getenv           HAVE_GETENV         )
 check_function_exists( lrand48          HAVE_LRAND48        )
