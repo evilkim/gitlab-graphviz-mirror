@@ -90,7 +90,7 @@ if WITH_PYTHON2
 			cp -f $(DESTDIR)$(pkgpython2dir)/libgv_python2.so _gv.so; \
 			cp -f $(DESTDIR)$(pkgpython2dir)/gv.py gv.py;) \
 	else \
-		echo "Warning: @PYTHON3_INSTALL_DIR@ is not writable."; \
+		echo "Warning: @PYTHON2_INSTALL_DIR@ is not writable."; \
 		echo "Skipping system installation of python2 binding."; \
 	fi
 endif
