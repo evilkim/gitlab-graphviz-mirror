@@ -51,9 +51,6 @@ Source0: https://gitlab.com/graphviz/graphviz/-/archive/@VERSION@/graphviz-@VERS
 %global GTK        0
 %global JAVASCRIPT 0
 %global LASI       0
-%global PYTHON     0
-%global PYTHON2    1
-%global PYTHON3    1
 %global SHARP      0
 %global WEBP       0
 %endif
