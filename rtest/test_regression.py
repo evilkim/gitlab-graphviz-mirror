@@ -816,6 +816,21 @@ def test_2078():
 
   assert "subgraph" in stderr.lower(), "subgraph not mentioned in error message"
 
+@pytest.mark.xfail()
+def test_2082():
+  """
+  Check a bug in inside_polygon has not been reintroduced.
+  https://gitlab.com/graphviz/graphviz/-/issues/2082
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "2082.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # ask Graphviz to process it, which should generate an assertion failure if
+  # this bug has been reintroduced
+  subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
+
 def test_package_version():
   """
   The graphviz_version.h header should define a non-empty PACKAGE_VERSION
