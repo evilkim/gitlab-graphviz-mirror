@@ -115,16 +115,6 @@ static inline pointf sub_pointf(pointf p, pointf q)
     return r;
 }
 
-/* for +ve coord values, this rounds towards p */
-static inline point mid_point(point p, point q)
-{
-    point r;
-
-    r.x = (p.x + q.x) / 2;
-    r.y = (p.y + q.y) / 2;
-    return r;
-}
-
 static inline pointf mid_pointf(pointf p, pointf q)
 {
     pointf r;
