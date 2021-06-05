@@ -49,9 +49,7 @@ static char *api_names[] = { APIS };    /* "render", "layout", ... */
 /* translate a string api name to its type, or -1 on error */
 api_t gvplugin_api(const char *str)
 {
-    int api;
-
-    for (api = 0; api < ARRAY_SIZE(api_names); api++) {
+    for (size_t api = 0; api < ARRAY_SIZE(api_names); api++) {
         if (strcmp(str, api_names[api]) == 0)
             return (api_t) api;
     }
@@ -130,8 +128,9 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
  * NB the quality value is not replaced as it might have been
  * manually changed in the config file.
  */
-static boolean gvplugin_activate(GVC_t * gvc, api_t api,
-                                 const char *typestr, char *name, char *path, gvplugin_installed_t * typeptr)
+static void gvplugin_activate(GVC_t * gvc, api_t api, const char *typestr,
+                              const char *name, const char *plugin_path,
+                              gvplugin_installed_t * typeptr)
 {
     gvplugin_available_t *pnext;
 
@@ -142,13 +141,12 @@ static boolean gvplugin_activate(GVC_t * gvc, api_t api,
         if ((strcasecmp(typestr, pnext->typestr) == 0)
             && (strcasecmp(name, pnext->package->name) == 0)
             && (pnext->package->path != 0)
-            && (strcasecmp(path, pnext->package->path) == 0)) {
+            && (strcasecmp(plugin_path, pnext->package->path) == 0)) {
             pnext->typeptr = typeptr;
-            return TRUE;
+            return;
         }
         pnext = pnext->next;
     }
-    return FALSE;
 }
 
 gvplugin_library_t *gvplugin_library_load(GVC_t * gvc, char *path)
@@ -157,9 +155,9 @@ gvplugin_library_t *gvplugin_library_load(GVC_t * gvc, char *path)
     lt_dlhandle hndl;
     lt_ptr ptr;
     char *s, *sym;
-    int len;
+    size_t len;
     static char *p;
-    static int lenp;
+    static size_t lenp;
     char *libdir;
     char *suffix = "_LTX_library";
     struct stat sb;
@@ -261,9 +259,6 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     gvplugin_library_t *library;
     gvplugin_api_t *apis;
     gvplugin_installed_t *types;
-#define TYPBUFSIZ 64
-    char reqtyp[TYPBUFSIZ], typ[TYPBUFSIZ];
-    char *reqdep, *dep = NULL, *reqpkg;
     int i;
     api_t apidep;
 
@@ -273,26 +268,44 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
     else
         apidep = api;
 
-    strncpy(reqtyp, str, TYPBUFSIZ - 1);
-    reqdep = strchr(reqtyp, ':');
-    if (reqdep) {
-        *reqdep++ = '\0';
-        reqpkg = strchr(reqdep, ':');
-        if (reqpkg)
-            *reqpkg++ = '\0';
-    } else
-        reqpkg = NULL;
+    const char *reqtyp = str;
+    const char *reqtyp_end = strchr(reqtyp, ':');
+    size_t reqtyp_len =
+      reqtyp_end == NULL ? strlen(reqtyp) : (size_t)(reqtyp_end - reqtyp);
+
+    const char *reqdep = NULL;
+    const char *reqdep_end = NULL;
+    size_t reqdep_len = 0;
+
+    const char *reqpkg = NULL;
+
+    if (reqtyp_end != NULL) {
+        reqdep = reqtyp_end + strlen(":");
+        reqdep_end = strchr(reqdep, ':');
+        if (reqdep_end != NULL) {
+            reqdep_len = (size_t)(reqdep_end - reqdep);
+            reqpkg = reqdep_end + strlen(":");
+        } else {
+            reqdep_len = strlen(reqdep);
+        }
+    }
 
     /* iterate the linked list of plugins for this api */
     for (pnext = gvc->apis[api]; pnext; pnext = pnext->next) {
-        strncpy(typ, pnext->typestr, TYPBUFSIZ - 1);
-        dep = strchr(typ, ':');
-        if (dep)
-            *dep++ = '\0';
-        if (strcmp(typ, reqtyp))
+        const char *typ = pnext->typestr;
+        const char *typ_end = strchr(typ, ':');
+        size_t typ_len =
+          typ_end == NULL ? strlen(typ) : (size_t)(typ_end - typ);
+
+        const char *dep = typ_end == NULL ? NULL : (typ_end + strlen(":"));
+
+        if (typ_len != reqtyp_len || strncmp(typ, reqtyp, reqtyp_len))
             continue;           /* types empty or mismatched */
-        if (dep && reqdep && strcmp(dep, reqdep))
-            continue;           /* dependencies not empty, but mismatched */
+        if (dep && reqdep) {
+            if (strlen(dep) != reqdep_len || strncmp(dep, reqdep, reqdep_len)) {
+                continue;           /* dependencies not empty, but mismatched */
+            }
+        }
         if (!reqpkg || strcmp(reqpkg, pnext->package->name) == 0) {
             /* found with no packagename constraints, or with required matching packagname */
 

@@ -790,6 +790,32 @@ def test_2057():
   ret, _, _ = run_c(c_src, link=["gvc"])
   assert ret == 0
 
+@pytest.mark.xfail(strict=True)
+def test_2078():
+  """
+  Incorrectly using the "layout" attribute on a subgraph should result in a
+  sensible error.
+  https://gitlab.com/graphviz/graphviz/-/issues/2078
+  """
+
+  # our sample graph that incorrectly uses layout
+  input = "graph {\n"          \
+          "  subgraph {\n"     \
+          "    layout=osage\n" \
+          "  }\n"              \
+          "}"
+
+  # run it through Graphviz
+  p = subprocess.Popen(["dot", "-Tcanon", "-o", os.devnull],
+    stdin=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+  _, stderr = p.communicate(input)
+
+  assert p.returncode != 0, "layout on subgraph was incorrectly accepted"
+
+  assert "layout" in stderr.lower(), "layout not mentioned in error message"
+
+  assert "subgraph" in stderr.lower(), "subgraph not mentioned in error message"
+
 def test_package_version():
   """
   The graphviz_version.h header should define a non-empty PACKAGE_VERSION

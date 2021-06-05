@@ -11,11 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - marginally more accurate computations in Smyrna sphere projection
 - Perl is no longer required to build Graphviz #2067
 - nop more reliably returns success and failure exit statuses
+- implicit 63 character limit on plugin names is removed in GVC
 
 ### Fixed
 
 - no longer pass libcommon to the linker twice in mm2gv when building with CMake
 - Quartz plugin is now compiled with explicit `--tag=CC` to libtool #2065
+
+### Fixed
+
+- out of bounds read when attempting to load a plugin whose name is ≥63
+  characters
+- out of bounds read when examining a registered plugin whose name is ≥63
+  characters
 
 ## [2.47.2] - 2021-05-26
 
