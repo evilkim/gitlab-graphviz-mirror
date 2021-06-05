@@ -147,14 +147,6 @@ void glCompImageDraw(void *obj)
 
 }
 
-void glCompImageDoubleClick(glCompObj * obj, GLfloat x, GLfloat y,
-			    glMouseButtonType t)
-{
-    /*Put your internal code here */
-    if (((glCompImage *) obj)->common.callbacks.doubleclick)
-	((glCompImage *) obj)->common.callbacks.doubleclick(obj, x, y, t);
-}
-
 void glCompImageMouseDown(glCompObj * obj, GLfloat x, GLfloat y,
 			  glMouseButtonType t)
 {
