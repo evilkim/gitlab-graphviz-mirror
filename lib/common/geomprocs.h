@@ -151,18 +151,6 @@ static inline pointf exch_xyf(pointf p)
     return r;
 }
 
-static inline boxf boxf_intersect(boxf b0, boxf b1)
-{
-    boxf b;
-
-    b.LL.x = MAX(b0.LL.x, b1.LL.x);
-    b.LL.y = MAX(b0.LL.y, b1.LL.y);
-    b.UR.x = MIN(b0.UR.x, b1.UR.x);
-    b.UR.y = MIN(b0.UR.y, b1.UR.y);
-
-    return b;
-}
-
 static inline int box_overlap(box b0, box b1)
 {
     return OVERLAP(b0, b1);
