@@ -106,7 +106,6 @@ extern "C" {
     extern void cat_libfile(GVJ_t * job, const char **arglib, const char **stdlib);
 
 Agnodeinfo_t* ninf(Agnode_t* n);
-Agraphinfo_t* ginf(Agraph_t* g);
 
 #undef extern
 
