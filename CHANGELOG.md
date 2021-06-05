@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - out of bounds read when examining a registered plugin whose name is ≥63
   characters
 - do not `fclose(NULL)` in gvmap
+- Assertion error when using `dot` in `ortho.c` in `convertSPtoRoute` in
+  graphviz 2.47.2 #2082. This was a regression introduced in 2.47.2.
 
 ## [2.47.2] - 2021-05-26
 

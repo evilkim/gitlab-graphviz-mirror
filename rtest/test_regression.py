@@ -816,7 +816,6 @@ def test_2078():
 
   assert "subgraph" in stderr.lower(), "subgraph not mentioned in error message"
 
-@pytest.mark.xfail()
 def test_2082():
   """
   Check a bug in inside_polygon has not been reintroduced.

@@ -181,7 +181,7 @@ inside_polygon (trap_t *t, segment_t* seg)
   if ((t->u0 <= 0 && t->u1 <= 0) || (t->d0 <= 0 && t->d1 <= 0)) /* triangle */
     return _greater_than(&seg[rseg].v1, &seg[rseg].v0);
   
-  return true;
+  return false;
 }
 
 static double
