@@ -317,9 +317,3 @@ extern int glcompsetGetGroupId(glCompSet * s)
 {
     return s->groupCount;
 }
-extern int glcompsetNextGroupId(glCompSet * s)
-{
-    int rv = s->groupCount;
-    s->groupCount++;
-    return rv;
-}
