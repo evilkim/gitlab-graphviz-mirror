@@ -32,7 +32,6 @@ Source0: https://gitlab.com/graphviz/graphviz/-/archive/@VERSION@/graphviz-@VERS
 %global LASI       1
 %global OCAML      1
 %global WEBP       1
-%global PYTHON     0
 %global PYTHON2    1
 %global PYTHON3    1
 %global QT5        1
@@ -107,9 +106,6 @@ BuildRequires: lasi-devel
 %endif
 %if %{OCAML}
 BuildRequires: ocaml
-%endif
-%if %{PYTHON}
-BuildRequires: python python-devel
 %endif
 %if %{PYTHON2}
 BuildRequires: python2 python2-devel
@@ -754,27 +750,6 @@ PHP extension for graphviz.
 %exclude %{_libdir}/graphviz/php/*.so
 %exclude %{_libdir}/graphviz/php/*.php
 
-#-- graphviz-lang-python rpm -------------------------------------------
-%if %{PYTHON}
-%package lang-python
-Group:          Applications/Multimedia
-Summary:        Python extension for graphviz
-Requires:       %{name} = %{version}-%{release}, python
-Obsoletes:      %{name}-python <= 2.41
-Provides:       %{name}-python = %{version}-%{release}
-
-%description lang-python
-Python extension for graphviz.
-
-%files lang-python
-%defattr(-,root,root,-)
-%{_libdir}/python*/*
-%{_datadir}/graphviz/demo/*.py*
-%{_mandir}/man3/gv.3python.*
-%exclude %{_libdir}/graphviz/python*/*.so
-%exclude %{_libdir}/graphviz/python*/*.py*
-%endif
-
 #-- graphviz-lang-python2 rpm -------------------------------------------
 %if %{PYTHON2}
 %package lang-python2
@@ -988,9 +963,7 @@ CFLAGS="$RPM_OPT_FLAGS" \
 %if ! %{ANN}
         --without-ann \
 %endif
-%if ! %{PYTHON}
         --disable-python \
-%endif
 %if ! %{PYTHON2}
         --disable-python2 \
 %endif
