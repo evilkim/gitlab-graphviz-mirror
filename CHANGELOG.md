@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Perl is no longer required to build Graphviz #2067
 - nop more reliably returns success and failure exit statuses
 - implicit 63 character limit on plugin names is removed in GVC
+- the packaging work flow on CentOS 7 now selects the Python 3 bindings, instead
+  of Python 2 bindings
 
 ### Fixed
 
