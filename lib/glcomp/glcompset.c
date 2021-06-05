@@ -19,31 +19,6 @@
 
 static GLfloat startX, startY;
 
-
-
-void glCompGetObjectType(glCompObj * p)
-{
-    switch (p->objType) {
-    case glPanelObj:
-	printf("Panel\n");
-	break;
-    case glButtonObj:
-	printf("Button\n");
-	break;
-    case glImageObj:
-	printf("Image\n");
-	break;
-    case glLabelObj:
-	printf("Label\n");
-	break;
-    default:
-	printf("undefined object\n");
-	break;
-
-    }
-
-}
-
 static int glCompPointInObject(glCompObj * p, float x, float y)
 {
     return ((x > p->common.refPos.x)
