@@ -31,8 +31,6 @@ extern "C" {
 #endif
 #endif
 
-extern boxf mkboxf(pointf p, pointf q);
-
 extern box flip_rec_box(box b, point p);
 extern boxf flip_rec_boxf(boxf b, pointf p);
 

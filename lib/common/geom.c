@@ -16,27 +16,6 @@
 #include <common/geom.h>
 #include <common/geomprocs.h>
 
-boxf mkboxf(pointf p, pointf q)
-{
-    boxf r;
-
-    if (p.x < q.x) {
-	r.LL.x = p.x;
-	r.UR.x = q.x;
-    } else {
-	r.LL.x = q.x;
-	r.UR.x = p.x;
-    }
-    if (p.y < q.y) {
-	r.LL.y = p.y;
-	r.UR.y = q.y;
-    } else {
-	r.LL.y = q.y;
-	r.UR.y = p.y;
-    }
-    return r;
-}
-
 /*
  *--------------------------------------------------------------
  *
