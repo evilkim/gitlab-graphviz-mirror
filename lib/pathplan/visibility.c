@@ -196,7 +196,7 @@ static bool inCone(int i, int j, Ppoint_t pts[], int nextPt[], int prevPt[])
  * Return true if no polygon line segment non-trivially intersects
  * the segment [pti,ptj], ignoring segments in [start,end).
  */
-static int clear(Ppoint_t pti, Ppoint_t ptj,
+static bool clear(Ppoint_t pti, Ppoint_t ptj,
 		 int start, int end,
 		 int V, Ppoint_t pts[], int nextPt[], int prevPt[])
 {
@@ -204,13 +204,13 @@ static int clear(Ppoint_t pti, Ppoint_t ptj,
 
     for (k = 0; k < start; k++) {
 	if (INTERSECT(pti, ptj, pts[k], pts[nextPt[k]], pts[prevPt[k]]))
-	    return 0;
+	    return false;
     }
     for (k = end; k < V; k++) {
 	if (INTERSECT(pti, ptj, pts[k], pts[nextPt[k]], pts[prevPt[k]]))
-	    return 0;
+	    return false;
     }
-    return 1;
+    return true;
 }
 
 /* compVis:
