@@ -12,6 +12,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <limits.h>
 #include "vispath.h"
@@ -45,7 +46,7 @@ extern "C" {
 /*end visual studio*/
 
 	extern COORD *ptVis(vconfig_t *, int, Ppoint_t);
-    extern int directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
+    extern bool directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
     extern void visibility(vconfig_t *);
     extern int *makePath(Ppoint_t p, int pp, COORD * pvis,
 			 Ppoint_t q, int qp, COORD * qvis,

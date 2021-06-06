@@ -358,7 +358,7 @@ COORD *ptVis(vconfig_t * conf, int pp, Ppoint_t p)
  * If a point is associated with a polygon, the edges of the polygon
  * are ignored when checking visibility.
  */
-int directVis(Ppoint_t p, int pp, Ppoint_t q, int qp, vconfig_t * conf)
+bool directVis(Ppoint_t p, int pp, Ppoint_t q, int qp, vconfig_t * conf)
 {
     int V = conf->N;
     Ppoint_t *pts = conf->P;
@@ -396,15 +396,15 @@ int directVis(Ppoint_t p, int pp, Ppoint_t q, int qp, vconfig_t * conf)
 
     for (k = 0; k < s1; k++) {
 	if (INTERSECT(p, q, pts[k], pts[nextPt[k]], pts[prevPt[k]]))
-	    return 0;
+	    return false;
     }
     for (k = e1; k < s2; k++) {
 	if (INTERSECT(p, q, pts[k], pts[nextPt[k]], pts[prevPt[k]]))
-	    return 0;
+	    return false;
     }
     for (k = e2; k < V; k++) {
 	if (INTERSECT(p, q, pts[k], pts[nextPt[k]], pts[prevPt[k]]))
-	    return 0;
+	    return false;
     }
-    return 1;
+    return true;
 }
