@@ -42,7 +42,6 @@ extern "C" {
     extern int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d);
 
     int in_poly(Ppoly_t argpoly, Ppoint_t q);
-    Ppoly_t copypoly(Ppoly_t);
     void freepoly(Ppoly_t);
 
 #undef extern

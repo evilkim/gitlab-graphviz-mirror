@@ -3,7 +3,6 @@ LIBRARY	"Pathplan"
 
 EXPORTS
 area2
-copypoly
 directVis
 dist2
 freepoly

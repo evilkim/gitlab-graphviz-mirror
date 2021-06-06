@@ -15,18 +15,6 @@
 
 #define ALLOC(size,ptr,type) realloc(ptr,(size)*sizeof(type))
 
-Ppoly_t copypoly(Ppoly_t argpoly)
-{
-    Ppoly_t rv;
-    int i;
-
-    rv.pn = argpoly.pn;
-    rv.ps = malloc(sizeof(Ppoint_t) * argpoly.pn);
-    for (i = 0; i < argpoly.pn; i++)
-	rv.ps[i] = argpoly.ps[i];
-    return rv;
-}
-
 void freePath(Ppolyline_t* p)
 {
     free(p->ps);
