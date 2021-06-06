@@ -28,7 +28,6 @@ extern "C" {
 #define EQ(p,q)		((p.x == q.x) && (p.y == q.y))
 #define NEQ(p,q)	(!EQ(p,q))
 #define NIL(p)		((p)0)
-#define	CW			0
 
     struct vconfig_s {
 	int Npoly;
