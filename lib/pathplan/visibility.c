@@ -10,6 +10,7 @@
 
 
 #include <pathplan/vis.h>
+#include <stdlib.h>
 
 	/* TRANSPARENT means router sees past colinear obstacles */
 #ifdef TRANSPARENT
@@ -38,7 +39,7 @@ static array2 allocArray(int V, int extra)
 	p += V;
     }
     for (i = V; i < V + extra; i++)
-	arr[i] = (COORD *) 0;
+	arr[i] = NULL;
 
     return arr;
 }
