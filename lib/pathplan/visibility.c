@@ -157,7 +157,7 @@ static bool intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
  * Returns true iff point b is in the cone a0,a1,a2
  * NB: the cone is considered a closed set
  */
-static int in_cone(Ppoint_t a0, Ppoint_t a1, Ppoint_t a2, Ppoint_t b)
+static bool in_cone(Ppoint_t a0, Ppoint_t a1, Ppoint_t a2, Ppoint_t b)
 {
     int m = wind(b, a0, a1);
     int p = wind(b, a1, a2);
@@ -187,7 +187,7 @@ static COORD dist(Ppoint_t a, Ppoint_t b)
     return sqrt(dist2(a, b));
 }
 
-static int inCone(int i, int j, Ppoint_t pts[], int nextPt[], int prevPt[])
+static bool inCone(int i, int j, Ppoint_t pts[], int nextPt[], int prevPt[])
 {
     return in_cone(pts[prevPt[i]], pts[i], pts[nextPt[i]], pts[j]);
 }
