@@ -25,7 +25,6 @@ extern "C" {
 			       int width, int height,int is2D);
     extern int glCompImageLoadPng(glCompImage * i, char *pngFile,int is2D);
     extern void glCompImageDraw(void *obj);
-    extern void glCompImageMouseOut(glCompObj * obj, GLfloat x, GLfloat y);
     extern void glCompImageMouseOver(glCompObj * obj, GLfloat x,
 				     GLfloat y);
     extern void glCompImageMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
