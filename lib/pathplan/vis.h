@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef VISIBILITY_H
-#define VISIBILITY_H
+#pragma once
 
 #include <assert.h>
 #include <math.h>
@@ -57,5 +55,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef _PATHGEOM_INCLUDE
-#define _PATHGEOM_INCLUDE
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,5 +43,4 @@ extern "C" {
     void freePath(Ppolyline_t* p);
 #ifdef __cplusplus
 }
-#endif
 #endif

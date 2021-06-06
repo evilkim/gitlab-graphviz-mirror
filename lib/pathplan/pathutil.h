@@ -8,10 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
 
-
-#ifndef _PATHUTIL_INCLUDE
-#define _PATHUTIL_INCLUDE
 #define _BLD_pathplan 1
 
 #include "pathplan.h"
@@ -46,5 +44,4 @@ extern "C" {
 #undef extern
 #ifdef __cplusplus
 }
-#endif
 #endif

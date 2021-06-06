@@ -8,10 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-
-#ifndef _VIS_INCLUDE
-#define _VIS_INCLUDE
+#pragma once
 
 #include <pathgeom.h>
 
@@ -45,5 +42,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif
