@@ -25,7 +25,6 @@ extern "C" {
 
     typedef COORD **array2;
 
-#define	OBSCURED	0.0
 #define EQ(p,q)		((p.x == q.x) && (p.y == q.y))
 #define NEQ(p,q)	(!EQ(p,q))
 #define NIL(p)		((p)0)
