@@ -82,18 +82,12 @@ SparseMatrix SparseMatrix_remove_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_remove_upper(SparseMatrix A);/* remove diag and upper diag */
 SparseMatrix SparseMatrix_divide_row_by_degree(SparseMatrix A);
 SparseMatrix SparseMatrix_get_real_adjacency_matrix_symmetrized(SparseMatrix A);  /* symmetric, all entries to 1, diaginal removed */
-SparseMatrix SparseMatrix_normalize_to_rowsum1(SparseMatrix A);/* for real only! */
 void SparseMatrix_multiply_dense(SparseMatrix A, int ATranspose, real *v, int vTransposed, real **res, int res_transpose, int dim);
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x));/* for real only! */
-SparseMatrix SparseMatrix_apply_fun_general(SparseMatrix A, void (*fun)(int i, int j, int n, double *x));/* for real and complex (n=2) */
 SparseMatrix SparseMatrix_copy(SparseMatrix A);
 int SparseMatrix_has_diagonal(SparseMatrix A);
-SparseMatrix SparseMatrix_normalize_by_row(SparseMatrix A);/* divide by max of each row */
-SparseMatrix SparseMatrix_crop(SparseMatrix A, real epsilon);/*remove any entry <= epsilon*/
 SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to_row);
 SparseMatrix SparseMatrix_make_undirected(SparseMatrix A);/* make it strictly low diag only, and set flag to undirected */
-int SparseMatrix_connectedQ(SparseMatrix A);
-real SparseMatrix_pseudo_diameter_only(SparseMatrix A);
 real SparseMatrix_pseudo_diameter_weighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume real distances, unsymmetric matrix ill be symmetrized */
 real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume unit edge length, unsymmetric matrix ill be symmetrized */
 void SparseMatrix_level_sets(SparseMatrix A, int root, int *nlevel, int **levelset_ptr, int **levelset, int **mask, int reintialize_mask);
@@ -101,7 +95,6 @@ void SparseMatrix_level_sets_khops(int khops, SparseMatrix A, int root, int *nle
 void SparseMatrix_weakly_connected_components(SparseMatrix A0, int *ncomp, int **comps, int **comps_ptr);
 void SparseMatrix_decompose_to_supervariables(SparseMatrix A, int *ncluster, int **cluster, int **clusterp);
 SparseMatrix SparseMatrix_get_submatrix(SparseMatrix A, int nrow, int ncol, int *rindices, int *cindices);
-SparseMatrix SparseMatrix_exclude_submatrix(SparseMatrix A, int nrow, int ncol, int *rindices, int *cindices);
 
 SparseMatrix SparseMatrix_get_augmented(SparseMatrix A);
 
@@ -112,12 +105,6 @@ SparseMatrix SparseMatrix_get_augmented(SparseMatrix A);
    BIPARTITE_ALWAYS -- always as square
 */
 SparseMatrix SparseMatrix_to_square_matrix(SparseMatrix A, int bipartite_options);
-
-SparseMatrix SparseMatrix_largest_component(SparseMatrix A);
-
-/* columns with <= threhold entries are deleted */
-SparseMatrix SparseMatrix_delete_empty_columns(SparseMatrix A, int **new2old, int *nnew, int inplace);
-SparseMatrix SparseMatrix_delete_sparse_columns(SparseMatrix A, int threshold, int **new2old, int *nnew, int inplace);
 
 SparseMatrix SparseMatrix_sort(SparseMatrix A);
 
