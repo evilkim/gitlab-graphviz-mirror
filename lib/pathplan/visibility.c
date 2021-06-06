@@ -49,7 +49,7 @@ static array2 allocArray(int V, int extra)
  */
 COORD area2(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 {
-    return ((a.y - b.y) * (c.x - b.x) - (c.y - b.y) * (a.x - b.x));
+    return (a.y - b.y) * (c.x - b.x) - (c.y - b.y) * (a.x - b.x);
 }
 
 /* wind:
@@ -60,9 +60,9 @@ int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 {
     COORD w;
 
-    w = ((a.y - b.y) * (c.x - b.x) - (c.y - b.y) * (a.x - b.x));
+    w = (a.y - b.y) * (c.x - b.x) - (c.y - b.y) * (a.x - b.x);
     /* need to allow for small math errors.  seen with "gcc -O2 -mcpu=i686 -ffast-math" */
-    return (w > .0001) ? 1 : ((w < -.0001) ? -1 : 0);
+    return w > .0001 ? 1 : (w < -.0001 ? -1 : 0);
 }
 
 /* inBetween:
@@ -71,11 +71,9 @@ int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 static int inBetween(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 {
     if (a.x != b.x)		/* not vertical */
-	return (((a.x < c.x) && (c.x < b.x))
-		|| ((b.x < c.x) && (c.x < a.x)));
+	return (a.x < c.x && c.x < b.x) || (b.x < c.x && c.x < a.x);
     else
-	return (((a.y < c.y) && (c.y < b.y))
-		|| ((b.y < c.y) && (c.y < a.y)));
+	return (a.y < c.y && c.y < b.y) || (b.y < c.y && c.y < a.y);
 }
 
 	/* TRANSPARENT means router sees past colinear obstacles */
@@ -111,15 +109,15 @@ static int intersect1(Ppoint_t a, Ppoint_t b, Ppoint_t q, Ppoint_t n,
     w_abn = wind(a, b, n);
 
     /* If q lies on (a,b),... */
-    if ((w_abq == 0) && inBetween(a, b, q)) {
-	return ((w_abn * wind(a, b, p) < 0) || (wind(p, q, n) > 0));
+    if (w_abq == 0 && inBetween(a, b, q)) {
+	return w_abn * wind(a, b, p) < 0 || wind(p, q, n) > 0;
     } else {
 	w_qna = wind(q, n, a);
 	w_qnb = wind(q, n, b);
 	/* True if q and n are on opposite sides of ab,
 	 * and a and b are on opposite sides of qn.
 	 */
-	return (((w_abq * w_abn) < 0) && ((w_qna * w_qnb) < 0));
+	return w_abq * w_abn < 0 && w_qna * w_qnb < 0;
     }
 }
 #else
@@ -137,11 +135,11 @@ int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
     int a_cdb;
 
     a_abc = wind(a, b, c);
-    if ((a_abc == 0) && inBetween(a, b, c)) {
+    if (a_abc == 0 && inBetween(a, b, c)) {
 	return 1;
     }
     a_abd = wind(a, b, d);
-    if ((a_abd == 0) && inBetween(a, b, d)) {
+    if (a_abd == 0 && inBetween(a, b, d)) {
 	return 1;
     }
     a_cda = wind(c, d, a);
@@ -150,7 +148,7 @@ int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
     /* True if c and d are on opposite sides of ab,
      * and a and b are on opposite sides of cd.
      */
-    return (((a_abc * a_abd) < 0) && ((a_cda * a_cdb) < 0));
+    return a_abc * a_abd < 0 && a_cda * a_cdb < 0;
 }
 #endif
 
@@ -164,9 +162,9 @@ static int in_cone(Ppoint_t a0, Ppoint_t a1, Ppoint_t a2, Ppoint_t b)
     int p = wind(b, a1, a2);
 
     if (wind(a0, a1, a2) > 0)
-	return (m >= 0 && p >= 0);	/* convex at a */
+	return m >= 0 && p >= 0;	/* convex at a */
     else
-	return (m >= 0 || p >= 0);	/* reflex at a */
+	return m >= 0 || p >= 0;	/* reflex at a */
 }
 
 /* dist2:
@@ -177,7 +175,7 @@ COORD dist2(Ppoint_t a, Ppoint_t b)
     COORD delx = a.x - b.x;
     COORD dely = a.y - b.y;
 
-    return (delx * delx + dely * dely);
+    return delx * delx + dely * dely;
 }
 
 /* dist:
