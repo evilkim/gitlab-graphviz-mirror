@@ -5,7 +5,6 @@ EXPORTS
 area2
 directVis
 dist2
-freepoly
 freePath
 in_poly
 intersect

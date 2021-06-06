@@ -21,11 +21,6 @@ void freePath(Ppolyline_t* p)
     free(p);
 }
 
-void freepoly(Ppoly_t argpoly)
-{
-    free(argpoly.ps);
-}
-
 int Ppolybarriers(Ppoly_t ** polys, int npolys, Pedge_t ** barriers,
 		  int *n_barriers)
 {
