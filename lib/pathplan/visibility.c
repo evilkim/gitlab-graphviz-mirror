@@ -98,7 +98,7 @@ static bool inBetween(Ppoint_t a, Ppoint_t b, Ppoint_t c)
  * Also note that we are computing w_abq twice in a tour of a polygon,
  * once for each edge of which it is a vertex.
  */
-static int intersect1(Ppoint_t a, Ppoint_t b, Ppoint_t q, Ppoint_t n,
+static bool intersect1(Ppoint_t a, Ppoint_t b, Ppoint_t q, Ppoint_t n,
 		      Ppoint_t p)
 {
     int w_abq;
@@ -128,7 +128,7 @@ static int intersect1(Ppoint_t a, Ppoint_t b, Ppoint_t q, Ppoint_t n,
  * More specifically, returns true iff c or d lies on (a,b) or the two
  * segments intersect as open sets.
  */
-static int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
+static bool intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
 {
     int a_abc;
     int a_abd;
@@ -137,11 +137,11 @@ static int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
 
     a_abc = wind(a, b, c);
     if (a_abc == 0 && inBetween(a, b, c)) {
-	return 1;
+	return true;
     }
     a_abd = wind(a, b, d);
     if (a_abd == 0 && inBetween(a, b, d)) {
-	return 1;
+	return true;
     }
     a_cda = wind(c, d, a);
     a_cdb = wind(c, d, b);
