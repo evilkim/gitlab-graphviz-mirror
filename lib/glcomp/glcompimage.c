@@ -147,13 +147,6 @@ void glCompImageDraw(void *obj)
 
 }
 
-void glCompImageMouseOver(glCompObj * obj, GLfloat x, GLfloat y)
-{
-    /*Put your internal code here */
-    if (((glCompImage *) obj)->common.callbacks.mouseover)
-	((glCompImage *) obj)->common.callbacks.mouseover(obj, x, y);
-}
-
 void glCompImageMouseUp(glCompObj * obj, GLfloat x, GLfloat y,
 			glMouseButtonType t)
 {
