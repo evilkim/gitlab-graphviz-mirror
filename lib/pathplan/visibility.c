@@ -10,6 +10,7 @@
 
 
 #include <pathplan/vis.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 	/* TRANSPARENT means router sees past colinear obstacles */
@@ -68,7 +69,7 @@ int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 /* inBetween:
  * Return true if c is in (a,b), assuming a,b,c are collinear.
  */
-static int inBetween(Ppoint_t a, Ppoint_t b, Ppoint_t c)
+static bool inBetween(Ppoint_t a, Ppoint_t b, Ppoint_t c)
 {
     if (a.x != b.x)		/* not vertical */
 	return (a.x < c.x && c.x < b.x) || (b.x < c.x && c.x < a.x);
