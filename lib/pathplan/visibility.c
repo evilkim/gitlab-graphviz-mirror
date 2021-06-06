@@ -128,7 +128,7 @@ static int intersect1(Ppoint_t a, Ppoint_t b, Ppoint_t q, Ppoint_t n,
  * More specifically, returns true iff c or d lies on (a,b) or the two
  * segments intersect as open sets.
  */
-int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
+static int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d)
 {
     int a_abc;
     int a_abd;

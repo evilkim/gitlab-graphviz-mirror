@@ -37,7 +37,6 @@ extern "C" {
     extern COORD area2(Ppoint_t, Ppoint_t, Ppoint_t);
     extern int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c);
     extern COORD dist2(Ppoint_t, Ppoint_t);
-    extern int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d);
 
     int in_poly(Ppoly_t argpoly, Ppoint_t q);
 
