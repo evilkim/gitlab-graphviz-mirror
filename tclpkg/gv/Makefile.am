@@ -433,7 +433,10 @@ else
 pdf =
 endif
 
-$(man): gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
+$(man): gv_doc_writer.intermediate ;
+
+.INTERMEDIATE: gv_doc_writer.intermediate
+gv_doc_writer.intermediate: gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
 	$(TCLSH) $(srcdir)/gv_doc_writer.tcl "$(srcdir)"
 
 if ENABLE_MAN_PDFS
