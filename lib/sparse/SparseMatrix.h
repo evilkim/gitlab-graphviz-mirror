@@ -118,8 +118,6 @@ int SparseMatrix_k_centers(SparseMatrix D, int weighted, int K, int root,
 int SparseMatrix_k_centers_user(SparseMatrix D, int weighted, int K, 
 				int *centers_user, int centering, real **dist);
 
-SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
-
 int SparseMatrix_distance_matrix(SparseMatrix A, int weighted,  real **dist_matrix);
 SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix A, int weighted);
 SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
