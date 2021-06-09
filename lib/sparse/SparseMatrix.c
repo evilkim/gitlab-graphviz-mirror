@@ -3209,44 +3209,6 @@ int SparseMatrix_distance_matrix(SparseMatrix D0, int weighted, real **dist0){
 
 }
 
-SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted){
-  /* return a sparse matrix whichj represent the k-center and distance from every node to them.
-     The matrix will have k*n entries
-   */
-  int flag;
-  real *dist = NULL;
-  int m = D->m, n = D->n;
-  int root = 0;
-  int *centers = NULL;
-  real d;
-  int i, j, center;
-  SparseMatrix B, C;
-  int centering = FALSE;
-
-  assert(m == n);
-
-  B = SparseMatrix_new(n, n, 1, MATRIX_TYPE_REAL, FORMAT_COORD);
-
-  flag = SparseMatrix_k_centers(D, weighted, K, root, &centers, centering, &dist);
-  assert(!flag);
-
-  for (i = 0; i < K; i++){
-    center = centers[i];
-    for (j = 0; j < n; j++){
-      d = dist[i*n + j];
-      B = SparseMatrix_coordinate_form_add_entries(B, 1, &center, &j, &d);
-      B = SparseMatrix_coordinate_form_add_entries(B, 1, &j, &center, &d);
-    }
-  }
-
-  C = SparseMatrix_from_coordinate_format(B);
-  SparseMatrix_delete(B);
-
-  FREE(centers);
-  FREE(dist);
-  return C;
-}
-
 SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix D0, int weighted){
   /*
     Input:
