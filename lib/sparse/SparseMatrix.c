@@ -2832,46 +2832,6 @@ SparseMatrix SparseMatrix_set_entries_to_real_one(SparseMatrix A){
 
 }
 
-SparseMatrix SparseMatrix_complement(SparseMatrix A, int undirected){
-  /* find the complement graph A^c, such that {i,h}\in E(A_c) iff {i,j} \notin E(A). Only structural matrix is returned. */
-  SparseMatrix B = A;
-  int *ia, *ja;
-  int m = A->m, n = A->n;
-  int *mask, nz = 0;
-  int *irn, *jcn;
-  int i, j;
-
-  if (undirected) B = SparseMatrix_symmetrize(A, TRUE);
-  assert(m == n);
-
-  ia = B->ia; ja = B->ja;
-  mask = MALLOC(sizeof(int)*((size_t)n));
-  irn = MALLOC(sizeof(int)*(((size_t)n)*((size_t)n) - ((size_t)A->nz)));
-  jcn = MALLOC(sizeof(int)*(((size_t)n)*((size_t)n) - ((size_t)A->nz)));
-
-  for (i = 0; i < n; i++){
-    mask[i] = -1;
-  }
-
-  for (i = 0; i < n; i++){
-    for (j = ia[i]; j < ia[i+1]; j++){
-      mask[ja[j]] = i;
-    }
-    for (j = 0; j < n; j++){
-      if (mask[j] != i){
-	irn[nz] = i;
-	jcn[nz++] = j;
-      }
-    }
-  }
-
-  if (B != A) SparseMatrix_delete(B);
-  B = SparseMatrix_from_coordinate_arrays(nz, m, n, irn, jcn, NULL, MATRIX_TYPE_PATTERN, 0);
-  FREE(irn);
-  FREE(jcn);
-  return B;
-}
-
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x){
   /* wrap a mxn matrix into a sparse matrix. the {i,j} entry of the matrix is in x[i*n+j], 0<=i<m; 0<=j<n */
   int i, j, *ja;
