@@ -32,8 +32,6 @@ Source0: https://gitlab.com/graphviz/graphviz/-/archive/@VERSION@/graphviz-@VERS
 %global LASI       1
 %global OCAML      1
 %global WEBP       1
-%global PYTHON     0
-%global PYTHON2    1
 %global PYTHON3    1
 %global QT5        1
 # Not yet.
@@ -51,15 +49,6 @@ Source0: https://gitlab.com/graphviz/graphviz/-/archive/@VERSION@/graphviz-@VERS
 %global GTK        0
 %global JAVASCRIPT 0
 %global LASI       0
-%if 0%{?rhel} >= 8
-%global PYTHON     0
-%global PYTHON2    1
-%global PYTHON3    1
-%else
-%global PYTHON     1
-%global PYTHON2    0
-%global PYTHON3    0
-%endif
 %global SHARP      0
 %global WEBP       0
 %endif
@@ -116,12 +105,6 @@ BuildRequires: lasi-devel
 %endif
 %if %{OCAML}
 BuildRequires: ocaml
-%endif
-%if %{PYTHON}
-BuildRequires: python python-devel
-%endif
-%if %{PYTHON2}
-BuildRequires: python2 python2-devel
 %endif
 %if %{PYTHON3}
 BuildRequires: python3 python3-devel
@@ -763,48 +746,6 @@ PHP extension for graphviz.
 %exclude %{_libdir}/graphviz/php/*.so
 %exclude %{_libdir}/graphviz/php/*.php
 
-#-- graphviz-lang-python rpm -------------------------------------------
-%if %{PYTHON}
-%package lang-python
-Group:          Applications/Multimedia
-Summary:        Python extension for graphviz
-Requires:       %{name} = %{version}-%{release}, python
-Obsoletes:      %{name}-python <= 2.41
-Provides:       %{name}-python = %{version}-%{release}
-
-%description lang-python
-Python extension for graphviz.
-
-%files lang-python
-%defattr(-,root,root,-)
-%{_libdir}/python*/*
-%{_datadir}/graphviz/demo/*.py*
-%{_mandir}/man3/gv.3python.*
-%exclude %{_libdir}/graphviz/python*/*.so
-%exclude %{_libdir}/graphviz/python*/*.py*
-%endif
-
-#-- graphviz-lang-python2 rpm -------------------------------------------
-%if %{PYTHON2}
-%package lang-python2
-Group:          Applications/Multimedia
-Summary:        Python extension for graphviz
-Requires:       %{name} = %{version}-%{release}, python2
-Conflicts:      %{name}-python <= 2.41
-Conflicts:      %{name}-lang-python <= 2.41
-
-%description lang-python2
-Python extension for graphviz.
-
-%files lang-python2
-%defattr(-,root,root,-)
-%{_libdir}/python2*/*
-%{_datadir}/graphviz/demo/*.py*
-%{_mandir}/man3/gv.3python.*
-%exclude %{_libdir}/graphviz/python2/*.so
-%exclude %{_libdir}/graphviz/python2/*.py*
-%endif
-
 #-- graphviz-lang-python3 rpm -------------------------------------------
 %if %{PYTHON3}
 %package lang-python3
@@ -997,12 +938,7 @@ CFLAGS="$RPM_OPT_FLAGS" \
 %if ! %{ANN}
         --without-ann \
 %endif
-%if ! %{PYTHON}
         --disable-python \
-%endif
-%if ! %{PYTHON2}
-        --disable-python2 \
-%endif
 %if ! %{PYTHON3}
         --disable-python3 \
 %endif

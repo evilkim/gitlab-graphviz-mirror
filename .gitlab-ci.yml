@@ -15,6 +15,10 @@ portable-source:
     tags:
         - linux
     image: "$CI_REGISTRY_IMAGE/ubuntu-18.04:$CI_COMMIT_SHA"
+    before_script:
+        # Make Python.h findable
+        - export C_INCLUDE_PATH="/usr/include/python3.6m"
+        - export CPLUS_INCLUDE_PATH="/usr/include/python3.6m"
     script:
         - ./autogen.sh
         - ./configure --enable-man-pdfs
@@ -285,6 +289,10 @@ ubuntu18-04-build:
           artifacts: false
         - job: portable-source
           artifacts: true
+    before_script:
+        # Make Python.h findable
+        - export C_INCLUDE_PATH="/usr/include/python3.6m"
+        - export CPLUS_INCLUDE_PATH="/usr/include/python3.6m"
     tags:
         - linux
     variables:

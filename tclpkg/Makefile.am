@@ -10,7 +10,6 @@ pkgocamldir = $(pkglibdir)/ocaml
 pkgperldir = $(pkglibdir)/perl
 pkgphpdir = $(pkglibdir)/php
 pkgpythondir = $(pkglibdir)/python
-pkgpython2dir = $(pkglibdir)/python2
 pkgpython3dir = $(pkglibdir)/python3
 pkgRdir = $(pkglibdir)/R
 pkgrubydir = $(pkglibdir)/ruby
@@ -83,17 +82,6 @@ if WITH_PYTHON
 		echo "Skipping system installation of python binding."; \
 	fi
 endif
-if WITH_PYTHON2
-	-mkdir -p $(DESTDIR)@PYTHON2_INSTALL_DIR@;
-	if test -w $(DESTDIR)@PYTHON2_INSTALL_DIR@; then \
-		(cd $(DESTDIR)@PYTHON2_INSTALL_DIR@; \
-			cp -f $(DESTDIR)$(pkgpython2dir)/libgv_python2.so _gv.so; \
-			cp -f $(DESTDIR)$(pkgpython2dir)/gv.py gv.py;) \
-	else \
-		echo "Warning: @PYTHON3_INSTALL_DIR@ is not writable."; \
-		echo "Skipping system installation of python2 binding."; \
-	fi
-endif
 if WITH_PYTHON3
 	-mkdir -p $(DESTDIR)@PYTHON3_INSTALL_DIR@;
 	if test -w $(DESTDIR)@PYTHON3_INSTALL_DIR@; then \
@@ -143,8 +131,6 @@ uninstall-hook:
 	-rm -rf $(DESTDIR)@PHP_INSTALL_DIR@/gv.so $(DESTDIR)@PHP_INSTALL_DATADIR@/gv.php;
 	-rm -rf $(DESTDIR)$(pkgpythondir);
 	-rm -rf $(DESTDIR)@PYTHON_INSTALL_DIR@/_gv.so $(DESTDIR)@PYTHON_INSTALL_DIR@/gv.py;
-	-rm -rf $(DESTDIR)$(pkgpython2dir);
-	-rm -rf $(DESTDIR)@PYTHON2_INSTALL_DIR@/_gv.so $(DESTDIR)@PYTHON2_INSTALL_DIR@/gv.py;
 	-rm -rf $(DESTDIR)$(pkgpython3dir);
 	-rm -rf $(DESTDIR)@PYTHON3_INSTALL_DIR@/_gv.so $(DESTDIR)@PYTHON3_INSTALL_DIR@/gv.py;
 	-rm -rf $(DESTDIR)$(pkgpython23dir);

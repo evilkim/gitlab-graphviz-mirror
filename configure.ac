@@ -1257,75 +1257,6 @@ fi
 AM_CONDITIONAL(WITH_PYTHON, [test "x$use_python" = "xYes"])
 
 dnl -----------------------------------
-dnl INCLUDES and LIBS for PYTHON2
-
-AC_ARG_ENABLE(python2,
-  [AS_HELP_STRING([--enable-python2=yes],[python2 language bindings])],
-  [], [enable_python2=yes])
-
-if test "x$enable_python2" != "xyes"; then
-  use_python2="No (disabled)"
-else
-  if test "x$use_swig" != "xYes"; then
-    use_python2="No (swig not available)"
-  else
-    if test `$SWIG -help 2>&1 | $EGREP -c '\-python *- Generate'` = 0; then
-      use_python="No (swig does not support -python option)"
-    else
-      AC_CHECK_PROG(PYTHON2,python2,python2)
-      if test "x$PYTHON2" = "x"; then
-        use_python2="No (python2 not available)"
-      else
-        PYTHON2_VERSION=`$PYTHON2 -c "import sys; print('%d.%d' % sys.version_info[[0:2]])"`
-        if test "x$PYTHON2_VERSION" = "x"; then
-          PYTHON2=
-        else
-          PYTHON2_VERSION_MAJOR=`echo $PYTHON2_VERSION | cut -d '.' -f 1`
-          PYTHON2_VERSION_MINOR=`echo $PYTHON2_VERSION | cut -d '.' -f 2`
-          PYTHON2_VERSION_SHORT=$PYTHON2_VERSION_MAJOR.$PYTHON2_VERSION_MINOR
-          if test $PYTHON2_VERSION_MAJOR -lt 3; then
-            if test $PYTHON2_VERSION_MAJOR -lt 2; then
-	      PYTHON2=
-            else
-              if test $PYTHON2_VERSION_MINOR -lt 3; then
-	        PYTHON2=
-              fi
-            fi
-          fi
-        fi
-      fi
-      if test "x$PYTHON2" = "x"; then
-	    use_python2="No (python2 is too old)"
-      else
-        if test "x$PKG_CONFIG" != "x"; then
-          AC_MSG_CHECKING(for Python2 headers and libraries with pkg-config)
-          echo
-          pkgconfig_python2_found=`$PKG_CONFIG --exists python-$PYTHON2_VERSION 2>/dev/null`
-          if test "x$?" = "x0" ; then
-               PYTHON2_INCLUDES="$PYTHON2_CFLAGS "`$PKG_CONFIG --cflags python-$PYTHON2_VERSION`
-               PYTHON2_LIBS="$PYTHON2_LFLAGS "`$PKG_CONFIG --libs python-$PYTHON2_VERSION`
-          else
-	           use_python2="No (python-$PYTHON2_VERSION.pc not found)"
-	           PYTHON2=
-          fi
-        fi
-        PYTHON2_PREFIX=`$PYTHON2 -c "import sys; print(sys.prefix)"`
-        PYTHON2_INSTALL_DIR="`$PYTHON2 $srcdir/config/config_python.py archsitelib`"
-        save_CPPFLAGS=$CPPFLAGS
-        CPPFLAGS=$save_CPPFLAGS
-	if test "x$PYTHON2" != "x"; then
-	  use_python2="Yes"
-          AC_SUBST([PYTHON2_INSTALL_DIR])
-          AC_SUBST([PYTHON2_INCLUDES])
-          AC_SUBST([PYTHON2_LIBS])
-        fi
-      fi
-    fi
-  fi
-fi
-AM_CONDITIONAL(WITH_PYTHON2, [test "x$use_python2" = "xYes"])
-
-dnl -----------------------------------
 dnl INCLUDES and LIBS for PYTHON3
 
 AC_ARG_ENABLE(python3,
@@ -1348,19 +1279,6 @@ else
         PYTHON3_VERSION=`$PYTHON3 -c "import sys; print('%d.%d' % sys.version_info[[0:2]])"`
         if test "x$PYTHON3_VERSION" = "x"; then
           PYTHON3=
-        else
-          PYTHON3_VERSION_MAJOR=`echo $PYTHON3_VERSION | cut -d '.' -f 1`
-          PYTHON3_VERSION_MINOR=`echo $PYTHON3_VERSION | cut -d '.' -f 2`
-          PYTHON3_VERSION_SHORT=$PYTHON3_VERSION_MAJOR.$PYTHON3_VERSION_MINOR
-          if test $PYTHON3_VERSION_MAJOR -lt 3; then
-            if test $PYTHON3_VERSION_MAJOR -lt 2; then
-	      PYTHON3=
-            else
-              if test $PYTHON3_VERSION_MINOR -lt 3; then
-	        PYTHON3=
-              fi
-            fi
-          fi
         fi
       fi
       if test "x$PYTHON3" = "x"; then
@@ -1378,7 +1296,6 @@ else
 	           use_python3="No (python-$PYTHON3_VERSION.pc not found)"
           fi
         fi
-        PYTHON3_PREFIX=`$PYTHON3 -c "import sys; print(sys.prefix)"`
         PYTHON3_INSTALL_DIR="`$PYTHON3 $srcdir/config/config_python.py archsitelib`"
         save_CPPFLAGS=$CPPFLAGS
         CPPFLAGS="$CPPFLAGS $PYTHON3_INCLUDES"
@@ -3170,7 +3087,6 @@ echo "  gv_ocaml:      $use_ocaml"
 echo "  gv_perl:       $use_perl"
 echo "  gv_php:        $use_php"
 echo "  gv_python:     $use_python"
-echo "  gv_python2:    $use_python2"
 echo "  gv_python3:    $use_python3"
 echo "  gv_R:          $use_r"
 echo "  gv_ruby:       $use_ruby"
