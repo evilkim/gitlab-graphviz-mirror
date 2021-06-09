@@ -125,7 +125,6 @@ SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix A, int w
 SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
 
 void SparseMatrix_kcoreness(SparseMatrix A, int **coreness);/* assign coreness to each node */
-void SparseMatrix_kcore_decomposition(SparseMatrix A, int *coreness_max0, int **coreness_ptr0, int **coreness_list0);/* return the decomposition */
 
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 
