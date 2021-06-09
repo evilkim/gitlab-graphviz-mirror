@@ -128,7 +128,6 @@ void SparseMatrix_kcoreness(SparseMatrix A, int **coreness);/* assign coreness t
 void SparseMatrix_kcore_decomposition(SparseMatrix A, int *coreness_max0, int **coreness_ptr0, int **coreness_list0);/* return the decomposition */
 
 void SparseMatrix_khairness(SparseMatrix A, int **hairness);/* assign hairness to each node */
-void SparseMatrix_khair_decomposition(SparseMatrix A, int *hairness_max0, int **hairness_ptr0, int **hairness_list0);/* return the decomposition */
 
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 
