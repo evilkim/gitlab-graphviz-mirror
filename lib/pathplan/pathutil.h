@@ -8,10 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
 
-
-#ifndef _PATHUTIL_INCLUDE
-#define _PATHUTIL_INCLUDE
 #define _BLD_pathplan 1
 
 #include "pathplan.h"
@@ -39,14 +37,10 @@ extern "C" {
     extern COORD area2(Ppoint_t, Ppoint_t, Ppoint_t);
     extern int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c);
     extern COORD dist2(Ppoint_t, Ppoint_t);
-    extern int intersect(Ppoint_t a, Ppoint_t b, Ppoint_t c, Ppoint_t d);
 
     int in_poly(Ppoly_t argpoly, Ppoint_t q);
-    Ppoly_t copypoly(Ppoly_t);
-    void freepoly(Ppoly_t);
 
 #undef extern
 #ifdef __cplusplus
 }
-#endif
 #endif

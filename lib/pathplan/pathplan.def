@@ -3,13 +3,10 @@ LIBRARY	"Pathplan"
 
 EXPORTS
 area2
-copypoly
 directVis
 dist2
-freepoly
 freePath
 in_poly
-intersect
 make_polyline
 makePath
 Pobsclose

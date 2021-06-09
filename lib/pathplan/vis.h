@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef VISIBILITY_H
-#define VISIBILITY_H
+#pragma once
 
 #include <assert.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <limits.h>
 #include "vispath.h"
@@ -25,12 +24,8 @@ extern "C" {
 
     typedef COORD **array2;
 
-#define	OBSCURED	0.0
 #define EQ(p,q)		((p.x == q.x) && (p.y == q.y))
-#define NEQ(p,q)	(!EQ(p,q))
 #define NIL(p)		((p)0)
-#define	CW			0
-#define	CCW			1
 
     struct vconfig_s {
 	int Npoly;
@@ -51,7 +46,7 @@ extern "C" {
 /*end visual studio*/
 
 	extern COORD *ptVis(vconfig_t *, int, Ppoint_t);
-    extern int directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
+    extern bool directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
     extern void visibility(vconfig_t *);
     extern int *makePath(Ppoint_t p, int pp, COORD * pvis,
 			 Ppoint_t q, int qp, COORD * qvis,
@@ -61,5 +56,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

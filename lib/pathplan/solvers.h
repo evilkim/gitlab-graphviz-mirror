@@ -8,20 +8,15 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-#ifndef _SOLVERS_INCLUDE
-#define _SOLVERS_INCLUDE
-
     extern int solve3(double *, double *);
     extern int solve2(double *, double *);
     extern int solve1(double *, double *);
-
-#endif
 
 #ifdef __cplusplus
 }
