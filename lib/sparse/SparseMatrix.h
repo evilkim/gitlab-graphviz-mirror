@@ -132,9 +132,6 @@ void SparseMatrix_khair_decomposition(SparseMatrix A, int *hairness_max0, int **
 
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 
-void SparseMatrix_page_rank(SparseMatrix A, real teleport_probablity, int weighted, real epsilon, real **page_rank);
-
-
 #define SparseMatrix_set_undirected(A) set_flag((A)->property, MATRIX_UNDIRECTED)
 #define SparseMatrix_set_symmetric(A) set_flag((A)->property, MATRIX_SYMMETRIC)
 #define SparseMatrix_set_pattern_symmetric(A) set_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
