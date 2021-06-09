@@ -188,8 +188,6 @@ mapbool
 maptoken    
 MaxIter    
 MemTest    
-mkbox    
-mkboxf    
 N_activefillcolor    
 N_activepencolor    
 N_color    

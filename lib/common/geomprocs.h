@@ -31,9 +31,6 @@ extern "C" {
 #endif
 #endif
 
-extern box mkbox(point p, point q);
-extern boxf mkboxf(pointf p, pointf q);
-
 extern box flip_rec_box(box b, point p);
 extern boxf flip_rec_boxf(boxf b, pointf p);
 
@@ -54,16 +51,6 @@ extern int line_intersect (pointf a, pointf b, pointf c, pointf d, pointf* p);
 #if defined(_WIN32)
 #define inline __inline
 #endif
-
-
-static inline point pointof(int x, int y)
-{
-    point r;
-
-    r.x = x;
-    r.y = y;
-    return r;
-}
 
 static inline pointf pointfof(double x, double y)
 {
@@ -128,16 +115,6 @@ static inline pointf sub_pointf(pointf p, pointf q)
     return r;
 }
 
-/* for +ve coord values, this rounds towards p */
-static inline point mid_point(point p, point q)
-{
-    point r;
-
-    r.x = (p.x + q.x) / 2;
-    r.y = (p.y + q.y) / 2;
-    return r;
-}
-
 static inline pointf mid_pointf(pointf p, pointf q)
 {
     pointf r;
@@ -172,54 +149,6 @@ static inline pointf exch_xyf(pointf p)
     r.x = p.y;
     r.y = p.x;
     return r;
-}
-
-static inline box box_bb(box b0, box b1)
-{
-    box b;
-
-    b.LL.x = MIN(b0.LL.x, b1.LL.x);
-    b.LL.y = MIN(b0.LL.y, b1.LL.y);
-    b.UR.x = MAX(b0.UR.x, b1.UR.x);
-    b.UR.y = MAX(b0.UR.y, b1.UR.y);
-
-    return b;
-}
-
-static inline boxf boxf_bb(boxf b0, boxf b1)
-{
-    boxf b;
-
-    b.LL.x = MIN(b0.LL.x, b1.LL.x);
-    b.LL.y = MIN(b0.LL.y, b1.LL.y);
-    b.UR.x = MAX(b0.UR.x, b1.UR.x);
-    b.UR.y = MAX(b0.UR.y, b1.UR.y);
-
-    return b;
-}
-
-static inline box box_intersect(box b0, box b1)
-{
-    box b;
-
-    b.LL.x = MAX(b0.LL.x, b1.LL.x);
-    b.LL.y = MAX(b0.LL.y, b1.LL.y);
-    b.UR.x = MIN(b0.UR.x, b1.UR.x);
-    b.UR.y = MIN(b0.UR.y, b1.UR.y);
-
-    return b;
-}
-
-static inline boxf boxf_intersect(boxf b0, boxf b1)
-{
-    boxf b;
-
-    b.LL.x = MAX(b0.LL.x, b1.LL.x);
-    b.LL.y = MAX(b0.LL.y, b1.LL.y);
-    b.UR.x = MIN(b0.UR.x, b1.UR.x);
-    b.UR.y = MIN(b0.UR.y, b1.UR.y);
-
-    return b;
 }
 
 static inline int box_overlap(box b0, box b1)

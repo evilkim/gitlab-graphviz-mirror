@@ -105,10 +105,6 @@ extern "C" {
     /* from psusershape.c */
     extern void cat_libfile(GVJ_t * job, const char **arglib, const char **stdlib);
 
-Agnodeinfo_t* ninf(Agnode_t* n);
-Agraphinfo_t* ginf(Agraph_t* g);
-Agedgeinfo_t* einf(Agedge_t* e);
-
 #undef extern
 
 #ifdef __cplusplus
