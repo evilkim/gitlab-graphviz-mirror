@@ -124,8 +124,6 @@ int SparseMatrix_distance_matrix(SparseMatrix A, int weighted,  real **dist_matr
 SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix A, int weighted);
 SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
 
-void SparseMatrix_kcoreness(SparseMatrix A, int **coreness);/* assign coreness to each node */
-
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 
 #define SparseMatrix_set_undirected(A) set_flag((A)->property, MATRIX_UNDIRECTED)
