@@ -85,7 +85,7 @@ static void addstr(char *src) {
 			long	sz = Send - Sbuf;
 			long	off = Sptr - Sbuf;
 			sz *= 2;
-			Sbuf = (char*)realloc(Sbuf,sz);
+			Sbuf = realloc(Sbuf,sz);
 			Send = Sbuf + sz;
 			Sptr = Sbuf + off;
 		}
@@ -93,12 +93,12 @@ static void addstr(char *src) {
 }
 
 static void endstr(void) {
-	aaglval.str = (char*)agstrdup(Ag_G_global,Sbuf);
+	aaglval.str = agstrdup(Ag_G_global,Sbuf);
 	*Sbuf = 0;
 }
 
 static void endstr_html(void) {
-	aaglval.str = (char*)agstrdup_html(Ag_G_global,Sbuf);
+	aaglval.str = agstrdup_html(Ag_G_global,Sbuf);
 	*Sbuf = 0;
 }
 
@@ -109,7 +109,7 @@ storeFileName (char* fname, int len)
     static char* buf;
 
     if (len > cnt) {
-	buf = (char*)realloc (buf, len+1);
+	buf = realloc (buf, len+1);
 	cnt = len;
     }
     strcpy (buf, fname);
@@ -216,8 +216,8 @@ ID		({NAME}|{NUMBER})
 "subgraph"				return(T_subgraph);
 "->"				if (graphType == T_digraph) return(T_edgeop); else return('-');
 "--"				if (graphType == T_graph) return(T_edgeop); else return('-');
-{NAME}					{ aaglval.str = (char*)agstrdup(Ag_G_global,aagtext); return(T_atom); }
-{NUMBER}				{ if (chkNum()) yyless(aagleng-1); aaglval.str = (char*)agstrdup(Ag_G_global,aagtext); return(T_atom); }
+{NAME}					{ aaglval.str = agstrdup(Ag_G_global,aagtext); return(T_atom); }
+{NUMBER}				{ if (chkNum()) yyless(aagleng-1); aaglval.str = agstrdup(Ag_G_global,aagtext); return(T_atom); }
 ["]						BEGIN(qstring); beginstr();
 <qstring>["]			BEGIN(INITIAL); endstr(); return (T_qatom);
 <qstring>[\\]["]		addstr ("\"");

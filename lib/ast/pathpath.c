@@ -53,7 +53,7 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
 	path = buf;
     if (!p) {
 	free(cmd);
-	cmd = a ? strdup(a) : (char *) 0;
+	cmd = a ? strdup(a) : NULL;
 	return 0;
     }
     if (strlen(p) < PATH_MAX) {

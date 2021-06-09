@@ -45,7 +45,7 @@ gen (char* name, term_t* ts)
 static term_t*
 mkLiteral (char c, int kind)
 {
-    term_t* nt = (term_t*)malloc(sizeof(term_t));
+    term_t* nt = malloc(sizeof(term_t));
     nt->kind = kind;
     nt->u.c = c;
     nt->next = 0;
@@ -55,7 +55,7 @@ mkLiteral (char c, int kind)
 static term_t*
 mkID (char* s, int kind)
 {
-    term_t* nt = (term_t*)malloc(sizeof(term_t));
+    term_t* nt = malloc(sizeof(term_t));
     nt->kind = kind;
     nt->u.s = s;
     nt->next = 0;
@@ -65,7 +65,7 @@ mkID (char* s, int kind)
 static term_t*
 mkSeq (term_t* t1, term_t* t2, int kind)
 {
-    term_t* nt = (term_t*)malloc(sizeof(term_t));
+    term_t* nt = malloc(sizeof(term_t));
     nt->kind = kind;
     nt->u.t = t1;
     t1->next = t2;
@@ -76,7 +76,7 @@ mkSeq (term_t* t1, term_t* t2, int kind)
 static term_t*
 mkTerm (term_t* t, int kind)
 {
-    term_t* nt = (term_t*)malloc(sizeof(term_t));
+    term_t* nt = malloc(sizeof(term_t));
     nt->kind = kind;
     nt->u.t = t;
     nt->next = 0;

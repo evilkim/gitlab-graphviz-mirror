@@ -25,9 +25,9 @@
 #include <agxbuf.h>
 #include <assert.h>
 
-#define NEW(t)       (t*)malloc(sizeof(t))
-#define N_NEW(n,t)   (t*)calloc((n),sizeof(t))
-#define RALLOC(size,ptr,type) ((type*)realloc(ptr,(size)*sizeof(type)))
+#define NEW(t)       malloc(sizeof(t))
+#define N_NEW(n,t)   calloc((n),sizeof(t))
+#define RALLOC(size,ptr,type) realloc(ptr,(size)*sizeof(type))
 
 typedef unsigned short ushort;
 
