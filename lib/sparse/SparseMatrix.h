@@ -112,9 +112,6 @@ SparseMatrix SparseMatrix_set_entries_to_real_one(SparseMatrix A);
 
 SparseMatrix SparseMatrix_complement(SparseMatrix A, int undirected);
 
-int SparseMatrix_k_centers(SparseMatrix D, int weighted, int K, int root, 
-			  int **centers, int centering, real **dist);
-
 int SparseMatrix_distance_matrix(SparseMatrix A, int weighted,  real **dist_matrix);
 SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix A, int weighted);
 
