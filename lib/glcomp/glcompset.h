@@ -27,19 +27,12 @@ extern "C" {
     void glCompEmptyCommon(glCompCommon * c);
     extern glCompSet *glCompSetNew(int w, int h);
     extern int glCompSetDraw(glCompSet * s);
-    extern int glCompSetHide(glCompSet * s);
-    extern int glCompSetShow(glCompSet * s);
-    extern int glCompSetClick(glCompSet * s, int x, int y);
-    extern int glCompSetRelease(glCompSet * s, int x, int y);
     extern void glcompsetUpdateBorder(glCompSet * s, int w, int h);
-    extern int glcompsetNextGroupId(glCompSet * s);
-    extern int glcompsetGetGroupId(glCompSet * s);
     extern void glCompDrawBegin(void);
     extern void glCompDrawEnd(void);
     extern void glCompSetAddObj(glCompSet * s, glCompObj * obj);
     glCompObj *glCompGetObjByMouse(glCompSet * s, glCompMouse * m,
 				   int onlyClickable);
-    extern void glCompGetObjectType(glCompObj * p);
 
 #ifdef __cplusplus
 }

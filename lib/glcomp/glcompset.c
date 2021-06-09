@@ -19,31 +19,6 @@
 
 static GLfloat startX, startY;
 
-
-
-void glCompGetObjectType(glCompObj * p)
-{
-    switch (p->objType) {
-    case glPanelObj:
-	printf("Panel\n");
-	break;
-    case glButtonObj:
-	printf("Button\n");
-	break;
-    case glImageObj:
-	printf("Image\n");
-	break;
-    case glLabelObj:
-	printf("Label\n");
-	break;
-    default:
-	printf("undefined object\n");
-	break;
-
-    }
-
-}
-
 static int glCompPointInObject(glCompObj * p, float x, float y)
 {
     return ((x > p->common.refPos.x)
@@ -312,14 +287,4 @@ void glcompsetUpdateBorder(glCompSet * s, int w, int h)
 	s->common.width = (GLfloat) w;
 	s->common.height = (GLfloat) h;
     }
-}
-extern int glcompsetGetGroupId(glCompSet * s)
-{
-    return s->groupCount;
-}
-extern int glcompsetNextGroupId(glCompSet * s)
-{
-    int rv = s->groupCount;
-    s->groupCount++;
-    return rv;
 }
