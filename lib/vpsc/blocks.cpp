@@ -61,14 +61,14 @@ list<Variable*> *Blocks::totalOrder() {
 	}
 	for(int i=0;i<nvs;i++) {
 		if(vs[i]->in.empty()) {
-			dfsVisit(vs[i],order);
+			dfsVisit(vs[i],*order);
 		}
 	}
 	return order;
 }
 // Recursive depth first search giving total order by pushing nodes in the DAG
 // onto the front of the list when we finish searching them
-void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
+void Blocks::dfsVisit(Variable *v, list<Variable*> &order) {
 	v->visited=true;
 	vector<Constraint*>::iterator it=v->out.begin();
 	for(;it!=v->out.end();it++) {
@@ -81,7 +81,7 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
 		ofstream f(LOGFILE,ios::app);
 		f<<"  order="<<*v<<"\n";
 	}
-	order->push_front(v);
+	order.push_front(v);
 }
 /**
  * Processes incoming constraints, most violated to least, merging with the

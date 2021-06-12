@@ -46,7 +46,7 @@ public:
 	void cleanup();
 	double cost();
 private:
-	void dfsVisit(Variable *v, std::list<Variable*> *order);
+	void dfsVisit(Variable *v, std::list<Variable*> &order);
 	void removeBlock(Block *doomed);
 	Variable **vs;
 	int nvs;
