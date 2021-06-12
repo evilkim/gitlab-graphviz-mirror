@@ -70,9 +70,7 @@ list<Variable*> *Blocks::totalOrder() {
 // onto the front of the list when we finish searching them
 void Blocks::dfsVisit(Variable *v, list<Variable*> &order) {
 	v->visited=true;
-	vector<Constraint*>::iterator it=v->out.begin();
-	for(;it!=v->out.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->out) {
 		if(!c->right->visited) {
 			dfsVisit(c->right, order);
 		}
