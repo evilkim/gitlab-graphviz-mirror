@@ -74,8 +74,8 @@ void VPSC::printBlocks() {
 * another so that constraints internal to the block are satisfied.
 */
 void VPSC::satisfy() {
-	list<Variable*> *vs=bs.totalOrder();
-	for(Variable *v : *vs) {
+	list<Variable*> vs=bs.totalOrder();
+	for(Variable *v : vs) {
 		if(!v->block->deleted) {
 			bs.mergeLeft(v->block);
 		}
@@ -91,7 +91,6 @@ void VPSC::satisfy() {
 			throw "Unsatisfied constraint";
 		}
 	}
-	delete vs;
 }
 
 void VPSC::refine() {

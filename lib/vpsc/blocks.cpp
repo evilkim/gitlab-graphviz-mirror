@@ -54,14 +54,14 @@ Blocks::~Blocks()
  * returns a list of variables with total ordering determined by the constraint 
  * DAG
  */
-list<Variable*> *Blocks::totalOrder() {
-	list<Variable*> *order = new list<Variable*>;
+list<Variable*> Blocks::totalOrder() {
+	list<Variable*> order;
 	for(int i=0;i<nvs;i++) {
 		vs[i]->visited=false;
 	}
 	for(int i=0;i<nvs;i++) {
 		if(vs[i]->in.empty()) {
-			dfsVisit(vs[i],*order);
+			dfsVisit(vs[i],order);
 		}
 	}
 	return order;

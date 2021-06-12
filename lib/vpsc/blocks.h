@@ -42,7 +42,7 @@ public:
 	void mergeLeft(Block *r);
 	void mergeRight(Block *l);
 	void split(Block *b, Block *&l, Block *&r, Constraint *c);
-	std::list<Variable*> *totalOrder();
+	std::list<Variable*> totalOrder();
 	void cleanup();
 	double cost();
 private:
