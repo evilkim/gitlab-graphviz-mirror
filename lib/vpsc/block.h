@@ -21,9 +21,9 @@
 
 #include <vector>
 #include <iostream>
+#include <vpsc/pairingheap/PairingHeap.h>
 struct Variable;
 struct Constraint;
-template <class T> class PairingHeap;
 
 class Block
 {
