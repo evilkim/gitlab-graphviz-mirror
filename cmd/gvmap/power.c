@@ -11,7 +11,7 @@
 #include "power.h"
 #include <sparse/SparseMatrix.h>
 
-void power_method(void (*matvec)(void *, int, real*, real **, int, int*),
+void power_method(void (*matvec)(void *, real*, real **, int, int*),
 		  void *A, int n, int K, int random_seed, int maxit, real tol, real **eigv, real **eigs){
   /* find k-largest eigenvectors of a matrix A. Result in eigv. if eigv == NULL; memory will be allocated.
      maxium of maxit iterations will be done, and tol is the convergence criterion
@@ -90,7 +90,7 @@ void power_method(void (*matvec)(void *, int, real*, real **, int, int*),
 	  u[i] = u[i] - uij *v[j][i];
 	}
       }
-      matvec(A, n, u, &vv, FALSE, &flag);
+      matvec(A, u, &vv, FALSE, &flag);
       assert(!flag);
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
@@ -117,7 +117,7 @@ void power_method(void (*matvec)(void *, int, real*, real **, int, int*),
   FREE(vv);  
 }
 
-void matvec_sparse(void *M, int n, real *u, real **v, int transpose, int *flag){
+void matvec_sparse(void *M, real *u, real **v, int transpose, int *flag){
   SparseMatrix A;
 
   *flag = 0;
