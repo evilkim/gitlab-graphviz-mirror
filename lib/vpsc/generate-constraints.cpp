@@ -20,6 +20,7 @@
 #include <set>
 #include <cassert>
 #include <cstdlib>
+#include <memory>
 #include <vector>
 #include <vpsc/generate-constraints.h>
 #include <vpsc/constraint.h>
@@ -115,9 +116,10 @@ static NodeSet getRightNeighbours(NodeSet &scanline,Node *v) {
 typedef enum {Open, Close} EventType;
 struct Event {
 	EventType type;
-	Node *v;
+	std::shared_ptr<Node> v;
 	double pos;
-	Event(EventType t, Node *v, double p) : type(t),v(v),pos(p) {};
+	Event(EventType t, const std::shared_ptr<Node> &v, double p)
+	  : type(t),v(v),pos(p) {};
 };
 
 static bool compare_events(const Event &ea, const Event &eb) {
@@ -146,7 +148,7 @@ int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
 		vars[i]->desiredPosition=rs[i].getCentreX();
-		Node *v = new Node(vars[i],rs[i],rs[i].getCentreX());
+		auto v = std::make_shared<Node>(vars[i],rs[i],rs[i].getCentreX());
 		events.emplace_back(Open,v,rs[i].getMinY());
 		events.emplace_back(Close,v,rs[i].getMaxY());
 	}
@@ -155,7 +157,7 @@ int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(Event &e : events) {
-		Node *v=e.v;
+		Node *v = e.v.get();
 		if(e.type==Open) {
 			scanline.insert(v);
 			if(useNeighbourLists) {
@@ -205,7 +207,6 @@ int generateXConstraints(const vector<Rectangle> &rs, Variable** vars,
 				}
 			}
 			scanline.erase(v);
-			delete v;
 		}
 	}
 	int m =constraints.size();
@@ -224,7 +225,7 @@ int generateYConstraints(const vector<Rectangle> &rs, Variable** vars,
 	events.reserve(2 * rs.size());
 	for(size_t i=0;i<rs.size();i++) {
 		vars[i]->desiredPosition=rs[i].getCentreY();
-		Node *v = new Node(vars[i],rs[i],rs[i].getCentreY());
+		auto v = std::make_shared<Node>(vars[i],rs[i],rs[i].getCentreY());
 		events.emplace_back(Open,v,rs[i].getMinX());
 		events.emplace_back(Close,v,rs[i].getMaxX());
 	}
@@ -232,7 +233,7 @@ int generateYConstraints(const vector<Rectangle> &rs, Variable** vars,
 	NodeSet scanline;
 	vector<Constraint*> constraints;
 	for(Event &e : events) {
-		Node *v=e.v;
+		Node *v = e.v.get();
 		if(e.type==Open) {
 			scanline.insert(v);
 			NodeSet::iterator i=scanline.find(v);
@@ -261,7 +262,6 @@ int generateYConstraints(const vector<Rectangle> &rs, Variable** vars,
 				r->firstAbove=v->firstAbove;
 			}
 			scanline.erase(v);
-			delete v;
 		}
 	}
 	int m =constraints.size();
