@@ -11,7 +11,7 @@
 #include "power.h"
 #include <sparse/SparseMatrix.h>
 
-static void matvec_sparse(void *M, real *u, real **v, int transposed, int *flag);
+static void matvec_sparse(void *M, real *u, real **v, int transposed);
 
 void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
     real **eigv, real **eigs){
@@ -57,7 +57,6 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
   real res, unorm;
   int i, j, k;
   real uij;
-  int flag;
 
   K = MAX(0, MIN(n, K));
   assert(K <= n && K > 0);
@@ -91,8 +90,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
 	  u[i] = u[i] - uij *v[j][i];
 	}
       }
-      matvec_sparse(A, u, &vv, FALSE, &flag);
-      assert(!flag);
+      matvec_sparse(A, u, &vv, FALSE);
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
       unorm = sqrt(unorm);
@@ -118,10 +116,9 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
   FREE(vv);  
 }
 
-static void matvec_sparse(void *M, real *u, real **v, int transpose, int *flag){
+static void matvec_sparse(void *M, real *u, real **v, int transpose){
   SparseMatrix A;
 
-  *flag = 0;
   A = (SparseMatrix) M;
   SparseMatrix_multiply_vector(A, u, v, transpose);
 }
