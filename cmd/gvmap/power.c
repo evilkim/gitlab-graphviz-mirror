@@ -139,5 +139,4 @@ void matvec_sparse(void *M, int m, int n, real *u, real **v, int transpose,
   *flag = 0;
   A = (SparseMatrix) M;
   SparseMatrix_multiply_vector(A, u, v, transpose);
-  return;
 }
