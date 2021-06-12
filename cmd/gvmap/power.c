@@ -71,7 +71,6 @@ void power_method(void (*matvec)(void *, int, int, real*, real **, int, int*),
   srand(random_seed);
 
   for (k = 0; k < K; k++){
-    //fprintf(stderr,"calculating eig k ==================== %d\n",k);
     v[k] = &((*eigv)[k*n]);
     for (i = 0; i < n; i++) u[i] = drand();
     res = sqrt(vector_product(n, u, u));
@@ -80,10 +79,6 @@ void power_method(void (*matvec)(void *, int, int, real*, real **, int, int*),
       u[i] = u[i]*res;
       v[k][i] = u[i];
     }
-    /*
-    fprintf(stderr,"initial vec=");
-    for (i = 0; i < n; i++) fprintf(stderr,"%f,",u[i]);fprintf(stderr,"\n");
-    */
     iter = 0;
     do {
 
@@ -97,11 +92,6 @@ void power_method(void (*matvec)(void *, int, int, real*, real **, int, int*),
       }
       matvec(A, n, n, u, &vv, FALSE, &flag);
       assert(!flag);
-
-      /*
-      fprintf(stderr,"normalized against prev vec=");
-      for (i = 0; i < n; i++) fprintf(stderr,"%f,",u[i]);fprintf(stderr,"\n");
-      */
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
       unorm = sqrt(unorm);
@@ -117,15 +107,11 @@ void power_method(void (*matvec)(void *, int, int, real*, real **, int, int*),
       res = 0.;
 
       for (i = 0; i < n; i++) {
-	//res = MAX(res, ABS(vv[i]-(*eigs)[k]*u[i]));
 	u[i] = vv[i]*unorm;
 	res = res + u[i]*v[k][i];
 	v[k][i] = u[i];
       }
-      //fprintf(stderr,"res=%g, tol = %g, res < 1-tol=%d\n",res, tol,res < 1 - tol);
     } while (res < 1 - tol && iter++ < maxit);
-    //} while (iter++ < maxit);
-    //fprintf(stderr,"iter= %d, res=%f\n",iter, res);
   }
   FREE(u);
   FREE(vv);  
