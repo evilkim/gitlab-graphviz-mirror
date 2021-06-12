@@ -54,8 +54,8 @@ Block::Block(Variable *v) {
 
 double Block::desiredWeightedPosition() {
 	double wp = 0;
-	for (vector<Variable*>::iterator v=vars->begin();v!=vars->end();v++) {
-		wp += ((*v)->desiredPosition - (*v)->offset) * (*v)->weight;
+	for (Variable *v : *vars) {
+		wp += (v->desiredPosition - v->offset) * v->weight;
 	}
 	return wp;
 }
@@ -74,8 +74,7 @@ void Block::setUpOutConstraints() {
 void Block::setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in) {
 	delete h;
 	h = new PairingHeap<Constraint*>(&compareConstraints);
-	for (vector<Variable*>::iterator i=vars->begin();i!=vars->end();i++) {
-		Variable *v=*i;
+	for (Variable *v : *vars) {
 		vector<Constraint*> *cs=in?&(v->in):&(v->out);
 		for (vector<Constraint*>::iterator j=cs->begin();j!=cs->end();j++) {
 			Constraint *c=*j;
@@ -120,8 +119,7 @@ void Block::merge(Block *b, Constraint *c, double dist) {
 	wposn+=b->wposn-dist*b->weight;
 	weight+=b->weight;
 	posn=wposn/weight;
-	for(vector<Variable*>::iterator i=b->vars->begin();i!=b->vars->end();i++) {
-		Variable *v=*i;
+	for (Variable *v : *b->vars) {
 		v->block=this;
 		v->offset+=dist;
 		vars->push_back(v);
@@ -392,17 +390,17 @@ void Block::split(Block* &l, Block* &r, Constraint* c) {
  */
 double Block::cost() {
 	double c = 0;
-	for (vector<Variable*>::iterator v=vars->begin();v!=vars->end();v++) {
-		double diff = (*v)->position() - (*v)->desiredPosition;
-		c += (*v)->weight * diff * diff;
+	for (Variable *v : *vars) {
+		double diff = v->position() - v->desiredPosition;
+		c += v->weight * diff * diff;
 	}
 	return c;
 }
 ostream& operator <<(ostream &os, const Block &b)
 {
 	os<<"Block:";
-	for(vector<Variable*>::iterator v=b.vars->begin();v!=b.vars->end();v++) {
-		os<<" "<<**v;
+	for(Variable *v : *b.vars) {
+		os<<" "<<*v;
 	}
 	if(b.deleted) {
 		os<<" Deleted!";
