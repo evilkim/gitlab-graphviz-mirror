@@ -13,9 +13,8 @@
 
 #include <sparse/general.h>
 
-/* if you have a standard sparse matrix, set matvec to matvec_sparse*/
-void power_method(void (*matvec)(void *M, real *u, real **v, int transposed, int *flag),
-          void *A, int n, int K, int random_seed, int maxit, real tol, real **eigv, real **eigs);
+void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
+  real **eigv, real **eigs);
 
 void matvec_sparse(void *M, real *u, real **v, int transposed, int *flag);
 
