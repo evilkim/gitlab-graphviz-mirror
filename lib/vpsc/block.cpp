@@ -34,7 +34,7 @@ typedef vector<Constraint*>::iterator Cit;
 
 void Block::addVariable(Variable *v) {
 	v->block=this;
-	vars->push_back(v);
+	vars.push_back(v);
 	weight+=v->weight;
 	wposn += v->weight * (v->desiredPosition - v->offset);
 	posn=wposn/weight;
@@ -45,7 +45,6 @@ Block::Block(Variable *v) {
 	in=nullptr;
 	out=nullptr;
 	deleted=false;
-	vars=new vector<Variable*>;
 	if(v!=nullptr) {
 		v->offset=0;
 		addVariable(v);
@@ -54,14 +53,13 @@ Block::Block(Variable *v) {
 
 double Block::desiredWeightedPosition() {
 	double wp = 0;
-	for (Variable *v : *vars) {
+	for (Variable *v : vars) {
 		wp += (v->desiredPosition - v->offset) * v->weight;
 	}
 	return wp;
 }
 Block::~Block()
 {
-	delete vars;
 	delete in;
 	delete out;
 }
@@ -74,7 +72,7 @@ void Block::setUpOutConstraints() {
 void Block::setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in) {
 	delete h;
 	h = new PairingHeap<Constraint*>(&compareConstraints);
-	for (Variable *v : *vars) {
+	for (Variable *v : vars) {
 		vector<Constraint*> *cs=in?&(v->in):&(v->out);
 		for (vector<Constraint*>::iterator j=cs->begin();j!=cs->end();j++) {
 			Constraint *c=*j;
@@ -93,7 +91,7 @@ void Block::merge(Block* b, Constraint* c) {
 	double dist = c->right->offset - c->left->offset - c->gap;
 	Block *l=c->left->block;
 	Block *r=c->right->block;
-	if (vars->size() < b->vars->size()) {
+	if (vars.size() < b->vars.size()) {
 		r->merge(l,c,dist);
 	} else {
 	       	l->merge(r,c,-dist);
@@ -119,10 +117,10 @@ void Block::merge(Block *b, Constraint *c, double dist) {
 	wposn+=b->wposn-dist*b->weight;
 	weight+=b->weight;
 	posn=wposn/weight;
-	for (Variable *v : *b->vars) {
+	for (Variable *v : b->vars) {
 		v->block=this;
 		v->offset+=dist;
-		vars->push_back(v);
+		vars.push_back(v);
 	}
 	b->deleted=true;
 }
@@ -327,13 +325,13 @@ void Block::reset_active_lm(Variable *v, Variable *u) {
  */
 Constraint *Block::findMinLM() {
 	Constraint *min_lm=nullptr;
-	reset_active_lm(vars->front(),nullptr);
-	compute_dfdv(vars->front(),nullptr,min_lm);
+	reset_active_lm(vars.front(),nullptr);
+	compute_dfdv(vars.front(),nullptr,min_lm);
 	return min_lm;
 }
 Constraint *Block::findMinLMBetween(Variable* lv, Variable* rv) {
 	Constraint *min_lm=nullptr;
-	reset_active_lm(vars->front(),nullptr);
+	reset_active_lm(vars.front(),nullptr);
 	min_lm=compute_dfdv_between(rv,lv,nullptr).second;
 	return min_lm;
 }
@@ -390,7 +388,7 @@ void Block::split(Block* &l, Block* &r, Constraint* c) {
  */
 double Block::cost() {
 	double c = 0;
-	for (Variable *v : *vars) {
+	for (Variable *v : vars) {
 		double diff = v->position() - v->desiredPosition;
 		c += v->weight * diff * diff;
 	}
@@ -399,7 +397,7 @@ double Block::cost() {
 ostream& operator <<(ostream &os, const Block &b)
 {
 	os<<"Block:";
-	for(Variable *v : *b.vars) {
+	for(Variable *v : b.vars) {
 		os<<" "<<*v;
 	}
 	if(b.deleted) {

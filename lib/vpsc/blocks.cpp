@@ -101,7 +101,7 @@ void Blocks::mergeLeft(Block *r) {
 		Block *l = c->left->block;		
 		if (l->in==nullptr) l->setUpInConstraints();
 		double dist = c->right->offset - c->left->offset - c->gap;
-		if (r->vars->size() < l->vars->size()) {
+		if (r->vars.size() < l->vars.size()) {
 			dist=-dist;
 			std::swap(l, r);
 		}
@@ -136,7 +136,7 @@ void Blocks::mergeRight(Block *l) {
 		Block *r = c->right->block;
 		r->setUpOutConstraints();
 		double dist = c->left->offset + c->gap - c->right->offset;
-		if (l->vars->size() > r->vars->size()) {
+		if (l->vars.size() > r->vars.size()) {
 			dist=-dist;
 			std::swap(l, r);
 		}

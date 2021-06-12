@@ -29,7 +29,7 @@ class Block
 {
 	friend std::ostream& operator <<(std::ostream &os,const Block &b);
 public:
-	std::vector<Variable*> *vars;
+	std::vector<Variable*> vars;
 	double posn;
 	double weight;
 	double wposn;
