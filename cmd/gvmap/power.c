@@ -141,21 +141,3 @@ void matvec_sparse(void *M, int m, int n, real *u, real **v, int transpose,
   SparseMatrix_multiply_vector(A, u, v, transpose);
   return;
 }
-
-void mat_print_dense(real *M, int m, int n){
-  int i, j;
-  fprintf(stderr,"{");
-  for (i = 0; i < m; i++){
-    fprintf(stderr,"{");
-    for (j = 0; j < n; j++){
-      if (j != 0) fprintf(stderr,",");
-      fprintf(stderr,"%f",M[i*n+j]);
-    }
-    if (i != m-1){
-      fprintf(stderr,"},\n");
-    } else {
-      fprintf(stderr,"}");
-    }
-  }
-  fprintf(stderr,"}\n");
-}

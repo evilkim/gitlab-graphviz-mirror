@@ -19,7 +19,4 @@ void power_method(void (*matvec)(void *M, int m, int n, real *u, real **v, int t
 
 void matvec_sparse(void *M, int m, int n, real *u, real **v, int transposed, int *flag);
 
-void mat_print_dense(real *M, int m, int n);
-
-
 #endif
