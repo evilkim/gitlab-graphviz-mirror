@@ -159,36 +159,3 @@ void mat_print_dense(real *M, int m, int n){
   }
   fprintf(stderr,"}\n");
 }
-
-void matvec_dense(void *M, int m, int n, real *u, real **v, int transpose,
-		  int *flag){
-  /* M.u or M^T.u */
-  real *A;
-  int i, j;
-
-  A = (real*) M;
-  *flag = 0;
-  
-
-  if (!transpose){
-    if (!(*v)) *v = MALLOC(sizeof(real)*m);
-    for (i = 0; i < m; i++){
-      (*v)[i] = 0;
-      for (j = 0; j < n; j++){
-	(*v)[i] += A[i*n+j]*u[j];
-      }
-    }
-  } else {
-    if (!(*v)) *v = MALLOC(sizeof(real)*n);
-    for (i = 0; i < n; i++){
-      (*v)[i] = 0;
-    }
-    for (i = 0; i < m; i++){
-      for (j = 0; j < n; j++){
-	(*v)[j] += A[i*n+j]*u[i];
-      }
-    }
-  }
-
-  return;
-}
