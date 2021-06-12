@@ -34,6 +34,7 @@ public:
 	double weight;
 	double wposn;
 	Block(Variable *v=nullptr);
+	Block(const Block &) = delete;
 	~Block();
 	Constraint* findMinLM();
 	Constraint* findMinLMBetween(Variable* lv, Variable* rv);
