@@ -26,7 +26,6 @@
 using std::ios;
 using std::ofstream;
 using std::set;
-using std::vector;
 using std::list;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
@@ -156,12 +155,13 @@ void Blocks::removeBlock(Block *doomed) {
 	//erase(doomed);
 }
 void Blocks::cleanup() {
-	vector<Block*> b_copy(begin(),end());
-	for(vector<Block*>::iterator i=b_copy.begin();i!=b_copy.end();i++) {
+	for (auto i = begin(); i != end();) {
 		Block *b=*i;
 		if(b->deleted) {
-			erase(b);
+			i = erase(i);
 			delete b;
+		} else {
+			++i;
 		}
 	}
 }
