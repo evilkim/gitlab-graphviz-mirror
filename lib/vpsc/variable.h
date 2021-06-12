@@ -35,7 +35,7 @@ public:
 	Constraints in;
 	Constraints out;
 	char *toString();
-	inline Variable(const int id, const double desiredPos, const double weight)
+	Variable(const int id, const double desiredPos, const double weight)
 		: id(id)
 		, desiredPosition(desiredPos)
 		, weight(weight)
@@ -43,7 +43,7 @@ public:
 		, visited(false)
 	{
 	}
-	inline double position() const {
+	double position() const {
 		return block->posn+offset;
 	}
 };
