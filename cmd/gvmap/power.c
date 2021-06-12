@@ -11,8 +11,6 @@
 #include "power.h"
 #include <sparse/SparseMatrix.h>
 
-static void matvec_sparse(void *M, real *u, real **v, int transposed);
-
 void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
     real **eigv, real **eigs){
   /* find k-largest eigenvectors of a matrix A. Result in eigv. if eigv == NULL; memory will be allocated.
@@ -90,7 +88,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
 	  u[i] = u[i] - uij *v[j][i];
 	}
       }
-      matvec_sparse(A, u, &vv, FALSE);
+      SparseMatrix_multiply_vector(A, u, &vv, FALSE);
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
       unorm = sqrt(unorm);
@@ -114,11 +112,4 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
   }
   FREE(u);
   FREE(vv);  
-}
-
-static void matvec_sparse(void *M, real *u, real **v, int transpose){
-  SparseMatrix A;
-
-  A = (SparseMatrix) M;
-  SparseMatrix_multiply_vector(A, u, v, transpose);
 }
