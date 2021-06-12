@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <iostream>
 #include <vpsc/pairingheap/PairingHeap.h>
@@ -35,7 +36,6 @@ public:
 	double wposn;
 	Block(Variable *v=nullptr);
 	Block(const Block &) = delete;
-	~Block();
 	Constraint* findMinLM();
 	Constraint* findMinLMBetween(Variable* lv, Variable* rv);
 	Constraint* findMinInConstraint();
@@ -54,8 +54,8 @@ public:
 	double cost();
 	bool deleted;
 	long timeStamp;
-	PairingHeap<Constraint*> *in;
-	PairingHeap<Constraint*> *out;
+	std::unique_ptr<PairingHeap<Constraint*>> in;
+	std::unique_ptr<PairingHeap<Constraint*>> out;
 private:
 	typedef enum {NONE, LEFT, RIGHT} Direction;
 	typedef std::pair<double, Constraint*> Pair;
@@ -67,5 +67,5 @@ private:
 	bool canFollowRight(Constraint *c, Variable *last);
 	void populateSplitBlock(Block *b, Variable *v, Variable *u);
 	void addVariable(Variable *v);
-	void setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in);
+	void setUpConstraintHeap(std::unique_ptr<PairingHeap<Constraint*>> &h,bool in);
 };

@@ -17,6 +17,7 @@
  * Adaptagrams repository.
  */
 #include <cassert>
+#include <memory>
 #include <vpsc/pairingheap/PairingHeap.h>
 #include <vpsc/constraint.h>
 #include <vpsc/block.h>
@@ -42,8 +43,6 @@ void Block::addVariable(Variable *v) {
 Block::Block(Variable *v) {
 	timeStamp=0;
 	posn=weight=wposn=0;
-	in=nullptr;
-	out=nullptr;
 	deleted=false;
 	if(v!=nullptr) {
 		v->offset=0;
@@ -58,20 +57,16 @@ double Block::desiredWeightedPosition() {
 	}
 	return wp;
 }
-Block::~Block()
-{
-	delete in;
-	delete out;
-}
 void Block::setUpInConstraints() {
 	setUpConstraintHeap(in,true);
 }
 void Block::setUpOutConstraints() {
 	setUpConstraintHeap(out,false);
 }
-void Block::setUpConstraintHeap(PairingHeap<Constraint*>* &h,bool in) {
-	delete h;
-	h = new PairingHeap<Constraint*>(&compareConstraints);
+void Block::setUpConstraintHeap(std::unique_ptr<PairingHeap<Constraint*>> &h,
+	  bool in) {
+	h = std::unique_ptr<PairingHeap<Constraint*>>(
+	  new PairingHeap<Constraint*>(&compareConstraints));
 	for (Variable *v : vars) {
 		vector<Constraint*> *cs=in?&(v->in):&(v->out);
 		for (vector<Constraint*>::iterator j=cs->begin();j!=cs->end();j++) {
@@ -133,7 +128,7 @@ void Block::mergeIn(Block *b) {
 	// We check the top of the heaps to remove possible internal constraints
 	findMinInConstraint();
 	b->findMinInConstraint();
-	in->merge(b->in);
+	in->merge(b->in.get());
 	if (RECTANGLE_OVERLAP_LOGGING) {
 		ofstream f(LOGFILE,ios::app);
 		f<<"  merged heap: "<<*in<<"\n";
@@ -142,7 +137,7 @@ void Block::mergeIn(Block *b) {
 void Block::mergeOut(Block *b) {	
 	findMinOutConstraint();
 	b->findMinOutConstraint();
-	out->merge(b->out);
+	out->merge(b->out.get());
 }
 Constraint *Block::findMinInConstraint() {
 	Constraint *v = nullptr;
