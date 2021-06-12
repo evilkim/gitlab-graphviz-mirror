@@ -31,8 +31,6 @@ using std::vector;
 	#define RECTANGLE_OVERLAP_LOGGING 0
 #endif
 
-typedef vector<Constraint*>::iterator Cit;
-
 void Block::addVariable(Variable *v) {
 	v->block=this;
 	vars.push_back(v);
@@ -69,8 +67,7 @@ void Block::setUpConstraintHeap(std::unique_ptr<PairingHeap<Constraint*>> &h,
 	  new PairingHeap<Constraint*>(&compareConstraints));
 	for (Variable *v : vars) {
 		vector<Constraint*> *cs=in?&(v->in):&(v->out);
-		for (vector<Constraint*>::iterator j=cs->begin();j!=cs->end();j++) {
-			Constraint *c=*j;
+		for (Constraint *c : *cs) {
 			c->timeStamp=blockTimeCtr;
 			if ((c->left->block != this && in) || (c->right->block != this && !in)) {
 				h->insert(c);
@@ -177,8 +174,7 @@ Constraint *Block::findMinInConstraint() {
 			break;
 		}
 	}
-	for(vector<Constraint*>::iterator i=outOfDate.begin();i!=outOfDate.end();i++) {
-		v=*i;
+	for (Constraint *v : outOfDate) {
 		v->timeStamp=blockTimeCtr;
 		in->insert(v);
 	}
@@ -224,15 +220,13 @@ inline bool Block::canFollowRight(Constraint *c, Variable *last) {
 // in min_lm
 double Block::compute_dfdv(Variable *v, Variable *u, Constraint *&min_lm) {
 	double dfdv=v->weight*(v->position() - v->desiredPosition);
-	for(vector<Constraint*>::iterator it=v->out.begin();it!=v->out.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->out) {
 		if(canFollowRight(c,u)) {
 			dfdv+=c->lm=compute_dfdv(c->right,v,min_lm);
 			if(min_lm==nullptr||c->lm<min_lm->lm) min_lm=c;
 		}
 	}
-	for(vector<Constraint*>::iterator it=v->in.begin();it!=v->in.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->in) {
 		if(canFollowLeft(c,u)) {
 			dfdv-=c->lm=-compute_dfdv(c->left,v,min_lm);
 			if(min_lm==nullptr||c->lm<min_lm->lm) min_lm=c;
@@ -258,8 +252,7 @@ Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u,
 		Direction dir = NONE, bool changedDirection = false) {
 	double dfdv=v->weight*(v->position() - v->desiredPosition);
 	Constraint *m=nullptr;
-	for(Cit it(v->in.begin());it!=v->in.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->in) {
 		if(canFollowLeft(c,u)) {
 			if(dir==RIGHT) { 
 				changedDirection = true; 
@@ -274,8 +267,7 @@ Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u,
 				m = p.second;
 		}
 	}
-	for(Cit it(v->out.begin());it!=v->out.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->out) {
 		if(canFollowRight(c,u)) {
 			if(dir==LEFT) { 
 				changedDirection = true; 
@@ -299,15 +291,13 @@ Block::Pair Block::compute_dfdv_between(Variable* r, Variable* v, Variable* u,
 // traversing active constraint tree starting from v,
 // not back tracking over u
 void Block::reset_active_lm(Variable *v, Variable *u) {
-	for(vector<Constraint*>::iterator it=v->out.begin();it!=v->out.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->out) {
 		if(canFollowRight(c,u)) {
 			c->lm=0;
 			reset_active_lm(c->right,v);
 		}
 	}
-	for(vector<Constraint*>::iterator it=v->in.begin();it!=v->in.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->in) {
 		if(canFollowLeft(c,u)) {
 			c->lm=0;
 			reset_active_lm(c->left,v);
@@ -335,13 +325,13 @@ Constraint *Block::findMinLMBetween(Variable* lv, Variable* rv) {
 // visited.  Starts from variable v and does not backtrack over variable u.
 void Block::populateSplitBlock(Block *b, Variable *v, Variable *u) {
 	b->addVariable(v);
-	for (vector<Constraint*>::iterator c=v->in.begin();c!=v->in.end();c++) {
-		if (canFollowLeft(*c,u))
-			populateSplitBlock(b, (*c)->left, v);
+	for (Constraint *c : v->in) {
+		if (canFollowLeft(c,u))
+			populateSplitBlock(b, c->left, v);
 	}
-	for (vector<Constraint*>::iterator c=v->out.begin();c!=v->out.end();c++) {
-		if (canFollowRight(*c,u)) 
-			populateSplitBlock(b, (*c)->right, v);
+	for (Constraint *c : v->out) {
+		if (canFollowRight(c,u))
+			populateSplitBlock(b, c->right, v);
 	}
 }
 /**
