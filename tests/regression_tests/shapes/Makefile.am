@@ -1,9 +1,8 @@
 SUBDIRS = reference
 
 check test rtest:
-	./shapes.sh
+	python3 shapes.py
 
 EXTRA_DIST = \
-	shapes.sh \
 	test_shapes.py \
 	shapes.py
