@@ -433,6 +433,8 @@ else
 pdf =
 endif
 
+# this rule has a trailing semi-colon for the Make cache to work correctly
+# https://stackoverflow.com/questions/37873522/unreliable-parallel-builds-in-a-makefile-with-intermediate
 $(man): gv_doc_writer.intermediate ;
 
 .INTERMEDIATE: gv_doc_writer.intermediate
