@@ -433,7 +433,12 @@ else
 pdf =
 endif
 
-$(man): gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
+# this rule has a trailing semi-colon for the Make cache to work correctly
+# https://stackoverflow.com/questions/37873522/unreliable-parallel-builds-in-a-makefile-with-intermediate
+$(man): gv_doc_writer.intermediate ;
+
+.INTERMEDIATE: gv_doc_writer.intermediate
+gv_doc_writer.intermediate: gv.i gv_doc_writer.tcl gv_doc_template.tcl gv_doc_langs.tcl
 	$(TCLSH) $(srcdir)/gv_doc_writer.tcl "$(srcdir)"
 
 if ENABLE_MAN_PDFS
