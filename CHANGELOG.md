@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.47.3] - 2021-06-19
+
 ### Changed
 
 - marginally more accurate computations in Smyrna sphere projection
@@ -1429,7 +1431,8 @@ March 13, 2000: Use AM_PROG_LIBTOOL instead of AC_PROG_LIBTOOL
    in configure.in.  John Ellson <ellson@graphviz.org>
 ```
 
-[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.47.2...main
+[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.47.3...main
+[2.47.3]: https://gitlab.com/graphviz/graphviz/compare/2.47.2...2.47.3
 [2.47.2]: https://gitlab.com/graphviz/graphviz/compare/2.47.1...2.47.2
 [2.47.1]: https://gitlab.com/graphviz/graphviz/compare/2.47.0...2.47.1
 [2.47.0]: https://gitlab.com/graphviz/graphviz/compare/2.46.1...2.47.0
