@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the packaging work flow on CentOS 7 now selects the Python 3 bindings, instead
   of Python 2 bindings
 - remove Python 2 bindings #1992
+- improved thread-safety in Graphviz bindings Makefile
 
 ### Fixed
 
