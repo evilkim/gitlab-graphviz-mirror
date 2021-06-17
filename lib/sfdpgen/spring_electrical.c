@@ -1753,34 +1753,6 @@ void print_matrix(real *x, int n, int dim){
   printf("}\n");
 }
 
-/*
-static void interpolate2(int dim, SparseMatrix A, real *x){
-  int i, j, k, *ia = A->ia, *ja = A->ja, nz, m = A->m;
-  real alpha = 0.5, beta, *y;
-
-  y = MALLOC(sizeof(real)*dim*m);
-  for (k = 0; k < dim*m; k++) y[k] = 0;
-  for (i = 0; i < m; i++){
-    nz = 0;
-    for (j = ia[i]; j < ia[i+1]; j++){
-      if (ja[j] == i) continue;
-      nz++;
-      for (k = 0; k < dim; k++){
-	y[i*dim+k] += x[ja[j]*dim + k];
-      }
-    }
-    if (nz > 0){
-      beta = (1-alpha)/nz;
-      for (k = 0; k < dim; k++) y[i*dim+k] = alpha*x[i*dim+k] +  beta*y[i*dim+k];
-    }
-  }
-  for (k = 0; k < dim*m; k++) x[k] = y[k];
-
-  FREE(y);
-}
-
-*/
-
 void interpolate_coord(int dim, SparseMatrix A, real *x){
   int i, j, k, *ia = A->ia, *ja = A->ja, nz;
   real alpha = 0.5, beta, *y;
