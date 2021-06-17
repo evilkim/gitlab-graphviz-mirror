@@ -1236,7 +1236,7 @@ static void scale_coord(int n, int dim, real *x, int *id, int *jd, real *d, real
   fprintf(stderr,"scaling factor = %f\n",s);
 }
 
-static real dmean_get(int n, int *id, int *jd, real* d){
+static real dmean_get(int n, int *id, real* d){
   real dmean = 0;
   int i, j;
 
@@ -1319,7 +1319,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
     id = ia; jd = ja; d = NULL;
   }
   if (rho < 0) {
-    dmean = dmean_get(n, id, jd, d);
+    dmean = dmean_get(n, id, d);
     rho = rho*(id[n]/((((real) n)*((real) n)) - id[n]))/pow(dmean, p+1);
     fprintf(stderr,"dmean = %f, rho = %f\n",dmean, rho);
   }
