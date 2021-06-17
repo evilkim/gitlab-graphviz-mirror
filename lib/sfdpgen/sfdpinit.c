@@ -342,10 +342,6 @@ void sfdp_layout(graph_t * g)
     dotneato_postprocess(g);
 }
 
-static void sfdp_cleanup_graph(graph_t * g)
-{
-}
-
 void sfdp_cleanup(graph_t * g)
 {
     node_t *n;
@@ -357,6 +353,5 @@ void sfdp_cleanup(graph_t * g)
 	}
 	gv_cleanup_node(n);
     }
-    sfdp_cleanup_graph(g);
 }
  
