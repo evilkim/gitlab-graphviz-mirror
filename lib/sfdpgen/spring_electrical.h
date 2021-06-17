@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SPRING_ELECTRICAL_H
-#define SPRING_ELECTRICAL_H
+#pragma once
 
 #include <sparse/SparseMatrix.h>
 
@@ -96,4 +95,3 @@ int oned_optimizer_get(oned_optimizer opt);
 void interpolate_coord(int dim, SparseMatrix A, real *x);
 int power_law_graph(SparseMatrix A);
 void pcp_rotate(int n, int dim, real *x);
-#endif

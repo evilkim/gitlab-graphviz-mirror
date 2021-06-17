@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SFDP_H
-#define SFDP_H
+#pragma once
 
 #include "config.h"
 
@@ -18,6 +17,3 @@
 void sfdp_layout (graph_t * g);
 void sfdp_cleanup (graph_t * g);
 int fdpAdjust (graph_t * g);
-
-#endif
- 

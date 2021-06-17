@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef MULTILEVEL_H
-#define MULTILEVEL_H
+#pragma once
 
 #include <sparse/SparseMatrix.h>
 
@@ -66,4 +65,3 @@ void print_padding(int n);
 
 void Multilevel_coarsen(SparseMatrix A, SparseMatrix *cA, SparseMatrix D, SparseMatrix *cD, real *node_wgt, real **cnode_wgt,
 			SparseMatrix *P, SparseMatrix *R, Multilevel_control ctrl, int *coarsen_scheme_used);
-#endif

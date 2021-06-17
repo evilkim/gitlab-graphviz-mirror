@@ -8,9 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
-#ifndef SPARSE_SOLVER_H
-#define SPARSE_SOLVER_H
+#pragma once
 
 #include <sparse/SparseMatrix.h>
 
@@ -30,6 +28,3 @@ real SparseMatrix_solve(SparseMatrix A, int dim, real *x0, real *rhs, real tol, 
 Operator Operator_uniform_stress_matmul(SparseMatrix A, real alpha);
 
 Operator Operator_uniform_stress_diag_precon_new(SparseMatrix A, real alpha);
-
-#endif
- 
