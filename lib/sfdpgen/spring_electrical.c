@@ -22,6 +22,7 @@
 #include <common/logic.h>
 #include <math.h>
 #include <common/globals.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
 #include <time.h>
@@ -373,7 +374,7 @@ static void set_leaves(real *x, int dim, real dist, real ang, int i, int j){
 
 static void beautify_leaves(int dim, SparseMatrix A, real *x){
   int m = A->m, i, j, *ia = A->ia, *ja = A->ja, k;
-  int *checked, p;
+  int p;
   real dist;
   int nleaves, nleaves_max = 10;
   real *angles, maxang, ang1 = 0, ang2 = 0, pad, step;
@@ -381,19 +382,17 @@ static void beautify_leaves(int dim, SparseMatrix A, real *x){
 
   assert(!SparseMatrix_has_diagonal(A));
 
-  checked = MALLOC(sizeof(int)*m);
+  bool *checked = gcalloc(sizeof(bool), m);
   angles = MALLOC(sizeof(real)*nangles_max);
   leaves = MALLOC(sizeof(int)*nleaves_max);
 
-
-  for (i = 0; i < m; i++) checked[i] = FALSE;
 
   for (i = 0; i < m; i++){
     if (ia[i+1] - ia[i] != 1) continue;
     if (checked[i]) continue;
     p = ja[ia[i]];
     if (!checked[p]){
-      checked[p] = TRUE;
+      checked[p] = true;
       dist = 0; nleaves = 0; nangles = 0;
       for (j = ia[p]; j < ia[p+1]; j++){
 	if (node_degree(ja[j]) == 1){
