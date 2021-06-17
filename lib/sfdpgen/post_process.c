@@ -585,7 +585,7 @@ static real uniform_stress_solve(SparseMatrix Lw, real alpha, int dim, real *x0,
   Ax = Operator_uniform_stress_matmul(Lw, alpha);
   Precon = Operator_uniform_stress_diag_precon_new(Lw, alpha);
 
-  return cg(Ax, Precon, Lw->m, dim, x0, rhs, tol, maxit, flag);
+  return cg(Ax, Precon, Lw->m, dim, x0, rhs, tol, maxit);
 
 }
 

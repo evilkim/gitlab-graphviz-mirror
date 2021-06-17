@@ -23,7 +23,7 @@ struct Operator_struct {
   real* (*Operator_apply)(Operator o, real *in, real *out);
 };
 
-real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real tol, int maxit, int *flag);
+real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real tol, int maxit);
 
 real SparseMatrix_solve(SparseMatrix A, int dim, real *x0, real *rhs, real tol, int maxit, int method, int *flag);
 
