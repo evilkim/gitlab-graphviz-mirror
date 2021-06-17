@@ -796,11 +796,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -809,11 +805,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -821,11 +813,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1090,11 +1078,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1103,11 +1087,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1115,11 +1095,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1420,19 +1396,11 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	   repulsive forces between neighboring vertices */
 	if (ctrl->use_node_weights && node_weights){
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/(dist*dist);
-	    } else {
-	      f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
 	  }
 	} else {
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/(dist*dist);
-	    } else {
-	      f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
 	  }
 
 	}
@@ -1448,11 +1416,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1461,11 +1425,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1473,11 +1433,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += rho*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += rho*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += rho*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1645,11 +1601,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1658,11 +1610,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1670,11 +1618,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
