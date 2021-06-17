@@ -151,7 +151,7 @@ static void Operator_diag_precon_delete(Operator o){
   if (o) FREE(o);
 }
 
-static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real *rhs, real tol, int maxit, int *flag){
+static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real *rhs, real tol, int maxit){
   real *z, *r, *p, *q, res = 10*tol, alpha;
   real rho = 1.0e20, rho_old = 1, res0, beta;
   real* (*Ax)(Operator o, real *in, real *out) = A->Operator_apply;
@@ -227,7 +227,7 @@ real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real
       b[i] = rhs[i*dim+k];
     }
     
-    res += conjugate_gradient(Ax, precond, n, x, b, tol, maxit, flag);
+    res += conjugate_gradient(Ax, precond, n, x, b, tol, maxit);
     for (i = 0; i < n; i++) {
       rhs[i*dim+k] = x[i];
     }
