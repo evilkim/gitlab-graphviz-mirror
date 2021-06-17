@@ -57,7 +57,7 @@ static void sfdp_init_graph(Agraph_t * g)
 
 /* getPos:
  */
-static real *getPos(Agraph_t * g, spring_electrical_control ctrl)
+static real *getPos(Agraph_t * g)
 {
     Agnode_t *n;
     real *pos = N_NEW(Ndim * agnnodes(g), real);
@@ -102,7 +102,7 @@ static void sfdpLayout(graph_t * g, spring_electrical_control ctrl,
     }
     else
 	sizes = NULL;
-    pos = getPos(g, ctrl);
+    pos = getPos(g);
 
     switch (ctrl->method) {
     case METHOD_SPRING_ELECTRICAL:
