@@ -1367,21 +1367,9 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	}
 	assert(dj > 0);
 	/* spring force */
-	if (ctrl->q == 2){
-	  w_ij = 1./(dj*dj*dj);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*(dist - dj)*(dist - dj)/dist;
-	  }
-	} else if (ctrl->q == 1){/* square stress force */
-	  w_ij = 1./(dj*dj);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*(dist - dj)/dist;
-	  }
-	} else {
-	  w_ij = 1./pow(dj, ctrl->q + 1);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*pow(dist - dj, ctrl->q)/dist;
-	  }
+	w_ij = 1./pow(dj, ctrl->q + 1);
+	for (k = 0; k < dim; k++){
+	  f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*pow(dist - dj, ctrl->q)/dist;
 	}
 
 #ifdef DEBUG
