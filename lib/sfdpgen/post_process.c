@@ -578,7 +578,7 @@ static void uniform_stress_augment_rhs(int m, int dim, real *x, real *y, real al
   }
 }
 
-static real uniform_stress_solve(SparseMatrix Lw, real alpha, int dim, real *x0, real *rhs, real tol, int maxit, int *flag){
+static real uniform_stress_solve(SparseMatrix Lw, real alpha, int dim, real *x0, real *rhs, real tol, int maxit){
   Operator Ax;
   Operator Precon;
 
@@ -707,7 +707,7 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
 #endif
 
     if (sm->scheme == SM_SCHEME_UNIFORM_STRESS){
-      uniform_stress_solve(Lw, alpha, dim, x, y, sm->tol_cg, sm->maxit_cg, &flag);
+      uniform_stress_solve(Lw, alpha, dim, x, y, sm->tol_cg, sm->maxit_cg);
     } else {
       SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, sm->maxit_cg, SOLVE_METHOD_CG, &flag);
       //SparseMatrix_solve(Lw, dim, x, y,  sm->tol_cg, 1, SOLVE_METHOD_JACOBI, &flag);
