@@ -115,7 +115,7 @@ static parms_t parms;
 #define DFLT_seed  1
 #define DFLT_smode INIT_RANDOM
 
-static double cool(double temp, int t)
+static double cool(int t)
 {
     return T_T0 * (T_maxIters - t) / T_maxIters;
 }
@@ -152,7 +152,7 @@ static int init_params(graph_t * g, xparams * xpms)
 	ret = 1;
     }
 
-    xpms->T0 = cool(T_T0, T_pass1);
+    xpms->T0 = cool(T_pass1);
     xpms->K = T_K;
     xpms->C = T_C;
     xpms->numIters = T_maxIters - T_pass1;
@@ -677,13 +677,13 @@ void fdp_tLayout(graph_t * g, xparams * xpms)
 	grid = mkGrid(agnnodes(g));
 	adjustGrid(grid, agnnodes(g));
 	for (i = 0; i < T_loopcnt; i++) {
-	    temp = cool(temp, i);
+	    temp = cool(i);
 	    gAdjust(g, temp, pp, grid);
 	}
 	delGrid(grid);
     } else {
 	for (i = 0; i < T_loopcnt; i++) {
-	    temp = cool(temp, i);
+	    temp = cool(i);
 	    adjust(g, temp, pp);
 	}
     }
