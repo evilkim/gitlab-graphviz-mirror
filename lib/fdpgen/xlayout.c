@@ -28,6 +28,7 @@ Increase less between tries
 #include <neatogen/adjust.h>
 #include <fdpgen/dbg.h>
 #include <ctype.h>
+#include <math.h>
 
 /* Use bbox based force function */
 /* #define MS */
@@ -64,7 +65,7 @@ static double RAD(Agnode_t * n)
 {
     double w = WD2(n);
     double h = HT2(n);
-    return sqrt(w * w + h * h);
+    return hypot(w, h);
 }
 
 /* xinit_params:
