@@ -256,11 +256,9 @@ doRep(node_t * p, node_t * q, double xdelta, double ydelta, double dist2)
 {
     int ov;
     double force;
-    /* double dout, din; */
 #if defined(DEBUG) || defined(MS) || defined(ALT)
     double dist;
 #endif
-    /* double factor; */
 
     while (dist2 == 0.0) {
 	xdelta = 5 - rand() % 10;
@@ -406,8 +404,6 @@ static int adjust(Agraph_t * g, double temp)
 	int ov;
 	for (n1 = agnxtnode(g, n); n1; n1 = agnxtnode(g, n1)) {
 	    ov = applyRep(n, n1);
-/* if (V && ov)  */
-	    /* fprintf (stderr,"%s ov %s\n", n->name, n1->name); */
 	    overlaps += ov;
 	}
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {

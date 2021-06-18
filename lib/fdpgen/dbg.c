@@ -188,17 +188,11 @@ void dumpG(graph_t * g, char *fname, int expMode)
     fclose(fp);
 }
 
-/* #define BOX */
-
-/* static char* pos_name      = "pos"; */
-/* static char* lp_name       = "lp"; */
-
 double Scale = 0.0;
 double ArrowScale = 1.0;
 
 #define         ARROW_LENGTH    10
 #define         ARROW_WIDTH      5
-/* #define DEGREES(rad)   ((rad)/M_PI * 180.0) */
 
 static char *plog = "%!PS-Adobe-2.0\n\n\
 /Times-Roman findfont 14 scalefont setfont\n\
