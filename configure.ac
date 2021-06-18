@@ -329,7 +329,13 @@ then
   CFLAGS="${CFLAGS} -Wmissing-include-dirs -Wswitch-default -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs"
 
   # Enable additional C99 warnings
-  CFLAGS="${CFLAGS} -Wtrampolines -Wlogical-op"
+  save_CFLAGS="${CFLAGS}"
+  CFLAGS=""
+  AX_CHECK_COMPILE_FLAG([-Wtrampolines],
+    [save_CFLAGS="${save_CFLAGS} -Wtrampolines"],[],[-Werror])
+  AX_CHECK_COMPILE_FLAG([-Wlogical-op],
+    [save_CFLAGS="${save_CFLAGS} -Wlogical-op"],[],[-Werror])
+  CFLAGS="${save_CFLAGS}"
 # if [test "${ac_cv_prog_cc_c99}" != "no"]
 # then
     # FIXME - not available on centos[56]: gcc-4.1.2, gcc-4.4.7
