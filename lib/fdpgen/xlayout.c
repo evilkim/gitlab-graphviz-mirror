@@ -262,9 +262,7 @@ doRep(node_t * p, node_t * q, double xdelta, double ydelta, double dist2)
 	dist2 = xdelta * xdelta + ydelta * ydelta;
     }
 #if defined(MS)
-    dout = boxDist(p, q);
-    if (dout < EPSILON)
-	dout = EPSILON;
+    dout = fmax(boxDist(p, q), EPSILON);
     dist = sqrt(dist2);
     force = K2 / (dout * dist);
 #elif defined(ALT)
