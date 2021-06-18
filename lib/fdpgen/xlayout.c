@@ -211,12 +211,8 @@ static int overlap(node_t * p, node_t * q)
     double xdelta, ydelta;
     int    ret;
 
-    xdelta = ND_pos(q)[0] - ND_pos(p)[0];
-    if (xdelta < 0)
-	xdelta = -xdelta;
-    ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    if (ydelta < 0)
-	ydelta = -ydelta;
+    xdelta = fabs(ND_pos(q)[0] - ND_pos(p)[0]);
+    ydelta = fabs(ND_pos(q)[1] - ND_pos(p)[1]);
     ret = xdelta <= WD2(p) + WD2(q) && ydelta <= HT2(p) + HT2(q);
     return ret;
 #else
