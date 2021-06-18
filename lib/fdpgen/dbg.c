@@ -267,14 +267,10 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
     maxy = ND_pos(n)[1];
     n = agnxtnode(g, n);
     for (; n; n = agnxtnode(g, n)) {
-	if (ND_pos(n)[0] < minx)
-	    minx = ND_pos(n)[0];
-	if (ND_pos(n)[1] < miny)
-	    miny = ND_pos(n)[1];
-	if (ND_pos(n)[0] > maxx)
-	    maxx = ND_pos(n)[0];
-	if (ND_pos(n)[1] > maxy)
-	    maxy = ND_pos(n)[1];
+	minx = fmin(minx, ND_pos(n)[0]);
+	miny = fmin(miny, ND_pos(n)[1]);
+	maxx = fmax(maxx, ND_pos(n)[0]);
+	maxy = fmax(maxy, ND_pos(n)[1]);
     }
 
     /* Convert to points
@@ -302,10 +298,7 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 	height = maxy - miny + 20;
 	if (width > PSWidth) {
 	    if (height > PSHeight) {
-		scale =
-		    PSWidth / width <
-		     PSHeight / height ? PSWidth / width : PSHeight /
-		     height;
+		scale = fmin(PSWidth / width, PSHeight / height);
 	    } else
 		scale = PSWidth / width;
 	} else if (height > PSHeight) {
