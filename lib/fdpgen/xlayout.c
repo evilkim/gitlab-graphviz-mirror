@@ -338,12 +338,12 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
 	return;
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     force = (dout * dout) / (X_K * dist);
 #elif defined(ALT)
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     din = RAD(p) + RAD(q);
     if (dist < X_K + din)
 	return;
@@ -361,7 +361,7 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
     }
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     din = RAD(p) + RAD(q);
     dout = dist - din;
     force = dout * dout / ((X_K + din) * dist);
