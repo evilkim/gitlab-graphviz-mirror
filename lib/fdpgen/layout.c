@@ -667,10 +667,8 @@ genPorts(node_t * n, erec * er, bport_t * pp, int idx, double bnd)
     else
 	other = aghead(e);
 
-    delta = (bnd - er->alpha) / cnt;
+    delta = fmin((bnd - er->alpha) / cnt, ANG);
     angle = er->alpha;
-    if (delta > ANG)
-	delta = ANG;
 
     if (n < other) {
 	i = idx;
