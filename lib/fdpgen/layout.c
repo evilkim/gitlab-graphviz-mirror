@@ -33,6 +33,7 @@
 #include <inttypes.h>
 #include <assert.h>
 #include <fdpgen/tlayout.h>
+#include <math.h>
 #include <neatogen/neatoprocs.h>
 #include <neatogen/adjust.h>
 #include <fdpgen/comp.h>
@@ -627,9 +628,7 @@ static erec *getEdgeList(node_t * n, graph_t * g)
 		    bnd = M_PI;	/* all values equal up to end */
 		else
 		    bnd = erecs[j].alpha;
-		delta = (bnd - a) / (j - i);
-		if (delta > ANG)
-		    delta = ANG;
+		delta = fmin((bnd - a) / (j - i), ANG);
 		inc = 0;
 		for (; i < j; i++) {
 		    erecs[i].alpha += inc;
