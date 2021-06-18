@@ -118,7 +118,7 @@ static double dist(pointf p, pointf q)
 
     dx = p.x - q.x;
     dy = p.y - q.y;
-    return sqrt(dx * dx + dy * dy);
+    return hypot(dx, dy);
 }
 
 /* bBox:
