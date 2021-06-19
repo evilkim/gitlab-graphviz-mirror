@@ -613,6 +613,26 @@ def test_1877():
   p.communicate(input)
   assert p.returncode == 0
 
+def test_1880():
+  """
+  parsing a particular graph should not cause a Trapezoid-table overflow
+  assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/1880
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1880.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # FIXME: remove this block when this #1880 is fixed
+  if not is_ndebug_defined() and platform.system() != "Windows":
+    with pytest.raises(subprocess.CalledProcessError):
+      subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
+    return
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
+
 def test_1898():
   """
   test a segfault from https://gitlab.com/graphviz/graphviz/-/issues/1898 has
