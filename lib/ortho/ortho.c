@@ -607,7 +607,7 @@ create_graphs(Dt_t* chans)
 static int
 eqEndSeg (bend S1l2, bend S2l2, bend T1, bend T2)
 {
-    if (((S1l2==T2)&&(S2l2=!T2))
+    if (((S1l2==T2)&&(S2l2!=T2))
      || ((S1l2==B_NODE)&&(S2l2==T1)))
 	return(0);
     else

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - updated Graphviz bug report URL in the Autotools build system
 - Fix `WIN32` path of `gvc.def` specified in `libgvc_la_LDFLAGS`
 
+### Fixed
+
+- ortho's eqEndSeg incorrectly modifies its arguments #2047
+
 ## [2.47.3] - 2021-06-19
 
 ### Changed
