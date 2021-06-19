@@ -122,20 +122,8 @@ SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 #define SparseMatrix_set_hemitian(A) set_flag((A)->property, MATRIX_HERMITIAN)
 
 
-#define SparseMatrix_clear_undirected(A) clear_flag((A)->property, MATRIX_UNDIRECTED)
-#define SparseMatrix_clear_symmetric(A) clear_flag((A)->property, MATRIX_SYMMETRIC)
-#define SparseMatrix_clear_pattern_symmetric(A) clear_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
-#define SparseMatrix_clear_skew(A) clear_flag((A)->property, MATRIX_SKEW)
-#define SparseMatrix_clear_hemitian(A) clear_flag((A)->property, MATRIX_HERMITIAN)
-
-
 #define SparseMatrix_known_undirected(A) test_flag((A)->property, MATRIX_UNDIRECTED)
 #define SparseMatrix_known_symmetric(A) test_flag((A)->property, MATRIX_SYMMETRIC)
 #define SparseMatrix_known_strucural_symmetric(A) test_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
-#define SparseMatrix_known_skew(A) test_flag((A)->property, MATRIX_SKEW)
-#define SparseMatrix_known_hemitian(A) test_flag((A)->property, MATRIX_HERMITIAN)
-
-
-
 
 #endif
