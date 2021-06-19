@@ -15,6 +15,17 @@ import pytest
 sys.path.append(os.path.dirname(__file__))
 from gvtest import ROOT, run_c #pylint: disable=C0413
 
+def is_ndebug_defined() -> bool:
+  """
+  are assertions disabled in the Graphviz build under test?
+  """
+
+  # the Windows release builds set NDEBUG
+  if os.environ.get("configuration") == "Release":
+    return True
+
+  return False
+
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
 # (crashes) and the number of "changes" (which is the number of tests
@@ -218,6 +229,20 @@ def test_1314():
 
   # the execution did not fail as expected
   pytest.fail("dot incorrectly exited with success")
+
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_1408():
+  """
+  parsing particular ortho layouts should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/1408
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1408.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
 
 def test_1411():
   """
