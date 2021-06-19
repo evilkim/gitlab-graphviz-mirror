@@ -2229,41 +2229,6 @@ else
   ],[
     use_ann="No (no ann.pc found)"
   ])
-#  if test "$use_ann" != "Yes"; then
-#    if test -f /usr/lib$LIBPOSTFIX/libANN.so; then
-#      AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#        [Define if you have the ann library])
-#      ANN_LIBS=-lANN
-#      AC_SUBST([ANN_LIBS])
-#      use_ann="Yes (but no ann.pc found)"
-#    else
-#      if test -f /usr/lib$LIBPOSTFIX/libann.so; then
-#        AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#          [Define if you have the ann library])
-#        ANN_LIBS=-lann
-#        AC_SUBST([ANN_LIBS])
-#        use_ann="Yes (but no ann.pc found)"
-#      else
-#        if test -f /usr/lib/x86_64-linux-gnu/libann.so; then
-#          AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#            [Define if you have the ann library])
-#          ANN_LIBS=-L/usr/lib/x86_64-linux-gnu -lann
-#          AC_SUBST([ANN_LIBS])
-#          use_ann="Yes (but no ann.pc found so taking a wild guess its ubuntu-18.10)"
-#        else
-#          if test -f /usr/lib/libann.so; then
-#            AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#              [Define if you have the ann library])
-#            ANN_LIBS=-L/usr/lib -lann
-#            AC_SUBST([ANN_LIBS])
-#            use_ann="Yes (but no ann.pc found so taking a wild guess its ubuntu-18.04)"
-#          else
-#            use_ann="No (ANN library not available)"
-#          fi
-#        fi
-#      fi
-#    fi
-#  fi
 fi
 AM_CONDITIONAL(WITH_ANN, [test x"${use_ann%% *}" = "xYes"])
 
