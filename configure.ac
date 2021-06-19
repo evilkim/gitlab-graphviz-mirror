@@ -2420,7 +2420,7 @@ if test "x$use_gd" = "x"; then
    PKG_CHECK_MODULES(GTK, [gdlib >= 2.0.33],[
       have_gdlib=1
 # FIXME - why no features in the gdlib.pc?
-      GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF GD_GIFANIM"
+      GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF"
    ],[
       AC_PATH_PROG(GDLIB_CONFIG,gdlib-config)
       if test -n "$GDLIB_CONFIG"; then
@@ -2482,9 +2482,6 @@ if test "x$use_gd" = "x"; then
 	    fi
 	    if test "$f" = "GD_GIF"; then
                 AC_DEFINE_UNQUOTED(HAVE_GD_GIF,1,[Define if the GD library supports GIF])
-	    fi
-	    if test "$f" = "GD_GIFANIM"; then
-                AC_DEFINE_UNQUOTED(HAVE_GD_GIFANIM,1,[Define if the GD library supports GIFANIM])
 	    fi
       done
 

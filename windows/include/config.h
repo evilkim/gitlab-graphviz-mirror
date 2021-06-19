@@ -84,9 +84,6 @@
 /* Define if the GD library has the GD_GIF feature */
 #define HAVE_GD_GIF 1
 
-/* Define if the GD library supports GIFANIM */
-/* #undef HAVE_GD_GIFANIM */
-
 /* Define if the GD library has the GD_JPEG feature */
 #define HAVE_GD_JPEG 1
 
