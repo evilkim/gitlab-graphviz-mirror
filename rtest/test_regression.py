@@ -810,6 +810,20 @@ def test_1931():
   assert "line 3\nline 4" in xdot
   assert "line 5\nline 6" in xdot
 
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_1990():
+  """
+  using ortho and circo in combination should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/14
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1990.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["circo", "-Tsvg", "-o", os.devnull, input])
+
 def test_2057():
   """
   gvToolTred should be usable by user code
