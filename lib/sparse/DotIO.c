@@ -310,31 +310,6 @@ int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines){
   return 1;
 }
 
-void dump_coordinates(char *name, int n, int dim, real *x){
-  char fn[1000];
-  FILE *fp;
-  int i, k;
-
-  if (!name){
-    name = "";
-  } else {
-    name = strip_dir(name);
-  }
-  
-  strcpy(fn, name);
-  strcat(fn,".x");
-  fp = fopen(fn,"w");
-  fprintf(fp, "%d %d\n",n, dim);
-  for (i = 0; i < n; i++){
-    for (k = 0; k < dim; k++){
-      fprintf(fp,"%f ",x[i*dim+k]);
-    }
-    fprintf(fp,"\n");
-  }
-  fclose(fp);
-
-}
-
 static int hex2int(char h){
   if (h >= '0' && h <= '9') return h - '0';
   if (h >= 'a' && h <= 'f') return 10 + h - 'a';
