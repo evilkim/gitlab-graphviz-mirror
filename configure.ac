@@ -621,20 +621,9 @@ else
         use_d="No (D compiler not available)"
       else
         D_INCLUDES=
-#        D_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/d/modules"
-#        D_INSTALL_DATADIR="/usr/share/d"
         D_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $D_INCLUDES"
-#        AC_CHECK_HEADER(d.h,,[
-#          use_d="No (missing header)"
-#          D=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$D" != "x"; then
 	  use_d="Yes"
-#          AC_SUBST([D_INSTALL_DATADIR])
-#          AC_SUBST([D_INSTALL_DIR])
           AC_SUBST([D_INCLUDES])
           AC_SUBST([D_LIBS])
           AC_SUBST([INTDSIZE])
