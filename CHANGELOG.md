@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- updated Graphviz bug report URL in the Autotools build system
+
 ## [2.47.3] - 2021-06-19
 
 ### Changed

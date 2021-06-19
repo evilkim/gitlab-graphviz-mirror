@@ -17,7 +17,8 @@ dnl Set Graphviz version information
 #	graphviz_version_commit
 m4_include(./version.m4)
 
-AC_INIT([graphviz],[graphviz_version_major().graphviz_version_minor().graphviz_version_micro()],[http://www.graphviz.org/])
+AC_INIT([graphviz],[graphviz_version_major().graphviz_version_minor().graphviz_version_micro()],
+  [https://gitlab.com/graphviz/graphviz/-/issues])
 
 GRAPHVIZ_VERSION_MAJOR=graphviz_version_major()
 GRAPHVIZ_VERSION_MINOR=graphviz_version_minor()
