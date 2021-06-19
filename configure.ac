@@ -1888,17 +1888,11 @@ AC_ARG_WITH(visio,
 if test "x$with_visio" != "xyes"; then
   use_visio="No (disabled)"
 else
-#  AC_CHECK_HEADER(visio/visio.h, VISIO_CFLAGS="",use_visio="No (missing headers)")
-#  if test "x$use_visio" = "x"; then
-#    AC_CHECK_LIB(visio, main, VISIO_LIBS="-lgs", use_visio="No (missing lib)")
-#    if test "x$use_visio" = "x"; then
       use_visio="Yes"
       AC_DEFINE_UNQUOTED(HAVE_VISIO,1,
         [Define if you have the visio library])
       AC_SUBST([VISIO_CFLAGS])
       AC_SUBST([VISIO_LIBS])
-#    fi
-#  fi
 fi
 AM_CONDITIONAL(WITH_VISIO, [test "x$use_visio" = "xYes"])
 
