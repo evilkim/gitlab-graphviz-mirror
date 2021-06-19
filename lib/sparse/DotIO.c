@@ -73,18 +73,6 @@ void attach_edge_colors(Agraph_t* g, int dim, real *colors){
 
 }
 
-/* SparseMatrix_read_dot:
- * Wrapper for reading dot graph from file
- */
-Agraph_t* 
-SparseMatrix_read_dot(FILE* f)
-{
-    Agraph_t* g;
-    g = agread (f, 0);
-    aginit(g, AGNODE, "nodeinfo", sizeof(Agnodeinfo_t), TRUE);
-    return g;
-}
-
 /* SparseMatrix_import_dot:
  * Assumes g is connected and simple, i.e., we can have a->b and b->a
  * but not a->b and a->b
