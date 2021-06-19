@@ -54,14 +54,14 @@ public:
 		maxY=y+height()-yBorder;
 		minY=y;
 	}
-	inline double overlapX(const Rectangle &r) const {
+	double overlapX(const Rectangle &r) const {
 		if (getCentreX() <= r.getCentreX() && r.minX < getMaxX())
 			return getMaxX() - r.minX;
 		if (r.getCentreX() <= getCentreX() && minX < r.getMaxX())
 			return r.getMaxX() - minX;
 		return 0;
 	}
-	inline double overlapY(const Rectangle &r) const {
+	double overlapY(const Rectangle &r) const {
 		if (getCentreY() <= r.getCentreY() && r.minY < getMaxY())
 			return getMaxY() - r.minY;
 		if (r.getCentreY() <= getCentreY() && minY < r.getMaxY())
