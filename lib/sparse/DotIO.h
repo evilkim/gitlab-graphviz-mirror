@@ -23,8 +23,6 @@ extern int getDotNodeID (Agnode_t* n);
 
 extern void attach_edge_colors(Agraph_t* g, int dim, real *colors);
 
-extern void attach_embedding(Agraph_t *g, int dim, double sc, real *x);
-
 extern SparseMatrix SparseMatrix_import_dot(Agraph_t* g, int dim, real **label_sizes, real **x, int *n_edge_label_nodes,
 					    int **edge_label_nodes, int format, SparseMatrix *D);
 void dump_coordinates(char *name, int n, int dim, real *x);
