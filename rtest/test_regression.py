@@ -110,6 +110,57 @@ def test_131():
   subprocess.run(["gpic"], input=pic, stdout=subprocess.DEVNULL, check=True,
     universal_newlines=True)
 
+@pytest.mark.parametrize("testcase", ("144_no_ortho.dot", "144_ortho.dot"))
+def test_144(testcase: str):
+  """
+  using ortho should not result in head/tail confusion
+  https://gitlab.com/graphviz/graphviz/-/issues/144
+  """
+
+  # locate our associated test cases in this directory
+  input = Path(__file__).parent / testcase
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process the non-ortho one into JSON
+  out = subprocess.check_output(["dot", "-Tjson", input],
+    universal_newlines=True)
+  data = json.loads(out)
+
+  # find the two nodes, “A” and “B”
+  A = [x for x in data["objects"] if x["name"] == "A"][0]
+  B = [x for x in data["objects"] if x["name"] == "B"][0]
+
+  # find the edge between them
+  edge = [x for x in data["edges"]
+          if x["tail"] == A["_gvid"] and x["head"] == B["_gvid"]][0]
+
+  # the edge between them should have been routed vertically
+  points = edge["_draw_"][1]["points"]
+  xs = [x for x, _ in points]
+  assert all(x == xs[0] for x in xs), "A->B not routed vertically"
+
+  # determine whether it is routed down or up
+  ys = [y for _, y in points]
+  if ys == sorted(ys):
+    routed_up = True
+  elif list(reversed(ys)) == sorted(ys):
+    routed_up = False
+  else:
+    pytest.fail("A->B seems routed neither straight up nor down")
+
+  # determine Graphviz’ idea of which end is the head and which is the tail
+  head_point = edge["_hldraw_"][2]["pt"]
+  tail_point = edge["_tldraw_"][2]["pt"]
+  head_is_top = head_point[1] > tail_point[1]
+
+  # FIXME: remove when #144 is fixed
+  if testcase == "144_ortho.dot":
+    assert routed_up != head_is_top, "#144 fixed?"
+    return
+
+  # this should be consistent with the direction the edge is drawn
+  assert routed_up == head_is_top, "heap/tail confusion"
+
 def test_165():
   """
   dot should be able to produce properly escaped xdot output
