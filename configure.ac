@@ -267,7 +267,6 @@ AM_CONDITIONAL(ENABLE_SHARED, [test "x$enable_shared" = "xyes"])
 dnl -----------------------------------
 dnl checks for various programs
 
-AC_SEARCH_LIBS([strerror],[cposix])
 AM_PROG_LEX
 AC_PROG_YACC
 AC_PROG_AWK
