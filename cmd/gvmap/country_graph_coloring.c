@@ -305,7 +305,7 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
     real tol = 0.00001;
     real eig, *eigv;
     eigv = &eig;
-    power_method(matvec_sparse, L, L->n, 1, seed, maxit, tol, &v, &eigv);
+    power_method(L, L->n, 1, seed, maxit, tol, &v, &eigv);
   }
 
   vector_ordering(n, v, p, TRUE);
