@@ -875,20 +875,9 @@ else
         use_javascript="No (JAVASCRIPT compiler not available)"
       else
         JAVASCRIPT_INCLUDES=
-#        JAVASCRIPT_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/javascript/modules"
-#        JAVASCRIPT_INSTALL_DATADIR="/usr/share/javascript"
         JAVASCRIPT_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $JAVASCRIPT_INCLUDES"
-#        AC_CHECK_HEADER(javascript.h,,[
-#          use_javascript="No (missing header)"
-#          JAVASCRIPT=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$D" != "x"; then
 	  use_javascript="Yes"
-#          AC_SUBST([JAVASCRIPT_INSTALL_DATADIR])
-#          AC_SUBST([JAVASCRIPT_INSTALL_DIR])
           AC_SUBST([JAVASCRIPT_INCLUDES])
           AC_SUBST([JAVASCRIPT_LIBS])
           AC_SUBST([INTJAVASCRIPTSIZE])
