@@ -55,6 +55,20 @@ def test_regression_failure():
 # FIXME: re-enable when all tests pass on all platforms
 #    assert result.returncode == 0
 
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_14():
+  """
+  using ortho and twopi in combination should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/14
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "14.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+
 def test_131():
   """
   PIC back end should produce valid output
