@@ -666,20 +666,9 @@ else
         use_go="No (GO compiler not available)"
       else
         GO_INCLUDES=
-#        GO_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/go/modules"
-#        GO_INSTALL_DATADIR="/usr/share/go"
         GO_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $GO_INCLUDES"
-#        AC_CHECK_HEADER(go.h,,[
-#          use_go="No (missing header)"
-#          GO=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$GO" != "x"; then
 	  use_go="Yes"
-#          AC_SUBST([GO_INSTALL_DATADIR])
-#          AC_SUBST([GO_INSTALL_DIR])
           AC_SUBST([GO_INCLUDES])
           AC_SUBST([GO_LIBS])
           AC_SUBST([INTGOSIZE])
