@@ -26,7 +26,6 @@
 using std::ios;
 using std::ofstream;
 using std::set;
-using std::vector;
 using std::list;
 
 #ifndef RECTANGLE_OVERLAP_LOGGING
@@ -54,8 +53,8 @@ Blocks::~Blocks()
  * returns a list of variables with total ordering determined by the constraint 
  * DAG
  */
-list<Variable*> *Blocks::totalOrder() {
-	list<Variable*> *order = new list<Variable*>;
+list<Variable*> Blocks::totalOrder() {
+	list<Variable*> order;
 	for(int i=0;i<nvs;i++) {
 		vs[i]->visited=false;
 	}
@@ -68,11 +67,9 @@ list<Variable*> *Blocks::totalOrder() {
 }
 // Recursive depth first search giving total order by pushing nodes in the DAG
 // onto the front of the list when we finish searching them
-void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
+void Blocks::dfsVisit(Variable *v, list<Variable*> &order) {
 	v->visited=true;
-	vector<Constraint*>::iterator it=v->out.begin();
-	for(;it!=v->out.end();it++) {
-		Constraint *c=*it;
+	for (Constraint *c : v->out) {
 		if(!c->right->visited) {
 			dfsVisit(c->right, order);
 		}
@@ -81,7 +78,7 @@ void Blocks::dfsVisit(Variable *v, list<Variable*> *order) {
 		ofstream f(LOGFILE,ios::app);
 		f<<"  order="<<*v<<"\n";
 	}
-	order->push_front(v);
+	order.push_front(v);
 }
 /**
  * Processes incoming constraints, most violated to least, merging with the
@@ -104,7 +101,7 @@ void Blocks::mergeLeft(Block *r) {
 		Block *l = c->left->block;		
 		if (l->in==nullptr) l->setUpInConstraints();
 		double dist = c->right->offset - c->left->offset - c->gap;
-		if (r->vars->size() < l->vars->size()) {
+		if (r->vars.size() < l->vars.size()) {
 			dist=-dist;
 			std::swap(l, r);
 		}
@@ -139,7 +136,7 @@ void Blocks::mergeRight(Block *l) {
 		Block *r = c->right->block;
 		r->setUpOutConstraints();
 		double dist = c->left->offset + c->gap - c->right->offset;
-		if (l->vars->size() > r->vars->size()) {
+		if (l->vars.size() > r->vars.size()) {
 			dist=-dist;
 			std::swap(l, r);
 		}
@@ -158,12 +155,13 @@ void Blocks::removeBlock(Block *doomed) {
 	//erase(doomed);
 }
 void Blocks::cleanup() {
-	vector<Block*> b_copy(begin(),end());
-	for(vector<Block*>::iterator i=b_copy.begin();i!=b_copy.end();i++) {
+	for (auto i = begin(); i != end();) {
 		Block *b=*i;
 		if(b->deleted) {
-			erase(b);
+			i = erase(i);
 			delete b;
+		} else {
+			++i;
 		}
 	}
 }

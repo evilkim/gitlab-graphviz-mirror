@@ -42,11 +42,11 @@ public:
 	void mergeLeft(Block *r);
 	void mergeRight(Block *l);
 	void split(Block *b, Block *&l, Block *&r, Constraint *c);
-	std::list<Variable*> *totalOrder();
+	std::list<Variable*> totalOrder();
 	void cleanup();
 	double cost();
 private:
-	void dfsVisit(Variable *v, std::list<Variable*> *order);
+	void dfsVisit(Variable *v, std::list<Variable*> &order);
 	void removeBlock(Block *doomed);
 	Variable **vs;
 	int nvs;
