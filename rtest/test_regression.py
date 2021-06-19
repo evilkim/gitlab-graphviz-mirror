@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import platform
@@ -506,6 +507,59 @@ def test_1845():
 
   # generate a multipage PS file from this input
   subprocess.check_call(["dot", "-Tps", "-o", os.devnull, input])
+
+@pytest.mark.xfail(strict=True) # FIXME
+def test_1856():
+  """
+  headports and tailports should be respected
+  https://gitlab.com/graphviz/graphviz/-/issues/1856
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1856.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it into JSON
+  out = subprocess.check_output(["dot", "-Tjson", input],
+    universal_newlines=True)
+  data = json.loads(out)
+
+  # find the two nodes, “3” and “5”
+  three = [x for x in data["objects"] if x["name"] == "3"][0]
+  five  = [x for x in data["objects"] if x["name"] == "5"][0]
+
+  # find the edge from “3” to “5”
+  edge = [x for x in data["edges"]
+          if x["tail"] == three["_gvid"] and x["head"] == five["_gvid"]][0]
+
+  # The edge should look something like:
+  #
+  #        ┌─┐
+  #        │3│
+  #        └┬┘
+  #    ┌────┘
+  #   ┌┴┐
+  #   │5│
+  #   └─┘
+  #
+  # but a bug causes port constraints to not be respected and the edge comes out
+  # more like:
+  #
+  #        ┌─┐
+  #        │3│
+  #        └┬┘
+  #         │
+  #   ┌─┐   │
+  #   ├5̶┼───┘
+  #   └─┘
+  #
+  # So validate that the edge’s path does not dip below the top of the “5” node.
+
+  top_of_five = max(y for _, y in five["_draw_"][1]["points"])
+
+  waypoints_y = [y for _, y in edge["_draw_"][1]["points"]]
+
+  assert all(y >= top_of_five for y in waypoints_y), "edge dips below 5"
 
 @pytest.mark.skipif(shutil.which("fdp") is None, reason="fdp not available")
 def test_1865():
