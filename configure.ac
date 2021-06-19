@@ -2799,26 +2799,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
 	],[AC_MSG_RESULT(no)
 	])
 
-# -----------------------------------
-
-AC_MSG_CHECKING(if assert needs __eprintf)
-cat > conftest.$ac_ext <<EOF
-#include "confdefs.h"
-#include "assert.h"
-int main(int argc, char **argv) {
-(void)argv;
-assert(argc);
-; return 0; }
-EOF
-${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5
-if test "x`nm conftest.o |$EGREP __eprintf`" != "x"; then
-    AC_MSG_RESULT(yes)
-    CFLAGS="$CFLAGS -DNDEBUG"
-else
-    AC_MSG_RESULT(no)
-fi
-rm -f conftest*
-
 # -----------------------------------------------------------------------
 
 # This is a historical artifact ... there are no other choices these days
