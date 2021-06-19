@@ -1888,11 +1888,10 @@ AC_ARG_WITH(visio,
 if test "x$with_visio" != "xyes"; then
   use_visio="No (disabled)"
 else
-      use_visio="Yes"
-      AC_DEFINE_UNQUOTED(HAVE_VISIO,1,
-        [Define if you have the visio library])
-      AC_SUBST([VISIO_CFLAGS])
-      AC_SUBST([VISIO_LIBS])
+  use_visio="Yes"
+  AC_DEFINE_UNQUOTED(HAVE_VISIO,1,[Define if you have the visio library])
+  AC_SUBST([VISIO_CFLAGS])
+  AC_SUBST([VISIO_LIBS])
 fi
 AM_CONDITIONAL(WITH_VISIO, [test "x$use_visio" = "xYes"])
 
