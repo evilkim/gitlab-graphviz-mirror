@@ -70,6 +70,26 @@ def test_14():
   # process it with Graphviz
   subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
 
+def test_56():
+  """
+  parsing a particular graph should not cause a Trapezoid-table overflow
+  assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/56
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "56.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # FIXME: remove this block when this #56 is fixed
+  if not is_ndebug_defined() and platform.system() != "Windows":
+    with pytest.raises(subprocess.CalledProcessError):
+      subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+    return
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+
 def test_131():
   """
   PIC back end should produce valid output
