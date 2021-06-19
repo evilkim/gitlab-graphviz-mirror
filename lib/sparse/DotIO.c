@@ -277,14 +277,6 @@ done:
   return A;
 }
 
-
-static real dist(int dim, real *x, real *y){
-  int k;
-  real d = 0;
-  for (k = 0; k < dim; k++) d += (x[k] - y[k])*(x[k]-y[k]);
-  return sqrt(d);
-}
-
 /* get spline info */
 int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines){
   /* get the list of splines for the edges in the order they appear, and store as a list of strings in xspline.
@@ -329,51 +321,6 @@ int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines){
   }
   return 1;
 }
-
-void edgelist_export(FILE* f, SparseMatrix A, int dim, real *x){
-  int n = A->m, *ia = A->ia, *ja = A->ja;
-  int i, j, len;
-  real max_edge_len, min_edge_len;
-
-  for (i = 0; i < n; i++){
-    for (j = ia[i]; j < ia[i+1]; j++){
-      max_edge_len = MAX(max_edge_len, dist(dim, &x[dim*i], &x[dim*ja[j]]));
-      if (min_edge_len < 0){
-	min_edge_len = dist(dim, &x[dim*i], &x[dim*ja[j]]);
-      } else {
-	min_edge_len = MIN(min_edge_len, dist(dim, &x[dim*i], &x[dim*ja[j]]));
-      }
-    }
-  }
-  /* format:
-     n
-     nz
-     dim
-     x (length n*dim)
-     min_edge_length
-     max_edge_length
-     v1
-     neighbors of v1
-     v2
-     neighbors of v2
-     ...
-  */
-  fprintf(stderr,"writing a total of %d edges\n",A->nz);
-  fwrite(&(A->n), sizeof(int), 1, f);
-  fwrite(&(A->nz), sizeof(int), 1, f);
-  fwrite(&dim, sizeof(int), 1, f);
-  fwrite(x, sizeof(real), dim*n, f);
-  fwrite(&min_edge_len, sizeof(real), 1, f);
-  fwrite(&max_edge_len, sizeof(real), 1, f);
-  for (i = 0; i < n; i++){
-    if (i%1000 == 0) fprintf(stderr,"%6.2f%% done\r", i/(real) n*100);
-    fwrite(&i, sizeof(int), 1, f);
-    len = ia[i+1] - ia[i];
-    fwrite(&len, sizeof(int), 1, f);
-    fwrite(&(ja[ia[i]]), sizeof(int), len, f);
-  }
-}
-
 
 void dump_coordinates(char *name, int n, int dim, real *x){
   char fn[1000];

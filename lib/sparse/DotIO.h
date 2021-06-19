@@ -31,7 +31,6 @@ extern Agraph_t* makeDotGraph (SparseMatrix, char *title, int dim, real *x, int 
 Agraph_t *convert_edge_labels_to_nodes(Agraph_t* g);
 Agraph_t* assign_random_edge_color(Agraph_t* g);
 void dump_coordinates(char *name, int n, int dim, real *x);
-void edgelist_export(FILE* f, SparseMatrix A, int dim, double *x);
 char * hue2rgb(real hue, char *color);
 
 SparseMatrix Import_coord_clusters_from_dot(Agraph_t* g, int maxcluster, int dim, int *nn, real **label_sizes, real **x, int **clusters, float **rgb_r,  float **rgb_g,  float **rgb_b,  float **fsz, char ***labels, int default_color_scheme, int clustering_scheme, int useClusters);
