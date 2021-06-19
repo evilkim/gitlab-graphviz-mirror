@@ -582,25 +582,6 @@ Agraph_t *convert_edge_labels_to_nodes(Agraph_t* g){
   return dg;
  }
 
-Agraph_t* assign_random_edge_color(Agraph_t* g){
-  char cstring[8];
-  char buf2[1024];
-  Agsym_t *sym2;
-  Agnode_t* n;
-  Agedge_t *ep;
-
-  sym2 = agattr(g, AGEDGE, "color", ""); 
-  for (n = agfstnode (g); n; n = agnxtnode (g, n)) {
-    for (ep = agfstedge(g, n); ep; ep = agnxtedge(g, ep, n)) {
-      snprintf(buf2, sizeof(buf2), "%s", hue2rgb(0.65*drand(), cstring));
-      agxset (ep, sym2, buf2);
-    }
-  }
-
-  return g;
- }
-
-
 static int hex2int(char h){
   if (h >= '0' && h <= '9') return h - '0';
   if (h >= 'a' && h <= 'f') return 10 + h - 'a';
