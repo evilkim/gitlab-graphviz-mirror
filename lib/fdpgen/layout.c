@@ -33,6 +33,7 @@
 #include <inttypes.h>
 #include <assert.h>
 #include <fdpgen/tlayout.h>
+#include <math.h>
 #include <neatogen/neatoprocs.h>
 #include <neatogen/adjust.h>
 #include <fdpgen/comp.h>
@@ -627,9 +628,7 @@ static erec *getEdgeList(node_t * n, graph_t * g)
 		    bnd = M_PI;	/* all values equal up to end */
 		else
 		    bnd = erecs[j].alpha;
-		delta = (bnd - a) / (j - i);
-		if (delta > ANG)
-		    delta = ANG;
+		delta = fmin((bnd - a) / (j - i), ANG);
 		inc = 0;
 		for (; i < j; i++) {
 		    erecs[i].alpha += inc;
@@ -668,10 +667,8 @@ genPorts(node_t * n, erec * er, bport_t * pp, int idx, double bnd)
     else
 	other = aghead(e);
 
-    delta = (bnd - er->alpha) / cnt;
+    delta = fmin((bnd - er->alpha) / cnt, ANG);
     angle = er->alpha;
-    if (delta > ANG)
-	delta = ANG;
 
     if (n < other) {
 	i = idx;

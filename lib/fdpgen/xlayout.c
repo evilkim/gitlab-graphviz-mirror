@@ -28,6 +28,7 @@ Increase less between tries
 #include <neatogen/adjust.h>
 #include <fdpgen/dbg.h>
 #include <ctype.h>
+#include <math.h>
 
 /* Use bbox based force function */
 /* #define MS */
@@ -64,7 +65,7 @@ static double RAD(Agnode_t * n)
 {
     double w = WD2(n);
     double h = HT2(n);
-    return sqrt(w * w + h * h);
+    return hypot(w, h);
 }
 
 /* xinit_params:
@@ -117,7 +118,7 @@ static double dist(pointf p, pointf q)
 
     dx = p.x - q.x;
     dy = p.y - q.y;
-    return sqrt(dx * dx + dy * dy);
+    return hypot(dx, dy);
 }
 
 /* bBox:
@@ -210,12 +211,8 @@ static int overlap(node_t * p, node_t * q)
     double xdelta, ydelta;
     int    ret;
 
-    xdelta = ND_pos(q)[0] - ND_pos(p)[0];
-    if (xdelta < 0)
-	xdelta = -xdelta;
-    ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    if (ydelta < 0)
-	ydelta = -ydelta;
+    xdelta = fabs(ND_pos(q)[0] - ND_pos(p)[0]);
+    ydelta = fabs(ND_pos(q)[1] - ND_pos(p)[1]);
     ret = xdelta <= WD2(p) + WD2(q) && ydelta <= HT2(p) + HT2(q);
     return ret;
 #else
@@ -255,11 +252,9 @@ doRep(node_t * p, node_t * q, double xdelta, double ydelta, double dist2)
 {
     int ov;
     double force;
-    /* double dout, din; */
 #if defined(DEBUG) || defined(MS) || defined(ALT)
     double dist;
 #endif
-    /* double factor; */
 
     while (dist2 == 0.0) {
 	xdelta = 5 - rand() % 10;
@@ -267,9 +262,7 @@ doRep(node_t * p, node_t * q, double xdelta, double ydelta, double dist2)
 	dist2 = xdelta * xdelta + ydelta * ydelta;
     }
 #if defined(MS)
-    dout = boxDist(p, q);
-    if (dout < EPSILON)
-	dout = EPSILON;
+    dout = fmax(boxDist(p, q), EPSILON);
     dist = sqrt(dist2);
     force = K2 / (dout * dist);
 #elif defined(ALT)
@@ -337,12 +330,12 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
 	return;
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     force = (dout * dout) / (X_K * dist);
 #elif defined(ALT)
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     din = RAD(p) + RAD(q);
     if (dist < X_K + din)
 	return;
@@ -360,7 +353,7 @@ static void applyAttr(Agnode_t * p, Agnode_t * q)
     }
     xdelta = ND_pos(q)[0] - ND_pos(p)[0];
     ydelta = ND_pos(q)[1] - ND_pos(p)[1];
-    dist = sqrt(xdelta * xdelta + ydelta * ydelta);
+    dist = hypot(xdelta, ydelta);
     din = RAD(p) + RAD(q);
     dout = dist - din;
     force = dout * dout / ((X_K + din) * dist);
@@ -405,8 +398,6 @@ static int adjust(Agraph_t * g, double temp)
 	int ov;
 	for (n1 = agnxtnode(g, n); n1; n1 = agnxtnode(g, n1)) {
 	    ov = applyRep(n, n1);
-/* if (V && ov)  */
-	    /* fprintf (stderr,"%s ov %s\n", n->name, n1->name); */
 	    overlaps += ov;
 	}
 	for (e = agfstout(g, n); e; e = agnxtout(g, e)) {

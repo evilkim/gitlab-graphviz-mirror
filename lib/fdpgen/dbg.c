@@ -188,17 +188,11 @@ void dumpG(graph_t * g, char *fname, int expMode)
     fclose(fp);
 }
 
-/* #define BOX */
-
-/* static char* pos_name      = "pos"; */
-/* static char* lp_name       = "lp"; */
-
 double Scale = 0.0;
 double ArrowScale = 1.0;
 
 #define         ARROW_LENGTH    10
 #define         ARROW_WIDTH      5
-/* #define DEGREES(rad)   ((rad)/M_PI * 180.0) */
 
 static char *plog = "%!PS-Adobe-2.0\n\n\
 /Times-Roman findfont 14 scalefont setfont\n\
@@ -273,14 +267,10 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
     maxy = ND_pos(n)[1];
     n = agnxtnode(g, n);
     for (; n; n = agnxtnode(g, n)) {
-	if (ND_pos(n)[0] < minx)
-	    minx = ND_pos(n)[0];
-	if (ND_pos(n)[1] < miny)
-	    miny = ND_pos(n)[1];
-	if (ND_pos(n)[0] > maxx)
-	    maxx = ND_pos(n)[0];
-	if (ND_pos(n)[1] > maxy)
-	    maxy = ND_pos(n)[1];
+	minx = fmin(minx, ND_pos(n)[0]);
+	miny = fmin(miny, ND_pos(n)[1]);
+	maxx = fmax(maxx, ND_pos(n)[0]);
+	maxy = fmax(maxy, ND_pos(n)[1]);
     }
 
     /* Convert to points
@@ -308,10 +298,7 @@ static void pswrite(Agraph_t * g, FILE * fp, int expMode)
 	height = maxy - miny + 20;
 	if (width > PSWidth) {
 	    if (height > PSHeight) {
-		scale =
-		    PSWidth / width <
-		     PSHeight / height ? PSWidth / width : PSHeight /
-		     height;
+		scale = fmin(PSWidth / width, PSHeight / height);
 	    } else
 		scale = PSWidth / width;
 	} else if (height > PSHeight) {
