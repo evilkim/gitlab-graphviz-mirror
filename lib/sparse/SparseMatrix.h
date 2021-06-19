@@ -110,30 +110,10 @@ SparseMatrix SparseMatrix_sort(SparseMatrix A);
 
 SparseMatrix SparseMatrix_set_entries_to_real_one(SparseMatrix A);
 
-SparseMatrix SparseMatrix_complement(SparseMatrix A, int undirected);
-
-int SparseMatrix_k_centers(SparseMatrix D, int weighted, int K, int root, 
-			  int **centers, int centering, real **dist);
-
-int SparseMatrix_k_centers_user(SparseMatrix D, int weighted, int K, 
-				int *centers_user, int centering, real **dist);
-
-SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
-
 int SparseMatrix_distance_matrix(SparseMatrix A, int weighted,  real **dist_matrix);
 SparseMatrix SparseMatrix_distance_matrix_khops(int khops, SparseMatrix A, int weighted);
-SparseMatrix SparseMatrix_distance_matrix_k_centers(int K, SparseMatrix D, int weighted);
-
-void SparseMatrix_kcoreness(SparseMatrix A, int **coreness);/* assign coreness to each node */
-void SparseMatrix_kcore_decomposition(SparseMatrix A, int *coreness_max0, int **coreness_ptr0, int **coreness_list0);/* return the decomposition */
-
-void SparseMatrix_khairness(SparseMatrix A, int **hairness);/* assign hairness to each node */
-void SparseMatrix_khair_decomposition(SparseMatrix A, int *hairness_max0, int **hairness_ptr0, int **hairness_list0);/* return the decomposition */
 
 SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
-
-void SparseMatrix_page_rank(SparseMatrix A, real teleport_probablity, int weighted, real epsilon, real **page_rank);
-
 
 #define SparseMatrix_set_undirected(A) set_flag((A)->property, MATRIX_UNDIRECTED)
 #define SparseMatrix_set_symmetric(A) set_flag((A)->property, MATRIX_SYMMETRIC)
