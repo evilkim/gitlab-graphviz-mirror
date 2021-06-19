@@ -1,5 +1,4 @@
 # Process this file with autoconf to produce a configure script
-# Try to use version available on FC8
 AC_PREREQ(2.61)
 
 dnl ===========================================================================
