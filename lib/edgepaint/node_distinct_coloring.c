@@ -43,8 +43,6 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
   real cspace_size = 0.7;
   real red[3], black[3], min;
   int flag = 0, imin;
-  color_lab lab;
-  color_rgb rgb;
   real *wgt = NULL;
   //int iter2 = 0, iter_max2;
 
@@ -52,9 +50,11 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
   max_level = MAX(1, -log(accuracy)/log(2.));
   max_level = MIN(30, max_level);
 
-  rgb.r = 255*0.5; rgb.g = 0; rgb.b = 0;
-  lab = RGB2LAB(rgb);
-  red[0] = lab.l; red[1] = lab.a; red[2] = lab.b;
+  {
+    color_rgb rgb = { .r = 255*0.5, .g = 0, .b = 0 };
+    color_lab lab = RGB2LAB(rgb);
+    red[0] = lab.l; red[1] = lab.a; red[2] = lab.b;
+  }
 
   n = A->m;
   if (n == 1){
