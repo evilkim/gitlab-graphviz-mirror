@@ -2230,13 +2230,13 @@ static int Dijkstra_internal(SparseMatrix A, int root, real *dist, int *nlist, i
      A: the nxn connectivity matrix. Entries are assumed to be nonnegative. Absolute value will be taken if 
      .  entry value is negative.
      dist: length n. On on exit contain the distance from root to every other node. dist[root] = 0. dist[i] = distance from root to node i.
-     .     if the graph is disconnetced, unreachable node have a distance -1.
+     .     if the graph is disconnected, unreachable node have a distance -1.
      .     note: ||root - list[i]|| =!= dist[i] !!!, instead, ||root - list[i]|| == dist[list[i]]
      nlist: number of nodes visited
      list: length n. the list of node in order of their extraction from the heap. 
      .     The distance from root to last in the list should be the maximum
      dist_max: the maximum distance, should be realized at node list[nlist-1].
-     mask: if NULL, not used. Othewise, only nodes i with mask[i] > 0 will be considered
+     mask: if NULL, not used. Otherwise, only nodes i with mask[i] > 0 will be considered
      return: 0 if every node is reachable. -1 if not */
 
   int m = A->m, i, j, jj, *ia = A->ia, *ja = A->ja, heap_id;
