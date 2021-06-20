@@ -38,7 +38,5 @@ double *lab_gamut(const char *lightness, int *n);  /* give a list of n points  i
 void color_blend_rgb2lab(char *color_list, const int maxpoints, double **colors); /* give a color list of the form "#ff0000,#00ff00,...", get a list of around maxpoints
 										     colors in an array colors0 of size [maxpoints*3] of the form {{l,a,b},...}.
 										     If *colors0 is NULL, it will be allocated. */
- 
-color_rgb color_blend_rgb(char *color_list, const real ratio, int *flag);/* blend a color list to get one color at ratio*100 percent of the list */
 
 #endif
