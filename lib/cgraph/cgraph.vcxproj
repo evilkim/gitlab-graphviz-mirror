@@ -104,6 +104,7 @@ win_flex -oscan.c scan.l</Command>
     <ClInclude Include="itos.h" />
     <ClInclude Include="sprint.h" />
     <ClInclude Include="strcasecmp.h" />
+    <ClInclude Include="unreachable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="agerror.c" />
