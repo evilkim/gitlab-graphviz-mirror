@@ -18,12 +18,11 @@
 
 static int splines_intersect(int dim, int u1, int v1, int u2, int v2, 
 			     real cos_critical, int check_edges_with_same_endpoint, 
-			     real *x, char *xsplines1, char *xsplines2){
+			     char *xsplines1, char *xsplines2){
   /* u1, v2 an u2, v2: the node index of the two edn points of two edges.
      cos_critical: cos of critical angle
      check_edges_with_same_endpoint: whether need to treat two splines from
      .     the same end point specially in ignoring splines that exit/enter the same end pont at around 180
-     x: the coordinates of nodes
      xsplines1,xsplines2: the first and second splines corresponding to two edges
 
   */
@@ -199,7 +198,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
       u1 = irn[i]; v1 = jcn[i];
       for (j = i+1; j < nz2; j++){
 	u2 = irn[j]; v2 = jcn[j];
-	if (splines_intersect(dim, u1, v1, u2, v2, cos_critical, check_edges_with_same_endpoint, x, xsplines[i], xsplines[j])){
+	if (splines_intersect(dim, u1, v1, u2, v2, cos_critical, check_edges_with_same_endpoint, xsplines[i], xsplines[j])){
 	  B = SparseMatrix_coordinate_form_add_entries(B, 1, &i, &j, &cos_a);
 	}
       }
