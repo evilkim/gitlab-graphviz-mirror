@@ -371,13 +371,3 @@ color_rgb color_blend_rgb(char *color_list, real ratio, int *flag){
   if (lab) FREE(lab);  
   return rgb;
 }
-
-void color_blend_rgbstring(char *color_list, real ratio, char **color0, int *flag){
-  color_rgb rgb;
-
-  if (!(*color0)){
-    *color0 = malloc(sizeof(char)*7);
-  }
-  rgb = color_blend_rgb(color_list, ratio, flag);
-  sprintf(*color0, "%02X%02X%02X", (int) (rgb.r), (int) (rgb.g), (int) (rgb.b));
-}

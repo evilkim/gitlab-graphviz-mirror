@@ -40,6 +40,5 @@ void color_blend_rgb2lab(char *color_list, const int maxpoints, double **colors)
 										     If *colors0 is NULL, it will be allocated. */
  
 color_rgb color_blend_rgb(char *color_list, const real ratio, int *flag);/* blend a color list to get one color at ratio*100 percent of the list */
-void color_blend_rgbstring(char *color_list, const real ratio, char **color0, int *flag);/* blend a color list to get one color at ratio*100 percent of the list */
 
 #endif
