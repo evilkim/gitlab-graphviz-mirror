@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - updated Graphviz bug report URL in the Autotools build system
 - Fix `WIN32` path of `gvc.def` specified in `libgvc_la_LDFLAGS`
+- the CMake build system now not only checks for Bison, but also ensures the
+  found version is recent enough #1916
 
 ### Fixed
 
