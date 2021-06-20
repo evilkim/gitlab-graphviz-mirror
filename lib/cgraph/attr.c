@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<cgraph/unreachable.h>
 #include	<stddef.h>
 
 /*
@@ -292,8 +293,7 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 			addattr(g, (Agobj_t *) e, rsym);
 		break;
 	    default:
-		assert(!"unreachable");
-		break;
+		UNREACHABLE();
 	    }
 	    rv = rsym;
 	}
