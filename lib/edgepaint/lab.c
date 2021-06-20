@@ -137,53 +137,6 @@ color_rgb XYZ2RGB(color_xyz color){
   return color_rgb_init(r, g, b);
 }
 
-double *lab_gamut_from_file(char *gamut_file, const char *lightness, int *n){
-  /* give a list of n points  in the file defining the LAB color gamut. return NULL if the mgamut file is not found.
-     lightness is a string of the form 0,70, or NULL.
-   */
-  FILE *fp; 
-  enum {buf_len = 10000};
-  char buf[buf_len];
-  double *xx, *x;
-
-  int l1 = 0, l2 = 70;
-  
-  if (lightness && sscanf(lightness, "%d,%d", &l1, &l2) == 2){
-    if (l1 < 0) l1 = 0;
-    if (l2 > 100) l2 = 100;
-    if (l1 > l2) l1 = l2;
-  } else {
-    l1 = 0; l2 = 70;
-  }
-
-
-  *n = 0;
-
-  if (Verbose)
-    fprintf(stderr,"LAB color lightness range = %d,%d\n", l1, l2);
-
-  fp = fopen(gamut_file, "r");
-  if (!fp) return NULL;
-  while (fgets(buf, buf_len, fp)){
-    (*n)++;
-  }
-  rewind(fp);
-
-  x = malloc(sizeof(double)*3*(*n));
-  xx = x;
-  *n = 0;
-  while (fgets(buf, buf_len, fp)){
-    sscanf(buf,"%lf %lf %lf", xx, xx+1, xx+2);
-    if (*xx >= l1 && *xx <= l2){
-      xx += 3;
-      (*n)++;
-    }
-  }
-  fclose(fp);
-  return x;
-}
-
-
 double *lab_gamut(const char *lightness, int *n){
   /* give a list of n points  in the file defining the LAB color gamut.
      lightness is a string of the form 0,70, or NULL.
