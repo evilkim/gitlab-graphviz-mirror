@@ -49,10 +49,8 @@ void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMat
   */
  
   /*color: On input an array of size n*cdim, if NULL, will be allocated. On exit the final color assignment for node i is [cdim*i,cdim*(i+1)), in RGB (between 0 to 1)
-    color_diff: the minuimum color difference across all edges
-    color_diff_sum: the sum of min color dfference across all nodes
   */
-  real *colors = NULL, color_diff, color_diff_sum;
+  real *colors = NULL;
   int n = A0->m, i, cdim;
 
   SparseMatrix A;
@@ -69,7 +67,7 @@ void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMat
     SparseMatrix_export(stdout, A);
   }
 
-  node_distinct_coloring(color_scheme, lightness, weightedQ, A, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum);
+  node_distinct_coloring(color_scheme, lightness, weightedQ, A, accuracy, iter_max, seed, &cdim, &colors);
 
   if (A != A0){
     SparseMatrix_delete(A);

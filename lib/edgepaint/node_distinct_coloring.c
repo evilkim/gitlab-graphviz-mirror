@@ -158,8 +158,10 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
   
 }
  
-static void node_distinct_coloring_internal(int scheme, QuadTree qt, int weightedQ,  SparseMatrix A, int cdim, real accuracy, int iter_max, int seed, real *colors, real *color_diff0, real *color_diff_sum0){
+static void node_distinct_coloring_internal(int scheme, QuadTree qt, int weightedQ,  SparseMatrix A, int cdim, real accuracy, int iter_max, int seed, real *colors){
   int i;
+  real color_diff;
+  real color_diff_sum;
   if (seed < 0) {
     /* do multiple iterations and pick the best */
     int iter, seed_max = -1;
@@ -168,19 +170,18 @@ static void node_distinct_coloring_internal(int scheme, QuadTree qt, int weighte
     iter = -seed;
     for (i = 0; i < iter; i++){
       seed = irand(100000);
-      node_distinct_coloring_internal2(scheme, qt, weightedQ, A, cdim, accuracy, iter_max, seed, colors, color_diff0, color_diff_sum0);
-      if (color_diff_max < *color_diff0){
-	seed_max = seed; color_diff_max = *color_diff0;
+      node_distinct_coloring_internal2(scheme, qt, weightedQ, A, cdim, accuracy, iter_max, seed, colors, &color_diff, &color_diff_sum);
+      if (color_diff_max < color_diff){
+	seed_max = seed; color_diff_max = color_diff;
       }
     }
     seed = seed_max;
   } 
-  node_distinct_coloring_internal2(scheme, qt, weightedQ, A, cdim, accuracy, iter_max, seed, colors, color_diff0, color_diff_sum0);
+  node_distinct_coloring_internal2(scheme, qt, weightedQ, A, cdim, accuracy, iter_max, seed, colors, &color_diff, &color_diff_sum);
  
 }
 
-int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, SparseMatrix A0, real accuracy, int iter_max, int seed, int *cdim0, real **colors, real *color_diff0,
-			    real *color_diff_sum0){
+int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, SparseMatrix A0, real accuracy, int iter_max, int seed, int *cdim0, real **colors){
   /* 
      for a graph A, get a distinctive color of its nodes so that the color distance among all neighboring nodes are maximized. Here
      color distance on a node is defined as the minimum of color differences between a node and its neighbors (or the minimum of weighted color differences if weightedQ = true,
@@ -196,15 +197,12 @@ int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, S
      iter_max: max number of 
      cdim: dimension of the color space
      color: On input an array of size n*cdim, if NULL, will be allocated. On exit the final color assignment for node i is [cdim*i,cdim*(i+1)), in RGB (between 0 to 1)
-     color_diff: the minuimum color difference across all edges
-     color_diff_sum: the sum of min color dfference across all nodes
   */ 
   SparseMatrix B, A = A0;
   int ncomps, *comps = NULL, *comps_ptr = NULL;
   int nn, n;
   real *ctmp;
   int i, j, jj, nnodes = 0;
-  real color_diff = 0, color_diff_sum = 0;
   QuadTree qt = NULL;
   int cdim;
   int scheme = COLOR_LAB;
@@ -243,7 +241,6 @@ int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, S
   }
 
 
-  *color_diff0 = *color_diff_sum0 = -1;
   if (accuracy <= 0) accuracy = 0.0001;
 
   n = A->m;
@@ -261,17 +258,11 @@ int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, S
 
   SparseMatrix_weakly_connected_components(A, &ncomps, &comps, &comps_ptr); 
   
-  *color_diff_sum0 = 0;
   for (i = 0; i < ncomps; i++){
     nn = comps_ptr[i+1] - comps_ptr[i];
     B = SparseMatrix_get_submatrix(A, nn, nn, &(comps[comps_ptr[i]]), &(comps[comps_ptr[i]]));
-    node_distinct_coloring_internal(scheme, qt, weightedQ, B, cdim, accuracy, iter_max, seed, ctmp, &color_diff, &color_diff_sum);
-    if (i == 0){
-      *color_diff0 = color_diff;
-    } 
-    *color_diff0 = MIN(*color_diff0, color_diff); 
+    node_distinct_coloring_internal(scheme, qt, weightedQ, B, cdim, accuracy, iter_max, seed, ctmp);
     if (B->m > 2) {
-      *color_diff_sum0 = *color_diff_sum0 + color_diff_sum;
       nnodes += B->m;
     }
 
@@ -282,7 +273,6 @@ int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, S
     SparseMatrix_delete(B);
   }
   FREE(ctmp);
-  *color_diff_sum0 /= nnodes;
 
   if (A != A0) SparseMatrix_delete(A);
   return 0;

@@ -160,7 +160,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
   int *irn, *jcn, nz, nz2 = 0;
   real cos_critical = cos(angle/180*3.14159), cos_a;
   int u1, v1, u2, v2, i, j;
-  real *colors = NULL, color_diff, color_diff_sum;
+  real *colors = NULL;
   int flag, ne;
   char **xsplines = NULL;
   int cdim;
@@ -238,7 +238,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
 #endif
     int weightedQ = FALSE;
     int iter_max = 100;
-    flag = node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum);
+    flag = node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors);
     if (flag) goto RETURN;
 #ifdef TIME
     fprintf(stderr, "cpu for color assignmment =%10.3f\n", ((real) (clock() - start))/CLOCKS_PER_SEC);
@@ -246,8 +246,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
   }
 
   if (Verbose)
-    fprintf(stderr,"The edge conflict graph has %d nodes and %d edges, final color_diff=%f color_diff_sum = %f\n",
-	  C->m, C->nz, color_diff, color_diff_sum);
+    fprintf(stderr,"The edge conflict graph has %d nodes and %d edges\n", C->m, C->nz);
 
   attach_edge_colors(g, cdim, colors);
 
