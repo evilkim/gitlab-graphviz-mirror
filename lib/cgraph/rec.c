@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<cgraph/unreachable.h>
 #include	<stdbool.h>
 #include	<stddef.h>
 
@@ -153,8 +154,7 @@ int agdelrec(void *arg_obj, char *name)
 	    agapply(agroot(g), obj, objdelrec, rec, FALSE);
 	    break;
 	default:
-	    assert(!"unreachable");
-	    break;
+	    UNREACHABLE();
 	}
 	agstrfree(g, rec->name);
 	agfree(g, rec);
