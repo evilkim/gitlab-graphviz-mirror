@@ -44,7 +44,6 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
   real red[3], black[3], min;
   int flag = 0, imin;
   real *wgt = NULL;
-  //int iter2 = 0, iter_max2;
 
   assert(accuracy > 0);
   max_level = MAX(1, -log(accuracy)/log(2.));
@@ -104,40 +103,16 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
   srand(seed);
   for (i = 0; i < n*cdim; i++) colors[i] = cspace_size*drand();
 
-  /* better way... not using it for now till paper is out */
-  /*
-  if (scheme != COLOR_LAB){
-    for (i = 0; i < n*cdim; i++) colors[i] = cspace_size*drand();
-  } else {
-    for (i = 0; i < n; i++) {
-      colors[3*i] = 100*drand();
-      colors[3*i+1] = 256*drand() - 128;
-      colors[3*i+2] = 256*drand() - 128;
-    }
-  }
-  */
-
   x = MALLOC(sizeof(real)*cdim*n);
   if (weightedQ) wgt = MALLOC(sizeof(real)*n);
 
   color_diff = 0; color_diff_old = -1;
   color_diff_sum = 0; color_diff_sum_old = -1;
 
-  /*
-  {FILE *fp;
-    char buf[10000];
-    fp = fopen("/tmp/count","r");
-    fgets(buf, 10000, fp);
-    sscanf(buf,"%d",&iter_max2);
-    fprintf(stderr,"count=%d\n", iter_max2);
-  }
-  */
-
   while (iter++ < iter_max && (color_diff > color_diff_old || (color_diff == color_diff_old && color_diff_sum > color_diff_sum_old))){
     color_diff_old = color_diff;
     color_diff_sum_old = color_diff_sum;
     for (i = 0; i < n; i++){
-      //      if (iter2++ >= iter_max2) goto CONT;
       k = 0;
       for (j = ia[i]; j < ia[i+1]; j++){
 	if (ja[j] == i) continue;
@@ -164,8 +139,6 @@ static void node_distinct_coloring_internal2(int scheme, QuadTree qt, int weight
 
     if (Verbose) fprintf(stderr,"iter ---- %d ---, color_diff = %f, color_diff_sum = %f\n", iter, color_diff, color_diff_sum);
   }
-
-  // CONT:
 
   if (scheme == COLOR_LAB){
     /* convert from LAB to RGB */
