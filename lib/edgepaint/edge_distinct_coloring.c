@@ -239,7 +239,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
 #endif
     int weightedQ = FALSE;
     int iter_max = 100;
-    node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum, &flag);
+    flag = node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum);
     if (flag) goto RETURN;
 #ifdef TIME
     fprintf(stderr, "cpu for color assignmment =%10.3f\n", ((real) (clock() - start))/CLOCKS_PER_SEC);

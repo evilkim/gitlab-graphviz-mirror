@@ -53,7 +53,6 @@ void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMat
     color_diff_sum: the sum of min color dfference across all nodes
   */
   real *colors = NULL, color_diff, color_diff_sum;
-  int flag;
   int n = A0->m, i, cdim;
 
   SparseMatrix A;
@@ -70,7 +69,7 @@ void map_palette_optimal_coloring(char *color_scheme, char *lightness, SparseMat
     SparseMatrix_export(stdout, A);
   }
 
-  node_distinct_coloring(color_scheme, lightness, weightedQ, A, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum, &flag);
+  node_distinct_coloring(color_scheme, lightness, weightedQ, A, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum);
 
   if (A != A0){
     SparseMatrix_delete(A);

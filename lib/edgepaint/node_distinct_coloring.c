@@ -206,8 +206,8 @@ static void node_distinct_coloring_internal(int scheme, QuadTree qt, int weighte
  
 }
 
-void node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, SparseMatrix A0, real accuracy, int iter_max, int seed, int *cdim0, real **colors, real *color_diff0,
-			    real *color_diff_sum0, int *flag){
+int node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, SparseMatrix A0, real accuracy, int iter_max, int seed, int *cdim0, real **colors, real *color_diff0,
+			    real *color_diff_sum0){
   /* 
      for a graph A, get a distinctive color of its nodes so that the color distance among all neighboring nodes are maximized. Here
      color distance on a node is defined as the minimum of color differences between a node and its neighbors (or the minimum of weighted color differences if weightedQ = true,
@@ -250,8 +250,7 @@ void node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, 
     qt = lab_gamut_quadtree(lightness, max_qtree_level);
     if (!qt){
       fprintf(stderr, "out of memory\n");
-      *flag = -1;
-      return;
+      return -1;
     }
   } else if (strcmp(color_scheme, "rgb") == 0){
     if (Verbose) fprintf(stderr,"rgb\n");
@@ -267,19 +266,16 @@ void node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, 
     qt = QuadTree_new_from_point_list(cdim, maxcolors, max_qtree_level, colors, NULL);
     assert(qt);
   } else {
-    *flag = ERROR_BAD_COLOR_SCHEME;
-    return;
+    return ERROR_BAD_COLOR_SCHEME;
   }
 
 
   *color_diff0 = *color_diff_sum0 = -1;
   if (accuracy <= 0) accuracy = 0.0001;
 
-  *flag = 0;
   n = A->m;
   if (n != A->n) {
-    *flag = -1;
-    return;
+    return -1;
   }
  
   if (!(*colors)) {
@@ -316,4 +312,5 @@ void node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, 
   *color_diff_sum0 /= nnodes;
 
   if (A != A0) SparseMatrix_delete(A);
+  return 0;
 }
