@@ -249,8 +249,8 @@ void node_distinct_coloring(char *color_scheme, char *lightness, int weightedQ, 
     scheme =  COLOR_LAB;
     qt = lab_gamut_quadtree(lightness, max_qtree_level);
     if (!qt){
-      fprintf(stderr," can not open file \"lab_gamut\"\n");
-      *flag = ERROR_BAD_LAB_GAMUT_FILE;
+      fprintf(stderr, "out of memory\n");
+      *flag = -1;
       return;
     }
   } else if (strcmp(color_scheme, "rgb") == 0){

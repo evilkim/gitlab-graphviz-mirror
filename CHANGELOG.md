@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ortho's eqEndSeg incorrectly modifies its arguments #2047
 - Autotools enables -Wtrampolines and -Wlogical-op for Clang #2066
+- node_distinct_coloring failure due to out-of-memory now reported correctly
+  instead of referring to a failure to open lab_gamut
 
 ## [2.47.3] - 2021-06-19
 
