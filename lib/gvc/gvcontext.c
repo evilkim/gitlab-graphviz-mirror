@@ -50,12 +50,11 @@ GVC_t *gvNEWcontext(const lt_symlist_t *builtins, int demand_loading)
 {
     GVC_t *gvc = zmalloc(sizeof(GVC_t));
 
-    if (gvc) {
-	gvc->common.info = LibInfo;
-	gvc->common.errorfn = agerrorf;
-	gvc->common.builtins = builtins;
-	gvc->common.demand_loading = demand_loading;
-    }
+    gvc->common.info = LibInfo;
+    gvc->common.errorfn = agerrorf;
+    gvc->common.builtins = builtins;
+    gvc->common.demand_loading = demand_loading;
+
     return gvc;
 }
 
