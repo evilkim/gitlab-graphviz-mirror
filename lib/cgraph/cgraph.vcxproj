@@ -102,6 +102,7 @@ win_flex -oscan.c scan.l</Command>
     <ClInclude Include="cghdr.h" />
     <ClInclude Include="cgraph.h" />
     <ClInclude Include="itos.h" />
+    <ClInclude Include="likely.h" />
     <ClInclude Include="sprint.h" />
     <ClInclude Include="strcasecmp.h" />
     <ClInclude Include="unreachable.h" />

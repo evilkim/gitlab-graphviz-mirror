@@ -27,6 +27,9 @@
     <ClInclude Include="itos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="likely.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="sprint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
