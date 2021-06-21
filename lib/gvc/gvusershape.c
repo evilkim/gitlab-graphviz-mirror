@@ -708,9 +708,6 @@ static usershape_t *gvusershape_open (const char *name)
 	    case FT_ICO:
 		ico_size(us);
 		break;
-//	    case FT_TIFF:
-//		tiff_size(us);
-//		break;
 	    case FT_EPS:   /* no eps_size code available */
 	    default:
 	        break;
