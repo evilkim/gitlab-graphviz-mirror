@@ -663,8 +663,7 @@ static usershape_t *gvusershape_open (const char *name)
         ImageDict = dtopen(&ImageDictDisc, Dttree);
 
     if (! (us = gvusershape_find(name))) {
-        if (! (us = zmalloc(sizeof(usershape_t))))
-	    return NULL;
+        us = zmalloc(sizeof(usershape_t));
 
 	us->name = agstrdup (0, (char*)name);
 	if (!gvusershape_file_access(us)) {
