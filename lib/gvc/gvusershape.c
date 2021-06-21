@@ -675,7 +675,7 @@ static usershape_t *gvusershape_open (const char *name)
 
         switch(imagetype(us)) {
 	    case FT_NULL:
-		if (!(us->data = (void*)find_user_shape(us->name))) {
+		if (!(us->data = find_user_shape(us->name))) {
 		    agerr(AGWARN, "\"%s\" was not found as a file or as a shape library member\n", us->name);
 		    freeUsershape (us);
 		    return NULL;
