@@ -25,7 +25,7 @@ static int iofread(void *chan, char *buf, int bufsize)
 /* default IO methods */
 static int ioputstr(void *chan, const char *str)
 {
-    return fputs(str, (FILE *) chan);
+    return fputs(str, chan);
 }
 
 static int ioflush(void *chan)
