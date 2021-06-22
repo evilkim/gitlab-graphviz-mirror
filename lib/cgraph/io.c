@@ -30,7 +30,7 @@ static int ioputstr(void *chan, const char *str)
 
 static int ioflush(void *chan)
 {
-    return fflush((FILE *) chan);
+    return fflush(chan);
 }
 
 Agiodisc_t AgIoDisc = { iofread, ioputstr, ioflush };
