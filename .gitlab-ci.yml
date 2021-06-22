@@ -751,7 +751,7 @@ ubuntu20-10-cmake-ASan-test:
         - export LDFLAGS=" -g -fsanitize=address,undefined"
         # FIXME: remove the following when Graphviz can pass the test suite
         # leak-free
-        - export ASAN_OPTIONS=detect_leaks=0,alloc_dealloc_mismatch=0
+        - export ASAN_OPTIONS=detect_leaks=0
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -787,7 +787,7 @@ ubuntu21.04-cmake-ASan-test:
         - export LDFLAGS=" -g -fsanitize=address,undefined"
         # FIXME: remove the following when Graphviz can pass the test suite
         # leak-free
-        - export ASAN_OPTIONS=detect_leaks=0,alloc_dealloc_mismatch=0
+        - export ASAN_OPTIONS=detect_leaks=0
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
