@@ -66,7 +66,7 @@ memiofread(void *chan, char *buf, int bufsize)
 	 * and next character is non-null (we are working with
 	 * null-terminated strings.
 	 */
-    } while ((c != '\n') && (l < bufsize) && (c = *ptr++));
+    } while (c != '\n' && l < bufsize && (c = *ptr++));
     s->cur += l;
     return l;
 }
