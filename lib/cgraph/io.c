@@ -17,7 +17,7 @@
 static int iofread(void *chan, char *buf, int bufsize)
 {
     if (fgets(buf, bufsize, chan))
-	return strlen(buf);
+	return (int)strlen(buf);
     else
 	return 0;
 }
