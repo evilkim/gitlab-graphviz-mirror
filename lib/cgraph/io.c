@@ -51,7 +51,7 @@ memiofread(void *chan, char *buf, int bufsize)
     rdr_t *s;
 
     if (bufsize == 0) return 0;
-    s = (rdr_t *) chan;
+    s = chan;
     if (s->cur >= s->len)
         return 0;
     l = 0;
