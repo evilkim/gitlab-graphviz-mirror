@@ -79,7 +79,7 @@ static FILE *openFile(char *name, char *mode, char* cmd)
 		cmd, name, modestr);
 	exit(-1);
     }
-    return (fp);
+    return fp;
 }
 
 static void init(int argc, char *argv[], opts_t* opts) {
@@ -95,13 +95,13 @@ static void init(int argc, char *argv[], opts_t* opts) {
   while ((c = getopt(argc, argv, ":vC:c:o:?")) != -1) {
     switch (c) {
     case 'c':
-      if ((sscanf(optarg,"%d", &v) == 0) || (v < 0)) {
+      if (sscanf(optarg, "%d", &v) == 0 || v < 0) {
 	usage(cmd,1);
       }
       else opts->clustering_method = v;
       break;
     case 'C':
-      if ((sscanf(optarg,"%d",&v) == 0) || (v < 0)) {
+      if (sscanf(optarg, "%d", &v) == 0 || v < 0) {
 	usage(cmd,1);
       }
       else opts->maxcluster = v;
