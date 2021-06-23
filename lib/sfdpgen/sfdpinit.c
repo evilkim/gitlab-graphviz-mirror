@@ -33,17 +33,9 @@ static void sfdp_init_node_edge(graph_t * g)
 {
     node_t *n;
     edge_t *e;
-#if 0
-    int nnodes = agnnodes(g);
-    attrsym_t *N_pos = agfindnodeattr(g, "pos");
-#endif
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	neato_init_node(n);
-#if 0
-   FIX so that user positions works with multiscale
-	user_pos(N_pos, NULL, n, nnodes); 
-#endif
     }
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	for (e = agfstout(g, n); e; e = agnxtout(g, e))
@@ -65,7 +57,7 @@ static void sfdp_init_graph(Agraph_t * g)
 
 /* getPos:
  */
-static real *getPos(Agraph_t * g, spring_electrical_control ctrl)
+static real *getPos(Agraph_t * g)
 {
     Agnode_t *n;
     real *pos = N_NEW(Ndim * agnnodes(g), real);
@@ -110,7 +102,7 @@ static void sfdpLayout(graph_t * g, spring_electrical_control ctrl,
     }
     else
 	sizes = NULL;
-    pos = getPos(g, ctrl);
+    pos = getPos(g);
 
     switch (ctrl->method) {
     case METHOD_SPRING_ELECTRICAL:
@@ -161,42 +153,6 @@ static void sfdpLayout(graph_t * g, spring_electrical_control ctrl,
     if (D) SparseMatrix_delete (D);
     if (edge_label_nodes) FREE(edge_label_nodes);
 }
-
-#if UNUSED
-static int
-late_mode (graph_t* g, Agsym_t* sym, int dflt)
-{
-    char* s;
-    int v;
-    int rv;
-
-    if (!sym) return dflt;
-    s = agxget (g, sym);
-    if (isdigit(*s)) {
-	if ((v = atoi (s)) <= METHOD_UNIFORM_STRESS)
-	    rv = v;
-	else
-	    rv = dflt;
-    }
-    else if (isalpha(*s)) {
-	if (!strcasecmp(s, "spring"))
-	    rv = METHOD_SPRING_ELECTRICAL;
-	else if (!strcasecmp(s, "maxent"))
-	    rv = METHOD_SPRING_MAXENT;
-	else if (!strcasecmp(s, "stress"))
-	    rv = METHOD_STRESS;
-	else if (!strcasecmp(s, "uniform"))
-	    rv = METHOD_UNIFORM_STRESS;
-	else {
-	    agerr (AGWARN, "Unknown value \"%s\" for mode attribute\n", s);
-	    rv = dflt;
-	}
-    }
-    else
-	rv = dflt;
-    return rv;
-}
-#endif
 
 static int
 late_smooth (graph_t* g, Agsym_t* sym, int dflt)
@@ -300,7 +256,6 @@ tuneControl (graph_t* g, spring_electrical_control ctrl)
     ctrl->multilevels = late_int(g, agfindgraphattr(g, "levels"), INT_MAX, 0);
     ctrl->smoothing = late_smooth(g, agfindgraphattr(g, "smoothing"), SMOOTHING_NONE);
     ctrl->tscheme = late_quadtree_scheme(g, agfindgraphattr(g, "quadtree"), QUAD_TREE_NORMAL);
-    /* ctrl->method = late_mode(g, agfindgraphattr(g, "mode"), METHOD_SPRING_ELECTRICAL); */
     ctrl->method = METHOD_SPRING_ELECTRICAL;
     ctrl->beautify_leaves = mapBool (agget(g, "beautify"), FALSE);
     ctrl->do_shrinking = mapBool (agget(g, "overlap_shrink"), TRUE);
@@ -387,10 +342,6 @@ void sfdp_layout(graph_t * g)
     dotneato_postprocess(g);
 }
 
-static void sfdp_cleanup_graph(graph_t * g)
-{
-}
-
 void sfdp_cleanup(graph_t * g)
 {
     node_t *n;
@@ -402,6 +353,5 @@ void sfdp_cleanup(graph_t * g)
 	}
 	gv_cleanup_node(n);
     }
-    sfdp_cleanup_graph(g);
 }
  

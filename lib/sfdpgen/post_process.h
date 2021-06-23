@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef POST_PROCESS_H
-#define POST_PROCESS_H
+#pragma once
 
 #include <sfdpgen/spring_electrical.h>
 
@@ -84,10 +83,4 @@ real SparseStressMajorizationSmoother_smooth(SparseStressMajorizationSmoother sm
 
 real get_stress(int m, int dim, int *iw, int *jw, real *w, real *d, real *x, real scaling, void *data, int weighted);
 
-real get_full_stress(SparseMatrix A, int dim, real *x, int weighting_scheme);
-void dump_distance_edge_length(char *outfile, SparseMatrix A, int dim, real *x);
-
 /*--------------------------------------------------------------*/
-
-#endif
-

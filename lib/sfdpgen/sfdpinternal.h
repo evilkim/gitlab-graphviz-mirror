@@ -8,10 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef SFDPINTERNAL_H
-#define SFDPINTERNAL_H
+#pragma once
 
 #include <sfdpgen/sfdp.h>
-
-#endif
- 

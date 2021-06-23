@@ -22,6 +22,7 @@
 #include <common/logic.h>
 #include <math.h>
 #include <common/globals.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
 #include <time.h>
@@ -373,7 +374,7 @@ static void set_leaves(real *x, int dim, real dist, real ang, int i, int j){
 
 static void beautify_leaves(int dim, SparseMatrix A, real *x){
   int m = A->m, i, j, *ia = A->ia, *ja = A->ja, k;
-  int *checked, p;
+  int p;
   real dist;
   int nleaves, nleaves_max = 10;
   real *angles, maxang, ang1 = 0, ang2 = 0, pad, step;
@@ -381,19 +382,17 @@ static void beautify_leaves(int dim, SparseMatrix A, real *x){
 
   assert(!SparseMatrix_has_diagonal(A));
 
-  checked = MALLOC(sizeof(int)*m);
+  bool *checked = gcalloc(sizeof(bool), m);
   angles = MALLOC(sizeof(real)*nangles_max);
   leaves = MALLOC(sizeof(int)*nleaves_max);
 
-
-  for (i = 0; i < m; i++) checked[i] = FALSE;
 
   for (i = 0; i < m; i++){
     if (ia[i+1] - ia[i] != 1) continue;
     if (checked[i]) continue;
     p = ja[ia[i]];
     if (!checked[p]){
-      checked[p] = TRUE;
+      checked[p] = true;
       dist = 0; nleaves = 0; nangles = 0;
       for (j = ia[p]; j < ia[p+1]; j++){
 	if (node_degree(ja[j]) == 1){
@@ -797,11 +796,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -810,11 +805,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -822,11 +813,7 @@ static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_el
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1091,11 +1078,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1104,11 +1087,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1116,11 +1095,7 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1237,7 +1212,7 @@ static void scale_coord(int n, int dim, real *x, int *id, int *jd, real *d, real
   fprintf(stderr,"scaling factor = %f\n",s);
 }
 
-static real dmean_get(int n, int *id, int *jd, real* d){
+static real dmean_get(int n, int *id, real* d){
   real dmean = 0;
   int i, j;
 
@@ -1320,7 +1295,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
     id = ia; jd = ja; d = NULL;
   }
   if (rho < 0) {
-    dmean = dmean_get(n, id, jd, d);
+    dmean = dmean_get(n, id, d);
     rho = rho*(id[n]/((((real) n)*((real) n)) - id[n]))/pow(dmean, p+1);
     fprintf(stderr,"dmean = %f, rho = %f\n",dmean, rho);
   }
@@ -1392,21 +1367,9 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	}
 	assert(dj > 0);
 	/* spring force */
-	if (ctrl->q == 2){
-	  w_ij = 1./(dj*dj*dj);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*(dist - dj)*(dist - dj)/dist;
-	  }
-	} else if (ctrl->q == 1){/* square stress force */
-	  w_ij = 1./(dj*dj);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*(dist - dj)/dist;
-	  }
-	} else {
-	  w_ij = 1./pow(dj, ctrl->q + 1);
-	  for (k = 0; k < dim; k++){
-	    f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*pow(dist - dj, ctrl->q)/dist;
-	  }
+	w_ij = 1./pow(dj, ctrl->q + 1);
+	for (k = 0; k < dim; k++){
+	  f[k] += -w_ij*(x[i*dim+k] - x[jd[j]*dim+k])*pow(dist - dj, ctrl->q)/dist;
 	}
 
 #ifdef DEBUG
@@ -1421,19 +1384,11 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	   repulsive forces between neighboring vertices */
 	if (ctrl->use_node_weights && node_weights){
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/(dist*dist);
-	    } else {
-	      f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] -= rho*node_weights[j]*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
 	  }
 	} else {
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/(dist*dist);
-	    } else {
-	      f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] -= rho*(x[i*dim+k] - x[jd[j]*dim+k])/pow(dist, 1.- p);
 	  }
 
 	}
@@ -1449,11 +1404,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += rho*supernode_wgts[j]*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1462,11 +1413,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += rho*node_weights[j]*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1474,11 +1421,7 @@ static void spring_maxent_embedding(int dim, SparseMatrix A0, SparseMatrix D, sp
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += rho*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += rho*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += rho*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1646,11 +1589,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	for (j = 0; j < nsuper; j++){
 	  dist = MAX(distances[j], MINDIST);
 	  for (k = 0; k < dim; k++){
-	    if (p == -1){
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/(dist*dist);
-	    } else {
-	      f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
-	    }
+	    f[k] += supernode_wgts[j]*KP*(x[i*dim+k] - center[j*dim+k])/pow(dist, 1.- p);
 	  }
 	}
       } else {
@@ -1659,11 +1598,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += node_weights[j]*KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	} else {
@@ -1671,11 +1606,7 @@ void spring_electrical_spring_embedding(int dim, SparseMatrix A0, SparseMatrix D
 	    if (j == i) continue;
 	    dist = distance_cropped(x, dim, i, j);
 	    for (k = 0; k < dim; k++){
-	      if (p == -1){
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/(dist*dist);
-	      } else {
-		f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
-	      }
+	      f[k] += KP*(x[i*dim+k] - x[j*dim+k])/pow(dist, 1.- p);
 	    }
 	  }
 	}
@@ -1752,34 +1683,6 @@ void print_matrix(real *x, int n, int dim){
   }
   printf("}\n");
 }
-
-/*
-static void interpolate2(int dim, SparseMatrix A, real *x){
-  int i, j, k, *ia = A->ia, *ja = A->ja, nz, m = A->m;
-  real alpha = 0.5, beta, *y;
-
-  y = MALLOC(sizeof(real)*dim*m);
-  for (k = 0; k < dim*m; k++) y[k] = 0;
-  for (i = 0; i < m; i++){
-    nz = 0;
-    for (j = ia[i]; j < ia[i+1]; j++){
-      if (ja[j] == i) continue;
-      nz++;
-      for (k = 0; k < dim; k++){
-	y[i*dim+k] += x[ja[j]*dim + k];
-      }
-    }
-    if (nz > 0){
-      beta = (1-alpha)/nz;
-      for (k = 0; k < dim; k++) y[i*dim+k] = alpha*x[i*dim+k] +  beta*y[i*dim+k];
-    }
-  }
-  for (k = 0; k < dim*m; k++) x[k] = y[k];
-
-  FREE(y);
-}
-
-*/
 
 void interpolate_coord(int dim, SparseMatrix A, real *x){
   int i, j, k, *ia = A->ia, *ja = A->ja, nz;

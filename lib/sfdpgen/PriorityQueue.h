@@ -1,5 +1,4 @@
-#ifndef PRIORITY_QUEUE_H
-#define PRIORITY_QUEUE_H
+#pragma once
 #include <sparse/LinkedList.h>
 struct PriorityQueue_struct {
   /* a simple priority queue structure: entries are all integers, gains are all integers in [0, gainmax], total n elements */
@@ -38,5 +37,3 @@ int PriorityQueue_pop(PriorityQueue q, int *i, int *gain);/* return 0 if nmothin
 
 int PriorityQueue_remove(PriorityQueue q, int i);/* return 0 if error */
 int PriorityQueue_get_gain(PriorityQueue q, int i);
-
-#endif

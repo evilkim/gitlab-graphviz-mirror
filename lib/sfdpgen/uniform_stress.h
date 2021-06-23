@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef UNIFORMSTRESS_H
-#define UNIFORMSTRESS_H
+#pragma once
 
 #include <sfdpgen/post_process.h> 
 
@@ -22,5 +21,3 @@ void UniformStressSmoother_delete(UniformStressSmoother sm);
 UniformStressSmoother UniformStressSmoother_new(int dim, SparseMatrix A, real *x, real alpha, real M, int *flag);
 
 void uniform_stress(int dim, SparseMatrix A, real *x, int *flag);
-
-#endif

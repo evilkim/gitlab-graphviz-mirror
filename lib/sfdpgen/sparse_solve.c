@@ -151,7 +151,7 @@ static void Operator_diag_precon_delete(Operator o){
   if (o) FREE(o);
 }
 
-static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real *rhs, real tol, int maxit, int *flag){
+static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real *rhs, real tol, int maxit){
   real *z, *r, *p, *q, res = 10*tol, alpha;
   real rho = 1.0e20, rho_old = 1, res0, beta;
   real* (*Ax)(Operator o, real *in, real *out) = A->Operator_apply;
@@ -216,7 +216,7 @@ static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real
   return res;
 }
 
-real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real tol, int maxit, int *flag){
+real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real tol, int maxit){
   real *x, *b, res = 0;
   int k, i;
   x = N_GNEW(n, real);
@@ -227,7 +227,7 @@ real cg(Operator Ax, Operator precond, int n, int dim, real *x0, real *rhs, real
       b[i] = rhs[i*dim+k];
     }
     
-    res += conjugate_gradient(Ax, precond, n, x, b, tol, maxit, flag);
+    res += conjugate_gradient(Ax, precond, n, x, b, tol, maxit);
     for (i = 0; i < n; i++) {
       rhs[i*dim+k] = x[i];
     }
@@ -295,7 +295,7 @@ real SparseMatrix_solve(SparseMatrix A, int dim, real *x0, real *rhs, real tol, 
   case SOLVE_METHOD_CG:
     Ax =  Operator_matmul_new(A);
     precond = Operator_diag_precon_new(A);
-    res = cg(Ax, precond, n, dim, x0, rhs, tol, maxit, flag);
+    res = cg(Ax, precond, n, dim, x0, rhs, tol, maxit);
     Operator_matmul_delete(Ax);
     Operator_diag_precon_delete(precond);
     break;
