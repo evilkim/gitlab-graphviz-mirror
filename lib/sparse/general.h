@@ -96,7 +96,6 @@ real* vector_saxpy(int n, real *x, real *y, real beta); /* y = x+beta*y */
 real* vector_saxpy2(int n, real *x, real *y, real beta);/* x = x+beta*y */
 
 /* take m elements v[p[i]]],i=1,...,m and oput in u. u will be assigned if *u = NULL */
-void vector_take(int n, real *v, int m, int *p, real **u);
 void vector_float_take(int n, float *v, int m, int *p, float **u);
 
 /* give the position of the smallest, second smallest etc in vector v.

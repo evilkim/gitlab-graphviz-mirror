@@ -95,19 +95,6 @@ void vector_print(char *s, int n, real *x){
     printf("}\n");
 }
 
-void vector_take(int n, real *v, int m, int *p, real **u){
-  /* take m elements v[p[i]]],i=1,...,m and oput in u */
-  int i;
-
-  if (!*u) *u = MALLOC(sizeof(real)*m);
-
-  for (i = 0; i < m; i++) {
-    assert(p[i] < n && p[i] >= 0);
-    (*u)[i] = v[p[i]];
-  }
-  
-}
-
 void vector_float_take(int n, float *v, int m, int *p, float **u){
   /* take m elements v[p[i]]],i=1,...,m and oput in u */
   int i;
