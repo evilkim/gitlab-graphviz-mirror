@@ -15,20 +15,6 @@
 double _statistics[10];
 #endif
 
-real vector_median(int n, real *x){
-  /* find the median value in a list of real */
-  int *p = NULL;
-  real res;
-  vector_ordering(n, x, &p);
-
-  if ((n/2)*2 == n){
-    res = 0.5*(x[p[n/2-1]] + x[p[n/2]]);
-  } else {
-    res = x[p[n/2]];
-  }
-  FREE(p);
-  return res;
-}
 real vector_percentile(int n, real *x, real y){
   /* find the value such that y% of element of vector x is <= that value.
    y: a value between 0 and 1.
