@@ -47,7 +47,7 @@ typedef struct {
   int clustering_method;
 } opts_t;
 
-static char* usestr =
+static const char usestr[] =
 "    -C k - generate no more than k clusters (0)\n\
        0 : no limit\n\
     -c k - use clustering method k (0)\n\
