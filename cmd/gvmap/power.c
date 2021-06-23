@@ -18,7 +18,7 @@ static const int maxit = 100;
 static const real tolerance = 0.00001;
 
 void power_method(void *A, int n, int K, int random_seed,
-    real **eigv, real **eigs){
+    real **eigv, real *eigs){
   /* find k-largest eigenvectors of a matrix A. Result in eigv. if eigv == NULL; memory will be allocated.
 
      This converges only if the largest eigenvectors/values are real (e.g., if A is symmetric) and the 
@@ -64,7 +64,6 @@ void power_method(void *A, int n, int K, int random_seed,
   assert(K <= n && K > 0);
 
   if (!(*eigv)) *eigv = MALLOC(sizeof(real)*n*K);
-  if (!(*eigs)) *eigs = MALLOC(sizeof(real)*K);
   v = MALLOC(sizeof(real*)*K);
 
   vv = MALLOC(sizeof(real)*n);
@@ -96,7 +95,7 @@ void power_method(void *A, int n, int K, int random_seed,
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
       unorm = sqrt(unorm);
-      (*eigs)[k] = unorm;
+      eigs[k] = unorm;
       if (unorm > 0) {
 	unorm = 1/unorm;
       } else {
