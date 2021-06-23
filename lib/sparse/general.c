@@ -19,7 +19,7 @@ real vector_median(int n, real *x){
   /* find the median value in a list of real */
   int *p = NULL;
   real res;
-  vector_ordering(n, x, &p, TRUE);
+  vector_ordering(n, x, &p);
 
   if ((n/2)*2 == n){
     res = 0.5*(x[p[n/2-1]] + x[p[n/2]]);
@@ -35,7 +35,7 @@ real vector_percentile(int n, real *x, real y){
   */
   int *p = NULL, i;
   real res;
-  vector_ordering(n, x, &p, TRUE);
+  vector_ordering(n, x, &p);
   
 
   y = MIN(y, 1);
@@ -203,16 +203,9 @@ static int comp_ascend_int(const void *s1, const void *s2){
   return 0;
 }
 
-
-void vector_ordering(int n, real *v, int **p, int ascending){
-  /* give the position of the lagest, second largest etc in vector v if ascending = FALSE
-
-     or
-
-     give the position of the smallest, second smallest etc  in vector v if ascending = TRUE.
+void vector_ordering(int n, real *v, int **p){
+  /* give the position of the smallest, second smallest etc in vector v.
      results in p. If *p == NULL, p is assigned.
-
-     ascending: TRUE if v[p] is from small to large.
   */
 
   real *u;
@@ -226,11 +219,7 @@ void vector_ordering(int n, real *v, int **p, int ascending){
     u[2*i] = v[i];
   }
 
-  if (ascending){
-    qsort(u, n, sizeof(real)*2, comp_ascend);
-  } else {
-    qsort(u, n, sizeof(real)*2, comp_descend);
-  }
+  qsort(u, n, sizeof(real)*2, comp_ascend);
 
   for (i = 0; i < n; i++) (*p)[i] = (int) u[2*i+1];
   FREE(u);
