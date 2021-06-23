@@ -271,7 +271,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   }
 }
   
-static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
+static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1){
   int n = A->m, i, j, jj;
   SparseMatrix L, A2;
   int *ia = A->ia, *ja = A->ja;
@@ -317,15 +317,7 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
 
   start2 = clock();
   /* swapping */
-  if (do_swapping) {
-    if (do_swapping == DO_SWAPPING){
-      improve_antibandwidth_by_swapping(A2, *p);
-    } else if (do_swapping == DO_SWAPPING_CHEAP) {
-      improve_antibandwidth_by_swapping_cheap(A2, *p);
-    } else {
-      assert(0);
-    }
-  }
+  improve_antibandwidth_by_swapping(A2, *p);
   if (Verbose) {
     fprintf(stderr, "cpu time for greedy refinement = %f\n",
             ((double)(clock() - start2)) / CLOCKS_PER_SEC);
@@ -341,5 +333,5 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
   SparseMatrix_delete(L);
 }
 void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1){
-  country_graph_coloring_internal(seed, A, p, norm_1, DO_SWAPPING);
+  country_graph_coloring_internal(seed, A, p, norm_1);
 }

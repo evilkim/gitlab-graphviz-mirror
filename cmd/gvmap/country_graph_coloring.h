@@ -13,8 +13,6 @@
 
 #include <sparse/SparseMatrix.h>
 
-enum {DO_SWAPPING = 1, DO_SWAPPING_CHEAP};
-
 void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1);
 
 void improve_antibandwidth_by_swapping(SparseMatrix A, int *p);
