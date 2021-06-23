@@ -245,18 +245,3 @@ void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, re
   
   
 }
-
-int validQ_int_string(char *to_convert, int *v){
-  /* check to see if this is a string is integer */
-  char *p = to_convert;
-  uint64_t val;
-  errno = 0;
-  val = strtoul(to_convert, &p, 10);
-  if (errno != 0 ||// conversion failed (EINVAL, ERANGE)
-      to_convert == p || // conversion failed (no characters consumed)
-      *p != 0
-      ) return 0;
-  if (val > (uint64_t)INT_MAX) return 0;
-  *v = (int) val;
-  return 1;
-}
