@@ -105,7 +105,6 @@ void vector_float_take(int n, float *v, int m, int *p, float **u);
    results in p. If *p == NULL, p is assigned.
 */
 void vector_ordering(int n, real *v, int **p);
-void vector_sort_real(int n, real *v, int ascending);
 void vector_sort_int(int n, int *v, int ascending);
 real vector_median(int n, real *x);
 real vector_percentile(int n, real *x, real y);/* find the value such that y% of element of vector x is <= that value.*/
