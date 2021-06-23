@@ -127,9 +127,6 @@ void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, re
 /* check to see if this is a string is integer (that can be casted into an integer variable hence very long list of digits are not valid, like 123456789012345. Return 1 if true, 0 if false. */
 int validQ_int_string(char *to_convert, int *v);
 
-/* check to see if this is a string of digits consists of 0-9 */
-int digitsQ(char *to_convert);
-
 #endif
 
 

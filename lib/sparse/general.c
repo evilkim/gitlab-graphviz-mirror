@@ -246,13 +246,6 @@ void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, re
   
 }
 
-int digitsQ(char *s){
-  while (*s && *s - '0' >= 0 && *s - '0' <= 9) {
-    s++;
-  }
-  if (*s) return 0;
-  return 1;
-}
 int validQ_int_string(char *to_convert, int *v){
   /* check to see if this is a string is integer */
   char *p = to_convert;
