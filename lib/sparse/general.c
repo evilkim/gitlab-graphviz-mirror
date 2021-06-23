@@ -174,15 +174,6 @@ void vector_sort_int(int n, int *v){
   qsort(v, n, sizeof(int), comp_ascend_int);
 }
 
-int excute_system_command3(char *s1, char *s2, char *s3){
-  char c[1000];
-
-  strcpy(c, s1);
-  strcat(c, s2);
-  strcat(c, s3);
-  return system(c);
-}
-
 real distance_cropped(real *x, int dim, int i, int j){
   int k;
   real dist = 0.;

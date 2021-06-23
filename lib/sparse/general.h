@@ -110,9 +110,6 @@ void vector_print(char *s, int n, real *x);
 #define MACHINEACC 1.0e-16
 #define SQRT_MACHINEACC 1.0e-8
 
-
-int excute_system_command3(char *s1, char *s2, char *s3);
-
 #define MINDIST 1.e-15
 
 enum {UNMATCHED = -1};
