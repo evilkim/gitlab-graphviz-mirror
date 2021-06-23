@@ -134,7 +134,7 @@ static void init(int argc, char *argv[], opts_t* opts) {
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 static void clusterGraph (Agraph_t* g, int maxcluster, int clustering_method){
