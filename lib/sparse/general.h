@@ -112,7 +112,6 @@ void vector_print(char *s, int n, real *x);
 
 
 int excute_system_command3(char *s1, char *s2, char *s3);
-int excute_system_command(char *s1, char *s2);
 
 #define MINDIST 1.e-15
 
