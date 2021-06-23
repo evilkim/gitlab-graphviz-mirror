@@ -15,23 +15,6 @@
 double _statistics[10];
 #endif
 
-real vector_percentile(int n, real *x, real y){
-  /* find the value such that y% of element of vector x is <= that value.
-   y: a value between 0 and 1.
-  */
-  int *p = NULL, i;
-  real res;
-  vector_ordering(n, x, &p);
-  
-
-  y = MIN(y, 1);
-  y = MAX(0, y);
-
-  i = n*y;
-  res = x[p[i]];
-  FREE(p); return res;
-}
-
 real drand(){
   return rand()/(real) RAND_MAX;
 }

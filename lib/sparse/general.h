@@ -104,7 +104,6 @@ void vector_float_take(int n, float *v, int m, int *p, float **u);
 */
 void vector_ordering(int n, real *v, int **p);
 void vector_sort_int(int n, int *v);
-real vector_percentile(int n, real *x, real y);/* find the value such that y% of element of vector x is <= that value.*/
 
 void vector_print(char *s, int n, real *x);
 
