@@ -137,7 +137,7 @@ static Agraph_t *gread(FILE * fp)
     return agread(fp, (Agdisc_t *) 0);
 }
 
-void clusterGraph (Agraph_t* g, int maxcluster, int clustering_method){
+static void clusterGraph (Agraph_t* g, int maxcluster, int clustering_method){
   initDotIO(g);
   attached_clustering(g, maxcluster, clustering_method);
   return;
