@@ -99,13 +99,11 @@ real* vector_saxpy2(int n, real *x, real *y, real beta);/* x = x+beta*y */
 void vector_take(int n, real *v, int m, int *p, real **u);
 void vector_float_take(int n, float *v, int m, int *p, float **u);
 
-/* give the position of the lagest, second largest etc in vector v if ascending = TRUE
-   or
-   give the position of the smallest, second smallest etc  in vector v if ascending = TRUE.
+/* give the position of the smallest, second smallest etc in vector v.
    results in p. If *p == NULL, p is assigned.
 */
 void vector_ordering(int n, real *v, int **p);
-void vector_sort_int(int n, int *v, int ascending);
+void vector_sort_int(int n, int *v);
 real vector_median(int n, real *x);
 real vector_percentile(int n, real *x, real y);/* find the value such that y% of element of vector x is <= that value.*/
 

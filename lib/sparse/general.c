@@ -165,19 +165,6 @@ static int comp_ascend(const void *s1, const void *s2){
   return 0;
 }
 
-static int comp_descend_int(const void *s1, const void *s2){
-  const int *ss1, *ss2;
-  ss1 = (const int*) s1;
-  ss2 = (const int*) s2;
-
-  if ((ss1)[0] > (ss2)[0]){
-    return -1;
-  } else if ((ss1)[0] < (ss2)[0]){
-    return 1;
-  }
-  return 0;
-}
-
 static int comp_ascend_int(const void *s1, const void *s2){
   const int *ss1, *ss2;
   ss1 = (const int*) s1;
@@ -214,12 +201,8 @@ void vector_ordering(int n, real *v, int **p){
 
 }
 
-void vector_sort_int(int n, int *v, int ascending){
-  if (ascending){
-    qsort(v, n, sizeof(int), comp_ascend_int);
-  } else {
-    qsort(v, n, sizeof(int), comp_descend_int);
-  }
+void vector_sort_int(int n, int *v){
+  qsort(v, n, sizeof(int), comp_ascend_int);
 }
 
 int excute_system_command3(char *s1, char *s2, char *s3){
