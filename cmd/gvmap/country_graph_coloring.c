@@ -223,7 +223,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   int cnt = 1, n = A->m, i, j, *ia = A->ia, *ja = A->ja;
   real norm = n, norm1[3], norm2[3], norm11[3], norm22[3];
   real pi, pj;
-  real start = clock();
+  clock_t start = clock();
   FILE *fp = NULL;
   
   if (Verbose){
@@ -255,13 +255,15 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
       }
       if (i%100 == 0 && Verbose) {
 	get_12_norm(n, ia, ja, p, norm1);
-	fprintf(fp,"%f %f %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC), norm1[0], norm1[2]);
+	fprintf(fp, "%f %f %f\n", ((double)(clock() - start)) / CLOCKS_PER_SEC,
+	        norm1[0], norm1[2]);
       }
     }
     if (Verbose) {
       get_12_norm(n, ia, ja, p, norm1);
       fprintf(stderr, "[%d] aband = %f, aband_avg = %f\n", cnt++, norm1[0], norm1[2]);
-      fprintf(fp,"%f %f %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC), norm1[0], norm1[2]);
+      fprintf(fp,"%f %f %f\n", ((double)(clock() - start)) / CLOCKS_PER_SEC,
+              norm1[0], norm1[2]);
     }
   }
   if (fp != NULL) {
@@ -310,7 +312,8 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
 
   vector_ordering(n, v, p);
   if (Verbose)
-    fprintf(stderr, "cpu time for spectral ordering (before greedy) = %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for spectral ordering (before greedy) = %f\n",
+            ((double)(clock() - start)) / CLOCKS_PER_SEC);
 
   start2 = clock();
   /* swapping */
@@ -324,9 +327,11 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
     }
   }
   if (Verbose) {
-    fprintf(stderr, "cpu time for greedy refinement = %f\n", (real) (clock() - start2)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for greedy refinement = %f\n",
+            ((double)(clock() - start2)) / CLOCKS_PER_SEC);
 
-    fprintf(stderr, "cpu time for spectral + greedy = %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for spectral + greedy = %f\n",
+            ((double)(clock() - start)) / CLOCKS_PER_SEC);
 
   }
   get_12_norm(n, ia, ja, *p, norm1);
