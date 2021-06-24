@@ -649,7 +649,12 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
 			fprintf(gxlFile, "\t</attr>\n");
 		    } else {
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t<attr name=\"%s\">\n", xml_string(sym->name));
+			fprintf(gxlFile, "\t<attr name=\"%s\"", xml_string(sym->name));
+			if (aghtmlstr(data->str[sym->id])) {
+			  // This is a <…> string. Note this in the kind.
+			  fprintf(gxlFile, " kind=\"HTML-like string\"");
+			}
+			fprintf(gxlFile, ">\n");
 			tabover(gxlFile);
 			fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(data->str[sym->id]));
 			tabover(gxlFile);
