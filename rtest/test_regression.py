@@ -243,6 +243,43 @@ def test_167():
   # Graphviz should not have caused a segfault
   assert ret != -signal.SIGSEGV, "Graphviz segfaulted"
 
+@pytest.mark.xfail(strict=True)
+@pytest.mark.skipif(shutil.which("gv2gxl") is None or
+                    shutil.which("gxl2gv") is None,
+                    reason="GXL tools not available")
+def test_517():
+  """
+  round tripping a graph through gv2gxl should not lose HTML labels
+  https://gitlab.com/graphviz/graphviz/-/issues/517
+  """
+
+  # our test case input
+  input = \
+    'digraph{\n' \
+    '  A[label=<<TABLE><TR><TD>(</TD><TD>A</TD><TD>)</TD></TR></TABLE>>]\n' \
+    '  B[label="<TABLE><TR><TD>(</TD><TD>B</TD><TD>)</TD></TR></TABLE>"]\n' \
+    '}'
+
+  # translate it to GXL
+  p = subprocess.Popen(["gv2gxl"], stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE, universal_newlines=True)
+  gxl, _ = p.communicate(input)
+  assert p.returncode == 0
+
+  # translate this back to Dot
+  p = subprocess.Popen(["gxl2gv"], stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE, universal_newlines=True)
+  dot, _ = p.communicate(gxl)
+  assert p.returncode == 0
+
+  # the result should have both expected labels somewhere
+  assert \
+    "label=<<TABLE><TR><TD>(</TD><TD>A</TD><TD>)</TD></TR></TABLE>>" in dot, \
+    "HTML label missing"
+  assert \
+    'label="<TABLE><TR><TD>(</TD><TD>B</TD><TD>)</TD></TR></TABLE>"' in dot, \
+    "regular label missing"
+
 def test_793():
   """
   Graphviz should not crash when using VRML output with a non-writable current
