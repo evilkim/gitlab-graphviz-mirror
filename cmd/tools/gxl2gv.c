@@ -525,7 +525,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
     } else if (strcmp(name, "attr") == 0) {
 	const char *attrname = atts[get_xml_attr("name", atts)];
 
-	agxbput(&ud->xml_attr_name, (char *) attrname);
+	agxbput(&ud->xml_attr_name, attrname);
 	pos = get_xml_attr("kind", atts);
 
 	if (pos > 0) {
@@ -662,11 +662,11 @@ static void characterDataHandler(void *userData, const char *s, int length)
 	return;
 
     if (ud->compositeReadState) {
-	agxbput_n(&ud->composite_buffer, (char *) s, length);
+	agxbput_n(&ud->composite_buffer, s, length);
 	return;
     }
 
-    agxbput_n(&ud->xml_attr_value, (char *) s, length);
+    agxbput_n(&ud->xml_attr_value, s, length);
 }
 
 Agraph_t *gxl_to_gv(FILE * gxlFile)
