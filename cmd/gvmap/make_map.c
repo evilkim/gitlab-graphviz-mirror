@@ -97,7 +97,7 @@ void map_optimal_coloring(int seed, SparseMatrix A, float *rgb_r,  float *rgb_g,
 
   country_graph_coloring(seed, A, &p, &norm1);
 
-  rgb_r++; rgb_b++; rgb_g++;/* seems necessary, but need to better think about cases when clusters are not contigous */
+  rgb_r++; rgb_b++; rgb_g++;/* seems necessary, but need to better think about cases when clusters are not contiguous */
   vector_float_take(n, rgb_r, n, p, &u);
   for (i = 0; i < n; i++) rgb_r[i] = u[i];
   vector_float_take(n, rgb_g, n, p, &u);
@@ -377,7 +377,7 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
      output: 
      nt: number of triangles
      T: triangles
-     E: a matrix of size nxn, if two points i > j are connected by an taiangulation edge, and is neighboring two triangles 
+     E: a matrix of size nxn, if two points i > j are connected by an triangulation edge, and is neighboring two triangles
      .  t1 and t2, then A[i,j] is both t1 and t2
    */
   int i, j, i0, i1, i2, ntri;
@@ -411,8 +411,8 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
 }
 
 static SparseMatrix get_country_graph(int n, SparseMatrix A, int *groups, int GRP_RANDOM, int GRP_BBOX){
-  /* form a graph each vertex is a group (a country), and a vertex is connected to another if the two countryes shares borders.
-   since the group ID may not be contigous (e.g., only groups 2,3,5, -1), we will return NULL if one of the group has non-positive ID! */
+  /* form a graph each vertex is a group (a country), and a vertex is connected to another if the two countries shares borders.
+   since the group ID may not be contiguous (e.g., only groups 2,3,5, -1), we will return NULL if one of the group has non-positive ID! */
   int *ia, *ja;
   int one = 1, jj, i, j, ig1, ig2;
   SparseMatrix B, BB;
@@ -500,7 +500,7 @@ static void get_poly_lines(int exclude_random, int nt, SparseMatrix graph, Spars
     gmask = malloc(sizeof(int)*n);
     for (i = 0; i < n; i++) gmask[i] = -1;
     ia = graph->ia; ja = graph->ja;
-    edim = 5;/* we also store info about whether an edge of a polygon correspondes to a real edge or not. */
+    edim = 5;/* we also store info about whether an edge of a polygon corresponds to a real edge or not. */
   }
 
   for (i = 0; i < nt; i++) mask[i] = -1;
@@ -691,11 +691,11 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
     polygon slids that will be colored
 
     ============================================================*/
-  int *edge_table;/* a table of edges of the triangle graph. If two vertex u and v are connected and are adjencent to two triangles
+  int *edge_table;/* a table of edges of the triangle graph. If two vertex u and v are connected and are adjacent to two triangles
 		     t1 and t2, then from u there are two edges to v, one denoted as t1->t2, and the other t2->t1. They are
 		     numbered as e1 and e2. edge_table[e1]={t1,t2} and edge_table[e2]={t2,t1}
 		  */
-  SparseMatrix half_edges;/* a graph of triangle edges. If two vertex u and v are connected and are adjencent to two triangles
+  SparseMatrix half_edges;/* a graph of triangle edges. If two vertex u and v are connected and are adjacent to two triangles
 		     t1 and t2, then from u there are two edges to v, one denoted as t1->t2, and the other t2->t1. They are
 		     numbered as e1 and e2. Likewise from v to u there are also two edges e1 and e2.
 		  */
@@ -822,7 +822,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
 	 */
 	ecur = ee = duplicate;
 	while (emask[ecur] == ii){
-	  /* contigous overlapping edges, Cycling is not possible
+	  /* contiguous overlapping edges, Cycling is not possible
 	     since the cycle can not complete surround the new voro cell and yet
 	     do not contain any other edges
 	  */
@@ -972,7 +972,7 @@ static void get_polygons(int exclude_random, int n, int nrandom, int dim, Sparse
     groups[i] = GRP_BBOX;
   }
   
-  /* finding connected componts: vertices that are connected in the triangle graph, as well as in the same group */
+  /* finding connected components: vertices that are connected in the triangle graph, as well as in the same group */
   mask = MALLOC(sizeof(int)*MAX(n + nrandom, 2*nt));
   conn_comp(n + nrandom, E, groups, poly_point_map);
 
@@ -1362,7 +1362,7 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
 
      output:
      xcombined: combined points which contains n + ncombined number of points, dimension 2x(n+nrandom)
-     npolys: number of polygons generated to reprsent the real points, the edge insertion points, and the sea/lake points.
+     npolys: number of polygons generated to represent the real points, the edge insertion points, and the sea/lake points.
      nverts: number of vertices in the Voronoi diagram
      x_poly: the 2D coordinates of these polygons, dimension nverts*2
      poly_lines: the sparse matrix representation of the polygon indices, as well as their identity. The matrix is of size
@@ -1575,7 +1575,7 @@ int make_map_from_rectangle_groups(int exclude_random, int include_OK_points,
 	  }	
 	}
 
-      }/* done adding artifial points for edges */
+      }/* done adding artificial points for edges */
     }
 
     res = make_map_internal(exclude_random, include_OK_points, N, dim, X, groups, graph, bounding_box_margin, nrandom, nedgep, 

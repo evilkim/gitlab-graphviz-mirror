@@ -51,179 +51,12 @@ static void get_12_norm(int n, int *ia, int *ja, int *p, real *norm){
   norm[1] /= nz;
 }
 
-static void update_pmin_pmax_aband(int n, int u, int *ia, int *ja, int *p, int *pmin, int *pmax, int *aband_local){
-  int j, aband_u;
-  pmin[u] = n; pmax[u] = -1; aband_u = n;
-  for (j = ia[u]; j < ia[u+1]; j++) {
-    if (ja[j] == u) continue;
-    pmin[u] = MIN(pmin[u], abs(p[u] - p[ja[j]]));
-    pmax[u] = MIN(pmax[u], abs(p[u] - p[ja[j]]));
-    aband_u = MIN(aband_u, abs(p[u] - p[ja[j]]));
-  }
-  aband_local[u] = aband_u;
-}
-
-
-static bool check_swap(int n, int *ia, int *ja,
-		      int u, int p_u, int v, int p_v, int *aband_local, int *p, int *p_inv, int aband, int *pmax, int *pmin, real lambda){
-  /* check if u should swap with v to improve u, without demaging v. Return TRUE if swap is successful. FALSE otherwise. */
-
-  int j, aband_v, aband_v1, aband_u, aband_u1;
-
-  aband_v = aband_local[v];
-  aband_u = aband_local[u];
-  
-  /* if swaping u and v makes v worse & becomes/remains critical, don't do. We first quick check using the max/min neighbor indices.
-     No need to check the other way around since the calling function have ensured that.
-   */
-  if (abs(p_u - pmin[v]) < aband_v && abs(p_u - pmin[v]) <= lambda*aband) return false;
-  if (abs(p_u - pmax[v]) < aband_v && abs(p_u - pmax[v]) <= lambda*aband) return false;
-
-  /* now check in details whether v should swap to u. Do not accept if this makes the antiband width of u worse */
-  aband_u1 = n;
-  for (j = ja[u]; j < ja[u+1]; j++){
-    if (ja[j] == u) continue;
-    if (abs(p_v - p[ja[j]]) < aband_u) {
-      return false;
-    }
-    aband_u1 = MIN(aband_u1, abs(p_v - p[ja[j]]));
-  }
-  
-  /* now check in details whether u should swap to v. Do not accept if this makes antibandwidth of v worse && make/keep v in the critical group */
-  aband_v1 = n;
-  for (j = ja[v]; j < ja[v+1]; j++){
-    if (ja[j] == v) continue;
-    if (abs(p_u - p[ja[j]]) < aband_v && abs(p_u - p[ja[j]]) <= lambda*aband) {
-      return false;
-    }
-    aband_v1 = MIN(aband_v1, abs(p_u - p[ja[j]]));
-  }
-  
-  /* now check if local antiband width has been improved. By that we mean u is improved, or u unchanged, but v improved. */
-  assert(aband_u1 >= aband_u);
-  if (aband_u1 > aband_u || (aband_u1 == aband_u && aband_v1 > aband_v)){
-    p[u] = p_v;
-    p[v] = p[u];
-    p_inv[p[u]] = u;
-    p_inv[p[v]] = v;
-
-    update_pmin_pmax_aband(n, u, ia, ja, p, pmin, pmax, aband_local);
-    update_pmin_pmax_aband(n, v, ia, ja, p, pmin, pmax, aband_local);
-
-    /* this may be expensive, but I see no way to keep pmin/pmax/aband_local consistent other than this update of u/v's neighbors */    
-    for (j = ia[u]; j < ia[u+1]; j++) {
-      update_pmin_pmax_aband(n, ja[j], ia, ja, p, pmin, pmax, aband_local);
-    }
-
-    for (j = ia[u]; j < ia[u+1]; j++) {
-      update_pmin_pmax_aband(n, ja[j], ia, ja, p, pmin, pmax, aband_local);
-    }
-    return true;
-  }
-  
-
-  return false;
-}
-
-static void improve_antibandwidth_by_swapping_cheap(SparseMatrix A, int *p){
-  /*on entry:
-    A: the graph, must be symmetric matrix
-    p: a permutation array of length n
-    lambda: threshold for deciding critical vertices.*/
-  real lambda = 1.2;
-  int n = A->m;
-  int *p_inv;
-  int i, j;
-  int *pmax, *pmin;/* max and min index of neighbors */
-  int *ia = A->ia, *ja = A->ja;
-  int aband = n;/* global antibandwidth*/
-  int *aband_local;/* antibandwidth for each node */
-  PriorityQueue pq = NULL;
-  bool progress = true, swapped;
-  int u, v, gain, aband_u, p_u, p_v;
-  
-  pq = PriorityQueue_new(n, n);
-  p_inv = MALLOC(sizeof(int)*n);
-  pmax = MALLOC(sizeof(int)*n);
-  pmin = MALLOC(sizeof(int)*n);
-  aband_local = MALLOC(sizeof(int)*n);
-
-  while (progress) {
-    progress = false;
-    for (i = 0; i < n; i++){
-      pmax[i] = -1; pmin[i] = n+1;
-      assert(p[i] >= 0 && p[i] < n);
-      p_inv[p[i]] = i;
-      aband_local[i] = n;
-      for (j = ia[i]; j < ia[i+1]; j++){
-	if (ja[j] == i) continue;
-	pmax[i] = MAX(pmax[i], p[ja[j]]);
-	pmin[i] = MIN(pmin[i], p[ja[j]]);
-	aband_local[i] = MIN(aband_local[i], abs(p[i] - p[ja[j]]));
-      }
-      aband = MIN(aband, aband_local[i]);
-    }
-    fprintf(stderr," antibandwidth = %d", aband);
-    
-    /* find critical vertices */
-    for (i = 0; i < n; i++){
-      if (aband_local[i] <= lambda*aband){
-	PriorityQueue_push(pq, i, n - aband_local[i]);
-      }
-    }
-    
-    /* check critcal nodes u to see if any swaps with v are possible */
-    while (PriorityQueue_pop(pq, &u, &gain)){
-      aband_u = n - gain;
-      p_u = p[u];
-      assert(aband_u <= lambda*aband);
-      assert(aband_u == aband_local[u]);
-      swapped = false;
-      for (p_v = 0; p_v <= pmin[u] - aband_u; p_v++){
-	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  swapped = true; progress = true;
-	  break;
-	}
-      }
-      if (swapped) continue;
-      
-      for (p_v = pmax[u] + aband_u; p_v < n; p_v++){
-	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  swapped = true; progress = true;
-	  break;
-	}
-      }
-      if (swapped) continue;
-      
-      for (p_v = pmin[u] + aband_u; p_v <= pmax[u] - aband_u; p_v++) {
-	v = p_inv[p_v];
-	if (check_swap(n, ia, ja, u, p_u, v, p_v, aband_local, p, p_inv, aband, pmax, pmin, lambda)){
-	  progress = true;
-	  break;
-	}
-      }
-      
-      
-    }
-  }
-  
-
-  FREE(p_inv);
-  FREE(pmax);
-  FREE(pmin);
-  FREE(aband_local);
-  PriorityQueue_delete(pq);
-
-}
-
 void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   bool improved = true;
   int cnt = 1, n = A->m, i, j, *ia = A->ia, *ja = A->ja;
   real norm = n, norm1[3], norm2[3], norm11[3], norm22[3];
   real pi, pj;
-  real start = clock();
+  clock_t start = clock();
   FILE *fp = NULL;
   
   if (Verbose){
@@ -255,13 +88,15 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
       }
       if (i%100 == 0 && Verbose) {
 	get_12_norm(n, ia, ja, p, norm1);
-	fprintf(fp,"%f %f %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC), norm1[0], norm1[2]);
+	fprintf(fp, "%f %f %f\n", ((double)(clock() - start)) / CLOCKS_PER_SEC,
+	        norm1[0], norm1[2]);
       }
     }
     if (Verbose) {
       get_12_norm(n, ia, ja, p, norm1);
       fprintf(stderr, "[%d] aband = %f, aband_avg = %f\n", cnt++, norm1[0], norm1[2]);
-      fprintf(fp,"%f %f %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC), norm1[0], norm1[2]);
+      fprintf(fp,"%f %f %f\n", ((double)(clock() - start)) / CLOCKS_PER_SEC,
+              norm1[0], norm1[2]);
     }
   }
   if (fp != NULL) {
@@ -269,7 +104,7 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   }
 }
   
-static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1, int do_swapping){
+static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, real *norm_1){
   int n = A->m, i, j, jj;
   SparseMatrix L, A2;
   int *ia = A->ia, *ja = A->ja;
@@ -301,32 +136,24 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
 
   /* largest eigen vector */
   {
-    int maxit = 100;
-    real tol = 0.00001;
-    real eig, *eigv;
-    eigv = &eig;
-    power_method(L, L->n, 1, seed, maxit, tol, &v, &eigv);
+    real eig;
+    power_method(L, L->n, 1, seed, &v, &eig);
   }
 
   vector_ordering(n, v, p);
   if (Verbose)
-    fprintf(stderr, "cpu time for spectral ordering (before greedy) = %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for spectral ordering (before greedy) = %f\n",
+            ((double)(clock() - start)) / CLOCKS_PER_SEC);
 
   start2 = clock();
   /* swapping */
-  if (do_swapping) {
-    if (do_swapping == DO_SWAPPING){
-      improve_antibandwidth_by_swapping(A2, *p);
-    } else if (do_swapping == DO_SWAPPING_CHEAP) {
-      improve_antibandwidth_by_swapping_cheap(A2, *p);
-    } else {
-      assert(0);
-    }
-  }
+  improve_antibandwidth_by_swapping(A2, *p);
   if (Verbose) {
-    fprintf(stderr, "cpu time for greedy refinement = %f\n", (real) (clock() - start2)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for greedy refinement = %f\n",
+            ((double)(clock() - start2)) / CLOCKS_PER_SEC);
 
-    fprintf(stderr, "cpu time for spectral + greedy = %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC));
+    fprintf(stderr, "cpu time for spectral + greedy = %f\n",
+            ((double)(clock() - start)) / CLOCKS_PER_SEC);
 
   }
   get_12_norm(n, ia, ja, *p, norm1);
@@ -336,5 +163,5 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
   SparseMatrix_delete(L);
 }
 void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1){
-  country_graph_coloring_internal(seed, A, p, norm_1, DO_SWAPPING);
+  country_graph_coloring_internal(seed, A, p, norm_1);
 }

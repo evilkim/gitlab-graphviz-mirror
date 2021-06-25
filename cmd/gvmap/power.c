@@ -11,10 +11,15 @@
 #include "power.h"
 #include <sparse/SparseMatrix.h>
 
-void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
-    real **eigv, real **eigs){
+// Maxium of iterations that will be done in power_method
+static const int maxit = 100;
+
+// Accuracy control (convergence criterion) for power_method
+static const real tolerance = 0.00001;
+
+void power_method(void *A, int n, int K, int random_seed,
+    real **eigv, real *eigs){
   /* find k-largest eigenvectors of a matrix A. Result in eigv. if eigv == NULL; memory will be allocated.
-     maxium of maxit iterations will be done, and tol is the convergence criterion
 
      This converges only if the largest eigenvectors/values are real (e.g., if A is symmetric) and the 
      next largest eigenvalues separate from the largest ones
@@ -25,7 +30,6 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
      K: number of eigenes to find
      random_seed: seed for eigenvector initialization
      matrix: max number f iterations
-     tol: accuracy control
 
      output:
      eigv: eigenvectors. The i-th is at eigvs[i*n, i*(n+1) - 1]
@@ -34,7 +38,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
 
      Function PowerIteration (A – m × m matrix )
      % This function computes u1, u2, . . . , uk, the first k eigenvectors of S.
-     const tol ← 0.001
+     const tolerance ← 0.001
      for i = 1 to k do
      . ui ← random
      . ui ← ui/||ui||
@@ -45,7 +49,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
      .     vi ← vi − (vi^Tvi)vj
      .   end for
      .   ui ← A vi/||A vi||
-     . while (ui^T vi < 1-tol) (halt when direction change is small)
+     . while (ui^T vi < 1-tolerance) (halt when direction change is small)
      . vi = ui
      end for
      return v1,v2,...
@@ -60,7 +64,6 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
   assert(K <= n && K > 0);
 
   if (!(*eigv)) *eigv = MALLOC(sizeof(real)*n*K);
-  if (!(*eigs)) *eigs = MALLOC(sizeof(real)*K);
   v = MALLOC(sizeof(real*)*K);
 
   vv = MALLOC(sizeof(real)*n);
@@ -92,7 +95,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
 
       unorm = vector_product(n, vv, vv);/* ||u||^2 */    
       unorm = sqrt(unorm);
-      (*eigs)[k] = unorm;
+      eigs[k] = unorm;
       if (unorm > 0) {
 	unorm = 1/unorm;
       } else {
@@ -108,7 +111,7 @@ void power_method(void *A, int n, int K, int random_seed, int maxit, real tol,
 	res = res + u[i]*v[k][i];
 	v[k][i] = u[i];
       }
-    } while (res < 1 - tol && iter++ < maxit);
+    } while (res < 1 - tolerance && iter++ < maxit);
   }
   FREE(u);
   FREE(vv);  

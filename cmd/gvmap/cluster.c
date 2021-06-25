@@ -47,7 +47,7 @@ typedef struct {
   int clustering_method;
 } opts_t;
 
-static char* usestr =
+static const char usestr[] =
 "    -C k - generate no more than k clusters (0)\n\
        0 : no limit\n\
     -c k - use clustering method k (0)\n\
@@ -79,7 +79,7 @@ static FILE *openFile(char *name, char *mode, char* cmd)
 		cmd, name, modestr);
 	exit(-1);
     }
-    return (fp);
+    return fp;
 }
 
 static void init(int argc, char *argv[], opts_t* opts) {
@@ -95,13 +95,13 @@ static void init(int argc, char *argv[], opts_t* opts) {
   while ((c = getopt(argc, argv, ":vC:c:o:?")) != -1) {
     switch (c) {
     case 'c':
-      if ((sscanf(optarg,"%d", &v) == 0) || (v < 0)) {
+      if (sscanf(optarg, "%d", &v) == 0 || v < 0) {
 	usage(cmd,1);
       }
       else opts->clustering_method = v;
       break;
     case 'C':
-      if ((sscanf(optarg,"%d",&v) == 0) || (v < 0)) {
+      if (sscanf(optarg, "%d", &v) == 0 || v < 0) {
 	usage(cmd,1);
       }
       else opts->maxcluster = v;
@@ -134,14 +134,12 @@ static void init(int argc, char *argv[], opts_t* opts) {
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
-void clusterGraph (Agraph_t* g, int maxcluster, int clustering_method){
+static void clusterGraph (Agraph_t* g, int maxcluster, int clustering_method){
   initDotIO(g);
   attached_clustering(g, maxcluster, clustering_method);
-  return;
-
 }
 
 int main(int argc, char *argv[])
