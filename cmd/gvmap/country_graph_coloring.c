@@ -308,7 +308,7 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
     power_method(L, L->n, 1, seed, maxit, tol, &v, &eigv);
   }
 
-  vector_ordering(n, v, p, TRUE);
+  vector_ordering(n, v, p);
   if (Verbose)
     fprintf(stderr, "cpu time for spectral ordering (before greedy) = %f\n", (real) (clock() - start)/(CLOCKS_PER_SEC));
 

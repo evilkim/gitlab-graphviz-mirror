@@ -15,37 +15,6 @@
 double _statistics[10];
 #endif
 
-real vector_median(int n, real *x){
-  /* find the median value in a list of real */
-  int *p = NULL;
-  real res;
-  vector_ordering(n, x, &p, TRUE);
-
-  if ((n/2)*2 == n){
-    res = 0.5*(x[p[n/2-1]] + x[p[n/2]]);
-  } else {
-    res = x[p[n/2]];
-  }
-  FREE(p);
-  return res;
-}
-real vector_percentile(int n, real *x, real y){
-  /* find the value such that y% of element of vector x is <= that value.
-   y: a value between 0 and 1.
-  */
-  int *p = NULL, i;
-  real res;
-  vector_ordering(n, x, &p, TRUE);
-  
-
-  y = MIN(y, 1);
-  y = MAX(0, y);
-
-  i = n*y;
-  res = x[p[i]];
-  FREE(p); return res;
-}
-
 real drand(){
   return rand()/(real) RAND_MAX;
 }
@@ -126,19 +95,6 @@ void vector_print(char *s, int n, real *x){
     printf("}\n");
 }
 
-void vector_take(int n, real *v, int m, int *p, real **u){
-  /* take m elements v[p[i]]],i=1,...,m and oput in u */
-  int i;
-
-  if (!*u) *u = MALLOC(sizeof(real)*m);
-
-  for (i = 0; i < m; i++) {
-    assert(p[i] < n && p[i] >= 0);
-    (*u)[i] = v[p[i]];
-  }
-  
-}
-
 void vector_float_take(int n, float *v, int m, int *p, float **u){
   /* take m elements v[p[i]]],i=1,...,m and oput in u */
   int i;
@@ -165,31 +121,6 @@ static int comp_ascend(const void *s1, const void *s2){
   return 0;
 }
 
-static int comp_descend(const void *s1, const void *s2){
-  const real *ss1, *ss2;
-  ss1 = (const real*) s1;
-  ss2 = (const real*) s2;
-
-  if ((ss1)[0] > (ss2)[0]){
-    return -1;
-  } else if ((ss1)[0] < (ss2)[0]){
-    return 1;
-  }
-  return 0;
-}
-static int comp_descend_int(const void *s1, const void *s2){
-  const int *ss1, *ss2;
-  ss1 = (const int*) s1;
-  ss2 = (const int*) s2;
-
-  if ((ss1)[0] > (ss2)[0]){
-    return -1;
-  } else if ((ss1)[0] < (ss2)[0]){
-    return 1;
-  }
-  return 0;
-}
-
 static int comp_ascend_int(const void *s1, const void *s2){
   const int *ss1, *ss2;
   ss1 = (const int*) s1;
@@ -203,16 +134,9 @@ static int comp_ascend_int(const void *s1, const void *s2){
   return 0;
 }
 
-
-void vector_ordering(int n, real *v, int **p, int ascending){
-  /* give the position of the lagest, second largest etc in vector v if ascending = FALSE
-
-     or
-
-     give the position of the smallest, second smallest etc  in vector v if ascending = TRUE.
+void vector_ordering(int n, real *v, int **p){
+  /* give the position of the smallest, second smallest etc in vector v.
      results in p. If *p == NULL, p is assigned.
-
-     ascending: TRUE if v[p] is from small to large.
   */
 
   real *u;
@@ -226,47 +150,15 @@ void vector_ordering(int n, real *v, int **p, int ascending){
     u[2*i] = v[i];
   }
 
-  if (ascending){
-    qsort(u, n, sizeof(real)*2, comp_ascend);
-  } else {
-    qsort(u, n, sizeof(real)*2, comp_descend);
-  }
+  qsort(u, n, sizeof(real)*2, comp_ascend);
 
   for (i = 0; i < n; i++) (*p)[i] = (int) u[2*i+1];
   FREE(u);
 
 }
 
-void vector_sort_real(int n, real *v, int ascending){
-  if (ascending){
-    qsort(v, n, sizeof(real), comp_ascend);
-  } else {
-    qsort(v, n, sizeof(real), comp_descend);
-  }
-}
-void vector_sort_int(int n, int *v, int ascending){
-  if (ascending){
-    qsort(v, n, sizeof(int), comp_ascend_int);
-  } else {
-    qsort(v, n, sizeof(int), comp_descend_int);
-  }
-}
-
-int excute_system_command3(char *s1, char *s2, char *s3){
-  char c[1000];
-
-  strcpy(c, s1);
-  strcat(c, s2);
-  strcat(c, s3);
-  return system(c);
-}
-
-int excute_system_command(char *s1, char *s2){
-  char c[1000];
-
-  strcpy(c, s1);
-  strcat(c, s2);
-  return system(c);
+void vector_sort_int(int n, int *v){
+  qsort(v, n, sizeof(int), comp_ascend_int);
 }
 
 real distance_cropped(real *x, int dim, int i, int j){
@@ -339,26 +231,4 @@ void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, re
   }
   
   
-}
-
-int digitsQ(char *s){
-  while (*s && *s - '0' >= 0 && *s - '0' <= 9) {
-    s++;
-  }
-  if (*s) return 0;
-  return 1;
-}
-int validQ_int_string(char *to_convert, int *v){
-  /* check to see if this is a string is integer */
-  char *p = to_convert;
-  uint64_t val;
-  errno = 0;
-  val = strtoul(to_convert, &p, 10);
-  if (errno != 0 ||// conversion failed (EINVAL, ERANGE)
-      to_convert == p || // conversion failed (no characters consumed)
-      *p != 0
-      ) return 0;
-  if (val > (uint64_t)INT_MAX) return 0;
-  *v = (int) val;
-  return 1;
 }

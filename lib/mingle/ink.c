@@ -240,7 +240,7 @@ double ink(pedge* edges, int numEdges, int *pick, double *ink0, point_t *meet1, 
   *ink0 = 0;
 
   /* canonicalize so that edges 1,2,3 and 3,2,1 gives the same optimal ink */
-  if (pick) vector_sort_int(numEdges, pick, TRUE);
+  if (pick) vector_sort_int(numEdges, pick);
 
   begin = end = Origin;
   for (i = 0; i < numEdges; i++) {

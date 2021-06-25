@@ -96,28 +96,18 @@ real* vector_saxpy(int n, real *x, real *y, real beta); /* y = x+beta*y */
 real* vector_saxpy2(int n, real *x, real *y, real beta);/* x = x+beta*y */
 
 /* take m elements v[p[i]]],i=1,...,m and oput in u. u will be assigned if *u = NULL */
-void vector_take(int n, real *v, int m, int *p, real **u);
 void vector_float_take(int n, float *v, int m, int *p, float **u);
 
-/* give the position of the lagest, second largest etc in vector v if ascending = TRUE
-   or
-   give the position of the smallest, second smallest etc  in vector v if ascending = TRUE.
+/* give the position of the smallest, second smallest etc in vector v.
    results in p. If *p == NULL, p is assigned.
 */
-void vector_ordering(int n, real *v, int **p, int ascending);
-void vector_sort_real(int n, real *v, int ascending);
-void vector_sort_int(int n, int *v, int ascending);
-real vector_median(int n, real *x);
-real vector_percentile(int n, real *x, real y);/* find the value such that y% of element of vector x is <= that value.*/
+void vector_ordering(int n, real *v, int **p);
+void vector_sort_int(int n, int *v);
 
 void vector_print(char *s, int n, real *x);
 
 #define MACHINEACC 1.0e-16
 #define SQRT_MACHINEACC 1.0e-8
-
-
-int excute_system_command3(char *s1, char *s2, char *s3);
-int excute_system_command(char *s1, char *s2);
 
 #define MINDIST 1.e-15
 
@@ -132,12 +122,6 @@ real point_distance(real *p1, real *p2, int dim);
 char *strip_dir(char *s);
 
 void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, real *x);
-
-/* check to see if this is a string is integer (that can be casted into an integer variable hence very long list of digits are not valid, like 123456789012345. Return 1 if true, 0 if false. */
-int validQ_int_string(char *to_convert, int *v);
-
-/* check to see if this is a string of digits consists of 0-9 */
-int digitsQ(char *to_convert);
 
 #endif
 
