@@ -1,5 +1,4 @@
 # Process this file with autoconf to produce a configure script
-# Try to use version available on FC8
 AC_PREREQ(2.61)
 
 dnl ===========================================================================
@@ -17,7 +16,8 @@ dnl Set Graphviz version information
 #	graphviz_version_commit
 m4_include(./version.m4)
 
-AC_INIT([graphviz],[graphviz_version_major().graphviz_version_minor().graphviz_version_micro()],[http://www.graphviz.org/])
+AC_INIT([graphviz],[graphviz_version_major().graphviz_version_minor().graphviz_version_micro()],
+  [https://gitlab.com/graphviz/graphviz/-/issues])
 
 GRAPHVIZ_VERSION_MAJOR=graphviz_version_major()
 GRAPHVIZ_VERSION_MINOR=graphviz_version_minor()
@@ -267,7 +267,6 @@ AM_CONDITIONAL(ENABLE_SHARED, [test "x$enable_shared" = "xyes"])
 dnl -----------------------------------
 dnl checks for various programs
 
-AC_SEARCH_LIBS([strerror],[cposix])
 AM_PROG_LEX
 AC_PROG_YACC
 AC_PROG_AWK
@@ -298,10 +297,6 @@ AC_ARG_WITH(tclsh,
 
 if test "x$TCLSH" = "x"; then
   AC_PATH_PROGS(TCLSH,[tclsh8.6 tclsh8.5 tclsh8.4 tclsh8.3 tclsh],[],[/usr/bin])
-#  if test "x$TCLSH" = "x"; then
-#    AC_MSG_ERROR([Unable to find a tclsh. Tclsh is a required program for building graphviz, independent of wether tcl-based graphviz products are built])
-#    use_tcl="No (tclsh unavailable)"
-#  fi
 fi
 
 
@@ -621,20 +616,9 @@ else
         use_d="No (D compiler not available)"
       else
         D_INCLUDES=
-#        D_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/d/modules"
-#        D_INSTALL_DATADIR="/usr/share/d"
         D_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $D_INCLUDES"
-#        AC_CHECK_HEADER(d.h,,[
-#          use_d="No (missing header)"
-#          D=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$D" != "x"; then
 	  use_d="Yes"
-#          AC_SUBST([D_INSTALL_DATADIR])
-#          AC_SUBST([D_INSTALL_DIR])
           AC_SUBST([D_INCLUDES])
           AC_SUBST([D_LIBS])
           AC_SUBST([INTDSIZE])
@@ -666,20 +650,9 @@ else
         use_go="No (GO compiler not available)"
       else
         GO_INCLUDES=
-#        GO_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/go/modules"
-#        GO_INSTALL_DATADIR="/usr/share/go"
         GO_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $GO_INCLUDES"
-#        AC_CHECK_HEADER(go.h,,[
-#          use_go="No (missing header)"
-#          GO=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$GO" != "x"; then
 	  use_go="Yes"
-#          AC_SUBST([GO_INSTALL_DATADIR])
-#          AC_SUBST([GO_INSTALL_DIR])
           AC_SUBST([GO_INCLUDES])
           AC_SUBST([GO_LIBS])
           AC_SUBST([INTGOSIZE])
@@ -875,20 +848,9 @@ else
         use_javascript="No (JAVASCRIPT compiler not available)"
       else
         JAVASCRIPT_INCLUDES=
-#        JAVASCRIPT_INSTALL_DIR="/usr/lib${LIBPOSTFIX}/javascript/modules"
-#        JAVASCRIPT_INSTALL_DATADIR="/usr/share/javascript"
         JAVASCRIPT_LIBS=
-#        save_CPPFLAGS=$CPPFLAGS
-#        CPPFLAGS="$CPPFLAGS $JAVASCRIPT_INCLUDES"
-#        AC_CHECK_HEADER(javascript.h,,[
-#          use_javascript="No (missing header)"
-#          JAVASCRIPT=
-#        ])
-#        CPPFLAGS=$save_CPPFLAGS
 	if test "x$D" != "x"; then
 	  use_javascript="Yes"
-#          AC_SUBST([JAVASCRIPT_INSTALL_DATADIR])
-#          AC_SUBST([JAVASCRIPT_INSTALL_DIR])
           AC_SUBST([JAVASCRIPT_INCLUDES])
           AC_SUBST([JAVASCRIPT_LIBS])
           AC_SUBST([INTJAVASCRIPTSIZE])
@@ -1494,58 +1456,20 @@ AC_SUBST([TCL_INSTALL_DIR])
 
 AM_CONDITIONAL(WITH_TCL, [test "x$use_tcl" = "xYes"])
 
-#AC_SUBST([TCLSH_EXEC_PREFIX])
 AC_SUBST([TCL_VERSION])
 AC_SUBST([TCL_MAJOR_VERSION])
 AC_SUBST([TCL_MINOR_VERSION])
 AC_SUBST([TCL_PATCH_LEVEL])
-#AC_SUBST([TCL_CC])
-#AC_SUBST([TCL_CXX])
 AC_SUBST([TCL_CFLAGS])
-#AC_SUBST([TCL_CXXFLAGS])
 AC_SUBST([TCL_DEFS])
-#AC_SUBST([TCL_DBGX])
-#AC_SUBST([TCL_CFLAGS_DEBUG])
-#AC_SUBST([TCL_CFLAGS_OPTIMIZE])
-#AC_SUBST([TCL_SHARED_BUILD])
-#AC_SUBST([TCL_LIB_FILE])
-#AC_SUBST([TCL_NEEDS_EXP_FILE])
-#AC_SUBST([TCL_EXPORT_FILE_SUFFIX])
-#AC_SUBST([TCL_NEEDS_EXP_FILE])
-#AC_SUBST([TCL_EXPORT_FILE_SUFFIX])
 
 # TCL modules use stubs and don't need any other tcl libraries
 TCL_LIBS=
 AC_SUBST([TCL_LIBS])
 
-#AC_SUBST([TCL_PREFIX])
-#AC_SUBST([TCL_EXEC_PREFIX])
-#AC_SUBST([TCL_SHLIB_CFLAGS])
-#AC_SUBST([TCL_SHLIB_CXXFLAGS])
-#AC_SUBST([TCL_EXTRA_CFLAGS])
-#AC_SUBST([TCL_SHLIB_LD])
-#AC_SUBST([TCL_SHLIB_LD_LIBS])
 AC_SUBST([TCL_SHLIB_SUFFIX])
-#AC_SUBST([TCL_DL_LIBS])
-#AC_SUBST([TCL_LD_FLAGS])
-#AC_SUBST([TCL_LD_SEARCH_FLAGS])
-#AC_SUBST([TCL_COMPAT_OBJS])
-#AC_SUBST([TCL_RANLIB])
-#AC_SUBST([TCL_LIB_FLAG])
-#AC_SUBST([TCL_BUILD_LIB_SPEC])
-#AC_SUBST([TCL_LIB_SPEC])
-#AC_SUBST([TCL_LIB_VERSIONS_OK])
-#AC_SUBST([TCL_SHARED_LIB_SUFFIX])
-#AC_SUBST([TCL_UNSHARED_LIB_SUFFIX])
 AC_SUBST([TCL_SRC_DIR])
-#AC_SUBST([TCL_PACKAGE_PATH])
-#AC_SUBST([TCL_SUPPORTS_STUBS])
-#AC_SUBST([TCL_STUB_LIB_FILE])
-#AC_SUBST([TCL_STUB_LIB_FLAG])
-#AC_SUBST([TCL_BUILD_STUB_LIB_SPEC])
 AC_SUBST([TCL_STUB_LIB_SPEC])
-#AC_SUBST([TCL_BUILD_STUB_LIB_PATH])
-#AC_SUBST([TCL_STUB_LIB_PATH])
 
 dnl -----------------------------------
 dnl Support for generic "extra" search paths for includes and libraries
@@ -1888,17 +1812,10 @@ AC_ARG_WITH(visio,
 if test "x$with_visio" != "xyes"; then
   use_visio="No (disabled)"
 else
-#  AC_CHECK_HEADER(visio/visio.h, VISIO_CFLAGS="",use_visio="No (missing headers)")
-#  if test "x$use_visio" = "x"; then
-#    AC_CHECK_LIB(visio, main, VISIO_LIBS="-lgs", use_visio="No (missing lib)")
-#    if test "x$use_visio" = "x"; then
-      use_visio="Yes"
-      AC_DEFINE_UNQUOTED(HAVE_VISIO,1,
-        [Define if you have the visio library])
-      AC_SUBST([VISIO_CFLAGS])
-      AC_SUBST([VISIO_LIBS])
-#    fi
-#  fi
+  use_visio="Yes"
+  AC_DEFINE_UNQUOTED(HAVE_VISIO,1,[Define if you have the visio library])
+  AC_SUBST([VISIO_CFLAGS])
+  AC_SUBST([VISIO_LIBS])
 fi
 AM_CONDITIONAL(WITH_VISIO, [test "x$use_visio" = "xYes"])
 
@@ -2229,41 +2146,6 @@ else
   ],[
     use_ann="No (no ann.pc found)"
   ])
-#  if test "$use_ann" != "Yes"; then
-#    if test -f /usr/lib$LIBPOSTFIX/libANN.so; then
-#      AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#        [Define if you have the ann library])
-#      ANN_LIBS=-lANN
-#      AC_SUBST([ANN_LIBS])
-#      use_ann="Yes (but no ann.pc found)"
-#    else
-#      if test -f /usr/lib$LIBPOSTFIX/libann.so; then
-#        AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#          [Define if you have the ann library])
-#        ANN_LIBS=-lann
-#        AC_SUBST([ANN_LIBS])
-#        use_ann="Yes (but no ann.pc found)"
-#      else
-#        if test -f /usr/lib/x86_64-linux-gnu/libann.so; then
-#          AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#            [Define if you have the ann library])
-#          ANN_LIBS=-L/usr/lib/x86_64-linux-gnu -lann
-#          AC_SUBST([ANN_LIBS])
-#          use_ann="Yes (but no ann.pc found so taking a wild guess its ubuntu-18.10)"
-#        else
-#          if test -f /usr/lib/libann.so; then
-#            AC_DEFINE_UNQUOTED(HAVE_ANN,1,
-#              [Define if you have the ann library])
-#            ANN_LIBS=-L/usr/lib -lann
-#            AC_SUBST([ANN_LIBS])
-#            use_ann="Yes (but no ann.pc found so taking a wild guess its ubuntu-18.04)"
-#          else
-#            use_ann="No (ANN library not available)"
-#          fi
-#        fi
-#      fi
-#    fi
-#  fi
 fi
 AM_CONDITIONAL(WITH_ANN, [test x"${use_ann%% *}" = "xYes"])
 
@@ -2420,7 +2302,7 @@ if test "x$use_gd" = "x"; then
    PKG_CHECK_MODULES(GTK, [gdlib >= 2.0.33],[
       have_gdlib=1
 # FIXME - why no features in the gdlib.pc?
-      GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF GD_GIFANIM GD_OPENPOLYGON"
+      GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF"
    ],[
       AC_PATH_PROG(GDLIB_CONFIG,gdlib-config)
       if test -n "$GDLIB_CONFIG"; then
@@ -2482,12 +2364,6 @@ if test "x$use_gd" = "x"; then
 	    fi
 	    if test "$f" = "GD_GIF"; then
                 AC_DEFINE_UNQUOTED(HAVE_GD_GIF,1,[Define if the GD library supports GIF])
-	    fi
-	    if test "$f" = "GD_GIFANIM"; then
-                AC_DEFINE_UNQUOTED(HAVE_GD_GIFANIM,1,[Define if the GD library supports GIFANIM])
-	    fi
-	    if test "$f" = "GD_OPENPOLYGON"; then
-                AC_DEFINE_UNQUOTED(HAVE_GD_OPENPOLYGON,1,[Define if the GD library supports OPENPOLYGON])
 	    fi
       done
 
@@ -2798,26 +2674,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
 	AC_DEFINE_UNQUOTED(HAVE_INTPTR_T,1,Define if intptr_t is declared)
 	],[AC_MSG_RESULT(no)
 	])
-
-# -----------------------------------
-
-AC_MSG_CHECKING(if assert needs __eprintf)
-cat > conftest.$ac_ext <<EOF
-#include "confdefs.h"
-#include "assert.h"
-int main(int argc, char **argv) {
-(void)argv;
-assert(argc);
-; return 0; }
-EOF
-${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5
-if test "x`nm conftest.o |$EGREP __eprintf`" != "x"; then
-    AC_MSG_RESULT(yes)
-    CFLAGS="$CFLAGS -DNDEBUG"
-else
-    AC_MSG_RESULT(no)
-fi
-rm -f conftest*
 
 # -----------------------------------------------------------------------
 
