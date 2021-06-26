@@ -380,7 +380,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     nedges++;
     nboxes += pp->nbox;
 
-    for (realedge = (edge_t *) pp->data;
+    for (realedge = pp->data;
 	 realedge && ED_edge_type(realedge) != NORMAL;
 	 realedge = ED_to_orig(realedge));
     if (!realedge) {
