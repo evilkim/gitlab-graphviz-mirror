@@ -33,14 +33,10 @@ color_rgb LAB2RGB(color_lab color);
 color_rgb color_rgb_init(double r, double g, double b);
 color_xyz color_xyz_init(double x, double y, double z);
 color_lab color_lab_init(double l, double a, double b);
-QuadTree lab_gamut_quadtree(char *gamut_file, const char *lightness, int max_qtree_level); /* construct a quadtree of the LAB gamut points */
-double *lab_gamut_from_file(char *gamut_file, const char *lightness, int *n);  /* give a list of n points  in the file defining the LAB color gamut */
+QuadTree lab_gamut_quadtree(const char *lightness, int max_qtree_level); /* construct a quadtree of the LAB gamut points */
 double *lab_gamut(const char *lightness, int *n);  /* give a list of n points  in the file defining the LAB color gamut */
 void color_blend_rgb2lab(char *color_list, const int maxpoints, double **colors); /* give a color list of the form "#ff0000,#00ff00,...", get a list of around maxpoints
 										     colors in an array colors0 of size [maxpoints*3] of the form {{l,a,b},...}.
 										     If *colors0 is NULL, it will be allocated. */
- 
-color_rgb color_blend_rgb(char *color_list, const real ratio, int *flag);/* blend a color list to get one color at ratio*100 percent of the list */
-void color_blend_rgbstring(char *color_list, const real ratio, char **color0, int *flag);/* blend a color list to get one color at ratio*100 percent of the list */
 
 #endif

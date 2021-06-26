@@ -18,12 +18,11 @@
 
 static int splines_intersect(int dim, int u1, int v1, int u2, int v2, 
 			     real cos_critical, int check_edges_with_same_endpoint, 
-			     real *x, char *xsplines1, char *xsplines2){
+			     char *xsplines1, char *xsplines2){
   /* u1, v2 an u2, v2: the node index of the two edn points of two edges.
      cos_critical: cos of critical angle
      check_edges_with_same_endpoint: whether need to treat two splines from
      .     the same end point specially in ignoring splines that exit/enter the same end pont at around 180
-     x: the coordinates of nodes
      xsplines1,xsplines2: the first and second splines corresponding to two edges
 
   */
@@ -49,13 +48,6 @@ static int splines_intersect(int dim, int u1, int v1, int u2, int v2,
     itmp = u2; u2 = v2; v2 = itmp;
     itmp = u1; u1 = v1; v1 = itmp;
   }
-
-  /* origonally I though the two end points has to be included. But now I think it does not need to since
-     the splie might start from the border of the label box
-  MEMCPY(x1, &(x[dim*u1]), sizeof(real)*dim);
-  MEMCPY(x2, &(x[dim*u2]), sizeof(real)*dim);
-  ns1++; ns2++;
-  */
 
   /* splines could be a list of 
      1. 3n points
@@ -132,14 +124,6 @@ static int splines_intersect(int dim, int u1, int v1, int u2, int v2,
     x2[(ns2-1)*dim] = tmp[0];  x2[(ns2-1)*dim + 1] = tmp[1]; 
   }
 
-  /* origonally I though the two end points has to be included. But now I think it does not need to since
-     the splie might start from the border of the label box
-  MEMCPY(&(x2[dim*ns2]), &(x[dim*v2]), sizeof(real)*dim);
-  ns2++;
-  MEMCPY(&(x1[dim*ns1]), &(x[dim*v1]), sizeof(real)*dim);
-  ns1++;
-  */
-
 for (i = 0; i < ns1 - 1; i++){
     for (j = 0; j < ns2 - 1; j++){
       cos_a = intersection_angle(&(x1[dim*i]), &(x1[dim*(i + 1)]), &(x2[dim*j]), &(x2[dim*(j+1)]));
@@ -176,7 +160,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
   int *irn, *jcn, nz, nz2 = 0;
   real cos_critical = cos(angle/180*3.14159), cos_a;
   int u1, v1, u2, v2, i, j;
-  real *colors = NULL, color_diff, color_diff_sum;
+  real *colors = NULL;
   int flag, ne;
   char **xsplines = NULL;
   int cdim;
@@ -214,7 +198,7 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
       u1 = irn[i]; v1 = jcn[i];
       for (j = i+1; j < nz2; j++){
 	u2 = irn[j]; v2 = jcn[j];
-	if (splines_intersect(dim, u1, v1, u2, v2, cos_critical, check_edges_with_same_endpoint, x, xsplines[i], xsplines[j])){
+	if (splines_intersect(dim, u1, v1, u2, v2, cos_critical, check_edges_with_same_endpoint, xsplines[i], xsplines[j])){
 	  B = SparseMatrix_coordinate_form_add_entries(B, 1, &i, &j, &cos_a);
 	}
       }
@@ -254,50 +238,15 @@ Agraph_t* edge_distinct_coloring(char *color_scheme, char *lightness, Agraph_t* 
 #endif
     int weightedQ = FALSE;
     int iter_max = 100;
-    node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors, &color_diff, &color_diff_sum, &flag);
+    flag = node_distinct_coloring(color_scheme, lightness, weightedQ, C, accuracy, iter_max, seed, &cdim, &colors);
     if (flag) goto RETURN;
 #ifdef TIME
     fprintf(stderr, "cpu for color assignmment =%10.3f\n", ((real) (clock() - start))/CLOCKS_PER_SEC);
 #endif
   }
 
-  /* for printing dual*/
-#if 0
-  {
-    FILE*fp;
-    fp = fopen("/tmp/dual.gv","w");
-    fprintf(fp,"graph {\n");
-    for (i = 0; i < nz2; i++){
-      u1 = irn[i]; v1 = jcn[i];
-      for (j = i+1; j < nz2; j++){
-	u2 = irn[j]; v2 = jcn[j];
-	cos_a = intersection_angle(&(x[dim*u1]), &(x[dim*v1]), &(x[dim*u2]), &(x[dim*v2]));
-	if (!check_edges_with_same_endpoint && cos_a >= -1) cos_a = ABS(cos_a);
-	if (cos_a > cos_critical) {
-	  fprintf(fp,"\"%d_%d\" -- \"%d_%d\"\n", u1,v1,u2,v2);
-	}
-      }
-    }
-    for (i = 0; i < nz2; i++){
-      u1 = irn[i]; v1 = jcn[i];
-      if (cdim == 3) {
-	fprintf(fp,"\"%d_%d\" [label2=%d pos=\"%f,%f\", color=\"#%02x%02x%02x\"]\n", u1,v1, i, 0.5*(x[dim*u1] + x[dim*v1]), 0.5*(x[dim*u1+1] + x[dim*v1+1]), 
-		MIN((unsigned int)(colors[i*cdim]*255),255), MIN((unsigned int) (colors[i*cdim+1]*255), 255), MIN((unsigned int)(colors[i*cdim+2]*255), 255));
-      } else if (cdim == 2){
-	fprintf(fp,"\"%d_%d\" [label2=%d pos=\"%f,%f\", color=\"#%02x%02x%02x\"]\n", u1,v1, i, 0.5*(x[dim*u1] + x[dim*v1]), 0.5*(x[dim*u1+1] + x[dim*v1+1]), 
-		MIN((unsigned int)(colors[i*cdim]*255),255), MIN((unsigned int) (colors[i*cdim+1]*255), 255), 255);
-      } else {
-	fprintf(fp,"\"%d_%d\" [label2=%d pos=\"%f,%f\", color=\"#%02x%02x%02x\"]\n", u1,v1, i, 0.5*(x[dim*u1] + x[dim*v1]), 0.5*(x[dim*u1+1] + x[dim*v1+1]), 
-		MIN((unsigned int)(colors[i*cdim]*255),255), MIN((unsigned int) (colors[i*cdim]*255), 255), MIN((unsigned int)(colors[i*cdim]*255), 255));
-      }
-    }
-    fprintf(fp,"}\n");
-  }
-#endif
-
   if (Verbose)
-    fprintf(stderr,"The edge conflict graph has %d nodes and %d edges, final color_diff=%f color_diff_sum = %f\n",
-	  C->m, C->nz, color_diff, color_diff_sum);
+    fprintf(stderr,"The edge conflict graph has %d nodes and %d edges\n", C->m, C->nz);
 
   attach_edge_colors(g, cdim, colors);
 
