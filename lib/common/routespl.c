@@ -14,6 +14,7 @@
 #include <math.h>
 #include <pathplan/pathplan.h>
 #include <setjmp.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #define PINC 300
@@ -201,7 +202,7 @@ static void psprintinit (int begin)
     Show_boxes[Show_cnt+1] = NULL;
 }
 
-static int debugleveln(edge_t* realedge, int i)
+static bool debugleveln(edge_t* realedge, int i)
 {
     return GD_showboxes(agraphof(aghead(realedge))) == i ||
 	    GD_showboxes(agraphof(agtail(realedge))) == i ||
@@ -372,9 +373,9 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     boxf *boxes;
     int boxn;
     edge_t* realedge;
-    int flip;
+    bool flip;
     int loopcnt, delta = INIT_DELTA;
-    boolean unbounded;
+    bool unbounded;
 
     *npoints = 0;
     nedges++;
@@ -409,14 +410,14 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     }
 
     if (boxn > 1 && boxes[0].LL.y > boxes[1].LL.y) {
-        flip = 1;
+        flip = true;
 	for (bi = 0; bi < boxn; bi++) {
 	    double v = boxes[bi].UR.y;
 	    boxes[bi].UR.y = -1*boxes[bi].LL.y;
 	    boxes[bi].LL.y = -v;
 	}
     }
-    else flip = 0;
+    else flip = false;
 
     if (agtail(realedge) != aghead(realedge)) {
 	/* I assume that the path goes either down only or
@@ -568,7 +569,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	boxes[bi].LL.x = INT_MAX;
 	boxes[bi].UR.x = INT_MIN;
     }
-    unbounded = TRUE;
+    unbounded = true;
     for (splinepi = 0; splinepi < spl.pn; splinepi++) {
 	ps[splinepi] = spl.ps[splinepi];
     }
@@ -592,7 +593,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	    }
 	}
 	if (bi == boxn)
-	    unbounded = FALSE;
+	    unbounded = false;
     }
     if (unbounded) {  
 	/* Either an extremely short, even degenerate, box, or some failure with the path
@@ -896,16 +897,16 @@ static void* vec_pop(vec* pvec)
 	return NULL;
 }
 
-static boolean vec_contains(vec* pvec, void* item) 
+static bool vec_contains(vec* pvec, void* item)
 {
 	size_t i;
 
 	for (i=0; i < pvec->_elems; ++i) {
 		if (pvec->_mem[i] == item)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 static vec* vec_copy(vec* pvec)
@@ -919,7 +920,7 @@ static vec* vec_copy(vec* pvec)
 }
 //end generic vector structure
 
-static boolean cycle_contains_edge(vec* cycle, edge_t* edge)
+static bool cycle_contains_edge(vec* cycle, edge_t* edge)
 {
 	node_t* start = agtail(edge);
 	node_t* end = aghead(edge);
@@ -939,14 +940,14 @@ static boolean cycle_contains_edge(vec* cycle, edge_t* edge)
 		c_end = vec_get(cycle, i);
 
 		if (c_start == start && c_end == end)
-			return TRUE;
+			return true;
 	}
 
 
-	return FALSE;
+	return false;
 }
 
-static boolean is_cycle_unique(vec* cycles, vec* cycle) 
+static bool is_cycle_unique(vec* cycles, vec* cycle)
 {
 	size_t cycle_len = vec_length(cycle);
 	size_t n_cycles = vec_length(cycles);
@@ -956,7 +957,7 @@ static boolean is_cycle_unique(vec* cycles, vec* cycle)
 	vec* cur_cycle;
 	size_t cur_cycle_len;
 	void* cur_cycle_item;
-	boolean all_items_match;
+	bool all_items_match;
 
 	for (c=0; c < n_cycles; ++c) {
 		cur_cycle = vec_get(cycles, c);
@@ -964,20 +965,20 @@ static boolean is_cycle_unique(vec* cycles, vec* cycle)
 
 		//if all the items match in equal length cycles then we're not unique
 		if (cur_cycle_len == cycle_len) {
-			all_items_match = TRUE;
+			all_items_match = true;
 			for (i=0; i < cur_cycle_len; ++i) {
 				cur_cycle_item = vec_get(cur_cycle, i);
 				if (!vec_contains(cycle, cur_cycle_item)) {
-					all_items_match = FALSE;
+					all_items_match = false;
 					break;
 				}
 			}
 			if (all_items_match)
-				return FALSE;
+				return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 static void dfs(graph_t *g, node_t* search, vec* visited, node_t* end, vec* cycles)
@@ -1147,7 +1148,7 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     pointf dumb[4];
     node_t *n;
     node_t *head;
-    int curved = et == ET_CURVED;
+    bool curved = et == ET_CURVED;
     pointf perp;
     pointf del;
     edge_t *e0;
