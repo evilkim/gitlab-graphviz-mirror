@@ -57,13 +57,6 @@ real* vector_subtract_to(int n, real *x, real *y){
   for (i = 0; i < n; i++) y[i] = x[i] - y[i];
   return y;
 }
-real* vector_add_to(int n, real *x, real *y){
-  /* y = x-y */
-  int i;
-  for (i = 0; i < n; i++) y[i] = x[i] + y[i];
-  return y;
-}
-
 real vector_product(int n, real *x, real *y){
   real res = 0;
   int i;
