@@ -83,8 +83,7 @@ obj_state_t* push_obj_state(GVJ_t *job)
 {
     obj_state_t *obj, *parent;
 
-    if (! (obj = zmalloc(sizeof(obj_state_t))))
-        agerr(AGERR, "no memory from zmalloc()\n");
+    obj = zmalloc(sizeof(obj_state_t));
 
     parent = obj->parent = job->obj;
     job->obj = obj;

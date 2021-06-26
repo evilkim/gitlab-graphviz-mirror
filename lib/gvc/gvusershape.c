@@ -663,8 +663,7 @@ static usershape_t *gvusershape_open (const char *name)
         ImageDict = dtopen(&ImageDictDisc, Dttree);
 
     if (! (us = gvusershape_find(name))) {
-        if (! (us = zmalloc(sizeof(usershape_t))))
-	    return NULL;
+        us = zmalloc(sizeof(usershape_t));
 
 	us->name = agstrdup (0, (char*)name);
 	if (!gvusershape_file_access(us)) {
@@ -676,7 +675,7 @@ static usershape_t *gvusershape_open (const char *name)
 
         switch(imagetype(us)) {
 	    case FT_NULL:
-		if (!(us->data = (void*)find_user_shape(us->name))) {
+		if (!(us->data = find_user_shape(us->name))) {
 		    agerr(AGWARN, "\"%s\" was not found as a file or as a shape library member\n", us->name);
 		    freeUsershape (us);
 		    return NULL;
@@ -709,9 +708,6 @@ static usershape_t *gvusershape_open (const char *name)
 	    case FT_ICO:
 		ico_size(us);
 		break;
-//	    case FT_TIFF:
-//		tiff_size(us);
-//		break;
 	    case FT_EPS:   /* no eps_size code available */
 	    default:
 	        break;
