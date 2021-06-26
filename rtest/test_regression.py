@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import platform
@@ -14,6 +15,17 @@ import pytest
 
 sys.path.append(os.path.dirname(__file__))
 from gvtest import ROOT, run_c #pylint: disable=C0413
+
+def is_ndebug_defined() -> bool:
+  """
+  are assertions disabled in the Graphviz build under test?
+  """
+
+  # the Windows release builds set NDEBUG
+  if os.environ.get("configuration") == "Release":
+    return True
+
+  return False
 
 # The terminology used in rtest.py is a little inconsistent. At the
 # end it reports the total number of tests, the number of "failures"
@@ -44,6 +56,40 @@ def test_regression_failure():
 # FIXME: re-enable when all tests pass on all platforms
 #    assert result.returncode == 0
 
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_14():
+  """
+  using ortho and twopi in combination should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/14
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "14.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+
+def test_56():
+  """
+  parsing a particular graph should not cause a Trapezoid-table overflow
+  assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/56
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "56.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # FIXME: remove this block when this #56 is fixed
+  if not is_ndebug_defined() and platform.system() != "Windows":
+    with pytest.raises(subprocess.CalledProcessError):
+      subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+    return
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+
 def test_131():
   """
   PIC back end should produce valid output
@@ -63,6 +109,57 @@ def test_131():
   # ask GNU PIC to process the Graphviz output
   subprocess.run(["gpic"], input=pic, stdout=subprocess.DEVNULL, check=True,
     universal_newlines=True)
+
+@pytest.mark.parametrize("testcase", ("144_no_ortho.dot", "144_ortho.dot"))
+def test_144(testcase: str):
+  """
+  using ortho should not result in head/tail confusion
+  https://gitlab.com/graphviz/graphviz/-/issues/144
+  """
+
+  # locate our associated test cases in this directory
+  input = Path(__file__).parent / testcase
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process the non-ortho one into JSON
+  out = subprocess.check_output(["dot", "-Tjson", input],
+    universal_newlines=True)
+  data = json.loads(out)
+
+  # find the two nodes, “A” and “B”
+  A = [x for x in data["objects"] if x["name"] == "A"][0]
+  B = [x for x in data["objects"] if x["name"] == "B"][0]
+
+  # find the edge between them
+  edge = [x for x in data["edges"]
+          if x["tail"] == A["_gvid"] and x["head"] == B["_gvid"]][0]
+
+  # the edge between them should have been routed vertically
+  points = edge["_draw_"][1]["points"]
+  xs = [x for x, _ in points]
+  assert all(x == xs[0] for x in xs), "A->B not routed vertically"
+
+  # determine whether it is routed down or up
+  ys = [y for _, y in points]
+  if ys == sorted(ys):
+    routed_up = True
+  elif list(reversed(ys)) == sorted(ys):
+    routed_up = False
+  else:
+    pytest.fail("A->B seems routed neither straight up nor down")
+
+  # determine Graphviz’ idea of which end is the head and which is the tail
+  head_point = edge["_hldraw_"][2]["pt"]
+  tail_point = edge["_tldraw_"][2]["pt"]
+  head_is_top = head_point[1] > tail_point[1]
+
+  # FIXME: remove when #144 is fixed
+  if testcase == "144_ortho.dot":
+    assert routed_up != head_is_top, "#144 fixed?"
+    return
+
+  # this should be consistent with the direction the edge is drawn
+  assert routed_up == head_is_top, "heap/tail confusion"
 
 def test_165():
   """
@@ -219,6 +316,20 @@ def test_1314():
   # the execution did not fail as expected
   pytest.fail("dot incorrectly exited with success")
 
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_1408():
+  """
+  parsing particular ortho layouts should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/1408
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1408.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
+
 def test_1411():
   """
   parsing strings containing newlines should not disrupt line number tracking
@@ -330,6 +441,20 @@ def test_1594():
 
   assert "line 3:" in stderr, \
     "GVPR did not identify correct line of syntax error"
+
+@pytest.mark.xfail() # FIXME
+def test_1658():
+  """
+  the graph associated with this test case should not crash Graphviz
+  https://gitlab.com/graphviz/graphviz/-/issues/1658
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1658.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
 
 def test_1676():
   """
@@ -468,6 +593,59 @@ def test_1845():
   # generate a multipage PS file from this input
   subprocess.check_call(["dot", "-Tps", "-o", os.devnull, input])
 
+@pytest.mark.xfail(strict=True) # FIXME
+def test_1856():
+  """
+  headports and tailports should be respected
+  https://gitlab.com/graphviz/graphviz/-/issues/1856
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1856.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it into JSON
+  out = subprocess.check_output(["dot", "-Tjson", input],
+    universal_newlines=True)
+  data = json.loads(out)
+
+  # find the two nodes, “3” and “5”
+  three = [x for x in data["objects"] if x["name"] == "3"][0]
+  five  = [x for x in data["objects"] if x["name"] == "5"][0]
+
+  # find the edge from “3” to “5”
+  edge = [x for x in data["edges"]
+          if x["tail"] == three["_gvid"] and x["head"] == five["_gvid"]][0]
+
+  # The edge should look something like:
+  #
+  #        ┌─┐
+  #        │3│
+  #        └┬┘
+  #    ┌────┘
+  #   ┌┴┐
+  #   │5│
+  #   └─┘
+  #
+  # but a bug causes port constraints to not be respected and the edge comes out
+  # more like:
+  #
+  #        ┌─┐
+  #        │3│
+  #        └┬┘
+  #         │
+  #   ┌─┐   │
+  #   ├5̶┼───┘
+  #   └─┘
+  #
+  # So validate that the edge’s path does not dip below the top of the “5” node.
+
+  top_of_five = max(y for _, y in five["_draw_"][1]["points"])
+
+  waypoints_y = [y for _, y in edge["_draw_"][1]["points"]]
+
+  assert all(y >= top_of_five for y in waypoints_y), "edge dips below 5"
+
 @pytest.mark.skipif(shutil.which("fdp") is None, reason="fdp not available")
 def test_1865():
   """
@@ -519,6 +697,26 @@ def test_1877():
     universal_newlines=True)
   p.communicate(input)
   assert p.returncode == 0
+
+def test_1880():
+  """
+  parsing a particular graph should not cause a Trapezoid-table overflow
+  assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/1880
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1880.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # FIXME: remove this block when this #1880 is fixed
+  if not is_ndebug_defined() and platform.system() != "Windows":
+    with pytest.raises(subprocess.CalledProcessError):
+      subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
+    return
+
+  # process it with Graphviz
+  subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
 
 def test_1898():
   """
@@ -770,6 +968,20 @@ def test_1931():
   assert "line 1\nline 2\n" in xdot
   assert "line 3\nline 4" in xdot
   assert "line 5\nline 6" in xdot
+
+@pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
+def test_1990():
+  """
+  using ortho and circo in combination should not cause an assertion failure
+  https://gitlab.com/graphviz/graphviz/-/issues/14
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "1990.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # process it with Graphviz
+  subprocess.check_call(["circo", "-Tsvg", "-o", os.devnull, input])
 
 def test_2057():
   """
