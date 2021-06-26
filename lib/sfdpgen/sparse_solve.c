@@ -68,7 +68,7 @@ static Operator Operator_matmul_new(SparseMatrix A){
   Operator o;
 
   o = GNEW(struct Operator_struct);
-  o->data = (void*) A;
+  o->data = A;
   o->Operator_apply = Operator_matmul_apply;
   return o;
 }
