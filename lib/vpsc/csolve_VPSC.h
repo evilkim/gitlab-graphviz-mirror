@@ -50,7 +50,6 @@ void satisfyVPSC(VPSC*);
 void solveVPSC(VPSC*);
 typedef struct IncVPSC IncVPSC;
 VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]);
-int getSplitCnt(IncVPSC *vpsc);
 #ifdef __cplusplus
 }
 #endif

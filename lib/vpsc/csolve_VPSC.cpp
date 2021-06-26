@@ -75,9 +75,6 @@ void satisfyVPSC(VPSC* vpsc) {
 		std::exit(1);
 	}
 }
-int getSplitCnt(IncVPSC *vpsc) {
-	return vpsc->splitCnt;
-}
 void deleteVPSC(VPSC *vpsc) {
 	assert(vpsc!=nullptr);
 	delete vpsc;
