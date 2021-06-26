@@ -17,6 +17,7 @@
  * Needs to be fixed before layout engines can be plugins.
  */
 
+#include <cgraph/likely.h>
 #include <ctype.h>
 #include <common/render.h>
 #include <fdpgen/tlayout.h>
@@ -279,7 +280,7 @@ int gvParseArgs(GVC_t *gvc, int argc, char** argv)
 	return (1-argc);
     if ((rv = dotneato_args_initialize(gvc, argc, argv)))
 	return rv;
-    if (Verbose)
+    if (UNLIKELY(Verbose))
 	gvplugin_write_status(gvc);
     return 0;
 }

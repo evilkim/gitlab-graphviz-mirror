@@ -10,6 +10,7 @@ add_library(cgraph SHARED
     cghdr.h
     cgraph.h
     itos.h
+    likely.h
     sprint.h
     strcasecmp.h
     unreachable.h
