@@ -672,7 +672,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
     int bi, i, errs, l, r, d, u;
     int xoverlap, yoverlap;
 
-#ifndef DONTFIXPATH
     /* remove degenerate boxes. */
     i = 0;
     for (bi = 0; bi < boxn; bi++) {
@@ -685,7 +684,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	i++;
     }
     boxn = i;
-#endif				/* DONTFIXPATH */
 
     ba = &boxes[0];
     if (ba->LL.x > ba->UR.x || ba->LL.y > ba->UR.y) {
@@ -711,7 +709,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 		    bi, bi + 1);
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
 	if (errs > 0) {
 	    int xy;
 
@@ -738,10 +735,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 			bb->UR.y = xy, u = 0;
 	    }
 	}
-#else
-	abort();
-#endif
-#ifndef DONTFIXPATH
 	/* check for overlapping boxes */
 	xoverlap = overlap(ba->LL.x, ba->UR.x, bb->LL.x, bb->UR.x);
 	yoverlap = overlap(ba->LL.y, ba->UR.y, bb->LL.y, bb->UR.y);
@@ -777,7 +770,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    }
 	}
     }
-#endif				/* DONTFIXPATH */
 
     if (thepath->start.p.x < boxes[0].LL.x
 	|| thepath->start.p.x > boxes[0].UR.x
@@ -787,7 +779,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    fprintf(stderr, "in checkpath, start port not in first box\n");
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
 	if (thepath->start.p.x < boxes[0].LL.x)
 	    thepath->start.p.x = boxes[0].LL.x;
 	if (thepath->start.p.x > boxes[0].UR.x)
@@ -796,9 +787,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    thepath->start.p.y = boxes[0].LL.y;
 	if (thepath->start.p.y > boxes[0].UR.y)
 	    thepath->start.p.y = boxes[0].UR.y;
-#else
-	abort();
-#endif
     }
     if (thepath->end.p.x < boxes[boxn - 1].LL.x
 	|| thepath->end.p.x > boxes[boxn - 1].UR.x
@@ -808,7 +796,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    fprintf(stderr, "in checkpath, end port not in last box\n");
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
 	if (thepath->end.p.x < boxes[boxn - 1].LL.x)
 	    thepath->end.p.x = boxes[boxn - 1].LL.x;
 	if (thepath->end.p.x > boxes[boxn - 1].UR.x)
@@ -817,9 +804,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    thepath->end.p.y = boxes[boxn - 1].LL.y;
 	if (thepath->end.p.y > boxes[boxn - 1].UR.y)
 	    thepath->end.p.y = boxes[boxn - 1].UR.y;
-#else
-	abort();
-#endif
     }
     return 0;
 }
