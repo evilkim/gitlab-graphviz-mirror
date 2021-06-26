@@ -12,6 +12,7 @@ add_library(cgraph SHARED
     itos.h
     sprint.h
     strcasecmp.h
+    unreachable.h
 
     # Source files
     agerror.c
