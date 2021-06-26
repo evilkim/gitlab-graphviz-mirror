@@ -18,10 +18,6 @@
 
 #define PINC 300
 
-#ifdef NOTNOW
-static edge_t *origedge;
-#endif
-
 static int nedges, nboxes; /* total no. of edges and boxes used in routing */
 
 static int routeinit;
@@ -397,9 +393,6 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     nboxes += pp->nbox;
 
     for (realedge = (edge_t *) pp->data;
-#ifdef NOTNOW
-	 origedge = realedge;
-#endif
 	 realedge && ED_edge_type(realedge) != NORMAL;
 	 realedge = ED_to_orig(realedge));
     if (!realedge) {
@@ -849,12 +842,6 @@ static void printpath(path * pp)
 {
     int bi;
 
-#ifdef NOTNOW
-    fprintf(stderr, "edge %d from %s to %s\n", nedges,
-	    realedge->tail->name, realedge->head->name);
-    if (ED_count(origedge) > 1)
-	fprintf(stderr, "    (it's part of a concentrator edge)\n");
-#endif
     fprintf(stderr, "%d boxes:\n", pp->nbox);
     for (bi = 0; bi < pp->nbox; bi++)
 	fprintf(stderr, "%d (%.5g, %.5g), (%.5g, %.5g)\n", bi,
