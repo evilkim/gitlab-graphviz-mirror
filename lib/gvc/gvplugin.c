@@ -169,10 +169,7 @@ gvplugin_library_t *gvplugin_library_load(GVC_t * gvc, char *path)
     len = strlen(libdir) + 1 + strlen(path) + 1;
     if (len > lenp) {
         lenp = len + 20;
-        if (p)
-            p = grealloc(p, lenp);
-        else
-            p = gmalloc(lenp);
+        p = grealloc(p, lenp);
     }
 #ifdef _WIN32
     if (path[1] == ':') {
