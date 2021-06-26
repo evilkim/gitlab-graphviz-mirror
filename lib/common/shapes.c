@@ -4034,20 +4034,6 @@ static void cylinder_draw(GVJ_t * job, pointf * AF, int sides, int style, int fi
     gvrender_beziercurve(job, vertices, 7, FALSE, FALSE, FALSE);
 }
 
-#if 0
-/* cylinder_inside:
- * At present, we use just the polygonal outline provided by vertices.
- * This cold be made more precise by using a finer-grained polyline path
- * to the spline top and bottom. Another approach might be to approximate
- * the top and bottom by ellipses. Then the test would involve a check if
- * the point is in the rectangle or one of the two ellipses.
- */ 
-static boolean cylinder_inside(inside_t * inside_context, pointf p)
-{
-    return TRUE;
-}
-#endif
-
 static char *side_port[] = { "s", "e", "n", "w" };
 
 static point cvtPt(pointf p, int rankdir)

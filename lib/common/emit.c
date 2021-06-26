@@ -1698,24 +1698,6 @@ static void setup_page(GVJ_t * job, graph_t * g)
         else
             job->translation.y = - job->clip.LL.y + job->canvasBox.LL.y / job->zoom;
     }
-
-#if 0
-fprintf(stderr,"width=%d height=%d dpi=%g,%g\npad=%g,%g focus=%g,%g view=%g,%g zoom=%g\npageBox=%g,%g,%g,%g pagesArraySize=%d,%d pageSize=%g,%g canvasBox=%g,%g,%g,%g pageOffset=%g,%g\ntranslation=%g,%g clip=%g,%g,%g,%g margin=%g,%g\n",
-	job->width, job->height,
-	job->dpi.x, job->dpi.y,
-	job->pad.x, job->pad.y,
-	job->focus.x, job->focus.y,
-	job->view.x, job->view.y,
-	job->zoom,
-	job->pageBox.LL.x, job->pageBox.LL.y, job->pageBox.UR.x, job->pageBox.UR.y,
-	job->pagesArraySize.x, job->pagesArraySize.y,
-	job->pageSize.x, job->pageSize.y,
-	job->canvasBox.LL.x, job->canvasBox.LL.y, job->canvasBox.UR.x, job->canvasBox.UR.y,
-	job->pageOffset.x, job->pageOffset.y,
-	job->translation.x, job->translation.y,
-	job->clip.LL.x, job->clip.LL.y, job->clip.UR.x, job->clip.UR.y,
-	job->margin.x, job->margin.y);
-#endif
 }
 
 static boolean node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
@@ -2757,48 +2739,22 @@ static void nodeIntersect (GVJ_t * job, pointf p,
 {
     obj_state_t *obj = job->obj;
     char* url;
-#if 0
-    char* tooltip;
-    char* target;
-#endif
     boolean explicit;
 
     if (explicit_iurl) url = iurl;
     else url = obj->url;
     if (explicit_itooltip) {
-#if 0
-	tooltip = itooltip;
-#endif
 	explicit = TRUE;
     }
     else if (obj->explicit_tooltip) {
-#if 0
-	tooltip = obj->tooltip;
-#endif
 	explicit = TRUE;
     }
     else {
-#if 0
-	tooltip = itooltip;
-#endif
 	explicit = FALSE;
     }
-#if 0
-    if (explicit_itarget)
-	target = itarget;
-    else if (obj->explicit_edgetarget)
-	target = obj->target;
-    else
-	target = itarget;
-#endif
 
     if (url || explicit) {
 	map_point(job, p);
-#if 0
-/* this doesn't work because there is nothing contained in the anchor */
-	gvrender_begin_anchor(job, url, tooltip, target, obj->id);
-	gvrender_end_anchor(job);
-#endif
     }
 }
 
@@ -3282,12 +3238,6 @@ static void init_job_viewport(GVJ_t * job, graph_t * g)
     job->zoom = Z;              /* scaling factor */
     job->focus.x = x;
     job->focus.y = y;
-#if 0
-fprintf(stderr, "view=%g,%g, zoom=%g, focus=%g,%g\n",
-	job->view.x, job->view.y,
-	job->zoom,
-	job->focus.x, job->focus.y);
-#endif
 }
 
 static void emit_cluster_colors(GVJ_t * job, graph_t * g)
@@ -3552,10 +3502,6 @@ void emit_graph(GVJ_t * job, graph_t * g)
 	job->view.x = job->width / job->scale.x;
 	job->view.y = job->height / job->scale.y;
     }
-#if 0
-fprintf(stderr,"focus=%g,%g view=%g,%g\n",
-	job->focus.x, job->focus.y, job->view.x, job->view.y);
-#endif
 
     s = late_string(g, agattr(g, AGRAPH, "comment", 0), "");
     gvrender_comment(job, s);
@@ -3858,13 +3804,6 @@ static int style_token(char **s, agxbuf * xb)
 static unsigned char outbuf[SMALLBUF];
 static agxbuf ps_xb;
 
-#if 0
-static void cleanup(void)
-{
-    agxbfree(&ps_xb);
-}
-#endif
-
 /* parse_style:
  * This is one of the worst internal designs in graphviz.
  * The use of '\0' characters within strings seems cute but it
@@ -3886,9 +3825,6 @@ char **parse_style(char *s)
 
     if (is_first) {
 	agxbinit(&ps_xb, SMALLBUF, outbuf);
-#if 0
-	atexit(cleanup);
-#endif
 	is_first = FALSE;
     }
 

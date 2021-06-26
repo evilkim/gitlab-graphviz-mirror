@@ -69,17 +69,6 @@ static void arcn (stroke_t* p, double x, double y, double r, double a1, double a
 	addto (p, x+r*cos(a1-i*theta), y+r*sin(a1-i*theta));
 }
 
-#if 0
-static void closepath (stroke_t* p)
-{
-    pointf pt = p->vertices[0];
-
-    addto (p, pt.x, pt.y);
-    if (p->flags > p->nvertices)
-	p->vertices = RALLOC(p->nvertices,p->vertices,pointf);
-}
-#endif
-
 /*
  * handle zeros
  */
