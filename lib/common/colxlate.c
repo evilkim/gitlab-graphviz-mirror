@@ -144,7 +144,7 @@ char *canontoken(char *str)
 	if (!canon)
 	    return NULL;
     }
-    q = (unsigned char *) canon;
+    q = canon;
     while ((c = *p++)) {
 	/* if (isalnum(c) == FALSE) */
 	    /* continue; */
