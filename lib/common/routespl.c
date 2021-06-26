@@ -931,12 +931,12 @@ static boolean cycle_contains_edge(vec* cycle, edge_t* edge)
 
 	for (i=0; i < cycle_len; ++i) {
 		if (i == 0) {
-			c_start = (node_t*)vec_get(cycle, cycle_len-1);
+			c_start = vec_get(cycle, cycle_len-1);
 		} else {
-			c_start = (node_t*)vec_get(cycle, i-1);
+			c_start = vec_get(cycle, i-1);
 		}
 	
-		c_end = (node_t*)vec_get(cycle, i);
+		c_end = vec_get(cycle, i);
 
 		if (c_start == start && c_end == end)
 			return TRUE;
@@ -959,7 +959,7 @@ static boolean is_cycle_unique(vec* cycles, vec* cycle)
 	boolean all_items_match;
 
 	for (c=0; c < n_cycles; ++c) {
-		cur_cycle = (vec*)vec_get(cycles, c);
+		cur_cycle = vec_get(cycles, c);
 		cur_cycle_len = vec_length(cur_cycle);
 
 		//if all the items match in equal length cycles then we're not unique
@@ -1030,7 +1030,7 @@ static vec* find_shortest_cycle_with_edge(vec* cycles, edge_t* edge, size_t min_
 	vec* shortest = 0;
 
 	for (c=0; c < cycles_len; ++c) {
-		cycle = (vec*)vec_get(cycles, c);
+		cycle = vec_get(cycles, c);
 		cycle_len = vec_length(cycle);
 
 		if (cycle_len < min_size)
@@ -1074,7 +1074,7 @@ static pointf get_cycle_centroid(graph_t *g, edge_t* edge)
 	cycle_len = vec_length(cycle);
 
 	for (idx=0; idx < cycle_len; ++idx) {
-		n = (node_t*)vec_get(cycle, idx);
+		n = vec_get(cycle, idx);
 		sum.x += ND_coord(n).x;
         sum.y += ND_coord(n).y;
         cnt++;
