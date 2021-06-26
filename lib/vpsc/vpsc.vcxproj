@@ -93,7 +93,6 @@
     <ClCompile Include="csolve_VPSC.cpp" />
     <ClCompile Include="generate-constraints.cpp" />
     <ClCompile Include="pairingheap\PairingHeap.cpp" />
-    <ClCompile Include="remove_rectangle_overlap.cpp" />
     <ClCompile Include="solve_VPSC.cpp" />
     <ClCompile Include="variable.cpp" />
   </ItemGroup>

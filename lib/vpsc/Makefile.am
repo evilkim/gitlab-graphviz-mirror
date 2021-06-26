@@ -14,7 +14,7 @@ noinst_HEADERS = \
 
 libvpsc_C_la_SOURCES = \
 	block.cpp blocks.cpp constraint.cpp generate-constraints.cpp \
-	pairingheap/PairingHeap.cpp remove_rectangle_overlap.cpp \
+	pairingheap/PairingHeap.cpp \
 	solve_VPSC.cpp csolve_VPSC.cpp variable.cpp
 
 EXTRA_DIST = vpsc.vcxproj*

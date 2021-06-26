@@ -19,7 +19,6 @@ add_library(vpsc STATIC
     csolve_VPSC.cpp
     generate-constraints.cpp
     pairingheap/PairingHeap.cpp
-    remove_rectangle_overlap.cpp
     solve_VPSC.cpp
     variable.cpp
 )
