@@ -837,8 +837,8 @@ static pointf get_centroid(Agraph_t *g)
         sum.y += ND_pos(n)[1];
         cnt++;
     }
-    sum.x = sum.x / cnt;
-    sum.y = sum.y / cnt;
+    sum.x /= cnt;
+    sum.y /= cnt;
     return sum;
 }
 
@@ -1080,8 +1080,8 @@ static pointf get_cycle_centroid(graph_t *g, edge_t* edge)
         cnt++;
 	}
 
-	sum.x = sum.x / cnt;
-    sum.y = sum.y / cnt;
+	sum.x /= cnt;
+    sum.y /= cnt;
     return sum;
 }
 
