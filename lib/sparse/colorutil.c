@@ -55,26 +55,3 @@ char * hue2rgb(real hue, char *color){
   sprintf(color, "#%02x%02x%02x", red, green, blue);
   return color;
 }
-
-
-void hue2rgb_real(real hue, real *color){
-  real v1, v2, lightness = .5, saturation = 1;
-  int red, blue, green;
-
-  if(lightness < 0.5) 
-    v2 = lightness * (1.0 + saturation);
-  else
-    v2 = (lightness + saturation) - (saturation * lightness);
-
-  v1 = 2.0 * lightness - v2;
-
-  red =   (int)(255.0 * Hue2RGB(v1, v2, hue + (1.0/3.0)) + 0.5);
-  green = (int)(255.0 * Hue2RGB(v1, v2, hue) + 0.5);
-  blue =  (int)(255.0 * Hue2RGB(v1, v2, hue - (1.0/3.0)) + 0.5);
-
-
-  color[0] = red/255.;
-  color[1] = green/255.;
-  color[2] = blue/255.;
-		  
-}

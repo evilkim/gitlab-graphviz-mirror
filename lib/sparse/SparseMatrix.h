@@ -86,7 +86,6 @@ void SparseMatrix_multiply_dense(SparseMatrix A, int ATranspose, real *v, int vT
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x));/* for real only! */
 SparseMatrix SparseMatrix_copy(SparseMatrix A);
 int SparseMatrix_has_diagonal(SparseMatrix A);
-SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to_row);
 SparseMatrix SparseMatrix_make_undirected(SparseMatrix A);/* make it strictly low diag only, and set flag to undirected */
 real SparseMatrix_pseudo_diameter_weighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume real distances, unsymmetric matrix ill be symmetrized */
 real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume unit edge length, unsymmetric matrix ill be symmetrized */
@@ -122,20 +121,8 @@ SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 #define SparseMatrix_set_hemitian(A) set_flag((A)->property, MATRIX_HERMITIAN)
 
 
-#define SparseMatrix_clear_undirected(A) clear_flag((A)->property, MATRIX_UNDIRECTED)
-#define SparseMatrix_clear_symmetric(A) clear_flag((A)->property, MATRIX_SYMMETRIC)
-#define SparseMatrix_clear_pattern_symmetric(A) clear_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
-#define SparseMatrix_clear_skew(A) clear_flag((A)->property, MATRIX_SKEW)
-#define SparseMatrix_clear_hemitian(A) clear_flag((A)->property, MATRIX_HERMITIAN)
-
-
 #define SparseMatrix_known_undirected(A) test_flag((A)->property, MATRIX_UNDIRECTED)
 #define SparseMatrix_known_symmetric(A) test_flag((A)->property, MATRIX_SYMMETRIC)
 #define SparseMatrix_known_strucural_symmetric(A) test_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
-#define SparseMatrix_known_skew(A) test_flag((A)->property, MATRIX_SKEW)
-#define SparseMatrix_known_hemitian(A) test_flag((A)->property, MATRIX_HERMITIAN)
-
-
-
 
 #endif

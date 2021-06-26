@@ -1224,40 +1224,6 @@ void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int trans
 
 }
 
-
-
-SparseMatrix SparseMatrix_scaled_by_vector(SparseMatrix A, real *v, int apply_to_row){
-  /* A SCALED BY VECOTR V IN ROW/COLUMN. Real only for now. */
-  int i, j, *ia, *ja, m;
-  real *a;
-  assert(A->format == FORMAT_CSR);
-  assert(A->type == MATRIX_TYPE_REAL);
-
-  a = (real*) A->a;
-  ia = A->ia;
-  ja = A->ja;
-  m = A->m;
-
-
-  if (!apply_to_row){
-    for (i = 0; i < m; i++){
-      for (j = ia[i]; j < ia[i+1]; j++){
-	a[j] *= v[ja[j]];
-      }
-    }
-  } else {
-    for (i = 0; i < m; i++){
-      if (v[i] != 0){
-	for (j = ia[i]; j < ia[i+1]; j++){
-	  a[j] *= v[i];
-	}
-      }
-    }
-  }
-  return A;
-
-}
-
 SparseMatrix SparseMatrix_multiply(SparseMatrix A, SparseMatrix B){
   int m;
   SparseMatrix C = NULL;
