@@ -75,7 +75,7 @@ static Operator Operator_matmul_new(SparseMatrix A){
 
 
 static void Operator_matmul_delete(Operator o){
-  if (o) FREE(o);  
+  FREE(o);
 }
 
 
