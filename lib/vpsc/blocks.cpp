@@ -43,8 +43,8 @@ Blocks::Blocks(const int n, Variable *vs[]) : vs(vs),nvs(n) {
 Blocks::~Blocks()
 {
 	blockTimeCtr=0;
-	for(set<Block*>::iterator i=begin();i!=end();i++) {
-		delete *i;
+	for (Block *b : *this) {
+		delete b;
 	}
 }
 
