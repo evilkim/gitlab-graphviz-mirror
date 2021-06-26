@@ -1187,7 +1187,7 @@ Multilevel Multilevel_new(SparseMatrix A0, SparseMatrix D0, real *node_weights, 
     A = SparseMatrix_get_real_adjacency_matrix_symmetrized(A);
   }
   if (D && (!SparseMatrix_is_symmetric(D, FALSE) || D->type != MATRIX_TYPE_REAL)){
-    D = SparseMatrix_symmetrize_nodiag(D, FALSE);
+    D = SparseMatrix_symmetrize_nodiag(D);
   }
   grid = Multilevel_init(A, D, node_weights);
   grid = Multilevel_establish(grid, ctrl);

@@ -1977,9 +1977,9 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
 
   if (!SparseMatrix_is_symmetric(A, FALSE) || A->type != MATRIX_TYPE_REAL){
     if (ctrl->method == METHOD_SPRING_MAXENT){
-      A = SparseMatrix_symmetrize_nodiag(A, FALSE);
+      A = SparseMatrix_symmetrize_nodiag(A);
       assert(D0);
-      D = SparseMatrix_symmetrize_nodiag(D, FALSE);
+      D = SparseMatrix_symmetrize_nodiag(D);
     } else {
       A = SparseMatrix_get_real_adjacency_matrix_symmetrized(A);
     }

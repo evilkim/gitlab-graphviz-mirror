@@ -155,9 +155,9 @@ SparseMatrix SparseMatrix_symmetrize(SparseMatrix A, int pattern_symmetric_only)
   return A;
 }
 
-SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A, int pattern_symmetric_only){
+SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A){
   SparseMatrix B;
-  if (SparseMatrix_is_symmetric(A, pattern_symmetric_only)) {
+  if (SparseMatrix_is_symmetric(A, FALSE)) {
     B = SparseMatrix_copy(A);
     return SparseMatrix_remove_diagonal(B);
   }

@@ -76,7 +76,7 @@ SparseMatrix SparseMatrix_coordinate_form_add_entries(SparseMatrix A, int nentri
 int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only);
 SparseMatrix SparseMatrix_transpose(SparseMatrix A);
 SparseMatrix SparseMatrix_symmetrize(SparseMatrix A, int pattern_symmetric_only);
-SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A, int pattern_symmetric_only);
+SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A);
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed);/* if v = NULL, v is assumed to be {1,1,...,1}*/
 SparseMatrix SparseMatrix_remove_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_remove_upper(SparseMatrix A);/* remove diag and upper diag */

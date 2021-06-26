@@ -121,7 +121,7 @@ static void sfdpLayout(graph_t * g, spring_electrical_control ctrl,
 	    D = SparseMatrix_get_real_adjacency_matrix_symmetrized(A);/* all distance 1 */
 	    weighted = FALSE;
 	} else {
-	    D = SparseMatrix_symmetrize_nodiag(D, FALSE);
+	    D = SparseMatrix_symmetrize_nodiag(D);
 	    weighted = TRUE;
 	}
 	if (hops > 0){
