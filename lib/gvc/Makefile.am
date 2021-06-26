@@ -75,7 +75,7 @@ libgvc_la_LIBADD = $(libgvc_C_la_LIBADD) \
 libgvc_la_DEPENDENCIES = $(libgvc_C_la_DEPENDENCIES)
 
 if WITH_WIN32
-libgvc_la_LDFLAGS += -export-symbols $(top_srcdir)/lib/gvc.def
+libgvc_la_LDFLAGS += -export-symbols $(top_srcdir)/lib/gvc/gvc.def
 endif
 
 if ENABLE_MAN_PDFS
