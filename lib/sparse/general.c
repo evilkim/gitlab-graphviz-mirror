@@ -45,12 +45,6 @@ int *random_permutation(int n){
 }
 
 
-real* vector_subtract_from(int n, real *x, real *y){
-  /* y = x-y */
-  int i;
-  for (i = 0; i < n; i++) y[i] = y[i] - x[i];
-  return y;
-}
 real* vector_subtract_to(int n, real *x, real *y){
   /* y = x-y */
   int i;
