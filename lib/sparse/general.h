@@ -53,7 +53,6 @@
 #endif
 #define FALSE 0
 
-#define MAXINT 1<<30
 #define PI 3.14159
 
 #define POINTS(inch) 72*(inch)
