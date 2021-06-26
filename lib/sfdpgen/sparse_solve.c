@@ -147,8 +147,8 @@ static Operator Operator_diag_precon_new(SparseMatrix A){
 }
 
 static void Operator_diag_precon_delete(Operator o){
-  if (o->data) FREE(o->data);
-  if (o) FREE(o);
+  FREE(o->data);
+  FREE(o);
 }
 
 static real conjugate_gradient(Operator A, Operator precon, int n, real *x, real *rhs, real tol, int maxit){
