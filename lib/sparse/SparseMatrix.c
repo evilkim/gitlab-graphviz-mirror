@@ -2411,59 +2411,6 @@ real SparseMatrix_pseudo_diameter_weighted(SparseMatrix A0, int root, int aggres
 
 }
 
-real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ){
-  /* assume unit edge length! unsymmetric matrix ill be symmetrized */
-  SparseMatrix A = A0;
-  int m = A->m, i;
-  int nlevel;
-  int *levelset_ptr = NULL, *levelset = NULL, *mask = NULL;
-  int nlevel0 = 0;
-  int roots[5], iroots, enda, endb;
-
-  if (!SparseMatrix_is_symmetric(A, TRUE)){
-    A = SparseMatrix_symmetrize(A, TRUE);
-  }
-
-  assert(SparseMatrix_is_symmetric(A, TRUE));
-
-  SparseMatrix_level_sets(A, root, &nlevel, &levelset_ptr, &levelset, &mask, TRUE);
-  //  fprintf(stderr,"after level set, {%d,%d}=%d\n",levelset[0], levelset[levelset_ptr[nlevel]-1], nlevel);
-
-  *connectedQ = (levelset_ptr[nlevel] == m);
-  while (nlevel0 < nlevel){
-    nlevel0 = nlevel;
-    root = levelset[levelset_ptr[nlevel] - 1];
-    SparseMatrix_level_sets(A, root, &nlevel, &levelset_ptr, &levelset, &mask, TRUE);
-    //fprintf(stderr,"after level set, {%d,%d}=%d\n",levelset[0], levelset[levelset_ptr[nlevel]-1], nlevel);
-  }
-  *end1 = levelset[0];
-  *end2 = levelset[levelset_ptr[nlevel]-1];
-
-  if (aggressive){
-    nlevel0 = nlevel;
-    iroots = 0;
-    for (i = levelset_ptr[nlevel-1]; i < MIN(levelset_ptr[nlevel],  levelset_ptr[nlevel-1]+5); i++){
-      iroots++;
-      roots[i - levelset_ptr[nlevel-1]] = levelset[i];
-    }
-    for (i = 0; i < iroots; i++){
-      root = roots[i];
-      nlevel = (int) SparseMatrix_pseudo_diameter_unweighted(A, root, FALSE, &enda, &endb, connectedQ);
-      if (nlevel > nlevel0) {
-	nlevel0 = nlevel;
-	*end1 = enda;
-	*end2 = endb;
-      }
-    }
-  }
-
-  FREE(levelset_ptr);
-  FREE(levelset);
-  FREE(mask);
-  if (A != A0) SparseMatrix_delete(A);
-  return (real) nlevel0 - 1;
-}
-
 void SparseMatrix_decompose_to_supervariables(SparseMatrix A, int *ncluster, int **cluster, int **clusterp){
   /* nodes for a super variable if they share exactly the same neighbors. This is know as modules in graph theory.
      We work on columns only and columns with the same pattern are grouped as a super variable
