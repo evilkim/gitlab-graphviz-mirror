@@ -668,8 +668,7 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    continue;
 	if (fabs(boxes[bi].LL.x - boxes[bi].UR.x) < .01)
 	    continue;
-	if (i != bi)
-	    boxes[i] = boxes[bi];
+	boxes[i] = boxes[bi];
 	i++;
     }
     boxn = i;
