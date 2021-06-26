@@ -61,8 +61,7 @@ static void psprintpolypts(Ppoint_t * p, int sz)
     fprintf(stderr, "%% constraint poly\n");
     fprintf(stderr, "newpath\n");
     for (i = 0; i < sz; i++)
-	fprintf(stderr, "%f %f %s\n", p[i].x, p[i].y,
-		i == 0 ? "moveto" : "lineto");
+	fprintf(stderr, "%f %f %s\n", p[i].x, p[i].y, i == 0 ? "moveto" : "lineto");
     fprintf(stderr, "closepath stroke\n");
 }
 static void psprintpoint(point p)
@@ -274,8 +273,7 @@ routesplinesinit()
     maxpn = PINC;
 #ifdef DEBUG
     if (Show_boxes) {
-	int i;
-        for (i = 0; Show_boxes[i]; i++)
+        for (int i = 0; Show_boxes[i]; i++)
 	    free (Show_boxes[i]);
 	free (Show_boxes);
 	Show_boxes = NULL;
@@ -502,13 +500,12 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     }
 
     if (flip) {
-	int i;
 	for (bi = 0; bi < boxn; bi++) {
 	    double v = boxes[bi].UR.y;
 	    boxes[bi].UR.y = -1*boxes[bi].LL.y;
 	    boxes[bi].LL.y = -v;
 	}
-	for (i = 0; i < pi; i++)
+	for (int i = 0; i < pi; i++)
 	    polypoints[i].y *= -1;
     }
 
@@ -682,8 +679,7 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
     for (bi = 0; bi < boxn - 1; bi++) {
 	ba = &boxes[bi], bb = &boxes[bi + 1];
 	if (bb->LL.x > bb->UR.x || bb->LL.y > bb->UR.y) {
-	    agerr(AGERR, "in checkpath, box %d has LL coord > UR coord\n",
-		  bi + 1);
+	    agerr(AGERR, "in checkpath, box %d has LL coord > UR coord\n", bi + 1);
 	    printpath(thepath);
 	    return 1;
 	}
@@ -858,8 +854,7 @@ static void* vec_get(vec* pvec, size_t index)
 
 static void vec_delete(vec* pvec)
 {
-    size_t i;
-    for (i = 0; i < vec_length(pvec); ++i) {
+    for (size_t i = 0; i < vec_length(pvec); ++i) {
       vec_delete(vec_get(pvec, i));
     }
     free(pvec->_mem);
@@ -884,9 +879,7 @@ static void* vec_pop(vec* pvec)
 
 static bool vec_contains(vec* pvec, void* item)
 {
-	size_t i;
-
-	for (i=0; i < pvec->_elems; ++i) {
+	for (size_t i=0; i < pvec->_elems; ++i) {
 		if (pvec->_mem[i] == item)
 			return true;
 	}
@@ -913,9 +906,8 @@ static bool cycle_contains_edge(vec* cycle, edge_t* edge)
 	node_t* c_end;
 
 	size_t cycle_len = vec_length(cycle);
-	size_t i;
 
-	for (i=0; i < cycle_len; ++i) {
+	for (size_t i=0; i < cycle_len; ++i) {
 		if (i == 0) {
 			c_start = vec_get(cycle, cycle_len-1);
 		} else {
