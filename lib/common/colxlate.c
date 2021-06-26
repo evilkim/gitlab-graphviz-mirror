@@ -141,8 +141,6 @@ char *canontoken(char *str)
     if (len >= allocated) {
 	allocated = len + 1 + 10;
 	canon = grealloc(canon, allocated);
-	if (!canon)
-	    return NULL;
     }
     q = canon;
     while ((c = *p++)) {
