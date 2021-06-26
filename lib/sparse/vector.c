@@ -73,39 +73,6 @@ int Vector_get_length(Vector v){
   return v->len;
 }
 
-
-
-/*---------------- integer vector --------------- */
-
-Vector IntegerVector_new(int len){
-  return Vector_new(len, sizeof(int), NULL);
-
-}
-Vector IntegerVector_add(Vector v, int i){
-  return Vector_add(v, &i);
-}
-
-void IntegerVector_delete(Vector v){
-  return Vector_delete(v);
-}
-
-int* IntegerVector_get(Vector v, int i){
-  int *p = Vector_get(v, i);
-  if (!p) return NULL;
-  return p;
-}
-
-int IntegerVector_get_length(Vector v){
-  return Vector_get_length(v);
-}
-
-Vector IntegerVector_reset(Vector v, int content, int pos){
-  return Vector_reset(v, &content, pos);
-}
-
-
-
-
 /*---------------- string vector --------------- */
 
 static void strdealloactor(void *v){

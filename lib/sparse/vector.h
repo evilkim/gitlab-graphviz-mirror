@@ -49,17 +49,5 @@ Vector StringVector_reset(Vector v, char *content, int pos);
 void StringVector_fprint(FILE *fp, StringVector v);
 void StringVector_fprint1(FILE *fp, StringVector v);
 StringVector StringVector_part(StringVector v, int n, int *selected_list);
-/*------------- integer vector ----------- */
-
-typedef Vector IntegerVector;
-
-Vector IntegerVector_new(int len);
-Vector IntegerVector_add(Vector v, int i);
-void IntegerVector_delete(Vector v);
-int* IntegerVector_get(Vector v, int i);
-int IntegerVector_get_length(Vector v);
-Vector IntegerVector_reset(Vector v, int content, int pos);
-
-
 
 #endif
