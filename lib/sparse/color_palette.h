@@ -24,7 +24,6 @@ extern int color_palettes_Q(char *color_palette_name);
 extern float palette_pastel[1001][3];
 extern float palette_blue_to_yellow[1001][3];
 extern float palette_grey_to_red[1001][3];
-extern float palette_grey_to_red[1001][3];
 extern float palette_white_to_red[1001][3];
 extern float palette_grey[1001][3];
 extern float palette_primary[1001][3];
