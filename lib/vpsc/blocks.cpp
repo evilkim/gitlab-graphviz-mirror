@@ -46,7 +46,6 @@ Blocks::~Blocks()
 	for(set<Block*>::iterator i=begin();i!=end();i++) {
 		delete *i;
 	}
-	clear();
 }
 
 /**
