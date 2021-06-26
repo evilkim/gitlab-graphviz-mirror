@@ -31,9 +31,6 @@ Variable* newVariable(int id, double desiredPos, double weight) {
 Constraint* newConstraint(Variable* left, Variable* right, double gap) {
 	return new Constraint(left,right,gap);
 }
-VPSC* newVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
-	return new VPSC(n,vs,m,cs);
-}
 VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
 	return new IncVPSC(n,vs,m,cs);
 }

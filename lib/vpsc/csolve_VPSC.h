@@ -27,7 +27,6 @@ typedef struct Constraint Constraint;
 Constraint* newConstraint(Variable* left, Variable* right, double gap);
 
 typedef struct VPSC VPSC;
-VPSC* newVPSC(int n, Variable* vs[], int m, Constraint* cs[]);
 void deleteVPSC(VPSC*);
 void deleteConstraint(Constraint*);
 void deleteVariable(Variable*);
