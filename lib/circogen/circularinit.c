@@ -78,15 +78,15 @@ static node_t *makeDerivedNode(graph_t * dg, char *name, int isNode,
 {
     node_t *n = agnode(dg, name,1);
     agbindrec(n, "Agnodeinfo_t", sizeof(Agnodeinfo_t), TRUE);	//node custom data
-    ND_alg(n) = (void *) NEW(cdata);
+    ND_alg(n) = NEW(cdata);
     if (isNode) {
 	ND_pos(n) = N_NEW(Ndim, double);
-	ND_lw(n) = ND_lw((node_t *) orig);
-	ND_rw(n) = ND_rw((node_t *) orig);
-	ND_ht(n) = ND_ht((node_t *) orig);
-	ORIGN(n) = (node_t *) orig;
+	ND_lw(n) = ND_lw(orig);
+	ND_rw(n) = ND_rw(orig);
+	ND_ht(n) = ND_ht(orig);
+	ORIGN(n) = orig;
     } else
-	ORIGG(n) = (graph_t *) orig;
+	ORIGG(n) = orig;
     return n;
 }
 
