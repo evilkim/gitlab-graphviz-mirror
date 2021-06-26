@@ -16,8 +16,8 @@
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
-    if (fgets(buf, bufsize, (FILE*)chan))
-	return strlen(buf);
+    if (fgets(buf, bufsize, chan))
+	return (int)strlen(buf);
     else
 	return 0;
 }
@@ -25,12 +25,12 @@ static int iofread(void *chan, char *buf, int bufsize)
 /* default IO methods */
 static int ioputstr(void *chan, const char *str)
 {
-    return fputs(str, (FILE *) chan);
+    return fputs(str, chan);
 }
 
 static int ioflush(void *chan)
 {
-    return fflush((FILE *) chan);
+    return fflush(chan);
 }
 
 Agiodisc_t AgIoDisc = { iofread, ioputstr, ioflush };
@@ -51,7 +51,7 @@ memiofread(void *chan, char *buf, int bufsize)
     rdr_t *s;
 
     if (bufsize == 0) return 0;
-    s = (rdr_t *) chan;
+    s = chan;
     if (s->cur >= s->len)
         return 0;
     l = 0;
@@ -66,7 +66,7 @@ memiofread(void *chan, char *buf, int bufsize)
 	 * and next character is non-null (we are working with
 	 * null-terminated strings.
 	 */
-    } while ((c != '\n') && (l < bufsize) && (c = *ptr++));
+    } while (c != '\n' && l < bufsize && (c = *ptr++));
     s->cur += l;
     return l;
 }
