@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - ortho's eqEndSeg incorrectly modifies its arguments #2047
+- Autotools enables -Wtrampolines and -Wlogical-op for Clang #2066
 
 ## [2.47.3] - 2021-06-19
 
