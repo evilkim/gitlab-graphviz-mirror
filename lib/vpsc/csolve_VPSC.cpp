@@ -97,8 +97,7 @@ void remapInConstraints(Variable *u, Variable *v, double dgap) {
 	u->in.clear();
 }
 void remapOutConstraints(Variable *u, Variable *v, double dgap) {
-	for(Constraints::iterator i=u->out.begin();i!=u->out.end();i++) {
-		Constraint* c=*i;	
+	for (Constraint *c : u->out) {
 		c->left=v;
 		c->gap+=dgap;
 		v->out.push_back(c);
