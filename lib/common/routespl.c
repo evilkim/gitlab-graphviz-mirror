@@ -61,7 +61,7 @@ static void psprintpolypts(Ppoint_t * p, int sz)
     fprintf(stderr, "newpath\n");
     for (i = 0; i < sz; i++)
 	fprintf(stderr, "%f %f %s\n", p[i].x, p[i].y,
-		(i == 0 ? "moveto" : "lineto"));
+		i == 0 ? "moveto" : "lineto");
     fprintf(stderr, "closepath stroke\n");
 }
 static void psprintpoint(point p)
@@ -101,7 +101,7 @@ static void psprintspline(Ppolyline_t spl)
     Show_boxes[li++] = strdup ("gsave 1 0 0 setrgbcolor newpath");
     for (i = 0; i < spl.pn; i++) {
 	snprintf(buf, sizeof(buf), "%f %f %s", spl.ps[i].x, spl.ps[i].y,
-	  (i == 0) ?  "moveto" : ((i % 3 == 0) ? "curveto" : ""));
+	  i == 0 ?  "moveto" : (i % 3 == 0 ? "curveto" : ""));
 	Show_boxes[li++] = strdup (buf);
     }
     Show_boxes[li++] = strdup ("stroke grestore");
@@ -122,7 +122,7 @@ static void psprintline(Ppolyline_t pl)
     Show_boxes[li++] = strdup ("gsave 0 0 1 setrgbcolor newpath");
     for (i = 0; i < pl.pn; i++) {
 	snprintf(buf, sizeof(buf), "%f %f %s", pl.ps[i].x, pl.ps[i].y,
-		(i == 0 ? "moveto" : "lineto"));
+		i == 0 ? "moveto" : "lineto");
 	Show_boxes[li++] = strdup (buf);
     }
     Show_boxes[li++] = strdup ("stroke grestore");
@@ -147,7 +147,7 @@ static void psprintpoly(Ppoly_t p)
 	tl.y = (int)p.ps[bi].y;
 	hd.x = (int)p.ps[(bi+1) % p.pn].x;
 	hd.y = (int)p.ps[(bi+1) % p.pn].y;
-	if ((tl.x == hd.x) && (tl.y == hd.y)) pfx = "%%";
+	if (tl.x == hd.x && tl.y == hd.y) pfx = "%%";
 	else pfx ="";
 	snprintf(buf, sizeof(buf), "%s%d %d %d %d makevec", pfx, tl.x, tl.y, hd.x,
 	         hd.y);
@@ -203,11 +203,11 @@ static void psprintinit (int begin)
 
 static int debugleveln(edge_t* realedge, int i)
 {
-    return (GD_showboxes(agraphof(aghead(realedge))) == i ||
+    return GD_showboxes(agraphof(aghead(realedge))) == i ||
 	    GD_showboxes(agraphof(agtail(realedge))) == i ||
 	    ED_showboxes(realedge) == i ||
 	    ND_showboxes(aghead(realedge)) == i ||
-	    ND_showboxes(agtail(realedge)) == i);
+	    ND_showboxes(agtail(realedge)) == i;
 }
 #endif  /* DEBUG */
 
@@ -408,7 +408,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	polypointn = boxn * 8;
     }
 
-    if ((boxn > 1) && (boxes[0].LL.y > boxes[1].LL.y)) {
+    if (boxn > 1 && boxes[0].LL.y > boxes[1].LL.y) {
         flip = 1;
 	for (bi = 0; bi < boxn; bi++) {
 	    double v = boxes[bi].UR.y;
@@ -424,9 +424,9 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = 0, pi = 0; bi < boxn; bi++) {
 	    next = prev = 0;
 	    if (bi > 0)
-		prev = (boxes[bi].LL.y > boxes[bi - 1].LL.y) ? -1 : 1;
+		prev = boxes[bi].LL.y > boxes[bi - 1].LL.y ? -1 : 1;
 	    if (bi < boxn - 1)
-		next = (boxes[bi + 1].LL.y > boxes[bi].LL.y) ? 1 : -1;
+		next = boxes[bi + 1].LL.y > boxes[bi].LL.y ? 1 : -1;
 	    if (prev != next) {
 		if (next == -1 || prev == 1) {
 		    polypoints[pi].x = boxes[bi].LL.x;
@@ -456,9 +456,9 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = boxn - 1; bi >= 0; bi--) {
 	    next = prev = 0;
 	    if (bi < boxn - 1)
-		prev = (boxes[bi].LL.y > boxes[bi + 1].LL.y) ? -1 : 1;
+		prev = boxes[bi].LL.y > boxes[bi + 1].LL.y ? -1 : 1;
 	    if (bi > 0)
-		next = (boxes[bi - 1].LL.y > boxes[bi].LL.y) ? 1 : -1;
+		next = boxes[bi - 1].LL.y > boxes[bi].LL.y ? 1 : -1;
 	    if (prev != next) {
 		if (next == -1 || prev == 1 ) {
 		    polypoints[pi].x = boxes[bi].LL.x;
@@ -573,7 +573,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	ps[splinepi] = spl.ps[splinepi];
     }
 
-    for (loopcnt = 0; unbounded && (loopcnt < LOOP_TRIES); loopcnt++) {
+    for (loopcnt = 0; unbounded && loopcnt < LOOP_TRIES; loopcnt++) {
 	limitBoxes (boxes, boxn, ps, spl.pn, delta);
 
     /* The following check is necessary because if a box is not very 
@@ -584,7 +584,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = 0; bi < boxn; bi++) {
 	/* these fp equality tests are used only to detect if the
 	 * values have been changed since initialization - ok */
-	    if ((boxes[bi].LL.x == INT_MAX) || (boxes[bi].UR.x == INT_MIN)) {
+	    if (boxes[bi].LL.x == INT_MAX || boxes[bi].UR.x == INT_MIN) {
 		delta *= 2; /* try again with a finer interval */
 		if (delta > INT_MAX/boxn) /* in limitBoxes, boxn*delta must fit in an int, so give up */
 		    loopcnt = LOOP_TRIES;
@@ -637,10 +637,10 @@ static int overlap(int i0, int i1, int j0, int j1)
 	return 0;
     if (i0 >= j1)
 	return 0;
-    if ((j0 <= i0) && (i0 <= j1))
-	return (j1 - i0);
-    if ((j0 <= i1) && (i1 <= j1))
-	return (i1 - j0);
+    if (j0 <= i0 && i0 <= j1)
+	return j1 - i0;
+    if (j0 <= i1 && i1 <= j1)
+	return i1 - j0;
     return MIN(i1 - i0, j1 - j0);
 }
 
@@ -687,10 +687,10 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    printpath(thepath);
 	    return 1;
 	}
-	l = (ba->UR.x < bb->LL.x) ? 1 : 0;
-	r = (ba->LL.x > bb->UR.x) ? 1 : 0;
-	d = (ba->UR.y < bb->LL.y) ? 1 : 0;
-	u = (ba->LL.y > bb->UR.y) ? 1 : 0;
+	l = ba->UR.x < bb->LL.x ? 1 : 0;
+	r = ba->LL.x > bb->UR.x ? 1 : 0;
+	d = ba->UR.y < bb->LL.y ? 1 : 0;
+	u = ba->LL.y > bb->UR.y ? 1 : 0;
 	errs = l + r + d + u;
 	if (errs > 0 && Verbose) {
 	    fprintf(stderr, "in checkpath, boxes %d and %d don't touch\n",
@@ -1125,7 +1125,7 @@ makeStraightEdge(graph_t * g, edge_t * e, int et, splineInfo* sinfo)
 
     e_cnt = 1;
     e0 = e;
-    while ((e0 != ED_to_virt(e0)) && (e0 = ED_to_virt(e0))) e_cnt++;
+    while (e0 != ED_to_virt(e0) && (e0 = ED_to_virt(e0))) e_cnt++;
 
     if (e_cnt <= MAX_EDGE)
 	edges = elist;
@@ -1147,7 +1147,7 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     pointf dumb[4];
     node_t *n;
     node_t *head;
-    int curved = (et == ET_CURVED);
+    int curved = et == ET_CURVED;
     pointf perp;
     pointf del;
     edge_t *e0;
@@ -1162,7 +1162,7 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     head = aghead(e);
     p = dumb[1] = dumb[0] = add_pointf(ND_coord(n), ED_tail_port(e).p);
     q = dumb[2] = dumb[3] = add_pointf(ND_coord(head), ED_head_port(e).p);
-    if ((e_cnt == 1) || Concentrate) {
+    if (e_cnt == 1 || Concentrate) {
 	if (curved) bend(dumb,get_cycle_centroid(g, edges[0]));
 	clip_and_install(e, aghead(e), dumb, 4, sinfo);
 	addEdgeLabels(g, e, p, q);
@@ -1183,10 +1183,10 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
 	l_perp = LEN(perp.x, perp.y);
 	xstep = GD_nodesep(g->root);
 	dx = xstep * (e_cnt - 1) / 2;
-	dumb[1].x = dumb[0].x + (dx * perp.x) / l_perp;
-	dumb[1].y = dumb[0].y + (dx * perp.y) / l_perp;
-	dumb[2].x = dumb[3].x + (dx * perp.x) / l_perp;
-	dumb[2].y = dumb[3].y + (dx * perp.y) / l_perp;
+	dumb[1].x = dumb[0].x + dx * perp.x / l_perp;
+	dumb[1].y = dumb[0].y + dx * perp.y / l_perp;
+	dumb[2].x = dumb[3].x + dx * perp.x / l_perp;
+	dumb[2].y = dumb[3].y + dx * perp.y / l_perp;
 	del.x = -xstep * perp.x / l_perp;
 	del.y = -xstep * perp.y / l_perp;
     }
