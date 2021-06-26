@@ -821,24 +821,10 @@ static void printpath(path * pp)
 
 static pointf get_centroid(Agraph_t *g)
 {
-    int     cnt = 0;
-    static pointf   sum = {0.0, 0.0};
-    static Agraph_t *save;
-    Agnode_t *n;
+    pointf sum = {0.0, 0.0};
 
     sum.x = (GD_bb(g).LL.x + GD_bb(g).UR.x) / 2.0;
     sum.y = (GD_bb(g).LL.y + GD_bb(g).UR.y) / 2.0;
-    return sum;
-
-    if (save == g) return sum;
-    save = g;
-    for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
-        sum.x += ND_pos(n)[0];
-        sum.y += ND_pos(n)[1];
-        cnt++;
-    }
-    sum.x /= cnt;
-    sum.y /= cnt;
     return sum;
 }
 
