@@ -842,8 +842,6 @@ static pointf get_centroid(Agraph_t *g)
     return sum;
 }
 
-#define __CYCLE_CENTROID 
-#ifdef __CYCLE_CENTROID
 //generic vector structure
 typedef struct _tag_vec
 {
@@ -1086,7 +1084,6 @@ static pointf get_cycle_centroid(graph_t *g, edge_t* edge)
     sum.y = sum.y / cnt;
     return sum;
 }
-#endif
 
 static void bend(pointf spl[4], pointf centroid)
 {
@@ -1166,11 +1163,7 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     p = dumb[1] = dumb[0] = add_pointf(ND_coord(n), ED_tail_port(e).p);
     q = dumb[2] = dumb[3] = add_pointf(ND_coord(head), ED_head_port(e).p);
     if ((e_cnt == 1) || Concentrate) {
-#ifndef __CYCLE_CENTROID
-    if (curved) bend(dumb,get_centroid(g));
-#else
 	if (curved) bend(dumb,get_cycle_centroid(g, edges[0]));
-#endif
 	clip_and_install(e, aghead(e), dumb, 4, sinfo);
 	addEdgeLabels(g, e, p, q);
 	return;
