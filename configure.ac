@@ -2420,7 +2420,7 @@ if test "x$use_gd" = "x"; then
           AC_MSG_WARN(Optional GD library not available)
           use_gd="No (library not found)"
 	  with_libgd="no"
-        ], $GD_LIBS)
+        ])
       fi
       LDFLAGS=$save_LDFLAGS
       CPPFLAGS=$save_CPPFLAGS
