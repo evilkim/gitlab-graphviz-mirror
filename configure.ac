@@ -2305,7 +2305,7 @@ if test "x$with_libgd" != "xyes"; then
 fi
 
 if test "x$use_gd" = "x"; then
-   PKG_CHECK_MODULES(GTK, [gdlib >= 2.0.33],[
+   PKG_CHECK_MODULES([GDLIB], [gdlib >= 2.0.33],[
       have_gdlib=1
 # FIXME - why no features in the gdlib.pc?
       GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF"
