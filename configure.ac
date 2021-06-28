@@ -2394,7 +2394,6 @@ if test "x$use_gd" = "x"; then
   fi
 
   if test "x$use_gd" = "x"; then
-    if test "x$with_libgd" = "xyes"; then
     # see if we can use the external gd lib
       save_CPPFLAGS=$CPPFLAGS
       save_LDFLAGS=$LDFLAGS
@@ -2424,7 +2423,6 @@ if test "x$use_gd" = "x"; then
       fi
       LDFLAGS=$save_LDFLAGS
       CPPFLAGS=$save_CPPFLAGS
-    fi
   fi
   AC_SUBST([GDLIB_CFLAGS])
   AC_SUBST([GDLIB_LIBS])
