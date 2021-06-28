@@ -2409,7 +2409,6 @@ if test "x$use_gd" = "x"; then
       AC_CHECK_HEADER(gd.h,,[
         AC_MSG_WARN(Optional GD library not available - no gd.h)
         use_gd="No (gd headers not found)"
-	with_libgd="no"
       ])
       if test "x$use_gd" = "x"; then
         AC_CHECK_LIB(gd,main,[
@@ -2418,7 +2417,6 @@ if test "x$use_gd" = "x"; then
         ],[
           AC_MSG_WARN(Optional GD library not available)
           use_gd="No (library not found)"
-	  with_libgd="no"
         ])
       fi
       LDFLAGS=$save_LDFLAGS
@@ -2426,6 +2424,9 @@ if test "x$use_gd" = "x"; then
   fi
   AC_SUBST([GDLIB_CFLAGS])
   AC_SUBST([GDLIB_LIBS])
+fi
+if test "x$use_gd" != "xYes"; then
+  with_libgd="no"
 fi
 AM_CONDITIONAL(WITH_LIBGD, [test "x$with_libgd" = "xyes"])
 
