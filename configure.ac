@@ -2305,7 +2305,7 @@ if test "x$with_libgd" != "xyes"; then
 fi
 
 if test "x$use_gd" = "x"; then
-   PKG_CHECK_MODULES(GTK, [gdlib >= 2.0.33],[
+   PKG_CHECK_MODULES([GDLIB], [gdlib >= 2.0.33],[
       have_gdlib=1
 # FIXME - why no features in the gdlib.pc?
       GD_FEATURES="GD_PNG GD_JPEG GD_XPM GD_FONTCONFIG GD_FREETYPE GD_GIF"
@@ -2394,40 +2394,39 @@ if test "x$use_gd" = "x"; then
   fi
 
   if test "x$use_gd" = "x"; then
-    if test "x$with_libgd" = "xyes"; then
     # see if we can use the external gd lib
-      save_CPPFLAGS=$CPPFLAGS
-      save_LDFLAGS=$LDFLAGS
-      AC_ARG_WITH(gdincludedir,
-        [AS_HELP_STRING([--with-gdincludedir=DIR],[use GD includes from DIR])],
-        GDLIB_CFLAGS="-I$withval")
-      CPPFLAGS="$CPPFLAGS $GDLIB_CFLAGS"
-      AC_ARG_WITH(gdlibdir,
-        [AS_HELP_STRING([--with-gdlibdir=DIR],[use GD libraries from DIR])],
-        [GD_LDFLAGS="-L$withval"])
-      GDLIB_LIBS="$GD_LDFLAGS -lgd $GDLIB_LIBS"
-      LDFLAGS="$LDFLAGS $GDLIB_LIBS"
-      AC_CHECK_HEADER(gd.h,,[
-        AC_MSG_WARN(Optional GD library not available - no gd.h)
-        use_gd="No (gd headers not found)"
-	with_libgd="no"
-      ])
-      if test "x$use_gd" = "x"; then
-        AC_CHECK_LIB(gd,main,[
+    save_CPPFLAGS=$CPPFLAGS
+    save_LDFLAGS=$LDFLAGS
+    AC_ARG_WITH(gdincludedir,
+      [AS_HELP_STRING([--with-gdincludedir=DIR],[use GD includes from DIR])],
+      GDLIB_CFLAGS="-I$withval")
+    CPPFLAGS="$CPPFLAGS $GDLIB_CFLAGS"
+    AC_ARG_WITH(gdlibdir,
+      [AS_HELP_STRING([--with-gdlibdir=DIR],[use GD libraries from DIR])],
+      [GD_LDFLAGS="-L$withval"])
+    GDLIB_LIBS="$GD_LDFLAGS -lgd $GDLIB_LIBS"
+    LDFLAGS="$LDFLAGS $GDLIB_LIBS"
+    AC_CHECK_HEADER(gd.h,,[
+      AC_MSG_WARN(Optional GD library not available - no gd.h)
+      use_gd="No (gd headers not found)"
+    ])
+    if test "x$use_gd" = "x"; then
+      AC_CHECK_LIB(gd,main,[
           AC_DEFINE_UNQUOTED(HAVE_LIBGD,1,[Define if you have the GD library])
-	  use_gd="Yes"
+          use_gd="Yes"
         ],[
           AC_MSG_WARN(Optional GD library not available)
           use_gd="No (library not found)"
-	  with_libgd="no"
-        ], $GD_LIBS)
-      fi
-      LDFLAGS=$save_LDFLAGS
-      CPPFLAGS=$save_CPPFLAGS
+        ])
     fi
+    LDFLAGS=$save_LDFLAGS
+    CPPFLAGS=$save_CPPFLAGS
   fi
   AC_SUBST([GDLIB_CFLAGS])
   AC_SUBST([GDLIB_LIBS])
+fi
+if test "x$use_gd" != "xYes"; then
+  with_libgd="no"
 fi
 AM_CONDITIONAL(WITH_LIBGD, [test "x$with_libgd" = "xyes"])
 

@@ -105,7 +105,7 @@ endif
 
 if WITH_LIBGD
 libtcldot_builtin_la_LIBADD += $(top_builddir)/plugin/gd/libgvplugin_gd_C.la
-libtcldot_builtin_la_LIBADD += $(GD_LIBS)
+libtcldot_builtin_la_LIBADD += $(GDLIB_LIBS)
 endif
 
 libtcldot_builtin_la_LIBADD += $(EXPAT_LIBS) $(SOCKET_LIBS) $(IPSEPCOLA_LIBS) $(MATH_LIBS)
