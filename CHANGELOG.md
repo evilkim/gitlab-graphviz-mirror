@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `WIN32` path of `gvc.def` specified in `libgvc_la_LDFLAGS`
 - the CMake build system now not only checks for Bison, but also ensures the
   found version is recent enough #1916
-- Fix a typo `GD_LIBS` to `GDLIB_LIBS` in `tclpkg/tcldot/Makefile.am` !2022
 
 ### Fixed
 
@@ -20,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Autotools enables -Wtrampolines and -Wlogical-op for Clang #2066
 - node_distinct_coloring failure due to out-of-memory now reported correctly
   instead of referring to a failure to open lab_gamut
+- Fix a typo `GD_LIBS` to `GDLIB_LIBS` in `tclpkg/tcldot/Makefile.am` !2022
 
 ## [2.47.3] - 2021-06-19
 
