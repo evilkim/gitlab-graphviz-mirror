@@ -54,7 +54,7 @@ static void get_12_norm(int n, int *ia, int *ja, int *p, real *norm){
 void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   bool improved = true;
   int cnt = 1, n = A->m, i, j, *ia = A->ia, *ja = A->ja;
-  real norm = n, norm1[3], norm2[3], norm11[3], norm22[3];
+  real norm1[3], norm2[3], norm11[3], norm22[3];
   real pi, pj;
   clock_t start = clock();
   FILE *fp = NULL;
@@ -65,13 +65,12 @@ void improve_antibandwidth_by_swapping(SparseMatrix A, int *p){
   }
   assert(SparseMatrix_is_symmetric(A, TRUE));
   while (improved){
-    improved = false; norm = n;
+    improved = false;
     for (i = 0; i < n; i++){
       get_local_12_norm(n, i, ia, ja, p, norm1);
       for (j = 0; j < n; j++){
 	if (j == i) continue;
 	get_local_12_norm(n, j, ia, ja, p, norm2);
-	norm = fmin(norm, norm2[0]);
 	pi = (p)[i]; pj = (p)[j];
 	(p)[i] = pj;
 	(p)[j] = pi;
