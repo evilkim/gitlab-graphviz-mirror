@@ -749,7 +749,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
     real *sizes;
     real *pos = N_NEW(Ndim * agnnodes(g), real);
     Agnode_t *n;
-    int flag, i;
+    int flag = 0, i;
     expand_t sep = sepFactor(g);
     pointf pad;
 
@@ -777,7 +777,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
     }
 
     remove_overlap(Ndim, A, pos, sizes, am->value, am->scaling, 
-		   ELSCHEME_NONE, 0, NULL, NULL, mapBool (agget(g, "overlap_shrink"), TRUE), &flag);
+		   ELSCHEME_NONE, 0, NULL, NULL, mapBool (agget(g, "overlap_shrink"), TRUE));
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
 	real *npos = pos + (Ndim * ND_id(n));

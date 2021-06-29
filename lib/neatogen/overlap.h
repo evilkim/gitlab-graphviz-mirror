@@ -49,5 +49,5 @@ typedef struct relative_position_constraints_struct*  relative_position_constrai
 real OverlapSmoother_smooth(OverlapSmoother sm, int dim, real *x);
 
 void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntry, real initial_scaling, 
-		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int doShrink, int *flag);
+		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int doShrink);
 real overlap_scaling(int dim, int m, real *x, real *width, real scale_sta, real scale_sto, real epsilon, int maxiter);

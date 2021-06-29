@@ -2003,7 +2003,7 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
     assert(!(*flag));
     attach_edge_label_coordinates(dim, A, n_edge_label_nodes, edge_label_nodes, x, x2);
     remove_overlap(dim, A, x, label_sizes, ctrl->overlap, ctrl->initial_scaling,
-		   ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking, flag);
+		   ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking);
     SparseMatrix_delete(A2);
     FREE(x2);
     if (A != A0) SparseMatrix_delete(A);
@@ -2123,7 +2123,7 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
 
 
   remove_overlap(dim, A, x, label_sizes, ctrl->overlap, ctrl->initial_scaling,
-		 ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking, flag);
+		 ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking);
 
  RETURN:
   *ctrl = ctrl0;
