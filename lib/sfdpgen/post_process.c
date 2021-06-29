@@ -628,12 +628,6 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
   }
 
   while (iter++ < maxit_sm && diff > tol){
-#ifdef GVIEWER
-    if (Gviewer) {
-      drawScene();
-      if (iter%2 == 0) gviewer_dump_current_frame();
-    }
-#endif
 
     if (sm->scheme != SM_SCHEME_STRESS_APPROX){
       for (i = 0; i < m; i++){

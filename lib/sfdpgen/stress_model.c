@@ -53,44 +53,6 @@ static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_we
   if (A != B) SparseMatrix_delete(A);
 }
 
-#ifdef GVIEWER
-#include <gviewer.h>
-#include <get_ps.h>
-struct stress_model_data {
-  int dim;
-  SparseMatrix D;
-  real **x;
-  int edge_len_weighted;
-  int maxit_sm;
-  real tol;
-  int *flag;
-};
-
-void stress_model_gv(void* data){
-  struct stress_model_data* d;
-
-  d = (struct stress_model_data*) data;
-  return stress_model_core(d->dim, d->D, d->x, d->edge_len_weighted, d->maxit_sm, d->tol, d->flag);
-}
-void stress_model(int dim, SparseMatrix A, SparseMatrix D, real **x, int edge_len_weighted, int maxit_sm, real tol, int *flag){
-  struct stress_model_data data = {dim, D, x, edge_len_weighted, maxit_sm, tol, flag};
-
-  int argcc = 1;
-  char **argvv;
-
-  if (!Gviewer) return stress_model_core(dim, D, x, edge_len_weighted, maxit_sm, tol, flag);
-  argcc = 1;
-  argvv = malloc(sizeof(char*)*argcc);
-  argvv[0] = malloc(sizeof(char));
-  argvv[0][0] = '1';
-  gviewer_set_edge_color_scheme(COLOR_SCHEME_NO);
-  gviewer_toggle_bgcolor();
-  gviewer_init(&argcc, argvv, 0.1, 20, 60, 720, 720, A, dim, *x, &(data), stress_model_gv);
-  free(argvv);
-
-}
-#else
 void stress_model(int dim, SparseMatrix A, SparseMatrix D, real **x, int edge_len_weighted, int maxit_sm, real tol, int *flag){
   stress_model_core(dim, D, x, edge_len_weighted, maxit_sm, tol, flag);
 }
-#endif
