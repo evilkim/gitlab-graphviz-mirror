@@ -162,6 +162,7 @@ static void country_graph_coloring_internal(int seed, SparseMatrix A, int **p, r
   if (A2 != A) SparseMatrix_delete(A2);
   SparseMatrix_delete(L);
 }
-void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1){
-  country_graph_coloring_internal(seed, A, p, norm_1);
+void country_graph_coloring(int seed, SparseMatrix A, int **p){
+  real norm_1;
+  country_graph_coloring_internal(seed, A, p, &norm_1);
 }
