@@ -8,7 +8,6 @@ static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_we
   int m;
   SparseStressMajorizationSmoother sm;
   real lambda = 0;
-  /*int maxit_sm = 1000, i; tol = 0.001*/
   int i;
   SparseMatrix A = B;
 
@@ -32,7 +31,6 @@ static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_we
 
   if (edge_len_weighted){
     sm = SparseStressMajorizationSmoother_new(A, dim, lambda, *x, WEIGHTING_SCHEME_SQR_DIST, TRUE);/* do not under weight the long distances */
-    //sm = SparseStressMajorizationSmoother_new(A, dim, lambda, *x, WEIGHTING_SCHEME_INV_DIST, TRUE);/* do not under weight the long distances */
   } else {
     sm = SparseStressMajorizationSmoother_new(A, dim, lambda, *x, WEIGHTING_SCHEME_NONE, TRUE);/* weight the long distances */
   }
@@ -53,9 +51,7 @@ static void stress_model_core(int dim, SparseMatrix B, real **x, int edge_len_we
 
  RETURN:
   if (A != B) SparseMatrix_delete(A);
-
 }
-
 
 #ifdef GVIEWER
 #include <gviewer.h>
@@ -87,7 +83,6 @@ void stress_model(int dim, SparseMatrix A, SparseMatrix D, real **x, int edge_le
   argvv = malloc(sizeof(char*)*argcc);
   argvv[0] = malloc(sizeof(char));
   argvv[0][0] = '1';
-  //  gviewer_init(&argcc, argvv, 0.1, 20, 60, 2*1010, 2*770, A, dim, *x, &(data), stress_model_gv);
   gviewer_set_edge_color_scheme(COLOR_SCHEME_NO);
   gviewer_toggle_bgcolor();
   gviewer_init(&argcc, argvv, 0.1, 20, 60, 720, 720, A, dim, *x, &(data), stress_model_gv);
@@ -99,4 +94,3 @@ void stress_model(int dim, SparseMatrix A, SparseMatrix D, real **x, int edge_le
   stress_model_core(dim, D, x, edge_len_weighted, maxit_sm, tol, flag);
 }
 #endif
-
