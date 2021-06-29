@@ -90,7 +90,7 @@ def is_windows_artifact(path: Path) -> bool:
   """is this a deployment artifact for Windows?"""
   return re.search(r"\bwindows\b", str(path)) is not None
 
-def main(args: List[str]) -> int:
+def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # setup logging to print to stderr
   global log
