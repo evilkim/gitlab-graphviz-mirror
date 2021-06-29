@@ -17,7 +17,8 @@
 #include <stdbool.h>
 #include <time.h>
 
-static void get_local_12_norm(int n, int i, int *ia, int *ja, int *p, real *norm){
+static void get_local_12_norm(int n, int i, const int *ia, const int *ja,
+    const int *p, real *norm){
   int j, nz = 0;
   norm[0] = n; norm[1] = 0;
   for (j = ia[i]; j < ia[i+1]; j++){
