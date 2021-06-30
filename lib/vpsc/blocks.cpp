@@ -43,10 +43,9 @@ Blocks::Blocks(const int n, Variable *vs[]) : vs(vs),nvs(n) {
 Blocks::~Blocks()
 {
 	blockTimeCtr=0;
-	for(set<Block*>::iterator i=begin();i!=end();i++) {
-		delete *i;
+	for (Block *b : *this) {
+		delete b;
 	}
-	clear();
 }
 
 /**
@@ -195,9 +194,8 @@ void Blocks::split(Block *b, Block *&l, Block *&r, Constraint *c) {
  */
 double Blocks::cost() {
 	double c = 0;
-	for(set<Block*>::iterator i=begin();i!=end();i++) {
-		c += (*i)->cost();
+	for (Block *b : *this) {
+		c += b->cost();
 	}
 	return c;
 }
-

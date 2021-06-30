@@ -27,7 +27,6 @@ typedef struct Constraint Constraint;
 Constraint* newConstraint(Variable* left, Variable* right, double gap);
 
 typedef struct VPSC VPSC;
-VPSC* newVPSC(int n, Variable* vs[], int m, Constraint* cs[]);
 void deleteVPSC(VPSC*);
 void deleteConstraint(Constraint*);
 void deleteVariable(Variable*);
@@ -51,8 +50,6 @@ void satisfyVPSC(VPSC*);
 void solveVPSC(VPSC*);
 typedef struct IncVPSC IncVPSC;
 VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]);
-void splitIncVPSC(IncVPSC*);
-int getSplitCnt(IncVPSC *vpsc);
 #ifdef __cplusplus
 }
 #endif

@@ -62,9 +62,6 @@
     <ClCompile Include="pairingheap\PairingHeap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="remove_rectangle_overlap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="solve_VPSC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

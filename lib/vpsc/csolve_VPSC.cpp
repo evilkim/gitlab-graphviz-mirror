@@ -31,9 +31,6 @@ Variable* newVariable(int id, double desiredPos, double weight) {
 Constraint* newConstraint(Variable* left, Variable* right, double gap) {
 	return new Constraint(left,right,gap);
 }
-VPSC* newVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
-	return new VPSC(n,vs,m,cs);
-}
 VPSC* newIncVPSC(int n, Variable* vs[], int m, Constraint* cs[]) {
 	return new IncVPSC(n,vs,m,cs);
 }
@@ -78,18 +75,12 @@ void satisfyVPSC(VPSC* vpsc) {
 		std::exit(1);
 	}
 }
-int getSplitCnt(IncVPSC *vpsc) {
-	return vpsc->splitCnt;
-}
 void deleteVPSC(VPSC *vpsc) {
 	assert(vpsc!=nullptr);
 	delete vpsc;
 }
 void solveVPSC(VPSC* vpsc) {
 	vpsc->solve();
-}
-void splitIncVPSC(IncVPSC* vpsc) {
-	vpsc->splitBlocks();
 }
 void setVariableDesiredPos(Variable *v, double desiredPos) {
 	v->desiredPosition = desiredPos;
@@ -98,8 +89,7 @@ double getVariablePos(Variable *v) {
 	return v->position();
 }
 void remapInConstraints(Variable *u, Variable *v, double dgap) {
-	for(Constraints::iterator i=u->in.begin();i!=u->in.end();i++) {
-		Constraint* c=*i;	
+	for (Constraint *c : u->in) {
 		c->right=v;
 		c->gap+=dgap;
 		v->in.push_back(c);
@@ -107,8 +97,7 @@ void remapInConstraints(Variable *u, Variable *v, double dgap) {
 	u->in.clear();
 }
 void remapOutConstraints(Variable *u, Variable *v, double dgap) {
-	for(Constraints::iterator i=u->out.begin();i!=u->out.end();i++) {
-		Constraint* c=*i;	
+	for (Constraint *c : u->out) {
 		c->left=v;
 		c->gap+=dgap;
 		v->out.push_back(c);

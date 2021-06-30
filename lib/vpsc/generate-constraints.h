@@ -22,10 +22,9 @@
 class Rectangle {	
 	friend std::ostream& operator <<(std::ostream &os, const Rectangle &r);
 public:
-	static double xBorder,yBorder;
 	Rectangle(double x, double X, double y, double Y);
-	double getMaxX() const { return maxX+xBorder; }
-	double getMaxY() const { return maxY+yBorder; }
+	double getMaxX() const { return maxX; }
+	double getMaxY() const { return maxY; }
 	double getMinX() const { return minX; }
 	double getMinY() const { return minY; }
 	double getMinD(unsigned const d) const {
@@ -38,8 +37,6 @@ public:
 	double getCentreY() const { return minY+height()/2.0; }
 	double width() const { return getMaxX()-minX; }
 	double height() const { return getMaxY()-minY; }
-	static void setXBorder(double x) {xBorder=x;}
-	static void setYBorder(double y) {yBorder=y;}
 	void moveCentreX(double x) {
 		moveMinX(x-width()/2.0);
 	}
@@ -47,11 +44,11 @@ public:
 		moveMinY(y-height()/2.0);
 	}
 	void moveMinX(double x) {
-		maxX=x+width()-xBorder;
+		maxX=x+width();
 		minX=x;
 	}
 	void moveMinY(double y) {
-		maxY=y+height()-yBorder;
+		maxY=y+height();
 		minY=y;
 	}
 	double overlapX(const Rectangle &r) const {
