@@ -247,9 +247,6 @@ extern "C" {
 #ifdef MAXSHORT
 #undef MAXSHORT
 #endif
-#ifdef MAXINT
-#undef MAXINT
-#endif
 #ifdef MAXLONG
 #undef MAXLONG
 #endif

@@ -53,7 +53,6 @@
 #endif
 #define FALSE 0
 
-#define MAXINT 1<<30
 #define PI 3.14159
 
 #define POINTS(inch) 72*(inch)
@@ -85,8 +84,6 @@ extern int *random_permutation(int n);/* random permutation of 0 to n-1 */
 
 
 real* vector_subtract_to(int n, real *x, real *y);/* y = x-y */
-real* vector_subtract_from(int n, real *x, real *y);/* y = y-x */
-real* vector_add_to(int n, real *x, real *y);
 
 real vector_product(int n, real *x, real *y);
 

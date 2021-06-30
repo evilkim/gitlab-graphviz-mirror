@@ -76,7 +76,7 @@ SparseMatrix SparseMatrix_coordinate_form_add_entries(SparseMatrix A, int nentri
 int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only);
 SparseMatrix SparseMatrix_transpose(SparseMatrix A);
 SparseMatrix SparseMatrix_symmetrize(SparseMatrix A, int pattern_symmetric_only);
-SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A, int pattern_symmetric_only);
+SparseMatrix SparseMatrix_symmetrize_nodiag(SparseMatrix A);
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed);/* if v = NULL, v is assumed to be {1,1,...,1}*/
 SparseMatrix SparseMatrix_remove_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_remove_upper(SparseMatrix A);/* remove diag and upper diag */
@@ -87,8 +87,6 @@ SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x));/* 
 SparseMatrix SparseMatrix_copy(SparseMatrix A);
 int SparseMatrix_has_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_make_undirected(SparseMatrix A);/* make it strictly low diag only, and set flag to undirected */
-real SparseMatrix_pseudo_diameter_weighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume real distances, unsymmetric matrix ill be symmetrized */
-real SparseMatrix_pseudo_diameter_unweighted(SparseMatrix A0, int root, int aggressive, int *end1, int *end2, int *connectedQ); /* assume unit edge length, unsymmetric matrix ill be symmetrized */
 void SparseMatrix_level_sets(SparseMatrix A, int root, int *nlevel, int **levelset_ptr, int **levelset, int **mask, int reintialize_mask);
 void SparseMatrix_level_sets_khops(int khops, SparseMatrix A, int root, int *nlevel, int **levelset_ptr, int **levelset, int **mask, int reintialize_mask);
 void SparseMatrix_weakly_connected_components(SparseMatrix A0, int *ncomp, int **comps, int **comps_ptr);
