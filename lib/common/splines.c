@@ -1340,62 +1340,6 @@ edgeMidpoint (graph_t* g, edge_t * e)
  */
 void addEdgeLabels(graph_t* g, edge_t * e, pointf rp, pointf rq)
 {
-#if 0
-    int et = EDGE_TYPE (g);
-    pointf p, q;
-    pointf d;			/* midpoint of segment p-q */
-    point ld;
-    point del;
-    pointf spf;
-    double f, ht, wd, dist2;
-    int leftOf;
-
-    if (ED_label(e) && !ED_label(e)->set) {
-	endPoints(ED_spl(e), &p, &q);
-        if (APPROXEQPT(p, q, MILLIPOINT)) { /* degenerate spline */
-	    p = rp;
-	    q = rq;
-	    spf = p;
-	}
-	else if (et == ET_SPLINE) {
-	    d.x = (q.x + p.x) / 2.;
-	    d.y = (p.y + q.y) / 2.;
-	    spf = dotneato_closest(ED_spl(e), d);
-	}
-	else {   /* ET_PLINE, ET_ORTHO or ET_LINE */
-	    spf = polylineMidpoint (ED_spl(e), &p, &q);
-	}
-	del.x = q.x - p.x;
-	del.y = q.y - p.y;
-	dist2 = del.x*del.x + del.y*del.y;
-	ht = (ED_label(e)->dimen.y + 2)/2.0;
-	if (dist2) {
-	    wd = (MIN(ED_label(e)->dimen.x + 2, MAXLABELWD))/2.0;
-	    leftOf = LEFTOF(p, q, spf);
-	    if ((leftOf && (del.y >= 0)) || (!leftOf && (del.y < 0))) {
-		if (del.x*del.y >= 0)
-		    ht *= -1;
-	    }
-	    else {
-		wd *= -1;
-		if (del.x*del.y < 0)
-		    ht *= -1;
-	    }
-	    f = (del.y*wd - del.x*ht)/dist2;
-	    ld.x = -f*del.y;
-	    ld.y = f*del.x;
-	}
-	else {    /* end points the same */
-	    ld.x = 0;
-	    ld.y = -ht;
-	}
-
-	ED_label(e)->pos.x = spf.x + ld.x;
-	ED_label(e)->pos.y = spf.y + ld.y;
-	ED_label(e)->set = TRUE;
-	updateBB(agraphof(agtail(e)), ED_label(e));
-    }
-#endif
     makePortLabels(e);
 }
 

@@ -14,13 +14,10 @@
 #include <math.h>
 #include <pathplan/pathplan.h>
 #include <setjmp.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #define PINC 300
-
-#ifdef NOTNOW
-static edge_t *origedge;
-#endif
 
 static int nedges, nboxes; /* total no. of edges and boxes used in routing */
 
@@ -64,8 +61,7 @@ static void psprintpolypts(Ppoint_t * p, int sz)
     fprintf(stderr, "%% constraint poly\n");
     fprintf(stderr, "newpath\n");
     for (i = 0; i < sz; i++)
-	fprintf(stderr, "%f %f %s\n", p[i].x, p[i].y,
-		(i == 0 ? "moveto" : "lineto"));
+	fprintf(stderr, "%f %f %s\n", p[i].x, p[i].y, i == 0 ? "moveto" : "lineto");
     fprintf(stderr, "closepath stroke\n");
 }
 static void psprintpoint(point p)
@@ -105,7 +101,7 @@ static void psprintspline(Ppolyline_t spl)
     Show_boxes[li++] = strdup ("gsave 1 0 0 setrgbcolor newpath");
     for (i = 0; i < spl.pn; i++) {
 	snprintf(buf, sizeof(buf), "%f %f %s", spl.ps[i].x, spl.ps[i].y,
-	  (i == 0) ?  "moveto" : ((i % 3 == 0) ? "curveto" : ""));
+	  i == 0 ?  "moveto" : (i % 3 == 0 ? "curveto" : ""));
 	Show_boxes[li++] = strdup (buf);
     }
     Show_boxes[li++] = strdup ("stroke grestore");
@@ -126,7 +122,7 @@ static void psprintline(Ppolyline_t pl)
     Show_boxes[li++] = strdup ("gsave 0 0 1 setrgbcolor newpath");
     for (i = 0; i < pl.pn; i++) {
 	snprintf(buf, sizeof(buf), "%f %f %s", pl.ps[i].x, pl.ps[i].y,
-		(i == 0 ? "moveto" : "lineto"));
+		i == 0 ? "moveto" : "lineto");
 	Show_boxes[li++] = strdup (buf);
     }
     Show_boxes[li++] = strdup ("stroke grestore");
@@ -151,7 +147,7 @@ static void psprintpoly(Ppoly_t p)
 	tl.y = (int)p.ps[bi].y;
 	hd.x = (int)p.ps[(bi+1) % p.pn].x;
 	hd.y = (int)p.ps[(bi+1) % p.pn].y;
-	if ((tl.x == hd.x) && (tl.y == hd.y)) pfx = "%%";
+	if (tl.x == hd.x && tl.y == hd.y) pfx = "%%";
 	else pfx ="";
 	snprintf(buf, sizeof(buf), "%s%d %d %d %d makevec", pfx, tl.x, tl.y, hd.x,
 	         hd.y);
@@ -205,13 +201,13 @@ static void psprintinit (int begin)
     Show_boxes[Show_cnt+1] = NULL;
 }
 
-static int debugleveln(edge_t* realedge, int i)
+static bool debugleveln(edge_t* realedge, int i)
 {
-    return (GD_showboxes(agraphof(aghead(realedge))) == i ||
+    return GD_showboxes(agraphof(aghead(realedge))) == i ||
 	    GD_showboxes(agraphof(agtail(realedge))) == i ||
 	    ED_showboxes(realedge) == i ||
 	    ND_showboxes(aghead(realedge)) == i ||
-	    ND_showboxes(agtail(realedge)) == i);
+	    ND_showboxes(agtail(realedge)) == i;
 }
 #endif  /* DEBUG */
 
@@ -247,19 +243,7 @@ simpleSplineRoute (pointf tp, pointf hp, Ppoly_t poly, int* n_spl_pts,
 	    edges[i].a = poly.ps[i];
 	    edges[i].b = poly.ps[(i + 1) % poly.pn];
 	}
-#if 0
-	if (pp->start.constrained) {
-	    evs[0].x = cos(pp->start.theta);
-	    evs[0].y = sin(pp->start.theta);
-	} else
-#endif
 	    evs[0].x = evs[0].y = 0;
-#if 0
-	if (pp->end.constrained) {
-	    evs[1].x = -cos(pp->end.theta);
-	    evs[1].y = -sin(pp->end.theta);
-	} else
-#endif
 	    evs[1].x = evs[1].y = 0;
 	if (Proutespline(edges, poly.pn, pl, evs, &spl) < 0)
             return NULL;
@@ -289,8 +273,7 @@ routesplinesinit()
     maxpn = PINC;
 #ifdef DEBUG
     if (Show_boxes) {
-	int i;
-        for (i = 0; Show_boxes[i]; i++)
+        for (int i = 0; Show_boxes[i]; i++)
 	    free (Show_boxes[i]);
 	free (Show_boxes);
 	Show_boxes = NULL;
@@ -388,18 +371,15 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     boxf *boxes;
     int boxn;
     edge_t* realedge;
-    int flip;
+    bool flip;
     int loopcnt, delta = INIT_DELTA;
-    boolean unbounded;
+    bool unbounded;
 
     *npoints = 0;
     nedges++;
     nboxes += pp->nbox;
 
-    for (realedge = (edge_t *) pp->data;
-#ifdef NOTNOW
-	 origedge = realedge;
-#endif
+    for (realedge = pp->data;
 	 realedge && ED_edge_type(realedge) != NORMAL;
 	 realedge = ED_to_orig(realedge));
     if (!realedge) {
@@ -427,15 +407,15 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	polypointn = boxn * 8;
     }
 
-    if ((boxn > 1) && (boxes[0].LL.y > boxes[1].LL.y)) {
-        flip = 1;
+    if (boxn > 1 && boxes[0].LL.y > boxes[1].LL.y) {
+        flip = true;
 	for (bi = 0; bi < boxn; bi++) {
 	    double v = boxes[bi].UR.y;
 	    boxes[bi].UR.y = -1*boxes[bi].LL.y;
 	    boxes[bi].LL.y = -v;
 	}
     }
-    else flip = 0;
+    else flip = false;
 
     if (agtail(realedge) != aghead(realedge)) {
 	/* I assume that the path goes either down only or
@@ -443,9 +423,9 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = 0, pi = 0; bi < boxn; bi++) {
 	    next = prev = 0;
 	    if (bi > 0)
-		prev = (boxes[bi].LL.y > boxes[bi - 1].LL.y) ? -1 : 1;
+		prev = boxes[bi].LL.y > boxes[bi - 1].LL.y ? -1 : 1;
 	    if (bi < boxn - 1)
-		next = (boxes[bi + 1].LL.y > boxes[bi].LL.y) ? 1 : -1;
+		next = boxes[bi + 1].LL.y > boxes[bi].LL.y ? 1 : -1;
 	    if (prev != next) {
 		if (next == -1 || prev == 1) {
 		    polypoints[pi].x = boxes[bi].LL.x;
@@ -475,9 +455,9 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = boxn - 1; bi >= 0; bi--) {
 	    next = prev = 0;
 	    if (bi < boxn - 1)
-		prev = (boxes[bi].LL.y > boxes[bi + 1].LL.y) ? -1 : 1;
+		prev = boxes[bi].LL.y > boxes[bi + 1].LL.y ? -1 : 1;
 	    if (bi > 0)
-		next = (boxes[bi - 1].LL.y > boxes[bi].LL.y) ? 1 : -1;
+		next = boxes[bi - 1].LL.y > boxes[bi].LL.y ? 1 : -1;
 	    if (prev != next) {
 		if (next == -1 || prev == 1 ) {
 		    polypoints[pi].x = boxes[bi].LL.x;
@@ -520,13 +500,12 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
     }
 
     if (flip) {
-	int i;
 	for (bi = 0; bi < boxn; bi++) {
 	    double v = boxes[bi].UR.y;
 	    boxes[bi].UR.y = -1*boxes[bi].LL.y;
 	    boxes[bi].LL.y = -v;
 	}
-	for (i = 0; i < pi; i++)
+	for (int i = 0; i < pi; i++)
 	    polypoints[i].y *= -1;
     }
 
@@ -587,12 +566,12 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	boxes[bi].LL.x = INT_MAX;
 	boxes[bi].UR.x = INT_MIN;
     }
-    unbounded = TRUE;
+    unbounded = true;
     for (splinepi = 0; splinepi < spl.pn; splinepi++) {
 	ps[splinepi] = spl.ps[splinepi];
     }
 
-    for (loopcnt = 0; unbounded && (loopcnt < LOOP_TRIES); loopcnt++) {
+    for (loopcnt = 0; unbounded && loopcnt < LOOP_TRIES; loopcnt++) {
 	limitBoxes (boxes, boxn, ps, spl.pn, delta);
 
     /* The following check is necessary because if a box is not very 
@@ -603,7 +582,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	for (bi = 0; bi < boxn; bi++) {
 	/* these fp equality tests are used only to detect if the
 	 * values have been changed since initialization - ok */
-	    if ((boxes[bi].LL.x == INT_MAX) || (boxes[bi].UR.x == INT_MIN)) {
+	    if (boxes[bi].LL.x == INT_MAX || boxes[bi].UR.x == INT_MIN) {
 		delta *= 2; /* try again with a finer interval */
 		if (delta > INT_MAX/boxn) /* in limitBoxes, boxn*delta must fit in an int, so give up */
 		    loopcnt = LOOP_TRIES;
@@ -611,7 +590,7 @@ static pointf *_routesplines(path * pp, int *npoints, int polyline)
 	    }
 	}
 	if (bi == boxn)
-	    unbounded = FALSE;
+	    unbounded = false;
     }
     if (unbounded) {  
 	/* Either an extremely short, even degenerate, box, or some failure with the path
@@ -656,10 +635,10 @@ static int overlap(int i0, int i1, int j0, int j1)
 	return 0;
     if (i0 >= j1)
 	return 0;
-    if ((j0 <= i0) && (i0 <= j1))
-	return (j1 - i0);
-    if ((j0 <= i1) && (i1 <= j1))
-	return (i1 - j0);
+    if (j0 <= i0 && i0 <= j1)
+	return j1 - i0;
+    if (j0 <= i1 && i1 <= j1)
+	return i1 - j0;
     return MIN(i1 - i0, j1 - j0);
 }
 
@@ -679,7 +658,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
     int bi, i, errs, l, r, d, u;
     int xoverlap, yoverlap;
 
-#ifndef DONTFIXPATH
     /* remove degenerate boxes. */
     i = 0;
     for (bi = 0; bi < boxn; bi++) {
@@ -687,12 +665,10 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    continue;
 	if (fabs(boxes[bi].LL.x - boxes[bi].UR.x) < .01)
 	    continue;
-	if (i != bi)
-	    boxes[i] = boxes[bi];
+	boxes[i] = boxes[bi];
 	i++;
     }
     boxn = i;
-#endif				/* DONTFIXPATH */
 
     ba = &boxes[0];
     if (ba->LL.x > ba->UR.x || ba->LL.y > ba->UR.y) {
@@ -703,22 +679,20 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
     for (bi = 0; bi < boxn - 1; bi++) {
 	ba = &boxes[bi], bb = &boxes[bi + 1];
 	if (bb->LL.x > bb->UR.x || bb->LL.y > bb->UR.y) {
-	    agerr(AGERR, "in checkpath, box %d has LL coord > UR coord\n",
-		  bi + 1);
+	    agerr(AGERR, "in checkpath, box %d has LL coord > UR coord\n", bi + 1);
 	    printpath(thepath);
 	    return 1;
 	}
-	l = (ba->UR.x < bb->LL.x) ? 1 : 0;
-	r = (ba->LL.x > bb->UR.x) ? 1 : 0;
-	d = (ba->UR.y < bb->LL.y) ? 1 : 0;
-	u = (ba->LL.y > bb->UR.y) ? 1 : 0;
+	l = ba->UR.x < bb->LL.x ? 1 : 0;
+	r = ba->LL.x > bb->UR.x ? 1 : 0;
+	d = ba->UR.y < bb->LL.y ? 1 : 0;
+	u = ba->LL.y > bb->UR.y ? 1 : 0;
 	errs = l + r + d + u;
 	if (errs > 0 && Verbose) {
 	    fprintf(stderr, "in checkpath, boxes %d and %d don't touch\n",
 		    bi, bi + 1);
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
 	if (errs > 0) {
 	    int xy;
 
@@ -745,10 +719,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 			bb->UR.y = xy, u = 0;
 	    }
 	}
-#else
-	abort();
-#endif
-#ifndef DONTFIXPATH
 	/* check for overlapping boxes */
 	xoverlap = overlap(ba->LL.x, ba->UR.x, bb->LL.x, bb->UR.x);
 	yoverlap = overlap(ba->LL.y, ba->UR.y, bb->LL.y, bb->UR.y);
@@ -784,7 +754,6 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    }
 	}
     }
-#endif				/* DONTFIXPATH */
 
     if (thepath->start.p.x < boxes[0].LL.x
 	|| thepath->start.p.x > boxes[0].UR.x
@@ -794,18 +763,10 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    fprintf(stderr, "in checkpath, start port not in first box\n");
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
-	if (thepath->start.p.x < boxes[0].LL.x)
-	    thepath->start.p.x = boxes[0].LL.x;
-	if (thepath->start.p.x > boxes[0].UR.x)
-	    thepath->start.p.x = boxes[0].UR.x;
-	if (thepath->start.p.y < boxes[0].LL.y)
-	    thepath->start.p.y = boxes[0].LL.y;
-	if (thepath->start.p.y > boxes[0].UR.y)
-	    thepath->start.p.y = boxes[0].UR.y;
-#else
-	abort();
-#endif
+	thepath->start.p.x = fmax(thepath->start.p.x, boxes[0].LL.x);
+	thepath->start.p.x = fmin(thepath->start.p.x, boxes[0].UR.x);
+	thepath->start.p.y = fmax(thepath->start.p.y, boxes[0].LL.y);
+	thepath->start.p.y = fmin(thepath->start.p.y, boxes[0].UR.y);
     }
     if (thepath->end.p.x < boxes[boxn - 1].LL.x
 	|| thepath->end.p.x > boxes[boxn - 1].UR.x
@@ -815,18 +776,10 @@ static int checkpath(int boxn, boxf* boxes, path* thepath)
 	    fprintf(stderr, "in checkpath, end port not in last box\n");
 	    printpath(thepath);
 	}
-#ifndef DONTFIXPATH
-	if (thepath->end.p.x < boxes[boxn - 1].LL.x)
-	    thepath->end.p.x = boxes[boxn - 1].LL.x;
-	if (thepath->end.p.x > boxes[boxn - 1].UR.x)
-	    thepath->end.p.x = boxes[boxn - 1].UR.x;
-	if (thepath->end.p.y < boxes[boxn - 1].LL.y)
-	    thepath->end.p.y = boxes[boxn - 1].LL.y;
-	if (thepath->end.p.y > boxes[boxn - 1].UR.y)
-	    thepath->end.p.y = boxes[boxn - 1].UR.y;
-#else
-	abort();
-#endif
+	thepath->end.p.x = fmax(thepath->end.p.x, boxes[boxn - 1].LL.x);
+	thepath->end.p.x = fmin(thepath->end.p.x, boxes[boxn - 1].UR.x);
+	thepath->end.p.y = fmax(thepath->end.p.y, boxes[boxn - 1].LL.y);
+	thepath->end.p.y = fmin(thepath->end.p.y, boxes[boxn - 1].UR.y);
     }
     return 0;
 }
@@ -849,12 +802,6 @@ static void printpath(path * pp)
 {
     int bi;
 
-#ifdef NOTNOW
-    fprintf(stderr, "edge %d from %s to %s\n", nedges,
-	    realedge->tail->name, realedge->head->name);
-    if (ED_count(origedge) > 1)
-	fprintf(stderr, "    (it's part of a concentrator edge)\n");
-#endif
     fprintf(stderr, "%d boxes:\n", pp->nbox);
     for (bi = 0; bi < pp->nbox; bi++)
 	fprintf(stderr, "%d (%.5g, %.5g), (%.5g, %.5g)\n", bi,
@@ -870,29 +817,13 @@ static void printpath(path * pp)
 
 static pointf get_centroid(Agraph_t *g)
 {
-    int     cnt = 0;
-    static pointf   sum = {0.0, 0.0};
-    static Agraph_t *save;
-    Agnode_t *n;
+    pointf sum = {0.0, 0.0};
 
     sum.x = (GD_bb(g).LL.x + GD_bb(g).UR.x) / 2.0;
     sum.y = (GD_bb(g).LL.y + GD_bb(g).UR.y) / 2.0;
     return sum;
-
-    if (save == g) return sum;
-    save = g;
-    for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
-        sum.x += ND_pos(n)[0];
-        sum.y += ND_pos(n)[1];
-        cnt++;
-    }
-    sum.x = sum.x / cnt;
-    sum.y = sum.y / cnt;
-    return sum;
 }
 
-#define __CYCLE_CENTROID 
-#ifdef __CYCLE_CENTROID
 //generic vector structure
 typedef struct _tag_vec
 {
@@ -923,8 +854,7 @@ static void* vec_get(vec* pvec, size_t index)
 
 static void vec_delete(vec* pvec)
 {
-    size_t i;
-    for (i = 0; i < vec_length(pvec); ++i) {
+    for (size_t i = 0; i < vec_length(pvec); ++i) {
       vec_delete(vec_get(pvec, i));
     }
     free(pvec->_mem);
@@ -947,16 +877,14 @@ static void* vec_pop(vec* pvec)
 	return NULL;
 }
 
-static boolean vec_contains(vec* pvec, void* item) 
+static bool vec_contains(vec* pvec, void* item)
 {
-	size_t i;
-
-	for (i=0; i < pvec->_elems; ++i) {
+	for (size_t i=0; i < pvec->_elems; ++i) {
 		if (pvec->_mem[i] == item)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 static vec* vec_copy(vec* pvec)
@@ -970,7 +898,7 @@ static vec* vec_copy(vec* pvec)
 }
 //end generic vector structure
 
-static boolean cycle_contains_edge(vec* cycle, edge_t* edge)
+static bool cycle_contains_edge(vec* cycle, edge_t* edge)
 {
 	node_t* start = agtail(edge);
 	node_t* end = aghead(edge);
@@ -978,26 +906,25 @@ static boolean cycle_contains_edge(vec* cycle, edge_t* edge)
 	node_t* c_end;
 
 	size_t cycle_len = vec_length(cycle);
-	size_t i;
 
-	for (i=0; i < cycle_len; ++i) {
+	for (size_t i=0; i < cycle_len; ++i) {
 		if (i == 0) {
-			c_start = (node_t*)vec_get(cycle, cycle_len-1);
+			c_start = vec_get(cycle, cycle_len-1);
 		} else {
-			c_start = (node_t*)vec_get(cycle, i-1);
+			c_start = vec_get(cycle, i-1);
 		}
 	
-		c_end = (node_t*)vec_get(cycle, i);
+		c_end = vec_get(cycle, i);
 
 		if (c_start == start && c_end == end)
-			return TRUE;
+			return true;
 	}
 
 
-	return FALSE;
+	return false;
 }
 
-static boolean is_cycle_unique(vec* cycles, vec* cycle) 
+static bool is_cycle_unique(vec* cycles, vec* cycle)
 {
 	size_t cycle_len = vec_length(cycle);
 	size_t n_cycles = vec_length(cycles);
@@ -1007,28 +934,28 @@ static boolean is_cycle_unique(vec* cycles, vec* cycle)
 	vec* cur_cycle;
 	size_t cur_cycle_len;
 	void* cur_cycle_item;
-	boolean all_items_match;
+	bool all_items_match;
 
 	for (c=0; c < n_cycles; ++c) {
-		cur_cycle = (vec*)vec_get(cycles, c);
+		cur_cycle = vec_get(cycles, c);
 		cur_cycle_len = vec_length(cur_cycle);
 
 		//if all the items match in equal length cycles then we're not unique
 		if (cur_cycle_len == cycle_len) {
-			all_items_match = TRUE;
+			all_items_match = true;
 			for (i=0; i < cur_cycle_len; ++i) {
 				cur_cycle_item = vec_get(cur_cycle, i);
 				if (!vec_contains(cycle, cur_cycle_item)) {
-					all_items_match = FALSE;
+					all_items_match = false;
 					break;
 				}
 			}
 			if (all_items_match)
-				return FALSE;
+				return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 static void dfs(graph_t *g, node_t* search, vec* visited, node_t* end, vec* cycles)
@@ -1081,7 +1008,7 @@ static vec* find_shortest_cycle_with_edge(vec* cycles, edge_t* edge, size_t min_
 	vec* shortest = 0;
 
 	for (c=0; c < cycles_len; ++c) {
-		cycle = (vec*)vec_get(cycles, c);
+		cycle = vec_get(cycles, c);
 		cycle_len = vec_length(cycle);
 
 		if (cycle_len < min_size)
@@ -1125,17 +1052,16 @@ static pointf get_cycle_centroid(graph_t *g, edge_t* edge)
 	cycle_len = vec_length(cycle);
 
 	for (idx=0; idx < cycle_len; ++idx) {
-		n = (node_t*)vec_get(cycle, idx);
+		n = vec_get(cycle, idx);
 		sum.x += ND_coord(n).x;
         sum.y += ND_coord(n).y;
         cnt++;
 	}
 
-	sum.x = sum.x / cnt;
-    sum.y = sum.y / cnt;
+	sum.x /= cnt;
+    sum.y /= cnt;
     return sum;
 }
-#endif
 
 static void bend(pointf spl[4], pointf centroid)
 {
@@ -1177,7 +1103,7 @@ makeStraightEdge(graph_t * g, edge_t * e, int et, splineInfo* sinfo)
 
     e_cnt = 1;
     e0 = e;
-    while ((e0 != ED_to_virt(e0)) && (e0 = ED_to_virt(e0))) e_cnt++;
+    while (e0 != ED_to_virt(e0) && (e0 = ED_to_virt(e0))) e_cnt++;
 
     if (e_cnt <= MAX_EDGE)
 	edges = elist;
@@ -1199,7 +1125,7 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     pointf dumb[4];
     node_t *n;
     node_t *head;
-    int curved = (et == ET_CURVED);
+    bool curved = et == ET_CURVED;
     pointf perp;
     pointf del;
     edge_t *e0;
@@ -1214,12 +1140,8 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
     head = aghead(e);
     p = dumb[1] = dumb[0] = add_pointf(ND_coord(n), ED_tail_port(e).p);
     q = dumb[2] = dumb[3] = add_pointf(ND_coord(head), ED_head_port(e).p);
-    if ((e_cnt == 1) || Concentrate) {
-#ifndef __CYCLE_CENTROID
-    if (curved) bend(dumb,get_centroid(g));
-#else
+    if (e_cnt == 1 || Concentrate) {
 	if (curved) bend(dumb,get_cycle_centroid(g, edges[0]));
-#endif
 	clip_and_install(e, aghead(e), dumb, 4, sinfo);
 	addEdgeLabels(g, e, p, q);
 	return;
@@ -1239,10 +1161,10 @@ makeStraightEdges(graph_t * g, edge_t** edges, int e_cnt, int et, splineInfo* si
 	l_perp = LEN(perp.x, perp.y);
 	xstep = GD_nodesep(g->root);
 	dx = xstep * (e_cnt - 1) / 2;
-	dumb[1].x = dumb[0].x + (dx * perp.x) / l_perp;
-	dumb[1].y = dumb[0].y + (dx * perp.y) / l_perp;
-	dumb[2].x = dumb[3].x + (dx * perp.x) / l_perp;
-	dumb[2].y = dumb[3].y + (dx * perp.y) / l_perp;
+	dumb[1].x = dumb[0].x + dx * perp.x / l_perp;
+	dumb[1].y = dumb[0].y + dx * perp.y / l_perp;
+	dumb[2].x = dumb[3].x + dx * perp.x / l_perp;
+	dumb[2].y = dumb[3].y + dx * perp.y / l_perp;
 	del.x = -xstep * perp.x / l_perp;
 	del.y = -xstep * perp.y / l_perp;
     }

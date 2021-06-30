@@ -523,9 +523,6 @@ char *xml_url_string(char *s)
     static char *buf = NULL;
     static int bufsize = 0;
     char *p, *sub;
-#if 0
-    char *prev = NULL;
-#endif
     int len, pos = 0;
 
     if (!buf) {
@@ -555,17 +552,6 @@ char *xml_url_string(char *s)
 	    sub = "&gt;";
 	    len = 4;
 	}
-#if 0
-	else if (*s == '-') {	/* can't be used in xml comment strings */
-	    sub = "&#45;";
-	    len = 5;
-	}
-	else if (*s == ' ' && prev && *prev == ' ') {
-	    /* substitute 2nd and subsequent spaces with required_spaces */
-	    sub = "&#160;";  /* inkscape doesn't recognise &nbsp; */
-	    len = 6;
-	}
-#endif
 	else if (*s == '"') {
 	    sub = "&quot;";
 	    len = 6;
@@ -582,9 +568,6 @@ char *xml_url_string(char *s)
 	    *p++ = *sub++;
 	    pos++;
 	}
-#if 0
-	prev = s;
-#endif
 	s++;
     }
     *p = '\0';
