@@ -644,10 +644,6 @@ extern "C" {
     extern char *_sfcvt(void *, int, int *, int *, int);
     extern char **_sfgetpath(char *);
 
-#ifndef errno
-    extern int errno;
-#endif
-
 #ifdef _WIN32
 #undef SF_ERROR
 #include <io.h>
