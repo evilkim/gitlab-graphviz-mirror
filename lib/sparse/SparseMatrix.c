@@ -1587,8 +1587,8 @@ SparseMatrix SparseMatrix_multiply3(SparseMatrix A, SparseMatrix B, SparseMatrix
    but unfortunately I do not have such object implemented yet.
    
 
-   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as what_to_sum = SUM_REPEATED_IMAGINARY_PART
-   or what_to_sum = SUM_REPEATED_ALL. In this implementation we assume that
+   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as
+    what_to_sum = SUM_REPEATED_ALL. In this implementation we assume that
    the {j,y} pairs are dense, so we usea 2D array for hashing 
 */
 SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
@@ -1681,41 +1681,6 @@ SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
 	  ia[i+1] = nz;
 	}
 	
-      } else if (what_to_sum == SUM_REPEATED_IMAGINARY_PART){
-	int xmin, xmax, id;
-	xmax = xmin = a[1];
-	nz = 0;
-	for (i = 0; i < A->m; i++){
-	  for (j = ia[i]; j < ia[i+1]; j++){
-	    xmax = MAX(xmax, (int) a[2*nz]);
-	    xmin = MAX(xmin, (int) a[2*nz]);
-	    nz++;
-	  }	  
-	}
-	FREE(mask);
-	mask = MALLOC(sizeof(int)*((size_t)n)*((size_t)(xmax-xmin+1)));
-	for (i = 0; i < n*(xmax-xmin+1); i++) mask[i] = -1;
-
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    id = ja[j] + ((int)a[2*j] - xmin)*n;
-	    if (mask[id] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[id] = nz++;
-	    } else {
-	      assert(ja[mask[id]] == ja[j]);
-	      a[2*mask[id]] = a[2*j];
-	      a[2*mask[id]+1] += a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-	}
-
       }
     }
     break;
