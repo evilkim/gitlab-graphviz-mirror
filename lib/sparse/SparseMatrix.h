@@ -61,12 +61,7 @@ SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B);
 SparseMatrix SparseMatrix_multiply(SparseMatrix A, SparseMatrix B);
 SparseMatrix SparseMatrix_multiply3(SparseMatrix A, SparseMatrix B, SparseMatrix C);
 
-/* For complex matrix:
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the x's if {i,j,Round(y)} are the same
-   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as
-   what_to_sum = SUM_REPEATED_ALL
-*/
-enum {SUM_REPEATED_NONE = 0, SUM_REPEATED_ALL, SUM_REPEATED_REAL_PART, };
+enum {SUM_REPEATED_NONE = 0, SUM_REPEATED_ALL, };
 SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum);
 SparseMatrix SparseMatrix_coordinate_form_add_entries(SparseMatrix A, int nentries, int *irn, int *jcn, void *val);
 int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only);

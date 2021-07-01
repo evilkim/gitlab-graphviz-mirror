@@ -1574,23 +1574,6 @@ SparseMatrix SparseMatrix_multiply3(SparseMatrix A, SparseMatrix B, SparseMatrix
 
 }
 
-/* For complex matrix:
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the x's if {i,j,Round(y)} are the same
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the y's if {i,j,Round(x)} are the same
-   so a matrix like {{1,1,2+3i},{1,2,3+4i},{1,1,5+3i},{1,2,4+5i},{1,2,4+4i}} becomes
-   {{1,1,2+5+3i},{1,2,3+4+4i},{1,2,4+5i}}. 
-
-   Really this kind of thing is best handled using a 3D sparse matrix like
-   {{{1,1,3},2},{{1,2,4},3},{{1,1,3},5},{{1,2,4},4}}, 
-   which is then aggreted into
-   {{{1,1,3},2+5},{{1,2,4},3+4},{{1,1,3},5}}
-   but unfortunately I do not have such object implemented yet.
-   
-
-   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as
-    what_to_sum = SUM_REPEATED_ALL. In this implementation we assume that
-   the {j,y} pairs are dense, so we usea 2D array for hashing 
-*/
 SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
   /* sum repeated entries in the same row, i.e., {1,1}->1, {1,1}->2 becomes {1,1}->3 */
   int *ia = A->ia, *ja = A->ja, type = A->type, n = A->n;
@@ -1645,42 +1628,6 @@ SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
 	  sta = ia[i+1];
 	  ia[i+1] = nz;
 	}
-      } else if (what_to_sum == SUM_REPEATED_REAL_PART){
-	int ymin, ymax, id;
-	ymax = ymin = a[1];
-	nz = 0;
-	for (i = 0; i < A->m; i++){
-	  for (j = ia[i]; j < ia[i+1]; j++){
-	    ymax = MAX(ymax, (int) a[2*nz+1]);
-	    ymin = MIN(ymin, (int) a[2*nz+1]);
-	    nz++;
-	  }	  
-	}
-	FREE(mask);
-	mask = MALLOC(sizeof(int)*((size_t)n)*((size_t)(ymax-ymin+1)));
-	for (i = 0; i < n*(ymax-ymin+1); i++) mask[i] = -1;
-
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    id = ja[j] + ((int)a[2*j+1] - ymin)*n;
-	    if (mask[id] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[id] = nz++;
-	    } else {
-	      assert(id < n*(ymax-ymin+1));
-	      assert(ja[mask[id]] == ja[j]);
-	      a[2*mask[id]] += a[2*j];
-	      a[2*mask[id]+1] = a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-	}
-	
       }
     }
     break;
