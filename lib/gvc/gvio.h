@@ -33,7 +33,6 @@ extern "C" {
 /*end visual studio*/
 
     extern size_t gvwrite (GVJ_t * job, const char *s, size_t len);
-    extern size_t gvfwrite (const void *ptr, size_t size, size_t nmemb, FILE *stream);
     extern int gvferror (FILE *stream);
     extern int gvputc(GVJ_t * job, int c);
     extern int gvputs(GVJ_t * job, const char *s);
