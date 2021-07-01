@@ -247,9 +247,6 @@ extern "C" {
 #ifdef MAXSHORT
 #undef MAXSHORT
 #endif
-#ifdef MAXLONG
-#undef MAXLONG
-#endif
 #include	<locale.h>
 #define SFSETLOCALE(decimal,thousand) \
 	{ struct lconv*	lv; \
