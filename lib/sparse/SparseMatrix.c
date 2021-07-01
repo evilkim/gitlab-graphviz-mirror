@@ -714,7 +714,7 @@ SparseMatrix SparseMatrix_from_coordinate_format(SparseMatrix A){
   return SparseMatrix_from_coordinate_arrays(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size);
 
 }
-SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A, int what_to_sum){
+SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A){
   /* convert a sparse matrix in coordinate form to one in compressed row form.*/
   int *irn, *jcn;
 
@@ -726,8 +726,7 @@ SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A, i
   }
   irn = A->ia;
   jcn = A->ja;
-  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size, what_to_sum);
-
+  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size, SUM_REPEATED_NONE);
 }
 
 static SparseMatrix SparseMatrix_from_coordinate_arrays_internal(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz, int sum_repeated){
