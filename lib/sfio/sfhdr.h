@@ -40,17 +40,6 @@ extern "C" {
 #	undef  _LARGEFILE64_SOURCE
 #endif
 
-/* when building the binary compatibility package, a number of header files
-   are not needed and they may get in the way so we remove them here.
-*/
-#ifdef _SFBINARY_H
-#undef  HAVE_SYS_ST
-#undef  HAVE_STAT_H
-#undef  _stream_peek
-#undef  _socket_peek
-#undef  HAVE_SYS_IOCTL_H
-#endif
-
 #include	<limits.h>
 #include	<stdlib.h>
 #include	<string.h>
