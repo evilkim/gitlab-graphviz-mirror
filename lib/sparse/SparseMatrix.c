@@ -726,7 +726,7 @@ SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A){
   }
   irn = A->ia;
   jcn = A->ja;
-  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size, SUM_REPEATED_NONE);
+  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size);
 }
 
 static SparseMatrix SparseMatrix_from_coordinate_arrays_internal(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz, int sum_repeated){
@@ -863,8 +863,8 @@ SparseMatrix SparseMatrix_from_coordinate_arrays(int nz, int m, int n, int *irn,
 }
 
 
-SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz, int what_to_sum){
-  return SparseMatrix_from_coordinate_arrays_internal(nz, m, n, irn, jcn, val0, type, sz, what_to_sum);
+SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz){
+  return SparseMatrix_from_coordinate_arrays_internal(nz, m, n, irn, jcn, val0, type, sz, SUM_REPEATED_NONE);
 }
 
 SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B){

@@ -48,8 +48,7 @@ SparseMatrix SparseMatrix_from_coordinate_format(SparseMatrix A);
 SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A);
 
 SparseMatrix SparseMatrix_from_coordinate_arrays(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz);
-/* what_to_sum is SUM_REPEATED_NONE, SUM_REPEATED_ALL, SUM_REPEATED_REAL_PART, SUM_REPEATED_IMAGINARY_PART, SUM_IMGINARY_KEEP_LAST_REAL*/
-SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz, int what_to_sum);
+SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz);
 
 
 void SparseMatrix_print(char *, SparseMatrix A);/*print to stdout in Mathematica format*/
