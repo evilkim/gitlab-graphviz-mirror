@@ -999,24 +999,6 @@ SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B){
   return C;
 }
 
-
-
-static void dense_transpose(real *v, int m, int n){
-  /* transpose an m X n matrix in place. Well, we do no really do it without xtra memory. This is possibe, but too complicated for ow */
-  int i, j;
-  real *u;
-  u = MALLOC(sizeof(real)*((size_t) m)*((size_t) n));
-  memcpy(u,v, sizeof(real)*((size_t) m)*((size_t) n));
-
-  for (i = 0; i < m; i++){
-    for (j = 0; j < n; j++){
-      v[j*m+i] = u[i*n+j];
-    }
-  }
-  FREE(u);
-}
-
-
 static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim){
   /* A v where v a dense matrix of second dimension dim. Real only for now. */
   int i, j, k, *ia, *ja, m;
