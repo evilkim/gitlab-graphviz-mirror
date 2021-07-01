@@ -190,19 +190,6 @@ extern "C" {
 #define SF_CREATMODE	0666
 #endif
 
-/* set close-on-exec */
-#ifdef F_SETFD
-#	ifndef FD_CLOEXEC
-#		define FD_CLOEXEC	1
-#	endif			/*FD_CLOEXEC */
-#	define SETCLOEXEC(fd)		((void)fcntl((fd),F_SETFD,FD_CLOEXEC))
-#else
-#	ifdef FIOCLEX
-#		define SETCLOEXEC(fd)	((void)ioctl((fd),FIOCLEX,0))
-#	else
-#		define SETCLOEXEC(fd)
-#	endif /*FIOCLEX*/
-#endif				/*F_SETFD */
 /* a couple of error number that we use, default values are like Linux */
 #ifndef EINTR
 #define EINTR	4
