@@ -1057,16 +1057,11 @@ static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, in
 
 }
 
-void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int res_transposed, int dim){
-  /* assume res_transposed == FALSE
-     A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
- 
-     furthermore, if res_transpose d== TRUE, then the result is transposed. Hence if res_transposed == TRUE
-
-     V^T A^T, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension dim x dim
+void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int dim){
+  /* A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
  */
 
-  SparseMatrix_multiply_dense1(A, v, res, dim, 0, res_transposed);
+  SparseMatrix_multiply_dense1(A, v, res, dim, 0, 0);
 }
 
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed){
