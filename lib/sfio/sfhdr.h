@@ -244,9 +244,6 @@ extern "C" {
 #ifdef MAXFLOAT			/* we don't need these, so we zap them to avoid compiler warnings */
 #undef MAXFLOAT
 #endif
-#ifdef MAXSHORT
-#undef MAXSHORT
-#endif
 #include	<locale.h>
 #define SFSETLOCALE(decimal,thousand) \
 	{ struct lconv*	lv; \
