@@ -213,9 +213,6 @@ extern "C" {
 #ifndef EAGAIN
 #define EAGAIN	11
 #endif
-#ifndef ENOMEM
-#define ENOMEM	12
-#endif
 #ifndef EINVAL
 #define EINVAL	22
 #endif
