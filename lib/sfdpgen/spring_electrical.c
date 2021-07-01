@@ -1685,7 +1685,7 @@ void interpolate_coord(int dim, SparseMatrix A, real *x){
 }
 static void prolongate(int dim, SparseMatrix A, SparseMatrix P, SparseMatrix R, real *x, real *y, int coarsen_scheme_used, real delta){
   int nc, *ia, *ja, i, j, k;
-  SparseMatrix_multiply_dense(P, FALSE, x, FALSE, &y, FALSE, dim);
+  SparseMatrix_multiply_dense(P, x, FALSE, &y, FALSE, dim);
 
   /* xu yao rao dong */
   if (coarsen_scheme_used > EDGE_BASED_STA && coarsen_scheme_used < EDGE_BASED_STO){

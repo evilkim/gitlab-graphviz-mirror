@@ -659,7 +659,7 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
       }
       /* solve (Lw+lambda*I) x = Lwdd y + lambda x0 */
 
-      SparseMatrix_multiply_dense(Lwdd, FALSE, x, FALSE, &y, FALSE, dim);
+      SparseMatrix_multiply_dense(Lwdd, x, FALSE, &y, FALSE, dim);
     } else {
       for (i = 0; i < m; i++){
 	for (j = 0; j < dim; j++){
