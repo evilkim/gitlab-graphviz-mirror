@@ -1017,7 +1017,7 @@ static void dense_transpose(real *v, int m, int n){
 }
 
 
-static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim, int res_transposed){
+static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim){
   /* A v where v a dense matrix of second dimension dim. Real only for now. */
   int i, j, k, *ia, *ja, m;
   real *a, *u;
@@ -1038,7 +1038,6 @@ static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, in
       for (k = 0; k < dim; k++) u[i*dim+k] += a[j]*v[ja[j]*dim+k];
     }
   }
-  if (res_transposed) dense_transpose(u, m, dim);
 
   *res = u;
 }
@@ -1047,7 +1046,7 @@ void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int dim){
   /* A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
  */
 
-  SparseMatrix_multiply_dense1(A, v, res, dim, 0);
+  SparseMatrix_multiply_dense1(A, v, res, dim);
 }
 
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed){
