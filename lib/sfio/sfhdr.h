@@ -216,9 +216,6 @@ extern "C" {
 #ifndef EINVAL
 #define EINVAL	22
 #endif
-#ifndef ESPIPE
-#define ESPIPE	29
-#endif
 /* function to get the decimal point for local environment */
 #ifdef MAXFLOAT			/* we don't need these, so we zap them to avoid compiler warnings */
 #undef MAXFLOAT
