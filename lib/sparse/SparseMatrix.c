@@ -1645,26 +1645,6 @@ SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
 	  sta = ia[i+1];
 	  ia[i+1] = nz;
 	}
-      } else if (what_to_sum == SUM_IMGINARY_KEEP_LAST_REAL){
-	/* merge {i,j,R1,I1} and {i,j,R2,I2} into {i,j,R1+R2,I2}*/
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    if (mask[ja[j]] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[ja[j]] = nz++;
-	    } else {
-	      assert(ja[mask[ja[j]]] == ja[j]);
-	      a[2*mask[ja[j]]] += a[2*j];
-	      a[2*mask[ja[j]]+1] = a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-        }
       } else if (what_to_sum == SUM_REPEATED_REAL_PART){
 	int ymin, ymax, id;
 	ymax = ymin = a[1];
