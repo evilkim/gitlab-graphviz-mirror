@@ -1057,40 +1057,6 @@ static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, in
 
 }
 
-static void SparseMatrix_multiply_dense2(SparseMatrix A, real *v, real **res, int dim, int transposed, int res_transposed){
-  /* A v^T or A^T v^T where v a dense matrix of second dimension n or m. Real only for now.
-     transposed = FALSE: A*V^T, with A dimension m x n, V dimension dim x n, v[i*n+j] gives V[i,j]. Result of dimension m x dim
-     transposed = TRUE: A^T*V^T, with A dimension m x n, V dimension dim x m. v[i*m+j] gives V[i,j]. Result of dimension n x dim
-  */
-  real *u, *rr;
-  int i, m, n;
-  assert(A->format == FORMAT_CSR);
-  assert(A->type == MATRIX_TYPE_REAL);
-  u = *res;
-  m = A->m;
-  n = A->n;
-
-  if (!transposed){
-    if (!u) u = MALLOC(sizeof(real)*((size_t)m)*((size_t) dim));
-    for (i = 0; i < dim; i++){
-      rr = &(u[m*i]);
-      SparseMatrix_multiply_vector(A, &(v[n*i]), &rr, transposed);
-    }
-    if (!res_transposed) dense_transpose(u, dim, m);
-  } else {
-    if (!u) u = MALLOC(sizeof(real)*((size_t)n)*((size_t)dim));
-    for (i = 0; i < dim; i++){
-      rr = &(u[n*i]);
-      SparseMatrix_multiply_vector(A, &(v[m*i]), &rr, transposed);
-    }
-    if (!res_transposed) dense_transpose(u, dim, n);
-  }
-
-  *res = u;
-
-
-}
-
 void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int res_transposed, int dim){
   /* assume res_transposed == FALSE
      A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
