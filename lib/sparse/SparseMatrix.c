@@ -1017,9 +1017,9 @@ static void dense_transpose(real *v, int m, int n){
 }
 
 
-static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim, int transposed, int res_transposed){
-  /* A v or A^T v where v a dense matrix of second dimension dim. Real only for now. */
-  int i, j, k, *ia, *ja, n, m;
+static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim, int res_transposed){
+  /* A v where v a dense matrix of second dimension dim. Real only for now. */
+  int i, j, k, *ia, *ja, m;
   real *a, *u;
 
   assert(A->format == FORMAT_CSR);
@@ -1029,39 +1029,25 @@ static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, in
   ia = A->ia;
   ja = A->ja;
   m = A->m;
-  n = A->n;
   u = *res;
 
-  if (!transposed){
-    if (!u) u = MALLOC(sizeof(real)*((size_t) m)*((size_t) dim));
-    for (i = 0; i < m; i++){
-      for (k = 0; k < dim; k++) u[i*dim+k] = 0.;
-      for (j = ia[i]; j < ia[i+1]; j++){
-	for (k = 0; k < dim; k++) u[i*dim+k] += a[j]*v[ja[j]*dim+k];
-      }
+  if (!u) u = MALLOC(sizeof(real)*((size_t) m)*((size_t) dim));
+  for (i = 0; i < m; i++){
+    for (k = 0; k < dim; k++) u[i*dim+k] = 0.;
+    for (j = ia[i]; j < ia[i+1]; j++){
+      for (k = 0; k < dim; k++) u[i*dim+k] += a[j]*v[ja[j]*dim+k];
     }
-    if (res_transposed) dense_transpose(u, m, dim);
-  } else {
-    if (!u) u = MALLOC(sizeof(real)*((size_t) n)*((size_t) dim));
-    for (i = 0; i < n*dim; i++) u[i] = 0.;
-    for (i = 0; i < m; i++){
-      for (j = ia[i]; j < ia[i+1]; j++){
-	for (k = 0; k < dim; k++) u[ja[j]*dim + k] += a[j]*v[i*dim + k];
-      }
-    }
-    if (res_transposed) dense_transpose(u, n, dim);
   }
+  if (res_transposed) dense_transpose(u, m, dim);
 
   *res = u;
-
-
 }
 
 void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int dim){
   /* A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
  */
 
-  SparseMatrix_multiply_dense1(A, v, res, dim, 0, 0);
+  SparseMatrix_multiply_dense1(A, v, res, dim, 0);
 }
 
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed){
