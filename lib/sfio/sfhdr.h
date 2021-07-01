@@ -48,9 +48,6 @@ extern "C" {
 #undef  HAVE_STAT_H
 #undef  _stream_peek
 #undef  _socket_peek
-#undef  HAVE_VFORK_H
-#undef  _HAVE_SYS_VFORK_H
-#undef  HAVE_VFORK
 #undef  HAVE_SYS_IOCTL_H
 #endif
 
@@ -85,17 +82,6 @@ extern "C" {
 
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
-
-/* alternative process forking */
-#if defined(HAVE_VFORK) && !defined(fork) && !defined(sparc) && !defined(__sparc)
-#ifdef HAVE_VFORK_H
-#include	<vfork.h>
-#endif
-#ifdef HAVE_SYS_VFORK_H
-#include	<sys/vfork.h>
-#endif
-#define fork	vfork
-#endif
 
 #ifdef HAVE_UNLINK
 #define remove	unlink
@@ -662,9 +648,6 @@ extern "C" {
     extern uint sleep(uint);
     extern int execl(const char *, const char *, ...);
     extern int execv(const char *, char **);
-#ifndef fork
-    extern int fork(void);
-#endif
 #ifdef HAVE_UNLINK
     extern int unlink(const char *);
 #endif
@@ -675,10 +658,6 @@ extern "C" {
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);
 #endif
-
-#if defined(HAVE_VFORK) && !defined(HAVE_VFORK_H) && !defined(_HAVE_SYS_VFORK_H)
-    extern pid_t vfork(void);
-#endif /*HAVE_VFORK*/
 
 #endif /*_SFHDR_H*/
 #ifdef __cplusplus
