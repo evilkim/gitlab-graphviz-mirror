@@ -442,9 +442,9 @@ dnl Checks for header files
 # AC_HEADER_STDC
 AC_CHECK_HEADERS( \
 	fcntl.h search.h stropts.h termios.h \
-	unistd.h strings.h stat.h vfork.h \
+	unistd.h strings.h stat.h \
 	sys/time.h sys/types.h sys/select.h sys/socket.h \
-	sys/stat.h sys/mman.h sys/vfork.h \
+	sys/stat.h sys/mman.h \
 	sys/ioctl.h sys/inotify.h)
 
 # Internationalization macros
@@ -468,7 +468,7 @@ LIBS=$save_LIBS
 # Checks for library functions
 AC_CHECK_FUNCS([lrand48 drand48 srand48 setmode setenv getenv \
 	cbrt getpagesize \
-  ftruncate lseek64 stat64 vfork unlink select])
+  ftruncate lseek64 stat64 unlink select])
 
 AC_REPLACE_FUNCS([strcasestr])
 
