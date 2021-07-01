@@ -83,10 +83,6 @@ extern "C" {
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
 
-#ifdef HAVE_UNLINK
-#define remove	unlink
-#endif
-
 /* 64-bit vs 32-bit file stuff */
 #ifdef HAVE_SYS_STAT_H
 #ifdef _LARGEFILE64_SOURCE
@@ -648,9 +644,6 @@ extern "C" {
     extern uint sleep(uint);
     extern int execl(const char *, const char *, ...);
     extern int execv(const char *, char **);
-#ifdef HAVE_UNLINK
-    extern int unlink(const char *);
-#endif
 
 #endif /*HAVE_UNISTD_H*/
 #endif /* _WIN32 */
