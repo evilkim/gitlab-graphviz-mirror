@@ -306,11 +306,6 @@ dot gv
 #dot png
 #dot ps
 
-Courier
-=
-#dot png
-dot ps
-
 #Helvetica
 #=
 #dot png

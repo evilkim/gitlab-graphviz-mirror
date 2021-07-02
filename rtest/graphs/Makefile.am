@@ -72,7 +72,6 @@ GRAPH_FILES = \
 	colorscheme.gv \
 	colors.gv \
 	compound.gv \
-	Courier.gv \
 	crazy.gv \
 	ctext.gv \
 	dd.gv \
