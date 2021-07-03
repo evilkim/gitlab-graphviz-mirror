@@ -306,7 +306,7 @@ static char *strdup_and_subst_obj0 (char *str, void *obj, int escBackslash)
 	    }
 	    break;
 	case AGNODE:
-	    g_str = agnameof(agraphof((node_t *)obj));
+	    g_str = agnameof(agraphof(obj));
 	    n_str = agnameof((node_t *)obj);
 	    tl = ND_label((node_t *)obj);
 	    if (tl) {

@@ -2064,7 +2064,7 @@ int make_html_label(void *obj, textlabel_t * lp)
 	env.g = ((Agraph_t *) obj)->root;
 	break;
     case AGNODE:
-	env.g = agraphof(((Agnode_t *) obj));
+	env.g = agraphof(obj);
 	break;
     case AGEDGE:
 	env.g = agraphof(aghead(((Agedge_t *) obj)));
