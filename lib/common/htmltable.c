@@ -1894,10 +1894,10 @@ static char *nameOf(void *obj, agxbuf * xb)
     Agedge_t *ep;
     switch (agobjkind(obj)) {
     case AGRAPH:
-	agxbput(xb, agnameof(((Agraph_t *) obj)));
+	agxbput(xb, agnameof(obj));
 	break;
     case AGNODE:
-	agxbput(xb, agnameof(((Agnode_t *) obj)));
+	agxbput(xb, agnameof(obj));
 	break;
     case AGEDGE:
 	ep = (Agedge_t *) obj;
