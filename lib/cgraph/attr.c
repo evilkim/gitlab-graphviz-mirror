@@ -106,8 +106,7 @@ static Agdatadict_t *agmakedatadict(Agraph_t * g)
     Agraph_t *par;
     Agdatadict_t *parent_dd, *dd;
 
-    dd = (Agdatadict_t *) agbindrec(g, DataDictName, sizeof(Agdatadict_t),
-				    FALSE);
+    dd = agbindrec(g, DataDictName, sizeof(Agdatadict_t), FALSE);
     dd->dict.n = agdtopen(g, &AgDataDictDisc, Dttree);
     dd->dict.e = agdtopen(g, &AgDataDictDisc, Dttree);
     dd->dict.g = agdtopen(g, &AgDataDictDisc, Dttree);

@@ -190,8 +190,7 @@ void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
     Dict_t *dict;
     pending_cb_t *handle;
 
-    pending =
-	(pendingset_t *) agbindrec(g, DRName, sizeof(pendingset_t), FALSE);
+    pending = agbindrec(g, DRName, sizeof(pendingset_t), FALSE);
 
     switch (kind) {
     case CB_INITIALIZE:
@@ -258,9 +257,7 @@ static void agrelease_callbacks(Agraph_t * g)
     pendingset_t *pending;
     if (NOT(g->clos->callbacks_enabled)) {
 	g->clos->callbacks_enabled = TRUE;
-	pending =
-	    (pendingset_t *) agbindrec(g, DRName, sizeof(pendingset_t),
-				       FALSE);
+	pending = agbindrec(g, DRName, sizeof(pendingset_t), FALSE);
 	/* this destroys objects in the opposite of their order of creation */
 	cb(pending->ins.g, CB_INITIALIZE);
 	cb(pending->ins.n, CB_INITIALIZE);
