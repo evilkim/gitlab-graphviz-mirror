@@ -531,14 +531,14 @@ static void dot_end_graph(GVJ_t *job)
 	case FORMAT_DOT:
 	case FORMAT_CANON:
 	    if (!(job->flags & OUTPUT_NOT_REQUIRED))
-		agwrite(g, (FILE*)job);
+		agwrite(g, job);
 	    break;
 	case FORMAT_XDOT:
 	case FORMAT_XDOT12:
 	case FORMAT_XDOT14:
 	    xdot_end_graph(g);
 	    if (!(job->flags & OUTPUT_NOT_REQUIRED))
-		agwrite(g, (FILE*)job);
+		agwrite(g, job);
 	    break;
     }
     g->clos->disc.io = io_save;

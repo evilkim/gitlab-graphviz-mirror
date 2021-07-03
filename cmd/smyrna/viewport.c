@@ -591,7 +591,7 @@ int save_graph_with_file_name(Agraph_t * graph, char *fileName)
 	return 0;
     }
 
-    ret = agwrite(graph, (void *) output_file);
+    ret = agwrite(graph, output_file);
     fclose (output_file);
     if (ret) {
 	g_print("%s successfully saved \n", fileName);
