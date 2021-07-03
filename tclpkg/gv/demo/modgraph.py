@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-# display the kernel module dependencies
+"""
+display the kernel module dependencies
 
-# author: Michael Hohn <mhhohn@lbl.gov>
-#  based on: modgraph.tcl by John Ellson <ellson@research.att.com>
+author: Michael Hohn <mhhohn@lbl.gov>
+ based on: modgraph.tcl by John Ellson <ellson@research.att.com>
+"""
 
 import gv # pylint: disable=import-error
 
