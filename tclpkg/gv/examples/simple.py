@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import gv
+
+import gv # pylint: disable=import-error
 
 # create a new empty graph
 G = gv.digraph("G")

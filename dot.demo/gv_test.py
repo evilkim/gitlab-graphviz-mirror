@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import gv
+import gv # pylint: disable=import-error
 
 g = gv.digraph("G")
 n = gv.node(g,"hello")

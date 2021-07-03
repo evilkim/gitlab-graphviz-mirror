@@ -5,7 +5,7 @@
 # author: Michael Hohn <mhhohn@lbl.gov>
 #  based on: modgraph.tcl by John Ellson <ellson@research.att.com>
 
-import gv
+import gv # pylint: disable=import-error
 
 modules = open("/proc/modules", "r").readlines()
 
