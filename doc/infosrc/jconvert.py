@@ -6,7 +6,7 @@ import json
 from json2html import json2html
 
 
-def main():
+def main(): # pylint: disable=missing-function-docstring
   parser = argparse.ArgumentParser(description="Converts a json file to a html file")
   parser.add_argument("input", type=argparse.FileType("rt"), help="Input file")
   parser.add_argument("output", type=argparse.FileType("wt"), help="Output file")

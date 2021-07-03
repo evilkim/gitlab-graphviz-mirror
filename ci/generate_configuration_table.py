@@ -11,7 +11,7 @@ import json
 import sys
 import re
 
-def main():
+def main(): # pylint: disable=missing-function-docstring
   supported_output_formats = [
       "JSON",
       "HTML",

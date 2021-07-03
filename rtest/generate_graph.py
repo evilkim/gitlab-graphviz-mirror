@@ -145,7 +145,7 @@ def process(args: List[str], g: Graph, timeout: Optional[int]) -> Result:
     return run(args + [src], timeout)
 
 
-def main(args: List[str]) -> int:
+def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # parse command line arguments
   parser = argparse.ArgumentParser(description="Graphviz graph generator")
