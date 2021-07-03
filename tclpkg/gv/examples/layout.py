@@ -15,10 +15,10 @@ def main():
   # do something with the layout
   n = gv.firstnode(G)
   while n:
-    print("node "+gv.nameof(n)+" is at "+gv.getv(n,"pos"))
+    print(f"node {gv.nameof(n)} is at {gv.getv(n, 'pos')}")
     e = gv.firstout(n)
     while e:
-      print("edge "+gv.nameof(gv.tailof(e))+"->"+gv.nameof(gv.headof(e))+" is at "+gv.getv(e,"pos"))
+      print(f"edge {gv.nameof(gv.tailof(e))}->{gv.nameof(gv.headof(e))} is at {gv.getv(e, 'pos')}")
       e = gv.nextout(n, e)
     n = gv.nextnode(G, n)
 
