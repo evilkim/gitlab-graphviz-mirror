@@ -148,7 +148,7 @@ char *agstrdup_html(Agraph_t * g, const char *s)
     return r->s;
 }
 
-int agstrfree(Agraph_t * g, char *s)
+int agstrfree(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;

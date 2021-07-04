@@ -306,7 +306,7 @@ CGRAPH_API char *agstrdup(Agraph_t *, const char *);
 CGRAPH_API char *agstrdup_html(Agraph_t *, const char *);
 CGRAPH_API int aghtmlstr(const char *);
 CGRAPH_API char *agstrbind(Agraph_t * g, const char *);
-CGRAPH_API int agstrfree(Agraph_t *, char *);
+CGRAPH_API int agstrfree(Agraph_t *, const char *);
 CGRAPH_API char *agcanon(char *, int);
 CGRAPH_API char *agstrcanon(char *, char *);
 CGRAPH_API char *agcanonStr(char *str);  /* manages its own buf */
