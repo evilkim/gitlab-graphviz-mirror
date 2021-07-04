@@ -27,8 +27,6 @@ REFERENCE_FILES = \
 	colorscheme_dot.ps \
 	colors_dot.ps \
 	compound_dot.gv \
-	Courier_dot.png \
-	Courier_dot.ps \
 	crazy_dot.png \
 	crazy_dot.ps \
 	decorate_dot.png \
