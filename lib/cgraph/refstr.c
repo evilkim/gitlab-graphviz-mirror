@@ -62,10 +62,19 @@ int agstrclose(Agraph_t * g)
     return agdtclose(g, refdict(g));
 }
 
-static refstr_t *refsymbind(Dict_t * strdict, char *s)
+static refstr_t *refsymbind(Dict_t * strdict, const char *s)
 {
     refstr_t key, *r;
-    key.s = s;
+// Suppress Clang/GCC -Wcast-qual warning. Casting away const here is acceptable
+// as dtsearch does not modify its input key.
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#endif
+    key.s = (char*)s;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
     r = dtsearch(strdict, &key);
     return r;
 }
