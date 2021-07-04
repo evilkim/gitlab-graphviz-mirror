@@ -665,7 +665,7 @@ static usershape_t *gvusershape_open (const char *name)
     if (! (us = gvusershape_find(name))) {
         us = zmalloc(sizeof(usershape_t));
 
-	us->name = agstrdup (0, (char*)name);
+	us->name = agstrdup(0, name);
 	if (!gvusershape_file_access(us)) {
 	    freeUsershape (us);
 	    return NULL;
