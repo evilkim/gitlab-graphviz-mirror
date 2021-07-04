@@ -89,7 +89,7 @@ static char *refstrbind(Dict_t * strdict, const char *s)
 	return NULL;
 }
 
-char *agstrbind(Agraph_t * g, char *s)
+char *agstrbind(Agraph_t * g, const char *s)
 {
     return refstrbind(refdict(g), s);
 }
