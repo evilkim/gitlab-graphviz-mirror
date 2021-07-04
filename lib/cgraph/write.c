@@ -44,8 +44,10 @@ static int indent(Agraph_t * g, iochan_t * ofile)
     return 0;
 }
 
-    /* alphanumeric, '.', '-', or non-ascii; basically, chars used in unquoted ids */
-#define is_id_char(c) (isalnum(c) || ((c) == '.') || ((c) == '-') || !isascii(c))
+// alphanumeric, '.', '-', or non-ascii; basically, chars used in unquoted ids
+static bool is_id_char(char c) {
+  return isalnum(c) || c == '.' || c == '-' || !isascii(c);
+}
 
 /* _agstrcanon:
  * Canonicalize ordinary strings. 
