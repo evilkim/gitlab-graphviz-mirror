@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - the CMake build system now enables `-Wextra` when building C++
+- some Cgraph functions that take `char*` arguments that they do not modify have
+  been updated to take `const char*` arguments #634
 
 ## [2.48.0] - 2021-07-17
 

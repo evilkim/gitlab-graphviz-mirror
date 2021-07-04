@@ -94,7 +94,7 @@ char *agstrbind(Agraph_t * g, char *s)
     return refstrbind(refdict(g), s);
 }
 
-char *agstrdup(Agraph_t * g, char *s)
+char *agstrdup(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;
