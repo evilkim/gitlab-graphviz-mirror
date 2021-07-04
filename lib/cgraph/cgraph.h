@@ -304,7 +304,7 @@ CGRAPH_API int agobjkind(void *);
 /* strings */
 CGRAPH_API char *agstrdup(Agraph_t *, const char *);
 CGRAPH_API char *agstrdup_html(Agraph_t *, const char *);
-CGRAPH_API int aghtmlstr(char *);
+CGRAPH_API int aghtmlstr(const char *);
 CGRAPH_API char *agstrbind(Agraph_t * g, char *);
 CGRAPH_API int agstrfree(Agraph_t *, char *);
 CGRAPH_API char *agcanon(char *, int);

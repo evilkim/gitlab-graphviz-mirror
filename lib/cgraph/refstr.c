@@ -173,13 +173,13 @@ int agstrfree(Agraph_t * g, char *s)
  * Return true if s is an HTML string.
  * We assume s points to the datafield store[0] of a refstr.
  */
-int aghtmlstr(char *s)
+int aghtmlstr(const char *s)
 {
-    refstr_t *key;
+    const refstr_t *key;
 
     if (s == NULL)
 	return 0;
-    key = (refstr_t *) (s - offsetof(refstr_t, store[0]));
+    key = (const refstr_t *) (s - offsetof(refstr_t, store[0]));
     return key->is_html;
 }
 
