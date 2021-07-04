@@ -79,7 +79,7 @@ static refstr_t *refsymbind(Dict_t * strdict, const char *s)
     return r;
 }
 
-static char *refstrbind(Dict_t * strdict, char *s)
+static char *refstrbind(Dict_t * strdict, const char *s)
 {
     refstr_t *r;
     r = refsymbind(strdict, s);
