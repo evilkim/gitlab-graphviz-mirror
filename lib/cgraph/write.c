@@ -158,7 +158,7 @@ char *agstrcanon(char *arg, char *buf)
 	return _agstrcanon(arg, buf);
 }
 
-static char *getoutputbuffer(char *str)
+static char *getoutputbuffer(const char *str)
 {
     static char *rv;
     static size_t len = 0;
