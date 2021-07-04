@@ -139,7 +139,7 @@ static char *_agstrcanon(char *arg, char *buf)
 /* agcanonhtmlstr:
  * Canonicalize html strings. 
  */
-static char *agcanonhtmlstr(char *arg, char *buf)
+static char *agcanonhtmlstr(const char *arg, char *buf)
 {
     sprintf(buf, "<%s>", arg);
     return buf;
