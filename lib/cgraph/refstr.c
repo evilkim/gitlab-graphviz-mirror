@@ -121,7 +121,7 @@ char *agstrdup(Agraph_t * g, const char *s)
     return r->s;
 }
 
-char *agstrdup_html(Agraph_t * g, char *s)
+char *agstrdup_html(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;
