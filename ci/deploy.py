@@ -12,6 +12,7 @@ import hashlib
 import json
 import logging
 import os
+from pathlib import Path
 import re
 import shutil
 import stat
@@ -22,14 +23,14 @@ from typing import Generator, List, Optional
 # logging output stream, setup in main()
 log = None
 
-def upload(version: str, path: str, name: Optional[str] = None) -> str:
+def upload(version: str, path: Path, name: Optional[str] = None) -> str:
   """
   upload a file to the Graphviz generic package with the given version
   """
 
   # use the path as the name if no other was given
   if name is None:
-    name = path
+    name = str(path)
 
   # Gitlab upload file_name field only allows letters, numbers, dot, dash, and
   # underscore
@@ -62,34 +63,34 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
 
   return target
 
-def checksum(path: str) -> Generator[str, None, None]:
+def checksum(path: Path) -> Generator[Path, None, None]:
   """generate checksum(s) for the given file"""
 
-  assert os.path.exists(path)
+  assert path.exists()
 
   log.info(f"MD5 summing {path}")
-  check = f"{path}.md5"
+  check = Path(f"{path}.md5")
   with open(check, "wt") as f:
     with open(path, "rb") as data:
       f.write(f"{hashlib.md5(data.read()).hexdigest()}  {path}\n")
   yield check
 
   log.info(f"SHA256 summing {path}")
-  check = f"{path}.sha256"
+  check = Path(f"{path}.sha256")
   with open(check, "wt") as f:
     with open(path, "rb") as data:
       f.write(f"{hashlib.sha256(data.read()).hexdigest()}  {path}\n")
   yield check
 
-def is_macos_artifact(path: str) -> bool:
+def is_macos_artifact(path: Path) -> bool:
   """is this a deployment artifact for macOS?"""
-  return re.search(r"\bDarwin\b", path) is not None
+  return re.search(r"\bDarwin\b", str(path)) is not None
 
-def is_windows_artifact(path: str) -> bool:
+def is_windows_artifact(path: Path) -> bool:
   """is this a deployment artifact for Windows?"""
-  return re.search(r"\bwindows\b", path) is not None
+  return re.search(r"\bwindows\b", str(path)) is not None
 
-def main(args: List[str]) -> int:
+def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # setup logging to print to stderr
   global log
@@ -117,7 +118,7 @@ def main(args: List[str]) -> int:
 
   # echo some useful things for debugging
   log.info(f"os.uname(): {os.uname()}")
-  if os.path.exists("/etc/os-release"):
+  if Path("/etc/os-release").exists():
     with open("/etc/os-release") as f:
       log.info("/etc/os-release:")
       for i, line in enumerate(f, 1):
@@ -159,14 +160,14 @@ def main(args: List[str]) -> int:
     "archives":[],
   }
 
-  for tarball in (f"graphviz-{gv_version}.tar.gz",
-                  f"graphviz-{gv_version}.tar.xz"):
+  for tarball in (Path(f"graphviz-{gv_version}.tar.gz"),
+                  Path(f"graphviz-{gv_version}.tar.xz")):
 
-    if not os.path.exists(tarball):
+    if not tarball.exists():
       log.error(f"source {tarball} not found")
       return -1
 
-    webentry = {"format":os.path.splitext(tarball)[-1][1:]}
+    webentry = {"format":tarball.suffix[1:]}
 
     # accrue the source tarball and accompanying checksum(s)
     url = upload(package_version, tarball)
@@ -175,27 +176,27 @@ def main(args: List[str]) -> int:
     for check in checksum(tarball):
       url = upload(package_version, check)
       assets.append(url)
-      webentry[os.path.splitext(check)[-1][1:]] = url
+      webentry[check.suffix[1:]] = url
 
     webdata["archives"].append(webentry)
 
   for stem, _, leaves in os.walk("Packages"):
     for leaf in leaves:
-      path = os.path.join(stem, leaf)
+      path = Path(stem) / leaf
 
       # get existing permissions
-      mode = os.stat(path).st_mode
+      mode = path.stat().st_mode
 
       # fixup permissions, o-rwx g-wx
       os.chmod(path, mode & ~stat.S_IRWXO & ~stat.S_IWGRP & ~stat.S_IXGRP)
 
-      assets.append(upload(package_version, path, path[len("Packages/"):]))
+      assets.append(upload(package_version, path, str(path)[len("Packages/"):]))
 
       # if this is a standalone Windows or macOS package, also provide
       # checksum(s)
       if is_macos_artifact(path) or is_windows_artifact(path):
         for c in checksum(path):
-          assets.append(upload(package_version, c, c[len("Packages/"):]))
+          assets.append(upload(package_version, c, str(c)[len("Packages/"):]))
 
   # we only create Gitlab releases for stable version numbers
   if not options.force:
