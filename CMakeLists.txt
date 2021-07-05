@@ -11,6 +11,7 @@ option(with_ortho      "ORTHO features in neato layout engine." ON )
 option(with_sfdp       "sfdp layout engine." ON )
 option(with_smyrna     "SMYRNA large graph viewer (disabled by default - experimental)" OFF)
 option(use_sanitizers  "enables using address and undefined behavior sanitizer" OFF)
+option(with_cxx_tests  "enables building the C++ tests" OFF)
 
 if (enable_ltdl)
         add_definitions(-DENABLE_LTDL)
@@ -224,10 +225,16 @@ include(InstallRequiredSystemLibraries)
 include(package_info)
 include(CPack)
 
+# ==================================== Test ====================================
+Include(CTest)
+
 # ======================= Specify subdirectories to build ======================
 add_subdirectory(lib)
 add_subdirectory(plugin)
 add_subdirectory(cmd)
+if (with_cxx_tests)
+    add_subdirectory(tests)
+endif()
 
 MATH(EXPR GRAPHVIZ_PLUGIN_VERSION "${GRAPHVIZ_PLUGIN_VERSION}+1")
 set(GVPLUGIN_VERSION "${GRAPHVIZ_PLUGIN_VERSION}")
