@@ -191,7 +191,7 @@ Agraph_t *agraphof(void *obj)
     case AGNODE:
 	return ((Agnode_t *) obj)->root;
     case AGRAPH:
-	return (Agraph_t *) obj;
+	return obj;
     default:			/* actually can't occur if only 2 bit tags */
 	agerr(AGERR, "agraphof a bad object");
 	return NULL;
