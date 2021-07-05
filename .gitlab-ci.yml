@@ -452,7 +452,7 @@ ubuntu21-04-cmake-build:
     variables:
       IMAGE: ubuntu-21.04
 
-ubuntu21-04-cmake-ASan-build:
+ubuntu21-04-cmake-ASan-build-for-ctest:
     <<: *deb_build_definition
     needs:
         - job: docker_build_ubuntu-21.04
@@ -466,6 +466,26 @@ ubuntu21-04-cmake-ASan-build:
         - export CXXFLAGS=-Werror
         - export CMAKE_OPTIONS="-Duse_sanitizers=ON"
         - echo experimental > COLLECTION
+    # override the deb_build_definition artifacts since we need more
+    # files from the build directory when running ctest in the test
+    # stage.
+    artifacts:
+        when: on_success
+        expire_in: 1 week
+        paths:
+            # archive all shared libraries produced directly by "cmake
+            # --build" (but not those in the install directory that
+            # cpack has copied). In the test stage, the test
+            # executables load them from those directory locations
+            # since LD_LIBRARY_PATH is automatically set up to contain
+            # them.
+            - build/lib/**/lib*.so.*
+            - build/plugin/**/lib*.so.*
+            # the packages need to be installed for the post-install tests
+            - Packages/*/*/*/*/*/*deb
+            - Metadata/*/*/*/configure.log
+        reports:
+            metrics: metrics.txt
     tags:
         - linux
     variables:
@@ -792,7 +812,7 @@ ubuntu21.04-cmake-ASan-test:
     needs:
         - job: portable-source
           artifacts: true
-        - job: "ubuntu21-04-cmake-ASan-build"
+        - job: "ubuntu21-04-cmake-ASan-build-for-ctest"
           artifacts: true
     tags:
         - linux
