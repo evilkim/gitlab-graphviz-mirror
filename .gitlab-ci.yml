@@ -237,7 +237,15 @@ portable-source:
         - export OS_ID=$( cat OS_ID )
         - ci/test_coverage.py --init
         - pushd build
+        # Use GVBINDIR to specify where to generate and load config6
+        # since ctest sets LD_LIBRARY_PATH to point to all the
+        # locations where the libs reside before cpack copies them to
+        # the install directory. Without this Graphviz tries to use
+        # the directory lib/gvc/graphviz which does not exist.
+        - export GVBINDIR=$(pwd)/plugin/dot_layout
+        - cmd/dot/dot -v -c
         - ctest --output-on-failure
+        - unset GVBINDIR
         - popd
         - ci/install-packages.sh
         # Many of the tests run by pytest currently trigger ASan
