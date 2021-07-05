@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <cgraph/likely.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +26,7 @@ void *zmalloc(size_t nbytes)
 void *zrealloc(void *ptr, size_t size, size_t elt, size_t osize)
 {
     void *p = realloc(ptr, size * elt);
-    if (p == NULL && size) {
+    if (UNLIKELY(p == NULL && size)) {
 	fprintf(stderr, "out of memory\n");
 	exit(EXIT_FAILURE);
     }
@@ -37,7 +38,7 @@ void *zrealloc(void *ptr, size_t size, size_t elt, size_t osize)
 void *gcalloc(size_t nmemb, size_t size)
 {
     char *rv = calloc(nmemb, size);
-    if (rv == NULL) {
+    if (UNLIKELY(rv == NULL)) {
 	fprintf(stderr, "out of memory\n");
 	exit(EXIT_FAILURE);
     }
@@ -50,7 +51,7 @@ void *gmalloc(size_t nbytes)
     if (nbytes == 0)
 	return NULL;
     rv = malloc(nbytes);
-    if (rv == NULL) {
+    if (UNLIKELY(rv == NULL)) {
 	fprintf(stderr, "out of memory\n");
 	exit(EXIT_FAILURE);
     }
@@ -60,7 +61,7 @@ void *gmalloc(size_t nbytes)
 void *grealloc(void *ptr, size_t size)
 {
     void *p = realloc(ptr, size);
-    if (p == NULL && size) {
+    if (UNLIKELY(p == NULL && size)) {
 	fprintf(stderr, "out of memory\n");
 	exit(EXIT_FAILURE);
     }
