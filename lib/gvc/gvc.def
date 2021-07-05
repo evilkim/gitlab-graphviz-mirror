@@ -300,7 +300,6 @@ zmalloc
 zrealloc    
 colorxlate
 gvContextPlugins
-gvfwrite
 gvferror
 getPackInfo
 getPackModeInfo
