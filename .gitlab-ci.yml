@@ -488,7 +488,7 @@ ubuntu21-04-cmake-build:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
-        - export CMAKE_OPTIONS="-Dwith_cxx_tests=ON"
+        - export CMAKE_OPTIONS="-Dwith_cxx_tests=ON -Dwith_cxx_api=ON"
         - echo experimental > COLLECTION
     tags:
         - linux
@@ -507,7 +507,7 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
-        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Duse_coverage=ON -Dwith_cxx_tests=ON "
+        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Duse_coverage=ON -Dwith_cxx_tests=ON -Dwith_cxx_api=ON"
         - echo experimental > COLLECTION
     # override the deb_build_definition artifacts since we need more
     # files from the build directory when running ctest in the test
