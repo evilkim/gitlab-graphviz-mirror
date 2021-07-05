@@ -13,7 +13,7 @@
 
 #include <sparse/SparseMatrix.h>
 
-void country_graph_coloring(int seed, SparseMatrix A, int **p, real *norm_1);
+void country_graph_coloring(int seed, SparseMatrix A, int **p);
 
 void improve_antibandwidth_by_swapping(SparseMatrix A, int *p);
 

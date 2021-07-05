@@ -541,18 +541,6 @@ void spring_electrical_embedding_fast(int dim, SparseMatrix A0, spring_electrica
     //start2 = clock();
 #endif
 
-#ifdef GVIEWER
-    if (Gviewer){
-      char lab[100];
-      snprintf(lab, sizeof(lab), "sfdp, iter=%d", iter);
-      gviewer_set_label(lab);
-      gviewer_reset_graph_coord(A, dim, x);
-      drawScene();
-      gviewer_dump_current_frame();
-      //if ((adaptive_cooling && iter%100 == 0) || (!adaptive_cooling && iter%10 == 0)) gviewer_dump_current_frame();
-    }
-#endif
-
     iter++;
     memcpy(xold, x, sizeof(real)*dim*n);
     Fnorm0 = Fnorm;
@@ -1013,18 +1001,6 @@ void spring_electrical_embedding(int dim, SparseMatrix A0, spring_electrical_con
     export_embedding(f, dim, A, x, NULL);
     fclose(f);
   }
-#endif
-#ifdef GVIEWER
-    if (Gviewer){
-      char lab[100];
-      snprintf(lab, sizeof(lab), "sfdp, adaptive_cooling = %d iter=%d",
-               adaptive_cooling, iter);
-      gviewer_set_label(lab);
-      gviewer_reset_graph_coord(A, dim, x);
-      drawScene();
-      gviewer_dump_current_frame();
-      //if ((adaptive_cooling && iter%100 == 0) || (!adaptive_cooling && iter%10 == 0)) gviewer_dump_current_frame();
-    }
 #endif
 
     iter++;
@@ -2003,7 +1979,7 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
     assert(!(*flag));
     attach_edge_label_coordinates(dim, A, n_edge_label_nodes, edge_label_nodes, x, x2);
     remove_overlap(dim, A, x, label_sizes, ctrl->overlap, ctrl->initial_scaling,
-		   ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking, flag);
+		   ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking);
     SparseMatrix_delete(A2);
     FREE(x2);
     if (A != A0) SparseMatrix_delete(A);
@@ -2123,7 +2099,7 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
 
 
   remove_overlap(dim, A, x, label_sizes, ctrl->overlap, ctrl->initial_scaling,
-		 ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking, flag);
+		 ctrl->edge_labeling_scheme, n_edge_label_nodes, edge_label_nodes, A, ctrl->do_shrinking);
 
  RETURN:
   *ctrl = ctrl0;
@@ -2133,53 +2109,7 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
   Multilevel_delete(grid0);
 }
 
-#ifdef GVIEWER
-struct multilevel_spring_electrical_embedding_data {
-  int dim;
-  SparseMatrix A;
-  SparseMatrix D;
-  spring_electrical_control ctrl;
-  real *node_weights;
-  real *label_sizes;
-  real *x;
-  int n_edge_label_nodes;
-  int *edge_label_nodes;
-  int *flag;
-};
-
-void multilevel_spring_electrical_embedding_gv(void* data){
-  struct multilevel_spring_electrical_embedding_data* d;
-
-  d = (struct multilevel_spring_electrical_embedding_data*) data;
-  multilevel_spring_electrical_embedding_core(d->dim, d->A, d->D, d->ctrl, d->node_weights, d->label_sizes, d->x, d->n_edge_label_nodes, d->edge_label_nodes, d->flag);
-  gviewer_reset_graph_coord(d->A, d->dim, d->x);/* A inside spring_electrical gets deleted */
-}
-void multilevel_spring_electrical_embedding(int dim, SparseMatrix A, SparseMatrix D, spring_electrical_control ctrl, real *node_weights, real *label_sizes,
-				 real *x, int n_edge_label_nodes, int *edge_label_nodes, int *flag){
-  struct multilevel_spring_electrical_embedding_data data = {dim, A, D, ctrl, node_weights, label_sizes, x, n_edge_label_nodes, edge_label_nodes, flag};
-
-  int argcc = 1;
-  char **argvv;
-
-  if (!Gviewer) return multilevel_spring_electrical_embedding_core(dim, A, D, ctrl, node_weights, label_sizes, x, n_edge_label_nodes, edge_label_nodes, flag);
-
-  argcc = 1;
-  argvv = malloc(sizeof(char*)*argcc);
-  argvv[0] = malloc(sizeof(char));
-  argvv[0][0] = '1';
-
-  gviewer_set_edge_color_scheme(COLOR_SCHEME_NO);
-  //gviewer_set_edge_color_scheme(COLOR_SCHEME_MEDIAN_AS_GREEN);
-  gviewer_toggle_bgcolor();
-  //gviewer_toggle_vertex();
-  //gviewer_init(&argcc, argvv, 0.01, 20, 60, 2*1010, 2*770, A, dim, x, &(data), multilevel_spring_electrical_embedding_gv);
-  gviewer_init(&argcc, argvv, 0.01, 20, 60, 320, 320, A, dim, x, &(data), multilevel_spring_electrical_embedding_gv);
-  free(argvv);
-
-}
-#else
 void multilevel_spring_electrical_embedding(int dim, SparseMatrix A, SparseMatrix D, spring_electrical_control ctrl, real *node_weights, real *label_sizes,
 				 real *x, int n_edge_label_nodes, int *edge_label_nodes, int *flag){
   multilevel_spring_electrical_embedding_core(dim, A, D, ctrl, node_weights, label_sizes, x, n_edge_label_nodes, edge_label_nodes, flag);
 }
-#endif

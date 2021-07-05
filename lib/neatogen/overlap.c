@@ -539,7 +539,7 @@ static int check_convergence(real max_overlap, real res, int has_penalty_terms, 
 }
 
 void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntry, real initial_scaling, 
-		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int do_shrinking, int *flag){
+		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int do_shrinking){
   /* 
      edge_labeling_scheme: if ELSCHEME_NONE, n_constr_nodes/constr_nodes/A_constr are not used
 
@@ -583,8 +583,6 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
   }
 
   if (!ntry) return;
-
-  *flag = 0;
 
 #ifdef DEBUG
   _statistics[0] = _statistics[1] = 0.;
@@ -640,7 +638,7 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
   if (has_penalty_terms){
     /* now do without penalty */
     remove_overlap(dim, A, x, label_sizes, ntry, 0.,
-		   ELSCHEME_NONE, 0, NULL, NULL, do_shrinking, flag);
+		   ELSCHEME_NONE, 0, NULL, NULL, do_shrinking);
   }
 
 #ifdef DEBUG
@@ -672,7 +670,7 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
 #include <common/types.h>
 #include <sparse/SparseMatrix.h>
 void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntry, real initial_scaling,
-		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int do_shrinking, int *flag)
+		    int edge_labeling_scheme, int n_constr_nodes, int *constr_nodes, SparseMatrix A_constr, int do_shrinking)
 {
     static int once;
 
@@ -687,7 +685,6 @@ void remove_overlap(int dim, SparseMatrix A, real *x, real *label_sizes, int ntr
     (void)constr_nodes;
     (void)A_constr;
     (void)do_shrinking;
-    (void)flag;
 
     if (once == 0) {
 	once = 1;
