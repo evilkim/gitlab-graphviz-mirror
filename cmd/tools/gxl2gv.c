@@ -14,6 +14,7 @@
 #ifdef HAVE_EXPAT
 #include    <expat.h>
 #include    <ctype.h>
+#include    <stdbool.h>
 
 #ifndef XML_STATUS_ERROR
 #define XML_STATUS_ERROR 0
@@ -279,7 +280,8 @@ static void setName(Dt_t * names, Agobj_t * n, char *value)
 static char *defval = "";
 
 static void
-setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud)
+setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud,
+  bool is_html)
 {
     Agsym_t *ap;
 
@@ -289,7 +291,13 @@ setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud)
 	ap = agattr(root, AGNODE, name, 0);
 	if (!ap)
 	    ap = agattr(root, AGNODE, name, defval);
-	agxset(np, ap, value);
+	if (is_html) {
+	    char *val = agstrdup_html(root, value);
+	    agxset(np, ap, val);
+	    agstrfree(root, val); // drop the extra reference count we bumped for val
+	} else {
+	    agxset(np, ap, value);
+	}
     }
 }
 
@@ -395,7 +403,7 @@ static void setAttr(char *name, char *value, userdata_t * ud)
 	setGraphAttr(G, name, value, ud);
 	break;
     case TAG_NODE:
-	setNodeAttr(N, name, value, ud);
+	setNodeAttr(N, name, value, ud, false);
 	break;
     case TAG_EDGE:
 	setEdgeAttr(E, name, value, ud);
