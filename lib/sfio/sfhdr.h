@@ -40,20 +40,6 @@ extern "C" {
 #	undef  _LARGEFILE64_SOURCE
 #endif
 
-/* when building the binary compatibility package, a number of header files
-   are not needed and they may get in the way so we remove them here.
-*/
-#ifdef _SFBINARY_H
-#undef  HAVE_SYS_ST
-#undef  HAVE_STAT_H
-#undef  _stream_peek
-#undef  _socket_peek
-#undef  HAVE_VFORK_H
-#undef  _HAVE_SYS_VFORK_H
-#undef  HAVE_VFORK
-#undef  HAVE_SYS_IOCTL_H
-#endif
-
 #include	<limits.h>
 #include	<stdlib.h>
 #include	<string.h>
@@ -85,21 +71,6 @@ extern "C" {
 
 #define SFMTXSTART(f,v)		{ if(!f) return(v); }
 #define SFMTXRETURN(f,v)	{ return(v); }
-
-/* alternative process forking */
-#if defined(HAVE_VFORK) && !defined(fork) && !defined(sparc) && !defined(__sparc)
-#ifdef HAVE_VFORK_H
-#include	<vfork.h>
-#endif
-#ifdef HAVE_SYS_VFORK_H
-#include	<sys/vfork.h>
-#endif
-#define fork	vfork
-#endif
-
-#ifdef HAVE_UNLINK
-#define remove	unlink
-#endif
 
 /* 64-bit vs 32-bit file stuff */
 #ifdef HAVE_SYS_STAT_H
@@ -208,19 +179,6 @@ extern "C" {
 #define SF_CREATMODE	0666
 #endif
 
-/* set close-on-exec */
-#ifdef F_SETFD
-#	ifndef FD_CLOEXEC
-#		define FD_CLOEXEC	1
-#	endif			/*FD_CLOEXEC */
-#	define SETCLOEXEC(fd)		((void)fcntl((fd),F_SETFD,FD_CLOEXEC))
-#else
-#	ifdef FIOCLEX
-#		define SETCLOEXEC(fd)	((void)ioctl((fd),FIOCLEX,0))
-#	else
-#		define SETCLOEXEC(fd)
-#	endif /*FIOCLEX*/
-#endif				/*F_SETFD */
 /* a couple of error number that we use, default values are like Linux */
 #ifndef EINTR
 #define EINTR	4
@@ -231,24 +189,12 @@ extern "C" {
 #ifndef EAGAIN
 #define EAGAIN	11
 #endif
-#ifndef ENOMEM
-#define ENOMEM	12
-#endif
 #ifndef EINVAL
 #define EINVAL	22
-#endif
-#ifndef ESPIPE
-#define ESPIPE	29
 #endif
 /* function to get the decimal point for local environment */
 #ifdef MAXFLOAT			/* we don't need these, so we zap them to avoid compiler warnings */
 #undef MAXFLOAT
-#endif
-#ifdef MAXSHORT
-#undef MAXSHORT
-#endif
-#ifdef MAXLONG
-#undef MAXLONG
 #endif
 #include	<locale.h>
 #define SFSETLOCALE(decimal,thousand) \
@@ -650,10 +596,6 @@ extern "C" {
     extern char *_sfcvt(void *, int, int *, int *, int);
     extern char **_sfgetpath(char *);
 
-#ifndef errno
-    extern int errno;
-#endif
-
 #ifdef _WIN32
 #undef SF_ERROR
 #include <io.h>
@@ -672,12 +614,6 @@ extern "C" {
     extern uint sleep(uint);
     extern int execl(const char *, const char *, ...);
     extern int execv(const char *, char **);
-#ifndef fork
-    extern int fork(void);
-#endif
-#ifdef HAVE_UNLINK
-    extern int unlink(const char *);
-#endif
 
 #endif /*HAVE_UNISTD_H*/
 #endif /* _WIN32 */
@@ -685,10 +621,6 @@ extern "C" {
 #ifdef HAVE_SYS_STAT_H
     extern int fstat(int, Stat_t *);
 #endif
-
-#if defined(HAVE_VFORK) && !defined(HAVE_VFORK_H) && !defined(_HAVE_SYS_VFORK_H)
-    extern pid_t vfork(void);
-#endif /*HAVE_VFORK*/
 
 #endif /*_SFHDR_H*/
 #ifdef __cplusplus
