@@ -526,6 +526,8 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
             - build/plugin/**/lib*.so.*
             # the coverage analysis needs the .gcno files
             - build/**/*.gcno
+            # the dot program is needed to configure the plugins before running pre-install tests
+            - build/cmd/dot/dot
             # the packages need to be installed for the post-install tests
             - Packages/*/*/*/*/*/*deb
             - Metadata/*/*/*/configure.log
