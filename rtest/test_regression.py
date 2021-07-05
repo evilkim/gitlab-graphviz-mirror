@@ -1042,6 +1042,53 @@ def test_2082():
   # this bug has been reintroduced
   subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
 
+@pytest.mark.xfail(strict=True)
+@pytest.mark.parametrize("html_like_first", (False, True))
+def test_2089(html_like_first: bool): # FIXME
+  """
+  HTML-like and non-HTML-like strings should peacefully coexist
+  https://gitlab.com/graphviz/graphviz/-/issues/2089
+  """
+
+  # a graph using an HTML-like string and a non-HTML-like string
+  if html_like_first:
+    graph = 'graph {\n'           \
+            '  a[label=<foo>];\n' \
+            '  b[label="foo"];\n' \
+            '}'
+  else:
+    graph = 'graph {\n'           \
+            '  a[label="foo"];\n' \
+            '  b[label=<foo>];\n' \
+            '}'
+
+  # normalize the graph
+  p = subprocess.Popen(["dot", "-Tdot"], stdin=subprocess.PIPE,
+                       stdout=subprocess.PIPE, universal_newlines=True)
+  canonical, _ = p.communicate(graph)
+
+  assert p.returncode == 0
+
+  assert 'label=foo' in canonical, "non-HTML-like label not found"
+  assert "label=<foo>" in canonical, "HTML-like label not found"
+
+@pytest.mark.xfail(strict=True) # FIXME
+def test_2089_2():
+  """
+  HTML-like and non-HTML-like strings should peacefully coexist
+  https://gitlab.com/graphviz/graphviz/-/issues/2089
+  """
+
+  # find co-located test source
+  c_src = (Path(__file__).parent / "2089.c").resolve()
+  assert c_src.exists(), "missing test case"
+
+  # run it
+  ret, stdout, stderr = run_c(c_src, link=["cgraph"])
+  sys.stdout.write(stdout)
+  sys.stderr.write(stderr)
+  assert ret == 0
+
 def test_package_version():
   """
   The graphviz_version.h header should define a non-empty PACKAGE_VERSION
