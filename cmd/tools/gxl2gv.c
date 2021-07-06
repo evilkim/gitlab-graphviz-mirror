@@ -325,7 +325,8 @@ setGlobalNodeAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
 }
 
 static void
-setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud)
+setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud,
+  bool is_html)
 {
     Agsym_t *ap;
     char *attrname;
@@ -352,7 +353,13 @@ setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud)
 	    ap = agattr(root, AGEDGE, name, defval);
     }
 
-    agxset(ep, ap, value);
+    if (is_html) {
+	char *val = agstrdup_html(root, value);
+	agxset(ep, ap, val);
+	agstrfree(root, val); // drop the extra reference count we bumped for val
+    } else {
+	agxset(ep, ap, value);
+    }
 }
 
 /* setGlobalEdgeAttr:
@@ -405,7 +412,7 @@ static void setAttr(char *name, char *value, userdata_t * ud)
 	setNodeAttr(N, name, value, ud, false);
 	break;
     case TAG_EDGE:
-	setEdgeAttr(E, name, value, ud);
+	setEdgeAttr(E, name, value, ud, false);
 	break;
     }
 }
@@ -517,17 +524,17 @@ startElementHandler(void *userData, const char *name, const char **atts)
 
 	pos = get_xml_attr("fromorder", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_FROM, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_FROM, (char *) atts[pos], ud, false);
 	}
 
 	pos = get_xml_attr("toorder", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_TO, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_TO, (char *) atts[pos], ud, false);
 	}
 
 	pos = get_xml_attr("id", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_ID, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_ID, (char *) atts[pos], ud, false);
 	}
     } else if (strcmp(name, "attr") == 0) {
 	const char *attrname = atts[get_xml_attr("name", atts)];
