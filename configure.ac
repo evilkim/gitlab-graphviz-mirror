@@ -317,7 +317,7 @@ AC_C_INLINE
 dnl ===========================================================================
 dnl Set GCC compiler flags
 
-if [test "${GCC}" == "yes"]
+if [ test "${GCC}" = "yes" ]
 then
   # Enable common warnings flags
   CFLAGS="${CFLAGS} -Wall"
