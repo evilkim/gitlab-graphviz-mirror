@@ -414,6 +414,8 @@ static void setAttr(char *name, char *value, userdata_t * ud, bool is_html)
     case TAG_EDGE:
 	setEdgeAttr(E, name, value, ud, is_html);
 	break;
+    default:
+	break;
     }
 }
 
