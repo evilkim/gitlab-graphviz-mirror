@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix a typo `GD_LIBS` to `GDLIB_LIBS` in `tclpkg/tcldot/Makefile.am` !2022
 - Autotools build system sets libgd variables now instead of incorrectly setting
   GTK variables
+- HTML strings used as labels are distinguishable in GXL output by
+  `kind="HTML-like string"`
 
 ## [2.47.3] - 2021-06-19
 
