@@ -237,6 +237,8 @@ portable-source:
         - export GV_VERSION=$( cat VERSION )
         - export OS_ID=$( cat OS_ID )
         - pushd build
+        # FIXME: remove detect_odr_violation=0 when https://gitlab.com/graphviz/graphviz/-/issues/2096 has been fixed
+        - export ASAN_OPTIONS=detect_odr_violation=0
         - ctest --output-on-failure
         - popd
         # Many of the tests run by pytest currently trigger ASan
