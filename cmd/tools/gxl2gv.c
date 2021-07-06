@@ -35,10 +35,12 @@
 #define GXL_COMP    "_gxl_composite_"
 #define GXL_LOC     "_gxl_locator_"
 
-#define	TAG_NONE	-1
-#define	TAG_GRAPH	0
-#define TAG_NODE	1
-#define TAG_EDGE	2
+typedef enum {
+  TAG_NONE,
+  TAG_GRAPH,
+  TAG_NODE,
+  TAG_EDGE,
+} attr_t;
 
 typedef struct slist slist;
 struct slist {
@@ -105,15 +107,15 @@ typedef struct userdata {
     agxbuf composite_buffer;
     slist *elements;
     int listen;
-    int closedElementType;
-    int globalAttrType;
+    attr_t closedElementType;
+    attr_t globalAttrType;
     int compositeReadState;
     int edgeinverted;
     Dt_t *nameMap;
 } userdata_t;
 
 static Agraph_t *root;		/* root graph */
-static int Current_class;	/* Current element type */
+static attr_t Current_class;	/* Current element type */
 static Agraph_t *G;		/* Current graph */
 static Agnode_t *N;		/* Set if Current_class == TAG_NODE */
 static Agedge_t *E;		/* Set if Current_class == TAG_EDGE */
