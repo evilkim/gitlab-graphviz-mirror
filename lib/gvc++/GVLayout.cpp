@@ -7,8 +7,7 @@
 #include "GVLayout.h"
 #include "GVRenderData.h"
 #include <cgraph++/AGraph.h>
-#include <gvc++/GVContext.h>
-#include <gvc++/GVLayout.h>
+#include <gvc/gvc.h>
 
 namespace GVC {
 
@@ -32,6 +31,21 @@ GVLayout::~GVLayout() {
     return;
   }
   gvFreeLayout(m_gvc->c_struct(), m_g->c_struct());
+}
+
+GVRenderData GVLayout::render(const std::string &format) const {
+  char *result = nullptr;
+  unsigned int length = 0;
+  const auto rc = gvRenderData(m_gvc->c_struct(), m_g->c_struct(),
+                               format.c_str(), &result, &length);
+  if (rc) {
+    if (result) {
+      gvFreeRenderData(result);
+    }
+    throw std::runtime_error("Rendering failed");
+  }
+
+  return GVRenderData(result, length);
 }
 
 } // namespace GVC

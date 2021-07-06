@@ -2,8 +2,9 @@
 
 #include <memory>
 
-#include "cgraph++/AGraph.h"
-#include "gvc++/GVContext.h"
+#include "GVContext.h"
+#include "GVRenderData.h"
+#include <cgraph++/AGraph.h>
 
 #ifdef _WIN32
 #if gvc___EXPORTS // CMake's substitution of gvc++_EXPORTS
@@ -34,6 +35,9 @@ public:
   // default move since we manage resources through movable types
   GVLayout(GVLayout &&) = default;
   GVLayout &operator=(GVLayout &&) = default;
+
+  // render the layout in the specified format
+  GVRenderData render(const std::string &format) const;
 
 private:
   std::shared_ptr<GVContext> m_gvc;
