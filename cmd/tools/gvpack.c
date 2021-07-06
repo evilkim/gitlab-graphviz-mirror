@@ -336,10 +336,13 @@ static void cloneDfltAttrs(Agraph_t *old, Agraph_t *new, int kind)
     Agsym_t *a;
 
     for (a = agnxtattr(old, kind, 0); a; a =  agnxtattr(old, kind, a)) {
-	if (aghtmlstr(a->defval))
-	    agattr (new, kind, a->name, agstrdup_html(new, a->defval));
-	else
+	if (aghtmlstr(a->defval)) {
+	    char *s = agstrdup_html(new, a->defval);
+	    agattr(new, kind, a->name, s);
+	    agstrfree(new, s); // drop the extra reference count we bumped for s
+	} else {
 	    agattr (new, kind, a->name, a->defval);
+	}
     }
 }
 static void cloneAttrs(void *old, void *new)
@@ -352,10 +355,13 @@ static void cloneAttrs(void *old, void *new)
 
     for (a = agnxtattr(g, kind, 0); a; a =  agnxtattr(g, kind, a)) {
 	s = agxget (old, a);
-	if (aghtmlstr(s))
-	    agset(new, a->name, agstrdup_html(ng, s));
-	else
+	if (aghtmlstr(s)) {
+	    char *scopy = agstrdup_html(ng, s);
+	    agset(new, a->name, scopy);
+	    agstrfree(ng, scopy); // drop the extra reference count we bumped for scopy
+	} else {
 	    agset(new, a->name, s);
+	}
     }
 }
 
