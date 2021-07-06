@@ -40,6 +40,7 @@ typedef enum {
   TAG_GRAPH,
   TAG_NODE,
   TAG_EDGE,
+  TAG_HTML_LIKE_STRING,
 } attr_t;
 
 typedef struct slist slist;
@@ -553,6 +554,8 @@ startElementHandler(void *userData, const char *name, const char **atts)
 		ud->globalAttrType = TAG_EDGE;
 	    else if (strcmp("graph", atts[pos]) == 0)
 		ud->globalAttrType = TAG_GRAPH;
+	    else if (strcmp("HTML-like string", atts[pos]) == 0)
+		ud->globalAttrType = TAG_HTML_LIKE_STRING;
 	} else {
 	    ud->globalAttrType = TAG_NONE;
 	}
@@ -653,6 +656,9 @@ static void endElementHandler(void *userData, const char *name)
 	    break;
 	case TAG_GRAPH:
 	    setGraphAttr(G, name, value, ud);
+	    break;
+	case TAG_HTML_LIKE_STRING:
+	    setAttr(name, value, ud, true);
 	    break;
 	}
 	free(dynbuf);
