@@ -402,17 +402,17 @@ setGraphAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
     }
 }
 
-static void setAttr(char *name, char *value, userdata_t * ud)
+static void setAttr(char *name, char *value, userdata_t * ud, bool is_html)
 {
     switch (Current_class) {
     case TAG_GRAPH:
 	setGraphAttr(G, name, value, ud);
 	break;
     case TAG_NODE:
-	setNodeAttr(N, name, value, ud, false);
+	setNodeAttr(N, name, value, ud, is_html);
 	break;
     case TAG_EDGE:
-	setEdgeAttr(E, name, value, ud, false);
+	setEdgeAttr(E, name, value, ud, is_html);
 	break;
     }
 }
@@ -566,7 +566,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
     } else if (strcmp(name, "type") == 0) {
 	pos = get_xml_attr("xlink:href", atts);
 	if (pos > 0) {
-	    setAttr(GXL_TYPE, (char *) atts[pos], ud);
+	    setAttr(GXL_TYPE, (char *) atts[pos], ud, false);
 	}
     } else if (strcmp(name, "locator") == 0) {
 	pos = get_xml_attr("xlink:href", atts);
@@ -639,7 +639,7 @@ static void endElementHandler(void *userData, const char *name)
 
 	switch (ud->globalAttrType) {
 	case TAG_NONE:
-	    setAttr(name, value, ud);
+	    setAttr(name, value, ud, false);
 	    break;
 	case TAG_NODE:
 	    setGlobalNodeAttr(G, name, value, ud);
