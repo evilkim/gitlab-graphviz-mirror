@@ -211,7 +211,7 @@ portable-source:
         - Packages/*/*/*/*/*/*/*.zip
         reports:
             metrics: metrics.txt
-            junit: ./report.xml
+            junit: report.xml
     tags:
         - windows
     except:
@@ -226,7 +226,7 @@ portable-source:
         - python3 -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
     artifacts:
         reports:
-            junit: ./report.xml
+            junit: report.xml
     except:
         - tags
 
