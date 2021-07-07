@@ -358,7 +358,3 @@ Dtmethod_t		_Dttree = { dttree, DT_OSET };
 Dtmethod_t* Dtorder = &_Dttree;
 Dtmethod_t* Dttree = &_Dttree;
 #endif
-
-#ifdef NoF
-NoF(dttree)
-#endif

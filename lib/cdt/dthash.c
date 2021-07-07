@@ -330,7 +330,3 @@ Dtmethod_t* Dtbag = &_Dtbag;
 Dtmethod_t		_Dthash = { dthash, DT_SET };
 Dtmethod_t* Dthash = &_Dthash;
 #endif
-
-#ifdef NoF
-NoF(dthash)
-#endif
