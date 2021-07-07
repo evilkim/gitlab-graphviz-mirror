@@ -95,8 +95,6 @@ extern "C" {
 
 	char *t_str;		/* type string                          */
 	ssize_t n_str;		/* length of t_str                      */
-
-	void *noop;		/* as yet unused                        */
     };
 #define sffmtversion(fe,type) \
 		(type ? ((fe)->version = SFIO_VERSION) : (fe)->version)
