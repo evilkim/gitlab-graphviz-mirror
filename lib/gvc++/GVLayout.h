@@ -29,6 +29,8 @@ public:
   GVLayout(GVContext &&gvc, CGraph::AGraph &&g, const std::string &engine);
   GVLayout(std::shared_ptr<GVContext> gvc, CGraph::AGraph &&g,
            const std::string &engine);
+  GVLayout(GVContext &&gvc, std::shared_ptr<CGraph::AGraph> g,
+           const std::string &engine);
   ~GVLayout();
 
   // default copy since we manage resources through movable types

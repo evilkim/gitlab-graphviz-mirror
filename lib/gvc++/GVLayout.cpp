@@ -34,6 +34,10 @@ GVLayout::GVLayout(std::shared_ptr<GVContext> gvc, CGraph::AGraph &&g,
                    const std::string &engine)
     : GVLayout(gvc, std::make_shared<CGraph::AGraph>(std::move(g)), engine) {}
 
+GVLayout::GVLayout(GVContext &&gvc, std::shared_ptr<CGraph::AGraph> g,
+                   const std::string &engine)
+    : GVLayout(std::make_shared<GVContext>(std::move(gvc)), g, engine) {}
+
 GVLayout::~GVLayout() {
   // m_gvc and m_g always either both point to an object or both are null
   assert((m_gvc != nullptr && m_g != nullptr) ||
