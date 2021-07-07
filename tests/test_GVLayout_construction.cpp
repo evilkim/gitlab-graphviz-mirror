@@ -98,6 +98,27 @@ TEST_CASE("Creating a second layout for the same graph without destroying the "
   REQUIRE_THROWS_AS(GVC::GVLayout(gvc2, g, "dot"), std::runtime_error);
 }
 
+TEST_CASE("Layout of a graph can use on-demand loaded plugins and pass the "
+          "context and the graph as rvalue refs)") {
+  auto gvc = GVC::GVContext();
+
+  auto dot = "graph {}";
+  auto g = CGraph::AGraph(dot);
+
+  const auto layout = GVC::GVLayout(std::move(gvc), std::move(g), "dot");
+}
+
+TEST_CASE("Layout of a graph can use built-in plugins and pass the context and "
+          "the graph as rvalue refs)") {
+  const auto demand_loading = false;
+  auto gvc = GVC::GVContext(lt_preloaded_symbols, demand_loading);
+
+  auto dot = "graph {}";
+  auto g = CGraph::AGraph(dot);
+
+  const auto layout = GVC::GVLayout(std::move(gvc), std::move(g), "dot");
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
