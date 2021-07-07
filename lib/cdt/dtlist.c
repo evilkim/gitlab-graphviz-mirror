@@ -168,13 +168,10 @@ static void* dtlist(Dt_t* dt, void* obj, int type)
 	return r ? _DTOBJ(r,lk) : NULL;
 }
 
-#ifndef KPVDEL	/* to be remove next round */
-#define static 
-#endif
-static Dtmethod_t _Dtlist  = { dtlist, DT_LIST  };
-static Dtmethod_t _Dtdeque  = { dtlist, DT_DEQUE  };
-static Dtmethod_t _Dtstack = { dtlist, DT_STACK };
-static Dtmethod_t _Dtqueue = { dtlist, DT_QUEUE };
+Dtmethod_t _Dtlist  = { dtlist, DT_LIST  };
+Dtmethod_t _Dtdeque  = { dtlist, DT_DEQUE  };
+Dtmethod_t _Dtstack = { dtlist, DT_STACK };
+Dtmethod_t _Dtqueue = { dtlist, DT_QUEUE };
 
 Dtmethod_t* Dtlist = &_Dtlist;
 Dtmethod_t* Dtdeque = &_Dtdeque;

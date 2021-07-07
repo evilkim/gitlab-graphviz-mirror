@@ -170,8 +170,6 @@ CDT_API extern Dtmethod_t*	Dtstack;
 CDT_API extern Dtmethod_t*	Dtqueue;
 CDT_API extern Dtmethod_t*	Dtdeque;
 
-/* compatibility stuff; will go away */
-#ifndef KPVDEL
 CDT_API extern Dtmethod_t*	Dtorder;
 CDT_API extern Dtmethod_t*	Dttree;
 CDT_API extern Dtmethod_t*	Dthash;
@@ -180,7 +178,6 @@ CDT_API extern Dtmethod_t	_Dthash;
 CDT_API extern Dtmethod_t	_Dtlist;
 CDT_API extern Dtmethod_t	_Dtqueue;
 CDT_API extern Dtmethod_t	_Dtstack;
-#endif
 
 CDT_API Dt_t*		dtopen(Dtdisc_t*, Dtmethod_t*);
 CDT_API int		dtclose(Dt_t*);
