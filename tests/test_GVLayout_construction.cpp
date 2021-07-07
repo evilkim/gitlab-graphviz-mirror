@@ -119,6 +119,23 @@ TEST_CASE("Layout of a graph can use built-in plugins and pass the context and "
   const auto layout = GVC::GVLayout(std::move(gvc), std::move(g), "dot");
 }
 
+TEST_CASE("Layout of multiple graphs can use the same context and pass the "
+          "graphs as rvalue refs") {
+  const auto demand_loading = false;
+  auto gvc = std::make_shared<GVC::GVContext>(
+      GVC::GVContext(lt_preloaded_symbols, demand_loading));
+
+  auto dot1 = "graph {}";
+  auto g1 = CGraph::AGraph(dot1);
+
+  const auto layout1 = GVC::GVLayout(gvc, std::move(g1), "dot");
+
+  auto dot2 = "graph {}";
+  auto g2 = CGraph::AGraph(dot2);
+
+  const auto layout2 = GVC::GVLayout(gvc, std::move(g2), "dot");
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
