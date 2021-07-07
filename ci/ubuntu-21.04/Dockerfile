@@ -83,6 +83,7 @@ python3-pip \
 python3-setuptools \
 gcovr \
 # Libraries used in test
+catch2 \
 libboost-dev \
 libsvgpp-dev \
 # install Python dependencies
