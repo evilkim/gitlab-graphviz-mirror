@@ -47,6 +47,22 @@ TEST_CASE("A layout can be move constructed") {
   auto other{std::move(layout)};
 }
 
+TEST_CASE("Layout of multiple graphs can use the same context") {
+  const auto demand_loading = false;
+  auto gvc =
+      std::make_shared<GVC::GVContext>(lt_preloaded_symbols, demand_loading);
+
+  auto dot1 = "graph {a}";
+  auto g1 = std::make_shared<CGraph::AGraph>(dot1);
+
+  const auto layout1 = GVC::GVLayout(gvc, g1, "dot");
+
+  auto dot2 = "graph {b}";
+  auto g2 = std::make_shared<CGraph::AGraph>(dot2);
+
+  const auto layout2 = GVC::GVLayout(gvc, g2, "dot");
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
