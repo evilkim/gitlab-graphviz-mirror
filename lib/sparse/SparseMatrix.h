@@ -45,11 +45,10 @@ SparseMatrix SparseMatrix_general_new(int m, int n, int nz, int type, size_t sz,
 
 /* this version sum repeated entries */
 SparseMatrix SparseMatrix_from_coordinate_format(SparseMatrix A);
-/* what_to_sum is SUM_REPEATED_NONE, SUM_REPEATED_ALL, SUM_REPEATED_REAL_PART, SUM_REPEATED_IMAGINARY_PART, SUM_IMGINARY_KEEP_LAST_REAL*/
-SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A, int what_to_sum);
+SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A);
 
 SparseMatrix SparseMatrix_from_coordinate_arrays(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz);
-SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz, int what_to_sum);
+SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val, int type, size_t sz);
 
 
 void SparseMatrix_print(char *, SparseMatrix A);/*print to stdout in Mathematica format*/
@@ -62,15 +61,7 @@ SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B);
 SparseMatrix SparseMatrix_multiply(SparseMatrix A, SparseMatrix B);
 SparseMatrix SparseMatrix_multiply3(SparseMatrix A, SparseMatrix B, SparseMatrix C);
 
-/* For complex matrix:
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the x's if {i,j,Round(y)} are the same
-   if what_to_sum = SUM_REPEATED_IMAGINARY_PART, we find entries {i,j,x + i y} and sum the y's if {i,j,Round(x)} are the same
-   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as what_to_sum = SUM_REPEATED_IMAGINARY_PART
-   or what_to_sum = SUM_REPEATED_ALL
-   if what_to_sum = SUM_IMGINARY_KEEP_LAST_REAL, we merge {i,j,R1,I1} and {i,j,R2,I2} into {i,j,R1+R2,I2}. Useful if I1 and I2 are time stamps, 
-   .   and we use this to indicate that a user watched R1+R2 seconds, last watch is I2.
-*/
-enum {SUM_REPEATED_NONE = 0, SUM_REPEATED_ALL, SUM_REPEATED_REAL_PART, SUM_REPEATED_IMAGINARY_PART, SUM_IMGINARY_KEEP_LAST_REAL};
+enum {SUM_REPEATED_NONE = 0, SUM_REPEATED_ALL, };
 SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum);
 SparseMatrix SparseMatrix_coordinate_form_add_entries(SparseMatrix A, int nentries, int *irn, int *jcn, void *val);
 int SparseMatrix_is_symmetric(SparseMatrix A, int test_pattern_symmetry_only);
@@ -82,7 +73,7 @@ SparseMatrix SparseMatrix_remove_diagonal(SparseMatrix A);
 SparseMatrix SparseMatrix_remove_upper(SparseMatrix A);/* remove diag and upper diag */
 SparseMatrix SparseMatrix_divide_row_by_degree(SparseMatrix A);
 SparseMatrix SparseMatrix_get_real_adjacency_matrix_symmetrized(SparseMatrix A);  /* symmetric, all entries to 1, diaginal removed */
-void SparseMatrix_multiply_dense(SparseMatrix A, int ATranspose, real *v, int vTransposed, real **res, int res_transpose, int dim);
+void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int dim);
 SparseMatrix SparseMatrix_apply_fun(SparseMatrix A, double (*fun)(double x));/* for real only! */
 SparseMatrix SparseMatrix_copy(SparseMatrix A);
 int SparseMatrix_has_diagonal(SparseMatrix A);

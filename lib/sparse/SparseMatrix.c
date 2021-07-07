@@ -714,7 +714,7 @@ SparseMatrix SparseMatrix_from_coordinate_format(SparseMatrix A){
   return SparseMatrix_from_coordinate_arrays(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size);
 
 }
-SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A, int what_to_sum){
+SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A){
   /* convert a sparse matrix in coordinate form to one in compressed row form.*/
   int *irn, *jcn;
 
@@ -726,8 +726,7 @@ SparseMatrix SparseMatrix_from_coordinate_format_not_compacted(SparseMatrix A, i
   }
   irn = A->ia;
   jcn = A->ja;
-  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size, what_to_sum);
-
+  return SparseMatrix_from_coordinate_arrays_not_compacted(A->nz, A->m, A->n, irn, jcn, a, A->type, A->size);
 }
 
 static SparseMatrix SparseMatrix_from_coordinate_arrays_internal(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz, int sum_repeated){
@@ -864,8 +863,8 @@ SparseMatrix SparseMatrix_from_coordinate_arrays(int nz, int m, int n, int *irn,
 }
 
 
-SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz, int what_to_sum){
-  return SparseMatrix_from_coordinate_arrays_internal(nz, m, n, irn, jcn, val0, type, sz, what_to_sum);
+SparseMatrix SparseMatrix_from_coordinate_arrays_not_compacted(int nz, int m, int n, int *irn, int *jcn, void *val0, int type, size_t sz){
+  return SparseMatrix_from_coordinate_arrays_internal(nz, m, n, irn, jcn, val0, type, sz, SUM_REPEATED_NONE);
 }
 
 SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B){
@@ -1000,27 +999,9 @@ SparseMatrix SparseMatrix_add(SparseMatrix A, SparseMatrix B){
   return C;
 }
 
-
-
-static void dense_transpose(real *v, int m, int n){
-  /* transpose an m X n matrix in place. Well, we do no really do it without xtra memory. This is possibe, but too complicated for ow */
-  int i, j;
-  real *u;
-  u = MALLOC(sizeof(real)*((size_t) m)*((size_t) n));
-  memcpy(u,v, sizeof(real)*((size_t) m)*((size_t) n));
-
-  for (i = 0; i < m; i++){
-    for (j = 0; j < n; j++){
-      v[j*m+i] = u[i*n+j];
-    }
-  }
-  FREE(u);
-}
-
-
-static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim, int transposed, int res_transposed){
-  /* A v or A^T v where v a dense matrix of second dimension dim. Real only for now. */
-  int i, j, k, *ia, *ja, n, m;
+static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, int dim){
+  /* A v where v a dense matrix of second dimension dim. Real only for now. */
+  int i, j, k, *ia, *ja, m;
   real *a, *u;
 
   assert(A->format == FORMAT_CSR);
@@ -1030,94 +1011,25 @@ static void SparseMatrix_multiply_dense1(SparseMatrix A, real *v, real **res, in
   ia = A->ia;
   ja = A->ja;
   m = A->m;
-  n = A->n;
   u = *res;
 
-  if (!transposed){
-    if (!u) u = MALLOC(sizeof(real)*((size_t) m)*((size_t) dim));
-    for (i = 0; i < m; i++){
-      for (k = 0; k < dim; k++) u[i*dim+k] = 0.;
-      for (j = ia[i]; j < ia[i+1]; j++){
-	for (k = 0; k < dim; k++) u[i*dim+k] += a[j]*v[ja[j]*dim+k];
-      }
+  if (!u) u = MALLOC(sizeof(real)*((size_t) m)*((size_t) dim));
+  for (i = 0; i < m; i++){
+    for (k = 0; k < dim; k++) u[i*dim+k] = 0.;
+    for (j = ia[i]; j < ia[i+1]; j++){
+      for (k = 0; k < dim; k++) u[i*dim+k] += a[j]*v[ja[j]*dim+k];
     }
-    if (res_transposed) dense_transpose(u, m, dim);
-  } else {
-    if (!u) u = MALLOC(sizeof(real)*((size_t) n)*((size_t) dim));
-    for (i = 0; i < n*dim; i++) u[i] = 0.;
-    for (i = 0; i < m; i++){
-      for (j = ia[i]; j < ia[i+1]; j++){
-	for (k = 0; k < dim; k++) u[ja[j]*dim + k] += a[j]*v[i*dim + k];
-      }
-    }
-    if (res_transposed) dense_transpose(u, n, dim);
   }
 
   *res = u;
-
-
 }
 
-static void SparseMatrix_multiply_dense2(SparseMatrix A, real *v, real **res, int dim, int transposed, int res_transposed){
-  /* A v^T or A^T v^T where v a dense matrix of second dimension n or m. Real only for now.
-     transposed = FALSE: A*V^T, with A dimension m x n, V dimension dim x n, v[i*n+j] gives V[i,j]. Result of dimension m x dim
-     transposed = TRUE: A^T*V^T, with A dimension m x n, V dimension dim x m. v[i*m+j] gives V[i,j]. Result of dimension n x dim
-  */
-  real *u, *rr;
-  int i, m, n;
-  assert(A->format == FORMAT_CSR);
-  assert(A->type == MATRIX_TYPE_REAL);
-  u = *res;
-  m = A->m;
-  n = A->n;
-
-  if (!transposed){
-    if (!u) u = MALLOC(sizeof(real)*((size_t)m)*((size_t) dim));
-    for (i = 0; i < dim; i++){
-      rr = &(u[m*i]);
-      SparseMatrix_multiply_vector(A, &(v[n*i]), &rr, transposed);
-    }
-    if (!res_transposed) dense_transpose(u, dim, m);
-  } else {
-    if (!u) u = MALLOC(sizeof(real)*((size_t)n)*((size_t)dim));
-    for (i = 0; i < dim; i++){
-      rr = &(u[n*i]);
-      SparseMatrix_multiply_vector(A, &(v[m*i]), &rr, transposed);
-    }
-    if (!res_transposed) dense_transpose(u, dim, n);
-  }
-
-  *res = u;
-
-
-}
-
-
-
-void SparseMatrix_multiply_dense(SparseMatrix A, int ATransposed, real *v, int vTransposed, real **res, int res_transposed, int dim){
-  /* depend on value of {ATranspose, vTransposed}, assume res_transposed == FALSE
-     {FALSE, FALSE}: A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
-     {TRUE, FALSE}: A^T * V, with A dimension m x n, with V of dimension m x dim. v[i*dim+j] gives V[i,j]. Result of dimension n x dim
-     {FALSE, TRUE}: A*V^T, with A dimension m x n, V dimension dim x n, v[i*n+j] gives V[i,j]. Result of dimension m x dim
-     {TRUE, TRUE}: A^T*V^T, with A dimension m x n, V dimension dim x m. v[i*m+j] gives V[i,j]. Result of dimension n x dim
- 
-     furthermore, if res_transpose d== TRUE, then the result is transposed. Hence if res_transposed == TRUE
-
-     {FALSE, FALSE}: V^T A^T, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension dim x dim
-     {TRUE, FALSE}: V^T A, with A dimension m x n, with V of dimension m x dim. v[i*dim+j] gives V[i,j]. Result of dimension dim x n
-     {FALSE, TRUE}: V*A^T, with A dimension m x n, V dimension dim x n, v[i*n+j] gives V[i,j]. Result of dimension dim x m
-     {TRUE, TRUE}: V A, with A dimension m x n, V dimension dim x m. v[i*m+j] gives V[i,j]. Result of dimension dim x n
+void SparseMatrix_multiply_dense(SparseMatrix A, real *v, real **res, int dim){
+  /* A * V, with A dimension m x n, with V of dimension n x dim. v[i*dim+j] gives V[i,j]. Result of dimension m x dim
  */
 
-  if (!vTransposed) {
-    SparseMatrix_multiply_dense1(A, v, res, dim, ATransposed, res_transposed);
-  } else {
-    SparseMatrix_multiply_dense2(A, v, res, dim, ATransposed, res_transposed);
-  }
-
+  SparseMatrix_multiply_dense1(A, v, res, dim);
 }
-
-
 
 void SparseMatrix_multiply_vector(SparseMatrix A, real *v, real **res, int transposed){
   /* A v or A^T v. Real only for now. */
@@ -1575,23 +1487,6 @@ SparseMatrix SparseMatrix_multiply3(SparseMatrix A, SparseMatrix B, SparseMatrix
 
 }
 
-/* For complex matrix:
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the x's if {i,j,Round(y)} are the same
-   if what_to_sum = SUM_REPEATED_REAL_PART, we find entries {i,j,x + i y} and sum the y's if {i,j,Round(x)} are the same
-   so a matrix like {{1,1,2+3i},{1,2,3+4i},{1,1,5+3i},{1,2,4+5i},{1,2,4+4i}} becomes
-   {{1,1,2+5+3i},{1,2,3+4+4i},{1,2,4+5i}}. 
-
-   Really this kind of thing is best handled using a 3D sparse matrix like
-   {{{1,1,3},2},{{1,2,4},3},{{1,1,3},5},{{1,2,4},4}}, 
-   which is then aggreted into
-   {{{1,1,3},2+5},{{1,2,4},3+4},{{1,1,3},5}}
-   but unfortunately I do not have such object implemented yet.
-   
-
-   For other matrix, what_to_sum = SUM_REPEATED_REAL_PART is the same as what_to_sum = SUM_REPEATED_IMAGINARY_PART
-   or what_to_sum = SUM_REPEATED_ALL. In this implementation we assume that
-   the {j,y} pairs are dense, so we usea 2D array for hashing 
-*/
 SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
   /* sum repeated entries in the same row, i.e., {1,1}->1, {1,1}->2 becomes {1,1}->3 */
   int *ia = A->ia, *ja = A->ja, type = A->type, n = A->n;
@@ -1646,97 +1541,6 @@ SparseMatrix SparseMatrix_sum_repeat_entries(SparseMatrix A, int what_to_sum){
 	  sta = ia[i+1];
 	  ia[i+1] = nz;
 	}
-      } else if (what_to_sum == SUM_IMGINARY_KEEP_LAST_REAL){
-	/* merge {i,j,R1,I1} and {i,j,R2,I2} into {i,j,R1+R2,I2}*/
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    if (mask[ja[j]] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[ja[j]] = nz++;
-	    } else {
-	      assert(ja[mask[ja[j]]] == ja[j]);
-	      a[2*mask[ja[j]]] += a[2*j];
-	      a[2*mask[ja[j]]+1] = a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-        }
-      } else if (what_to_sum == SUM_REPEATED_REAL_PART){
-	int ymin, ymax, id;
-	ymax = ymin = a[1];
-	nz = 0;
-	for (i = 0; i < A->m; i++){
-	  for (j = ia[i]; j < ia[i+1]; j++){
-	    ymax = MAX(ymax, (int) a[2*nz+1]);
-	    ymin = MIN(ymin, (int) a[2*nz+1]);
-	    nz++;
-	  }	  
-	}
-	FREE(mask);
-	mask = MALLOC(sizeof(int)*((size_t)n)*((size_t)(ymax-ymin+1)));
-	for (i = 0; i < n*(ymax-ymin+1); i++) mask[i] = -1;
-
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    id = ja[j] + ((int)a[2*j+1] - ymin)*n;
-	    if (mask[id] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[id] = nz++;
-	    } else {
-	      assert(id < n*(ymax-ymin+1));
-	      assert(ja[mask[id]] == ja[j]);
-	      a[2*mask[id]] += a[2*j];
-	      a[2*mask[id]+1] = a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-	}
-	
-      } else if (what_to_sum == SUM_REPEATED_IMAGINARY_PART){
-	int xmin, xmax, id;
-	xmax = xmin = a[1];
-	nz = 0;
-	for (i = 0; i < A->m; i++){
-	  for (j = ia[i]; j < ia[i+1]; j++){
-	    xmax = MAX(xmax, (int) a[2*nz]);
-	    xmin = MAX(xmin, (int) a[2*nz]);
-	    nz++;
-	  }	  
-	}
-	FREE(mask);
-	mask = MALLOC(sizeof(int)*((size_t)n)*((size_t)(xmax-xmin+1)));
-	for (i = 0; i < n*(xmax-xmin+1); i++) mask[i] = -1;
-
-	nz = 0;
-	sta = ia[0];
-	for (i = 0; i < A->m; i++){
-	  for (j = sta; j < ia[i+1]; j++){
-	    id = ja[j] + ((int)a[2*j] - xmin)*n;
-	    if (mask[id] < ia[i]){
-	      ja[nz] = ja[j];
-	      a[2*nz] = a[2*j];
-	      a[2*nz+1] = a[2*j+1];
-	      mask[id] = nz++;
-	    } else {
-	      assert(ja[mask[id]] == ja[j]);
-	      a[2*mask[id]] = a[2*j];
-	      a[2*mask[id]+1] += a[2*j+1];
-	    }
-	  }
-	  sta = ia[i+1];
-	  ia[i+1] = nz;
-	}
-
       }
     }
     break;

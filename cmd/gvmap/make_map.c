@@ -396,7 +396,7 @@ static void get_tri(int n, int dim, real *x, int *nt, struct Triangle **T, Spars
     A = matrix_add_entry(A, i2, i0, i);
   }
 
-  B = SparseMatrix_from_coordinate_format_not_compacted(A, SUM_REPEATED_NONE);
+  B = SparseMatrix_from_coordinate_format_not_compacted(A);
   SparseMatrix_delete(A);
   B = SparseMatrix_sort(B);
   *E = B;
@@ -624,7 +624,7 @@ static void get_poly_lines(int exclude_random, int nt, SparseMatrix graph, Spars
     }/* found poly_lines for this comp */
   }
 
-  A = SparseMatrix_from_coordinate_format_not_compacted(*poly_lines, SUM_REPEATED_NONE);
+  A = SparseMatrix_from_coordinate_format_not_compacted(*poly_lines);
   SparseMatrix_delete(*poly_lines);
   *poly_lines = A;
 
@@ -747,7 +747,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
   assert(E->nz >= ne);
 
   cycle = MALLOC(sizeof(int)*ne*2);
-  B = SparseMatrix_from_coordinate_format_not_compacted(half_edges, SUM_REPEATED_NONE);
+  B = SparseMatrix_from_coordinate_format_not_compacted(half_edges);
   SparseMatrix_delete(half_edges);half_edges = B;
 
   edge_cycle_map = MALLOC(sizeof(int)*ne);
@@ -927,7 +927,7 @@ static void get_polygon_solids(int nt, SparseMatrix E, int ncomps, int *comps_pt
     /* unset edge_map */
   }
 
-  B = SparseMatrix_from_coordinate_format_not_compacted(*polys, SUM_REPEATED_NONE);
+  B = SparseMatrix_from_coordinate_format_not_compacted(*polys);
   SparseMatrix_delete(*polys);
   *polys = B;
   
