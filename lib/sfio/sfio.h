@@ -29,6 +29,7 @@ extern "C" {
 #endif // HAVE_SYS_TYPES_H
 
 #include <stdarg.h>
+#include <stdio.h>
 
 /* Sfoff_t should be large enough for largest file address */
 
@@ -119,17 +120,6 @@ extern "C" {
 #define SFFMT_IFLAG	02000000	/* 'I' flag                            */
 #define SFFMT_JFLAG	04000000	/* 'j' flag, intmax_t                  */
 #define SFFMT_SET	07777770	/* flags settable on calling extf      */
-
-/* various constants */
-#ifndef EOF
-#define EOF		(-1)
-#endif
-#ifndef SEEK_SET
-#define SEEK_SET	0
-#define SEEK_CUR	1
-#define SEEK_END	2
-#endif
-
 
 /* bits for various types of files */
 #define	SF_READ		0000001	/* open for reading                     */
