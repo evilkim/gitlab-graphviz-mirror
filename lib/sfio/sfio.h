@@ -147,10 +147,6 @@ extern "C" {
 #define SF_FLAGS	0077177	/* PUBLIC FLAGS PASSABLE TO SFNEW()     */
 #define SF_SETS		0027163	/* flags passable to sfset()            */
 
-#ifndef KPVDEL
-#define SF_BUFCONST	0400000	/* unused flag - for compatibility only */
-#endif
-
 /* exception events: SF_NEW(0), SF_READ(1), SF_WRITE(2) and the below 	*/
 #define SF_SEEK		3	/* seek error                           */
 
