@@ -30,67 +30,6 @@ extern "C" {
 
 #include <stdarg.h>
 
-#ifdef UNUSED
-/* to prevent stdio.h from being included */
-#ifndef __stdio_h__
-#define __stdio_h__	1
-#endif
-#ifndef _stdio_h_
-#define _stdio_h_	1
-#endif
-#ifndef _stdio_h
-#define _stdio_h	1
-#endif
-#ifndef __h_stdio__
-#define __h_stdio__	1
-#endif
-#ifndef _h_stdio_
-#define _h_stdio_	1
-#endif
-#ifndef _h_stdio
-#define _h_stdio	1
-#endif
-#ifndef __STDIO_H__
-#define __STDIO_H__	1
-#endif
-#ifndef _STDIO_H_
-#define _STDIO_H_	1
-#endif
-#ifndef _STDIO_H
-#define _STDIO_H	1
-#endif
-#ifndef __H_STDIO__
-#define __H_STDIO__	1
-#endif
-#ifndef _H_STDIO_
-#define _H_STDIO_	1
-#endif
-#ifndef _H_STDIO
-#define _H_STDIO	1
-#endif
-#ifndef _stdio_included
-#define _stdio_included	1
-#endif
-#ifndef _included_stdio
-#define _included_stdio	1
-#endif
-#ifndef _INCLUDED_STDIO
-#define _INCLUDED_STDIO	1
-#endif
-#ifndef _STDIO_INCLUDED
-#define _STDIO_INCLUDED	1
-#endif
-#ifndef _INC_STDIO
-#define _INC_STDIO	1
-#endif
-
-#define _FILE_DEFINED	1	/* stop Windows from defining FILE      */
-#define _FILEDEFED	1	/* stop SUNOS5.8 from defining FILE     */
-#ifndef FILE
-#define FILE	struct _sfio_s	/* because certain stdarg.h needs FILE  */
-#endif
-#endif
-
 /* Sfoff_t should be large enough for largest file address */
 
 
