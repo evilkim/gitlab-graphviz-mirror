@@ -303,7 +303,6 @@ static Fmtpos_t *sffmtpos(Sfio_t * f, const char *form, va_list args,
 	}
 
 	if (ft && ft->extf) {
-	    fp[n].ft.version = ft->version;
 	    fp[n].ft.extf = ft->extf;
 	    fp[n].ft.eventf = ft->eventf;
 	    if ((v = fp[n].need[FP_WIDTH]) >= 0 && v < n)

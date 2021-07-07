@@ -15,8 +15,6 @@ extern "C" {
 #ifndef _SFIO_H
 #define _SFIO_H	1
 
-#define SFIO_VERSION	20010201L
-
 /*	Public header file for the sfio library
 **
 **	Written by Kiem-Phong Vo
@@ -80,7 +78,6 @@ extern "C" {
     typedef int (*Sffmtext_f)(Sfio_t *, void *, Sffmt_t *);
     typedef int (*Sffmtevent_f)(Sfio_t *, int, void *, Sffmt_t *);
     struct _sffmt_s {
-	long version;		/* version of this structure            */
 	Sffmtext_f extf;	/* function to process arguments        */
 	Sffmtevent_f eventf;	/* process events                       */
 
@@ -97,8 +94,6 @@ extern "C" {
 	char *t_str;		/* type string                          */
 	ssize_t n_str;		/* length of t_str                      */
     };
-#define sffmtversion(fe,type) \
-		(type ? ((fe)->version = SFIO_VERSION) : (fe)->version)
 
 #define SFFMT_SSHORT	00000010	/* 'hh' flag, char                     */
 #define SFFMT_TFLAG	00000020	/* 't' flag, ptrdiff_t                 */
