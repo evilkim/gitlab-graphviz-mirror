@@ -26,6 +26,17 @@ TEST_CASE("Layout of a graph can use built-in plugins") {
   const auto layout = GVC::GVLayout(gvc, g, "dot");
 }
 
+TEST_CASE("A layout can be moved assigned") {
+  auto gvc = std::make_shared<GVC::GVContext>();
+
+  auto dot = "graph {a}";
+  auto g = std::make_shared<CGraph::AGraph>(dot);
+
+  auto layout = GVC::GVLayout(gvc, g, "dot");
+
+  const auto layout2 = std::move(layout);
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
