@@ -281,7 +281,7 @@ static void bindattrs(int kind)
 	for (aptr = S->attrlist.first; aptr; aptr = aptr->next) {
 		assert(aptr->tag == T_atom);	/* signifies unbound attr */
 		name = aptr->u.name;
-		if ((kind == AGEDGE) && streq(name,Key)) continue;
+		if (kind == AGEDGE && streq(name,Key)) continue;
 		if ((aptr->u.asym = agattr(S->g,kind,name,NULL)) == NULL)
 			aptr->u.asym = agattr(S->g,kind,name,"");
 		aptr->tag = T_attr;				/* signifies bound attr */
@@ -301,7 +301,7 @@ static void applyattrs(void *obj)
 			}
 		}
 		else {
-			assert((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE));
+			assert(AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE);
 			assert(aptr->tag == T_atom);
 			assert(streq(aptr->u.name,Key));
 		}

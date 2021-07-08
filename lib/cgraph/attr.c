@@ -299,7 +299,7 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 	    rv = rsym;
 	}
     }
-    if (rv && (kind == AGRAPH))
+    if (rv && kind == AGRAPH)
 	agxset(g, rv, value);
     agmethod_upd(g, g, rv);
     return rv;
