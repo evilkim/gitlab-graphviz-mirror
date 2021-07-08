@@ -432,7 +432,7 @@ char *agget(void *obj, char *name)
 	rv = 0;			/* note was "", but this provides more info */
     else {
 	data = agattrrec(obj);
-	rv = (char *) data->str[sym->id];
+	rv = data->str[sym->id];
     }
     return rv;
 }
@@ -444,7 +444,7 @@ char *agxget(void *obj, Agsym_t * sym)
 
     data = agattrrec(obj);
     assert(sym->id >= 0 && sym->id < topdictsize(obj));
-    rv = (char *) (data->str[sym->id]);
+    rv = data->str[sym->id];
     return rv;
 }
 
