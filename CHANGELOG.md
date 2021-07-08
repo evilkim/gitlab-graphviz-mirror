@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   GTK variables
 - HTML strings used as labels are distinguishable in GXL output by
   `kind="HTML-like string"`
+- a Bashism removed from the Autotools build system
+- when Criterion is available, the `command_line` test binary is no longer built
+  and installed by default, but rather during `make check`
 
 ## [2.47.3] - 2021-06-19
 
