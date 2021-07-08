@@ -1060,9 +1060,8 @@ def test_2078():
 
   assert p.returncode != 0, "layout on subgraph was incorrectly accepted"
 
-  assert "layout" in stderr.lower(), "layout not mentioned in error message"
-
-  assert "subgraph" in stderr.lower(), "subgraph not mentioned in error message"
+  assert "layout attribute is invalid except on the root graph" in stderr, \
+    "expected warning not found"
 
 def test_2082():
   """
