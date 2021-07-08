@@ -263,6 +263,8 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
     ldict = agdictof(g, kind);
     lsym = aglocaldictsym(ldict, name);
     if (lsym) {			/* update old local definition */
+	if (g != root && streq(name, "layout"))
+	    agerr(AGWARN, "layout attribute is invalid except on the root graph\n");
 	agstrfree(g, lsym->defval);
 	lsym->defval = agstrdup(g, value);
 	rv = lsym;

@@ -1038,7 +1038,6 @@ def test_2057():
   ret, _, _ = run_c(c_src, link=["gvc"])
   assert ret == 0
 
-@pytest.mark.xfail(strict=True)
 def test_2078():
   """
   Incorrectly using the "layout" attribute on a subgraph should result in a
