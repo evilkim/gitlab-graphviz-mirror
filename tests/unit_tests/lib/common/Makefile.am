@@ -16,7 +16,7 @@ AM_LDFLAGS = \
 
 TESTS = command_line
 
-bin_PROGRAMS = $(TESTS)
+check_PROGRAMS = $(TESTS)
 
 command_line_SOURCES = command_line.c
 command_line_CPPFLAGS = $(AM_CPPFLAGS) -DDEMAND_LOADING=1
