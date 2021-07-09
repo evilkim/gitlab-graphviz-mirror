@@ -1057,10 +1057,10 @@ docker_push_ubuntu-21.04:
     - docker_build_ubuntu-21.04
 
 lint_pylint:
-  image: "$CI_REGISTRY_IMAGE/ubuntu-20.10:$CI_COMMIT_SHA"
+  image: "$CI_REGISTRY_IMAGE/ubuntu-21.04:$CI_COMMIT_SHA"
   stage: test
   needs:
-    - docker_build_ubuntu-20.10
+    - docker_build_ubuntu-21.04
   script:
     - logfile=`mktemp`
     - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero |& tee $logfile
