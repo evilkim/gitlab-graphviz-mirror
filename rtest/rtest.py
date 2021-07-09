@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-#
-# Graphviz regression test driver
-#
-# Also relies on strps.awk.
-#
-# TODO:
-#  Report differences with shared version and with new output.
+
+"""
+Graphviz regression test driver
+
+Also relies on strps.awk.
+
+TODO:
+ Report differences with shared version and with new output.
+"""
 
 import filecmp
 import os

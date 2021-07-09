@@ -1,4 +1,4 @@
-# tests that examples provided with Graphviz compile correctly
+"""tests that examples provided with Graphviz compile correctly"""
 
 import os
 from pathlib import Path

@@ -1057,16 +1057,17 @@ docker_push_ubuntu-21.04:
     - docker_build_ubuntu-21.04
 
 lint_pylint:
-  image: "$CI_REGISTRY_IMAGE/ubuntu-20.10:$CI_COMMIT_SHA"
+  image: "$CI_REGISTRY_IMAGE/ubuntu-21.04:$CI_COMMIT_SHA"
   stage: test
   needs:
-    - docker_build_ubuntu-20.10
+    - docker_build_ubuntu-21.04
   script:
     - logfile=`mktemp`
     - python3 -m pylint --rcfile=.pylintrc `find . -name '*.py' | xargs` --exit-zero |& tee $logfile
     - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CRWEF][[:digit:]]{4}\>' $logfile`" > metrics.txt
     - rm $logfile
     - cat metrics.txt
+    - python3 -m pylint --errors-only --rcfile=.pylintrc `find . -name '*.py' | xargs`
   artifacts:
     when: on_success
     expire_in: 1 week

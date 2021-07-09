@@ -1,4 +1,4 @@
-# test ../lib/vmalloc
+"""test ../lib/vmalloc"""
 
 import os
 from pathlib import Path

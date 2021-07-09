@@ -38,7 +38,7 @@ import sys
 import tempfile
 from typing import List, Optional
 
-class Graph():
+class Graph:
   """generative representation of a large graph"""
 
   def __init__(self, directed: bool, branching: int):
@@ -85,7 +85,7 @@ class Graph():
         out.write(f'  n{src} {"->" if self.directed else "--"} n{dst}\n')
     out.write("}")
 
-class Result():
+class Result:
   TIMEOUT = 124
 
   def __init__(self, status: int, runtime: int, rss: Optional[int] = 0):
@@ -145,7 +145,7 @@ def process(args: List[str], g: Graph, timeout: Optional[int]) -> Result:
     return run(args + [src], timeout)
 
 
-def main(args: List[str]) -> int:
+def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # parse command line arguments
   parser = argparse.ArgumentParser(description="Graphviz graph generator")

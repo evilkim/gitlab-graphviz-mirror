@@ -5,6 +5,7 @@ import sys
 import tempfile
 import pytest
 
+# pylint: disable=line-too-long
 @pytest.mark.xfail
 @pytest.mark.parametrize('src,format,reference', (
   ('graph G {a [label="" shape=none]}', 'gv', '001.001.gv'),
