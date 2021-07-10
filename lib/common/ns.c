@@ -14,6 +14,7 @@
  */
 
 #include <common/render.h>
+#include <stddef.h>
 
 static void dfs_cutval(node_t * v, edge_t * par);
 static int dfs_range(node_t * v, edge_t * par, int low);
@@ -807,17 +808,16 @@ static int init_graph(graph_t * g)
 /* graphSize:
  * Compute no. of nodes and edges in the graph
  */
-static void
-graphSize (graph_t * g, int* nn, int* ne)
+static void graphSize (graph_t * g, size_t* nn, size_t* ne)
 {
-    int i, nnodes, nedges;
+    size_t nnodes, nedges;
     node_t *n;
     edge_t *e;
    
     nnodes = nedges = 0;
     for (n = GD_nlist(g); n; n = ND_next(n)) {
 	nnodes++;
-	for (i = 0; (e = ND_out(n).list[i]); i++) {
+	for (size_t i = 0; (e = ND_out(n).list[i]); i++) {
 	    nedges++;
 	}
     }
@@ -847,9 +847,9 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
     check_cycles(g);
 #endif
     if (Verbose) {
-	int nn, ne;
+	size_t nn, ne;
 	graphSize (g, &nn, &ne);
-	fprintf(stderr, "%s %d nodes %d edges maxiter=%d balance=%d\n", ns,
+	fprintf(stderr, "%s %zu nodes %zu edges maxiter=%d balance=%d\n", ns,
 	    nn, ne, maxiter, balance);
 	start_timer();
     }
