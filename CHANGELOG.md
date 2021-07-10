@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- a new C++ test infrastructure based on ctest and Catch2 towards #2002
+
 ### Changed
 
 - updated Graphviz bug report URL in the Autotools build system
