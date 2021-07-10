@@ -4,10 +4,6 @@ find_package(Catch2 REQUIRED)
 
 enable_testing()
 
-if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-    add_compile_options(-Wextra)
-endif()
-
 # for convenience, make a library that depends on everything so each
 # separate test can be as small as possible
 add_library(test_common STATIC
