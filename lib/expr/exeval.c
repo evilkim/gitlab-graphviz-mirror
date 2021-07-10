@@ -403,7 +403,6 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 		}
 	}
 	memset(&fmt, 0, sizeof(fmt));
-	fmt.fmt.version = SFIO_VERSION;
 	fmt.fmt.extf = prformat;
 	fmt.expr = ex;
 	fmt.env = env;
@@ -530,7 +529,6 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 	}
  get:
 	memset(&fmt, 0, sizeof(fmt));
-	fmt.fmt.version = SFIO_VERSION;
 	fmt.fmt.extf = scformat;
 	fmt.expr = ex;
 	fmt.env = env;

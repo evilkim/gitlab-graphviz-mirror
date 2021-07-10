@@ -326,11 +326,5 @@ static Dtmethod_t	_Dtbag = { dthash, DT_BAG };
 Dtmethod_t* Dtset = &_Dtset;
 Dtmethod_t* Dtbag = &_Dtbag;
 
-#ifndef KPVDEL	/* for backward compatibility - remove next time */
 Dtmethod_t		_Dthash = { dthash, DT_SET };
 Dtmethod_t* Dthash = &_Dthash;
-#endif
-
-#ifdef NoF
-NoF(dthash)
-#endif

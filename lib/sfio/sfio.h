@@ -15,8 +15,6 @@ extern "C" {
 #ifndef _SFIO_H
 #define _SFIO_H	1
 
-#define SFIO_VERSION	20010201L
-
 /*	Public header file for the sfio library
 **
 **	Written by Kiem-Phong Vo
@@ -29,67 +27,7 @@ extern "C" {
 #endif // HAVE_SYS_TYPES_H
 
 #include <stdarg.h>
-
-#ifdef UNUSED
-/* to prevent stdio.h from being included */
-#ifndef __stdio_h__
-#define __stdio_h__	1
-#endif
-#ifndef _stdio_h_
-#define _stdio_h_	1
-#endif
-#ifndef _stdio_h
-#define _stdio_h	1
-#endif
-#ifndef __h_stdio__
-#define __h_stdio__	1
-#endif
-#ifndef _h_stdio_
-#define _h_stdio_	1
-#endif
-#ifndef _h_stdio
-#define _h_stdio	1
-#endif
-#ifndef __STDIO_H__
-#define __STDIO_H__	1
-#endif
-#ifndef _STDIO_H_
-#define _STDIO_H_	1
-#endif
-#ifndef _STDIO_H
-#define _STDIO_H	1
-#endif
-#ifndef __H_STDIO__
-#define __H_STDIO__	1
-#endif
-#ifndef _H_STDIO_
-#define _H_STDIO_	1
-#endif
-#ifndef _H_STDIO
-#define _H_STDIO	1
-#endif
-#ifndef _stdio_included
-#define _stdio_included	1
-#endif
-#ifndef _included_stdio
-#define _included_stdio	1
-#endif
-#ifndef _INCLUDED_STDIO
-#define _INCLUDED_STDIO	1
-#endif
-#ifndef _STDIO_INCLUDED
-#define _STDIO_INCLUDED	1
-#endif
-#ifndef _INC_STDIO
-#define _INC_STDIO	1
-#endif
-
-#define _FILE_DEFINED	1	/* stop Windows from defining FILE      */
-#define _FILEDEFED	1	/* stop SUNOS5.8 from defining FILE     */
-#ifndef FILE
-#define FILE	struct _sfio_s	/* because certain stdarg.h needs FILE  */
-#endif
-#endif
+#include <stdio.h>
 
 /* Sfoff_t should be large enough for largest file address */
 
@@ -140,7 +78,6 @@ extern "C" {
     typedef int (*Sffmtext_f)(Sfio_t *, void *, Sffmt_t *);
     typedef int (*Sffmtevent_f)(Sfio_t *, int, void *, Sffmt_t *);
     struct _sffmt_s {
-	long version;		/* version of this structure            */
 	Sffmtext_f extf;	/* function to process arguments        */
 	Sffmtevent_f eventf;	/* process events                       */
 
@@ -156,11 +93,7 @@ extern "C" {
 
 	char *t_str;		/* type string                          */
 	ssize_t n_str;		/* length of t_str                      */
-
-	void *noop;		/* as yet unused                        */
     };
-#define sffmtversion(fe,type) \
-		(type ? ((fe)->version = SFIO_VERSION) : (fe)->version)
 
 #define SFFMT_SSHORT	00000010	/* 'hh' flag, char                     */
 #define SFFMT_TFLAG	00000020	/* 't' flag, ptrdiff_t                 */
@@ -182,17 +115,6 @@ extern "C" {
 #define SFFMT_IFLAG	02000000	/* 'I' flag                            */
 #define SFFMT_JFLAG	04000000	/* 'j' flag, intmax_t                  */
 #define SFFMT_SET	07777770	/* flags settable on calling extf      */
-
-/* various constants */
-#ifndef EOF
-#define EOF		(-1)
-#endif
-#ifndef SEEK_SET
-#define SEEK_SET	0
-#define SEEK_CUR	1
-#define SEEK_END	2
-#endif
-
 
 /* bits for various types of files */
 #define	SF_READ		0000001	/* open for reading                     */
@@ -219,10 +141,6 @@ extern "C" {
 
 #define SF_FLAGS	0077177	/* PUBLIC FLAGS PASSABLE TO SFNEW()     */
 #define SF_SETS		0027163	/* flags passable to sfset()            */
-
-#ifndef KPVDEL
-#define SF_BUFCONST	0400000	/* unused flag - for compatibility only */
-#endif
 
 /* exception events: SF_NEW(0), SF_READ(1), SF_WRITE(2) and the below 	*/
 #define SF_SEEK		3	/* seek error                           */
