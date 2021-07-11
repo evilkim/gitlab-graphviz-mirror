@@ -195,7 +195,7 @@ static void dfs_enter_outedge(node_t * v)
 	} else if (ND_lim(aghead(e)) < ND_lim(v))
 	    dfs_enter_outedge(aghead(e));
     }
-    for (i = 0; (e = ND_tree_in(v).list[i]) && (Slack > 0); i++)
+    for (i = 0; (e = ND_tree_in(v).list[i]) && Slack > 0; i++)
 	if (ND_lim(agtail(e)) < ND_lim(v))
 	    dfs_enter_outedge(agtail(e));
 }
@@ -747,7 +747,7 @@ static void TB_balance(void)
         low = 0;		/* vnodes can have ranks < 0 */
       if (adj) {
         if (inweight == outweight)
-            ND_rank(n) = (adj == 1? low : high);
+            ND_rank(n) = adj == 1 ? low : high;
       }
       else {
                 if (inweight == outweight) {
@@ -1068,7 +1068,7 @@ int check_ranks(void)
 
     for (n = agfstnode(G); n; n = agnxtnode(G, n)) {
 	for (e = agfstout(G, n); e; e = agnxtout(G, e)) {
-	    cost += (ED_weight(e)) * abs(LENGTH(e));
+	    cost += ED_weight(e) * abs(LENGTH(e));
 	    if (ND_rank(aghead(e)) - ND_rank(agtail(e)) - ED_minlen(e) < 0)
 		abort();
 	}
