@@ -243,7 +243,6 @@ def test_167():
   # Graphviz should not have caused a segfault
   assert ret != -signal.SIGSEGV, "Graphviz segfaulted"
 
-@pytest.mark.xfail(strict=True)
 @pytest.mark.skipif(shutil.which("gv2gxl") is None or
                     shutil.which("gxl2gv") is None,
                     reason="GXL tools not available")

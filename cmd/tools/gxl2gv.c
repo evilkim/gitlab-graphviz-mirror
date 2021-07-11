@@ -14,6 +14,7 @@
 #ifdef HAVE_EXPAT
 #include    <expat.h>
 #include    <ctype.h>
+#include    <stdbool.h>
 
 #ifndef XML_STATUS_ERROR
 #define XML_STATUS_ERROR 0
@@ -34,10 +35,13 @@
 #define GXL_COMP    "_gxl_composite_"
 #define GXL_LOC     "_gxl_locator_"
 
-#define	TAG_NONE	-1
-#define	TAG_GRAPH	0
-#define TAG_NODE	1
-#define TAG_EDGE	2
+typedef enum {
+  TAG_NONE,
+  TAG_GRAPH,
+  TAG_NODE,
+  TAG_EDGE,
+  TAG_HTML_LIKE_STRING,
+} attr_t;
 
 typedef struct slist slist;
 struct slist {
@@ -104,15 +108,15 @@ typedef struct userdata {
     agxbuf composite_buffer;
     slist *elements;
     int listen;
-    int closedElementType;
-    int globalAttrType;
+    attr_t closedElementType;
+    attr_t globalAttrType;
     int compositeReadState;
     int edgeinverted;
     Dt_t *nameMap;
 } userdata_t;
 
 static Agraph_t *root;		/* root graph */
-static int Current_class;	/* Current element type */
+static attr_t Current_class;	/* Current element type */
 static Agraph_t *G;		/* Current graph */
 static Agnode_t *N;		/* Set if Current_class == TAG_NODE */
 static Agedge_t *E;		/* Set if Current_class == TAG_EDGE */
@@ -279,7 +283,8 @@ static void setName(Dt_t * names, Agobj_t * n, char *value)
 static char *defval = "";
 
 static void
-setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud)
+setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud,
+  bool is_html)
 {
     Agsym_t *ap;
 
@@ -289,7 +294,13 @@ setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud)
 	ap = agattr(root, AGNODE, name, 0);
 	if (!ap)
 	    ap = agattr(root, AGNODE, name, defval);
-	agxset(np, ap, value);
+	if (is_html) {
+	    char *val = agstrdup_html(root, value);
+	    agxset(np, ap, val);
+	    agstrfree(root, val); // drop the extra reference count we bumped for val
+	} else {
+	    agxset(np, ap, value);
+	}
     }
 }
 
@@ -317,7 +328,8 @@ setGlobalNodeAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
 }
 
 static void
-setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud)
+setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud,
+  bool is_html)
 {
     Agsym_t *ap;
     char *attrname;
@@ -330,7 +342,6 @@ setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud)
 	ap = agattr(root, AGEDGE, attrname, 0);
 	if (!ap)
 	    ap = agattr(root, AGEDGE, attrname, defval);
-	agxset(ep, ap, value);
     } else if (strcmp(name, "tailport") == 0) {
 	if (ud->edgeinverted)
 	    attrname = "headport";
@@ -339,11 +350,17 @@ setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud)
 	ap = agattr(root, AGEDGE, attrname, 0);
 	if (!ap)
 	    ap = agattr(root, AGEDGE, attrname, defval);
-	agxset(ep, ap, value);
     } else {
 	ap = agattr(root, AGEDGE, name, 0);
 	if (!ap)
 	    ap = agattr(root, AGEDGE, name, defval);
+    }
+
+    if (is_html) {
+	char *val = agstrdup_html(root, value);
+	agxset(ep, ap, val);
+	agstrfree(root, val); // drop the extra reference count we bumped for val
+    } else {
 	agxset(ep, ap, value);
     }
 }
@@ -388,17 +405,19 @@ setGraphAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
     }
 }
 
-static void setAttr(char *name, char *value, userdata_t * ud)
+static void setAttr(char *name, char *value, userdata_t * ud, bool is_html)
 {
     switch (Current_class) {
     case TAG_GRAPH:
 	setGraphAttr(G, name, value, ud);
 	break;
     case TAG_NODE:
-	setNodeAttr(N, name, value, ud);
+	setNodeAttr(N, name, value, ud, is_html);
 	break;
     case TAG_EDGE:
-	setEdgeAttr(E, name, value, ud);
+	setEdgeAttr(E, name, value, ud, is_html);
+	break;
+    default:
 	break;
     }
 }
@@ -510,17 +529,17 @@ startElementHandler(void *userData, const char *name, const char **atts)
 
 	pos = get_xml_attr("fromorder", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_FROM, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_FROM, (char *) atts[pos], ud, false);
 	}
 
 	pos = get_xml_attr("toorder", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_TO, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_TO, (char *) atts[pos], ud, false);
 	}
 
 	pos = get_xml_attr("id", atts);
 	if (pos > 0) {
-	    setEdgeAttr(E, GXL_ID, (char *) atts[pos], ud);
+	    setEdgeAttr(E, GXL_ID, (char *) atts[pos], ud, false);
 	}
     } else if (strcmp(name, "attr") == 0) {
 	const char *attrname = atts[get_xml_attr("name", atts)];
@@ -535,6 +554,8 @@ startElementHandler(void *userData, const char *name, const char **atts)
 		ud->globalAttrType = TAG_EDGE;
 	    else if (strcmp("graph", atts[pos]) == 0)
 		ud->globalAttrType = TAG_GRAPH;
+	    else if (strcmp("HTML-like string", atts[pos]) == 0)
+		ud->globalAttrType = TAG_HTML_LIKE_STRING;
 	} else {
 	    ud->globalAttrType = TAG_NONE;
 	}
@@ -552,7 +573,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
     } else if (strcmp(name, "type") == 0) {
 	pos = get_xml_attr("xlink:href", atts);
 	if (pos > 0) {
-	    setAttr(GXL_TYPE, (char *) atts[pos], ud);
+	    setAttr(GXL_TYPE, (char *) atts[pos], ud, false);
 	}
     } else if (strcmp(name, "locator") == 0) {
 	pos = get_xml_attr("xlink:href", atts);
@@ -625,7 +646,7 @@ static void endElementHandler(void *userData, const char *name)
 
 	switch (ud->globalAttrType) {
 	case TAG_NONE:
-	    setAttr(name, value, ud);
+	    setAttr(name, value, ud, false);
 	    break;
 	case TAG_NODE:
 	    setGlobalNodeAttr(G, name, value, ud);
@@ -635,6 +656,9 @@ static void endElementHandler(void *userData, const char *name)
 	    break;
 	case TAG_GRAPH:
 	    setGraphAttr(G, name, value, ud);
+	    break;
+	case TAG_HTML_LIKE_STRING:
+	    setAttr(name, value, ud, true);
 	    break;
 	}
 	free(dynbuf);
