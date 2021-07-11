@@ -79,10 +79,6 @@ gvgotest: gv.i gvgotest.go gv.go runtime.h
 	go build -x -work -gccgoflags -lgvc -compiler gccgo gvgotest.go && mv gvgotest ../../; \
 	)
 
-#        cat $(srcdir)/gv_gc.c >go/src/gv/gv_gc.c; \
-#        cat runtime.h >go/src/gv/runtime.h; \
-#
-
 pkgguiledir = $(pkglibdir)/guile
 GUILE_data = 
 nodist_libgv_guile_la_SOURCES = gv_guile.cpp $(GUILE_data)
