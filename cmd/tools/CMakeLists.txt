@@ -89,8 +89,8 @@ target_link_libraries(dijkstra
 tool_defaults(dijkstra)
 
 # =================================== gml2gv ===================================
-BISON_TARGET(Gmlparse gmlparse.y ${CMAKE_CURRENT_BINARY_DIR}/gmlparse.c)
-FLEX_TARGET(Gmlscan gmlscan.l  ${CMAKE_CURRENT_BINARY_DIR}/gmlscan.c)
+BISON_TARGET(Gmlparse ${CMAKE_CURRENT_SOURCE_DIR}/gmlparse.y ${CMAKE_CURRENT_BINARY_DIR}/gmlparse.c)
+FLEX_TARGET(Gmlscan ${CMAKE_CURRENT_SOURCE_DIR}/gmlscan.l  ${CMAKE_CURRENT_BINARY_DIR}/gmlscan.c)
 ADD_FLEX_BISON_DEPENDENCY(Gmlscan Gmlparse)
 
 add_executable(gml2gv

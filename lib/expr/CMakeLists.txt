@@ -1,6 +1,6 @@
 BISON_TARGET(
   Exparse
-  exparse.y
+  ${CMAKE_CURRENT_SOURCE_DIR}/exparse.y
   ${CMAKE_CURRENT_BINARY_DIR}/y.tab.c
   COMPILE_FLAGS "--yacc -Wno-yacc --defines --debug --verbose"
 )

@@ -236,6 +236,7 @@ portable-source:
         - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
         - export OS_ID=$( cat OS_ID )
+        - ci/test_coverage.py --init
         - pushd build
         # FIXME: remove detect_odr_violation=0 when https://gitlab.com/graphviz/graphviz/-/issues/2096 has been fixed
         - export ASAN_OPTIONS=detect_odr_violation=0
@@ -245,9 +246,15 @@ portable-source:
         # memory leak detections. Disable those for now.
         - export ASAN_OPTIONS=detect_leaks=0
         - python3 -m pytest --verbose --junitxml=report.xml ci/tests.py tests rtest
+        - ci/test_coverage.py --analyze
+    # enable test coverage visualization in MR diff view
+    coverage: '/  lines\.{6}: \d+\.\d+%/'
     artifacts:
+        paths:
+            - coverage/**
         reports:
             junit: ./report.xml
+            cobertura: coverage.xml
     except:
         - tags
 
@@ -490,7 +497,7 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
-        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Dwith_cxx_tests=ON "
+        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Duse_coverage=ON -Dwith_cxx_tests=ON "
         - echo experimental > COLLECTION
     # override the deb_build_definition artifacts since we need more
     # files from the build directory when running ctest in the test
@@ -507,6 +514,8 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
             # them.
             - build/lib/**/lib*.so.*
             - build/plugin/**/lib*.so.*
+            # the coverage analysis needs the .gcno files
+            - build/**/*.gcno
             # the packages need to be installed for the post-install tests
             - Packages/*/*/*/*/*/*deb
             - Metadata/*/*/*/configure.log

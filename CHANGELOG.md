@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - a new C++ test infrastructure based on ctest and Catch2 towards #2002
+- support for test coverage analysis with
+  [lcov](http://ltp.sourceforge.net/coverage/lcov.php) and
+  [test coverage visualization in GitLab MRs](https://docs.gitlab.com/ee/user/project/merge_requests/test_coverage_visualization.html)
 
 ### Changed
 
