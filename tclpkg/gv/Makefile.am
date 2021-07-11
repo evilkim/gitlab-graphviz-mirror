@@ -86,6 +86,7 @@ libgv_guile_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_guile_la_LIBADD = $(BASELIBS) $(GUILE_LIBS)
 libgv_guile_la_LDFLAGS = -module -avoid-version
 libgv_guile_la_CPPFLAGS = $(BASECPPFLAGS) $(GUILE_INCLUDES)
+libgv_guile_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(GUILE_data): gv_guile.cpp
 gv_guile.cpp: gv.i
 	$(SWIG) -c++ -guile -o gv_guile.cpp $(srcdir)/gv.i
