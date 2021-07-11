@@ -1377,7 +1377,7 @@ make_flat_labeled_edge(graph_t* g, spline_info_t* sp, path* P, edge_t* e, int et
     pointf *ps;
     pathend_t tend, hend;
     boxf lb;
-    int boxn, i, pn, ydelta;
+    int i, pn, ydelta;
     edge_t *f;
     pointf points[7];
 
@@ -1412,28 +1412,22 @@ make_flat_labeled_edge(graph_t* g, spline_info_t* sp, path* P, edge_t* e, int et
 	ydelta /= 6;
 	lb.LL.y = lb.UR.y - MAX(5,ydelta);
 
-	boxn = 0;
 	makeFlatEnd (g, sp, P, tn, e, &tend, TRUE);
 	makeFlatEnd (g, sp, P, hn, e, &hend, FALSE);
 
-	boxes[boxn].LL.x = tend.boxes[tend.boxn - 1].LL.x; 
-	boxes[boxn].LL.y = tend.boxes[tend.boxn - 1].UR.y; 
-	boxes[boxn].UR.x = lb.LL.x;
-	boxes[boxn].UR.y = lb.LL.y;
-	boxn++;
-	boxes[boxn].LL.x = tend.boxes[tend.boxn - 1].LL.x; 
-	boxes[boxn].LL.y = lb.LL.y;
-	boxes[boxn].UR.x = hend.boxes[hend.boxn - 1].UR.x;
-	boxes[boxn].UR.y = lb.UR.y;
-	boxn++;
-	boxes[boxn].LL.x = lb.UR.x;
-	boxes[boxn].UR.y = lb.LL.y;
-	boxes[boxn].LL.y = hend.boxes[hend.boxn - 1].UR.y; 
-	boxes[boxn].UR.x = hend.boxes[hend.boxn - 1].UR.x;
-	boxn++;
+	boxf boxes[] = {
+	  { .LL = { .x = tend.boxes[tend.boxn - 1].LL.x,
+	            .y = tend.boxes[tend.boxn - 1].UR.y, },
+	    .UR = lb.LL, },
+	  { .LL = { .x = tend.boxes[tend.boxn - 1].LL.x, .y = lb.LL.y, },
+	    .UR = { .x = hend.boxes[hend.boxn - 1].UR.x, .y = lb.UR.y, }, },
+	  { .LL = { .x = lb.UR.x, .y = hend.boxes[hend.boxn - 1].UR.y, },
+	    .UR = { .x = hend.boxes[hend.boxn - 1].UR.x, .y = lb.LL.y, }, },
+	};
+	const size_t boxn = sizeof(boxes) / sizeof(boxes[0]);
 
 	for (i = 0; i < tend.boxn; i++) add_box(P, tend.boxes[i]);
-	for (i = 0; i < boxn; i++) add_box(P, boxes[i]);
+	for (size_t j = 0; j < boxn; j++) add_box(P, boxes[j]);
 	for (i = hend.boxn - 1; i >= 0; i--) add_box(P, hend.boxes[i]);
 
 	if (et == ET_SPLINE) ps = routesplines(P, &pn);
