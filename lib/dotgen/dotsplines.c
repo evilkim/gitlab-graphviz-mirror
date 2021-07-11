@@ -13,6 +13,7 @@
  * set edge splines.
  */
 
+#include <assert.h>
 #include <dotgen/dot.h>
 #include <math.h>
 #include <stddef.h>
@@ -1469,10 +1470,11 @@ make_flat_bottom_edges(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges,
     makeBottomFlatEnd (g, sp, P, hn, e, &hend, FALSE);
 
     for (i = 0; i < cnt; i++) {
-	int boxn;
 	boxf b;
 	e = edges[ind + i];
-	boxn = 0;
+	size_t boxn = 0;
+
+	boxf boxes[3];
 
 	b = tend.boxes[tend.boxn - 1];
  	boxes[boxn].LL.x = b.LL.x; 
@@ -1491,9 +1493,10 @@ make_flat_bottom_edges(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges,
 	boxes[boxn].LL.x = b.LL.x - (i + 1) * stepx;
 	boxes[boxn].LL.y = boxes[boxn-1].UR.y;
 	boxn++;
+	assert(boxn == sizeof(boxes) / sizeof(boxes[0]));
 
 	for (j = 0; j < tend.boxn; j++) add_box(P, tend.boxes[j]);
-	for (j = 0; j < boxn; j++) add_box(P, boxes[j]);
+	for (size_t k = 0; k < boxn; k++) add_box(P, boxes[k]);
 	for (j = hend.boxn - 1; j >= 0; j--) add_box(P, hend.boxes[j]);
 
 	if (splines) ps = routesplines(P, &pn);
