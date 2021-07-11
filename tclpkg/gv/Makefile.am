@@ -257,6 +257,7 @@ libgv_ruby_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_ruby_la_LIBADD = $(BASELIBS) $(RUBY_LIBS)
 libgv_ruby_la_LDFLAGS = -module -avoid-version
 libgv_ruby_la_CPPFLAGS = $(BASECPPFLAGS) $(RUBY_CFLAGS)
+libgv_ruby_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(RUBY_data): gv_ruby.cpp
 gv_ruby.cpp: gv.i
 	$(SWIG) -c++ -ruby -o gv_ruby.cpp $(srcdir)/gv.i
