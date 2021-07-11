@@ -162,6 +162,7 @@ libgv_ocaml_la_CPPFLAGS = \
 	$(OCAML_INCLUDES) \
 	-Dint64=int64_t \
 	-fpermissive
+libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
 	$(SWIG) -c++ -ocaml -o gv_ocaml.cpp $(srcdir)/gv.i
