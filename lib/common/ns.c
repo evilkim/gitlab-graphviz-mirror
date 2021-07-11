@@ -15,8 +15,10 @@
 
 #include <cgraph/likely.h>
 #include <common/render.h>
+#include <inttypes.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 
 static void dfs_cutval(node_t * v, edge_t * par);
 static int dfs_range(node_t * v, edge_t * par, int low);
@@ -1155,16 +1157,17 @@ static node_t *checkdfs(graph_t* g, node_t * n)
 	w = aghead(e);
 	if (ND_onstack(w)) {
 	    dump_graph (g);
-	    fprintf(stderr, "cycle: last edge %lx %s(%lx) %s(%lx)\n", (uint64_t)e,
-	            agnameof(n), (uint64_t)n, agnameof(w), (uint64_t)w);
+	    fprintf(stderr, "cycle: last edge %" PRIx64 " %s(%" PRIx64 ") %s(%" PRIx64
+	            ")\n", (uint64_t)e, agnameof(n), (uint64_t)n, agnameof(w),
+	            (uint64_t)w);
 	    return w;
 	}
 	else {
 	    if (!ND_mark(w)) {
 		x = checkdfs(g, w);
 		if (x) {
-		    fprintf(stderr,"unwind %lx %s(%lx)\n", (uint64_t)e, agnameof(n),
-		            (uint64_t)n);
+		    fprintf(stderr,"unwind %" PRIx64 " %s(%" PRIx64 ")\n", (uint64_t)e,
+                agnameof(n), (uint64_t)n);
 		    if (x != n) return x;
 		    fprintf(stderr,"unwound to root\n");
 		    fflush(stderr);
