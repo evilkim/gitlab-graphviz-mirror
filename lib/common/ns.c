@@ -15,6 +15,7 @@
 
 #include <common/render.h>
 #include <stddef.h>
+#include <stdio.h>
 
 static void dfs_cutval(node_t * v, edge_t * par);
 static int dfs_range(node_t * v, edge_t * par, int low);
@@ -1103,16 +1104,13 @@ void check_fast_node(node_t * n)
     assert(nptr != NULL);
 }
 
-static char* dump_node (node_t* n)
+static void dump_node(node_t* n, FILE *fp)
 {
-    static char buf[50];
-
     if (ND_node_type(n)) {
-	snprintf(buf, sizeof(buf), "%p", n);
-	return buf;
+	fprintf(fp, "%p", n);
+    } else {
+	fputs(agnameof(n), fp);
     }
-    else
-	return agnameof(n);
 }
 
 static void dump_graph (graph_t* g)
@@ -1123,13 +1121,19 @@ static void dump_graph (graph_t* g)
     FILE* fp = fopen ("ns.gv", "w");
     fprintf (fp, "digraph \"%s\" {\n", agnameof(g));
     for (n = GD_nlist(g); n; n = ND_next(n)) {
-	fprintf (fp, "  \"%s\"\n", dump_node(n));
+	fputs("  \"", fp);
+	dump_node(n, fp);
+	fputs("\"\n", fp);
     }
     for (n = GD_nlist(g); n; n = ND_next(n)) {
 	for (i = 0; (e = ND_out(n).list[i]); i++) {
-	    fprintf (fp, "  \"%s\"", dump_node(n));
+	    fputs("  \"", fp);
+	    dump_node(n, fp);
+	    fputs("\"", fp);
 	    w = aghead(e);
-	    fprintf (fp, " -> \"%s\"\n", dump_node(w));
+	    fputs(" -> \"", fp);
+	    dump_node(w, fp);
+	    fputs("\"\n", fp);
 	}
     }
 
