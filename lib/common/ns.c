@@ -13,6 +13,7 @@
  * Network Simplex Algorithm for Ranking Nodes of a DAG
  */
 
+#include <cgraph/likely.h>
 #include <common/render.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -847,7 +848,7 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 #ifdef DEBUG
     check_cycles(g);
 #endif
-    if (Verbose) {
+    if (UNLIKELY(Verbose)) {
 	size_t nn, ne;
 	graphSize (g, &nn, &ne);
 	fprintf(stderr, "%s %zu nodes %zu edges maxiter=%d balance=%d\n", ns,
@@ -883,7 +884,7 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 	    return err;
 	}
 	iter++;
-	if (Verbose && iter % 100 == 0) {
+	if (UNLIKELY(Verbose) && iter % 100 == 0) {
 	    if (iter % 1000 == 100)
 		fputs(ns, stderr);
 	    fprintf(stderr, "%d ", iter);
@@ -905,7 +906,7 @@ int rank2(graph_t * g, int balance, int maxiter, int search_size)
 	freeTreeList (G);
 	break;
     }
-    if (Verbose) {
+    if (UNLIKELY(Verbose)) {
 	if (iter >= 100)
 	    fputc('\n', stderr);
 	fprintf(stderr, "%s%d nodes %d edges %d iter %.2f sec\n",
