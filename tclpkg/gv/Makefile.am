@@ -212,6 +212,7 @@ libgv_php_la_SOURCES = $(BASESOURCES) gv_php_init.c
 libgv_php_la_LIBADD = $(BASELIBS) $(PHP_LIBS)
 libgv_php_la_LDFLAGS = -module -avoid-version
 libgv_php_la_CPPFLAGS = $(BASECPPFLAGS) $(PHP_INCLUDES)
+libgv_php_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 gv.php: gv_php.cpp
 php_gv.h: gv_php.cpp
 gv_php.cpp: gv.i
