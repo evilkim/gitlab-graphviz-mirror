@@ -22,11 +22,13 @@
 
 static size_t gv_string_writer (GVJ_t *job, const char *s, size_t len)
 {
+    (void)job;
     return PHPWRITE(s, len);
 }
 
 static size_t gv_channel_writer (GVJ_t *job, const char *s, size_t len)
 {
+    (void)job;
     return PHPWRITE(s, len);
 }
 
