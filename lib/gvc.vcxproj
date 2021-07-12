@@ -209,6 +209,9 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <Project>{83cf0498-7884-49d3-8b3c-263c5af5fe1b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="ortho\gvortho.vcxproj">
+      <Project>{2d29953f-2d74-471e-a064-5d184e762dff}</Project>
+    </ProjectReference>
     <ProjectReference Include="patchwork\gvpatchwork.vcxproj">
       <Project>{6bd77bde-151d-4824-a8bc-9f067662f7ab}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
