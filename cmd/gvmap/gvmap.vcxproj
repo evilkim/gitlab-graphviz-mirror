@@ -67,7 +67,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>getopt.lib;cgraph.lib;gvc.lib;ingraphs.lib;sparse.lib;neatogen.lib;pathplan.lib;edgepaintlib.lib;circogen.lib;twopigen.lib;fdpgen.lib;cdt.lib;vpsc.lib;patchwork.lib;gvortho.lib;sfdp.lib;rbtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>getopt.lib;cgraph.lib;gvc.lib;ingraphs.lib;sparse.lib;neatogen.lib;pathplan.lib;edgepaintlib.lib;circogen.lib;twopigen.lib;fdpgen.lib;cdt.lib;vpsc.lib;patchwork.lib;sfdp.lib;rbtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bin\getopt.dll $(OutDir)getopt.dll</Command>
@@ -89,7 +89,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>getopt.lib;cgraph.lib;gvc.lib;ingraphs.lib;sparse.lib;neatogen.lib;pathplan.lib;edgepaintlib.lib;circogen.lib;twopigen.lib;fdpgen.lib;cdt.lib;vpsc.lib;patchwork.lib;gvortho.lib;sfdp.lib;rbtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>getopt.lib;cgraph.lib;gvc.lib;ingraphs.lib;sparse.lib;neatogen.lib;pathplan.lib;edgepaintlib.lib;circogen.lib;twopigen.lib;fdpgen.lib;cdt.lib;vpsc.lib;patchwork.lib;sfdp.lib;rbtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bin\getopt.dll $(OutDir)getopt.dll</Command>
