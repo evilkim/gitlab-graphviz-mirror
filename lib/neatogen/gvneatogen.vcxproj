@@ -65,7 +65,7 @@
     </ClCompile>
     <Lib />
     <Lib>
-      <AdditionalDependencies>gvortho.lib</AdditionalDependencies>
+      <AdditionalDependencies>gvc.lib;gvortho.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -80,7 +80,7 @@
     </ClCompile>
     <Lib />
     <Lib>
-      <AdditionalDependencies>gvortho.lib</AdditionalDependencies>
+      <AdditionalDependencies>gvc.lib;gvortho.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
