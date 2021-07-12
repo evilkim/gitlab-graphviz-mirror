@@ -23,9 +23,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dot", "cmd\dot\dot.vcxproj", "{A334BA89-79FC-40E4-8D42-4852ECD2505B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gvplugin_neato_layout", "plugin\neato_layout\gvplugin_neato_layout.vcxproj", "{92EA9398-9244-4DAA-8E7D-2F6BEC338CAB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2D29953F-2D74-471E-A064-5D184E762DFF} = {2D29953F-2D74-471E-A064-5D184E762DFF}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "patchwork", "lib\patchwork\gvpatchwork.vcxproj", "{6BD77BDE-151D-4824-A8BC-9F067662F7AB}"
 EndProject
