@@ -14,9 +14,12 @@
  */
 
 #include <assert.h>
+#include <common/memory.h>
 #include <dotgen/dot.h>
+#include <limits.h>
 #include <math.h>
-#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef ORTHO
 #include <ortho/ortho.h>
@@ -51,7 +54,58 @@
 	ED_to_orig(newp) = old; \
 }
 
-static boxf boxes[1000];
+// a dynamically expanding array of boxes
+typedef struct {
+  boxf *data;
+  size_t size;
+  size_t capacity;
+} boxes_t;
+
+/** Add an entry to the end of a boxes array.
+ *
+ * This may expand the array if it is not already large enough to contain the
+ * new element.
+ *
+ * \param boxes Array to append to.
+ * \param item Element to append.
+ */
+static void boxes_append(boxes_t *boxes, boxf item) {
+
+  assert(boxes != NULL);
+
+  // do we need to expand the array?
+  if (boxes->size == boxes->capacity) {
+    size_t c = boxes->capacity == 0 ? 128 : (boxes->capacity * 2);
+    boxes->data = grealloc(boxes->data, c * sizeof(boxes->data[0]));
+    boxes->capacity = c;
+  }
+
+  boxes->data[boxes->size] = item;
+  ++boxes->size;
+}
+
+/** Remove all entries from a boxes array.
+ *
+ * \param boxes Array to clear.
+ */
+static void boxes_clear(boxes_t *boxes) {
+  assert(boxes != NULL);
+  boxes->size = 0;
+}
+
+/** Deallocate memory associated with a boxes array.
+ *
+ * Following a call to this function, the array is reusable as if it had just
+ * been initialized.
+ *
+ * \param boxes Array to deallocate.
+ */
+static void boxes_free(boxes_t *boxes) {
+  assert(boxes != NULL);
+  free(boxes->data);
+  memset(boxes, 0, sizeof(*boxes));
+}
+
 typedef struct {
     int LeftBound, RightBound, Splinesep, Multisep;
     boxf* Rank_box;
@@ -1735,7 +1789,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
     pointf *ps;
     pathend_t tend, hend;
     boxf b;
-    int boxn, sl, si, smode, i, j, dx, pn, hackflag, longedge;
+    int sl, si, smode, i, j, dx, pn, hackflag, longedge;
     static pointf* pointfs;
     static pointf* pointfs2;
     static int numpts;
@@ -1795,7 +1849,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
     }
     else {
 	int splines = et == ET_SPLINE;
-	boxn = 0;
+	boxes_t boxes = {0};
 	pointn = 0;
 	segfirst = e;
 	tn = agtail(e);
@@ -1812,7 +1866,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	smode = FALSE, si = -1;
 	while (ND_node_type(hn) == VIRTUAL && !sinfo.splineMerge(hn)) {
 	    longedge = 1;
-	    boxes[boxn++] = rank_box(sp, g, ND_rank(tn));
+	    boxes_append(&boxes, rank_box(sp, g, ND_rank(tn)));
 	    if (!smode
 	        && ((sl = straight_len(hn)) >=
 	    	((GD_has_labels(g->root) & EDGE_LABEL) ? 4 + 1 : 2 + 1))) {
@@ -1821,7 +1875,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    }
 	    if (!smode || si > 0) {
 	        si--;
-	        boxes[boxn++] = maximal_bbox(g, sp, hn, e, ND_out(hn).list[0]);
+	        boxes_append(&boxes, maximal_bbox(g, sp, hn, e, ND_out(hn).list[0]));
 	        e = ND_out(hn).list[0];
 	        tn = agtail(e);
 	        hn = aghead(e);
@@ -1834,7 +1888,9 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    if (b.LL.x < b.UR.x && b.LL.y < b.UR.y)
 	        hend.boxes[hend.boxn++] = b;
 	    P->end.theta = M_PI / 2, P->end.constrained = TRUE;
-	    completeregularpath(P, segfirst, e, &tend, &hend, boxes, boxn, 1);
+	    assert(boxes.size <= (size_t)INT_MAX && "integer overflow");
+	    completeregularpath(P, segfirst, e, &tend, &hend, boxes.data,
+	                        (int)boxes.size, 1);
 	    if (splines) ps = routesplines(P, &pn);
 	    else {
 		ps = routepolylines (P, &pn);
@@ -1844,8 +1900,10 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 		    pn = 4;
 		}
 	    }
-	    if (pn == 0)
+	    if (pn == 0) {
+	        boxes_free(&boxes);
 	        return;
+	    }
 	
 	    if (pointn + pn > numpts) {
                 /* This should be enough to include 3 extra points added by
@@ -1862,7 +1920,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    segfirst = e;
 	    tn = agtail(e);
 	    hn = aghead(e);
-	    boxn = 0;
+	    boxes_clear(&boxes);
 	    tend.nb = maximal_bbox(g, sp, tn, ND_in(tn).list[0], e);
 	    beginpath(P, e, REGULAREDGE, &tend, spline_merge(tn));
 	    b = makeregularend(tend.boxes[tend.boxn - 1], BOTTOM,
@@ -1872,7 +1930,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    P->start.theta = -M_PI / 2, P->start.constrained = TRUE;
 	    smode = FALSE;
 	}
-	boxes[boxn++] = rank_box(sp, g, ND_rank(tn));
+	boxes_append(&boxes, rank_box(sp, g, ND_rank(tn)));
 	b = hend.nb = maximal_bbox(g, sp, hn, e, NULL);
 	endpath(P, hackflag ? &fwdedgeb.out : e, REGULAREDGE, &hend, spline_merge(aghead(e)));
 	b.UR.y = hend.boxes[hend.boxn - 1].UR.y;
@@ -1881,8 +1939,10 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    	   ND_coord(hn).y + GD_rank(g)[ND_rank(hn)].ht2);
 	if (b.LL.x < b.UR.x && b.LL.y < b.UR.y)
 	    hend.boxes[hend.boxn++] = b;
-	completeregularpath(P, segfirst, e, &tend, &hend, boxes, boxn,
-	    		longedge);
+	assert(boxes.size <= (size_t)INT_MAX && "integer overflow");
+	completeregularpath(P, segfirst, e, &tend, &hend, boxes.data, (int)boxes.size,
+	                    longedge);
+	boxes_free(&boxes);
 	if (splines) ps = routesplines(P, &pn);
 	else ps = routepolylines (P, &pn);
 	if ((et == ET_LINE) && (pn > 4)) {

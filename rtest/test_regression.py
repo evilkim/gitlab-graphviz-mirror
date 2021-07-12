@@ -1142,7 +1142,10 @@ def test_2089_2():
   sys.stderr.write(stderr)
   assert ret == 0
 
-@pytest.mark.xfail() # FIXME
+@pytest.mark.skipif(os.environ.get("build_system") == "msbuild" and
+                    os.environ.get("configuration") == "Debug",
+                    reason="Graphviz built with MSBuild in Debug mode has an "
+                           "insufficient stack size for this test")
 def test_2095():
   """
   Exceeding 1000 boxes during computation should not cause a crash
