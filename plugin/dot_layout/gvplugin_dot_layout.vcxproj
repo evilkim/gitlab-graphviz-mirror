@@ -98,10 +98,6 @@
       <Project>{4b6103ef-590b-4916-92cb-d06934459928}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\lib\ortho\gvortho.vcxproj">
-      <Project>{2d29953f-2d74-471e-a064-5d184e762dff}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\core\gvplugin_core.vcxproj">
       <Project>{ae706502-3203-4815-bf50-4d73bf96ba58}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
