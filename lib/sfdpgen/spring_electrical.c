@@ -2021,8 +2021,6 @@ static void multilevel_spring_electrical_embedding_core(int dim, SparseMatrix A0
 	  fprintf(stderr, "QUAD_TREE_HYBRID, size larger than %d, switch to fast quadtree", QUAD_TREE_HYBRID_SIZE);
 	}
 	spring_electrical_embedding_fast(dim, grid->A, ctrl, grid->node_weights, xc, flag);
-      } else if (ctrl->tscheme == QUAD_TREE_NORMAL){
-	spring_electrical_embedding(dim, grid->A, ctrl, grid->node_weights, xc, flag);
       } else {
 	spring_electrical_embedding(dim, grid->A, ctrl, grid->node_weights, xc, flag);
       }
