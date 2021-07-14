@@ -61,7 +61,7 @@ static Dtdisc_t Disc = {
     .freef = freef,
 };
 
-static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
+static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, cb_t kind)
 {
     Dict_t **dict_ref = NULL;
 
@@ -183,8 +183,7 @@ static void purge(Dict_t * dict, Agobj_t * obj)
     }
 }
 
-void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
-		       Agsym_t * optsym)
+void agrecord_callback(Agraph_t * g, Agobj_t * obj, cb_t kind, Agsym_t * optsym)
 {
     pendingset_t *pending;
     Dict_t *dict;
@@ -225,7 +224,7 @@ void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
     }
 }
 
-static void cb(Dict_t * dict, int callback_kind)
+static void cb(Dict_t * dict, cb_t callback_kind)
 {
     pending_cb_t *pcb;
     Agraph_t *g;
