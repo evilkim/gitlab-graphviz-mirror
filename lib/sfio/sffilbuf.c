@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<sfio/sfhdr.h>
+#include	<stddef.h>
 
 /*	Fill the buffer of a stream with data.
 **	If n < 0, sffilbuf() attempts to fill the buffer if it's empty.
@@ -55,7 +56,7 @@ int _sffilbuf(Sfio_t * f, int n)
 	    /* try shifting left to make room for new data */
 	    if (!(f->bits & SF_MMAP) && f->next > f->data &&
 		n > (f->size - (f->endb - f->data))) {
-		memcpy(f->data, f->next, r);
+		memcpy(f->data, f->next, (size_t)r);
 		f->next = f->data;
 		f->endb = f->data + r;
 	    }
