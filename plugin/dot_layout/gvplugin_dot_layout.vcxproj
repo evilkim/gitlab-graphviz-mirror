@@ -67,7 +67,7 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;gvortho.lib;dotgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;dotgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +86,7 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;gvortho.lib;dotgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cdt.lib;cgraph.lib;ingraphs.lib;gvc.lib;dotgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -96,10 +96,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\lib\dotgen\gvdotgen.vcxproj">
       <Project>{4b6103ef-590b-4916-92cb-d06934459928}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\lib\ortho\gvortho.vcxproj">
-      <Project>{2d29953f-2d74-471e-a064-5d184e762dff}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\core\gvplugin_core.vcxproj">

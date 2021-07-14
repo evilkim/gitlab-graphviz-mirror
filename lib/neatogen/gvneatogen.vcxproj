@@ -65,7 +65,7 @@
     </ClCompile>
     <Lib />
     <Lib>
-      <AdditionalDependencies>gvortho.lib</AdditionalDependencies>
+      <AdditionalDependencies>gvc.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -80,7 +80,7 @@
     </ClCompile>
     <Lib />
     <Lib>
-      <AdditionalDependencies>gvortho.lib</AdditionalDependencies>
+      <AdditionalDependencies>gvc.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -164,6 +164,11 @@
     <ClCompile Include="stress.c" />
     <ClCompile Include="stuff.c" />
     <ClCompile Include="voronoi.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\gvc.vcxproj">
+      <Project>{15229511-9f6c-48a5-9194-660ca6492563}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

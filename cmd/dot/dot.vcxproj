@@ -140,10 +140,6 @@ copy /B /Y $(OutDir)dot.exe $(OutDir)twopi.exe</Command>
       <Project>{c5ceb09e-79af-4091-accf-d28ec3d7d90f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\lib\ortho\gvortho.vcxproj">
-      <Project>{2d29953f-2d74-471e-a064-5d184e762dff}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\lib\patchwork\gvpatchwork.vcxproj">
       <Project>{6bd77bde-151d-4824-a8bc-9f067662f7ab}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

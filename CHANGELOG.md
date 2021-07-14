@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and installed by default, but rather during `make check`
 - round-tripping a file through ``gv2gxl`` and then ``gxl2gv`` no longer causes
   HTML-like labels to become non-HTML like labels #517
+- fix ODR violation by including the ortho object files in the gvc lib also for
+  CMake and MSbuild #2096
 
 ## [2.47.3] - 2021-06-19
 

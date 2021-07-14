@@ -70,6 +70,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/WHOLEARCHIVE:gvortho.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c
@@ -101,6 +102,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>$(SolutionDir)lib\gvc\gvc.def</ModuleDefinitionFile>
       <AdditionalDependencies>cdt.lib;cgraph.lib;xml2.lib;expat.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/WHOLEARCHIVE:gvortho.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>win_bison -dy -Wno-yacc common\htmlparse.y -o common\htmlparse.c
@@ -208,6 +210,9 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
     <ProjectReference Include="cdt\cdt.vcxproj">
       <Project>{83cf0498-7884-49d3-8b3c-263c5af5fe1b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ortho\gvortho.vcxproj">
+      <Project>{2d29953f-2d74-471e-a064-5d184e762dff}</Project>
     </ProjectReference>
     <ProjectReference Include="patchwork\gvpatchwork.vcxproj">
       <Project>{6bd77bde-151d-4824-a8bc-9f067662f7ab}</Project>

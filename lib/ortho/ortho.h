@@ -12,4 +12,14 @@
 
 #include <render.h>
 
-void orthoEdges (Agraph_t* g, int useLbls);
+#ifdef _WIN32
+#ifdef GVC_EXPORTS
+#define ORTHO_API __declspec(dllexport)
+#else
+#define ORTHO_API __declspec(dllimport)
+#endif
+#else
+#define ORTHO_API /* nothing */
+#endif
+
+ORTHO_API void orthoEdges (Agraph_t* g, int useLbls);
