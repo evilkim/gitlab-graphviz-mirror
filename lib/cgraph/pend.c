@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <cgraph/unreachable.h>
 #include <stddef.h>
 
 static char DRName[] = "_AG_pending";
@@ -79,7 +80,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, cb_t kind)
 	    dict_ref = &(ds->del.g);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     case AGNODE:
@@ -94,7 +95,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, cb_t kind)
 	    dict_ref = &(ds->del.n);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     case AGEDGE:
@@ -109,7 +110,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, cb_t kind)
 	    dict_ref = &(ds->del.e);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     default:
@@ -220,7 +221,7 @@ void agrecord_callback(Agraph_t * g, Agobj_t * obj, cb_t kind, Agsym_t * optsym)
 	    handle = insert(dict, g, obj, optsym);
 	break;
     default:
-	agerr(AGERR,"agrecord_callback of a bad object");
+	UNREACHABLE();
     }
 }
 
@@ -246,6 +247,8 @@ static void cb(Dict_t * dict, cb_t callback_kind)
 	    case CB_DELETION:
 		agdelcb(g, pcb->obj, stack);
 		break;
+	    default:
+		UNREACHABLE();
 	    }
 	    dtdelete(dict, pcb);
 	}
