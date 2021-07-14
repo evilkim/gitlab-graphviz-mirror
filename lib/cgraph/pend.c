@@ -280,9 +280,9 @@ int agcallbacks(Agraph_t * g, int flag)
     if (flag && NOT(g->clos->callbacks_enabled))
 	agrelease_callbacks(g);
     if (g->clos->callbacks_enabled) {
-	g->clos->callbacks_enabled = flag;
+	g->clos->callbacks_enabled = flag != 0;
 	return TRUE;
     }
-    g->clos->callbacks_enabled = flag;
+    g->clos->callbacks_enabled = flag != 0;
     return FALSE;
 }
