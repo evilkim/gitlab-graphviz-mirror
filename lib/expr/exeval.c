@@ -646,17 +646,45 @@ static char *str_and(Expr_t *ex, const char *l, const char *r) {
 
 static char *str_xor(Expr_t *ex, const char *l, const char *r) {
 
+  // compute how much space the result will occupy
+  size_t len = 1; // 1 for NUL terminator
   for (const char *p = l; *p != '\0'; ++p) {
     if (strchr(r, *p) == NULL && strchr(p + 1, *p) == NULL) {
-      sfputc(ex->tmp, *p);
+      ++len;
     }
   }
   for (const char *p = r; *p != '\0'; ++p) {
     if (strchr(l, *p) == NULL && strchr(p + 1, *p) == NULL) {
-      sfputc(ex->tmp, *p);
+      ++len;
     }
   }
-  return exstash(ex->tmp, ex->ve);
+
+  // allocate a buffer to store this
+  char *result = vmalloc(ex->ve, len);
+  if (result == NULL) {
+    return exnospace();
+  }
+
+  // write the result
+  size_t i = 0;
+  for (const char *p = l; *p != '\0'; ++p) {
+    if (strchr(r, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      assert(i < len && "incorrect preceding length computation");
+      result[i] = *p;
+      ++i;
+    }
+  }
+  for (const char *p = r; *p != '\0'; ++p) {
+    if (strchr(l, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      assert(i < len && "incorrect preceding length computation");
+      result[i] = *p;
+      ++i;
+    }
+  }
+  assert(i + 1 == len && "incorrect preceding length computation");
+  result[i] = '\0';
+
+  return result;
 }
 
 /*
