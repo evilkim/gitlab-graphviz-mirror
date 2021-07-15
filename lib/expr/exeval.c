@@ -691,15 +691,14 @@ static char *str_xor(Expr_t *ex, const char *l, const char *r) {
  * string mod
  */
 
-static char*
-str_mod(Expr_t* ex, char* l, char* r)
-{
-	int	c;
+static char *str_mod(Expr_t *ex, const char *l, const char *r) {
 
-	while ((c = *l++))
-		if (!strchr(r, c) && !strchr(l, c))
-			sfputc(ex->tmp, c);
-	return exstash(ex->tmp, ex->ve);
+  for (const char *p = l; *p != '\0'; ++p) {
+    if (strchr(r, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  return exstash(ex->tmp, ex->ve);
 }
 
 /*
