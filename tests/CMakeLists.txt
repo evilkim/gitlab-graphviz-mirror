@@ -22,6 +22,7 @@ target_link_libraries(test_common PUBLIC
     gvplugin_gd
     gvplugin_neato_layout
     cgraph
+    gvc
 )
 
 macro(create_test testname)
