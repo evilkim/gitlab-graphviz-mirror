@@ -644,19 +644,19 @@ static char *str_and(Expr_t *ex, const char *l, const char *r) {
  * string xor
  */
 
-static char*
-str_xor(Expr_t* ex, char* l, char* r)
-{
-	int	c;
-	char*	s = l;
+static char *str_xor(Expr_t *ex, const char *l, const char *r) {
 
-	while ((c = *s++))
-		if (!strchr(r, c) && !strchr(s, c))
-			sfputc(ex->tmp, c);
-	while ((c = *r++))
-		if (!strchr(l, c) && !strchr(r, c))
-			sfputc(ex->tmp, c);
-	return exstash(ex->tmp, ex->ve);
+  for (const char *p = l; *p != '\0'; ++p) {
+    if (strchr(r, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  for (const char *p = r; *p != '\0'; ++p) {
+    if (strchr(l, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  return exstash(ex->tmp, ex->ve);
 }
 
 /*
