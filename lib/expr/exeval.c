@@ -728,10 +728,32 @@ static char *str_mod(Expr_t *ex, const char *l, const char *r) {
 
 static char *str_mpy(Expr_t *ex, const char *l, const char *r) {
 
-  for (size_t i = 0; l[i] != '\0' && r[i] != '\0'; ++i) {
-    sfputc(ex->tmp, l[i] == r[i] ? l[i] : ' ');
+  // compute how much space the result will occupy
+  size_t len = strlen(l);
+  {
+    size_t len2 = strlen(r);
+    if (len2 < len) {
+      len = len2;
+    }
   }
-  return exstash(ex->tmp, ex->ve);
+  ++len; // 1 for NUL terminator
+
+  // allocate a buffer to store this
+  char *result = vmalloc(ex->ve, len);
+  if (result == NULL) {
+    return exnospace();
+  }
+
+  // write the result
+  size_t i = 0;
+  for (; l[i] != '\0' && r[i] != '\0'; ++i) {
+    assert(i < len && "incorrect preceding length computation");
+    result[i] = l[i] == r[i] ? l[i] : ' ';
+  }
+  assert(i + 1 == len && "incorrect preceding length computation");
+  result[i] = '\0';
+
+  return result;
 }
 
 /* replace:
