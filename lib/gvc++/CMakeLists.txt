@@ -3,6 +3,8 @@ add_library(gvc++ SHARED
   GVContext.cpp
   GVLayout.h
   GVLayout.cpp
+  GVRenderData.h
+  GVRenderData.cpp
   )
 
 set_target_properties(gvc++ PROPERTIES CXX_STANDARD 20)
@@ -34,6 +36,7 @@ install(
   FILES
   GVContext.h
   GVLayout.h
+  GVRenderData.h
   DESTINATION ${HEADER_INSTALL_DIR}
   )
 
