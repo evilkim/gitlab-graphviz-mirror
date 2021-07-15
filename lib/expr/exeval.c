@@ -562,19 +562,19 @@ str_add(Expr_t* ex, char* l, char* r)
  * string ior
  */
 
-static char*
-str_ior(Expr_t* ex, char* l, char* r)
-{
-	int	c;
-	char*	s = l;
+static char *str_ior(Expr_t *ex, const char *l, const char *r) {
 
-	while ((c = *s++))
-		if (!strchr(s, c))
-			sfputc(ex->tmp, c);
-	while ((c = *r++))
-		if (!strchr(l, c) && !strchr(r, c))
-			sfputc(ex->tmp, c);
-	return exstash(ex->tmp, ex->ve);
+  for (const char *p = l; *p != '\0'; ++p) {
+    if (strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  for (const char *p = r; *p != '\0'; ++p) {
+    if (strchr(l, *p) == NULL && strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  return exstash(ex->tmp, ex->ve);
 }
 
 /*
