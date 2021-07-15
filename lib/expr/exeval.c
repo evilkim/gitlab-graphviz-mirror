@@ -726,15 +726,12 @@ static char *str_mod(Expr_t *ex, const char *l, const char *r) {
  * string mpy
  */
 
-static char*
-str_mpy(Expr_t* ex, char* l, char* r)
-{
-	int	lc;
-	int	rc;
+static char *str_mpy(Expr_t *ex, const char *l, const char *r) {
 
-	while ((lc = *l++) && (rc = *r++))
-		sfputc(ex->tmp, lc == rc ? lc : ' ');
-	return exstash(ex->tmp, ex->ve);
+  for (size_t i = 0; l[i] != '\0' && r[i] != '\0'; ++i) {
+    sfputc(ex->tmp, l[i] == r[i] ? l[i] : ' ');
+  }
+  return exstash(ex->tmp, ex->ve);
 }
 
 /* replace:
