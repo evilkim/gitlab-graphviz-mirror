@@ -609,15 +609,14 @@ static char *str_ior(Expr_t *ex, const char *l, const char *r) {
  * string and
  */
 
-static char*
-str_and(Expr_t* ex, char* l, char* r)
-{
-	int	c;
+static char *str_and(Expr_t *ex, const char *l, const char *r) {
 
-	while ((c = *l++))
-		if (strchr(r, c) && !strchr(l, c))
-			sfputc(ex->tmp, c);
-	return exstash(ex->tmp, ex->ve);
+  for (const char *p = l; *p != '\0'; ++p) {
+    if (strchr(r, *p) != NULL && strchr(p + 1, *p) == NULL) {
+      sfputc(ex->tmp, *p);
+    }
+  }
+  return exstash(ex->tmp, ex->ve);
 }
 
 /*
