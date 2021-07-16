@@ -20,10 +20,6 @@
 #include <gvc/gvcint.h>	/* for gvc->g for agget */
 #include <gd.h>
 
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-
 #define NOTUSED(x)	(void) (x)
 
 typedef enum {
