@@ -17,15 +17,6 @@
 #include <gvc/gvc.h>
 #include <labels/xlabels.h>
 
-#if 0
-#define POINTS_PER_INCH 72
-#define N_NEW(n,t)       (t*)calloc((n),sizeof(t))
-#define MIN(a,b)        ((a)<(b)?(a):(b))
-#define MAX(a,b)        ((a)>(b)?(a):(b))
-#define INT_MAX         ((int)(~(unsigned)0 >> 1))
-#define INCH2PS(a_inches)       ((a_inches)*(double)POINTS_PER_INCH)
-#endif
-
 static char *progname;
 static int Verbose;
 extern pointf edgeMidpoint(graph_t * g, edge_t * e);
