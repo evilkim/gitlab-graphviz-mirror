@@ -842,6 +842,5 @@ void gvrender_set_penwidth(GVJ_t * job, double penwidth)
 
     if (gvre) {
 	job->obj->penwidth = penwidth;
-	/*if (gvre->set_penwidth) gvre->set_penwidth(job, penwidth); */
     }
 }
