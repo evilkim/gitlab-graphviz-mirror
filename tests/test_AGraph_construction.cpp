@@ -26,3 +26,15 @@ TEST_CASE("AGraph can be move constructed") {
   auto other{std::move(g)};
   REQUIRE(other.c_struct() == c_ptr);
 }
+
+TEST_CASE("AGraph can be move assigned") {
+  CGraph::AGraph g{"graph {a}"};
+  const auto c_ptr = g.c_struct();
+  REQUIRE(c_ptr != nullptr);
+  auto other = CGraph::AGraph("graph {b}");
+  const auto other_c_ptr = other.c_struct();
+  REQUIRE(other_c_ptr != nullptr);
+  REQUIRE(other_c_ptr != c_ptr);
+  other = std::move(g);
+  REQUIRE(other.c_struct() == c_ptr);
+}
