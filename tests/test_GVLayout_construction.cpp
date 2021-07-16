@@ -14,3 +14,14 @@ TEST_CASE("Layout of a graph can use on-demand loaded plugins") {
 
   const auto layout = GVC::GVLayout(gvc, g, "dot");
 }
+
+TEST_CASE("Layout of a graph can use built-in plugins") {
+  const auto demand_loading = false;
+  auto gvc =
+      std::make_shared<GVC::GVContext>(lt_preloaded_symbols, demand_loading);
+
+  auto dot = "graph {a}";
+  auto g = std::make_shared<CGraph::AGraph>(dot);
+
+  const auto layout = GVC::GVLayout(gvc, g, "dot");
+}
