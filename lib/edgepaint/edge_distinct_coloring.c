@@ -9,6 +9,7 @@
  *************************************************************************/
 #include <sparse/general.h>
 #include <math.h>
+#include <string.h>
 #include <time.h>
 #include <sparse/SparseMatrix.h>
 #include <edgepaint/node_distinct_coloring.h>
@@ -69,7 +70,7 @@ static int splines_intersect(int dim, int u1, int v1, int u2, int v2,
       ns1++;
     }
     iter1++;
-    xsplines1 = strstr(xsplines1, " ");
+    xsplines1 = strchr(xsplines1, ' ');
     if (!xsplines1) break;
     xsplines1++;
     if (ns1*dim >= len1){
@@ -107,7 +108,7 @@ static int splines_intersect(int dim, int u1, int v1, int u2, int v2,
       ns2++;
     }
     iter2++;
-    xsplines2 = strstr(xsplines2, " ");
+    xsplines2 = strchr(xsplines2, ' ');
     if (!xsplines2) break;
     xsplines2++;
     if (ns2*dim >= len2){

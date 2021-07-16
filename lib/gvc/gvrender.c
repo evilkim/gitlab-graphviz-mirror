@@ -458,7 +458,7 @@ void gvrender_set_pencolor(GVJ_t * job, char *name)
     gvcolor_t *color = &(job->obj->pencolor);
     char *cp = NULL;
 
-    if ((cp = strstr(name, ":")))	/* if its a color list, then use only first */
+    if ((cp = strchr(name, ':')))	/* if its a color list, then use only first */
 	*cp = '\0';
     if (gvre) {
 	gvrender_resolve_color(job->render.features, name, color);
@@ -475,7 +475,7 @@ void gvrender_set_fillcolor(GVJ_t * job, char *name)
     gvcolor_t *color = &(job->obj->fillcolor);
     char *cp = NULL;
 
-    if ((cp = strstr(name, ":")))	/* if its a color list, then use only first */
+    if ((cp = strchr(name, ':')))	/* if its a color list, then use only first */
 	*cp = '\0';
     if (gvre) {
 	gvrender_resolve_color(job->render.features, name, color);

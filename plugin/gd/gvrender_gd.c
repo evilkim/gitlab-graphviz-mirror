@@ -297,7 +297,7 @@ void gdgen_text(gdImagePtr im, pointf spf, pointf epf, int fontcolor, double fon
     strex.flags = gdFTEX_RESOLUTION;
     strex.hdpi = strex.vdpi = fontdpi;
 
-    if (strstr(fontname, "/"))
+    if (strchr(fontname, '/'))
         strex.flags |= gdFTEX_FONTPATHNAME;
     else
         strex.flags |= gdFTEX_FONTCONFIG;
