@@ -18,3 +18,11 @@ TEST_CASE("AGraph constructed from bad DOT source throws an exception") {
   REQUIRE_THROWS_AS(CGraph::AGraph("THIS_SHOULD_GENERATE_A_SYNTAX_ERROR"),
                     std::runtime_error);
 }
+
+TEST_CASE("AGraph can be move constructed") {
+  CGraph::AGraph g{"graph {a}"};
+  const auto c_ptr = g.c_struct();
+  REQUIRE(c_ptr != nullptr);
+  auto other{std::move(g)};
+  REQUIRE(other.c_struct() == c_ptr);
+}
