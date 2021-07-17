@@ -1895,7 +1895,9 @@ SparseMatrix SparseMatrix_copy(SparseMatrix A){
   if (!A) return A;
   B = SparseMatrix_general_new(A->m, A->n, A->nz, A->type, A->size, A->format);
   memcpy(B->ia, A->ia, sizeof(int)*((size_t)(A->m+1)));
-  memcpy(B->ja, A->ja, sizeof(int)*((size_t)(A->ia[A->m])));
+  if (A->ia[A->m] != 0) {
+    memcpy(B->ja, A->ja, sizeof(int)*((size_t)(A->ia[A->m])));
+  }
   if (A->a) memcpy(B->a, A->a, A->size*((size_t)A->nz));
   B->property = A->property;
   B->nz = A->nz;
