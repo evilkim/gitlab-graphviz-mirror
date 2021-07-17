@@ -27,9 +27,9 @@ import os
 import subprocess
 import sys
 
-collection = "development"
+collection = "stable"
 
-version = "2.47.4"
+version = "2.48.0"
 
 graphviz_date_format = "%Y%m%d.%H%M"
 iso_date_format = "%Y-%m-%d %H:%M:%S"
