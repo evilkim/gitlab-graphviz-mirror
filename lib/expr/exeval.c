@@ -250,7 +250,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			node = excast(fmt->expr, node, to, NULL, 0);
 			fmt->value = exeval(fmt->expr, node, fmt->env);
 			node->data.operand.left = 0;
-			exfree(fmt->expr, node);
+			vmfree(fmt->expr->vm, node);
 			if (to == STRING)
 			{
 				if (fmt->value.string)
