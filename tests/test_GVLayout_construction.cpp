@@ -37,6 +37,16 @@ TEST_CASE("A layout can be moved assigned") {
   const auto layout2 = std::move(layout);
 }
 
+TEST_CASE("A layout can be move constructed") {
+  auto gvc = std::make_shared<GVC::GVContext>();
+
+  auto dot = "graph {a}";
+  auto g = std::make_shared<CGraph::AGraph>(dot);
+
+  auto layout = GVC::GVLayout(gvc, g, "dot");
+  auto other{std::move(layout)};
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
