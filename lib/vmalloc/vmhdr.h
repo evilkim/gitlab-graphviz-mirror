@@ -22,10 +22,6 @@ extern "C" {
 #include <stdlib.h>
 #include	<vmalloc/vmalloc.h>
 
-void *bestalloc(Vmalloc_t * vm, size_t size);
-int bestfree(Vmalloc_t * vm, void * data);
-void *bestresize(Vmalloc_t * vm, void * data, size_t size);
-
 #ifdef __cplusplus
 }
 #endif

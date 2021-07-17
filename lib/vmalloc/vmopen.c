@@ -23,9 +23,5 @@ Vmalloc_t *vmopen(void) {
     return NULL;
   }
 
-  vm->meth.allocf = bestalloc;
-  vm->meth.resizef = bestresize;
-  vm->meth.freef = bestfree;
-
   return vm;
 }
