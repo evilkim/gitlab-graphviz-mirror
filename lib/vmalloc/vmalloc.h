@@ -44,8 +44,6 @@ extern "C" {
     extern void *vmresize(Vmalloc_t *, void *, size_t);
     extern int vmfree(Vmalloc_t *, void *);
 
-    extern long vmaddr(Vmalloc_t *, void *);
-
     extern char *vmstrdup(Vmalloc_t *, const char *);
 
 
