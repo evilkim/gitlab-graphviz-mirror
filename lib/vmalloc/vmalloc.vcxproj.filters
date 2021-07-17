@@ -23,7 +23,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="vmbest.c">
+    <ClCompile Include="vmalloc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vmclear.c">

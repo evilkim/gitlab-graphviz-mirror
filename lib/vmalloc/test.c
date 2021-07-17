@@ -13,7 +13,7 @@
 // include vmalloc and some of its internals directly so we can call them
 #include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
-#include <vmalloc/vmbest.c>
+#include <vmalloc/vmalloc.c>
 #include <vmalloc/vmclear.c>
 #include <vmalloc/vmclose.c>
 #include <vmalloc/vmopen.c>

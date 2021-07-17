@@ -96,7 +96,7 @@
     <ClInclude Include="vmhdr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="vmbest.c" />
+    <ClCompile Include="vmalloc.c" />
     <ClCompile Include="vmclear.c" />
     <ClCompile Include="vmclose.c" />
     <ClCompile Include="vmopen.c" />
