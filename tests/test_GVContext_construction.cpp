@@ -16,3 +16,11 @@ TEST_CASE("GVContext can be constructed with built-in plugins and its "
   GVC::GVContext gvc{lt_preloaded_symbols, demand_loading};
   REQUIRE(gvc.c_struct() != nullptr);
 }
+
+TEST_CASE("GVContext can be move constructed") {
+  GVC::GVContext gvc;
+  const auto c_ptr = gvc.c_struct();
+  REQUIRE(c_ptr != nullptr);
+  auto other{std::move(gvc)};
+  REQUIRE(other.c_struct() == c_ptr);
+}
