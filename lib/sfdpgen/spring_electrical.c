@@ -659,12 +659,10 @@ void spring_electrical_embedding_fast(int dim, SparseMatrix A0, spring_electrica
   oned_optimizer_delete(qtree_level_optimizer);
   ctrl->max_qtree_level = max_qtree_level;
 
-  if (xold) FREE(xold);
+  FREE(xold);
   if (A != A0) SparseMatrix_delete(A);
-  if (force) FREE(force);
-
+  FREE(force);
 }
-
 
 static void spring_electrical_embedding_slow(int dim, SparseMatrix A0, spring_electrical_control ctrl, real *node_weights, real *x, int *flag){
   /* a version that does vertex moves in one go, instead of one at a time, use for debugging the fast version. Quadtree is not used. */

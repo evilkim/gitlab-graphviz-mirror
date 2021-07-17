@@ -27,7 +27,9 @@
 #include <cghdr.h>
 #include <agxbuf.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 // #define YY_BUF_SIZE 128000
 #define GRAPH_EOF_TOKEN		'@'		/* lex class must be defined below */
 	/* this is a workaround for linux flex */
@@ -146,14 +148,10 @@ static void ppDirective (void)
  * Return true if token has more than one '.';
  * we know the last character is a '.'.
  */
-static int twoDots(void)
-{
-    int i;
-    for (i = aagleng-2; i >= 0; i--) {
-	if ((unsigned char)aagtext[i] == '.')
-	    return 1;
-    }
-    return 0;
+static bool twoDots(void) {
+  const char *dot = strchr(aagtext, '.');
+  // was there a dot and was it not the last character?
+  return dot != NULL && dot != &aagtext[aagleng - 1];
 }
 
 /* chkNum:

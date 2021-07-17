@@ -141,10 +141,8 @@ char *canontoken(char *str)
     if (len >= allocated) {
 	allocated = len + 1 + 10;
 	canon = grealloc(canon, allocated);
-	if (!canon)
-	    return NULL;
     }
-    q = (unsigned char *) canon;
+    q = canon;
     while ((c = *p++)) {
 	/* if (isalnum(c) == FALSE) */
 	    /* continue; */
@@ -317,10 +315,6 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	if (len >= allocated) {
 	    allocated = len + 1 + 10;
 	    canon = grealloc(canon, allocated);
-	    if (! canon) {
-		rc = COLOR_MALLOC_FAIL;
-		return rc;
-	    }
 	}
 	q = canon;
 	while ((c = *p++)) {

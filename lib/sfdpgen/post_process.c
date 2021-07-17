@@ -737,9 +737,9 @@ real StressMajorizationSmoother_smooth(StressMajorizationSmoother sm, int dim, r
     SparseMatrix_delete(Lw);
   }
 
-  if (x0) FREE(x0);
-  if (y) FREE(y);
-  if (x00) FREE(x00);
+  FREE(x0);
+  FREE(y);
+  FREE(x00);
   return diff;
   
 }
