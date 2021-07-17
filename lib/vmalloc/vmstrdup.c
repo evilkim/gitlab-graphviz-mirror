@@ -10,7 +10,8 @@
 
 #include <stddef.h>
 #include <string.h>
-#include	<vmalloc/vmhdr.h>
+#include <vmalloc/vmalloc.h>
+
 /*
  * return a copy of s using vmalloc
  */

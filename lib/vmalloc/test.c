@@ -11,7 +11,6 @@
 #include <string.h>
 
 // include vmalloc and some of its internals directly so we can call them
-#include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
 #include <vmalloc/vmalloc.c>
 #include <vmalloc/vmclear.c>
