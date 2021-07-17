@@ -54,9 +54,8 @@ void *vmresize(Vmalloc_t *vm, void *data, size_t size);
  *
  * @param vm Region the pointer was originally allocated from
  * @param data The pointer originally received from vmalloc
- * @returns 0 on success
  */
-int vmfree(Vmalloc_t *vm, void *data);
+void vmfree(Vmalloc_t *vm, void *data);
 
     extern char *vmstrdup(Vmalloc_t *, const char *);
 

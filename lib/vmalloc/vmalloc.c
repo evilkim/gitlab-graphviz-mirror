@@ -54,10 +54,10 @@ void *vmalloc(Vmalloc_t *vm, size_t size) {
   return p;
 }
 
-int vmfree(Vmalloc_t *vm, void *data) {
+void vmfree(Vmalloc_t *vm, void *data) {
 
   if (!data) { // ANSI-ism
-    return 0;
+    return;
   }
 
   // find the pointer we previously allocated
@@ -72,12 +72,11 @@ int vmfree(Vmalloc_t *vm, void *data) {
       // give this back to the underlying allocator
       free(data);
 
-      return 0;
+      return;
     }
   }
 
   // we did not find this pointer; free() of something we did not allocate
-  return -1;
 }
 
 void *vmresize(Vmalloc_t *vm, void *data, size_t size) {
