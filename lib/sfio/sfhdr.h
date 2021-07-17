@@ -115,12 +115,6 @@ extern "C" {
 #define SF_AVAIL	00020000u	/* was closed, available for reuse      */
 #define SF_LOCAL	00100000u	/* sentinel for a local call            */
 
-#ifdef DEBUG
-#define ASSERT(p)	((p) ? 0 : (abort(),0) )
-#else
-#define ASSERT(p)
-#endif
-
 /* short-hands */
 #define NIL(t)		((t)0)
 #ifndef uchar
