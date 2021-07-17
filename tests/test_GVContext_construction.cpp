@@ -24,3 +24,15 @@ TEST_CASE("GVContext can be move constructed") {
   auto other{std::move(gvc)};
   REQUIRE(other.c_struct() == c_ptr);
 }
+
+TEST_CASE("GVContext can be move assigned") {
+  GVC::GVContext gvc;
+  const auto c_ptr = gvc.c_struct();
+  REQUIRE(c_ptr != nullptr);
+  auto other = GVC::GVContext();
+  const auto other_c_ptr = other.c_struct();
+  REQUIRE(other_c_ptr != nullptr);
+  REQUIRE(other_c_ptr != c_ptr);
+  other = std::move(gvc);
+  REQUIRE(other.c_struct() == c_ptr);
+}
