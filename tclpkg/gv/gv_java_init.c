@@ -17,15 +17,14 @@
 
 typedef struct {
     char* data;
-    int sz;       /* buffer size */
-    int len;      /* length of array */
+    size_t sz;       /* buffer size */
+    size_t len;      /* length of array */
 } BA;
 
 static size_t gv_string_writer(GVJ_t *job, const char *s, size_t len)
 {
     BA* bap = (BA*)(job->output_file);
-/* fprintf (stderr, "newlen %ld data %p sz %d len %d\n", len, bap->data,bap->sz, bap->len); */
-    int newlen = bap->len + len;
+    size_t newlen = bap->len + len;
     if (newlen > bap->sz) {
 	bap->sz *= 2;
 	if (newlen > bap->sz)

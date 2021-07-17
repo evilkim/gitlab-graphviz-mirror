@@ -13,16 +13,21 @@
 #include <gvc/gvplugin.h>
 #include <gvc/gvcjob.h>
 #include <gvc/gvcint.h>
+#include <limits.h>
 
 static size_t gv_string_writer(GVJ_t *job, const char *s, size_t len)
 {
-    Tcl_AppendToObj((Tcl_Obj*)(job->output_file), s, len);
-    return len;
+  // clamp to INT_MAX
+  int l = len > (size_t)INT_MAX ? INT_MAX : (int)len;
+  Tcl_AppendToObj((Tcl_Obj*)(job->output_file), s, l);
+  return (size_t)l;
 }
 
 static size_t gv_channel_writer(GVJ_t *job, const char *s, size_t len)
 {
-    return Tcl_Write((Tcl_Channel)(job->output_file), s, len);
+  // clamp to INT_MAX
+  int l = len > (size_t)INT_MAX ? INT_MAX : (int)len;
+  return (size_t)Tcl_Write((Tcl_Channel)(job->output_file), s, l);
 }
 
 void gv_string_writer_init(GVC_t *gvc)

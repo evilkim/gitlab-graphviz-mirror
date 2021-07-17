@@ -79,10 +79,6 @@ gvgotest: gv.i gvgotest.go gv.go runtime.h
 	go build -x -work -gccgoflags -lgvc -compiler gccgo gvgotest.go && mv gvgotest ../../; \
 	)
 
-#        cat $(srcdir)/gv_gc.c >go/src/gv/gv_gc.c; \
-#        cat runtime.h >go/src/gv/runtime.h; \
-#
-
 pkgguiledir = $(pkglibdir)/guile
 GUILE_data = 
 nodist_libgv_guile_la_SOURCES = gv_guile.cpp $(GUILE_data)
@@ -90,6 +86,7 @@ libgv_guile_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_guile_la_LIBADD = $(BASELIBS) $(GUILE_LIBS)
 libgv_guile_la_LDFLAGS = -module -avoid-version
 libgv_guile_la_CPPFLAGS = $(BASECPPFLAGS) $(GUILE_INCLUDES)
+libgv_guile_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(GUILE_data): gv_guile.cpp
 gv_guile.cpp: gv.i
 	$(SWIG) -c++ -guile -o gv_guile.cpp $(srcdir)/gv.i
@@ -162,6 +159,8 @@ libgv_ocaml_la_CPPFLAGS = \
 	$(OCAML_INCLUDES) \
 	-Dint64=int64_t \
 	-fpermissive
+libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function \
+	-Wno-unused-variable
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
 	$(SWIG) -c++ -ocaml -o gv_ocaml.cpp $(srcdir)/gv.i
@@ -212,6 +211,7 @@ libgv_php_la_SOURCES = $(BASESOURCES) gv_php_init.c
 libgv_php_la_LIBADD = $(BASELIBS) $(PHP_LIBS)
 libgv_php_la_LDFLAGS = -module -avoid-version
 libgv_php_la_CPPFLAGS = $(BASECPPFLAGS) $(PHP_INCLUDES)
+libgv_php_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-label -Wno-unused-parameter
 gv.php: gv_php.cpp
 php_gv.h: gv_php.cpp
 gv_php.cpp: gv.i
@@ -257,6 +257,7 @@ libgv_ruby_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_ruby_la_LIBADD = $(BASELIBS) $(RUBY_LIBS)
 libgv_ruby_la_LDFLAGS = -module -avoid-version
 libgv_ruby_la_CPPFLAGS = $(BASECPPFLAGS) $(RUBY_CFLAGS)
+libgv_ruby_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(RUBY_data): gv_ruby.cpp
 gv_ruby.cpp: gv.i
 	$(SWIG) -c++ -ruby -o gv_ruby.cpp $(srcdir)/gv.i
