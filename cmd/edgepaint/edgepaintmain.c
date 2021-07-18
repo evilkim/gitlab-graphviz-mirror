@@ -100,7 +100,7 @@ static bool strprefix(const char *s1, const char *s2) {
   return strncmp(s1, s2, strlen(s2)) == 0;
 }
 
-static void init(int argc, char *argv[], real *angle, real *accuracy, char **infile, int *check_edges_with_same_endpoint, int *seed, char **color_scheme, char **lightness){
+static void init(int argc, char *argv[], real *angle, real *accuracy, int *check_edges_with_same_endpoint, int *seed, char **color_scheme, char **lightness){
 
   char* cmd = argv[0];
   outfile = NULL;
@@ -108,7 +108,6 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
   Verbose = FALSE;
   *accuracy = 0.01;
   *angle = 15;/* 10 degree by default*/
-  *infile = NULL;
   *check_edges_with_same_endpoint = 0;
   *seed = 123;
   *color_scheme = "lab";
@@ -250,7 +249,6 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
   }
 
   if (argc > optind) {
-    *infile = argv[optind];
     Files = argv + optind;
   }
 
@@ -260,7 +258,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
 }
 
 
-static int clarify(Agraph_t* g, real angle, real accuracy, char *infile, int check_edges_with_same_endpoint, int seed, char *color_scheme, char *lightness){
+static int clarify(Agraph_t* g, real angle, real accuracy, int check_edges_with_same_endpoint, int seed, char *color_scheme, char *lightness){
 
   if (checkG(g)) {
     agerr (AGERR, "Graph %s contains loops or multiedges\n", agnameof(g));
@@ -282,7 +280,6 @@ static Agraph_t *gread(FILE * fp)
 
 int main(int argc, char *argv[])
 {
-  char *infile;
   real accuracy;
   real angle;
   int check_edges_with_same_endpoint, seed;
@@ -293,7 +290,7 @@ int main(int argc, char *argv[])
   ingraph_state ig;
   int rv = 0;
 
-	init(argc, argv, &angle, &accuracy, &infile, &check_edges_with_same_endpoint, &seed, &color_scheme, &lightness);
+	init(argc, argv, &angle, &accuracy, &check_edges_with_same_endpoint, &seed, &color_scheme, &lightness);
 	newIngraph(&ig, Files, gread);
 
 	while ((g = nextGraph(&ig)) != 0) {
@@ -304,7 +301,7 @@ int main(int argc, char *argv[])
 		if (Verbose)
 		    fprintf(stderr, "Process graph %s in file %s\n", agnameof(g),
 			    fname);
-		rv |= clarify(g, angle, accuracy, infile, check_edges_with_same_endpoint, seed, color_scheme, lightness);
+		rv |= clarify(g, angle, accuracy, check_edges_with_same_endpoint, seed, color_scheme, lightness);
 	}
 
 	return rv;
