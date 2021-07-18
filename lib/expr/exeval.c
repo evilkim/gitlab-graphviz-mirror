@@ -2020,5 +2020,5 @@ char *exstring(Expr_t * ex, char *s)
  */
 void *exstralloc(Expr_t * ex, size_t sz)
 {
-    return vmresize(ex->ve, NULL, sz);
+    return vmalloc(ex->ve, sz);
 }
