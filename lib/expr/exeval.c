@@ -2016,10 +2016,9 @@ char *exstring(Expr_t * ex, char *s)
 }
 
 /* exstralloc:
- * If p = NULL, allocate sz bytes in expression
- * memory; otherwise, realloc.
+ * allocate sz bytes in expression memory.
  */
-void *exstralloc(Expr_t * ex, void *p, size_t sz)
+void *exstralloc(Expr_t * ex, size_t sz)
 {
-    return vmresize(ex->ve, p, sz);
+    return vmresize(ex->ve, NULL, sz);
 }

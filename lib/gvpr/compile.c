@@ -124,7 +124,7 @@ static char *bbOf(Expr_t * pgm, char *pt, int getll)
 	p = strchr(p + 1, ',');
 	if (getll) {
 	    len = p - pt;
-	    s = exstralloc(pgm, 0, len + 1);
+	    s = exstralloc(pgm, len + 1);
 	    strncpy(s, pt, len);
 	    s[len] = '\0';
 	} else
@@ -149,7 +149,7 @@ static char *xyOf(Expr_t * pgm, char *pt, int getx)
 	p = strchr(pt, ',');
 	if (getx) {
 	    len = p - pt;
-	    v = exstralloc(pgm, 0, len + 1);
+	    v = exstralloc(pgm, len + 1);
 	    strncpy(v, pt, len);
 	    v[len] = '\0';
 	} else
