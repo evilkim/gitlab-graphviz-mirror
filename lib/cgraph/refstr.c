@@ -62,15 +62,24 @@ int agstrclose(Agraph_t * g)
     return agdtclose(g, refdict(g));
 }
 
-static refstr_t *refsymbind(Dict_t * strdict, char *s)
+static refstr_t *refsymbind(Dict_t * strdict, const char *s)
 {
     refstr_t key, *r;
-    key.s = s;
+// Suppress Clang/GCC -Wcast-qual warning. Casting away const here is acceptable
+// as dtsearch does not modify its input key.
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#endif
+    key.s = (char*)s;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
     r = dtsearch(strdict, &key);
     return r;
 }
 
-static char *refstrbind(Dict_t * strdict, char *s)
+static char *refstrbind(Dict_t * strdict, const char *s)
 {
     refstr_t *r;
     r = refsymbind(strdict, s);
@@ -80,12 +89,12 @@ static char *refstrbind(Dict_t * strdict, char *s)
 	return NULL;
 }
 
-char *agstrbind(Agraph_t * g, char *s)
+char *agstrbind(Agraph_t * g, const char *s)
 {
     return refstrbind(refdict(g), s);
 }
 
-char *agstrdup(Agraph_t * g, char *s)
+char *agstrdup(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;
@@ -112,7 +121,7 @@ char *agstrdup(Agraph_t * g, char *s)
     return r->s;
 }
 
-char *agstrdup_html(Agraph_t * g, char *s)
+char *agstrdup_html(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;
@@ -139,7 +148,7 @@ char *agstrdup_html(Agraph_t * g, char *s)
     return r->s;
 }
 
-int agstrfree(Agraph_t * g, char *s)
+int agstrfree(Agraph_t * g, const char *s)
 {
     refstr_t *r;
     Dict_t *strdict;
@@ -164,13 +173,13 @@ int agstrfree(Agraph_t * g, char *s)
  * Return true if s is an HTML string.
  * We assume s points to the datafield store[0] of a refstr.
  */
-int aghtmlstr(char *s)
+int aghtmlstr(const char *s)
 {
-    refstr_t *key;
+    const refstr_t *key;
 
     if (s == NULL)
 	return 0;
-    key = (refstr_t *) (s - offsetof(refstr_t, store[0]));
+    key = (const refstr_t *) (s - offsetof(refstr_t, store[0]));
     return key->is_html;
 }
 

@@ -44,8 +44,10 @@ static int indent(Agraph_t * g, iochan_t * ofile)
     return 0;
 }
 
-    /* alphanumeric, '.', '-', or non-ascii; basically, chars used in unquoted ids */
-#define is_id_char(c) (isalnum(c) || ((c) == '.') || ((c) == '-') || !isascii(c))
+// alphanumeric, '.', '-', or non-ascii; basically, chars used in unquoted ids
+static bool is_id_char(char c) {
+  return isalnum(c) || c == '.' || c == '-' || !isascii(c);
+}
 
 /* _agstrcanon:
  * Canonicalize ordinary strings. 
@@ -54,7 +56,7 @@ static int indent(Agraph_t * g, iochan_t * ofile)
 static char *_agstrcanon(char *arg, char *buf)
 {
     char *s, *p;
-    unsigned char uc;
+    char uc;
     int cnt = 0, dotcnt = 0;
     bool needs_quotes = false;
     int maybe_num;
@@ -70,7 +72,7 @@ static char *_agstrcanon(char *arg, char *buf)
     s = arg;
     p = buf;
     *p++ = '\"';
-    uc = *(unsigned char *) s++;
+    uc = *s++;
     maybe_num = isdigit(uc) || uc == '.' || uc == '-';
     while (uc) {
 	if (uc == '\"') {
@@ -97,8 +99,8 @@ static char *_agstrcanon(char *arg, char *buf)
 	}
 	else if (!ISALNUM(uc))
 	    needs_quotes = true;
-	*p++ = (char) uc;
-	uc = *(unsigned char *) s++;
+	*p++ = uc;
+	uc = *s++;
 	cnt++;
 	
 	/* If breaking long strings into multiple lines, only allow breaks after a non-id char, not a backslash, where the next char is an
@@ -139,7 +141,7 @@ static char *_agstrcanon(char *arg, char *buf)
 /* agcanonhtmlstr:
  * Canonicalize html strings. 
  */
-static char *agcanonhtmlstr(char *arg, char *buf)
+static char *agcanonhtmlstr(const char *arg, char *buf)
 {
     sprintf(buf, "<%s>", arg);
     return buf;
@@ -158,7 +160,7 @@ char *agstrcanon(char *arg, char *buf)
 	return _agstrcanon(arg, buf);
 }
 
-static char *getoutputbuffer(char *str)
+static char *getoutputbuffer(const char *str)
 {
     static char *rv;
     static size_t len = 0;
