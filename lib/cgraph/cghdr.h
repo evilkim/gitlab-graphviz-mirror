@@ -29,6 +29,7 @@
 #include	 	<ctype.h>
 #include		<sys/types.h>
 #include		<stdarg.h>
+#include		<stdbool.h>
 #include		<stdlib.h>
 #include		<string.h>
 #ifdef HAVE_UNISTD_H
@@ -37,9 +38,10 @@
 #include <assert.h>
 #include <stdint.h>
 
-#ifndef streq
-#define streq(s,t)		((*s == *t) && !strcmp((s),(t)))
-#endif
+static inline bool streq(const char *a, const char *b) {
+  return strcmp(a, b) == 0;
+}
+
 #define NOTUSED(var)	(void) var
 
 #define NILgraph			NIL(Agraph_t*)

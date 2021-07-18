@@ -263,6 +263,8 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
     ldict = agdictof(g, kind);
     lsym = aglocaldictsym(ldict, name);
     if (lsym) {			/* update old local definition */
+	if (g != root && streq(name, "layout"))
+	    agerr(AGWARN, "layout attribute is invalid except on the root graph\n");
 	agstrfree(g, lsym->defval);
 	lsym->defval = agstrdup(g, value);
 	rv = lsym;
@@ -297,9 +299,9 @@ static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
 	    rv = rsym;
 	}
     }
-    if (rv && (kind == AGRAPH))
+    if (rv && kind == AGRAPH)
 	agxset(g, rv, value);
-    agmethod_upd(g, g, rv);	/* JCE and GN wanted this */
+    agmethod_upd(g, g, rv);
     return rv;
 }
 
@@ -432,7 +434,7 @@ char *agget(void *obj, char *name)
 	rv = 0;			/* note was "", but this provides more info */
     else {
 	data = agattrrec(obj);
-	rv = (char *) data->str[sym->id];
+	rv = data->str[sym->id];
     }
     return rv;
 }
@@ -444,7 +446,7 @@ char *agxget(void *obj, Agsym_t * sym)
 
     data = agattrrec(obj);
     assert(sym->id >= 0 && sym->id < topdictsize(obj));
-    rv = (char *) (data->str[sym->id]);
+    rv = data->str[sym->id];
     return rv;
 }
 
