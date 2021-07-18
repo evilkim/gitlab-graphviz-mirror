@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The attached dot file causes a segfault when processed #2095
-- typo in `edgepaint` usage text
+- fix typo and update URLs in `edgepaint` usage text and man page
 
 ## [2.48.0] - 2021-07-17
 
