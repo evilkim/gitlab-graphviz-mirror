@@ -8,7 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -38,13 +37,7 @@ static bool make_space(Vmalloc_t *vm) {
   return true;
 }
 
-/** allocate heap memory
- *
- * @param vm region allocating from
- * @param size desired block size
- * @returns Memory fulfilling the allocation request or NULL on failure
- */
-void *bestalloc(Vmalloc_t *vm, size_t size) {
+void *vmalloc(Vmalloc_t *vm, size_t size) {
 
   if (!make_space(vm)) {
     return NULL;
@@ -61,16 +54,10 @@ void *bestalloc(Vmalloc_t *vm, size_t size) {
   return p;
 }
 
-/** free heap memory
- *
- * @param vm Region the pointer was originally allocated from
- * @param data The pointer originally received from vmalloc
- * @returns 0 on success
- */
-int bestfree(Vmalloc_t *vm, void *data) {
+void vmfree(Vmalloc_t *vm, void *data) {
 
   if (!data) { // ANSI-ism
-    return 0;
+    return;
   }
 
   // find the pointer we previously allocated
@@ -85,25 +72,17 @@ int bestfree(Vmalloc_t *vm, void *data) {
       // give this back to the underlying allocator
       free(data);
 
-      return 0;
+      return;
     }
   }
 
   // we did not find this pointer; free() of something we did not allocate
-  return -1;
 }
 
-/** resize an area of allocated memory
- *
- * @param vm region allocation from
- * @param data old block of data
- * @param size new size
- * @returns Pointer to the newly resized area or NULL on failure
- */
-void *bestresize(Vmalloc_t *vm, void *data, size_t size) {
+void *vmresize(Vmalloc_t *vm, void *data, size_t size) {
 
   if (!data) {
-    return bestalloc(vm, size);
+    return vmalloc(vm, size);
   }
 
   // find the pointer we previously allocated

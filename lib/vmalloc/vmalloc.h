@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -20,17 +22,8 @@ extern "C" {
 */
 
     typedef struct _vmalloc_s Vmalloc_t;
-    typedef struct _vmethod_s Vmethod_t;
-
-    struct _vmethod_s {
-	void *(*allocf) (Vmalloc_t *, size_t);
-	void *(*resizef) (Vmalloc_t *, void *, size_t);
-	int (*freef) (Vmalloc_t *, void *);
-    };
 
     struct _vmalloc_s {
-	Vmethod_t meth;		/* method for allocation        */
-
 	void **allocated;	/* pointers we have given out           */
 	size_t size;	/* used entries in `allocated`          */
 	size_t capacity;	/* available entries in `allocated`     */
@@ -40,28 +33,32 @@ extern "C" {
     extern int vmclose(Vmalloc_t *);
     extern int vmclear(Vmalloc_t *);
 
-    extern void *vmalloc(Vmalloc_t *, size_t);
-    extern void *vmresize(Vmalloc_t *, void *, size_t);
-    extern int vmfree(Vmalloc_t *, void *);
+/** allocate heap memory
+ *
+ * @param vm region allocating from
+ * @param size desired block size
+ * @returns Memory fulfilling the allocation request or NULL on failure
+ */
+void *vmalloc(Vmalloc_t *vm, size_t size);
 
-    extern long vmaddr(Vmalloc_t *, void *);
+/** resize an area of allocated memory
+ *
+ * @param vm region allocation from
+ * @param data old block of data
+ * @param size new size
+ * @returns Pointer to the newly resized area or NULL on failure
+ */
+void *vmresize(Vmalloc_t *vm, void *data, size_t size);
+
+/** free heap memory
+ *
+ * @param vm Region the pointer was originally allocated from
+ * @param data The pointer originally received from vmalloc
+ */
+void vmfree(Vmalloc_t *vm, void *data);
 
     extern char *vmstrdup(Vmalloc_t *, const char *);
 
-
-/* to coerce any value to a Vmalloc_t*, make ANSI happy */
-#define _VM_(vm)	((Vmalloc_t*)(vm))
-/* non-debugging/profiling allocation calls */
-#ifndef vmalloc
-#define vmalloc(vm,sz)		(*(_VM_(vm)->meth.allocf))((vm),(sz))
-#endif
-#ifndef vmresize
-#define vmresize(vm,d,sz)	(*(_VM_(vm)->meth.resizef))\
-					((vm),(void*)(d),(sz))
-#endif
-#ifndef vmfree
-#define vmfree(vm,d)		(*(_VM_(vm)->meth.freef))((vm),(void*)(d))
-#endif
 #define vmnewof(v,p,t,n,x)	vmresize((v), (p), sizeof(t)*(n)+(x))
 #ifdef __cplusplus
 }

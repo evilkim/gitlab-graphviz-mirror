@@ -8,7 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
 #include <stdlib.h>
 
@@ -22,10 +21,6 @@ Vmalloc_t *vmopen(void) {
   if (vm == NULL) {
     return NULL;
   }
-
-  vm->meth.allocf = bestalloc;
-  vm->meth.resizef = bestresize;
-  vm->meth.freef = bestfree;
 
   return vm;
 }

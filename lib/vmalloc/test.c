@@ -11,9 +11,8 @@
 #include <string.h>
 
 // include vmalloc and some of its internals directly so we can call them
-#include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
-#include <vmalloc/vmbest.c>
+#include <vmalloc/vmalloc.c>
 #include <vmalloc/vmclear.c>
 #include <vmalloc/vmclose.c>
 #include <vmalloc/vmopen.c>
@@ -96,18 +95,15 @@ static void test_lifecycle(void) {
   assert(v->size == allocations_len);
 
   // free a few allocations out of order from that in which we allocated
-  int r = vmfree(v, p[3]);
-  assert(r == 0);
-  r = vmfree(v, p[6]);
-  assert(r == 0);
-  r = vmfree(v, p[5]);
-  assert(r == 0);
+  vmfree(v, p[3]);
+  vmfree(v, p[6]);
+  vmfree(v, p[5]);
 
   // the allocator should have correctly stopped tracking those pointers
   assert(v->size == allocations_len - 3);
 
   // free the rest of the allocations in one sweep
-  r = vmclear(v);
+  int r = vmclear(v);
   assert(r == 0);
 
   /* the allocator should have dropped all pointers it was tracking */
@@ -165,8 +161,7 @@ static void test_resize(void) {
   }
 
   // discard this
-  int r = vmfree(v, p);
-  assert(r == 0);
+  vmfree(v, p);
 
   // get a new pointer
   p = vmalloc(v, s);
@@ -205,7 +200,7 @@ static void test_resize(void) {
   }
 
   // clean up
-  r = vmclose(v);
+  int r = vmclose(v);
   assert(r == 0);
 }
 
@@ -240,10 +235,8 @@ static void test_strdup(void) {
   assert(strcmp(s, t) == 0);
 
   // discard these strings
-  int r = vmfree(v, s);
-  assert(r == 0);
-  r = vmfree(v, t);
-  assert(r == 0);
+  vmfree(v, s);
+  vmfree(v, t);
 
   /* vmstrdup does not assume the input string is mutable, so lets pass it a
    * non-writable string
@@ -256,7 +249,7 @@ static void test_strdup(void) {
   assert(strcmp(sc, t) == 0);
 
   // clean up
-  r = vmclose(v);
+  int r = vmclose(v);
   assert(r == 0);
 }
 

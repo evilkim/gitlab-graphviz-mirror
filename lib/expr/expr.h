@@ -88,8 +88,6 @@ extern "C" {
 
 #define exalloc(p,n)		exnewof(p,0,char,n,0)
 #define exnewof(p,o,t,n,x)	vmnewof((p)->vm,o,t,n,x)
-#define exfree(p,x)		vmfree((p)->vm,x)
-#define exstrdup(p,s)		vmstrdup((p)->vm,s)
 
 #if LONG_MAX > INT_MAX
 typedef int Exshort_t;

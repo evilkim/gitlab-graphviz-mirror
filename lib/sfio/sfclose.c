@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include	<assert.h>
 #include	<sfio/sfhdr.h>
 #include	<stddef.h>
 
@@ -74,7 +75,7 @@ int sfclose(Sfio_t * f)
 	    }
 	} else {
 	    f->mode &= ~SF_LOCK;
-	    /**/ ASSERT(_Sfpmove);
+	    assert(_Sfpmove);
 	    if ((*_Sfpmove) (f, -1) < 0) {
 		SFOPEN(f, 0);
 		SFMTXRETURN(f, -1);

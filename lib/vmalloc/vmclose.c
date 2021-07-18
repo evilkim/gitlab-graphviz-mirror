@@ -8,7 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#include <vmalloc/vmhdr.h>
 #include <vmalloc/vmalloc.h>
 #include <stdlib.h>
 

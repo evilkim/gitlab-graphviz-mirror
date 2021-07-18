@@ -1,10 +1,9 @@
 add_library(vmalloc STATIC
     # Header files
     vmalloc.h
-    vmhdr.h
 
     # Source files
-    vmbest.c
+    vmalloc.c
     vmclear.c
     vmclose.c
     vmopen.c
