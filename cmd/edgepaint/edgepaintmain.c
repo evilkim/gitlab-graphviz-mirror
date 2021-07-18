@@ -164,6 +164,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
 	  fprintf(stderr,"invalid -lightness=%s option.\n", optarg + 9);
 	  usage(cmd, 1);
 	}
+	free(*lightness);
 	*lightness = malloc(sizeof(char)*10);
 	strcpy(*lightness, optarg + 9);
       } else {
