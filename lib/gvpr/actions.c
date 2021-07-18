@@ -657,7 +657,7 @@ Agraph_t *freadFile(Expr_t * ex, int fd)
     return readG(sp);
 }
 
-int openFile(Expr_t * ex, char *fname, char *mode)
+int openFile(Expr_t * ex, const char *fname, const char *mode)
 {
     int idx;
 

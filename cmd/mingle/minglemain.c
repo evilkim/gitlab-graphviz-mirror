@@ -47,7 +47,7 @@ typedef struct {
 static char *fname;
 static FILE *outfile;
 
-static FILE *openFile(char *name, char *mode, char* cmd)
+static FILE *openFile(const char *name, const char *mode, const char* cmd)
 {
     FILE *fp;
     char *modestr;

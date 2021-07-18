@@ -38,7 +38,7 @@ extern "C" {
     extern int fwriteFile(Expr_t *, Agraph_t *, int, Agiodisc_t*);
     extern Agraph_t *readFile(char *);
     extern Agraph_t *freadFile(Expr_t *, int);
-    extern int openFile(Expr_t *, char *, char *);
+    extern int openFile(Expr_t *, const char *, const char *);
     extern int closeFile(Expr_t *, int);
     extern char *readLine(Expr_t *, int);
     extern char *canon(Expr_t * pgm, char *);

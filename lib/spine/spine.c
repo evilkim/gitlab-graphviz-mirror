@@ -531,7 +531,7 @@ void genSpine(Agraph_t * g, float sparse_ratio, int verbose)
 
 #ifdef MAIN
 
-static FILE *openFile(char *cmd, char *name, char *mode)
+static FILE *openFile(const char *cmd, const char *name, const char *mode)
 {
 	FILE *fp;
 	char *modestr;

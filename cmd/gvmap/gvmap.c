@@ -128,7 +128,7 @@ static void usage(char* cmd, int eval)
     exit(eval);
 }
 
-static FILE *openFile(char *name, char *mode, char* cmd)
+static FILE *openFile(const char *name, const char *mode, const char* cmd)
 {
     FILE *fp;
     char *modestr;

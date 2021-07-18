@@ -108,7 +108,7 @@ static void usage(int v)
     exit(v);
 }
 
-static FILE *openFile(char *name, char *mode)
+static FILE *openFile(const char *name, const char *mode)
 {
     FILE *fp;
     char *modestr;
