@@ -59,7 +59,7 @@ static FILE *openFile(char *name, char *mode, char* cmd)
 
 static void usage (char* cmd, int eval){
   fprintf(stderr, "Usage: %s <options> gv file with 2D coordinates.\n", cmd);
-  fprintf(stderr, "Find a color assignment of the edges, such that edges that cross at small angle have as different as posible.\n");
+  fprintf(stderr, "Find a color assignment of the edges, such that edges that cross at small angle have as different as possible.\n");
   fprintf(stderr, "Options are: \n");
   fprintf(stderr, " -accuracy=e      : accuracy with which to find the maximally different coloring for each node with regard to its neighbors. Default 0.01.\n");
   fprintf(stderr, " -angle=a         : if edge crossing is less than that angle a, then make the edge colors different. Default 15.\n");
