@@ -12,7 +12,7 @@
 #include <string.h>
 #include <common/macros.h>
 
-int knownColorScheme (char* name)
+int knownColorScheme(const char* name)
 {
   int r, g, b;
 
