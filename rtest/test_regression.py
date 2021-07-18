@@ -1007,7 +1007,6 @@ def test_1931():
 
 @pytest.mark.skipif(shutil.which("edgepaint") is None,
                     reason="edgepaint not available")
-@pytest.mark.xfail(strict=True) # FIXME
 def test_1971():
   """
   edgepaint should reject invalid command line options

@@ -21,23 +21,23 @@ them apart.
 .SH OPTIONS
 The following options are supported:
 .TP
-.BI \-accuracy=  e
+.BI \--accuracy=  e
 Accuracy with which to find the maximally different coloring for each node with
 regard to its neighbors. Default \fIe\fR = 0.01.
 .TP
-.BI \-angle= a
+.BI \--angle= a
 Color two edges differently if their incidence angle is less than \fIa\fR
 degrees. Default \fIa\fR = 15.
 .TP
-.BI \-random_seed= s
+.BI \--random_seed= s
 Random seed to use. \fIs\fR must be an integer. If \fIs\fR is negative, we do
 |\fIs\fR| iterations with different seeds and pick the best.
 .TP
-.BI \-lightness= "l1,l2"
+.BI \--lightness= "l1,l2"
 Only applies for the "lab" color scheme: \fIl1\fR and \fIl2\fR must integers,
 with 0 <= \fIl1\fR <= \fIl2\fR <=100. By default, we use "0,70".
 .TP
-.BI \-share_endpoint
+.BI \--share_endpoint
 If this option is specified, edges that share a node are not considered in
 conflict if they are close to parallel but are on the opposite sides of the node
 (around 180 degree).
@@ -45,7 +45,7 @@ conflict if they are close to parallel but are on the opposite sides of the node
 .BI \-o " f"
 Write output to file \fIf\fR (default: stdout).
 .TP
-.BI \-color_scheme= "c"
+.BI \--color_scheme= "c"
 Specifies the color scheme.  This can be "rgb", "gray", "lab" (default); or a
 comma-separated list of RGB colors in hex (e.g., "#ff0000,#aabbed,#eeffaa")
 representing a palette; or a string specifying a Brewer color scheme (e.g.,

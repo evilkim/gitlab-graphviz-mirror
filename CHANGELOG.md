@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   been updated to take `const char*` arguments #634
 - incorrectly using the `layout` attribute on anything other than a graph now
   results in a warning about this being invalid #2078
+- `edgepaint` accepts more standard `--` prefixed command line arguments and
+  rejects invalid options #1971
 
 ### Fixed
 
