@@ -84,8 +84,7 @@ extern "C" {
 #define A(n,t)		((t)<<((n)*TBITS))	/* function arg n is type t     */
 #define N(t)		((t)>>=TBITS)	/* shift for next arg           */
 
-#define exalloc(p,n)		exnewof(p,0,char,n,0)
-#define exnewof(p,o,t,n,x)	vmnewof((p)->vm,o,t,n,x)
+#define exalloc(p,n)		vmalloc((p)->vm, (n))
 
 #if LONG_MAX > INT_MAX
 typedef int Exshort_t;
