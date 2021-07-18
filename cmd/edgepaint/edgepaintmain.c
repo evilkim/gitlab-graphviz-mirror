@@ -43,19 +43,13 @@ typedef struct {
 static char *fname;
 static FILE *outfile;
 
-static FILE *openFile(const char *name, const char *mode, const char* cmd)
+static FILE *openFile(const char *name, const char* cmd)
 {
     FILE *fp;
-    char *modestr;
 
-	fp = fopen(name, mode);
+	fp = fopen(name, "w");
 	if (!fp) {
-		if (*mode == 'r')
-			modestr = "reading";
-		else
-			modestr = "writing";
-		fprintf(stderr, "%s: could not open file %s for %s\n",
-			cmd, name, modestr);
+		fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
 		exit(-1);
 	}
 	return (fp);
@@ -196,7 +190,7 @@ static void init(int argc, char *argv[], real *angle, real *accuracy, char **inf
       if (outfile != NULL) {
         fclose(outfile);
       }
-      outfile = openFile(arg, "w", CmdName);
+      outfile = openFile(arg, CmdName);
       break;
 
     case 'v':
