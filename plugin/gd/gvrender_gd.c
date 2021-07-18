@@ -11,7 +11,6 @@
 #include "config.h"
 
 #include <stdlib.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 #include <fcntl.h>
@@ -20,13 +19,6 @@
 #include <gvc/gvplugin_device.h>
 #include <gvc/gvcint.h>	/* for gvc->g for agget */
 #include <gd.h>
-
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
 
 #define NOTUSED(x)	(void) (x)
 
@@ -305,7 +297,7 @@ void gdgen_text(gdImagePtr im, pointf spf, pointf epf, int fontcolor, double fon
     strex.flags = gdFTEX_RESOLUTION;
     strex.hdpi = strex.vdpi = fontdpi;
 
-    if (strstr(fontname, "/"))
+    if (strchr(fontname, '/'))
         strex.flags |= gdFTEX_FONTPATHNAME;
     else
         strex.flags |= gdFTEX_FONTCONFIG;

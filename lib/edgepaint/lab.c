@@ -13,6 +13,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sparse/color_palette.h>
 #include <edgepaint/lab_gamut.h>
 
@@ -233,7 +234,7 @@ void color_blend_rgb2lab(char *color_list, const int maxpoints, double **colors0
   if (maxpoints <= 0) return;
 
   cl = color_list;
-  while ((cl=strstr(cl, ",")) != NULL){
+  while ((cl=strchr(cl, ',')) != NULL){
     cl++; nc++;
   }
   lab = malloc(sizeof(color_lab)*MAX(nc,1));
@@ -245,7 +246,7 @@ void color_blend_rgb2lab(char *color_list, const int maxpoints, double **colors0
     if (sscanf(cl,"#%02X%02X%02X", &r, &g, &b) != 3) break;
     rgb.r = r; rgb.g = g; rgb.b = b;
     lab[nc++] = RGB2LAB(rgb);
-  } while ((cl=strstr(cl, ",")) != NULL);
+  } while ((cl=strchr(cl, ',')) != NULL);
 
   dists = malloc(sizeof(double)*MAX(1, nc));
   dists[0] = 0;

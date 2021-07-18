@@ -127,7 +127,7 @@ static boolean gd_textlayout(textspan_t * span, char **fontpath)
     strex.flags = gdFTEX_RETURNFONTPATHNAME | gdFTEX_RESOLUTION;
     strex.hdpi = strex.vdpi = POINTS_PER_INCH;
 
-    if (strstr(fontname, "/"))
+    if (strchr(fontname, '/'))
 	strex.flags |= gdFTEX_FONTPATHNAME;
     else
 	strex.flags |= gdFTEX_FONTCONFIG;
