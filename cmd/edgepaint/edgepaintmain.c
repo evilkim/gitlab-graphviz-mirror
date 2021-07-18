@@ -50,9 +50,9 @@ static FILE *openFile(const char *name, const char* cmd)
 	fp = fopen(name, "w");
 	if (!fp) {
 		fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
-	return (fp);
+	return fp;
 }
 
 static void usage (char* cmd, int eval){
@@ -288,7 +288,7 @@ int main(int argc, char *argv[])
   Agraph_t *g;
   Agraph_t *prev = NULL;
   ingraph_state ig;
-  int rv = 0;
+  int rv = EXIT_SUCCESS;
 
 	init(argc, argv, &angle, &accuracy, &check_edges_with_same_endpoint, &seed, &color_scheme, &lightness);
 	newIngraph(&ig, Files, gread);
@@ -301,7 +301,10 @@ int main(int argc, char *argv[])
 		if (Verbose)
 		    fprintf(stderr, "Process graph %s in file %s\n", agnameof(g),
 			    fname);
-		rv |= clarify(g, angle, accuracy, check_edges_with_same_endpoint, seed, color_scheme, lightness);
+		if (clarify(g, angle, accuracy, check_edges_with_same_endpoint, seed,
+		            color_scheme, lightness) != 0) {
+		    rv = EXIT_FAILURE;
+		}
 	}
 
 	return rv;
