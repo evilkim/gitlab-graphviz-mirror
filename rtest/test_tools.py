@@ -112,3 +112,36 @@ def test_tools(tool):
   )
 
   assert returncode != 0, f"{tool} accepted unsupported option -$"
+
+@pytest.mark.skipif(shutil.which("edgepaint") is None,
+                    reason="edgepaint not available")
+@pytest.mark.parametrize("arg", ("-accuracy=0.01", "-angle=15",
+                                 "-random_seed=42", "-random_seed=-42",
+                                 "-lightness=0,70", "-share_endpoint",
+                                 f"-o {os.devnull}", "-color_scheme=accent7",
+                                 "-v"))
+def test_edgepaint_options(arg: str):
+  """
+  edgepaint should correctly understand all its command line flags
+  """
+
+  # a basic graph that edgepaint can process
+  input =                                                                      \
+    'digraph {\n'                                                              \
+    '  graph [bb="0,0,54,108"];\n'                                             \
+    '  node [label="\\N"];\n'                                                  \
+    '  a       [height=0.5,\n'                                                 \
+    '           pos="27,90",\n'                                                \
+    '           width=0.75];\n'                                                \
+    '  b       [height=0.5,\n'                                                 \
+    '           pos="27,18",\n'                                                \
+    '           width=0.75];\n'                                                \
+    '  a -> b  [pos="e,27,36.104 27,71.697 27,63.983 27,54.712 27,46.112"];\n' \
+    '}'
+
+  # run edgepaint on this
+  args = ["edgepaint"] + arg.split(" ")
+  p = subprocess.Popen(args, stdin=subprocess.PIPE, universal_newlines=True)
+  p.communicate(input)
+
+  assert p.returncode == 0, f"edgepaint rejected command line option '{arg}'"
