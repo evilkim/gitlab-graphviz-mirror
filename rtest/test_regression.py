@@ -1142,6 +1142,23 @@ def test_2089_2():
   sys.stderr.write(stderr)
   assert ret == 0
 
+@pytest.mark.skipif(os.environ.get("build_system") == "msbuild" and
+                    os.environ.get("configuration") == "Debug",
+                    reason="Graphviz built with MSBuild in Debug mode has an "
+                           "insufficient stack size for this test")
+def test_2095():
+  """
+  Exceeding 1000 boxes during computation should not cause a crash
+  https://gitlab.com/graphviz/graphviz/-/issues/2095
+  """
+
+  # locate our associated test case in this directory
+  input = Path(__file__).parent / "2095.dot"
+  assert input.exists(), "unexpectedly missing test case"
+
+  # ask Graphviz to process it
+  subprocess.check_call(["dot", "-Tpdf", "-o", os.devnull, input])
+
 def test_package_version():
   """
   The graphviz_version.h header should define a non-empty PACKAGE_VERSION

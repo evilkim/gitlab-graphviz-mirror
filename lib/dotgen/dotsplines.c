@@ -13,9 +13,13 @@
  * set edge splines.
  */
 
+#include <assert.h>
+#include <common/memory.h>
 #include <dotgen/dot.h>
+#include <limits.h>
 #include <math.h>
-#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef ORTHO
 #include <ortho/ortho.h>
@@ -50,7 +54,58 @@
 	ED_to_orig(newp) = old; \
 }
 
-static boxf boxes[1000];
+// a dynamically expanding array of boxes
+typedef struct {
+  boxf *data;
+  size_t size;
+  size_t capacity;
+} boxes_t;
+
+/** Add an entry to the end of a boxes array.
+ *
+ * This may expand the array if it is not already large enough to contain the
+ * new element.
+ *
+ * \param boxes Array to append to.
+ * \param item Element to append.
+ */
+static void boxes_append(boxes_t *boxes, boxf item) {
+
+  assert(boxes != NULL);
+
+  // do we need to expand the array?
+  if (boxes->size == boxes->capacity) {
+    size_t c = boxes->capacity == 0 ? 128 : (boxes->capacity * 2);
+    boxes->data = grealloc(boxes->data, c * sizeof(boxes->data[0]));
+    boxes->capacity = c;
+  }
+
+  boxes->data[boxes->size] = item;
+  ++boxes->size;
+}
+
+/** Remove all entries from a boxes array.
+ *
+ * \param boxes Array to clear.
+ */
+static void boxes_clear(boxes_t *boxes) {
+  assert(boxes != NULL);
+  boxes->size = 0;
+}
+
+/** Deallocate memory associated with a boxes array.
+ *
+ * Following a call to this function, the array is reusable as if it had just
+ * been initialized.
+ *
+ * \param boxes Array to deallocate.
+ */
+static void boxes_free(boxes_t *boxes) {
+  assert(boxes != NULL);
+  free(boxes->data);
+  memset(boxes, 0, sizeof(*boxes));
+}
+
 typedef struct {
     int LeftBound, RightBound, Splinesep, Multisep;
     boxf* Rank_box;
@@ -1377,7 +1432,7 @@ make_flat_labeled_edge(graph_t* g, spline_info_t* sp, path* P, edge_t* e, int et
     pointf *ps;
     pathend_t tend, hend;
     boxf lb;
-    int boxn, i, pn, ydelta;
+    int i, pn, ydelta;
     edge_t *f;
     pointf points[7];
 
@@ -1412,28 +1467,22 @@ make_flat_labeled_edge(graph_t* g, spline_info_t* sp, path* P, edge_t* e, int et
 	ydelta /= 6;
 	lb.LL.y = lb.UR.y - MAX(5,ydelta);
 
-	boxn = 0;
 	makeFlatEnd (g, sp, P, tn, e, &tend, TRUE);
 	makeFlatEnd (g, sp, P, hn, e, &hend, FALSE);
 
-	boxes[boxn].LL.x = tend.boxes[tend.boxn - 1].LL.x; 
-	boxes[boxn].LL.y = tend.boxes[tend.boxn - 1].UR.y; 
-	boxes[boxn].UR.x = lb.LL.x;
-	boxes[boxn].UR.y = lb.LL.y;
-	boxn++;
-	boxes[boxn].LL.x = tend.boxes[tend.boxn - 1].LL.x; 
-	boxes[boxn].LL.y = lb.LL.y;
-	boxes[boxn].UR.x = hend.boxes[hend.boxn - 1].UR.x;
-	boxes[boxn].UR.y = lb.UR.y;
-	boxn++;
-	boxes[boxn].LL.x = lb.UR.x;
-	boxes[boxn].UR.y = lb.LL.y;
-	boxes[boxn].LL.y = hend.boxes[hend.boxn - 1].UR.y; 
-	boxes[boxn].UR.x = hend.boxes[hend.boxn - 1].UR.x;
-	boxn++;
+	boxf boxes[] = {
+	  { .LL = { .x = tend.boxes[tend.boxn - 1].LL.x,
+	            .y = tend.boxes[tend.boxn - 1].UR.y, },
+	    .UR = lb.LL, },
+	  { .LL = { .x = tend.boxes[tend.boxn - 1].LL.x, .y = lb.LL.y, },
+	    .UR = { .x = hend.boxes[hend.boxn - 1].UR.x, .y = lb.UR.y, }, },
+	  { .LL = { .x = lb.UR.x, .y = hend.boxes[hend.boxn - 1].UR.y, },
+	    .UR = { .x = hend.boxes[hend.boxn - 1].UR.x, .y = lb.LL.y, }, },
+	};
+	const size_t boxn = sizeof(boxes) / sizeof(boxes[0]);
 
 	for (i = 0; i < tend.boxn; i++) add_box(P, tend.boxes[i]);
-	for (i = 0; i < boxn; i++) add_box(P, boxes[i]);
+	for (size_t j = 0; j < boxn; j++) add_box(P, boxes[j]);
 	for (i = hend.boxn - 1; i >= 0; i--) add_box(P, hend.boxes[i]);
 
 	if (et == ET_SPLINE) ps = routesplines(P, &pn);
@@ -1475,10 +1524,11 @@ make_flat_bottom_edges(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges,
     makeBottomFlatEnd (g, sp, P, hn, e, &hend, FALSE);
 
     for (i = 0; i < cnt; i++) {
-	int boxn;
 	boxf b;
 	e = edges[ind + i];
-	boxn = 0;
+	size_t boxn = 0;
+
+	boxf boxes[3];
 
 	b = tend.boxes[tend.boxn - 1];
  	boxes[boxn].LL.x = b.LL.x; 
@@ -1497,9 +1547,10 @@ make_flat_bottom_edges(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges,
 	boxes[boxn].LL.x = b.LL.x - (i + 1) * stepx;
 	boxes[boxn].LL.y = boxes[boxn-1].UR.y;
 	boxn++;
+	assert(boxn == sizeof(boxes) / sizeof(boxes[0]));
 
 	for (j = 0; j < tend.boxn; j++) add_box(P, tend.boxes[j]);
-	for (j = 0; j < boxn; j++) add_box(P, boxes[j]);
+	for (size_t k = 0; k < boxn; k++) add_box(P, boxes[k]);
 	for (j = hend.boxn - 1; j >= 0; j--) add_box(P, hend.boxes[j]);
 
 	if (splines) ps = routesplines(P, &pn);
@@ -1594,10 +1645,11 @@ make_flat_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int ind
     makeFlatEnd (g, sp, P, hn, e, &hend, FALSE);
 
     for (i = 0; i < cnt; i++) {
-	int boxn;
 	boxf b;
 	e = edges[ind + i];
-	boxn = 0;
+	size_t boxn = 0;
+
+	boxf boxes[3];
 
 	b = tend.boxes[tend.boxn - 1];
  	boxes[boxn].LL.x = b.LL.x; 
@@ -1616,9 +1668,10 @@ make_flat_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int ind
 	boxes[boxn].LL.x = b.LL.x - (i + 1) * stepx;
 	boxes[boxn].UR.y = boxes[boxn-1].LL.y;
 	boxn++;
+	assert(boxn == sizeof(boxes) / sizeof(boxes[0]));
 
 	for (j = 0; j < tend.boxn; j++) add_box(P, tend.boxes[j]);
-	for (j = 0; j < boxn; j++) add_box(P, boxes[j]);
+	for (size_t k = 0; k < boxn; k++) add_box(P, boxes[k]);
 	for (j = hend.boxn - 1; j >= 0; j--) add_box(P, hend.boxes[j]);
 
 	if (et == ET_SPLINE) ps = routesplines(P, &pn);
@@ -1736,7 +1789,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
     pointf *ps;
     pathend_t tend, hend;
     boxf b;
-    int boxn, sl, si, smode, i, j, dx, pn, hackflag, longedge;
+    int sl, si, smode, i, j, dx, pn, hackflag, longedge;
     static pointf* pointfs;
     static pointf* pointfs2;
     static int numpts;
@@ -1796,7 +1849,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
     }
     else {
 	int splines = et == ET_SPLINE;
-	boxn = 0;
+	boxes_t boxes = {0};
 	pointn = 0;
 	segfirst = e;
 	tn = agtail(e);
@@ -1813,7 +1866,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	smode = FALSE, si = -1;
 	while (ND_node_type(hn) == VIRTUAL && !sinfo.splineMerge(hn)) {
 	    longedge = 1;
-	    boxes[boxn++] = rank_box(sp, g, ND_rank(tn));
+	    boxes_append(&boxes, rank_box(sp, g, ND_rank(tn)));
 	    if (!smode
 	        && ((sl = straight_len(hn)) >=
 	    	((GD_has_labels(g->root) & EDGE_LABEL) ? 4 + 1 : 2 + 1))) {
@@ -1822,7 +1875,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    }
 	    if (!smode || si > 0) {
 	        si--;
-	        boxes[boxn++] = maximal_bbox(g, sp, hn, e, ND_out(hn).list[0]);
+	        boxes_append(&boxes, maximal_bbox(g, sp, hn, e, ND_out(hn).list[0]));
 	        e = ND_out(hn).list[0];
 	        tn = agtail(e);
 	        hn = aghead(e);
@@ -1835,7 +1888,9 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    if (b.LL.x < b.UR.x && b.LL.y < b.UR.y)
 	        hend.boxes[hend.boxn++] = b;
 	    P->end.theta = M_PI / 2, P->end.constrained = TRUE;
-	    completeregularpath(P, segfirst, e, &tend, &hend, boxes, boxn, 1);
+	    assert(boxes.size <= (size_t)INT_MAX && "integer overflow");
+	    completeregularpath(P, segfirst, e, &tend, &hend, boxes.data,
+	                        (int)boxes.size, 1);
 	    if (splines) ps = routesplines(P, &pn);
 	    else {
 		ps = routepolylines (P, &pn);
@@ -1845,8 +1900,10 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 		    pn = 4;
 		}
 	    }
-	    if (pn == 0)
+	    if (pn == 0) {
+	        boxes_free(&boxes);
 	        return;
+	    }
 	
 	    if (pointn + pn > numpts) {
                 /* This should be enough to include 3 extra points added by
@@ -1863,7 +1920,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    segfirst = e;
 	    tn = agtail(e);
 	    hn = aghead(e);
-	    boxn = 0;
+	    boxes_clear(&boxes);
 	    tend.nb = maximal_bbox(g, sp, tn, ND_in(tn).list[0], e);
 	    beginpath(P, e, REGULAREDGE, &tend, spline_merge(tn));
 	    b = makeregularend(tend.boxes[tend.boxn - 1], BOTTOM,
@@ -1873,7 +1930,7 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    P->start.theta = -M_PI / 2, P->start.constrained = TRUE;
 	    smode = FALSE;
 	}
-	boxes[boxn++] = rank_box(sp, g, ND_rank(tn));
+	boxes_append(&boxes, rank_box(sp, g, ND_rank(tn)));
 	b = hend.nb = maximal_bbox(g, sp, hn, e, NULL);
 	endpath(P, hackflag ? &fwdedgeb.out : e, REGULAREDGE, &hend, spline_merge(aghead(e)));
 	b.UR.y = hend.boxes[hend.boxn - 1].UR.y;
@@ -1882,8 +1939,10 @@ make_regular_edge(graph_t* g, spline_info_t* sp, path * P, edge_t ** edges, int 
 	    	   ND_coord(hn).y + GD_rank(g)[ND_rank(hn)].ht2);
 	if (b.LL.x < b.UR.x && b.LL.y < b.UR.y)
 	    hend.boxes[hend.boxn++] = b;
-	completeregularpath(P, segfirst, e, &tend, &hend, boxes, boxn,
-	    		longedge);
+	assert(boxes.size <= (size_t)INT_MAX && "integer overflow");
+	completeregularpath(P, segfirst, e, &tend, &hend, boxes.data, (int)boxes.size,
+	                    longedge);
+	boxes_free(&boxes);
 	if (splines) ps = routesplines(P, &pn);
 	else ps = routepolylines (P, &pn);
 	if ((et == ET_LINE) && (pn > 4)) {
