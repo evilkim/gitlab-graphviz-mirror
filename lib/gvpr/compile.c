@@ -343,11 +343,9 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 
 /* assignable:
  * Check that attribute is not a read-only, pseudo-attribute.
- * Return 1 if okay; fatal otherwise.
+ * fatal if not OK.
  */
-static int
-assignable (Agobj_t *objp, unsigned char* name)
-{
+static void assignable (Agobj_t *objp, unsigned char* name) {
     unsigned int ch;
     int rv;
     unsigned char* p = name;
@@ -358,7 +356,7 @@ assignable (Agobj_t *objp, unsigned char* name)
         p++;
     }
     rv = TFA_Definition();
-    if (rv < 0) return 1;
+    if (rv < 0) return;
 
     switch (AGTYPE(objp)) {
     case AGRAPH :
@@ -374,7 +372,6 @@ assignable (Agobj_t *objp, unsigned char* name)
 	    exerror("Cannot assign to pseudo-edge attribute %s", name);
 	break;
     }
-    return 1;
 }
 
 /* setattr:
