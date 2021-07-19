@@ -118,13 +118,12 @@ static char *bbOf(Expr_t * pgm, char *pt, bool getll)
     double x, y, u, v;
     char *s;
     char *p;
-    int len;
 
     if (sscanf(pt, "%lf,%lf,%lf,%lf", &x, &y, &u, &v) == 4) {
 	p = strchr(pt, ',');
 	p = strchr(p + 1, ',');
 	if (getll) {
-	    len = p - pt;
+	    size_t len = (size_t)(p - pt);
 	    s = exstralloc(pgm, len + 1);
 	    strncpy(s, pt, len);
 	    s[len] = '\0';
