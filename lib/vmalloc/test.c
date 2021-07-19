@@ -138,72 +138,6 @@ static void test_lifecycle(void) {
   assert(r == 0);
 }
 
-// some testing of our realloc analogue
-static void test_resize(void) {
-  static const size_t s = 10;
-
-  // create a new vmalloc region
-  Vmalloc_t *v = vmopen();
-  assert(v != NULL);
-
-  // resizing NULL should give us a new pointer
-  unsigned char *p = vmresize(v, NULL, s);
-  assert(p != NULL);
-
-  // confirm we can read and write to this allocated memory
-  for (size_t i = 0; i < s; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i];
-    *q = (unsigned char)i;
-  }
-  for (size_t i = 0; i < s; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i];
-    assert(*q == (unsigned char)i);
-  }
-
-  // discard this
-  vmfree(v, p);
-
-  // get a new pointer
-  p = vmalloc(v, s);
-  assert(p != NULL);
-
-  // setup some data in this memory
-  for (size_t i = 0; i < s; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i];
-    *q = (unsigned char)(s - i);
-  }
-
-  // expand the memory
-  p = vmresize(v, p, s * 2);
-  assert(p != NULL);
-
-  // confirm our previous data is still intact
-  for (size_t i = 0; i < s; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i];
-    assert(*q == (unsigned char)(s - i));
-  }
-
-  // confirm we can access the extended part
-  for (size_t i = 0; i < s; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i + s];
-    *q = (unsigned char)(s - i);
-  }
-
-  // shrink the memory
-  p = vmresize(v, p, s / 2);
-  assert(p != NULL);
-
-  // confirm the part that we retained still has its data intact
-  for (size_t i = 0; i < s / 2; ++i) {
-    volatile unsigned char *q = (volatile unsigned char *)&p[i];
-    assert(*q == (unsigned char)(s - i));
-  }
-
-  // clean up
-  int r = vmclose(v);
-  assert(r == 0);
-}
-
 // basic test of our strdup analogue
 static void test_strdup(void) {
 
@@ -266,7 +200,6 @@ int main(void) {
   RUN(basic_lifecycle);
   RUN(empty_vmclear);
   RUN(lifecycle);
-  RUN(resize);
   RUN(strdup);
 
 #undef RUN

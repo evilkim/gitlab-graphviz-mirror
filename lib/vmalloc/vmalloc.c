@@ -78,30 +78,3 @@ void vmfree(Vmalloc_t *vm, void *data) {
 
   // we did not find this pointer; free() of something we did not allocate
 }
-
-void *vmresize(Vmalloc_t *vm, void *data, size_t size) {
-
-  if (!data) {
-    return vmalloc(vm, size);
-  }
-
-  // find the pointer we previously allocated
-  for (size_t i = 0; i < vm->size; ++i) {
-    if (vm->allocated[i] == data) {
-
-      // resize the allocation
-      void *p = realloc(data, size);
-      if (p == NULL) {
-        return p;
-      }
-
-      // save the updated pointer
-      vm->allocated[i] = p;
-
-      return p;
-    }
-  }
-
-  // the pointer the caller gave us was not allocated by us
-  return NULL;
-}
