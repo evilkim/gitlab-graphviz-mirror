@@ -139,7 +139,7 @@ static char *bbOf(Expr_t * pgm, char *pt, bool getll)
  * If string as form "x,y" where is x and y are numeric,
  * return "x" or "y", depending on getx, else return ""
  */
-static char *xyOf(Expr_t * pgm, char *pt, int getx)
+static char *xyOf(Expr_t * pgm, char *pt, bool getx)
 {
     double x, y;
     char *v;
@@ -1481,10 +1481,10 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.string = toUpper(pgm, args[0].string, state->tmp);
 	    break;
 	case F_xof:
-	    v.string = xyOf(pgm, args[0].string, 1);
+	    v.string = xyOf(pgm, args[0].string, true);
 	    break;
 	case F_yof:
-	    v.string = xyOf(pgm, args[0].string, 0);
+	    v.string = xyOf(pgm, args[0].string, false);
 	    break;
 	case F_llof:
 	    v.string = bbOf(pgm, args[0].string, true);
