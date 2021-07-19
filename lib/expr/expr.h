@@ -94,11 +94,11 @@ typedef short Exshort_t;
 
 typedef EXSTYPE Extype_t;
 
-union Exdata_u; typedef union Exdata_u Exdata_t;
-struct Exdisc_s; typedef struct Exdisc_s Exdisc_t;
-struct Exnode_s; typedef struct Exnode_s Exnode_t;
-struct Expr_s; typedef struct Expr_s Expr_t;
-struct Exref_s; typedef struct Exref_s Exref_t;
+typedef union Exdata_u Exdata_t;
+typedef struct Exdisc_s Exdisc_t;
+typedef struct Exnode_s Exnode_t;
+typedef struct Expr_s Expr_t;
+typedef struct Exref_s Exref_t;
 
 typedef int (*Exerror_f) (Expr_t *, Exdisc_t *, int, const char *, ...);
 typedef void (*Exexit_f) (Expr_t *, Exdisc_t *, int);
@@ -242,8 +242,8 @@ struct Expr_s				/* ex program state		*/
 
 };
 
-struct Excc_s; typedef struct Excc_s Excc_t;
-struct Exccdisc_s; typedef struct Exccdisc_s Exccdisc_t;
+typedef struct Excc_s Excc_t;
+typedef struct Exccdisc_s Exccdisc_t;
 
 struct Exccdisc_s			/* excc() discipline		*/
 {
