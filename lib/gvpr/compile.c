@@ -26,6 +26,7 @@
 #include <gvpr/actions.h>
 #include <ast/sfstr.h>
 #include <string.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -112,7 +113,7 @@ static char *nameOf(Expr_t * ex, Agobj_t * obj, Sfio_t* tmps)
  * If string as form "x,y,u,v" where is all are numeric,
  * return "x,y" or "u,v", depending on getll, else return ""
  */
-static char *bbOf(Expr_t * pgm, char *pt, int getll)
+static char *bbOf(Expr_t * pgm, char *pt, bool getll)
 {
     double x, y, u, v;
     char *s;
@@ -1486,10 +1487,10 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.string = xyOf(pgm, args[0].string, 0);
 	    break;
 	case F_llof:
-	    v.string = bbOf(pgm, args[0].string, 1);
+	    v.string = bbOf(pgm, args[0].string, true);
 	    break;
 	case F_urof:
-	    v.string = bbOf(pgm, args[0].string, 0);
+	    v.string = bbOf(pgm, args[0].string, false);
 	    break;
 	case F_length:
 	    v.integer = strlen(args[0].string);
