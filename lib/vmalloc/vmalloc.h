@@ -59,7 +59,6 @@ void vmfree(Vmalloc_t *vm, void *data);
 
     extern char *vmstrdup(Vmalloc_t *, const char *);
 
-#define vmnewof(v,p,t,n,x)	vmresize((v), (p), sizeof(t)*(n)+(x))
 #ifdef __cplusplus
 }
 #endif
