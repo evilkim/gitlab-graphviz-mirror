@@ -677,7 +677,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
     assert(sym->lex != CONSTANT);
     if (elt == EX_CALL) {
 	args = env;
-	state = (Gpr_t *) disc->user;
+	state = disc->user;
 	switch (sym->index) {
 	case F_graph:
 	    gp = openG(args[0].string, xargs(args[1].string));
@@ -1505,7 +1505,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	return v;
     } else if (elt == EX_ARRAY) {
 	args = env;
-	state = (Gpr_t *) disc->user;
+	state = disc->user;
 	switch (sym->index) {
 	case A_ARGV:
 	    v.string = getArg(args[0].integer, state);
@@ -1847,7 +1847,7 @@ refval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	}
     } else {
 	if (!typeChkExp(ref, sym)) {
-	    Gpr_t *state = (Gpr_t *) disc->user;
+	    Gpr_t *state = disc->user;
 	    exerror("type error using %s",
 		    deparse(pgm, node, state->tmp));
 	}
@@ -2103,7 +2103,7 @@ static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
 	    rv = -1;
 	}
 	else {
-	    Gpr_t* state = (Gpr_t *) disc->user;
+	    Gpr_t* state = disc->user;
 	    x->data.constant.value.string = nameOf(prog, objp, state->tmp);
 	}
     }
