@@ -143,12 +143,11 @@ static char *xyOf(Expr_t * pgm, char *pt, bool getx)
     double x, y;
     char *v;
     char *p;
-    int len;
 
     if (sscanf(pt, "%lf,%lf", &x, &y) == 2) {
 	p = strchr(pt, ',');
 	if (getx) {
-	    len = p - pt;
+	    size_t len = (size_t)(p - pt);
 	    v = exstralloc(pgm, len + 1);
 	    strncpy(v, pt, len);
 	    v[len] = '\0';
