@@ -29,18 +29,21 @@ extern "C" {
 /*visual studio*/
 #ifdef _WIN32
 #ifndef PATHPLAN_EXPORTS
-#define extern __declspec(dllimport)
+#define PATHUTIL_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef PATHUTIL_API
+#define PATHUTIL_API extern
+#endif
 	typedef double COORD;
-    extern COORD area2(Ppoint_t, Ppoint_t, Ppoint_t);
-    extern int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c);
-    extern COORD dist2(Ppoint_t, Ppoint_t);
+    PATHUTIL_API COORD area2(Ppoint_t, Ppoint_t, Ppoint_t);
+    PATHUTIL_API int wind(Ppoint_t a, Ppoint_t b, Ppoint_t c);
+    PATHUTIL_API COORD dist2(Ppoint_t, Ppoint_t);
 
     int in_poly(Ppoly_t argpoly, Ppoint_t q);
 
-#undef extern
+#undef PATHUTIL_API
 #ifdef __cplusplus
 }
 #endif
