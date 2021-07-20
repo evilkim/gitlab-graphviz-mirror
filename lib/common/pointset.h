@@ -21,36 +21,39 @@ extern "C" {
     typedef Dict_t PointSet;
     typedef Dict_t PointMap;
 #ifdef GVDLL
-#define extern __declspec(dllexport)
+#define POINTSET_API __declspec(dllexport)
 #else
-#define extern
+#define POINTSET_API
 #endif
 
 /*visual studio*/
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#undef extern
-#define extern __declspec(dllimport)
+#undef POINTSET_API
+#define POINTSET_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef POINTSET_API
+#define POINTSET_API extern
+#endif
 
-	extern PointSet *newPS(void);
-    extern void freePS(PointSet *);
-    extern void insertPS(PointSet *, point);
-    extern void addPS(PointSet *, int, int);
-    extern int inPS(PointSet *, point);
-    extern int isInPS(PointSet *, int, int);
-    extern int sizeOf(PointSet *);
-    extern point *pointsOf(PointSet *);
+	POINTSET_API PointSet *newPS(void);
+    POINTSET_API void freePS(PointSet *);
+    POINTSET_API void insertPS(PointSet *, point);
+    POINTSET_API void addPS(PointSet *, int, int);
+    POINTSET_API int inPS(PointSet *, point);
+    POINTSET_API int isInPS(PointSet *, int, int);
+    POINTSET_API int sizeOf(PointSet *);
+    POINTSET_API point *pointsOf(PointSet *);
 
-    extern PointMap *newPM(void);
-    extern void clearPM(PointMap *);
-    extern void freePM(PointMap *);
-    extern int insertPM(PointMap *, int, int, int);
-    extern int updatePM(PointMap * pm, int x, int y, int v);
+    POINTSET_API PointMap *newPM(void);
+    POINTSET_API void clearPM(PointMap *);
+    POINTSET_API void freePM(PointMap *);
+    POINTSET_API int insertPM(PointMap *, int, int, int);
+    POINTSET_API int updatePM(PointMap * pm, int x, int y, int v);
 
-#undef extern
+#undef POINTSET_API
 #ifdef __cplusplus
 }
 #endif
