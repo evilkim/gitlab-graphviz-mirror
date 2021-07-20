@@ -14,7 +14,8 @@ AM_CPPFLAGS = \
 	-DDFLT_GVPRPATH="\".$(PATH_SEPARATOR)$(pkgdatadir)/gvpr\""
 
 pkginclude_HEADERS = gvpr.h
-noinst_HEADERS = actions.h compile.h gprstate.h parse.h queue.h trieFA.h trie.c
+noinst_HEADERS = actions.h compile.h gdefs.h gprdata.inc gprstate.h parse.h \
+	queue.h trieFA.h trie.c
 noinst_LTLIBRARIES = libgvpr_C.la
 lib_LTLIBRARIES = libgvpr.la
 pkgconfig_DATA = libgvpr.pc
@@ -34,7 +35,6 @@ pdf =
 endif
 
 libgvpr_C_la_SOURCES = actions.c compile.c gvpr.c gprstate.c parse.c queue.c 
-$(libgvpr_C_la_OBJECTS): gdefs.h
 libgvpr_C_la_DEPENDENCIES = \
 	$(top_builddir)/lib/expr/libexpr_C.la \
 	$(top_builddir)/lib/common/libcommon_C.la \
@@ -64,12 +64,6 @@ if WITH_WIN32
 libgvpr_la_LDFLAGS += -export-symbols-regex gvpr
 endif
 
-mkdefs$(EXEEXT):
-	$(HOSTCC) $(srcdir)/mkdefs.c -o mkdefs$(EXEEXT)
+EXTRA_DIST = $(man_MANS) $(pdf) trie.c gvprlib.vcxproj*
 
-gdefs.h: $(top_srcdir)/lib/gvpr/gprdata mkdefs$(EXEEXT)
-	./mkdefs$(EXEEXT) gdefs.h < $(top_srcdir)/lib/gvpr/gprdata
-
-EXTRA_DIST = $(man_MANS) $(pdf) gprdata mkdefs.c gdefs.h trie.c gvprlib.vcxproj*
-
-DISTCLEANFILES = $(pdf) gdefs.h mkdefs$(EXEEXT) gvpr.3.ps
+DISTCLEANFILES = $(pdf) gvpr.3.ps
