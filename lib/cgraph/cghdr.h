@@ -148,12 +148,10 @@ void agmethod_init(Agraph_t * g, void *obj);
 void agmethod_upd(Agraph_t * g, void *obj, Agsym_t * sym);
 void agmethod_delete(Agraph_t * g, void *obj);
 
-#define CB_INITIALIZE	100
-#define CB_UPDATE		101
-#define CB_DELETION		102
+typedef enum { CB_INITIALIZE, CB_UPDATE, CB_DELETION, } cb_t;
 void agsyspushdisc(Agraph_t * g, Agcbdisc_t * cb, void *state, int stack);
 int agsyspopdisc(Agraph_t * g, Agcbdisc_t * cb, int stack);
-void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
+void agrecord_callback(Agraph_t * g, Agobj_t * obj, cb_t kind,
 		       Agsym_t * optsym);
 void aginitcb(Agraph_t * g, void *obj, Agcbstack_t * disc);
 void agupdcb(Agraph_t * g, void *obj, Agsym_t * sym, Agcbstack_t * disc);

@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <cgraph/unreachable.h>
 #include <stddef.h>
 
 int agdelete(Agraph_t * g, void *obj)
@@ -63,6 +64,8 @@ int agrename(Agobj_t * obj, char *newname)
     case AGINEDGE:
     case AGOUTEDGE:
 	return FAILURE;
+    default:
+	UNREACHABLE();
     }
     return SUCCESS;
 }

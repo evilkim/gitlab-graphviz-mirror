@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <cghdr.h>
+#include <cgraph/unreachable.h>
 #include <stddef.h>
 extern void aagerror(char *);
 
@@ -333,6 +334,7 @@ static void attrstmt(int tkind, char *macroname)
 		case T_graph: kind = AGRAPH; break;
 		case T_node: kind = AGNODE; break;
 		case T_edge: kind = AGEDGE; break;
+		default: UNREACHABLE();
 	}
 	bindattrs(kind);	/* set up defaults for new attributes */
 	for (aptr = S->attrlist.first; aptr; aptr = aptr->next) {

@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <cgraph/unreachable.h>
 #include <stddef.h>
 
 static char DRName[] = "_AG_pending";
@@ -61,7 +62,7 @@ static Dtdisc_t Disc = {
     .freef = freef,
 };
 
-static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
+static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, cb_t kind)
 {
     Dict_t **dict_ref = NULL;
 
@@ -79,7 +80,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
 	    dict_ref = &(ds->del.g);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     case AGNODE:
@@ -94,7 +95,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
 	    dict_ref = &(ds->del.n);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     case AGEDGE:
@@ -109,7 +110,7 @@ static Dict_t *dictof(pendingset_t * ds, Agobj_t * obj, int kind)
 	    dict_ref = &(ds->del.e);
 	    break;
 	default:
-	    break;
+	    UNREACHABLE();
 	}
 	break;
     default:
@@ -183,8 +184,7 @@ static void purge(Dict_t * dict, Agobj_t * obj)
     }
 }
 
-void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
-		       Agsym_t * optsym)
+void agrecord_callback(Agraph_t * g, Agobj_t * obj, cb_t kind, Agsym_t * optsym)
 {
     pendingset_t *pending;
     Dict_t *dict;
@@ -221,11 +221,11 @@ void agrecord_callback(Agraph_t * g, Agobj_t * obj, int kind,
 	    handle = insert(dict, g, obj, optsym);
 	break;
     default:
-	agerr(AGERR,"agrecord_callback of a bad object");
+	UNREACHABLE();
     }
 }
 
-static void cb(Dict_t * dict, int callback_kind)
+static void cb(Dict_t * dict, cb_t callback_kind)
 {
     pending_cb_t *pcb;
     Agraph_t *g;
@@ -247,6 +247,8 @@ static void cb(Dict_t * dict, int callback_kind)
 	    case CB_DELETION:
 		agdelcb(g, pcb->obj, stack);
 		break;
+	    default:
+		UNREACHABLE();
 	    }
 	    dtdelete(dict, pcb);
 	}
@@ -278,9 +280,9 @@ int agcallbacks(Agraph_t * g, int flag)
     if (flag && NOT(g->clos->callbacks_enabled))
 	agrelease_callbacks(g);
     if (g->clos->callbacks_enabled) {
-	g->clos->callbacks_enabled = flag;
+	g->clos->callbacks_enabled = flag != 0;
 	return TRUE;
     }
-    g->clos->callbacks_enabled = flag;
+    g->clos->callbacks_enabled = flag != 0;
     return FALSE;
 }

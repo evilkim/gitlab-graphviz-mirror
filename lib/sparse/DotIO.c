@@ -54,7 +54,7 @@ void attach_edge_colors(Agraph_t* g, int dim, real *colors){
   Agnode_t* n;
   enum {slen = 1024};
   char buf[slen];
-  int row, col;
+  unsigned row, col;
   int ie = 0;
 
   if (!sym)
@@ -276,7 +276,7 @@ int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines){
   Agedge_t* e;
   Agsym_t *sym;
   int nedges;
-  int i;
+  unsigned i;
 
   if (!g){
     return 0;
@@ -324,7 +324,7 @@ void Dot_SetClusterColor(Agraph_t* g, float *rgb_r,  float *rgb_g,  float *rgb_b
 
   Agnode_t* n;
   char scluster[20];
-  int i;
+  unsigned i;
   Agsym_t* clust_clr_sym = agattr(g, AGNODE, "clustercolor", NULL); 
 
   if (!clust_clr_sym) clust_clr_sym = agattr(g, AGNODE, "clustercolor", "-1"); 
