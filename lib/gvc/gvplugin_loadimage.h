@@ -20,27 +20,28 @@ extern "C" {
 #endif
 
 #ifdef GVDLL
-#  define extern __declspec(dllexport)
+#  define GVPLUGIN_LOADIMAGE_API __declspec(dllexport)
 #endif
 
 /*visual studio*/
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#define extern __declspec(dllimport)
+#define GVPLUGIN_LOADIMAGE_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef GVPLUGIN_LOADIMAGE_API
+#define GVPLUGIN_LOADIMAGE_API extern
+#endif
 
-extern boolean gvusershape_file_access(usershape_t *us);
-extern void gvusershape_file_release(usershape_t *us);
+GVPLUGIN_LOADIMAGE_API boolean gvusershape_file_access(usershape_t *us);
+GVPLUGIN_LOADIMAGE_API void gvusershape_file_release(usershape_t *us);
 
     struct gvloadimage_engine_s {
 	void (*loadimage) (GVJ_t *job, usershape_t *us, boxf b, boolean filled);
     };
 
-#ifdef extern
-#undef extern
-#endif
+#undef GVPLUGIN_LOADIMAGE_API
 
 #ifdef __cplusplus
 }
