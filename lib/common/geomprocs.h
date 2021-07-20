@@ -23,30 +23,33 @@ extern "C" {
 
 #ifdef _WIN32
 #ifdef GVDLL
-#define extern __declspec(dllexport)
+#define GEOMPROCS_API __declspec(dllexport)
 #else
 #ifndef GVC_EXPORTS
-#define extern __declspec(dllimport)
+#define GEOMPROCS_API __declspec(dllimport)
 #endif
 #endif
 #endif
+#ifndef GEOMPROCS_API
+#define GEOMPROCS_API extern
+#endif
 
-extern box flip_rec_box(box b, point p);
-extern boxf flip_rec_boxf(boxf b, pointf p);
+GEOMPROCS_API box flip_rec_box(box b, point p);
+GEOMPROCS_API boxf flip_rec_boxf(boxf b, pointf p);
 
-extern double ptToLine2 (pointf l1, pointf l2, pointf p);
+GEOMPROCS_API double ptToLine2 (pointf l1, pointf l2, pointf p);
 
-extern int lineToBox(pointf p1, pointf p2, boxf b);
+GEOMPROCS_API int lineToBox(pointf p1, pointf p2, boxf b);
 
-extern point ccwrotatep(point p, int ccwrot);
-extern pointf ccwrotatepf(pointf p, int ccwrot);
+GEOMPROCS_API point ccwrotatep(point p, int ccwrot);
+GEOMPROCS_API pointf ccwrotatepf(pointf p, int ccwrot);
 
-extern point cwrotatep(point p, int cwrot);
-extern pointf cwrotatepf(pointf p, int cwrot);
+GEOMPROCS_API point cwrotatep(point p, int cwrot);
+GEOMPROCS_API pointf cwrotatepf(pointf p, int cwrot);
 
-extern void rect2poly(pointf *p);
+GEOMPROCS_API void rect2poly(pointf *p);
 
-extern int line_intersect (pointf a, pointf b, pointf c, pointf d, pointf* p);
+GEOMPROCS_API int line_intersect (pointf a, pointf b, pointf c, pointf d, pointf* p);
 
 #if defined(_WIN32)
 #define inline __inline
@@ -192,7 +195,7 @@ static inline pointf scale (double c, pointf p)
 #undef inline
 #endif
 
-#undef extern
+#undef GEOMPROCS_API
 #ifdef __cplusplus
 }
 #endif
