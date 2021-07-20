@@ -27,22 +27,25 @@ extern "C" {
 #define RALLOC(size,ptr,type) ((type*)grealloc(ptr,(size)*sizeof(type)))
 #define ZALLOC(size,ptr,type,osize) (ptr? (type*)zrealloc(ptr,size,sizeof(type),osize):(type*)zmalloc((size)*sizeof(type)))
 #ifdef GVDLL
-#define extern __declspec(dllexport)
+#define MEMORY_API __declspec(dllexport)
 #else
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#define extern __declspec(dllimport)
+#define MEMORY_API __declspec(dllimport)
 #endif
 #endif
 
 #endif
+#ifndef MEMORY_API
+#define MEMORY_API extern
+#endif
 
-    extern void *zmalloc(size_t);
-    extern void *zrealloc(void *, size_t, size_t, size_t);
-    extern void *gcalloc(size_t nmemb, size_t size);
-    extern void *gmalloc(size_t);
-	extern void *grealloc(void *, size_t);
-#undef extern
+    MEMORY_API void *zmalloc(size_t);
+    MEMORY_API void *zrealloc(void *, size_t, size_t, size_t);
+    MEMORY_API void *gcalloc(size_t nmemb, size_t size);
+    MEMORY_API void *gmalloc(size_t);
+	MEMORY_API void *grealloc(void *, size_t);
+#undef MEMORY_API
 
 #ifdef __cplusplus
 }
