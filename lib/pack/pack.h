@@ -57,34 +57,37 @@ typedef unsigned int packval_t;
 /*visual studio*/
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#define extern __declspec(dllimport)
+#define PACK_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef PACK_API
+#define PACK_API extern
+#endif
 
-    extern point *putRects(int ng, boxf* bbs, pack_info* pinfo);
-    extern int packRects(int ng, boxf* bbs, pack_info* pinfo);
+    PACK_API point *putRects(int ng, boxf* bbs, pack_info* pinfo);
+    PACK_API int packRects(int ng, boxf* bbs, pack_info* pinfo);
 
-    extern point *putGraphs(int, Agraph_t **, Agraph_t *, pack_info *);
-    extern int packGraphs(int, Agraph_t **, Agraph_t *, pack_info *);
-    extern int packSubgraphs(int, Agraph_t **, Agraph_t *, pack_info *);
-    extern int pack_graph(int ng, Agraph_t** gs, Agraph_t* root, boolean* fixed);
+    PACK_API point *putGraphs(int, Agraph_t **, Agraph_t *, pack_info *);
+    PACK_API int packGraphs(int, Agraph_t **, Agraph_t *, pack_info *);
+    PACK_API int packSubgraphs(int, Agraph_t **, Agraph_t *, pack_info *);
+    PACK_API int pack_graph(int ng, Agraph_t** gs, Agraph_t* root, boolean* fixed);
 
-    extern int shiftGraphs(int, Agraph_t**, point*, Agraph_t*, int);
+    PACK_API int shiftGraphs(int, Agraph_t**, point*, Agraph_t*, int);
 
-    extern pack_mode getPackMode(Agraph_t * g, pack_mode dflt);
-    extern int getPack(Agraph_t *, int not_def, int dflt);
-    extern pack_mode getPackInfo(Agraph_t * g, pack_mode dflt, int dfltMargin, pack_info*);
-    extern pack_mode getPackModeInfo(Agraph_t * g, pack_mode dflt, pack_info*);
-    extern pack_mode parsePackModeInfo(char* p, pack_mode dflt, pack_info* pinfo);
+    PACK_API pack_mode getPackMode(Agraph_t * g, pack_mode dflt);
+    PACK_API int getPack(Agraph_t *, int not_def, int dflt);
+    PACK_API pack_mode getPackInfo(Agraph_t * g, pack_mode dflt, int dfltMargin, pack_info*);
+    PACK_API pack_mode getPackModeInfo(Agraph_t * g, pack_mode dflt, pack_info*);
+    PACK_API pack_mode parsePackModeInfo(char* p, pack_mode dflt, pack_info* pinfo);
 
-    extern int isConnected(Agraph_t *);
-    extern Agraph_t **ccomps(Agraph_t *, int *, char *);
-    extern Agraph_t **cccomps(Agraph_t *, int *, char *);
-    extern Agraph_t **pccomps(Agraph_t *, int *, char *, boolean *);
-    extern int nodeInduce(Agraph_t *);
-    extern Agraph_t *mapClust(Agraph_t *);
-#undef extern
+    PACK_API int isConnected(Agraph_t *);
+    PACK_API Agraph_t **ccomps(Agraph_t *, int *, char *);
+    PACK_API Agraph_t **cccomps(Agraph_t *, int *, char *);
+    PACK_API Agraph_t **pccomps(Agraph_t *, int *, char *, boolean *);
+    PACK_API int nodeInduce(Agraph_t *);
+    PACK_API Agraph_t *mapClust(Agraph_t *);
+#undef PACK_API
 #ifdef __cplusplus
 }
 #endif

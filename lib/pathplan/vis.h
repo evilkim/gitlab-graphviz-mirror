@@ -40,19 +40,22 @@ extern "C" {
     };
 #ifdef _WIN32
 #ifndef PATHPLAN_EXPORTS
-#define extern __declspec(dllimport)
+#define VIS_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef VIS_API
+#define VIS_API extern
+#endif
 
-	extern COORD *ptVis(vconfig_t *, int, Ppoint_t);
-    extern bool directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
-    extern void visibility(vconfig_t *);
-    extern int *makePath(Ppoint_t p, int pp, COORD * pvis,
+	VIS_API COORD *ptVis(vconfig_t *, int, Ppoint_t);
+    VIS_API bool directVis(Ppoint_t, int, Ppoint_t, int, vconfig_t *);
+    VIS_API void visibility(vconfig_t *);
+    VIS_API int *makePath(Ppoint_t p, int pp, COORD * pvis,
 			 Ppoint_t q, int qp, COORD * qvis,
 			 vconfig_t * conf);
 
-#undef extern
+#undef VIS_API
 
 #ifdef __cplusplus
 }

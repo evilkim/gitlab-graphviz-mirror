@@ -18,31 +18,34 @@ extern "C" {
 #endif
 
 #ifdef GVDLL
-#define extern __declspec(dllexport)
+#define GVIO_API __declspec(dllexport)
 #else
-#define extern
+#define GVIO_API
 #endif
 
 /*visual studio*/
 #ifdef _WIN32
 #ifndef GVC_EXPORTS
-#undef extern
-#define extern __declspec(dllimport)
+#undef GVIO_API
+#define GVIO_API __declspec(dllimport)
 #endif
 #endif
 /*end visual studio*/
+#ifndef GVIO_API
+#define GVIO_API extern
+#endif
 
-    extern size_t gvwrite (GVJ_t * job, const char *s, size_t len);
-    extern int gvferror (FILE *stream);
-    extern int gvputc(GVJ_t * job, int c);
-    extern int gvputs(GVJ_t * job, const char *s);
-    extern int gvflush (GVJ_t * job);
-    extern void gvprintf(GVJ_t * job, const char *format, ...);
-    extern void gvprintdouble(GVJ_t * job, double num); 
-    extern void gvprintpointf(GVJ_t * job, pointf p);
-    extern void gvprintpointflist(GVJ_t * job, pointf *p, int n);
+    GVIO_API size_t gvwrite (GVJ_t * job, const char *s, size_t len);
+    GVIO_API int gvferror (FILE *stream);
+    GVIO_API int gvputc(GVJ_t * job, int c);
+    GVIO_API int gvputs(GVJ_t * job, const char *s);
+    GVIO_API int gvflush (GVJ_t * job);
+    GVIO_API void gvprintf(GVJ_t * job, const char *format, ...);
+    GVIO_API void gvprintdouble(GVJ_t * job, double num);
+    GVIO_API void gvprintpointf(GVJ_t * job, pointf p);
+    GVIO_API void gvprintpointflist(GVJ_t * job, pointf *p, int n);
 
-#undef extern
+#undef GVIO_API
 
 #ifdef __cplusplus
 }
