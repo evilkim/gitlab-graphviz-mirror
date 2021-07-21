@@ -60,29 +60,9 @@ extern "C" {
 
     typedef struct gvplugin_available_s gvplugin_available_t;
 
-/*visual studio*/
-#ifdef _WIN32
-#ifndef GVC_EXPORTS
-__declspec(dllimport) extern lt_symlist_t lt_preloaded_symbols[];
-#else
 #if !defined(LTDL_H)
 extern lt_symlist_t lt_preloaded_symbols[];
 #endif
-#endif
-#endif
-/*end visual studio*/
-
-
-#ifndef _WIN32
-#if defined(GVDLL)
-	__declspec(dllexport) extern lt_symlist_t lt_preloaded_symbols[];
-#else
-#if !defined(LTDL_H)
-	extern lt_symlist_t lt_preloaded_symbols[];
-#endif
-#endif
-#endif
-
 
 #ifdef __cplusplus
 }
