@@ -645,19 +645,14 @@ gv_to_gml(Agraph_t* G, FILE* outFile)
     fprintf (outFile, "]\n");
 }
 
-static FILE *openFile(const char *name, const char *mode)
+static FILE *openFile(const char *name)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-        if (*mode == 'r')
-            modestr = "reading";
-        else
-            modestr = "writing";
-        fprintf(stderr, "%s: could not open file %s for %s\n",
-                CmdName, name, modestr);
+        fprintf(stderr, "%s: could not open file %s for writing\n",
+                CmdName, name);
         perror(name);
         exit(1);
     }
@@ -699,7 +694,7 @@ static void initargs(int argc, char **argv)
 	case 'o':
 	    if (outFile != NULL)
 		fclose(outFile);
-	    outFile = openFile(optarg, "w");
+	    outFile = openFile(optarg);
 	    break;
 	case ':':
 	    fprintf(stderr, "%s: option -%c missing parameter\n", CmdName, optopt);
