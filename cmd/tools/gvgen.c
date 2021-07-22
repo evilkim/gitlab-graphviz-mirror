@@ -46,19 +46,13 @@ typedef struct {
 
 static char *cmd;
 
-static FILE *openFile(const char *name, const char *mode)
+static FILE *openFile(const char *name)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-	if (*mode == 'r')
-	    modestr = "reading";
-	else
-	    modestr = "writing";
-	fprintf(stderr, "%s: could not open file %s for %s\n",
-		cmd, name, modestr);
+	fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
 	exit(1);
     }
     return fp;
@@ -358,7 +352,7 @@ static GraphType init(int argc, char *argv[], opts_t* opts)
 	    opts->name = optarg;
 	    break;
 	case 'o':
-	    opts->outfile = openFile(optarg, "w");
+	    opts->outfile = openFile(optarg);
 	    break;
 	case 'p':
 	    graphType = path;
