@@ -208,8 +208,6 @@ extern "C" {
     extern ssize_t sfnputc(Sfio_t *, int, size_t);
     extern int sfungetc(Sfio_t *, int);
     extern int sfprintf(Sfio_t *, const char *, ...);
-    extern int sfsprintf(char *, int, const char *, ...);
-    extern int sfvsprintf(char *, int, const char *, va_list);
     extern int sfvprintf(Sfio_t *, const char *, va_list);
     extern int sfscanf(Sfio_t *, const char *, ...);
     extern int sfsscanf(const char *, const char *, ...);

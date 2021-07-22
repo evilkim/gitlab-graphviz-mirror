@@ -26,37 +26,3 @@ int sfprintf(Sfio_t * f, const char *form, ...)
     va_end(args);
     return rv;
 }
-
-int sfvsprintf(char *s, int n, const char *form, va_list args)
-{
-    Sfio_t f;
-    int rv;
-
-    if (!s || n <= 0)
-	return -1;
-
-    /* make a fake stream */
-    SFCLEAR(&f);
-    f.flags = SF_STRING | SF_WRITE;
-    f.mode = SF_WRITE;
-    f.size = n - 1;
-    f.data = f.next = f.endr = (uchar *) s;
-    f.endb = f.endw = f.data + f.size;
-
-    rv = sfvprintf(&f, form, args);
-    *f.next = '\0';
-    _Sfi = f.next - f.data;
-
-    return rv;
-}
-
-int sfsprintf(char *s, int n, const char *form, ...)
-{
-    va_list args;
-    int rv;
-    va_start(args, form);
-    rv = sfvsprintf(s, n, form, args);
-    va_end(args);
-
-    return rv;
-}
