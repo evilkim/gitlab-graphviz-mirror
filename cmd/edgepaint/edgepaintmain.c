@@ -12,6 +12,7 @@
 
 #include <cgraph/cgraph.h>
 #include <cgraph/agxbuf.h>
+#include <cgraph/unreachable.h>
 #include <ingraphs/ingraphs.h>
 #include <common/pointset.h>
 #include <getopt.h>
@@ -22,6 +23,9 @@
 #include <edgepaint/node_distinct_coloring.h>
 #include <edgepaint/edge_distinct_coloring.h>
 #include <sparse/color_palette.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef enum {
 	FMT_GV,
@@ -39,36 +43,30 @@ typedef struct {
 static char *fname;
 static FILE *outfile;
 
-static FILE *openFile(char *name, char *mode, char* cmd)
+static FILE *openFile(const char *name, const char* cmd)
 {
     FILE *fp;
-    char *modestr;
 
-	fp = fopen(name, mode);
+	fp = fopen(name, "w");
 	if (!fp) {
-		if (*mode == 'r')
-			modestr = "reading";
-		else
-			modestr = "writing";
-		fprintf(stderr, "%s: could not open file %s for %s\n",
-			cmd, name, modestr);
-		exit(-1);
+		fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
+		exit(EXIT_FAILURE);
 	}
-	return (fp);
+	return fp;
 }
 
 static void usage (char* cmd, int eval){
   fprintf(stderr, "Usage: %s <options> gv file with 2D coordinates.\n", cmd);
-  fprintf(stderr, "Find a color assignment of the edges, such that edges that cross at small angle have as different as posible.\n");
+  fprintf(stderr, "Find a color assignment of the edges, such that edges that cross at small angle have as different as possible.\n");
   fprintf(stderr, "Options are: \n");
-  fprintf(stderr, " -accuracy=e      : accuracy with which to find the maximally different coloring for each node with regard to its neighbors. Default 0.01.\n");
-  fprintf(stderr, " -angle=a         : if edge crossing is less than that angle a, then make the edge colors different. Default 15.\n");
-  fprintf(stderr, " -random_seed=s   : random seed to use. s must be an integer. If s is negative, we do -s iterations with different seeds and pick the best.\n");
-  fprintf(stderr, " -color_scheme=c  : palette used. The string c should be \"rgb\", \"gray\", \"lab\" (default); or\n");
+  fprintf(stderr, " --accuracy=e      : accuracy with which to find the maximally different coloring for each node with regard to its neighbors. Default 0.01.\n");
+  fprintf(stderr, " --angle=a         : if edge crossing is less than that angle a, then make the edge colors different. Default 15.\n");
+  fprintf(stderr, " --random_seed=s   : random seed to use. s must be an integer. If s is negative, we do -s iterations with different seeds and pick the best.\n");
+  fprintf(stderr, " --color_scheme=c  : palette used. The string c should be \"rgb\", \"gray\", \"lab\" (default); or\n");
   fprintf(stderr, "       a comma-separated list of RGB colors in hex (e.g., \"#ff0000,#aabbed,#eeffaa\"); or\n");
-  fprintf(stderr, "       a string specifying a Brewer color scheme (e.g., \"accent7\"; see http://www.graphviz.org/content/color-names#brewer).\n");
-  fprintf(stderr, " -lightness=l1,l2 : only applied for LAB color scheme: l1 must be integer >=0, l2 integer <=100, and l1 <=l2. By default we use 0,70\n");
-  fprintf(stderr, " -share_endpoint  :  if this option is specified, edges that shares an end point are not considered in conflict if they are close to\n");
+  fprintf(stderr, "       a string specifying a Brewer color scheme (e.g., \"accent7\"; see https://graphviz.org/doc/info/colors.html#brewer).\n");
+  fprintf(stderr, " --lightness=l1,l2 : only applied for LAB color scheme: l1 must be integer >=0, l2 integer <=100, and l1 <=l2. By default we use 0,70\n");
+  fprintf(stderr, " --share_endpoint  :  if this option is specified, edges that shares an end point are not considered in conflict if they are close to\n");
   fprintf(stderr, "       parallel but is on the opposite ends of the shared point (around 180 degree).\n");
   fprintf(stderr, " -v               : verbose\n");
   fprintf(stderr, " -o fname         :  write output to file fname (stdout)\n");
@@ -98,112 +96,169 @@ checkG (Agraph_t* g)
 	return 0;
 }
 
+static bool strprefix(const char *s1, const char *s2) {
+  return strncmp(s1, s2, strlen(s2)) == 0;
+}
 
-static void init(int argc, char *argv[], real *angle, real *accuracy, char **infile, int *check_edges_with_same_endpoint, int *seed, char **color_scheme, char **lightness){
+static void init(int argc, char *argv[], real *angle, real *accuracy, int *check_edges_with_same_endpoint, int *seed, char **color_scheme, char **lightness){
 
-  int c;
   char* cmd = argv[0];
   outfile = NULL;
 
   Verbose = FALSE;
   *accuracy = 0.01;
   *angle = 15;/* 10 degree by default*/
-  *infile = NULL;
   *check_edges_with_same_endpoint = 0;
   *seed = 123;
   *color_scheme = "lab";
   *lightness = NULL;
 
-  while ((c = getopt(argc, argv, ":vc:a:s:r:l:o:?")) != -1) {
-    switch (c) {
-    case 's':
-      *check_edges_with_same_endpoint = 1;
-      break;
-    case 'r':
-      if (strncmp(optarg,"andom_seed=", 11) == 0){
-	if (sscanf(optarg+11, "%d", seed) != 1){
-	  fprintf(stderr,"-random_seed option must be a positive integer.\n");
-	  usage(cmd, 1);
-	}
-      }
-      break;
-    case 'a':
-      if (strncmp(optarg,"ccuracy=", 8) == 0){
-	sscanf(optarg+8, "%lf", accuracy);
-	if (*accuracy <= 0) {
-	  fprintf(stderr,"-accuracy option must be a positive real number.\n");
-	  usage(cmd, 1);
-	}
-      } else if (strncmp(optarg,"ngle=", 5) == 0){
-	sscanf(optarg+5, "%lf", angle);
-	if (*angle <= 0 || *angle >= 90) {
-	  fprintf(stderr,"-angle option must be a positive real number between 0 to 90.\n");
-	  usage(cmd, 1);
-	}
-      } else {
-	fprintf(stderr,"-accuracy option must contain a positive real.\n");
-	usage(cmd, 1);
-      }
-      break;
-    case 'c':
-      if (strncmp(optarg,"olor_scheme=", 12) == 0){
-	if (knownColorScheme(optarg + 12))
-          *color_scheme = optarg+12;
-        else {
-	  fprintf(stderr,"-color_scheme option must be a valid string\n");
-	  usage(cmd, 1);
-	}
-      } else {
-	usage(cmd, 1);
-      }
-      break;
-    case 'l':{
-      int l1 = 0, l2 = 70;
-      if (strncmp(optarg,"ightness=", 9) == 0 && sscanf(optarg + 9, "%d,%d", &l1, &l2) == 2){
-	if (l1 < 0 || l2 > 100 || l1 > l2){
-	  fprintf(stderr,"invalid -lightness=%s option.\n", optarg + 9);
-	  usage(cmd, 1);
-	}
-	*lightness = malloc(sizeof(char)*10);
-	strcpy(*lightness, optarg + 9);
-      } else {
-	usage(cmd, 1);
-      }
+  while (true) {
+
+    // some constants above the range of valid ASCII to use as getopt markers
+    enum {
+      OPT_ACCURACY = 128,
+      OPT_ANGLE = 129,
+      OPT_COLOR_SCHEME = 130,
+      OPT_RANDOM_SEED = 131,
+      OPT_LIGHTNESS = 132,
+      OPT_SHARE_ENDPOINT = 133,
+    };
+
+    static const struct option opts[] = {
+        // clang-format off
+        {"accuracy",       required_argument, 0, OPT_ACCURACY},
+        {"angle",          required_argument, 0, OPT_ANGLE},
+        {"color_scheme",   required_argument, 0, OPT_COLOR_SCHEME},
+        {"random_seed",    required_argument, 0, OPT_RANDOM_SEED},
+        {"lightness",      required_argument, 0, OPT_LIGHTNESS},
+        {"share_endpoint", no_argument,       0, OPT_SHARE_ENDPOINT},
+        {0, 0, 0, 0},
+        // clang-format on
+    };
+
+    int option_index = 0;
+    int c = getopt_long(argc, argv, "a:c:r:l:o:s:v?", opts, &option_index);
+
+    if (c == -1) {
       break;
     }
+
+    const char *arg = optarg;
+
+    // legacy handling of single-dash-prefixed options
+    if (c == 'a' && strprefix(arg, "ccuracy=")) {
+      c = OPT_ACCURACY;
+      arg += strlen("ccuracy=");
+    } else if (c == 'a' && strprefix(arg, "ngle=")) {
+      c = OPT_ANGLE;
+      arg += strlen("ngle=");
+    } else if (c == 'c' && strprefix(arg, "olor_scheme=")) {
+      c = OPT_COLOR_SCHEME;
+      arg += strlen("olor_scheme=");
+    } else if (c == 'r' && strprefix(arg, "andom_seed=")) {
+      c = OPT_RANDOM_SEED;
+      arg += strlen("andom_seed=");
+    } else if (c == 'l' && strprefix(arg, "ightness=")) {
+      c = OPT_LIGHTNESS;
+      arg += strlen("ightness=");
+    } else if (c == 's' && strprefix(arg, "hare_endpoint")) {
+      c = OPT_SHARE_ENDPOINT;
+    }
+
+    switch (c) {
+
+    // any valid use of these options should have been handled as legacy above
+    case 'a':
+    case 'c':
+    case 'r':
+    case 'l':
+      fprintf(stderr, "option -%c unrecognized.\n", c);
+      usage(cmd, EXIT_FAILURE);
+      UNREACHABLE();
+
+    case '?':
+      if (optopt == '\0' || optopt == '?') {
+        usage(cmd, EXIT_SUCCESS);
+      }
+      fprintf(stderr, "option -%c unrecognized.\n", optopt);
+      usage(cmd, EXIT_FAILURE);
+      UNREACHABLE();
+
+    case 'o':
+      if (outfile != NULL) {
+        fclose(outfile);
+      }
+      outfile = openFile(arg, CmdName);
+      break;
+
     case 'v':
       Verbose = TRUE;
       break;
-    case 'o':
-      if (outfile != NULL)
-        fclose(outfile);
-      outfile = openFile(optarg, "w", CmdName);
-      break;
-    case '?':
-      if (optopt == '\0' || optopt == '?')
-	usage(cmd, 0);
-      else {
-	fprintf(stderr, "option -%c unrecognized\n",
-		optopt);
-	usage(cmd, 1);
+
+    case OPT_ACCURACY:
+      if (sscanf(arg, "%lf", accuracy) != 1 || *accuracy <= 0) {
+        fprintf(stderr, "--accuracy option must be a positive real number.\n");
+        usage(cmd, EXIT_FAILURE);
       }
       break;
+
+    case OPT_ANGLE:
+      if (sscanf(arg, "%lf", angle) != 1 || *angle <= 0 || *angle >= 90) {
+        fprintf(stderr, "--angle option must be a positive real number "
+                        "between 0 and 90.\n");
+        usage(cmd, EXIT_FAILURE);
+      }
+      break;
+
+    case OPT_COLOR_SCHEME:
+      if (!knownColorScheme(arg)) {
+        fprintf(stderr,
+                "--color_scheme option must be a known color scheme.\n");
+        usage(cmd, EXIT_FAILURE);
+      }
+      break;
+
+    case OPT_LIGHTNESS: {
+      int l1 = 0;
+      int l2 = 70;
+      if (sscanf(arg, "%d,%d", &l1, &l2) != 2 || l1 < 0 || l2 > 100 ||
+          l1 > l2) {
+        fprintf(stderr, "invalid --lightness=%s option.\n", arg);
+        usage(cmd, EXIT_FAILURE);
+      }
+      free(*lightness);
+      *lightness = strdup(arg);
+      break;
+    }
+
+    case OPT_RANDOM_SEED:
+      if (sscanf(arg, "%d", seed) != 1) {
+        fprintf(stderr, "--random_seed option must be an integer.\n");
+        usage(cmd, EXIT_FAILURE);
+      }
+      break;
+
+    case OPT_SHARE_ENDPOINT:
+      *check_edges_with_same_endpoint = 1;
+      break;
+
+    default:
+      UNREACHABLE();
     }
   }
 
-  argv += optind;
-  argc -= optind;
-  
-  if (argc)
-    *infile = argv[0];
+  if (argc > optind) {
+    Files = argv + optind;
+  }
 
-  if (argc > 0) Files = argv;
-  if (!outfile) outfile = stdout;
-
+  if (outfile == NULL) {
+    outfile = stdout;
+  }
 }
 
 
-static int clarify(Agraph_t* g, real angle, real accuracy, char *infile, int check_edges_with_same_endpoint, int seed, char *color_scheme, char *lightness){
+static int clarify(Agraph_t* g, real angle, real accuracy, int check_edges_with_same_endpoint, int seed, char *color_scheme, char *lightness){
 
   if (checkG(g)) {
     agerr (AGERR, "Graph %s contains loops or multiedges\n", agnameof(g));
@@ -225,7 +280,6 @@ static Agraph_t *gread(FILE * fp)
 
 int main(int argc, char *argv[])
 {
-  char *infile;
   real accuracy;
   real angle;
   int check_edges_with_same_endpoint, seed;
@@ -234,9 +288,9 @@ int main(int argc, char *argv[])
   Agraph_t *g;
   Agraph_t *prev = NULL;
   ingraph_state ig;
-  int rv = 0;
+  int rv = EXIT_SUCCESS;
 
-	init(argc, argv, &angle, &accuracy, &infile, &check_edges_with_same_endpoint, &seed, &color_scheme, &lightness);
+	init(argc, argv, &angle, &accuracy, &check_edges_with_same_endpoint, &seed, &color_scheme, &lightness);
 	newIngraph(&ig, Files, gread);
 
 	while ((g = nextGraph(&ig)) != 0) {
@@ -247,7 +301,10 @@ int main(int argc, char *argv[])
 		if (Verbose)
 		    fprintf(stderr, "Process graph %s in file %s\n", agnameof(g),
 			    fname);
-		rv |= clarify(g, angle, accuracy, infile, check_edges_with_same_endpoint, seed, color_scheme, lightness);
+		if (clarify(g, angle, accuracy, check_edges_with_same_endpoint, seed,
+		            color_scheme, lightness) != 0) {
+		    rv = EXIT_FAILURE;
+		}
 	}
 
 	return rv;

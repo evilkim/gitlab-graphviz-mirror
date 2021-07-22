@@ -645,7 +645,7 @@ gv_to_gml(Agraph_t* G, FILE* outFile)
     fprintf (outFile, "]\n");
 }
 
-static FILE *openFile(char *name, char *mode)
+static FILE *openFile(const char *name, const char *mode)
 {
     FILE *fp;
     char *modestr;

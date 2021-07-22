@@ -1005,6 +1005,36 @@ def test_1931():
   assert "line 3\nline 4" in xdot
   assert "line 5\nline 6" in xdot
 
+@pytest.mark.skipif(shutil.which("edgepaint") is None,
+                    reason="edgepaint not available")
+def test_1971():
+  """
+  edgepaint should reject invalid command line options
+  https://gitlab.com/graphviz/graphviz/-/issues/1971
+  """
+
+  # a basic graph that edgepaint can process
+  input =                                                                      \
+    'digraph {\n'                                                              \
+    '  graph [bb="0,0,54,108"];\n'                                             \
+    '  node [label="\\N"];\n'                                                  \
+    '  a       [height=0.5,\n'                                                 \
+    '           pos="27,90",\n'                                                \
+    '           width=0.75];\n'                                                \
+    '  b       [height=0.5,\n'                                                 \
+    '           pos="27,18",\n'                                                \
+    '           width=0.75];\n'                                                \
+    '  a -> b  [pos="e,27,36.104 27,71.697 27,63.983 27,54.712 27,46.112"];\n' \
+    '}'
+
+  # run edgepaint with an invalid option, `-rabbit`, that happens to have the
+  # same first character as valid options
+  args = ["edgepaint", "-rabbit"]
+  p = subprocess.Popen(args, stdin=subprocess.PIPE, universal_newlines=True)
+  p.communicate(input)
+
+  assert p.returncode != 0, "edgepaint incorrectly accepted '-rabbit'"
+
 @pytest.mark.xfail(strict=not is_ndebug_defined()) # FIXME
 def test_1990():
   """

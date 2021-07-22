@@ -12,7 +12,7 @@
 #include <string.h>
 #include <common/macros.h>
 
-int knownColorScheme (char* name)
+int knownColorScheme(const char* name)
 {
   int r, g, b;
 
@@ -42,7 +42,7 @@ void color_palettes_name_print(FILE *fp){
   }
 }
 
-int color_palettes_Q(char *color_palette_name){
+int color_palettes_Q(const char *color_palette_name) {
   int i;
   for (i = 0; i < npalettes; i++){
     if (strcmp(color_palette_name, color_palettes[i][0]) == 0){
