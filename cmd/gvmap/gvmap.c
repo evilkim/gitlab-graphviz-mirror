@@ -128,19 +128,13 @@ static void usage(char* cmd, int eval)
     exit(eval);
 }
 
-static FILE *openFile(const char *name, const char *mode, const char* cmd)
+static FILE *openFile(const char *name, const char* cmd)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-	if (*mode == 'r')
-	    modestr = "reading";
-	else
-	    modestr = "writing";
-	fprintf(stderr, "%s: could not open file %s for %s\n",
-		cmd, name, modestr);
+	fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
 	exit(-1);
     }
     return (fp);
@@ -246,7 +240,7 @@ init(int argc, char **argv, params_t* pm)
       pm->plotedges = true;
       break;
     case 'o':
-	  pm->outfile = openFile(optarg, "w", pm->cmd);
+	  pm->outfile = openFile(optarg, pm->cmd);
       break;
     case 'O':
       pm->color_optimize = false;
