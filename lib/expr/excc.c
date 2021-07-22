@@ -22,6 +22,7 @@
 	Exccdisc_t*	ccdisc;		/* excc() discipline		*/
 
 #include <expr/exlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #define EX_CC_DUMP	0x8000
@@ -92,7 +93,7 @@ exopname(int op)
 	case RSH:
 		return ">>";
 	}
-	sfsprintf(buf, sizeof(buf) - 1, "(OP=%03o)", op);
+	snprintf(buf, sizeof(buf) - 1, "(OP=%03o)", op);
 	return buf;
 }
 
