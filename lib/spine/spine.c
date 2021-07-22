@@ -531,19 +531,13 @@ void genSpine(Agraph_t * g, float sparse_ratio, int verbose)
 
 #ifdef MAIN
 
-static FILE *openFile(const char *cmd, const char *name, const char *mode)
+static FILE *openFile(const char *cmd, const char *name)
 {
 	FILE *fp;
-	char *modestr;
 
-	fp = fopen(name, mode);
+	fp = fopen(name, "w");
 	if (!fp) {
-		if (*mode == 'r')
-			modestr = "reading";
-		else
-			modestr = "writing";
-		fprintf(stderr, "%s: could not open file %s for %s\n",
-				cmd, name, modestr);
+		fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
 		exit(1);
 	}
 	return fp;
@@ -611,7 +605,7 @@ static void doOpts(int argc, char *argv[], opts_t * op)
 	while ((c = getopt(argc, argv, "o:r:v::?")) != -1) {
 		switch (c) {
 		case 'o':
-			op->outfp = openFile(cmd, optarg, "w");
+			op->outfp = openFile(cmd, optarg);
 			break;
 		case 'v':
 			if (optarg)
