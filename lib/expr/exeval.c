@@ -1474,7 +1474,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				case LS:
 					v.floating = (Sflong_t)v.floating << (Sflong_t)r.floating;
 					break;
-				case RS:
+				case RSH:
 #ifdef _WIN32
 					v.floating = (Sflong_t)((Sfulong_t)v.floating >> (Sflong_t)r.floating);
 #else
@@ -1522,7 +1522,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				case LS:
 					v.integer <<= r.integer;
 					break;
-				case RS:
+				case RSH:
 					v.integer = (Sfulong_t)v.integer >> r.integer;
 					break;
 				default:
@@ -1692,7 +1692,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				v.floating = (double) (op1 << op2);
 			}
 			return v;
-		case RS:
+		case RSH:
 #ifdef _WIN32
 			v.floating = (Sflong_t) ((Sfulong_t)v.floating >> (Sflong_t)r.floating);
 #else
@@ -1855,7 +1855,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				v.floating = (double) (op1 << op2);
 			}
 			return v;
-		case RS:
+		case RSH:
 /* IBM compilers can't deal with these shift operators on long long.
  *                      v.integer = ((Sfulong_t)v.floating) >> (Sflong_t)r.floating;
  */

@@ -140,7 +140,7 @@
 %left	<op>	'&'
 %binary	<op>	EQ	NE
 %binary	<op>	'<'	'>'	LE	GE
-%left	<op>	LS	RS
+%left	<op>	LS	RSH
 %left	<op>	'+'	'-'	IN_OP
 %left	<op>	'*'	'/'	'%'
 %right	<op>	'!'	'~'	'#'	UNARY
@@ -674,7 +674,7 @@ expr		:	'(' expr ')'
 		{
 			goto binary;
 		}
-		|	expr RS expr
+		|	expr RSH expr
 		{
 			goto binary;
 		}
