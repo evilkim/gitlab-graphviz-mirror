@@ -41,8 +41,6 @@
 #include <string.h>
 #include <ast/ast.h>
 
-#undef	RS	/* hp.pa <signal.h> grabs this!! */
-
 %}
 
 %union
