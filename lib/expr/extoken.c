@@ -106,8 +106,8 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		s = " LE ";
 		t = "<=";
 		break;
-	case LS:
-		s = " LS ";
+	case LSH:
+		s = " LSH ";
 		t = "<<";
 		break;
 	case NAME:
@@ -430,7 +430,7 @@ extoken_fn(Expr_t* ex)
 		case '>':
 			if ((q = lex(ex)) == c)
 			{
-				exlval.op = c = c == '<' ? LS : RSH;
+				exlval.op = c = c == '<' ? LSH : RSH;
 				if ((q = lex(ex)) == '=')
 					c = '=';
 				else exunlex(ex, q);

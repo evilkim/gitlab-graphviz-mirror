@@ -83,7 +83,7 @@ exopname(int op)
 		return ">=";
 	case LE:
 		return "<=";
-	case LS:
+	case LSH:
 		return "<<";
 	case NE:
 		return "!=";

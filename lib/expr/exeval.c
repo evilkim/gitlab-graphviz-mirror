@@ -1471,7 +1471,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				case '^':
 					v.floating = (Sflong_t)v.floating ^ (Sflong_t)r.floating;
 					break;
-				case LS:
+				case LSH:
 					v.floating = (Sflong_t)v.floating << (Sflong_t)r.floating;
 					break;
 				case RSH:
@@ -1519,7 +1519,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				case '^':
 					v.integer ^= r.integer;
 					break;
-				case LS:
+				case LSH:
 					v.integer <<= r.integer;
 					break;
 				case RSH:
@@ -1681,7 +1681,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		case '>':
 			v.integer = v.floating > r.floating;
 			return v;
-		case LS:
+		case LSH:
 /* IBM compilers can't deal with these shift operators on long long.
  *                                      v.floating = ((Sflong_t)v.floating) << ((Sflong_t)r.floating);
  */
@@ -1844,7 +1844,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		case NE:
 			v.integer = v.integer != r.integer;
 			return v;
-		case LS:
+		case LSH:
 /* IBM compilers can't deal with these shift operators on long long.
  *                      v.floating = (Sflong_t)v.floating << (Sflong_t)r.floating;
  */
