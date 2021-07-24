@@ -1615,8 +1615,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 				tmp.data.constant.value.string = exprintf(ex->ve, "%g", v.floating);
 			}
 			else if ((*ex->disc->convertf)(ex, &tmp, STRING, expr->data.operand.right ? expr->data.operand.right->data.variable.symbol : (Exid_t*)0, 0, ex->disc)) {
-				sfprintf(ex->tmp, "%g", v.floating);
-				tmp.data.constant.value.string = exstash(ex->tmp, ex->ve);
+				tmp.data.constant.value.string = exprintf(ex->ve, "%g", v.floating);
 			}
 			tmp.type = STRING;
 			return tmp.data.constant.value;
