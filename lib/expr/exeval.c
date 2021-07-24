@@ -1767,7 +1767,7 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 		switch (expr->op)
 		{
 		case I2F:
-#if _WIN32
+#ifdef _WIN32
 			v.floating = v.integer;
 #else
 			if (expr->type == UNSIGNED)
