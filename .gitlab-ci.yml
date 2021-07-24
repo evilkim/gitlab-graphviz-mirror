@@ -312,6 +312,18 @@ fedora33-build:
     variables:
       IMAGE: fedora33
 
+fedora34-build:
+    <<: *rpm_build_definition
+    needs:
+        - job: docker_build_fedora34
+          artifacts: false
+        - job: portable-source
+          artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: fedora34
+
 ubuntu18-04-build:
     <<: *deb_build_definition
     needs:
@@ -742,6 +754,20 @@ fedora33-test:
     variables:
       IMAGE: fedora33
 
+fedora34-test:
+    <<: *linux_test_definition
+    before_script:
+        - export build_system="autotools"
+    needs:
+        - job: portable-source
+          artifacts: true
+        - job: "fedora34-build"
+          artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: fedora34
+
 macos-autotools-test:
     <<: *test_definition
     before_script:
@@ -987,6 +1013,11 @@ docker_build_fedora33:
   variables:
     IMAGE: fedora33
 
+docker_build_fedora34:
+  <<: *docker_build_definition
+  variables:
+    IMAGE: fedora34
+
 docker_build_ubuntu-18.04:
   <<: *docker_build_definition
   variables:
@@ -1034,6 +1065,13 @@ docker_push_fedora33:
     IMAGE: fedora33
   needs:
     - docker_build_fedora33
+
+docker_push_fedora34:
+  <<: *docker_push_definition
+  variables:
+    IMAGE: fedora34
+  needs:
+    - docker_build_fedora34
 
 docker_push_ubuntu-18.04:
   <<: *docker_push_definition
