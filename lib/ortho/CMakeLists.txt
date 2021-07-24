@@ -1,6 +1,6 @@
 if (with_ortho)
 
-add_definitions(-D_BLD_gvc=1)
+add_definitions(-D_BLD_gvc=1 -DGVC_EXPORTS)
 
 add_library(ortho_obj OBJECT
     # Header files
