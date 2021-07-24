@@ -333,13 +333,13 @@ char *Fgets(FILE * fp)
 #define PATHSEP ":"
 #endif
 
-static char** mkDirlist (const char* list, int* maxdirlen)
+static char** mkDirlist (const char* list, size_t* maxdirlen)
 {
     int cnt = 0;
     char* s = strdup (list);
     char* dir;
     char** dirs = NULL;
-    int maxlen = 0;
+    size_t maxlen = 0;
 
     for (dir = strtok (s, PATHSEP); dir; dir = strtok (NULL, PATHSEP)) {
 	dirs = ALLOC (cnt+2,dirs,char*);
@@ -351,7 +351,7 @@ static char** mkDirlist (const char* list, int* maxdirlen)
     return dirs;
 }
 
-static char* findPath (char** dirs, int maxdirlen, const char* str)
+static char* findPath (char** dirs, size_t maxdirlen, const char* str)
 {
     static char *safefilename = NULL;
     char** dp;
@@ -374,7 +374,7 @@ const char *safefile(const char *filename)
 {
     static boolean onetime = TRUE;
     static char *pathlist = NULL;
-    static int maxdirlen;
+    static size_t maxdirlen;
     static char** dirs;
     const char *str, *p;
 
