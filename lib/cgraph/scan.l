@@ -35,7 +35,7 @@
 	/* this is a workaround for linux flex */
 static int line_num = 1;
 static int html_nest = 0;  /* nesting level for html strings */
-static char* InputFile;
+static const char* InputFile;
 static Agdisc_t	*Disc;
 static void 	*Ifile;
 static int graphType;
