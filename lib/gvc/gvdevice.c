@@ -58,7 +58,7 @@ static const int PAGE_ALIGN = 4095;		/* align to a 4K boundary (less one), typic
 
 static size_t gvwrite_no_z (GVJ_t * job, const char *s, size_t len)
 {
-    if (job->gvc->write_fn)   /* externally provided write dicipline */
+    if (job->gvc->write_fn)   /* externally provided write discipline */
 	return (job->gvc->write_fn)(job, s, len);
     if (job->output_data) {
 	if (len > job->output_data_allocated - (job->output_data_position + 1)) {
@@ -72,7 +72,7 @@ static size_t gvwrite_no_z (GVJ_t * job, const char *s, size_t len)
 	}
 	memcpy(job->output_data + job->output_data_position, s, len);
         job->output_data_position += len;
-	job->output_data[job->output_data_position] = '\0'; /* keep null termnated */
+	job->output_data[job->output_data_position] = '\0'; /* keep null terminated */
 	return len;
     }
     else {
@@ -100,7 +100,7 @@ static void auto_output_filename(GVJ_t *job)
         + strlen(gidx)                  /* "", ".2", ".3", ".4", ... */
         + 1                             /* "." */
         + strlen(job->output_langname)  /* e.g. "png" */
-        + 1;                            /* null terminaor */
+        + 1;                            /* null terminator */
     if (bufsz < len) {
             bufsz = len + 10;
             buf = realloc(buf, bufsz * sizeof(char));
