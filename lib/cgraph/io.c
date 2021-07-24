@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <stddef.h>
 #include <stdio.h>
 #include <cgraph/cghdr.h>
 #if defined(_WIN32)
@@ -37,8 +38,8 @@ Agiodisc_t AgIoDisc = { iofread, ioputstr, ioflush };
 
 typedef struct {
     const char *data;
-    int len;
-    int cur;
+    size_t len;
+    size_t cur;
 } rdr_t;
 
 static int
@@ -67,7 +68,7 @@ memiofread(void *chan, char *buf, int bufsize)
 	 * null-terminated strings.
 	 */
     } while (c != '\n' && l < bufsize && (c = *ptr++));
-    s->cur += l;
+    s->cur += (size_t)l;
     return l;
 }
 
