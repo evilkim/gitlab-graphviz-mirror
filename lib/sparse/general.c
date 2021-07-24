@@ -180,7 +180,7 @@ char *strip_dir(char *s){
       s[i] = '\0';
       first = FALSE;
     }
-    if (s[i] == '/') return (char*) &(s[i+1]);
+    if (s[i] == '/') return &s[i+1];
   }
   return s;
 }
