@@ -506,8 +506,8 @@ excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 			x->data.constant.value.integer = x->data.constant.value.floating;
 			break;
 		case F2S:
-			sfprintf(p->tmp, "%g", x->data.constant.value.floating);
-			x->data.constant.value.string = exstash(p->tmp, p->vm);
+			x->data.constant.value.string =
+			  exprintf(p->vm, "%g", x->data.constant.value.floating);
 			break;
 		case I2F:
 			x->data.constant.value.floating = x->data.constant.value.integer;
