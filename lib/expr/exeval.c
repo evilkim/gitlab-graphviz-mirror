@@ -197,7 +197,6 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	Exnode_t*	node;
 	char*		s;
 	char*		txt;
-	int			n;
 	int			from;
 	int			to = 0;
 	time_t			tm;
@@ -255,7 +254,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			{
 				if (fmt->value.string)
 				{
-					n = strlen(fmt->value.string);
+					size_t n = strlen(fmt->value.string);
 					if ((s = fmtbuf(n + 1)))
 						memcpy(s, fmt->value.string, n + 1);
 					vmfree(fmt->expr->vm, fmt->value.string);
