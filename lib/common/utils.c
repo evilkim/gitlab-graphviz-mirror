@@ -278,10 +278,10 @@ Agnodeinfo_t* ND_info(node_t * n) { return ((Agnodeinfo_t*)AGDATA(n));}
  */
 char *Fgets(FILE * fp)
 {
-    static int bsize = 0;
+    static size_t bsize = 0;
     static char *buf;
     char *lp;
-    int len;
+    size_t len;
 
     len = 0;
     do {
@@ -289,7 +289,7 @@ char *Fgets(FILE * fp)
 	    bsize += BUFSIZ;
 	    buf = grealloc(buf, bsize);
 	}
-	lp = fgets(buf + len, bsize - len, fp);
+	lp = fgets(buf + len, (int)(bsize - len), fp);
 	if (lp == 0)
 	    break;
 	len += strlen(lp);	/* since lp != NULL, len > 0 */
