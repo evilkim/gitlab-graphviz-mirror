@@ -29,7 +29,11 @@ extern "C" {
 
 #undef	extern
 
+#include <assert.h>
 #include <cdt.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdio.h>
 #include <vmalloc/vmalloc.h>
 
 #define EX_VERSION	20000101L
@@ -296,6 +300,42 @@ extern char*	extypename(Expr_t * p, int);
 extern int		exisAssign(Exnode_t *);
 
 #undef	extern
+
+/** Construct a vmalloc-backed string.
+ *
+ * \param vm Allocator to use.
+ * \param fmt printf-style format sting.
+ * \param ... printf-style varargs.
+ * \return Dynamically allocated string.
+ */
+#ifdef __GNUC__
+__attribute__((format(printf, 2, 3)))
+#endif
+static inline char *exprintf(Vmalloc_t *vm, const char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+
+  // how many bytes do we need for this string?
+  va_list ap2;
+  va_copy(ap2, ap);
+  int len = vsnprintf(NULL, 0, fmt, ap2);
+  assert(len >= 0 && "invalid vsnprintf call");
+  ++len; // for NUL terminator
+  va_end(ap2);
+
+  // ask vmalloc for enough space for this
+  char *s = vmalloc(vm, (size_t)len);
+  if (s == NULL) {
+    va_end(ap);
+    return exnospace();
+  }
+
+  // construct the output string
+  (void)vsnprintf(s, (size_t)len, fmt, ap);
+  va_end(ap);
+
+  return s;
+}
 
 #endif
 
