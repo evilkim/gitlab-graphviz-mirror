@@ -21,7 +21,7 @@ typedef struct {
     char *dummy;
 } Agraph_t;
 
-extern void agsetfile(char *);
+extern void agsetfile(const char *);
 
 #include <ingraphs/ingraphs.h>
 

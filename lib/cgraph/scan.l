@@ -45,7 +45,7 @@ void agreadline(int n) { line_num = n; }
 
   /* (Re)set file:
    */
-void agsetfile(char* f) { InputFile = f; line_num = 1; }
+void agsetfile(const char* f) { InputFile = f; line_num = 1; }
 
 /* There is a hole here, because switching channels
  * requires pushing back whatever was previously read.
