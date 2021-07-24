@@ -330,11 +330,8 @@ static Exnode_t *exstringOf(Expr_t * p, Exnode_t * x) {
 		  exprintf(p->vm, "%g", x->data.constant.value.floating);
 		break;
 	    case INTEGER:
-		sfprintf(p->tmp, "%I*d",
-			 sizeof(x->data.constant.value.integer),
-			 x->data.constant.value.integer);
 		x->data.constant.value.string =
-		    vmstrdup(p->vm, sfstruse(p->tmp));
+		  exprintf(p->vm, "%lld", (long long)x->data.constant.value.integer);
 		break;
 	    default:
 		exerror("internal error: %d: unknown type", type);
