@@ -83,13 +83,13 @@ exopname(int op)
 		return ">=";
 	case LE:
 		return "<=";
-	case LS:
+	case LSH:
 		return "<<";
 	case NE:
 		return "!=";
 	case OR:
 		return "||";
-	case RS:
+	case RSH:
 		return ">>";
 	}
 	sfsprintf(buf, sizeof(buf) - 1, "(OP=%03o)", op);

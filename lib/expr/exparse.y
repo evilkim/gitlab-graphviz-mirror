@@ -41,8 +41,6 @@
 #include <string.h>
 #include <ast/ast.h>
 
-#undef	RS	/* hp.pa <signal.h> grabs this!! */
-
 %}
 
 %union
@@ -140,7 +138,7 @@
 %left	<op>	'&'
 %binary	<op>	EQ	NE
 %binary	<op>	'<'	'>'	LE	GE
-%left	<op>	LS	RS
+%left	<op>	LSH	RSH
 %left	<op>	'+'	'-'	IN_OP
 %left	<op>	'*'	'/'	'%'
 %right	<op>	'!'	'~'	'#'	UNARY
@@ -670,11 +668,11 @@ expr		:	'(' expr ')'
 		{
 			goto binary;
 		}
-		|	expr LS expr
+		|	expr LSH expr
 		{
 			goto binary;
 		}
-		|	expr RS expr
+		|	expr RSH expr
 		{
 			goto binary;
 		}
