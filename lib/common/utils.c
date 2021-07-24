@@ -360,7 +360,7 @@ static char* findPath (char** dirs, int maxdirlen, const char* str)
          * +1 for null character.
          * +1 for directory separator character.
          */
-    safefilename = realloc(safefilename, (maxdirlen + strlen(str) + 2));
+    safefilename = realloc(safefilename, maxdirlen + strlen(str) + 2);
 
     for (dp = dirs; *dp; dp++) {
 	sprintf (safefilename, "%s%s%s", *dp, DIRSEP, str);
