@@ -326,9 +326,8 @@ static Exnode_t *exstringOf(Expr_t * p, Exnode_t * x) {
 	} else
 	    switch (type) {
 	    case FLOATING:
-		sfprintf(p->tmp, "%g", x->data.constant.value.floating);
 		x->data.constant.value.string =
-		    vmstrdup(p->vm, sfstruse(p->tmp));
+		  exprintf(p->vm, "%g", x->data.constant.value.floating);
 		break;
 	    case INTEGER:
 		sfprintf(p->tmp, "%I*d",
