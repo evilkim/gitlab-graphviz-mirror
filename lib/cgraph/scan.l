@@ -162,7 +162,7 @@ static bool twoDots(void) {
 static int chkNum(void) {
     unsigned char c = (unsigned char)aagtext[aagleng-1];   /* last character */
     if ((!isdigit(c) && c != '.') || (c == '.' && twoDots())) {  /* c is letter */
-	char* fname;
+	const char* fname;
 
 	if (InputFile)
 	    fname = InputFile;
