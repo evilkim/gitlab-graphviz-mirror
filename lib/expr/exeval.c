@@ -38,7 +38,7 @@
 static Extype_t	eval(Expr_t*, Exnode_t*, void*);
 
 #define TOTNAME		4
-#define MAXNAME		16
+#define MAXNAME		23
 #define FRAME		64
 
 static char*
