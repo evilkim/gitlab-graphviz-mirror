@@ -17,11 +17,40 @@
 #include "config.h"
 
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/likely.h>
 
-#define N_NEW(n,t)       calloc((n),sizeof(t))
-#define NEW(t)           malloc(sizeof(t))
+static void *xmalloc(size_t size) {
+  void *p = malloc(size);
+  if (UNLIKELY(size > 0 && p == NULL)) {
+    fprintf(stderr, "ccomps: out of memory\n");
+    exit(EXIT_FAILURE);
+  }
+  return p;
+}
+
+static void *xcalloc(size_t count, size_t size) {
+  void *p = calloc(count, size);
+  if (UNLIKELY(count > 0 && size > 0 && p == NULL)) {
+    fprintf(stderr, "ccomps: out of memory\n");
+    exit(EXIT_FAILURE);
+  }
+  return p;
+}
+
+static void *xrealloc(void *ptr, size_t size) {
+  void *p = realloc(ptr, size);
+  if (UNLIKELY(size > 0 && p == NULL)) {
+    fprintf(stderr, "ccomps: out of memory\n");
+    exit(EXIT_FAILURE);
+  }
+  return p;
+}
+
+#define N_NEW(n,t)       xcalloc((n),sizeof(t))
+#define NEW(t)           xmalloc(sizeof(t))
 
 typedef struct {
     Agrec_t h;
@@ -110,7 +139,7 @@ static void split(char *name)
     if (sfx) {
 	suffix = sfx + 1;
 	size = sfx - name;
-	path = malloc(size + 1);
+	path = xmalloc(size + 1);
 	strncpy(path, name, size);
 	*(path + size) = '\0';
     } else {
@@ -266,17 +295,9 @@ static void push(Agnode_t * np)
     if (Stk.curp == Stk.curblk->endp) {
 	if (Stk.curblk->next == NULL) {
 	    blk_t *bp = NEW(blk_t);
-	    if (bp == 0) {
-		fprintf(stderr, "gc: Out of memory\n");
-		exit(1);
-	    }
 	    bp->prev = Stk.curblk;
 	    bp->next = NULL;
 	    bp->data = N_NEW(BIGBUF, Agnode_t *);
-	    if (bp->data == 0) {
-		fprintf(stderr, "%s: Out of memory\n", Cmd);
-		exit(1);
-	    }
 	    bp->endp = bp->data + BIGBUF;
 	    Stk.curblk->next = bp;
 	}
@@ -350,7 +371,7 @@ static char *getName(void)
 	name = outfile;
     else {
 	if (!buf)
-	    buf = malloc(strlen(outfile) + 20);	/* enough to handle '_number' */
+	    buf = xmalloc(strlen(outfile) + 20);	/* enough to handle '_number' */
 	if (suffix)
 	    sprintf(buf, "%s_%d.%s", path, sufcnt, suffix);
 	else
@@ -394,7 +415,7 @@ static char *getBuf(int n)
 
     if (n > len) {
 	sz = n + 100;
-	buf = realloc(buf, sz);
+	buf = xrealloc(buf, sz);
 	len = sz;
     }
     return buf;
@@ -880,7 +901,7 @@ chkGraphName (Agraph_t* g)
     if (*s != '%') return s;
     len = strlen(s) + 2;   /* plus '\0' and '_' */
     if (len > buflen) {
-	buf = realloc (buf, len);
+	buf = xrealloc (buf, len);
 	buflen = len;
     }
     buf[0] = '_';

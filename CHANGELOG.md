@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - gvpr doesn't build on macOS but MKDEFS_EXECUTABLE points to wrong
   directory #2101
 - the generated gdefs.h header is no longer installed
+- `ccomps` out-of-memory message no longer incorrectly refers to `gc`
 
 ## [2.48.0] - 2021-07-17
 
