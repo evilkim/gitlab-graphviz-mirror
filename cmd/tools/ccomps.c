@@ -133,12 +133,11 @@ static void usage(int v)
 static void split(char *name)
 {
     char *sfx = 0;
-    int size;
 
     sfx = strrchr(name, '.');
     if (sfx) {
 	suffix = sfx + 1;
-	size = sfx - name;
+	size_t size = (size_t)(sfx - name);
 	path = xmalloc(size + 1);
 	strncpy(path, name, size);
 	*(path + size) = '\0';
