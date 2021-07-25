@@ -197,7 +197,7 @@ int agstrfree(Agraph_t * g, const char *s)
 
     strdict = refdict(g);
     r = refsymbind(strdict, s);
-    if (r && (r->s == s)) {
+    if (r && r->s == s) {
 	r->refcnt--;
 	if (r->refcnt == 0) {
 	    agdtdelete(g, strdict, r);
