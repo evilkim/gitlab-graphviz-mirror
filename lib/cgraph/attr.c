@@ -10,6 +10,7 @@
 
 #include	<cgraph/cghdr.h>
 #include	<cgraph/unreachable.h>
+#include	<stdbool.h>
 #include	<stddef.h>
 
 /*
@@ -463,7 +464,7 @@ int agset(void *obj, char *name, char *value)
     return rv;
 }
 
-int agxset(void *obj, Agsym_t * sym, char *value)
+static int agxset_(void *obj, Agsym_t * sym, char *value, bool is_html)
 {
     Agraph_t *g;
     Agobj_t *hdr;
@@ -475,7 +476,7 @@ int agxset(void *obj, Agsym_t * sym, char *value)
     data = agattrrec(hdr);
     assert(sym->id >= 0 && sym->id < topdictsize(obj));
     agstrfree(g, data->str[sym->id]);
-    data->str[sym->id] = agstrdup(g, value);
+    data->str[sym->id] = is_html ? agstrdup_html(g, value) : agstrdup(g, value);
     if (hdr->tag.objtype == AGRAPH) {
 	/* also update dict default */
 	Dict_t *dict;
@@ -490,6 +491,10 @@ int agxset(void *obj, Agsym_t * sym, char *value)
     }
     agmethod_upd(g, obj, sym);
     return SUCCESS;
+}
+
+int agxset(void *obj, Agsym_t * sym, char *value) {
+  return agxset_(obj, sym, value, false);
 }
 
 int agsafeset(void *obj, char *name, char *value, char *def)
