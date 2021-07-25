@@ -409,14 +409,13 @@ static void gwrite(Agraph_t * g)
  * Return pointer to buffer containing at least n bytes.
  * Non-reentrant.
  */
-static char *getBuf(int n)
+static char *getBuf(size_t n)
 {
-    static int len = 0;
+    static size_t len = 0;
     static char *buf = 0;
-    int sz;
 
     if (n > len) {
-	sz = n + 100;
+	size_t sz = n + 100;
 	buf = xrealloc(buf, sz);
 	len = sz;
     }
