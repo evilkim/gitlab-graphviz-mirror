@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <cgraph/cghdr.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -101,9 +102,9 @@ int agstrclose(Agraph_t * g)
     return agdtclose(g, refdict(g));
 }
 
-static refstr_t *refsymbind(Dict_t * strdict, const char *s)
+static refstr_t *refsymbind(Dict_t * strdict, const char *s, bool is_html)
 {
-    refstr_t key, *r;
+    refstr_t key = {0}, *r;
 // Suppress Clang/GCC -Wcast-qual warning. Casting away const here is acceptable
 // as dtsearch does not modify its input key.
 #ifdef __GNUC__
@@ -114,14 +115,15 @@ static refstr_t *refsymbind(Dict_t * strdict, const char *s)
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
+    key.is_html = is_html;
     r = dtsearch(strdict, &key);
     return r;
 }
 
-static char *refstrbind(Dict_t * strdict, const char *s)
+static char *refstrbind(Dict_t * strdict, const char *s, bool is_html)
 {
     refstr_t *r;
-    r = refsymbind(strdict, s);
+    r = refsymbind(strdict, s, is_html);
     if (r)
 	return r->s;
     else
@@ -130,7 +132,14 @@ static char *refstrbind(Dict_t * strdict, const char *s)
 
 char *agstrbind(Agraph_t * g, const char *s)
 {
-    return refstrbind(refdict(g), s);
+  // try to bind a regular string first
+  char *r = refstrbind(refdict(g), s, /* is_html = */ false);
+  if (r != NULL) {
+    return r;
+  }
+
+  // if that failed, try to bind an HTML-like string
+  return refstrbind(refdict(g), s, /* is_html = */ true);
 }
 
 char *agstrdup(Agraph_t * g, const char *s)
@@ -142,7 +151,7 @@ char *agstrdup(Agraph_t * g, const char *s)
     if (s == NULL)
 	 return NULL;
     strdict = refdict(g);
-    r = refsymbind(strdict, s);
+    r = refsymbind(strdict, s, /* is_html = */ false);
     if (r)
 	r->refcnt++;
     else {
@@ -169,7 +178,7 @@ char *agstrdup_html(Agraph_t * g, const char *s)
     if (s == NULL)
 	 return NULL;
     strdict = refdict(g);
-    r = refsymbind(strdict, s);
+    r = refsymbind(strdict, s, /* is_html = */ true);
     if (r)
 	r->refcnt++;
     else {
@@ -196,12 +205,20 @@ int agstrfree(Agraph_t * g, const char *s)
 	 return FAILURE;
 
     strdict = refdict(g);
-    r = refsymbind(strdict, s);
-    if (r && r->s == s) {
-	r->refcnt--;
-	if (r->refcnt == 0) {
-	    agdtdelete(g, strdict, r);
-	}
+    // first look for a regular string, then for an HTML-like string
+    for (bool is_html = false; ; is_html = !is_html) {
+      r = refsymbind(strdict, s, is_html);
+      if (r && r->s == s) {
+        // found a match
+        r->refcnt--;
+        if (r->refcnt == 0) {
+          agdtdelete(g, strdict, r);
+        }
+        break;
+      }
+      if (is_html) {
+        break;
+      }
     }
     if (r == NULL)
 	return FAILURE;
