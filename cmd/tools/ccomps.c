@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <cgraph/cgraph.h>
 #include <cgraph/likely.h>
+#include <cgraph/unreachable.h>
 
 static void *xmalloc(size_t size) {
   void *p = malloc(size);
@@ -238,6 +239,8 @@ static void init(int argc, char *argv[])
                 usage(1);
 	    }
 	    break;
+	default:
+	    UNREACHABLE();
 	}
     }
     argv += optind;
