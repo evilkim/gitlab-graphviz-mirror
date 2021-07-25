@@ -895,12 +895,11 @@ static char*
 chkGraphName (Agraph_t* g)
 {
     static char* buf = NULL;
-    static int buflen = 0;
+    static size_t buflen = 0;
     char* s = agnameof(g);
-    int len;
 
     if (*s != '%') return s;
-    len = strlen(s) + 2;   /* plus '\0' and '_' */
+    size_t len = strlen(s) + 2;   /* plus '\0' and '_' */
     if (len > buflen) {
 	buf = xrealloc (buf, len);
 	buflen = len;
