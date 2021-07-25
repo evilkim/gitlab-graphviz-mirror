@@ -1125,7 +1125,6 @@ def test_2082():
   # this bug has been reintroduced
   subprocess.check_call(["dot", "-Tpng", "-o", os.devnull, input])
 
-@pytest.mark.xfail(strict=True)
 @pytest.mark.parametrize("html_like_first", (False, True))
 def test_2089(html_like_first: bool): # FIXME
   """
@@ -1155,7 +1154,6 @@ def test_2089(html_like_first: bool): # FIXME
   assert 'label=foo' in canonical, "non-HTML-like label not found"
   assert "label=<foo>" in canonical, "HTML-like label not found"
 
-@pytest.mark.xfail(strict=True) # FIXME
 def test_2089_2():
   """
   HTML-like and non-HTML-like strings should peacefully coexist

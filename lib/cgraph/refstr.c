@@ -43,6 +43,14 @@ static int cmp(Dt_t *container, void *a, void *b, Dtdisc_t *discipline) {
   const refstr_t *x = a;
   const refstr_t *y = b;
 
+  // consider all regular strings to precede HTML-like strings
+  if (x->is_html && !y->is_html) {
+    return 1;
+  }
+  if (!x->is_html && y->is_html) {
+    return -1;
+  }
+
   return strcmp(x->s, y->s);
 }
 
@@ -60,8 +68,12 @@ static unsigned hash(Dt_t *container, void *a, Dtdisc_t *discipline) {
 
   const refstr_t *x = a;
 
+  // use the HTML-ness of this string as a seed input to ensure it is accounted
+  // for in the hash
+  unsigned seed = (unsigned)x->is_html;
+
   // delegate to CDT’s default string hashing
-  return dtstrhash(0, x->s, -1);
+  return dtstrhash(seed, x->s, -1);
 }
 
 static Dtdisc_t Refstrdisc = {
