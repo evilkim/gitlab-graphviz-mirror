@@ -16,9 +16,6 @@
 #include <sparse/color_palette.h>
 #include <string.h>
 
-#ifndef _WIN32
-inline 
-#endif
 static real mydist(int dim, real *x, real *y){
   int k;
   real d = 0;
