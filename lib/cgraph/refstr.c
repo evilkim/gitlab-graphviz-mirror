@@ -11,6 +11,7 @@
 #include <cgraph/cghdr.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 
 /*
  * reference counted strings.
@@ -24,14 +25,52 @@ typedef struct {
     char store[1];		/* this is actually a dynamic array */
 } refstr_t;
 
+/** Compare two reference counted strings.
+ *
+ * \param container Ignored.
+ * \param a First refstr_t to compare.
+ * \param b Second refstr_t to compare.
+ * \param discipline Ignored.
+ * \return a strcmp-like return value indicating the ordering of the two
+ *   strings.
+ */
+static int cmp(Dt_t *container, void *a, void *b, Dtdisc_t *discipline) {
+
+  (void)container;
+  (void)discipline;
+
+  const refstr_t *x = a;
+  const refstr_t *y = b;
+
+  return strcmp(x->s, y->s);
+}
+
+/** Derive a hash value for a reference counted string.
+ *
+ * \param container Ignored.
+ * \param a A refstr_t to hash.
+ * \param discipline Ignored.
+ * \return A numeric hash digest of this string.
+ */
+static unsigned hash(Dt_t *container, void *a, Dtdisc_t *discipline) {
+
+  (void)container;
+  (void)discipline;
+
+  const refstr_t *x = a;
+
+  // delegate to CDT’s default string hashing
+  return dtstrhash(0, x->s, -1);
+}
+
 static Dtdisc_t Refstrdisc = {
-    offsetof(refstr_t, s),	/* key */
-    -1,				/* size */
+    0, // key offset
+    sizeof(refstr_t), // size of key
     0,				/* link offset */
     NULL,
     agdictobjfree,
-    NULL,
-    NULL,
+    cmp,
+    hash,
     agdictobjmem,
     NULL
 };
