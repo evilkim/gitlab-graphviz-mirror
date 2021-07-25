@@ -25,10 +25,6 @@
 #include <stddef.h>
 extern void aagerror(char *);
 
-#ifdef _WIN32
-#define gettxt(a,b)	(b)
-#endif
-
 static char Key[] = "key";
 static int SubgraphDepth = 0;
 
