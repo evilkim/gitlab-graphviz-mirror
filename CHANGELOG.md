@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- a new API function `agxset_html` that does the equivalent of `agxset`, but
+  assumes the value being set is an HTML-like string
+
 ### Changed
 
 - the CMake build system now enables `-Wextra` when building C++
