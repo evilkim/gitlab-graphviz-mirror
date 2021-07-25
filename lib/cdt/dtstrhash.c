@@ -15,7 +15,7 @@
 
 uint dtstrhash(uint h, void* args, int n)
 {
-	unsigned char*	s = (unsigned char*)args;
+	unsigned char*	s = args;
 
 	if(n <= 0)
 	{	for(; *s != 0; s += s[1] ? 2 : 1)
