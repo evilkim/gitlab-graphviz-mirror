@@ -1,7 +1,7 @@
 #include	<cdt/dthdr.h>
 
 /* Hashing a string into an unsigned integer.
-** The basic method is to continuingly accumulate bytes and multiply
+** The basic method is to continuously accumulate bytes and multiply
 ** with some given prime. The length n of the string is added last.
 ** The recurrent equation is like this:
 **	h[k] = (h[k-1] + bytes)*prime	for 0 <= k < n
