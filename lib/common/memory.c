@@ -38,7 +38,7 @@ void *zrealloc(void *ptr, size_t size, size_t elt, size_t osize)
 void *gcalloc(size_t nmemb, size_t size)
 {
     char *rv = calloc(nmemb, size);
-    if (UNLIKELY(rv == NULL)) {
+    if (UNLIKELY(nmemb > 0 && size > 0 && rv == NULL)) {
 	fprintf(stderr, "out of memory\n");
 	exit(EXIT_FAILURE);
     }
