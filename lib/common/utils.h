@@ -11,6 +11,8 @@
 #ifndef _UTILS_H
 #define _UTILS_H 1
 
+#include "config.h"
+
 #include <cgraph/agxbuf.h>
 #include <stdbool.h>
 
@@ -102,6 +104,10 @@ extern "C" {
 
     /* from postproc.c */ 
     UTILS_API void gv_nodesize(Agnode_t * n, boolean flip);
+
+#ifndef HAVE_DRAND48
+    UTILS_API double drand48(void);
+#endif
 
     /* from timing.c */
     UTILS_API void start_timer(void);
