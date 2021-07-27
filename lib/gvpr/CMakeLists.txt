@@ -1,26 +1,9 @@
-add_executable(mkdefs
-    # Source files
-    mkdefs.c
-)
-
-# Generate gdefs.h from sources
-if (WIN32)
-    set (MKDEFS_EXECUTABLE "${CMAKE_CFG_INTDIR}/mkdefs")
-else()
-    set (MKDEFS_EXECUTABLE "./mkdefs")
-endif()
-add_custom_command(
-    OUTPUT gdefs.h
-    MAIN_DEPENDENCY gprdata
-    DEPENDS mkdefs
-    COMMAND ${MKDEFS_EXECUTABLE} gdefs.h < ${TOP_SOURCE_DIR}/lib/gvpr/gprdata
-)
-
 add_library(gvpr STATIC
     # Header files
     actions.h
     compile.h
     gdefs.h
+    gprdata.inc
     gprstate.h
     gvpr.h
     parse.h

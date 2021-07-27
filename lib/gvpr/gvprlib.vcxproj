@@ -101,6 +101,8 @@
   <ItemGroup>
     <ClInclude Include="actions.h" />
     <ClInclude Include="compile.h" />
+    <ClInclude Include="gdefs.h" />
+    <ClInclude Include="gprdata.inc" />
     <ClInclude Include="gprstate.h" />
     <ClInclude Include="gvpr.h" />
     <ClInclude Include="parse.h" />
@@ -111,7 +113,6 @@
     <ClCompile Include="compile.c" />
     <ClCompile Include="gprstate.c" />
     <ClCompile Include="gvpr.c" />
-    <ClCompile Include="mkdefs.c" />
     <ClCompile Include="parse.c" />
     <ClCompile Include="queue.c" />
   </ItemGroup>
