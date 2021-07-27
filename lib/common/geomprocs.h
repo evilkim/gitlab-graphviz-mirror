@@ -51,10 +51,6 @@ GEOMPROCS_API void rect2poly(pointf *p);
 
 GEOMPROCS_API int line_intersect (pointf a, pointf b, pointf c, pointf d, pointf* p);
 
-#if defined(_WIN32)
-#define inline __inline
-#endif
-
 static inline pointf pointfof(double x, double y)
 {
     pointf r;
@@ -191,9 +187,6 @@ static inline pointf scale (double c, pointf p)
     r.y = c * p.y;
     return r;
 }
-#ifdef WIN32_STATIC
-#undef inline
-#endif
 
 #undef GEOMPROCS_API
 #ifdef __cplusplus
