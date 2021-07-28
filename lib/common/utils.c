@@ -278,10 +278,10 @@ Agnodeinfo_t* ND_info(node_t * n) { return ((Agnodeinfo_t*)AGDATA(n));}
  */
 char *Fgets(FILE * fp)
 {
-    static int bsize = 0;
+    static size_t bsize = 0;
     static char *buf;
     char *lp;
-    int len;
+    size_t len;
 
     len = 0;
     do {
@@ -289,7 +289,7 @@ char *Fgets(FILE * fp)
 	    bsize += BUFSIZ;
 	    buf = grealloc(buf, bsize);
 	}
-	lp = fgets(buf + len, bsize - len, fp);
+	lp = fgets(buf + len, (int)(bsize - len), fp);
 	if (lp == 0)
 	    break;
 	len += strlen(lp);	/* since lp != NULL, len > 0 */
@@ -333,13 +333,13 @@ char *Fgets(FILE * fp)
 #define PATHSEP ":"
 #endif
 
-static char** mkDirlist (const char* list, int* maxdirlen)
+static char** mkDirlist (const char* list, size_t* maxdirlen)
 {
     int cnt = 0;
     char* s = strdup (list);
     char* dir;
     char** dirs = NULL;
-    int maxlen = 0;
+    size_t maxlen = 0;
 
     for (dir = strtok (s, PATHSEP); dir; dir = strtok (NULL, PATHSEP)) {
 	dirs = ALLOC (cnt+2,dirs,char*);
@@ -351,7 +351,7 @@ static char** mkDirlist (const char* list, int* maxdirlen)
     return dirs;
 }
 
-static char* findPath (char** dirs, int maxdirlen, const char* str)
+static char* findPath (char** dirs, size_t maxdirlen, const char* str)
 {
     static char *safefilename = NULL;
     char** dp;
@@ -360,7 +360,7 @@ static char* findPath (char** dirs, int maxdirlen, const char* str)
          * +1 for null character.
          * +1 for directory separator character.
          */
-    safefilename = realloc(safefilename, (maxdirlen + strlen(str) + 2));
+    safefilename = realloc(safefilename, maxdirlen + strlen(str) + 2);
 
     for (dp = dirs; *dp; dp++) {
 	sprintf (safefilename, "%s%s%s", *dp, DIRSEP, str);
@@ -374,7 +374,7 @@ const char *safefile(const char *filename)
 {
     static boolean onetime = TRUE;
     static char *pathlist = NULL;
-    static int maxdirlen;
+    static size_t maxdirlen;
     static char** dirs;
     const char *str, *p;
 

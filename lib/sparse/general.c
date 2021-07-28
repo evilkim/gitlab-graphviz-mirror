@@ -8,6 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <stdbool.h>
+#include <stddef.h>
 #include <sparse/general.h>
 #include <errno.h>
 
@@ -173,14 +175,17 @@ real point_distance(real *p1, real *p2, int dim){
 }
 
 char *strip_dir(char *s){
-  int i, first = TRUE;
+  bool first = true;
   if (!s) return s;
-  for (i = strlen(s); i >= 0; i--) {
+  for (size_t i = strlen(s); ; i--) {
     if (first && s[i] == '.') {/* get rid of .mtx */
       s[i] = '\0';
-      first = FALSE;
+      first = false;
     }
-    if (s[i] == '/') return (char*) &(s[i+1]);
+    if (s[i] == '/') return &s[i+1];
+    if (i == 0) {
+      break;
+    }
   }
   return s;
 }

@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <assert.h>
 #include <common/render.h>
 #include <common/htmltable.h>
 #include "htmlparse.h"
@@ -17,6 +17,7 @@
 #include <ctype.h>
 #include <cgraph/strcasecmp.h>
 #include <limits.h>
+#include <stddef.h>
 
 #ifdef HAVE_EXPAT
 #include <expat.h>
@@ -40,8 +41,8 @@ typedef struct {
     char mode;			/* for handling artificial <HTML>..</HTML> */
     char *currtok;		/* for error reporting */
     char *prevtok;		/* for error reporting */
-    int currtoklen;
-    int prevtoklen;
+    size_t currtoklen;
+    size_t prevtoklen;
 } lexstate_t;
 static lexstate_t state;
 
@@ -1036,7 +1037,7 @@ int htmllex()
 
     char *s;
     char *endp = 0;
-    int len, llen;
+    size_t len, llen;
     int rv;
 
     state.tok = 0;
@@ -1056,7 +1057,7 @@ int htmllex()
 		len = strlen(s);
 	    } else {
 		endp = findNext(s,&state.lb);
-		len = endp - s;
+		len = (size_t)(endp - s);
 	    }
 	}
 
@@ -1066,10 +1067,13 @@ int htmllex()
 	state.prevtoklen = state.currtoklen;
 	state.currtok = s;
 	state.currtoklen = len;
-	if ((llen = agxblen(&state.lb)))
-	    rv = XML_Parse(state.parser, agxbuse(&state.lb),llen, 0);
-	else
-	    rv = XML_Parse(state.parser, s, len, len ? 0 : 1);
+	if ((llen = (size_t)agxblen(&state.lb))) {
+	    assert(llen <= (size_t)INT_MAX && "XML token too long for expat API");
+	    rv = XML_Parse(state.parser, agxbuse(&state.lb), (int)llen, 0);
+	} else {
+	    assert(len <= (size_t)INT_MAX && "XML token too long for expat API");
+	    rv = XML_Parse(state.parser, s, (int)len, len ? 0 : 1);
+	}
 	if (rv == XML_STATUS_ERROR) {
 	    if (!state.error) {
 		agerr(AGERR, "%s in line %d \n",

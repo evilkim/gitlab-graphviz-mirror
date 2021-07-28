@@ -197,7 +197,6 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	Exnode_t*	node;
 	char*		s;
 	char*		txt;
-	int			n;
 	int			from;
 	int			to = 0;
 	time_t			tm;
@@ -255,7 +254,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 			{
 				if (fmt->value.string)
 				{
-					n = strlen(fmt->value.string);
+					size_t n = strlen(fmt->value.string);
 					if ((s = fmtbuf(n + 1)))
 						memcpy(s, fmt->value.string, n + 1);
 					vmfree(fmt->expr->vm, fmt->value.string);
@@ -986,11 +985,11 @@ static Extype_t exsubstr(Expr_t * ex, Exnode_t * expr, void *env)
 	s = eval(ex, expr->data.string.base, env);
 	len = strlen(s.string);
 	i = eval(ex, expr->data.string.pat, env);
-	if ((i.integer < 0) || (len < i.integer))
+	if (i.integer < 0 || len < i.integer)
 		exerror("illegal start index in substr(%s,%d)", s.string, i.integer);
 	if (expr->data.string.repl) {
 		l = eval(ex, expr->data.string.repl, env);
-		if ((l.integer < 0) || (len - i.integer < l.integer))
+		if (l.integer < 0 || len - i.integer < l.integer)
 	    exerror("illegal length in substr(%s,%d,%d)", s.string, i.integer, l.integer);
 	} else
 		l.integer = len - i.integer;
