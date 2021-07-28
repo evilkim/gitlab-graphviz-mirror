@@ -95,19 +95,13 @@ static void usage(int v)
     exit(v);
 }
 
-static FILE *openFile(const char *name, const char *mode)
+static FILE *openFile(const char *name)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-	if (*mode == 'r')
-	    modestr = "reading";
-	else
-	    modestr = "writing";
-	fprintf(stderr, "gvpack: could not open file %s for %s\n",
-		name, modestr);
+	fprintf(stderr, "gvpack: could not open file %s for writing\n", name);
 	exit(1);
     }
     return (fp);
@@ -217,7 +211,7 @@ static void init(int argc, char *argv[], pack_info* pinfo)
 	case 'o':
 	    if (outfp != NULL)
 		fclose(outfp);
-	    outfp = openFile(optarg, "w");
+	    outfp = openFile(optarg);
 	    break;
 	case 'u':
 	    pinfo->mode = l_undef;

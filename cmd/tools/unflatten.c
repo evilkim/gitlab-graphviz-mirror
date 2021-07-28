@@ -145,19 +145,13 @@ static void usage(int v)
     exit(v);
 }
 
-static FILE *openFile(const char *name, const char *mode)
+static FILE *openFile(const char *name)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-	if (*mode == 'r')
-	    modestr = "reading";
-	else
-	    modestr = "writing";
-	fprintf(stderr, "%s: could not open file %s for %s\n",
-		cmd, name, modestr);
+	fprintf(stderr, "%s: could not open file %s for writing\n", cmd, name);
 	exit(-1);
     }
     return fp;
@@ -187,7 +181,7 @@ static char **scanargs(int argc, char **argv)
 	case 'o':
 	    if (outFile != NULL)
 		fclose(outFile);
-	    outFile = openFile(optarg, "w");
+	    outFile = openFile(optarg);
 	    break;
 	case '?':
 	    if (optopt == '?')

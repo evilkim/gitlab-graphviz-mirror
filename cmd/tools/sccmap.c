@@ -297,19 +297,13 @@ static void process(Agraph_t * G)
 
 }
 
-static FILE *openFile(const char *name, const char *mode)
+static FILE *openFile(const char *name)
 {
     FILE *fp;
-    char *modestr;
 
-    fp = fopen(name, mode);
+    fp = fopen(name, "w");
     if (!fp) {
-	if (*mode == 'r')
-	    modestr = "reading";
-	else
-	    modestr = "writing";
-	fprintf(stderr, "gvpack: could not open file %s for %s\n",
-		name, modestr);
+	fprintf(stderr, "gvpack: could not open file %s for writing\n", name);
 	exit(1);
     }
     return (fp);
@@ -347,7 +341,7 @@ static void scanArgs(int argc, char **argv)
 	case 'o':
 	    if (outfp != NULL)
 		fclose(outfp);
-	    outfp = openFile(optarg, "w");
+	    outfp = openFile(optarg);
 	    break;
 	case 'v':
 	    Verbose = 1;
