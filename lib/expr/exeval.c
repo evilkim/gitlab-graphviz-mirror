@@ -38,7 +38,7 @@
 static Extype_t	eval(Expr_t*, Exnode_t*, void*);
 
 #define TOTNAME		4
-#define MAXNAME		16
+#define MAXNAME		23
 #define FRAME		64
 
 static char*
@@ -57,18 +57,18 @@ lexname(int op, int subop)
 	if (op == '=')
 	{
 		if (subop > MINTOKEN && subop < MAXTOKEN)
-			sfsprintf(b, MAXNAME, "%s=", exop((size_t)subop - MINTOKEN));
+			snprintf(b, MAXNAME, "%s=", exop((size_t)subop - MINTOKEN));
 		else if (subop > ' ' && subop <= '~')
-			sfsprintf(b, MAXNAME, "%c=", subop);
+			snprintf(b, MAXNAME, "%c=", subop);
 		else
-			sfsprintf(b, MAXNAME, "(%d)=", subop);
+			snprintf(b, MAXNAME, "(%d)=", subop);
 	}
 	else if (subop < 0)
-		sfsprintf(b, MAXNAME, "(EXTERNAL:%d)", op);
+		snprintf(b, MAXNAME, "(EXTERNAL:%d)", op);
 	else if (op > ' ' && op <= '~')
-		sfsprintf(b, MAXNAME, "%c", op);
+		snprintf(b, MAXNAME, "%c", op);
 	else
-		sfsprintf(b, MAXNAME, "(%d)", op);
+		snprintf(b, MAXNAME, "(%d)", op);
 	return b;
 }
 
@@ -99,7 +99,7 @@ evaldyn (Expr_t * ex, Exnode_t * expr, void *env, int delete)
 				key = (*ex->disc->keyf) (ex, v, type, ex->disc);
 			} else
 				key.integer = v.integer;
-			sfsprintf(buf, sizeof(buf), "%I*x", sizeof(v.integer), key.integer);
+			snprintf(buf, sizeof(buf), "%llx", (unsigned long long)key.integer);
 			keyname = buf;
 		} else
 			keyname = v.string;
@@ -148,7 +148,7 @@ getdyn(Expr_t* ex, Exnode_t* expr, void* env, Exassoc_t** assoc)
 					key = (*ex->disc->keyf) (ex, v, type, ex->disc);
 				} else
 					key.integer = v.integer;
-				sfsprintf(buf, sizeof(buf), "%I*x", sizeof(key.integer), key.integer);
+				snprintf(buf, sizeof(buf), "%llx", (unsigned long long)key.integer);
 				keyname = buf;
 			} else
 				keyname = v.string;

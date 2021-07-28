@@ -19,6 +19,7 @@
 
 #include <expr/exlib.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 #if !defined(TRACE_lex) && _BLD_DEBUG
@@ -76,7 +77,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case FLOATING:
 		s = " FLOATING ";
-		sfsprintf(t = buf, sizeof(buf), "%f", exlval.floating);
+		snprintf(t = buf, sizeof(buf), "%f", exlval.floating);
 		break;
 	case GE:
 		s = " GE ";
@@ -96,7 +97,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case INTEGER:
 		s = " INTEGER ";
-		sfsprintf(t = buf, sizeof(buf), "%I*d", sizeof(exlval.integer), exlval.integer);
+		snprintf(t = buf, sizeof(buf), "%lld", (long long)exlval.integer);
 		break;
 	case LABEL:
 		s = " LABEL ";
@@ -133,7 +134,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case UNSIGNED:
 		s = " UNSIGNED ";
-		sfsprintf(t = buf, sizeof(buf), "%I*u", sizeof(exlval.integer), exlval.integer);
+		snprintf(t = buf, sizeof(buf), "%llu", (unsigned long long)exlval.integer);
 		break;
 	case BREAK:
 		s = " break";

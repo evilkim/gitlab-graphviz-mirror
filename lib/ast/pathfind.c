@@ -22,6 +22,7 @@
 #else
 #include <ast/compat_unistd.h>
 #endif
+#include <stdio.h>
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
@@ -55,7 +56,7 @@ char *pathfind(const char *name, const char *lib, const char *type,
     if (access(name, R_OK) >= 0)
 	return strncpy(buf, name, size);
     if (type) {
-	sfsprintf(buf, size, "%s.%s", name, type);
+	snprintf(buf, size, "%s.%s", name, type);
 	if (access(buf, R_OK) >= 0)
 	    return buf;
     }
@@ -63,11 +64,11 @@ char *pathfind(const char *name, const char *lib, const char *type,
 	if (strchr(name, '.'))
 	    type = 0;
 	for (dp = state.head; dp; dp = dp->next) {
-	    sfsprintf(tmp, sizeof(tmp), "%s/%s", dp->dir, name);
+	    snprintf(tmp, sizeof(tmp), "%s/%s", dp->dir, name);
 	    if (pathpath(buf, tmp, "", PATH_REGULAR))
 		return buf;
 	    if (type) {
-		sfsprintf(tmp, sizeof(tmp), "%s/%s.%s", dp->dir, name,
+		snprintf(tmp, sizeof(tmp), "%s/%s.%s", dp->dir, name,
 			  type);
 		if (pathpath(buf, tmp, "", PATH_REGULAR))
 		    return buf;
@@ -76,11 +77,11 @@ char *pathfind(const char *name, const char *lib, const char *type,
 	if (lib) {
 	    if ((s = strrchr(lib, ':')))
 		lib = (const char *) s + 1;
-	    sfsprintf(tmp, sizeof(tmp), "lib/%s/%s", lib, name);
+	    snprintf(tmp, sizeof(tmp), "lib/%s/%s", lib, name);
 	    if (pathpath(buf, tmp, "", PATH_REGULAR))
 		return buf;
 	    if (type) {
-		sfsprintf(tmp, sizeof(tmp), "lib/%s/%s.%s", lib, name,
+		snprintf(tmp, sizeof(tmp), "lib/%s/%s.%s", lib, name,
 			  type);
 		if (pathpath(buf, tmp, "", PATH_REGULAR))
 		    return buf;
