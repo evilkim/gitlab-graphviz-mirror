@@ -14,8 +14,8 @@
 #include <memory>
 #include <vector>
 
-#include <Windows.h>
-#include <GdiPlus.h>
+#include <windows.h>
+#include <gdiplus.h>
 
 typedef enum {
 	FORMAT_NONE,

@@ -18,7 +18,7 @@
 #include "gvplugin_gdiplus.h"
 
 #include <windows.h>
-#include "GdiPlus.h"
+#include <gdiplus.h>
 
 #include "FileStream.h"
 
