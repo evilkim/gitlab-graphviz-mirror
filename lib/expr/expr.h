@@ -84,8 +84,7 @@ extern "C" {
 #define A(n,t)		((t)<<((n)*TBITS))	/* function arg n is type t     */
 #define N(t)		((t)>>=TBITS)	/* shift for next arg           */
 
-#define exalloc(p,n)		exnewof(p,0,char,n,0)
-#define exnewof(p,o,t,n,x)	vmnewof((p)->vm,o,t,n,x)
+#define exalloc(p,n)		vmalloc((p)->vm, (n))
 
 #if LONG_MAX > INT_MAX
 typedef int Exshort_t;
@@ -95,11 +94,11 @@ typedef short Exshort_t;
 
 typedef EXSTYPE Extype_t;
 
-union Exdata_u; typedef union Exdata_u Exdata_t;
-struct Exdisc_s; typedef struct Exdisc_s Exdisc_t;
-struct Exnode_s; typedef struct Exnode_s Exnode_t;
-struct Expr_s; typedef struct Expr_s Expr_t;
-struct Exref_s; typedef struct Exref_s Exref_t;
+typedef union Exdata_u Exdata_t;
+typedef struct Exdisc_s Exdisc_t;
+typedef struct Exnode_s Exnode_t;
+typedef struct Expr_s Expr_t;
+typedef struct Exref_s Exref_t;
 
 typedef int (*Exerror_f) (Expr_t *, Exdisc_t *, int, const char *, ...);
 typedef void (*Exexit_f) (Expr_t *, Exdisc_t *, int);
@@ -243,8 +242,8 @@ struct Expr_s				/* ex program state		*/
 
 };
 
-struct Excc_s; typedef struct Excc_s Excc_t;
-struct Exccdisc_s; typedef struct Exccdisc_s Exccdisc_t;
+typedef struct Excc_s Excc_t;
+typedef struct Exccdisc_s Exccdisc_t;
 
 struct Exccdisc_s			/* excc() discipline		*/
 {
@@ -288,7 +287,7 @@ extern int		expush(Expr_t*, const char*, int, const char*, Sfio_t*);
 extern char*		exstash(Sfio_t*, Vmalloc_t*);
 extern int		extoken_fn(Expr_t*);
 extern char*		exstring(Expr_t *, char *);
-extern void*		exstralloc(Expr_t *, void *, size_t);
+extern void*		exstralloc(Expr_t *, size_t);
 extern char*		extype(int);
 extern Extype_t		exzero(int);
 extern char*	exopname(int);

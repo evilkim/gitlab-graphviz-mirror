@@ -463,7 +463,7 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		*(void**)vp = &node->data.variable.symbol->value->data.constant.value;
 		break;
 	case 's':
-	case '[':
+	case '[': {
 		if (node->type != STRING)
 		{
 			exerror("scanf: %s: string variable address argument expected", node->data.variable.symbol->name);
@@ -472,9 +472,14 @@ scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		if (node->data.variable.symbol->value->data.constant.value.string == expr.nullstring)
 			node->data.variable.symbol->value->data.constant.value.string = 0;
 		fmt->fmt.size = 1024;
-		*(void**)vp = node->data.variable.symbol->value->data.constant.value.string = vmnewof(fmt->expr->vm, node->data.variable.symbol->value->data.constant.value.string, char, fmt->fmt.size, 0);
-		memset(node->data.variable.symbol->value->data.constant.value.string, 0, sizeof(char) * (size_t)fmt->fmt.size);
+		char *s = node->data.variable.symbol->value->data.constant.value.string;
+		vmfree(fmt->expr->vm, s);
+		s = vmalloc(fmt->expr->vm, sizeof(char) * (size_t)fmt->fmt.size);
+		memset(s, 0, sizeof(char) * (size_t)fmt->fmt.size);
+		*(void**)vp = s;
+		node->data.variable.symbol->value->data.constant.value.string = s;
 		break;
+	}
 	case 'c':
 		if (node->type != CHARACTER) {
 			exerror("scanf: %s: char variable address argument expected", node->data.variable.symbol->name);
@@ -2016,10 +2021,9 @@ char *exstring(Expr_t * ex, char *s)
 }
 
 /* exstralloc:
- * If p = NULL, allocate sz bytes in expression
- * memory; otherwise, realloc.
+ * allocate sz bytes in expression memory.
  */
-void *exstralloc(Expr_t * ex, void *p, size_t sz)
+void *exstralloc(Expr_t * ex, size_t sz)
 {
-    return vmresize(ex->ve, p, sz);
+    return vmalloc(ex->ve, sz);
 }

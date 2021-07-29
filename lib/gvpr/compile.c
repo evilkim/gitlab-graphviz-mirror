@@ -26,6 +26,7 @@
 #include <gvpr/actions.h>
 #include <ast/sfstr.h>
 #include <string.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -112,19 +113,18 @@ static char *nameOf(Expr_t * ex, Agobj_t * obj, Sfio_t* tmps)
  * If string as form "x,y,u,v" where is all are numeric,
  * return "x,y" or "u,v", depending on getll, else return ""
  */
-static char *bbOf(Expr_t * pgm, char *pt, int getll)
+static char *bbOf(Expr_t * pgm, char *pt, bool getll)
 {
     double x, y, u, v;
     char *s;
     char *p;
-    int len;
 
     if (sscanf(pt, "%lf,%lf,%lf,%lf", &x, &y, &u, &v) == 4) {
 	p = strchr(pt, ',');
 	p = strchr(p + 1, ',');
 	if (getll) {
-	    len = p - pt;
-	    s = exstralloc(pgm, 0, len + 1);
+	    size_t len = (size_t)(p - pt);
+	    s = exstralloc(pgm, len + 1);
 	    strncpy(s, pt, len);
 	    s[len] = '\0';
 	} else
@@ -138,18 +138,17 @@ static char *bbOf(Expr_t * pgm, char *pt, int getll)
  * If string as form "x,y" where is x and y are numeric,
  * return "x" or "y", depending on getx, else return ""
  */
-static char *xyOf(Expr_t * pgm, char *pt, int getx)
+static char *xyOf(Expr_t * pgm, char *pt, bool getx)
 {
     double x, y;
     char *v;
     char *p;
-    int len;
 
     if (sscanf(pt, "%lf,%lf", &x, &y) == 2) {
 	p = strchr(pt, ',');
 	if (getx) {
-	    len = p - pt;
-	    v = exstralloc(pgm, 0, len + 1);
+	    size_t len = (size_t)(p - pt);
+	    v = exstralloc(pgm, len + 1);
 	    strncpy(v, pt, len);
 	    v[len] = '\0';
 	} else
@@ -291,35 +290,28 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
     } else
 	switch (ref->symbol->index) {	/* sym->lex == ID */
 	case V_outgraph:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->outgraph,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->outgraph, state);
 	    break;
 	case V_this:
 	    return deref(pgm, x, ref->next, state->curobj, state);
 	    break;
 	case V_thisg:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->curgraph,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->curgraph, state);
 	    break;
 	case V_nextg:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->nextgraph,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->nextgraph, state);
 	    break;
 	case V_targt:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->target,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->target, state);
 	    break;
 	case V_travedge:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvedge,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvedge, state);
 	    break;
 	case V_travroot:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvroot,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvroot, state);
 	    break;
 	case V_travnext:
-	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvnext,
-			 state);
+	    return deref(pgm, x, ref->next, (Agobj_t *) state->tvnext, state);
 	    break;
 	case M_head:
 	    if (!objp && !(objp = state->curobj)) {
@@ -327,8 +319,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		return 0;
 	    }
 	    if (isedge(objp))
-		return deref(pgm, x, ref->next,
-			     (Agobj_t *) AGHEAD((Agedge_t *) objp), state);
+		return deref(pgm, x, ref->next, (Agobj_t *)AGHEAD((Agedge_t *)objp), state);
 	    else
 		exerror("head of non-edge");
 	    break;
@@ -338,14 +329,12 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 		return 0;
 	    }
 	    if (isedge(objp))
-		return deref(pgm, x, ref->next,
-			     (Agobj_t *) AGTAIL((Agedge_t *) objp), state);
+		return deref(pgm, x, ref->next, (Agobj_t *)AGTAIL((Agedge_t *)objp), state);
 	    else
 		exerror("tail of non-edge %x", objp);
 	    break;
 	default:
-	    exerror("%s : illegal reference",
-		  ref->symbol->name);
+	    exerror("%s : illegal reference", ref->symbol->name);
 	    break;
 	}
     return 0;
@@ -354,11 +343,9 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
 
 /* assignable:
  * Check that attribute is not a read-only, pseudo-attribute.
- * Return 1 if okay; fatal otherwise.
+ * fatal if not OK.
  */
-static int
-assignable (Agobj_t *objp, unsigned char* name)
-{
+static void assignable (Agobj_t *objp, unsigned char* name) {
     unsigned int ch;
     int rv;
     unsigned char* p = name;
@@ -369,7 +356,7 @@ assignable (Agobj_t *objp, unsigned char* name)
         p++;
     }
     rv = TFA_Definition();
-    if (rv < 0) return 1;
+    if (rv < 0) return;
 
     switch (AGTYPE(objp)) {
     case AGRAPH :
@@ -385,7 +372,6 @@ assignable (Agobj_t *objp, unsigned char* name)
 	    exerror("Cannot assign to pseudo-edge attribute %s", name);
 	break;
     }
-    return 1;
 }
 
 /* setattr:
@@ -688,7 +674,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
     assert(sym->lex != CONSTANT);
     if (elt == EX_CALL) {
 	args = env;
-	state = (Gpr_t *) disc->user;
+	state = disc->user;
 	switch (sym->index) {
 	case F_graph:
 	    gp = openG(args[0].string, xargs(args[1].string));
@@ -1480,16 +1466,16 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.string = toUpper(pgm, args[0].string, state->tmp);
 	    break;
 	case F_xof:
-	    v.string = xyOf(pgm, args[0].string, 1);
+	    v.string = xyOf(pgm, args[0].string, true);
 	    break;
 	case F_yof:
-	    v.string = xyOf(pgm, args[0].string, 0);
+	    v.string = xyOf(pgm, args[0].string, false);
 	    break;
 	case F_llof:
-	    v.string = bbOf(pgm, args[0].string, 1);
+	    v.string = bbOf(pgm, args[0].string, true);
 	    break;
 	case F_urof:
-	    v.string = bbOf(pgm, args[0].string, 0);
+	    v.string = bbOf(pgm, args[0].string, false);
 	    break;
 	case F_length:
 	    v.integer = strlen(args[0].string);
@@ -1516,7 +1502,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	return v;
     } else if (elt == EX_ARRAY) {
 	args = env;
-	state = (Gpr_t *) disc->user;
+	state = disc->user;
 	switch (sym->index) {
 	case A_ARGV:
 	    v.string = getArg(args[0].integer, state);
@@ -1858,7 +1844,7 @@ refval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	}
     } else {
 	if (!typeChkExp(ref, sym)) {
-	    Gpr_t *state = (Gpr_t *) disc->user;
+	    Gpr_t *state = disc->user;
 	    exerror("type error using %s",
 		    deparse(pgm, node, state->tmp));
 	}
@@ -2114,7 +2100,7 @@ static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
 	    rv = -1;
 	}
 	else {
-	    Gpr_t* state = (Gpr_t *) disc->user;
+	    Gpr_t* state = disc->user;
 	    x->data.constant.value.string = nameOf(prog, objp, state->tmp);
 	}
     }
