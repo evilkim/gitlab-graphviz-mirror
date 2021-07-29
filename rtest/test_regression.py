@@ -1,3 +1,10 @@
+"""
+Graphviz regression tests
+
+The test cases in this file relate to previously observed bugs. A failure of one
+of these indicates that a past bug has been reintroduced.
+"""
+
 import json
 import os
 from pathlib import Path

@@ -1,3 +1,11 @@
+"""
+Graphviz tools tests
+
+The test cases in this file are sanity checks on the various tools in the
+Graphviz suite. A failure of one of these indicates that some basic functional
+property of one of the tools has been broken.
+"""
+
 import os
 import platform
 import re
@@ -51,6 +59,9 @@ import pytest
     "vimdot",
 ])
 def test_tools(tool):
+  """
+  check the help/usage output of the given tool looks correct
+  """
 
   if shutil.which(tool) is None:
     pytest.skip(f"{tool} not available")

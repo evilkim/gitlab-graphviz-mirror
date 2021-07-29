@@ -1,6 +1,13 @@
+"""
+extension for tweaking Jinja templating environment
+"""
+
 import jinja2
 
 def env():
+  """
+  construct a custom Jinja environment for our doc processing
+  """
   return jinja2.Environment(
       # Load template files from ./templates/
       loader=jinja2.PackageLoader(

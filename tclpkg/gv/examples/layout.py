@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
+"""
+example usage of the Graphviz Python module
+"""
+
 import gv # pylint: disable=import-error
 
 
-def main():
+def main(): # pylint: disable=missing-function-docstring
   # create a new empty graph
   G = gv.digraph("G")
   # define a simple graph ( A->B )

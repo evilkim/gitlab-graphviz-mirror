@@ -86,6 +86,10 @@ class Graph:
     out.write("}")
 
 class Result:
+  """
+  outcome of a process’ execution
+  """
+
   TIMEOUT = 124
 
   def __init__(self, status: int, runtime: int, rss: Optional[int] = 0):
