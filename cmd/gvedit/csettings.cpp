@@ -322,7 +322,7 @@ bool CFrmSettings::createLayout()
     /* Reset line number and file name;
      * If known, might want to use real name
      */
-    agsetfile((char*)"<gvedit>");
+    agsetfile("<gvedit>");
     QByteArray bytes = graphData.toUtf8();
     rdr.data = bytes.constData();
     rdr.len = strlen(rdr.data);

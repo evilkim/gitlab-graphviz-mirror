@@ -35,7 +35,7 @@
 	/* this is a workaround for linux flex */
 static int line_num = 1;
 static int html_nest = 0;  /* nesting level for html strings */
-static char* InputFile;
+static const char* InputFile;
 static Agdisc_t	*Disc;
 static void 	*Ifile;
 static int graphType;
@@ -45,7 +45,7 @@ void agreadline(int n) { line_num = n; }
 
   /* (Re)set file:
    */
-void agsetfile(char* f) { InputFile = f; line_num = 1; }
+void agsetfile(const char* f) { InputFile = f; line_num = 1; }
 
 /* There is a hole here, because switching channels
  * requires pushing back whatever was previously read.
@@ -162,7 +162,7 @@ static bool twoDots(void) {
 static int chkNum(void) {
     unsigned char c = (unsigned char)aagtext[aagleng-1];   /* last character */
     if ((!isdigit(c) && c != '.') || (c == '.' && twoDots())) {  /* c is letter */
-	char* fname;
+	const char* fname;
 
 	if (InputFile)
 	    fname = InputFile;

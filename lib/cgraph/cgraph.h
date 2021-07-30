@@ -256,7 +256,7 @@ CGRAPH_API Agraph_t *agread(void *chan, Agdisc_t * disc);
 CGRAPH_API Agraph_t *agmemread(const char *cp);
 CGRAPH_API Agraph_t *agmemconcat(Agraph_t *g, const char *cp);
 CGRAPH_API void agreadline(int);
-CGRAPH_API void agsetfile(char *);
+CGRAPH_API void agsetfile(const char *);
 CGRAPH_API Agraph_t *agconcat(Agraph_t * g, void *chan, Agdisc_t * disc);
 CGRAPH_API int agwrite(Agraph_t * g, void *chan);
 CGRAPH_API int agisdirected(Agraph_t * g);
