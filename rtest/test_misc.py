@@ -1,3 +1,7 @@
+"""
+Graphviz miscellaneous test cases
+"""
+
 import json
 import subprocess
 

@@ -1,3 +1,7 @@
+"""
+Graphviz version consistency tests
+"""
+
 import os
 from pathlib import Path
 import subprocess
@@ -5,6 +9,10 @@ import sys
 import pytest
 
 def test_installation():
+  """
+  check that Graphviz reports the expected version number
+  """
+
   expected_version = os.environ.get("GV_VERSION")
 
   # If $GV_VERSION is not set, run the CI step that derives it. This will fail

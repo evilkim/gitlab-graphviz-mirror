@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+example usage of Graphviz Python module
+"""
+
 import gv # pylint: disable=import-error
 
 g = gv.digraph("G")

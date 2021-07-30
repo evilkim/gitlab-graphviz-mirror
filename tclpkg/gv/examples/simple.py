@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+example usage of the Graphviz Python module
+"""
+
 import gv # pylint: disable=import-error
 
 # create a new empty graph
