@@ -28,16 +28,15 @@ if WITH_WIN32
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/cmd/lefty/ws/mswin32 \
 	-I$(top_srcdir)/cmd/lefty/os/mswin32 \
-	-I$(top_srcdir)/cmd/lefty/dot2l @XAW_INCLUDES@
-
-AM_CFLAGS = @X_CFLAGS@
+	-I$(top_srcdir)/cmd/lefty/dot2l \
+	$(XMU_CFLAGS) $(XAW_CFLAGS)
 else
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/cmd/lefty/ws/x11 \
 	-I$(top_srcdir)/cmd/lefty/os/unix \
-	-I$(top_srcdir)/cmd/lefty/dot2l @XAW_INCLUDES@
-
-AM_CFLAGS = -DLEFTYDATADIR=\"$(leftydir)\" @X_CFLAGS@
+	-I$(top_srcdir)/cmd/lefty/dot2l \
+	-DLEFTYDATADIR=\"$(leftydir)\" \
+	$(XMU_CFLAGS) $(XAW_CFLAGS)
 endif
 
 noinst_HEADERS = code.h common.h display.h exec.h g.h gfxview.h internal.h \
@@ -93,8 +92,7 @@ lefty_LDADD = $(top_builddir)/cmd/lefty/dot2l/libdot2l.la \
 	$(top_builddir)/cmd/lefty/ws/x11/libws.la \
 	$(top_builddir)/cmd/lefty/ws/x11/libfilereq/libfilereq.la \
 	$(top_builddir)/cmd/lefty/os/unix/libos.la \
-	@X_LIBS@ @XAW_LIBS@ @X_PRE_LIBS@ @XPM_LIBS@ \
-	-lXt -lXmu -lXext -lX11 @SOCKET_LIBS@ @MATH_LIBS@
+	$(XMU_LIBS) $(XAW_LIBS) $(SOCKET_LIBS) $(MATH_LIBS)
 endif
 
 if ENABLE_MAN_PDFS
