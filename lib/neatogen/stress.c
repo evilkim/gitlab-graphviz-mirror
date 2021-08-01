@@ -23,10 +23,6 @@
 #include <time.h>
 
 
-#ifndef HAVE_DRAND48
-extern double drand48(void);
-#endif
-
 #define Dij2			/* If defined, the terms in the stress energy are normalized 
 				   by d_{ij}^{-2} otherwise, they are normalized by d_{ij}^{-1}
 				 */
