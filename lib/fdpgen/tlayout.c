@@ -43,9 +43,6 @@
 #ifndef HAVE_SRAND48
 #define srand48 srand
 #endif
-#ifndef HAVE_DRAND48
-extern double drand48(void);
-#endif
 
 #include <fdpgen/tlayout.h>
 #include <common/globals.h>
