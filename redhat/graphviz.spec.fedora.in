@@ -97,9 +97,6 @@ BuildRequires: guile-devel
 %if %{JAVA}
 BuildRequires: java-devel
 %endif
-#%if %{JAVASCRIPT}
-#BuildRequires: javascript-devel
-#%endif
 %if %{LASI}
 BuildRequires: lasi-devel
 %endif
