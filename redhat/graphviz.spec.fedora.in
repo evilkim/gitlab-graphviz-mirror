@@ -983,6 +983,8 @@ CFLAGS="$RPM_OPT_FLAGS" \
         --without-gtkgl \
         --without-gtkglext \
         --without-smyrna \
+%else
+        --with-smyrna \
 %endif
         --with-qt \
         --with-visio \
