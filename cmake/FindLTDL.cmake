@@ -1,6 +1,6 @@
 find_path(LTDL_INCLUDE_DIR ltdl.h)
 if (NOT WIN32)
-    find_library(LTDL_LIBRARY NAMES libtldl ltdl)
+    find_library(LTDL_LIBRARY NAMES ltdl)
 endif()
 
 include(FindPackageHandleStandardArgs)
