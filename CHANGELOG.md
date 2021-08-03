@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   results in a warning about this being invalid #2078
 - `edgepaint` accepts more standard `--` prefixed command line arguments and
   rejects invalid options #1971
+- The Autotools build system now defaults to `--with-smyrna=no`, disabling
+  building Smyrna. To re-enable it, pass `--with-smyrna` to `configure`. A
+  future release will remove Smyrna.
 
 ### Fixed
 

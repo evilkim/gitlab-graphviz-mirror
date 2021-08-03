@@ -2534,7 +2534,7 @@ dnl SMYRNA
 
 AC_ARG_WITH(smyrna,
   [AS_HELP_STRING([--with-smyrna=yes],[SMYRNA large graph viewer])],
-  [], [with_smyrna=yes])
+  [], [with_smyrna=no])
 
 if test "x$with_smyrna" != "xyes"; then
   use_smyrna="No (disabled)"
