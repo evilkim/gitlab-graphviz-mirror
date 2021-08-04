@@ -41,8 +41,9 @@ static const char *getenv_path(void) {
 
 char **opt_info_argv;
 
-char *pathpath(char *path, const char *p, const char *a)
+char *pathpath(char *path, const char *p)
 {
+    const char *a = "";
     char *s;
     const char *x;
     char buf[PATH_MAX];
