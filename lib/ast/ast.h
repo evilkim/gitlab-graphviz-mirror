@@ -17,7 +17,6 @@ extern "C" {
 
 #include <sfio/sfio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
 
 #ifndef PATH_MAX
