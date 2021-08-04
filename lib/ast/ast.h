@@ -71,7 +71,6 @@ extern "C" {
     extern char *pathcat(char *, const char *, int, const char *,
 			 const char *);
     extern size_t pathgetlink(const char *, char *, size_t);
-    extern int pathexists(char *, int);
 
     extern int chresc(const char *, char **);
     extern int chrtoi(const char *);

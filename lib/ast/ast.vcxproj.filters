@@ -56,9 +56,6 @@
     <ClCompile Include="pathcat.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pathexists.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pathfind.c">
       <Filter>Source Files</Filter>
     </ClCompile>
