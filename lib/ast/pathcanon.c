@@ -134,20 +134,20 @@ char *pathcanon(char *path, int flags)
 
 		    c = *(t - 1);
 		    *(t - 1) = 0;
-		    dots = pathgetlink(phys, buf, sizeof(buf));
+		    int len = pathgetlink(phys, buf, sizeof(buf));
 		    *(t - 1) = c;
-		    if (dots > 0) {
-			if ((t + dots + 1) >= e) { /* make sure path fits in buf */
+		    if (len > 0) {
+			if ((t + len + 1) >= e) { /* make sure path fits in buf */
 			    strcpy(path, s);
                             return 0;
 			}
 			loop++;
-			strcpy(buf + dots, s - (*s != 0));
+			strcpy(buf + len, s - (*s != 0));
 			if (*buf == '/')
 			    p = r = path;
 			v = s = t = p;
 			strcpy(p, buf);
-		    } else if (dots < 0 && errno == ENOENT) {
+		    } else if (len < 0 && errno == ENOENT) {
 			if (flags & PATH_EXISTS) {
 			    strcpy(path, s);
 			    return 0;
