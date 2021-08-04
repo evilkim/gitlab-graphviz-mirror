@@ -12,7 +12,7 @@
  * Glenn Fowler
  * AT&T Research
  *
- * return full path to p with mode access using $PATH
+ * return full path to p with PATH_REGULAR access using $PATH
  * if a!=0 then it and $0 and $_ with $PWD are used for
  * related root searching
  * the related root must have a bin subdir
@@ -41,7 +41,7 @@ static const char *getenv_path(void) {
 
 char **opt_info_argv;
 
-char *pathpath(char *path, const char *p, const char *a, int mode)
+char *pathpath(char *path, const char *p, const char *a)
 {
     char *s;
     const char *x;
@@ -58,7 +58,7 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
     }
     if (strlen(p) < PATH_MAX) {
 	strcpy(path, p);
-	if (pathexists(path, mode))
+	if (pathexists(path, PATH_REGULAR))
 	    return (path == buf) ? strdup(path) : path;
     }
     if (*p == '/')
@@ -95,7 +95,7 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
 		    while (*--s != '/');
 		    strcpy(s + 1, "bin");
 		    if (pathexists(path, PATH_EXECUTE)) {
-			if ((s = pathaccess(path, path, p, a, mode)))
+			if ((s = pathaccess(path, path, p, a, PATH_REGULAR)))
 			    return path == buf ? strdup(s) : s;
 			goto normal;
 		    }
@@ -105,8 +105,8 @@ char *pathpath(char *path, const char *p, const char *a, int mode)
 	}
     }
     x = !a && strchr(p, '/') ? "" : getenv_path();
-    if (!(s = pathaccess(path, x, p, a, mode)) && !*x
+    if (!(s = pathaccess(path, x, p, a, PATH_REGULAR)) && !*x
 	&& (x = getenv("FPATH")))
-	s = pathaccess(path, x, p, a, mode);
+	s = pathaccess(path, x, p, a, PATH_REGULAR);
     return (s && path == buf) ? strdup(s) : s;
 }
