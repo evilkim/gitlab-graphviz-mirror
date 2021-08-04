@@ -117,7 +117,7 @@ static int iswblank(wint_t wc)
 
 #endif
 
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 #include <ast/error.h>
 #endif
 
@@ -221,7 +221,7 @@ static char *gobble(Match_t * mp, char *s, int sub,
 
 static int grpmatch(Match_t *, int, char *, char *, char *, int);
 
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 #define RETURN(v)	{error_info.indent--;return (v);}
 #else
 #define RETURN(v)	{return (v);}
@@ -244,7 +244,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
     char *olds;
     char *oldp;
 
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
     error_info.indent++;
     error(-1, "onematch g=%d s=%-.*s p=%s r=%p flags=%o", g, e - s, s, p,
 	  r, flags);
@@ -297,7 +297,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 				mp->current.beg[n] = olds;
 			    if (s > mp->current.end[n])
 				mp->current.end[n] = s;
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 			    error(-4,
 				  "subgroup#%d n=%d beg=%p end=%p len=%d",
 				  __LINE__, n, mp->current.beg[n],
@@ -312,7 +312,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 				    mp->current.beg[n] = olds;
 				if (s > mp->current.end[n])
 				    mp->current.end[n] = s;
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 				error(-4,
 				      "subgroup#%d n=%d beg=%p end=%p len=%d",
 				      __LINE__, n, mp->current.beg[n],
@@ -362,7 +362,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 				&& mp->current.next_s <
 				mp->best.next_s))) {
 			mp->best = mp->current;
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 			error(-3, "best#%d groups=%d next=\"%s\"",
 			      __LINE__, mp->best.groups, mp->best.next_s);
 #endif
@@ -373,7 +373,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			RETURN(0);
 		    if (pc >= '0' && pc <= '9') {
 			n = pc - '0';
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 			error(-2,
 			      "backref#%d n=%d g=%d beg=%p end=%p len=%d",
 			      __LINE__, n, g, mp->current.beg[n],
@@ -423,7 +423,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 		mp->best = mp->current;
 		mp->best.next_s = olds;
 		mp->best.groups = g;
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 		error(-3, "best#%d groups=%d next=\"%s\"", __LINE__,
 		      mp->best.groups, mp->best.next_s);
 #endif
@@ -658,7 +658,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 		RETURN(0);
 	    if (pc >= '0' && pc <= '9') {
 		n = pc - '0';
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 		error(-2, "backref#%d n=%d g=%d beg=%p end=%p len=%d",
 		      __LINE__, n, g, mp->current.beg[n],
 		      mp->current.end[n],
@@ -694,7 +694,7 @@ grpmatch(Match_t * mp, int g, char *s, char *p, char *e,
 {
     char *a;
 
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
     error_info.indent++;
     error(-1, "grpmatch g=%d s=%-.*s p=%s flags=%o", g, e - s, s, p,
 	  flags);
@@ -737,7 +737,7 @@ int strgrpmatch(const char *b, const char *p, int *sub, int n, int flags)
 		    match.current = match.best;
 		match.current.groups++;
 		match.current.end[0] = match.current.next_s;
-#if _DEBUG_MATCH
+#ifdef _DEBUG_MATCH
 		error(-1,
 		      "match i=%d s=\"%s\" p=\"%s\" flags=%o groups=%d next=\"%s\"",
 		      i, s, p, flags, match.current.groups,
