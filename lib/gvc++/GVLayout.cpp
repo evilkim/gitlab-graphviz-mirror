@@ -15,8 +15,10 @@ GVLayout::GVLayout(const std::shared_ptr<GVContext> &gvc,
                    const std::shared_ptr<CGraph::AGraph> &g,
                    const std::string &engine)
     : m_gvc(gvc), m_g(g) {
-  // free any previous layout
-  gvFreeLayout(gvc->c_struct(), g->c_struct());
+  if (gvLayoutDone(g->c_struct())) {
+    gvFreeLayout(gvc->c_struct(), g->c_struct());
+    throw std::runtime_error("Previous layout not yet destroyed");
+  }
   const auto rc = gvLayout(gvc->c_struct(), g->c_struct(), engine.c_str());
   if (rc) {
     throw std::runtime_error("Layout failed");
