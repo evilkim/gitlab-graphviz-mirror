@@ -23,24 +23,25 @@
 #include <ast/compat_unistd.h>
 #endif
 #include <stddef.h>
+#include <stdint.h>
 
 /*
  * return external representation for symbolic link text of name in buf
  * the link text string length is returned
  */
 
-int pathgetlink(const char *name, char *buf, size_t siz)
+size_t pathgetlink(const char *name, char *buf, size_t siz)
 {
 #ifdef _WIN32
-	return (-1);
+	return SIZE_MAX;
 #else
     int n;
 
     if ((n = readlink(name, buf, siz)) < 0)
-	return (-1);
+	return SIZE_MAX;
     if (n >= siz) {
 	errno = EINVAL;
-	return (-1);
+	return SIZE_MAX;
     }
     buf[n] = 0;
     return (n);
