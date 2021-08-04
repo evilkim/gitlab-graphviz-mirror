@@ -70,7 +70,7 @@ extern "C" {
 			    const char *, int);
     extern char *pathcat(char *, const char *, int, const char *,
 			 const char *);
-    extern int pathgetlink(const char *, char *, int);
+    extern int pathgetlink(const char *, char *, size_t);
     extern int pathexists(char *, int);
 
     extern int chresc(const char *, char **);

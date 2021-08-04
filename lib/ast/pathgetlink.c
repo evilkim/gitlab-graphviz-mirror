@@ -22,13 +22,14 @@
 #else
 #include <ast/compat_unistd.h>
 #endif
+#include <stddef.h>
 
 /*
  * return external representation for symbolic link text of name in buf
  * the link text string length is returned
  */
 
-int pathgetlink(const char *name, char *buf, int siz)
+int pathgetlink(const char *name, char *buf, size_t siz)
 {
 #ifdef _WIN32
 	return (-1);
