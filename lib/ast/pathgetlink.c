@@ -16,6 +16,7 @@
 #include "config.h"
 #include <errno.h>
 
+#include <ast/ast.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
