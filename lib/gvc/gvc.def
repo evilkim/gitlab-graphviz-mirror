@@ -140,6 +140,7 @@ gvFreeContext
 gvFreeLayout    
 gvLayout    
 gvLayoutJobs    
+gvLayoutDone
 gvNEWcontext    
 gvNextInputGraph    
 gvParseArgs    

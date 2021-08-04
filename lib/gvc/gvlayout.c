@@ -89,6 +89,11 @@ int gvLayoutJobs(GVC_t * gvc, Agraph_t * g)
     return 0;
 }
 
+bool gvLayoutDone(Agraph_t * g)
+{
+    return LAYOUT_DONE(g);
+}
+
 /* gvFreeLayout:
  * Free layout resources.
  * First, if the graph has a layout-specific cleanup function attached,
