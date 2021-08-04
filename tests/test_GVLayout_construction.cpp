@@ -80,6 +80,24 @@ TEST_CASE("Multiple layouts of the same graph can use different contexts") {
   { const auto layout2 = GVC::GVLayout(gvc2, g, "dot"); }
 }
 
+TEST_CASE("Creating a second layout for the same graph without destroying the "
+          "first throws an exception") {
+  const auto demand_loading = false;
+  auto gvc1 =
+      std::make_shared<GVC::GVContext>(lt_preloaded_symbols, demand_loading);
+  auto dot = "graph {a}";
+  auto g = std::make_shared<CGraph::AGraph>(dot);
+
+  // create a layout and keep it
+  const auto layout = GVC::GVLayout(gvc1, g, "dot");
+
+  auto gvc2 =
+      std::make_shared<GVC::GVContext>(lt_preloaded_symbols, demand_loading);
+
+  // create another layout
+  REQUIRE_THROWS_AS(GVC::GVLayout(gvc2, g, "dot"), std::runtime_error);
+}
+
 TEST_CASE("Layout with an unknown engine throws an exception") {
   auto dot = "digraph {}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
