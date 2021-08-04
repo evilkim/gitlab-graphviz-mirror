@@ -65,8 +65,10 @@ target_link_libraries(gvc PUBLIC
     ${MATH_LIB}
 )
 
-if (NOT WIN32)
-    target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
+if (LTDL_FOUND)
+    if (NOT WIN32)
+        target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
+    endif()
 endif()
 
 if (${with_ortho})
