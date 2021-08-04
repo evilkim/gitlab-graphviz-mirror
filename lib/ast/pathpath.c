@@ -25,6 +25,8 @@
 #include <ast/ast.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
@@ -59,7 +61,8 @@ char *pathpath(char *path, const char *p)
     }
     if (strlen(p) < PATH_MAX) {
 	strcpy(path, p);
-	if (pathexists(path, PATH_REGULAR))
+	struct stat st;
+	if (stat(path, &st) == 0 && !S_ISDIR(st.st_mode))
 	    return (path == buf) ? strdup(path) : path;
     }
     if (*p == '/')
