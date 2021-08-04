@@ -35,15 +35,15 @@ size_t pathgetlink(const char *name, char *buf, size_t siz)
 #ifdef _WIN32
 	return SIZE_MAX;
 #else
-    int n;
+    ssize_t n;
 
     if ((n = readlink(name, buf, siz)) < 0)
 	return SIZE_MAX;
-    if (n >= siz) {
+    if ((size_t)n >= siz) {
 	errno = EINVAL;
 	return SIZE_MAX;
     }
     buf[n] = 0;
-    return (n);
+    return (size_t)n;
 #endif
 }
