@@ -70,11 +70,14 @@ TEST_CASE("Multiple layouts of the same graph can use different contexts") {
   auto dot = "graph {a}";
   auto g = std::make_shared<CGraph::AGraph>(dot);
 
-  const auto layout1 = GVC::GVLayout(gvc1, g, "dot");
+  // create a layout and automatically destroy it
+  { const auto layout = GVC::GVLayout(gvc1, g, "dot"); }
 
   auto gvc2 =
       std::make_shared<GVC::GVContext>(lt_preloaded_symbols, demand_loading);
-  const auto layout2 = GVC::GVLayout(gvc2, g, "dot");
+
+  // create another layout and automatically destroy it
+  { const auto layout2 = GVC::GVLayout(gvc2, g, "dot"); }
 }
 
 TEST_CASE("Layout with an unknown engine throws an exception") {
