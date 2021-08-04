@@ -1612,12 +1612,10 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			tmp.data.constant.value = v;
 			if (expr->data.operand.left->op != DYNAMIC && expr->data.operand.left->op != ID)
 			{
-				sfprintf(ex->tmp, "%g", v.floating);
-				tmp.data.constant.value.string = exstash(ex->tmp, ex->ve);
+				tmp.data.constant.value.string = exprintf(ex->ve, "%g", v.floating);
 			}
 			else if ((*ex->disc->convertf)(ex, &tmp, STRING, expr->data.operand.right ? expr->data.operand.right->data.variable.symbol : (Exid_t*)0, 0, ex->disc)) {
-				sfprintf(ex->tmp, "%g", v.floating);
-				tmp.data.constant.value.string = exstash(ex->tmp, ex->ve);
+				tmp.data.constant.value.string = exprintf(ex->ve, "%g", v.floating);
 			}
 			tmp.type = STRING;
 			return tmp.data.constant.value;
@@ -1781,18 +1779,20 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 			tmp.data.constant.value = v;
 			if (expr->data.operand.left->op != DYNAMIC && expr->data.operand.left->op != ID)
 			{
+				char *str;
 				if (expr->data.operand.left->type == UNSIGNED)
-					sfprintf(ex->tmp, "%I*u", sizeof(v.integer), v.integer);
+					str = exprintf(ex->ve, "%llu", (unsigned long long)v.integer);
 				else
-					sfprintf(ex->tmp, "%I*d", sizeof(v.integer), v.integer);
-				tmp.data.constant.value.string = exstash(ex->tmp, ex->ve);
+					str = exprintf(ex->ve, "%lld", (long long)v.integer);
+				tmp.data.constant.value.string = str;
 			}
 			else if ((*ex->disc->convertf)(ex, &tmp, STRING, expr->data.operand.right ? expr->data.operand.right->data.variable.symbol : (Exid_t*)0, 0, ex->disc)) {
+				char *str = NULL;
 				if (expr->data.operand.left->type == UNSIGNED)
-					sfprintf(ex->tmp, "%I*u", sizeof(v.integer), v.integer);
+					str = exprintf(ex->ve, "%llu", (unsigned long long)v.integer);
 				else
-					sfprintf(ex->tmp, "%I*d", sizeof(v.integer), v.integer);
-				tmp.data.constant.value.string =  exstash(ex->tmp, ex->ve);
+					str = exprintf(ex->ve, "%lld", (long long)v.integer);
+				tmp.data.constant.value.string = str;
 			}
 			tmp.type = STRING;
 			return tmp.data.constant.value;

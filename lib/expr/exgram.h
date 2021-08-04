@@ -326,16 +326,12 @@ static Exnode_t *exstringOf(Expr_t * p, Exnode_t * x) {
 	} else
 	    switch (type) {
 	    case FLOATING:
-		sfprintf(p->tmp, "%g", x->data.constant.value.floating);
 		x->data.constant.value.string =
-		    vmstrdup(p->vm, sfstruse(p->tmp));
+		  exprintf(p->vm, "%g", x->data.constant.value.floating);
 		break;
 	    case INTEGER:
-		sfprintf(p->tmp, "%I*d",
-			 sizeof(x->data.constant.value.integer),
-			 x->data.constant.value.integer);
 		x->data.constant.value.string =
-		    vmstrdup(p->vm, sfstruse(p->tmp));
+		  exprintf(p->vm, "%lld", (long long)x->data.constant.value.integer);
 		break;
 	    default:
 		exerror("internal error: %d: unknown type", type);
@@ -510,15 +506,15 @@ excast(Expr_t* p, Exnode_t* x, int type, Exnode_t* xref, int arg)
 			x->data.constant.value.integer = x->data.constant.value.floating;
 			break;
 		case F2S:
-			sfprintf(p->tmp, "%g", x->data.constant.value.floating);
-			x->data.constant.value.string = exstash(p->tmp, p->vm);
+			x->data.constant.value.string =
+			  exprintf(p->vm, "%g", x->data.constant.value.floating);
 			break;
 		case I2F:
 			x->data.constant.value.floating = x->data.constant.value.integer;
 			break;
 		case I2S:
-			sfprintf(p->tmp, "%I*d", sizeof(x->data.constant.value.integer), x->data.constant.value.integer);
-			x->data.constant.value.string = exstash(p->tmp, p->vm);
+			x->data.constant.value.string =
+			  exprintf(p->vm, "%lld", (long long)x->data.constant.value.integer);
 			break;
 		case S2F:
 			s =  x->data.constant.value.string;
