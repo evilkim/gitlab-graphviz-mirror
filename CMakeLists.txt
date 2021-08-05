@@ -114,7 +114,7 @@ if (WIN32)
     # Find Windows specific dependencies
 
     # Find DLLs on Windows
-    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
+    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll msys-expat-1.dll)
     if (CMAKE_CL_64)
         find_program(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
     endif()
