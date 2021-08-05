@@ -1619,6 +1619,7 @@ AS_IF([test "x$enable_lefty" != "xno"], [
   ])
 ])
 
+AM_CONDITIONAL(WITH_LEFTY, [test "x$use_lefty" = "xYes"])
 AM_CONDITIONAL([WITH_XAW], [test "x$use_lefty" = "xYes"])
 
 dnl -----------------------------------

@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
+if WITH_LEFTY
 SUBDIRS = ws os dot2l examples
+endif
 
 # lefty build parameters
 #not useful / old:
@@ -42,6 +44,7 @@ endif
 noinst_HEADERS = code.h common.h display.h exec.h g.h gfxview.h internal.h \
 	leftyio.h lex.h mem.h parse.h str.h tbl.h txtview.h
 
+if WITH_LEFTY
 if WITH_X
 if WITH_XAW
 bin_PROGRAMS = lefty
@@ -49,6 +52,7 @@ endif
 endif
 if WITH_WIN32
 bin_PROGRAMS = lefty
+endif
 endif
 
 man_MANS = lefty.1
