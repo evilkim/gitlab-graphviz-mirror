@@ -1611,74 +1611,32 @@ fi
 AM_CONDITIONAL(WITH_DEVIL, [test "x$use_devil" = "xYes"])
 
 dnl -----------------------------------
-dnl INCLUDES and LIBS for XPM
-#
-# we don't want an X11 dependency in libgd
-# so we set HAVE_LIBXPMFORLEFTY instead of the usual HAVE_LIBXPM
-#
+dnl lefty
 
-AC_ARG_WITH(Xpmincludedir,
-  [AS_HELP_STRING([--with-Xpmincludedir=DIR],[use Xpm includes from DIR])],
-  [XPM_INCLUDES="-I$withval"])
-AC_ARG_WITH(Xpmlibdir,
-  [AS_HELP_STRING([--with-Xpmlibdir=DIR],[use Xpm libraries from DIR])],
-  [XPM_LIBS="-L$withval"])
+AC_ARG_ENABLE([lefty],
+  AS_HELP_STRING([--disable-lefty], [Disable building the lefty binary. Requires X11, Xaw, Xmu, Xt.]))
 
-save_CPPFLAGS=$CPPFLAGS
-save_LDFLAGS=$LDFLAGS
-CPPFLAGS="$CPPFLAGS $XPM_INCLUDES $X_CFLAGS"
-LDFLAGS="$LDFLAGS $XPM_LIBS $X_LIBS $X_EXTRA_LIBS $X_PRE_LIBS $SOCKET_LIBS"
-AC_CHECK_LIB(Xpm,main,
-  [XPM_LIBS="$XPM_LIBS -lXpm"
-   AC_DEFINE_UNQUOTED(HAVE_LIBXPMFORLEFTY,1,[Define if you have the XPM library])],
-   AC_MSG_WARN(Optional Xpm library not available), [-lXmu -lXt -lX11 -lXext $SOCKET_LIBS])
-LDFLAGS=$save_LDFLAGS
-CPPFLAGS=$save_CPPFLAGS
-AC_SUBST([XPM_INCLUDES])
-AC_SUBST([XPM_LIBS])
+AS_IF([test "x$enable_lefty" != "xno"], [
+  use_lefty=Yes
 
-dnl -----------------------------------
-dnl INCLUDES and LIBS for XAW
+  PKG_CHECK_MODULES([XMU], [xmu], [
+    PKG_CHECK_MODULES([XAW], [xaw7], [
+      dnl succesfully found xmu and xaw
+    ], [
+      use_lefty="No (missing Xaw)"
+      AS_IF([test "x$enable_lefty" = "xyes"], [
+        AC_MSG_ERROR([Could not find Xaw, cannot build lefty])
+      ])
+    ])
+  ], [
+    use_lefty="No (missing Xmu)"
+    AS_IF([test "x$enable_lefty" = "xyes"], [
+      AC_MSG_ERROR([Could not find Xmu, cannot build lefty])
+    ])
+  ])
+])
 
-AC_ARG_WITH(Xawincludedir,
-  [AS_HELP_STRING([--with-Xawincludedir=DIR],[use Xaw includes from DIR])],
-  [XAW_INCLUDES="-I$withval"])
-AC_ARG_WITH(Xawlibdir,
-  [AS_HELP_STRING([--with-Xawlibdir=DIR],[use Xaw libraries from DIR])],
-  [XAW_LIBS="-L$withval"])
-save_CPPFLAGS=$CPPFLAGS
-save_LDFLAGS=$LDFLAGS
-CPPFLAGS="$CPPFLAGS $XAW_INCLUDES $X_CFLAGS"
-LDFLAGS="$LDFLAGS $X_LIBS $XAW_LIBS $XPM_LIBS $X_EXTRA_LIBS $X_PRE_LIBS $SOCKET_LIBS"
-AC_CHECK_HEADERS([X11/Intrinsic.h])
-use_lefty="Yes"
-AC_CHECK_HEADERS([X11/Xaw/Text.h],
-		 [],
-		 [with_xaw=no
-	          use_lefty="No (missing Xaw headers)"
-		  AC_MSG_WARN(Optional Xaw library not available - missing headers)],
-		 [#if HAVE_X11_INTRINSIC_H
-		  # include <X11/Intrinsic.h>
-		  # endif
-		  ])
-if test "x$with_xaw" != "xno"; then
-AC_CHECK_LIB(Xaw,main,
-	     [XAW_LIBS="$X_LIBS $XAW_LIBS -lXaw"],
-	     [with_xaw=no
-	      use_lefty="No (missing Xaw library)"
-	      AC_MSG_WARN(Optional Xaw library not available)],
-	      [$X_LIBS -lXmu -lXt -lX11 -lXext $SOCKET_LIBS])
-fi
-LDFLAGS=$save_LDFLAGS
-CPPFLAGS=$save_CPPFLAGS
-AC_SUBST([XAW_INCLUDES])
-AC_SUBST([XAW_LIBS])
-AM_CONDITIONAL(WITH_XAW, [test "x$with_xaw" != "xno"])
-if test "x$with_xaw" = "xno"; then
-    if test "x$no_x" != "xyes"; then
-	AC_MSG_WARN(Lefty cannot be built)
-    fi
-fi
+AM_CONDITIONAL([WITH_XAW], [test "x$use_lefty" = "xYes"])
 
 dnl -----------------------------------
 dnl INCLUDES and LIBS for Z
