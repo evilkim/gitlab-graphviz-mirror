@@ -233,13 +233,21 @@ portable-source:
 .test_template_including_ctest: &test_definition_including_ctest
     stage: test
     script:
-        - ci/install-packages.sh
         - export GV_VERSION=$( cat VERSION )
         - export OS_ID=$( cat OS_ID )
         - ci/test_coverage.py --init
         - pushd build
+        # Use GVBINDIR to specify where to generate and load config6
+        # since ctest sets LD_LIBRARY_PATH to point to all the
+        # locations where the libs reside before cpack copies them to
+        # the install directory. Without this Graphviz tries to use
+        # the directory lib/gvc/graphviz which does not exist.
+        - export GVBINDIR=$(pwd)/plugin/dot_layout
+        - cmd/dot/dot -v -c
         - ctest --output-on-failure
+        - unset GVBINDIR
         - popd
+        - ci/install-packages.sh
         # Many of the tests run by pytest currently trigger ASan
         # memory leak detections. Disable those for now.
         - export ASAN_OPTIONS=detect_leaks=0
@@ -251,7 +259,7 @@ portable-source:
         paths:
             - coverage/**
         reports:
-            junit: ./report.xml
+            junit: [./report.xml, build/tests/test_*.xml]
             cobertura: coverage.xml
     except:
         - tags
@@ -488,7 +496,7 @@ ubuntu21-04-cmake-build:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
-        - export CMAKE_OPTIONS="-Dwith_cxx_tests=ON"
+        - export CMAKE_OPTIONS="-Dwith_cxx_tests=ON -Dwith_cxx_api=ON"
         - echo experimental > COLLECTION
     tags:
         - linux
@@ -507,7 +515,7 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
-        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Duse_coverage=ON -Dwith_cxx_tests=ON "
+        - export CMAKE_OPTIONS="-Duse_sanitizers=ON -Duse_coverage=ON -Dwith_cxx_tests=ON -Dwith_cxx_api=ON"
         - echo experimental > COLLECTION
     # override the deb_build_definition artifacts since we need more
     # files from the build directory when running ctest in the test
@@ -526,6 +534,8 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
             - build/plugin/**/lib*.so.*
             # the coverage analysis needs the .gcno files
             - build/**/*.gcno
+            # the dot program is needed to configure the plugins before running pre-install tests
+            - build/cmd/dot/dot
             # the packages need to be installed for the post-install tests
             - Packages/*/*/*/*/*/*deb
             - Metadata/*/*/*/configure.log
@@ -579,6 +589,7 @@ macos-cmake-build:
         # fail on any compiler warnings
         - export CFLAGS=-Werror
         - export CXXFLAGS=-Werror
+        - export CMAKE_OPTIONS="-Dwith_cxx_api=ON"
     tags:
         - shared-macos-amd64
 

@@ -22,13 +22,16 @@ target_link_libraries(test_common PUBLIC
     gvplugin_gd
     gvplugin_neato_layout
     cgraph
+    cgraph++
+    gvc
+    gvc++
 )
 
 macro(create_test testname)
     add_executable(test_${testname} test_${testname}.cpp)
     set_target_properties(test_${testname} PROPERTIES CXX_STANDARD 20)
     set_target_properties(test_${testname} PROPERTIES CXX_STANDARD_REQUIRED ON)
-    add_test(NAME test_${testname} COMMAND test_${testname})
+    add_test(NAME test_${testname} COMMAND test_${testname} --reporter junit --out test_${testname}.xml)
     target_include_directories(test_${testname} PRIVATE
         ${GRAPHVIZ_LIB_DIR}
         ${GRAPHVIZ_LIB_DIR}/cdt
@@ -43,3 +46,7 @@ macro(create_test testname)
 endmacro()
 
 create_test(simple)
+create_test(AGraph_construction)
+create_test(GVContext_construction)
+create_test(GVLayout_construction)
+create_test(GVLayout_render)
