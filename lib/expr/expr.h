@@ -182,7 +182,6 @@ struct Exnode_s				/* expression tree node		*/
 	Exshort_t	type;		/* value type			*/
 	Exshort_t	op;		/* operator			*/
 	Exshort_t	binary;		/* data.operand.{left,right} ok	*/
-	Exshort_t	pad_1;		/* padding to help cc		*/
 	Exlocal_t	local;		/* user defined local stuff	*/
 	union
 	{
