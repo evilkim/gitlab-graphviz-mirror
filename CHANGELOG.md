@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `edgepaint` accepts more standard `--` prefixed command line arguments and
   rejects invalid options #1971
 - improved detection of Lefty dependencies in the Autotools build system
+- libexpr rejects printing the time (`%t`) if no format is provided
 
 ### Fixed
 

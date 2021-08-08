@@ -348,12 +348,14 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	case 'T':
 		if ((tm = *(Sflong_t*)vp) == -1)
 			tm = time(NULL);
-        if (!txt)
-            txt = "%?%K";
-        s = fmtbuf(TIME_LEN);
-        stm = localtime(&tm);
-        strftime(s, TIME_LEN, txt, stm);
-        *(char **)vp = s;
+        if (!txt) {
+            exerror("printf: no time format provided");
+        } else {
+            s = fmtbuf(TIME_LEN);
+            stm = localtime(&tm);
+            strftime(s, TIME_LEN, txt, stm);
+            *(char **)vp = s;
+        }
 		dp->fmt = 's';
 		dp->size = -1;
 		break;
