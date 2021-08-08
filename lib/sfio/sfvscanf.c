@@ -216,7 +216,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 			} else if (ft && ft->extf) {
 			    FMTSET(ft, form, args,
 				   LEFTP, 0, 0, 0, 0, 0, NULL, 0);
-			    n = (*ft->extf)((void *) & argv, ft);
+			    n = (*ft->extf)(&argv, ft);
 			    if (n < 0)
 				goto pop_fmt;
 			    if (!(ft->flags & SFFMT_VALUE))
@@ -258,7 +258,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		else if (ft && ft->extf) {
 		    FMTSET(ft, form, args, '.', dot, 0, 0, 0, 0,
 			   NULL, 0);
-		    if ((*ft->extf)((void *) (&argv), ft) < 0)
+		    if ((*ft->extf)(&argv, ft) < 0)
 			goto pop_fmt;
 		    if (ft->flags & SFFMT_VALUE)
 			v = argv.i;
@@ -322,7 +322,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		else if (ft && ft->extf) {
 		    FMTSET(ft, form, args, 'I', sizeof(int), 0, 0, 0, 0,
 			   NULL, 0);
-		    if ((*ft->extf)((void *) (&argv), ft) < 0)
+		    if ((*ft->extf)(&argv, ft) < 0)
 			goto pop_fmt;
 		    if (ft->flags & SFFMT_VALUE)
 			size = argv.i;
@@ -401,7 +401,7 @@ int sfvscanf(Sfio_t * f, const char *form, va_list args)
 		   n_str);
 	    SFEND(f);
 	    SFOPEN(f, 0);
-	    v = (*ft->extf)((void *) & argv, ft);
+	    v = (*ft->extf)(&argv, ft);
 	    SFLOCK(f, 0);
 	    SFBUF(f);
 
