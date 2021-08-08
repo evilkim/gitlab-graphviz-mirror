@@ -34,6 +34,7 @@
 #include <ast/error.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdint.h>
 #include <string.h>
 
 char *pathcanon(char *path, int flags)
@@ -134,20 +135,20 @@ char *pathcanon(char *path, int flags)
 
 		    c = *(t - 1);
 		    *(t - 1) = 0;
-		    dots = pathgetlink(phys, buf, sizeof(buf));
+		    size_t len = pathgetlink(phys, buf, sizeof(buf));
 		    *(t - 1) = c;
-		    if (dots > 0) {
-			if ((t + dots + 1) >= e) { /* make sure path fits in buf */
+		    if (len != SIZE_MAX && len > 0) {
+			if ((t + len + 1) >= e) { /* make sure path fits in buf */
 			    strcpy(path, s);
                             return 0;
 			}
 			loop++;
-			strcpy(buf + dots, s - (*s != 0));
+			strcpy(buf + len, s - (*s != 0));
 			if (*buf == '/')
 			    p = r = path;
 			v = s = t = p;
 			strcpy(p, buf);
-		    } else if (dots < 0 && errno == ENOENT) {
+		    } else if (len == SIZE_MAX && errno == ENOENT) {
 			if (flags & PATH_EXISTS) {
 			    strcpy(path, s);
 			    return 0;

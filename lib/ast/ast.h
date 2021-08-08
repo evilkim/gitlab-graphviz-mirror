@@ -17,10 +17,7 @@ extern "C" {
 
 #include <sfio/sfio.h>
 #include <stdlib.h>
-#include <stddef.h>
-#ifdef sun
 #include <string.h>
-#endif
 
 #ifndef PATH_MAX
 #define PATH_MAX    1024
@@ -73,7 +70,7 @@ extern "C" {
 			    const char *, int);
     extern char *pathcat(char *, const char *, int, const char *,
 			 const char *);
-    extern int pathgetlink(const char *, char *, int);
+    extern size_t pathgetlink(const char *, char *, size_t);
     extern int pathexists(char *, int);
 
     extern int chresc(const char *, char **);
