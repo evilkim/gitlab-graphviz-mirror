@@ -196,7 +196,7 @@ static bool streqn(const char *s1, const char *s2, size_t n) {
  */
 
 static int
-prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
+prformat(void* vp, Sffmt_t* dp)
 {
 	Fmt_t*		fmt = (Fmt_t*)dp;
 	Exnode_t*	node;
@@ -205,9 +205,6 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	int			to = 0;
 	time_t			tm;
     struct tm *stm;
-
-
-	(void)sp;
 
 	dp->flags |= SFFMT_VALUE;
 	if (fmt->args)
@@ -446,12 +443,10 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
  */
 
 static int
-scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
+scformat(void* vp, Sffmt_t* dp)
 {
 	Fmt_t*		fmt = (Fmt_t*)dp;
 	Exnode_t*	node;
-
-	(void)sp;
 
 	if (!fmt->actuals)
 	{

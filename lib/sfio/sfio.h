@@ -75,7 +75,7 @@ extern "C" {
 
 /* formatting environment */
     typedef struct _sffmt_s Sffmt_t;
-    typedef int (*Sffmtext_f)(Sfio_t *, void *, Sffmt_t *);
+    typedef int (*Sffmtext_f)(void *, Sffmt_t *);
     typedef int (*Sffmtevent_f)(Sfio_t *, int, void *, Sffmt_t *);
     struct _sffmt_s {
 	Sffmtext_f extf;	/* function to process arguments        */
