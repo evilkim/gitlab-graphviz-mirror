@@ -179,9 +179,9 @@ union Exdata_u
 
 struct Exnode_s				/* expression tree node		*/
 {
-	Exshort_t	type;		/* value type			*/
-	Exshort_t	op;		/* operator			*/
-	Exshort_t	binary;		/* data.operand.{left,right} ok	*/
+	int	type;		/* value type			*/
+	int	op;		/* operator			*/
+	int	binary;		/* data.operand.{left,right} ok	*/
 	Exlocal_t	local;		/* user defined local stuff	*/
 	union
 	{
