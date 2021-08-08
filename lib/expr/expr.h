@@ -90,12 +90,6 @@ extern "C" {
 
 #define exalloc(p,n)		vmalloc((p)->vm, (n))
 
-#if LONG_MAX > INT_MAX
-typedef int Exshort_t;
-#else
-typedef short Exshort_t;
-#endif
-
 typedef EXSTYPE Extype_t;
 
 typedef union Exdata_u Exdata_t;
