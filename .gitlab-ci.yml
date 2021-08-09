@@ -796,6 +796,7 @@ ubuntu18-04-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -811,6 +812,7 @@ ubuntu20-10-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -832,6 +834,7 @@ ubuntu20-10-cmake-ASan-test:
         # FIXME: remove the following when Graphviz can pass the test suite
         # leak-free
         - export ASAN_OPTIONS=detect_leaks=0
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -847,6 +850,7 @@ ubuntu21-04-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -865,6 +869,7 @@ ubuntu21.04-cmake-ASan-test-including-ctest:
         - export CFLAGS=" -g -fsanitize=address,undefined"
         - export CXXFLAGS=" -g -fsanitize=address,undefined"
         - export LDFLAGS=" -g -fsanitize=address,undefined"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
@@ -880,6 +885,7 @@ centos7-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
         # Graphviz libs are installed in /usr/lib, but Centos 7 doesn't look there by default
         - export LD_LIBRARY_PATH=/usr/lib
@@ -897,6 +903,7 @@ fedora32-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
         - job: portable-source
