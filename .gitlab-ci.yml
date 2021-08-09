@@ -434,8 +434,6 @@ ubuntu18-04-cmake-build:
     needs:
         - job: docker_build_ubuntu-18.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -452,8 +450,6 @@ ubuntu20-10-cmake-build:
     needs:
         - job: docker_build_ubuntu-20.10
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -470,8 +466,6 @@ ubuntu20-10-cmake-ASan-build:
     needs:
         - job: docker_build_ubuntu-20.10
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -489,8 +483,6 @@ ubuntu21-04-cmake-build:
     needs:
         - job: docker_build_ubuntu-21.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -508,8 +500,6 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
     needs:
         - job: docker_build_ubuntu-21.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -555,8 +545,6 @@ centos7-cmake-build:
     needs:
         - job: docker_build_centos7
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -573,8 +561,6 @@ fedora32-cmake-build:
     needs:
         - job: docker_build_fedora32
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
