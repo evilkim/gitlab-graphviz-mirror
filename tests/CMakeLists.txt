@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.12 FATAL_ERROR)
 
 find_package(Boost REQUIRED)
 find_package(Catch2 REQUIRED)
+find_package(RapidXml REQUIRED)
 find_package(Svgpp REQUIRED)
 
 enable_testing()
@@ -17,6 +18,7 @@ set_target_properties(test_common PROPERTIES CXX_STANDARD_REQUIRED ON)
 target_include_directories(test_common PRIVATE
     ${Boost_INCLUDE_DIRS}
     ${GRAPHVIZ_LIB_DIR}
+    ${RapidXml_INCLUDE_DIRS}
     ${Svgpp_INCLUDE_DIRS}
 )
 target_link_libraries(test_common PUBLIC Catch2::Catch2)

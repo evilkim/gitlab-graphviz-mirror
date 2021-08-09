@@ -1,0 +1,6 @@
+find_path(RapidXml_INCLUDE_DIR rapidxml_ns/rapidxml_ns.hpp)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(RapidXml DEFAULT_MSG RapidXml_INCLUDE_DIR)
+
+set(RapidXml_INCLUDE_DIRS ${RapidXml_INCLUDE_DIR})
