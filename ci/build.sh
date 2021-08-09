@@ -16,7 +16,6 @@ else
         fi
     fi
 fi
-GV_VERSION=$( cat VERSION )
 COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
 mkdir -p ${META_DATA_DIR}
@@ -40,6 +39,7 @@ if [ "${build_system}" = "cmake" ]; then
         mv build/*.rpm ${DIR}/os/${ARCH}/
     fi
 else
+    GV_VERSION=$( cat VERSION )
     if [ "${ID_LIKE}" = "debian" ]; then
         tar xfz graphviz-${GV_VERSION}.tar.gz
         (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
