@@ -51,6 +51,8 @@ portable-source:
             - Packages/*/*/*/*/*/*.rpm
             - Packages/*/*/*/*/*.rpm
             - Metadata/*/*/*/configure.log
+            - VERSION
+            - COLLECTION
         reports:
             metrics: metrics.txt
     except:
@@ -72,6 +74,8 @@ portable-source:
             - Packages/*/*/*/*/*/*deb
             - Packages/*/*/*/*/*.gz
             - Metadata/*/*/*/configure.log
+            - VERSION
+            - COLLECTION
         reports:
             metrics: metrics.txt
     except:
