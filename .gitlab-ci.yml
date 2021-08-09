@@ -652,8 +652,6 @@ ubuntu18-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu18-04-build"
           artifacts: true
     tags:
@@ -666,8 +664,6 @@ ubuntu20-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-04-build"
           artifacts: true
     tags:
@@ -680,8 +676,6 @@ ubuntu20-10-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-build"
           artifacts: true
     tags:
@@ -694,8 +688,6 @@ ubuntu21-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-build"
           artifacts: true
     tags:
@@ -708,8 +700,6 @@ centos7-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos7-build"
           artifacts: true
     tags:
@@ -722,8 +712,6 @@ centos8-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos8-build"
           artifacts: true
     tags:
@@ -736,8 +724,6 @@ fedora32-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora32-build"
           artifacts: true
     tags:
@@ -750,8 +736,6 @@ fedora33-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora33-build"
           artifacts: true
     tags:
@@ -764,8 +748,6 @@ fedora34-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora34-build"
           artifacts: true
     tags:
