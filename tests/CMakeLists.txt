@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.12 FATAL_ERROR)
 
+find_package(Boost REQUIRED)
 find_package(Catch2 REQUIRED)
 
 enable_testing()
@@ -13,6 +14,7 @@ add_library(test_common STATIC
 set_target_properties(test_common PROPERTIES CXX_STANDARD 20)
 set_target_properties(test_common PROPERTIES CXX_STANDARD_REQUIRED ON)
 target_include_directories(test_common PRIVATE
+    ${Boost_INCLUDE_DIRS}
     ${GRAPHVIZ_LIB_DIR}
 )
 target_link_libraries(test_common PUBLIC Catch2::Catch2)
