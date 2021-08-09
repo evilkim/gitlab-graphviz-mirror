@@ -526,6 +526,8 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
         paths:
             # the C++ test programs
             - build/tests/test_*
+            # the ctest files
+            - build/**/CTestTestfile.cmake
             # archive all shared libraries produced directly by "cmake
             # --build" (but not those in the install directory that
             # cpack has copied). In the test stage, the test
