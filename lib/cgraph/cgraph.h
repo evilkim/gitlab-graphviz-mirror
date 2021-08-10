@@ -342,7 +342,7 @@ CGRAPH_API int      agcopyattr(void *oldobj, void *newobj);
 
 CGRAPH_API void *agbindrec(void *obj, char *name, unsigned int size,
 		       int move_to_front);
-CGRAPH_API Agrec_t *aggetrec(void *obj, char *name, int move_to_front);
+CGRAPH_API Agrec_t *aggetrec(void *obj, const char *name, int move_to_front);
 CGRAPH_API int agdelrec(void *obj, char *name);
 CGRAPH_API void aginit(Agraph_t * g, int kind, char *rec_name, int rec_size,
 		   int move_to_front);

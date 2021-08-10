@@ -31,7 +31,7 @@ static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
 }
 
 /* find record in circular list and do optional move-to-front */
-Agrec_t *aggetrec(void *obj, char *name, int mtf)
+Agrec_t *aggetrec(void *obj, const char *name, int mtf)
 {
     Agobj_t *hdr;
     Agrec_t *d, *first;
