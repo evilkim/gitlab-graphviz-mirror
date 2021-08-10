@@ -85,7 +85,7 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
 /* attach a new record of the given size to the object.
  */
 void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
-		int mtf)
+                int move_to_front)
 {
     Agraph_t *g;
     Agobj_t *obj;
@@ -99,7 +99,7 @@ void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
 	rec->name = agstrdup(g, recname);
 	objputrec(g, obj, rec);
     }
-    if (mtf)
+    if (move_to_front)
 	aggetrec(arg_obj, recname, TRUE);
     return rec;
 }
