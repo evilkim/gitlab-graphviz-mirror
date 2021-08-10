@@ -60,11 +60,10 @@ Agrec_t *aggetrec(void *obj, const char *name, int mtf)
 }
 
 /* insert the record in data list of this object (only) */
-static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
+static void objputrec(Agobj_t * obj, void *arg)
 {
     Agrec_t *firstrec, *newrec;
 
-    NOTUSED(g);
     newrec = arg;
     firstrec = obj->data;
     if (firstrec == NULL)
@@ -97,7 +96,7 @@ void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
     if (rec == NULL && recsize > 0) {
 	rec = agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
-	objputrec(g, obj, rec);
+	objputrec(obj, rec);
     }
     if (move_to_front)
 	aggetrec(arg_obj, recname, TRUE);
