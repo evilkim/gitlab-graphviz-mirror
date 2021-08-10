@@ -84,7 +84,7 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
 
 /* attach a new record of the given size to the object.
  */
-void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
+void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
 		int mtf)
 {
     Agraph_t *g;
