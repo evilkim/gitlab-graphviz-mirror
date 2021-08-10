@@ -39,7 +39,7 @@ Agrec_t *aggetrec(void *obj, char *name, int mtf)
     hdr = (Agobj_t *) obj;
     first = d = hdr->data;
     while (d) {
-	if ((d->name == name) || streq(name, d->name))
+	if (streq(name, d->name))
 	    break;
 	d = d->next;
 	if (d == first) {
