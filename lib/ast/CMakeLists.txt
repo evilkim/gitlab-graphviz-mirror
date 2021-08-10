@@ -15,7 +15,6 @@ add_library(ast STATIC
     pathaccess.c
     pathcanon.c
     pathcat.c
-    pathexists.c
     pathfind.c
     pathgetlink.c
     strcopy.c

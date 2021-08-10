@@ -65,12 +65,12 @@ char *pathfind(const char *name, const char *lib, const char *type,
 	    type = 0;
 	for (dp = state.head; dp; dp = dp->next) {
 	    snprintf(tmp, sizeof(tmp), "%s/%s", dp->dir, name);
-	    if (pathpath(buf, tmp, "", PATH_REGULAR))
+	    if (pathpath(buf, tmp))
 		return buf;
 	    if (type) {
 		snprintf(tmp, sizeof(tmp), "%s/%s.%s", dp->dir, name,
 			  type);
-		if (pathpath(buf, tmp, "", PATH_REGULAR))
+		if (pathpath(buf, tmp))
 		    return buf;
 	    }
 	}
@@ -78,12 +78,12 @@ char *pathfind(const char *name, const char *lib, const char *type,
 	    if ((s = strrchr(lib, ':')))
 		lib = (const char *) s + 1;
 	    snprintf(tmp, sizeof(tmp), "lib/%s/%s", lib, name);
-	    if (pathpath(buf, tmp, "", PATH_REGULAR))
+	    if (pathpath(buf, tmp))
 		return buf;
 	    if (type) {
 		snprintf(tmp, sizeof(tmp), "lib/%s/%s.%s", lib, name,
 			  type);
-		if (pathpath(buf, tmp, "", PATH_REGULAR))
+		if (pathpath(buf, tmp))
 		    return buf;
 	    }
 	}

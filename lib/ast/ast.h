@@ -63,7 +63,7 @@ extern "C" {
 #define strneq(a,b,n)     (!strncmp(a,b,n))
 #define memzero(b,n)    memset(b,0,n)
 
-    extern char *pathpath(char *, const char *, const char *, int);
+    extern char *pathpath(char *, const char *);
     extern char *pathfind(const char *, const char *, const char *, char *,
 			  size_t);
     extern char *pathaccess(char *, const char *, const char *,
@@ -71,7 +71,6 @@ extern "C" {
     extern char *pathcat(char *, const char *, int, const char *,
 			 const char *);
     extern size_t pathgetlink(const char *, char *, size_t);
-    extern int pathexists(char *, int);
 
     extern int chresc(const char *, char **);
     extern int chrtoi(const char *);
