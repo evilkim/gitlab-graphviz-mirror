@@ -344,8 +344,8 @@ CGRAPH_API void *agbindrec(void *obj, const char *name, unsigned int recsize,
 		       int move_to_front);
 CGRAPH_API Agrec_t *aggetrec(void *obj, const char *name, int move_to_front);
 CGRAPH_API int agdelrec(void *obj, const char *name);
-CGRAPH_API void aginit(Agraph_t * g, int kind, char *rec_name, int rec_size,
-		   int move_to_front);
+CGRAPH_API void aginit(Agraph_t * g, int kind, const char *rec_name,
+                       int rec_size, int move_to_front);
 CGRAPH_API void agclean(Agraph_t * g, int kind, char *rec_name);
 
 CGRAPH_API char *agget(void *obj, char *name);

@@ -168,8 +168,8 @@ static void simple_delrec(Agraph_t * g, Agobj_t * obj, void *rec_name)
     agdelrec(obj, rec_name);
 }
 
-void aginit(Agraph_t * g, int kind, char *rec_name, int arg_rec_size, int mtf)
-{
+void aginit(Agraph_t * g, int kind, const char *rec_name, int arg_rec_size,
+            int mtf) {
     Agnode_t *n;
     Agedge_t *e;
     Agraph_t *s;
