@@ -23,7 +23,7 @@ static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
 
     obj->data = data;
     obj->tag.mtflock = mtflock != 0;
-    if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
+    if (AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE) {
 	e = agopp((Agedge_t *) obj);
 	AGDATA(e) = data;
 	e->base.tag.mtflock = mtflock != 0;
@@ -49,10 +49,10 @@ Agrec_t *aggetrec(void *obj, const char *name, int mtf)
     }
     if (d) {
 	if (hdr->tag.mtflock) {
-	    if (mtf && (hdr->data != d))
+	    if (mtf && hdr->data != d)
 		agerr(AGERR, "move to front lock inconsistency");
 	} else {
-	    if ((d != first) || (mtf != hdr->tag.mtflock))
+	    if (d != first || mtf != hdr->tag.mtflock)
 		set_data(hdr, d, mtf);	/* Always optimize */
 	}
     }
