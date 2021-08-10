@@ -132,7 +132,7 @@ static void listdelrec(Agobj_t * obj, Agrec_t * rec)
     prev->next = rec->next;
 }
 
-int agdelrec(void *arg_obj, char *name)
+int agdelrec(void *arg_obj, const char *name)
 {
     Agobj_t *obj;
     Agrec_t *rec;
