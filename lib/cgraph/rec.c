@@ -36,7 +36,7 @@ Agrec_t *aggetrec(void *obj, const char *name, int mtf)
     Agobj_t *hdr;
     Agrec_t *d, *first;
 
-    hdr = (Agobj_t *) obj;
+    hdr = obj;
     first = d = hdr->data;
     while (d) {
 	if (streq(name, d->name))
@@ -109,7 +109,7 @@ void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
 static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
 {
     NOTUSED(g);
-    Agrec_t *rec = (Agrec_t *) arg_rec, *newrec;
+    Agrec_t *rec = arg_rec, *newrec;
     if (obj->data == rec) {
 	if (rec->next == rec)
 	    newrec = NULL;
@@ -139,7 +139,7 @@ int agdelrec(void *arg_obj, char *name)
     Agrec_t *rec;
     Agraph_t *g;
 
-    obj = (Agobj_t *) arg_obj;
+    obj = arg_obj;
     g = agraphof(obj);
     rec = aggetrec(obj, name, FALSE);
     if (rec) {
