@@ -17,16 +17,16 @@
  * run time records
  */
 
-static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
+static void set_data(Agobj_t * obj, Agrec_t * data, bool mtflock)
 {
     Agedge_t *e;
 
     obj->data = data;
-    obj->tag.mtflock = mtflock != 0;
+    obj->tag.mtflock = mtflock;
     if (AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE) {
 	e = agopp((Agedge_t *) obj);
 	AGDATA(e) = data;
-	e->base.tag.mtflock = mtflock != 0;
+	e->base.tag.mtflock = mtflock;
     }
 }
 
@@ -53,7 +53,7 @@ Agrec_t *aggetrec(void *obj, const char *name, int mtf)
 		agerr(AGERR, "move to front lock inconsistency");
 	} else {
 	    if (d != first || mtf != hdr->tag.mtflock)
-		set_data(hdr, d, mtf);	/* Always optimize */
+		set_data(hdr, d, mtf != 0);	/* Always optimize */
 	}
     }
     return d;
@@ -78,7 +78,7 @@ static void objputrec(Agobj_t * obj, void *arg)
 	}
     }
     if (NOT(obj->tag.mtflock))
-	set_data(obj, newrec, FALSE);
+	set_data(obj, newrec, false);
 }
 
 /* attach a new record of the given size to the object.
@@ -114,7 +114,7 @@ static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
 	    newrec = NULL;
 	else
 	    newrec = rec->next;
-	set_data(obj, newrec, FALSE);
+	set_data(obj, newrec, false);
     }
 }
 
