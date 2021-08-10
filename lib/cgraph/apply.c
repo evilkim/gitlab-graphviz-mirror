@@ -53,8 +53,6 @@ static void rec_apply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	fn(g, obj, arg);
 }
 
-/* external entry point (this seems to be one of those ineffective
- * comments censured in books on programming style) */
 int agapply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	    int preorder)
 {
