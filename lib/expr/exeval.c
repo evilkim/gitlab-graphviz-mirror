@@ -907,7 +907,7 @@ extokens(Expr_t * ex, Exnode_t * expr, void *env)
  * return string after pattern substitution
  */
 static Extype_t
-exsub(Expr_t * ex, Exnode_t * expr, void *env, int global)
+exsub(Expr_t * ex, Exnode_t * expr, void *env, bool global)
 {
 	char *str;
 	char *pat;
@@ -1153,9 +1153,9 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 	case TOKENS:
 		return extokens(ex, expr, env);
 	case GSUB:
-		return exsub(ex, expr, env, 1);
+		return exsub(ex, expr, env, /* global = */ true);
 	case SUB:
-		return exsub(ex, expr, env, 0);
+		return exsub(ex, expr, env, /* global = */ false);
 	case SUBSTR:
 		return exsubstr(ex, expr, env);
 	case SRAND:
