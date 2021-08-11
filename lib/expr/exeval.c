@@ -781,10 +781,12 @@ static void replace(Sfio_t * s, char *base, char *repl, int ng, int *sub) {
           sfwrite(s, base + offset, sub[2 * idx + 1] - offset);
         }
         repl++;
-      } else
+      } else {
         sfputc(s, '\\');
-    } else
+      }
+    } else {
       sfputc(s, c);
+    }
   }
 }
 
