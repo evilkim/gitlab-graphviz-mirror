@@ -41,6 +41,15 @@ extern "C" {
  */
 void *vmalloc(Vmalloc_t *vm, size_t size);
 
+/** resize an area of allocated memory
+ *
+ * @param vm region allocation from
+ * @param data old block of data
+ * @param size new size
+ * @returns Pointer to the newly resized area or NULL on failure
+ */
+void *vmresize(Vmalloc_t *vm, void *data, size_t size);
+
 /** free heap memory
  *
  * @param vm Region the pointer was originally allocated from
