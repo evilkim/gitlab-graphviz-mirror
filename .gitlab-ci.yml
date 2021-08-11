@@ -799,8 +799,6 @@ ubuntu18-04-cmake-test:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu18-04-cmake-build"
           artifacts: true
     tags:
@@ -815,8 +813,6 @@ ubuntu20-10-cmake-test:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-cmake-build"
           artifacts: true
     tags:
@@ -837,8 +833,6 @@ ubuntu20-10-cmake-ASan-test:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-cmake-ASan-build"
           artifacts: true
     tags:
@@ -853,8 +847,6 @@ ubuntu21-04-cmake-test:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-cmake-build"
           artifacts: true
     tags:
@@ -872,8 +864,6 @@ ubuntu21.04-cmake-ASan-test-including-ctest:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-cmake-ASan-build-for-ctest"
           artifacts: true
     tags:
@@ -890,8 +880,6 @@ centos7-cmake-test:
         # Graphviz libs are installed in /usr/lib, but Centos 7 doesn't look there by default
         - export LD_LIBRARY_PATH=/usr/lib
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos7-cmake-build"
           artifacts: true
     tags:
@@ -906,8 +894,6 @@ fedora32-cmake-test:
         - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora32-cmake-build"
           artifacts: true
     tags:
