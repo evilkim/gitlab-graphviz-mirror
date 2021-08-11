@@ -768,26 +768,24 @@ static char *str_mpy(Expr_t *ex, const char *l, const char *r) {
  * Add replacement string.
  * \digit is replaced with a subgroup match, if any.
  */
-static void
-replace(Sfio_t * s, char *base, char *repl, int ng, int *sub)
-{
-	char c;
-	int idx, offset;
+static void replace(Sfio_t * s, char *base, char *repl, int ng, int *sub) {
+  char c;
+  int idx, offset;
 
-	while ((c = *repl++)) {
-	if (c == '\\') {
-	    if ((c = *repl) && isdigit(c)) {
-			idx = c - '0';
-			if (idx < ng) {
-		    	offset = sub[2 * idx];
-		    	sfwrite(s, base + offset, sub[2 * idx + 1] - offset);
-			}
-			repl++;
-	    } else
-			sfputc(s, '\\');
-	} else
-	    sfputc(s, c);
-	}
+  while ((c = *repl++)) {
+    if (c == '\\') {
+      if ((c = *repl) && isdigit(c)) {
+        idx = c - '0';
+        if (idx < ng) {
+          offset = sub[2 * idx];
+          sfwrite(s, base + offset, sub[2 * idx + 1] - offset);
+        }
+        repl++;
+      } else
+        sfputc(s, '\\');
+    } else
+      sfputc(s, c);
+  }
 }
 
 #define MCNT(s) (sizeof(s)/(2*sizeof(int)))
