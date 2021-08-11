@@ -38,8 +38,7 @@ ssize_t sfwrite(Sfio_t * f, const void * buf, size_t n)
 	if (!(f->mode & SF_WRITE) && (f->flags & SF_RDWR) != SF_RDWR)
 	    SFMTXRETURN(f, (ssize_t) (-1));
 
-	if ((const uchar *) buf != f->next &&
-	    (!f->rsrv || f->rsrv->data != (const uchar *) buf))
+	if (buf != f->next && (!f->rsrv || f->rsrv->data != buf))
 	    SFMTXRETURN(f, (ssize_t) (-1));
 
 	f->mode &= ~SF_PEEK;
