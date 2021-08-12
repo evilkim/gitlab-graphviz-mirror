@@ -49,57 +49,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#if _hdr_wchar && _lib_wctype && _lib_iswctype
-
-#include <stdio.h>		/* because <wchar.h> includes it and we generate it */
-#include <wchar.h>
-#if _hdr_wctype
-#include <wctype.h>
-#endif
-
-#undef	isalnum
-#define isalnum(x)	iswalnum(x)
-#undef	isalpha
-#define isalpha(x)	iswalpha(x)
-#undef	iscntrl
-#define iscntrl(x)	iswcntrl(x)
-#undef	isblank
-#define isblank(x)	iswblank(x)
-#undef	isdigit
-#define isdigit(x)	iswdigit(x)
-#undef	isgraph
-#define isgraph(x)	iswgraph(x)
-#undef	islower
-#define islower(x)	iswlower(x)
-#undef	isprint
-#define isprint(x)	iswprint(x)
-#undef	ispunct
-#define ispunct(x)	iswpunct(x)
-#undef	isspace
-#define isspace(x)	iswspace(x)
-#undef	isupper
-#define isupper(x)	iswupper(x)
-#undef	isxdigit
-#define isxdigit(x)	iswxdigit(x)
-
-#if !defined(iswblank) && !_lib_iswblank
-
-static int iswblank(wint_t wc)
-{
-    static int initialized;
-    static wctype_t wt;
-
-    if (!initialized) {
-	initialized = 1;
-	wt = wctype("blank");
-    }
-    return iswctype(wc, wt);
-}
-
-#endif
-
-#else
-
 #undef	_lib_wctype
 
 #ifndef	isblank
@@ -108,8 +57,6 @@ static int iswblank(wint_t wc)
 
 #ifndef isgraph
 #define	isgraph(x)	(isprint(x)&&!isblank(x))
-#endif
-
 #endif
 
 #ifdef _DEBUG_MATCH
