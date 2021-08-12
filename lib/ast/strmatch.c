@@ -49,8 +49,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#undef	_lib_wctype
-
 #ifndef	isblank
 #define	isblank(x)	((x)==' '||(x)=='\t')
 #endif
@@ -443,20 +441,6 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 				if (oldp[5] == 't' && isxdigit(sc))
 				    ok = 1;
 				break;
-#if _lib_wctype
-			    default:
-				{
-				    char cc[32];
-
-				    if (x >= sizeof(cc))
-					x = sizeof(cc) - 1;
-				    strncpy(cc, oldp, x);
-				    cc[x] = 0;
-				    if (iswctype(sc, wctype(cc)))
-					ok = 1;
-				}
-				break;
-#endif
 			    }
 			}
 			else if (range)
