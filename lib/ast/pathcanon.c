@@ -125,11 +125,10 @@ char *pathcanon(char *path, int flags)
 		break;
 	    default:
 		if ((flags & PATH_PHYSICAL) && loop < 32 && (t - 1) > path) {
-		    int c;
 		    char buf[PATH_MAX];
 
-		    c = *(t - 1);
-		    *(t - 1) = 0;
+		    char c = *(t - 1);
+		    *(t - 1) = '\0';
 		    size_t len = pathgetlink(phys, buf, sizeof(buf));
 		    *(t - 1) = c;
 		    if (len != SIZE_MAX && len > 0) {
