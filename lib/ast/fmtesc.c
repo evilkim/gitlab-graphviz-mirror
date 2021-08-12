@@ -91,8 +91,8 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		    break;
 		default:
 		    if (!(flags & FMT_WIDE) || !(c & 0200)) {
-			*b++ = '0' + ((c >> 6) & 07);
-			*b++ = '0' + ((c >> 3) & 07);
+			*b++ = (char)('0' + ((c >> 6) & 07));
+			*b++ = (char)('0' + ((c >> 3) & 07));
 			c = '0' + (c & 07);
 		    } else
 			b--;
@@ -100,7 +100,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		}
 	    } else if (c == '\\') {
 		escaped = 1;
-		*b++ = c;
+		*b++ = (char)c;
 		if (*s)
 		    c = *s++;
 	    } else if ((qe && strchr(qe, c)) ||
@@ -120,7 +120,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		       )
 		)
 		spaced = 1;
-	    *b++ = c;
+	    *b++ = (char)c;
     }
     if (qb) {
 	if (!escaped)
