@@ -2,7 +2,7 @@
 add_custom_command(
     OUTPUT ps.h
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/ps.txt
-    COMMAND ${AWK_EXECUTABLE} -f ${TOP_SOURCE_DIR}/awk/stringize.awk
+    COMMAND ${AWK_EXECUTABLE} -v RS="\\r*\\n" -f ${TOP_SOURCE_DIR}/awk/stringize.awk
             ${CMAKE_CURRENT_SOURCE_DIR}/ps.txt > ${CMAKE_CURRENT_BINARY_DIR}/ps.h
 )
 
