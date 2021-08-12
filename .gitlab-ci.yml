@@ -51,6 +51,8 @@ portable-source:
             - Packages/*/*/*/*/*/*.rpm
             - Packages/*/*/*/*/*.rpm
             - Metadata/*/*/*/configure.log
+            - VERSION
+            - COLLECTION
         reports:
             metrics: metrics.txt
     except:
@@ -72,6 +74,8 @@ portable-source:
             - Packages/*/*/*/*/*/*deb
             - Packages/*/*/*/*/*.gz
             - Metadata/*/*/*/configure.log
+            - VERSION
+            - COLLECTION
         reports:
             metrics: metrics.txt
     except:
@@ -434,8 +438,6 @@ ubuntu18-04-cmake-build:
     needs:
         - job: docker_build_ubuntu-18.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -452,8 +454,6 @@ ubuntu20-10-cmake-build:
     needs:
         - job: docker_build_ubuntu-20.10
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -470,8 +470,6 @@ ubuntu20-10-cmake-ASan-build:
     needs:
         - job: docker_build_ubuntu-20.10
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -489,8 +487,6 @@ ubuntu21-04-cmake-build:
     needs:
         - job: docker_build_ubuntu-21.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -508,8 +504,6 @@ ubuntu21-04-cmake-ASan-build-for-ctest:
     needs:
         - job: docker_build_ubuntu-21.04
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -555,8 +549,6 @@ centos7-cmake-build:
     needs:
         - job: docker_build_centos7
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -573,8 +565,6 @@ fedora32-cmake-build:
     needs:
         - job: docker_build_fedora32
           artifacts: false
-        - job: portable-source
-          artifacts: true
     before_script:
         - export build_system="cmake"
         # fail on any compiler warnings
@@ -662,8 +652,6 @@ ubuntu18-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu18-04-build"
           artifacts: true
     tags:
@@ -676,8 +664,6 @@ ubuntu20-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-04-build"
           artifacts: true
     tags:
@@ -690,8 +676,6 @@ ubuntu20-10-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-build"
           artifacts: true
     tags:
@@ -704,8 +688,6 @@ ubuntu21-04-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-build"
           artifacts: true
     tags:
@@ -718,8 +700,6 @@ centos7-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos7-build"
           artifacts: true
     tags:
@@ -732,8 +712,6 @@ centos8-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos8-build"
           artifacts: true
     tags:
@@ -746,8 +724,6 @@ fedora32-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora32-build"
           artifacts: true
     tags:
@@ -760,8 +736,6 @@ fedora33-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora33-build"
           artifacts: true
     tags:
@@ -774,8 +748,6 @@ fedora34-test:
     before_script:
         - export build_system="autotools"
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora34-build"
           artifacts: true
     tags:
@@ -810,10 +782,9 @@ ubuntu18-04-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu18-04-cmake-build"
           artifacts: true
     tags:
@@ -825,10 +796,9 @@ ubuntu20-10-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-cmake-build"
           artifacts: true
     tags:
@@ -846,10 +816,9 @@ ubuntu20-10-cmake-ASan-test:
         # FIXME: remove the following when Graphviz can pass the test suite
         # leak-free
         - export ASAN_OPTIONS=detect_leaks=0
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu20-10-cmake-ASan-build"
           artifacts: true
     tags:
@@ -861,10 +830,9 @@ ubuntu21-04-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-cmake-build"
           artifacts: true
     tags:
@@ -879,10 +847,9 @@ ubuntu21.04-cmake-ASan-test-including-ctest:
         - export CFLAGS=" -g -fsanitize=address,undefined"
         - export CXXFLAGS=" -g -fsanitize=address,undefined"
         - export LDFLAGS=" -g -fsanitize=address,undefined"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "ubuntu21-04-cmake-ASan-build-for-ctest"
           artifacts: true
     tags:
@@ -894,12 +861,11 @@ centos7-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
         # Graphviz libs are installed in /usr/lib, but Centos 7 doesn't look there by default
         - export LD_LIBRARY_PATH=/usr/lib
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "centos7-cmake-build"
           artifacts: true
     tags:
@@ -911,10 +877,9 @@ fedora32-cmake-test:
     <<: *linux_test_definition
     before_script:
         - export build_system="cmake"
+        - python3 gen_version.py > VERSION
         - echo experimental > COLLECTION
     needs:
-        - job: portable-source
-          artifacts: true
         - job: "fedora32-cmake-build"
           artifacts: true
     tags:
