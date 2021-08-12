@@ -43,6 +43,8 @@ if [ "${build_system}" = "cmake" ]; then
     elif [ "${OSTYPE}" = "msys" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
         mv build/*.exe ${DIR}/os/${ARCH}/
+    elif [[ "${OSTYPE}" =~ "cygwin" ]]; then
+        mv build/*.zip ${DIR}/os/${ARCH}/
     else
         echo "Error: OSTYPE=${OSTYPE} is unknown" >&2
         exit 1
