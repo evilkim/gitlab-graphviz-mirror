@@ -72,7 +72,7 @@ static ssize_t sfoutput(Sfio_t * f, char *buf, size_t n)
 		buf = endbuf;
 		n = s = 0;
 	    }
-	    if ((wr = write(f->file, wbuf, buf - wbuf)) > 0) {
+	    if ((wr = write(f->file, wbuf, (size_t)(buf - wbuf))) > 0) {
 		w += wr;
 		f->bits &= (unsigned short)~SF_HOLE;
 	    }
