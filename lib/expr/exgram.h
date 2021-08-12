@@ -545,12 +545,16 @@ static Exid_t*
 qualify(Exref_t* ref, Exid_t* sym)
 {
 	Exid_t*	x;
-	char*			s;
 
 	while (ref->next)
 		ref = ref->next;
-	sfprintf(expr.program->tmp, "%s.%s", ref->symbol->name, sym->name);
-	s = exstash(expr.program->tmp, NULL);
+	size_t len = strlen(ref->symbol->name) + strlen(sym->name) + 2;
+	char *s = malloc(sizeof(char) * len);
+	if (s == NULL) {
+		exnospace();
+		return NULL;
+	}
+	snprintf(s, len, "%s.%s", ref->symbol->name, sym->name);
 	if (!(x = dtmatch(expr.program->symbols, s)))
 	{
 		if ((x = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
@@ -565,6 +569,7 @@ qualify(Exref_t* ref, Exid_t* sym)
 			x = sym;
 		}
 	}
+	free(s);
 	return x;
 }
 

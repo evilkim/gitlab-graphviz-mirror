@@ -23,6 +23,7 @@
 
 #include <expr/exlib.h>
 #include <expr/exop.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -186,24 +187,24 @@ typedef struct
 	Sfio_t*		tmp;
 } Fmt_t;
 
+static bool streqn(const char *s1, const char *s2, size_t n) {
+  return strlen(s2) == n && strncmp(s1, s2, n) == 0;
+}
+
 /*
  * printf %! extension function
  */
 
 static int
-prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
+prformat(void* vp, Sffmt_t* dp)
 {
 	Fmt_t*		fmt = (Fmt_t*)dp;
 	Exnode_t*	node;
 	char*		s;
-	char*		txt;
 	int			from;
 	int			to = 0;
 	time_t			tm;
     struct tm *stm;
-
-
-	(void)sp;
 
 	dp->flags |= SFFMT_VALUE;
 	if (fmt->args)
@@ -280,18 +281,13 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		dp->size = sizeof(Sflong_t);
 		break;
 	}
+	const char *txt = NULL;;
+	size_t txt_len = 0;
 	if (dp->n_str > 0)
 	{
-		if (!fmt->tmp && !(fmt->tmp = sfstropen()))
-			txt = exnospace();
-		else
-		{
-			sfprintf(fmt->tmp, "%.*s", dp->n_str, dp->t_str);
-			txt = exstash(fmt->tmp, NULL);
-		}
+		txt = dp->t_str;
+		txt_len = (size_t)dp->n_str;
 	}
-	else
-		txt = 0;
 	switch (dp->fmt)
 	{
 	case 'q':
@@ -306,7 +302,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 		s = *(char**)vp;
 		if (txt)
 		{
-			if (streq(txt, "identifier"))
+			if (streqn(txt, "identifier", txt_len))
 			{
 				if (*s && !isalpha(*s))
 					*s++ = '_';
@@ -314,7 +310,7 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 					if (!isalnum(*s))
 						*s = '_';
 			}
-			else if (streq(txt, "invert"))
+			else if (streqn(txt, "invert", txt_len))
 			{
 				for (; *s; s++)
 					if (isupper(*s))
@@ -322,19 +318,19 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 					else if (islower(*s))
 						*s = (char)toupper(*s);
 			}
-			else if (streq(txt, "lower"))
+			else if (streqn(txt, "lower", txt_len))
 			{
 				for (; *s; s++)
 					if (isupper(*s))
 						*s = (char)tolower(*s);
 			}
-			else if (streq(txt, "upper"))
+			else if (streqn(txt, "upper", txt_len))
 			{
 				for (; *s; s++)
 					if (islower(*s))
 						*s = (char)toupper(*s);
 			}
-			else if (streq(txt, "variable"))
+			else if (streqn(txt, "variable", txt_len))
 			{
 				for (; *s; s++)
 					if (!isalnum(*s) && *s != '_')
@@ -348,12 +344,22 @@ prformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
 	case 'T':
 		if ((tm = *(Sflong_t*)vp) == -1)
 			tm = time(NULL);
-        if (!txt)
-            txt = "%?%K";
-        s = fmtbuf(TIME_LEN);
-        stm = localtime(&tm);
-        strftime(s, TIME_LEN, txt, stm);
-        *(char **)vp = s;
+        if (!txt) {
+            exerror("printf: no time format provided");
+        } else {
+            s = fmtbuf(TIME_LEN);
+            stm = localtime(&tm);
+            char *format = malloc(sizeof(char) * (txt_len + 1));
+            if (format == NULL) {
+                exerror("printf: out of memory");
+            } else {
+                strncpy(format, txt, txt_len);
+                format[txt_len] = '\0';
+                strftime(s, TIME_LEN, format, stm);
+                free(format);
+                *(char **)vp = s;
+            }
+        }
 		dp->fmt = 's';
 		dp->size = -1;
 		break;
@@ -437,12 +443,10 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
  */
 
 static int
-scformat(Sfio_t* sp, void* vp, Sffmt_t* dp)
+scformat(void* vp, Sffmt_t* dp)
 {
 	Fmt_t*		fmt = (Fmt_t*)dp;
 	Exnode_t*	node;
-
-	(void)sp;
 
 	if (!fmt->actuals)
 	{
