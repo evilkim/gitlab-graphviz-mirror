@@ -170,7 +170,7 @@ ssize_t sfwr(Sfio_t * f, const void * buf, size_t n,
 		    goto do_write;
 	    } else {
 	      do_write:
-		if ((w = write(f->file, (char *) buf, n)) > 0)
+		if ((w = write(f->file, buf, n)) > 0)
 		    f->bits &= (unsigned short)~SF_HOLE;
 	    }
 
