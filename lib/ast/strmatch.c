@@ -41,11 +41,6 @@
  *	only ] must be \'d inside [...]
  *
  * BUG: unbalanced ) terminates top level pattern
- *
- * BOTCH: collating element sort order and character class ranges apparently
- *	  do not have strcoll() in common so we resort to fnmatch(), calling
- *	  it up to COLL_MAX times to determine the matched collating
- *	  element size
  */
 
 #include <ast/ast.h>
@@ -148,16 +143,6 @@ typedef struct {
 #endif
 
 #define getsource(s,e)	(((s)>=(e))?0:mbgetchar(s))
-
-#define COLL_MAX	3
-
-#if !_lib_strcoll
-#undef	_lib_fnmatch
-#endif
-
-#if _lib_fnmatch
-extern int fnmatch(const char *, const char *, int);
-#endif
 
 /*
  * gobble chars up to <sub> or ) keeping track of (...) and [...]
@@ -440,12 +425,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 
 		if (!sc)
 		    RETURN(0);
-#if _lib_fnmatch
-		if (ast.locale.set & (1 << AST_LC_COLLATE))
-		    range = p - 1;
-		else
-#endif
-		    range = 0;
+		range = 0;
 		n = 0;
 		if ((invert = (*p == '!')))
 		    p++;
@@ -536,10 +516,6 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 #endif
 			    }
 			}
-#if _lib_fnmatch
-			else if (ast.locale.set & (1 << AST_LC_COLLATE))
-			    ok = -1;
-#endif
 			else if (range)
 			    goto getrange;
 			else if (*p == '-' && *(p + 1) != ']') {
@@ -552,33 +528,6 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			    ok = 1;
 			n = 1;
 		    } else if (pc == ']' && n) {
-#if _lib_fnmatch
-			if (ok < 0) {
-			    char pat[2 * UCHAR_MAX];
-			    char str[COLL_MAX + 1];
-
-			    if (p - range > sizeof(pat) - 2)
-				RETURN(0);
-			    memcpy(pat, range, p - range);
-			    pat[p - range] = '*';
-			    pat[p - range + 1] = 0;
-			    if (fnmatch(pat, olds, 0))
-				RETURN(0);
-			    pat[p - range] = 0;
-			    ok = 0;
-			    for (x = 0; x < sizeof(str) - 1 && olds[x];
-				 x++) {
-				str[x] = olds[x];
-				str[x + 1] = 0;
-				if (!fnmatch(pat, str, 0))
-				    ok = 1;
-				else if (ok)
-				    break;
-			    }
-			    s = olds + x;
-			    break;
-			}
-#endif
 			if (ok != invert)
 			    break;
 			RETURN(0);
@@ -587,12 +536,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			RETURN(0);
 		    } else if (ok)
 			/*NOP*/;
-#if _lib_fnmatch
-		    else if (range
-			     && !(ast.locale.set & (1 << AST_LC_COLLATE)))
-#else
 		    else if (range)
-#endif
 		    {
 		      getrange:
 #if _lib_mbtowc
@@ -634,12 +578,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			n = 1;
 		    } else if (*p == '-' && *(p + 1) != ']') {
 			(void)mbgetchar(p);
-#if _lib_fnmatch
-			if (ast.locale.set & (1 << AST_LC_COLLATE))
-			    ok = -1;
-			else
-#endif
-			    range = oldp;
+			range = oldp;
 			n = 1;
 		    } else {
 			if (icase && isupper(pc))
