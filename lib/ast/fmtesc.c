@@ -35,19 +35,18 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
     const unsigned char *s = (const unsigned char *) as;
     const unsigned char *e = s + n;
     char *b;
-    int c;
     int escaped;
     int spaced;
     int shell;
     char *f;
     char *buf;
 
-    c = 4 * (n + 1);
+    size_t len = 4 * (n + 1);
     if (qb)
-	c += strlen(qb);
+	len += strlen(qb);
     if (qe)
-	c += strlen(qe);
-    b = buf = fmtbuf(c);
+	len += strlen(qe);
+    b = buf = fmtbuf(len);
     shell = 0;
     if (qb) {
 	if (qb[0] == '$' && qb[1] == '\'' && qb[2] == 0)
@@ -58,7 +57,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
     f = b;
     escaped = spaced = !!(flags & FMT_ALWAYS);
     while (s < e) {
-	    c = *s++;
+	    int c = *s++;
 	    if (!(flags & FMT_ESCAPED)
 		&& (iscntrl(c) || !isprint(c) || c == '\\')) {
 		escaped = 1;
