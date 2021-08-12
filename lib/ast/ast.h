@@ -68,7 +68,7 @@ extern "C" {
 			  size_t);
     extern char *pathaccess(char *, const char *, const char *,
 			    const char *, int);
-    extern char *pathcat(char *, const char *, int, const char *,
+    extern const char *pathcat(char *, const char *, int, const char *,
 			 const char *);
     extern size_t pathgetlink(const char *, char *, size_t);
 
