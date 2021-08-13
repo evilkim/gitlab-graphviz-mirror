@@ -60,7 +60,6 @@ target_link_libraries(gvc PUBLIC
     pathplan
     xdot
     ${EXPAT_LIBRARIES}
-    ${ZLIB_LIBRARIES}
     ${MATH_LIB}
 )
 
@@ -69,6 +68,10 @@ if (LTDL_FOUND)
     if (NOT WIN32)
         target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
     endif()
+endif()
+
+if (ZLIB_FOUND)
+   target_link_libraries(gvc PUBLIC ${ZLIB_LIBRARIES})
 endif()
 
 if (${with_ortho})
