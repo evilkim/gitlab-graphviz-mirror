@@ -133,25 +133,21 @@ else()
     endif()
 endif()
 
-if (DEFINED DATE)
-    set(GRAPHVIZ_VERSION_BUILD "${DATE}")
-else()
-    if(NOT Python3_EXECUTABLE)
-      message(FATAL_ERROR "Python 3 not found")
-    endif()
-    # Set GRAPHVIZ_VERSION_BUILD to time of last commit, or to 0 if that fails.
-    execute_process(
-        COMMAND           ${Python3_EXECUTABLE} gen_version.py --committer-date-graphviz
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-        RESULT_VARIABLE   gen_date_result
-        OUTPUT_VARIABLE   GRAPHVIZ_VERSION_BUILD
-        ERROR_VARIABLE    gen_date_error
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_STRIP_TRAILING_WHITESPACE
-        )
-    if (NOT gen_date_result EQUAL 0)
-        message(FATAL_ERROR "Failed to set date: ${gen_date_error}")
-    endif()
+if(NOT Python3_EXECUTABLE)
+  message(FATAL_ERROR "Python 3 not found")
+endif()
+# Set GRAPHVIZ_VERSION_BUILD to time of last commit, or to 0 if that fails.
+execute_process(
+    COMMAND           ${Python3_EXECUTABLE} gen_version.py --committer-date-graphviz
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    RESULT_VARIABLE   gen_date_result
+    OUTPUT_VARIABLE   GRAPHVIZ_VERSION_BUILD
+    ERROR_VARIABLE    gen_date_error
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_STRIP_TRAILING_WHITESPACE
+    )
+if (NOT gen_date_result EQUAL 0)
+    message(FATAL_ERROR "Failed to set date: ${gen_date_error}")
 endif()
 
 string(REGEX REPLACE "\\..*"
