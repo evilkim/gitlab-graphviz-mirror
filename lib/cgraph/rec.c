@@ -17,29 +17,29 @@
  * run time records
  */
 
-static void set_data(Agobj_t * obj, Agrec_t * data, int mtflock)
+static void set_data(Agobj_t * obj, Agrec_t * data, bool mtflock)
 {
     Agedge_t *e;
 
     obj->data = data;
-    obj->tag.mtflock = mtflock != 0;
-    if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
+    obj->tag.mtflock = mtflock;
+    if (AGTYPE(obj) == AGINEDGE || AGTYPE(obj) == AGOUTEDGE) {
 	e = agopp((Agedge_t *) obj);
 	AGDATA(e) = data;
-	e->base.tag.mtflock = mtflock != 0;
+	e->base.tag.mtflock = mtflock;
     }
 }
 
 /* find record in circular list and do optional move-to-front */
-Agrec_t *aggetrec(void *obj, char *name, int mtf)
+Agrec_t *aggetrec(void *obj, const char *name, int mtf)
 {
     Agobj_t *hdr;
     Agrec_t *d, *first;
 
-    hdr = (Agobj_t *) obj;
+    hdr = obj;
     first = d = hdr->data;
     while (d) {
-	if ((d->name == name) || streq(name, d->name))
+	if (streq(name, d->name))
 	    break;
 	d = d->next;
 	if (d == first) {
@@ -49,22 +49,21 @@ Agrec_t *aggetrec(void *obj, char *name, int mtf)
     }
     if (d) {
 	if (hdr->tag.mtflock) {
-	    if (mtf && (hdr->data != d))
+	    if (mtf && hdr->data != d)
 		agerr(AGERR, "move to front lock inconsistency");
 	} else {
-	    if ((d != first) || (mtf != hdr->tag.mtflock))
-		set_data(hdr, d, mtf);	/* Always optimize */
+	    if (d != first || mtf != hdr->tag.mtflock)
+		set_data(hdr, d, mtf != 0);	/* Always optimize */
 	}
     }
     return d;
 }
 
 /* insert the record in data list of this object (only) */
-static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
+static void objputrec(Agobj_t * obj, void *arg)
 {
     Agrec_t *firstrec, *newrec;
 
-    NOTUSED(g);
     newrec = arg;
     firstrec = obj->data;
     if (firstrec == NULL)
@@ -79,13 +78,13 @@ static void objputrec(Agraph_t * g, Agobj_t * obj, void *arg)
 	}
     }
     if (NOT(obj->tag.mtflock))
-	set_data(obj, newrec, FALSE);
+	set_data(obj, newrec, false);
 }
 
 /* attach a new record of the given size to the object.
  */
-void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
-		int mtf)
+void *agbindrec(void *arg_obj, const char *recname, unsigned int recsize,
+                int move_to_front)
 {
     Agraph_t *g;
     Agobj_t *obj;
@@ -97,9 +96,9 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
     if (rec == NULL && recsize > 0) {
 	rec = agalloc(g, recsize);
 	rec->name = agstrdup(g, recname);
-	objputrec(g, obj, rec);
+	objputrec(obj, rec);
     }
-    if (mtf)
+    if (move_to_front)
 	aggetrec(arg_obj, recname, TRUE);
     return rec;
 }
@@ -109,13 +108,13 @@ void *agbindrec(void *arg_obj, char *recname, unsigned int recsize,
 static void objdelrec(Agraph_t * g, Agobj_t * obj, void *arg_rec)
 {
     NOTUSED(g);
-    Agrec_t *rec = (Agrec_t *) arg_rec, *newrec;
+    Agrec_t *rec = arg_rec, *newrec;
     if (obj->data == rec) {
 	if (rec->next == rec)
 	    newrec = NULL;
 	else
 	    newrec = rec->next;
-	set_data(obj, newrec, FALSE);
+	set_data(obj, newrec, false);
     }
 }
 
@@ -133,13 +132,13 @@ static void listdelrec(Agobj_t * obj, Agrec_t * rec)
     prev->next = rec->next;
 }
 
-int agdelrec(void *arg_obj, char *name)
+int agdelrec(void *arg_obj, const char *name)
 {
     Agobj_t *obj;
     Agrec_t *rec;
     Agraph_t *g;
 
-    obj = (Agobj_t *) arg_obj;
+    obj = arg_obj;
     g = agraphof(obj);
     rec = aggetrec(obj, name, FALSE);
     if (rec) {
@@ -169,8 +168,8 @@ static void simple_delrec(Agraph_t * g, Agobj_t * obj, void *rec_name)
     agdelrec(obj, rec_name);
 }
 
-void aginit(Agraph_t * g, int kind, char *rec_name, int arg_rec_size, int mtf)
-{
+void aginit(Agraph_t * g, int kind, const char *rec_name, int arg_rec_size,
+            int mtf) {
     Agnode_t *n;
     Agedge_t *e;
     Agraph_t *s;

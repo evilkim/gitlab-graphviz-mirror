@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include	<cgraph/cghdr.h>
+#include	<stdbool.h>
 
 /* The following functions take a graph and a template (node/edge/graph)
  * and return the object representing the template within the local graph.
@@ -38,8 +39,7 @@ static Agobj_t *subgraph_search(Agraph_t * sub, Agobj_t * g)
  * if obj is a graph, then it and its subgs are visited.
  */
 static void rec_apply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
-		      agobjsearchfn_t objsearch, int preorder)
-{
+                      agobjsearchfn_t objsearch, bool preorder) {
     Agraph_t *sub;
     Agobj_t *subobj;
 
@@ -49,12 +49,10 @@ static void rec_apply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	if ((subobj = objsearch(sub, obj)))
 	    rec_apply(sub, subobj, fn, arg, objsearch, preorder);
     }
-    if (NOT(preorder))
+    if (!preorder)
 	fn(g, obj, arg);
 }
 
-/* external entry point (this seems to be one of those ineffective
- * comments censured in books on programming style) */
 int agapply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	    int preorder)
 {
@@ -78,7 +76,7 @@ int agapply(Agraph_t * g, Agobj_t * obj, agobjfn_t fn, void *arg,
 	break;
     }
     if ((subobj = objsearch(g, obj))) {
-	rec_apply(g, subobj, fn, arg, objsearch, preorder);
+	rec_apply(g, subobj, fn, arg, objsearch, preorder != 0);
 	return SUCCESS;
     } else
 	return FAILURE;
