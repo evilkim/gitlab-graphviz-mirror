@@ -27,9 +27,6 @@ doxygen:
 dist-hook:
 	echo "@VERSION@" >VERSION
 	echo "@GRAPHVIZ_COLLECTION@" >COLLECTION
-#	find $(distdir) -name CVS -type d -prune -exec rm -rf {} \;
-#	rm -f ToPAS
-#	find $(distdir) -type f -exec md5sum {} >>ToPAS \;
 
 BUILT_SOURCES = $(top_builddir)/graphviz_version.h
 
@@ -56,8 +53,6 @@ rpm: dist
 	Red) cp redhat/graphviz.spec.rhel $(HOME)/rpmbuild/$(HOSTNAME)/SPECS/graphviz.spec;; \
 	esac
 	rpmbuild -ba $(HOME)/rpmbuild/$(HOSTNAME)/SPECS/graphviz.spec
-#	rpmbuild -ta graphviz-@VERSION@.tar.gz
-#	rpmbuild -ta --define "rtest 1" graphviz-@VERSION@.tar.gz
 	
 .PHONY: deb
 deb: dist
