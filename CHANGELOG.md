@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - do not abort when `calloc(0, x)` or `calloc(x, 0)` in `gcalloc` return `NULL`
 - failed Exshort_t type discrimination #1799
 - dot manpage is in wrong directory on Windows #1936
+- CMake builds fail when when the ltdl library is not available even if the
+  `enable_ltdl` option is `ON`
 
 ## [2.48.0] - 2021-07-17
 

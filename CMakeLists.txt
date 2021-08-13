@@ -15,10 +15,6 @@ option(use_coverage    "enables analyzing code coverage" OFF)
 option(with_cxx_api    "enables building the C++ API" OFF)
 option(with_cxx_tests  "enables building the C++ tests" OFF)
 
-if (enable_ltdl)
-        add_definitions(-DENABLE_LTDL)
-endif (enable_ltdl)
-
 if (with_digcola)
     add_definitions(-DDIGCOLA)
 endif (with_digcola)
@@ -90,7 +86,10 @@ find_package(GD)
 
 if(enable_ltdl)
   find_package(LTDL)
-endif (enable_ltdl)
+  if(LTDL_FOUND)
+    add_definitions(-DENABLE_LTDL)
+  endif()
+endif ()
 
 find_package(PangoCairo)
 find_package(ZLIB)
