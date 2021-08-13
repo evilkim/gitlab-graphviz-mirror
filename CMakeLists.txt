@@ -87,7 +87,11 @@ find_package(ANN)
 find_package(Cairo)
 find_package(EXPAT)
 find_package(GD)
-find_package(LTDL)
+
+if(enable_ltdl)
+  find_package(LTDL)
+endif (enable_ltdl)
+
 find_package(PangoCairo)
 find_package(ZLIB)
 
