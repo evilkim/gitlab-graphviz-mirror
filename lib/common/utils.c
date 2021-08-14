@@ -1615,7 +1615,7 @@ bool overlap_node(node_t *n, boxf b)
     return ND_shape(n)->fns->insidefn(&ictxt, p);
 }
 
-boolean overlap_label(textlabel_t *lp, boxf b)
+bool overlap_label(textlabel_t *lp, boxf b)
 {
     pointf s;
     boxf bb;
