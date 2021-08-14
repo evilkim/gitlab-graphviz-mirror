@@ -471,9 +471,6 @@ extern "C" {
 #ifndef O_TEXT
 #define O_TEXT		000
 #endif
-#ifndef O_TEMPORARY
-#define O_TEMPORARY	000
-#endif
 
 #define	SF_RADIX	64	/* maximum integer conversion base */
 
