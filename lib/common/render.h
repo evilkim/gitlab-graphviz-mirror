@@ -67,7 +67,7 @@ extern "C" {
 
 	RENDER_API void add_box(path *, boxf);
     RENDER_API void arrow_flags(Agedge_t * e, int *sflag, int *eflag);
-    RENDER_API boxf arrow_bb(pointf p, pointf u, double arrowsize, int flag);
+    RENDER_API boxf arrow_bb(pointf p, pointf u, double arrowsize);
     RENDER_API void arrow_gen(GVJ_t * job, emit_state_t emit_state, pointf p, pointf u,
 			  double arrowsize, double penwidth, int flag);
     RENDER_API double arrow_length(edge_t * e, int flag);

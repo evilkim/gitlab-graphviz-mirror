@@ -717,7 +717,7 @@ static pointf arrow_gen_type(GVJ_t * job, pointf p, pointf u, double arrowsize, 
     return p;
 }
 
-boxf arrow_bb(pointf p, pointf u, double arrowsize, int flag)
+boxf arrow_bb(pointf p, pointf u, double arrowsize)
 {
     double s;
     boxf bb;

@@ -3922,11 +3922,11 @@ static void init_splines_bb(splines *spl)
             EXPANDBB(bb, b);
         }
         if (bz.sflag) {
-            b = arrow_bb(bz.sp, bz.list[0], 1, bz.sflag);
+            b = arrow_bb(bz.sp, bz.list[0], 1);
             EXPANDBB(bb, b);
         }
         if (bz.eflag) {
-            b = arrow_bb(bz.ep, bz.list[bz.size - 1], 1, bz.eflag);
+            b = arrow_bb(bz.ep, bz.list[bz.size - 1], 1);
             EXPANDBB(bb, b);
         }
     }

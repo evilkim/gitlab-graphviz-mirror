@@ -1628,7 +1628,7 @@ boolean overlap_label(textlabel_t *lp, boxf b)
 
 static boolean overlap_arrow(pointf p, pointf u, double scale, int flag, boxf b)
 {
-    if (OVERLAP(b, arrow_bb(p, u, scale, flag))) {
+    if (OVERLAP(b, arrow_bb(p, u, scale))) {
 	/* FIXME - check inside arrow shape */
 	return TRUE;
     }
