@@ -85,9 +85,7 @@ static arrowname_t Arrownames[] = {
     {"box", ARR_TYPE_BOX},
     {"diamond", ARR_TYPE_DIAMOND},
     {"dot", ARR_TYPE_DOT},
-//    {"none", ARR_TYPE_NONE},
     {"none", ARR_TYPE_GAP},
-//    {"gap", ARR_TYPE_GAP},
     /* ARR_MOD_INV is used only here to define two additional shapes
        since not all types can use it */
     {"inv", (ARR_TYPE_NORM | ARR_MOD_INV)},
