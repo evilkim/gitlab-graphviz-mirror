@@ -35,19 +35,18 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
     const unsigned char *s = (const unsigned char *) as;
     const unsigned char *e = s + n;
     char *b;
-    int c;
     int escaped;
     int spaced;
     int shell;
     char *f;
     char *buf;
 
-    c = 4 * (n + 1);
+    size_t len = 4 * (n + 1);
     if (qb)
-	c += strlen(qb);
+	len += strlen(qb);
     if (qe)
-	c += strlen(qe);
-    b = buf = fmtbuf(c);
+	len += strlen(qe);
+    b = buf = fmtbuf(len);
     shell = 0;
     if (qb) {
 	if (qb[0] == '$' && qb[1] == '\'' && qb[2] == 0)
@@ -58,7 +57,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
     f = b;
     escaped = spaced = !!(flags & FMT_ALWAYS);
     while (s < e) {
-	    c = *s++;
+	    int c = *s++;
 	    if (!(flags & FMT_ESCAPED)
 		&& (iscntrl(c) || !isprint(c) || c == '\\')) {
 		escaped = 1;
@@ -92,8 +91,8 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		    break;
 		default:
 		    if (!(flags & FMT_WIDE) || !(c & 0200)) {
-			*b++ = '0' + ((c >> 6) & 07);
-			*b++ = '0' + ((c >> 3) & 07);
+			*b++ = (char)('0' + ((c >> 6) & 07));
+			*b++ = (char)('0' + ((c >> 3) & 07));
 			c = '0' + (c & 07);
 		    } else
 			b--;
@@ -101,7 +100,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		}
 	    } else if (c == '\\') {
 		escaped = 1;
-		*b++ = c;
+		*b++ = (char)c;
 		if (*s)
 		    c = *s++;
 	    } else if ((qe && strchr(qe, c)) ||
@@ -121,7 +120,7 @@ char *fmtquote(const char *as, const char *qb, const char *qe, size_t n,
 		       )
 		)
 		spaced = 1;
-	    *b++ = c;
+	    *b++ = (char)c;
     }
     if (qb) {
 	if (!escaped)

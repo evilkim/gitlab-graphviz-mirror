@@ -17,7 +17,7 @@
 
 #include <ast/ast.h>
 
-char *pathcat(char *path, const char *dirs, int sep,
+const char *pathcat(char *path, const char *dirs, int sep,
 	      const char *a, const char *b)
 {
     char *s;
@@ -36,5 +36,5 @@ char *pathcat(char *path, const char *dirs, int sep,
 	b = ".";
     if (b)
 	while ((*s++ = *b++));
-    return (*dirs ? (char *) ++dirs : 0);
+    return *dirs ? ++dirs : 0;
 }

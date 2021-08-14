@@ -41,11 +41,6 @@
  *	only ] must be \'d inside [...]
  *
  * BUG: unbalanced ) terminates top level pattern
- *
- * BOTCH: collating element sort order and character class ranges apparently
- *	  do not have strcoll() in common so we resort to fnmatch(), calling
- *	  it up to COLL_MAX times to determine the matched collating
- *	  element size
  */
 
 #include <ast/ast.h>
@@ -54,67 +49,12 @@
 #include <stddef.h>
 #include <string.h>
 
-#if _hdr_wchar && _lib_wctype && _lib_iswctype
-
-#include <stdio.h>		/* because <wchar.h> includes it and we generate it */
-#include <wchar.h>
-#if _hdr_wctype
-#include <wctype.h>
-#endif
-
-#undef	isalnum
-#define isalnum(x)	iswalnum(x)
-#undef	isalpha
-#define isalpha(x)	iswalpha(x)
-#undef	iscntrl
-#define iscntrl(x)	iswcntrl(x)
-#undef	isblank
-#define isblank(x)	iswblank(x)
-#undef	isdigit
-#define isdigit(x)	iswdigit(x)
-#undef	isgraph
-#define isgraph(x)	iswgraph(x)
-#undef	islower
-#define islower(x)	iswlower(x)
-#undef	isprint
-#define isprint(x)	iswprint(x)
-#undef	ispunct
-#define ispunct(x)	iswpunct(x)
-#undef	isspace
-#define isspace(x)	iswspace(x)
-#undef	isupper
-#define isupper(x)	iswupper(x)
-#undef	isxdigit
-#define isxdigit(x)	iswxdigit(x)
-
-#if !defined(iswblank) && !_lib_iswblank
-
-static int iswblank(wint_t wc)
-{
-    static int initialized;
-    static wctype_t wt;
-
-    if (!initialized) {
-	initialized = 1;
-	wt = wctype("blank");
-    }
-    return iswctype(wc, wt);
-}
-
-#endif
-
-#else
-
-#undef	_lib_wctype
-
 #ifndef	isblank
 #define	isblank(x)	((x)==' '||(x)=='\t')
 #endif
 
 #ifndef isgraph
 #define	isgraph(x)	(isprint(x)&&!isblank(x))
-#endif
-
 #endif
 
 #ifdef _DEBUG_MATCH
@@ -143,21 +83,7 @@ typedef struct {
 #define mbgetchar(p)	(*p++)
 #endif
 
-#ifndef isxdigit
-#define isxdigit(c)	(((c)>='0'&&(c)<='9')||((c)>='a'&&(c)<='f')||((c)>='A'&&(c)<='F'))
-#endif
-
 #define getsource(s,e)	(((s)>=(e))?0:mbgetchar(s))
-
-#define COLL_MAX	3
-
-#if !_lib_strcoll
-#undef	_lib_fnmatch
-#endif
-
-#if _lib_fnmatch
-extern int fnmatch(const char *, const char *, int);
-#endif
 
 /*
  * gobble chars up to <sub> or ) keeping track of (...) and [...]
@@ -440,12 +366,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 
 		if (!sc)
 		    RETURN(0);
-#if _lib_fnmatch
-		if (ast.locale.set & (1 << AST_LC_COLLATE))
-		    range = p - 1;
-		else
-#endif
-		    range = 0;
+		range = 0;
 		n = 0;
 		if ((invert = (*p == '!')))
 		    p++;
@@ -520,26 +441,8 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 				if (oldp[5] == 't' && isxdigit(sc))
 				    ok = 1;
 				break;
-#if _lib_wctype
-			    default:
-				{
-				    char cc[32];
-
-				    if (x >= sizeof(cc))
-					x = sizeof(cc) - 1;
-				    strncpy(cc, oldp, x);
-				    cc[x] = 0;
-				    if (iswctype(sc, wctype(cc)))
-					ok = 1;
-				}
-				break;
-#endif
 			    }
 			}
-#if _lib_fnmatch
-			else if (ast.locale.set & (1 << AST_LC_COLLATE))
-			    ok = -1;
-#endif
 			else if (range)
 			    goto getrange;
 			else if (*p == '-' && *(p + 1) != ']') {
@@ -552,33 +455,6 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			    ok = 1;
 			n = 1;
 		    } else if (pc == ']' && n) {
-#if _lib_fnmatch
-			if (ok < 0) {
-			    char pat[2 * UCHAR_MAX];
-			    char str[COLL_MAX + 1];
-
-			    if (p - range > sizeof(pat) - 2)
-				RETURN(0);
-			    memcpy(pat, range, p - range);
-			    pat[p - range] = '*';
-			    pat[p - range + 1] = 0;
-			    if (fnmatch(pat, olds, 0))
-				RETURN(0);
-			    pat[p - range] = 0;
-			    ok = 0;
-			    for (x = 0; x < sizeof(str) - 1 && olds[x];
-				 x++) {
-				str[x] = olds[x];
-				str[x + 1] = 0;
-				if (!fnmatch(pat, str, 0))
-				    ok = 1;
-				else if (ok)
-				    break;
-			    }
-			    s = olds + x;
-			    break;
-			}
-#endif
 			if (ok != invert)
 			    break;
 			RETURN(0);
@@ -587,12 +463,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			RETURN(0);
 		    } else if (ok)
 			/*NOP*/;
-#if _lib_fnmatch
-		    else if (range
-			     && !(ast.locale.set & (1 << AST_LC_COLLATE)))
-#else
 		    else if (range)
-#endif
 		    {
 		      getrange:
 #if _lib_mbtowc
@@ -634,12 +505,7 @@ onematch(Match_t * mp, int g, char *s, char *p, char *e, char *r,
 			n = 1;
 		    } else if (*p == '-' && *(p + 1) != ']') {
 			(void)mbgetchar(p);
-#if _lib_fnmatch
-			if (ast.locale.set & (1 << AST_LC_COLLATE))
-			    ok = -1;
-			else
-#endif
-			    range = oldp;
+			range = oldp;
 			n = 1;
 		    } else {
 			if (icase && isupper(pc))

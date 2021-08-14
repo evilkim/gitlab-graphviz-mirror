@@ -51,7 +51,7 @@ ssize_t sfwrite(Sfio_t * f, const void * buf, size_t n)
 	    for (w = n; w > 0;) {
 		if ((r = w) > sizeof(buf))
 		    r = sizeof(buf);
-		if ((r = read(f->file, buf, r)) <= 0) {
+		if ((r = read(f->file, buf, (size_t)r)) <= 0) {
 		    n -= w;
 		    break;
 		} else
