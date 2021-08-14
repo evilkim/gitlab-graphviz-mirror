@@ -599,7 +599,6 @@ extern "C" {
     extern int access(const char *, int);
     extern uint sleep(uint);
     extern int execl(const char *, const char *, ...);
-    extern int execv(const char *, char **);
 
 #endif /*HAVE_UNISTD_H*/
 #endif /* _WIN32 */
