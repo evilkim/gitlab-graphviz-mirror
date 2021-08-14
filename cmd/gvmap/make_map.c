@@ -245,7 +245,7 @@ static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, flo
 }
 
 static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_width,  
-			int fill, char *cstring){
+                        int fill, const char *cstring){
 
   if (np > 0){
     if (fill >= 0){
