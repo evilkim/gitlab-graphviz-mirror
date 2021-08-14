@@ -270,7 +270,10 @@ static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np,
   dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
 }
 
-static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b, char *opacity){
+static void plot_dot_polygons(agxbuf *sbuff, real line_width,
+                              const char *line_color, SparseMatrix polys,
+                              real *x_poly, int *polys_groups, float *r,
+                              float *g, float *b, char *opacity) {
   int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly,first;
   int np = 0, maxlen = 0;
   float *xp, *yp;
