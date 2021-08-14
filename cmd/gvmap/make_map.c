@@ -265,7 +265,8 @@ static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_w
   }
 }
 
-static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np, float *xp, float *yp, char *cstring){
+static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np,
+                         float *xp, float *yp, const char *cstring) {
   dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
 }
 
