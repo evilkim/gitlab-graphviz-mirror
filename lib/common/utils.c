@@ -1659,7 +1659,7 @@ static bool overlap_bezier(bezier bz, boxf b)
     return false;
 }
 
-boolean overlap_edge(edge_t *e, boxf b)
+bool overlap_edge(edge_t *e, boxf b)
 {
     int i;
     splines *spl;
@@ -1669,13 +1669,13 @@ boolean overlap_edge(edge_t *e, boxf b)
     if (spl && boxf_overlap(spl->bb, b))
         for (i = 0; i < spl->size; i++)
             if (overlap_bezier(spl->list[i], b))
-                return TRUE;
+                return true;
 
     lp = ED_label(e);
     if (lp && overlap_label(lp, b))
-        return TRUE;
+        return true;
 
-    return FALSE;
+    return false;
 }
 
 /* edgeType:
