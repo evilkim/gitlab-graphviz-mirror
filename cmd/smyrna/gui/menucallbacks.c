@@ -50,15 +50,12 @@ void mOpenSlot(GtkWidget * widget, gpointer user_data)
     if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
 	char *filename;
 	filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-/*	if (view->activeGraph == 0)
-		close_graph(view,0);*/
 
 	i = view->SignalBlock;
 	view->SignalBlock = 1;
 	add_graph_to_viewport_from_file(filename);
 	g_free(filename);
 	view->SignalBlock = i;
-
     }
 
     gtk_widget_destroy(dialog);
@@ -66,9 +63,7 @@ void mOpenSlot(GtkWidget * widget, gpointer user_data)
 
 void mSaveSlot(GtkWidget * widget, gpointer user_data)
 {
-
     save_graph();		//save without prompt
-
 }
 
 void mSaveAsSlot(GtkWidget * widget, gpointer user_data)
@@ -111,8 +106,6 @@ int show_close_nosavedlg(void)
     return rv;
 }
 
-
-
 //edit
 void mCutSlot(GtkWidget * widget, gpointer user_data)
 {
@@ -134,20 +127,13 @@ void mTopviewSettingsSlot(GtkWidget * widget, gpointer user_data)
     show_settings_form();
 }
 
-
-
 //view
 void mShowToolBoxSlot(GtkWidget * widget, gpointer user_data)
 {
-
-
     if (!gtk_widget_set_gl_capability
 	(glade_xml_get_widget(xml, "glfixed"), configure_gl(),
 	 gtk_widget_get_gl_context(view->drawing_area), 0, 0))
 	printf("glwidget creation failed \n");
-
-
-
 }
 
 void mShowConsoleSlot(GtkWidget * widget, gpointer user_data)
@@ -173,8 +159,6 @@ void mNodeListSlot(GtkWidget * widget, gpointer user_data)
 {
 	gtk_widget_show(glade_xml_get_widget(xml, "frmTVNodes"));
 	setup_tree (view->g[view->activeGraph]);
-
-
 }
 
 void mNewNodeSlot(GtkWidget * widget, gpointer user_data)
@@ -209,16 +193,13 @@ void mGraphPropertiesSlot(GtkWidget * widget, gpointer user_data)
 
 void mNodeFindSlot(GtkWidget * widget, gpointer user_data)
 {
-
 }
-
 
 static void mPropertiesSlot(gve_element element)
 {
     if (view->activeGraph >= 0)
 	gtk_widget_hide(glade_xml_get_widget(xml, "frmObject"));
     gtk_widget_show(glade_xml_get_widget(xml, "frmObject"));
-//      load_object_properties(element, view->g[view->activeGraph]);
 }
 
 void mClusterPropertiesSlot(GtkWidget * widget, gpointer user_data)
@@ -242,21 +223,6 @@ void mShowCodeSlot(GtkWidget * widget, gpointer user_data)
 static void mSlot(GtkWidget * widget, gpointer user_data,
 		  gvk_layout layout, int doCursor)
 {
-    /* GdkCursor *cursor; */
-    /* GdkWindow *w; */
-/*    Dlg = (GtkMessageDialog *) gtk_message_dialog_new(NULL,
-						      GTK_DIALOG_MODAL,
-						      GTK_MESSAGE_QUESTION,
-						      GTK_BUTTONS_YES_NO,
-						      "This will change the graph layout\n all your position changes will be lost\n Are you sure?");
-
-    respond = gtk_dialog_run((GtkDialog *) Dlg);
-    if (respond == GTK_RESPONSE_YES)
-	do_graph_layout(view->g[view->activeGraph], layout, 0);
-    gtk_object_destroy((GtkObject *) Dlg);*/
-    return;
-
-
 }
 
 void mDotSlot(GtkWidget * widget, gpointer user_data)
@@ -289,8 +255,6 @@ void mSfdpSlot(GtkWidget * widget, gpointer user_data)
     mSlot(widget, user_data, GVK_SFDP, 0);
 }
 
-
-
 void mAbout(GtkWidget * widget, gpointer user_data)
 {
 }
@@ -299,11 +263,8 @@ void mHelp(GtkWidget * widget, gpointer user_data)
 {
 }
 
-
-
 void change_cursor(GdkCursorType C)
 {
-
     GdkCursor *cursor;
     cursor = gdk_cursor_new(C);
     gdk_window_set_cursor((GdkWindow *) view->drawing_area->window,
@@ -332,7 +293,7 @@ void mTestgvpr(GtkWidget * widget, gpointer user_data)
     gtk_text_buffer_get_end_iter(gtkbuf, &endit);
     bf2 = gtk_text_buffer_get_text(gtkbuf, &startit, &endit, 0);
 
-    if ((*args == '\0') && (*bf2 == '\0'))
+    if (*args == '\0' && *bf2 == '\0')
 	return;
 
     argc = 1;
@@ -361,13 +322,11 @@ void mTestgvpr(GtkWidget * widget, gpointer user_data)
     }
     assert(j == argc);
 
-
     run_gvpr(view->g[view->activeGraph], argc, argv);
     for (i = 1; i < argc; i++)
 	free(argv[i]);
     free(argv);
 }
-
 
 /*
    opens a file open dialog and load a gvpr program to gvpr script text box
@@ -422,8 +381,6 @@ void on_gvprbuttonsave_clicked(GtkWidget * widget, gpointer user_data)
     GtkTextIter startit;
     GtkTextIter endit;
 
-
-
     agxbinit(&xbuf, SMALLBUF, NULL);
     /*file name should be returned in xbuf */
     if (savefiledlg(0, NULL, &xbuf)) {
@@ -438,12 +395,8 @@ void on_gvprbuttonsave_clicked(GtkWidget * widget, gpointer user_data)
 	    bf2 = gtk_text_buffer_get_text(gtkbuf, &startit, &endit, 0);
 	    fprintf(output_file, "%s", bf2);
 	    fclose(output_file);
-
 	}
-
 
 	/*Code has not been completed for this function yet */
     }
-
-
 }
