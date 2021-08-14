@@ -480,8 +480,6 @@ extern "C" {
 #define SF_MAXINT	((int)(((uint)~0) >> 1))
 #define SF_MAXLONG	((long)(((ulong)~0L) >> 1))
 
-#define SF_MAXCHAR	((uchar)(~0))
-
 /* floating point to ascii conversion */
 #define SF_MAXEXP10	6
 #define SF_MAXPOW10	(1 << SF_MAXEXP10)
@@ -510,9 +508,9 @@ extern "C" {
 	int sf_cvinit;		/* initialization state         */
 	Fmtpos_t *(*sf_fmtposf) (Sfio_t *, const char *, va_list, int);
 	char *(*sf_fmtintf) (const char *, int *);
-	uchar sf_cv36[SF_MAXCHAR + 1];	/* conversion for base [2-36]   */
-	uchar sf_cv64[SF_MAXCHAR + 1];	/* conversion for base [37-64]  */
-	uchar sf_type[SF_MAXCHAR + 1];	/* conversion formats&types     */
+	uchar sf_cv36[UCHAR_MAX + 1];	/* conversion for base [2-36]   */
+	uchar sf_cv64[UCHAR_MAX + 1];	/* conversion for base [37-64]  */
+	uchar sf_type[UCHAR_MAX + 1];	/* conversion formats&types     */
     } Sftab_t;
 
 /* thread-safe macro/function to initialize _Sfcv* conversion tables */
