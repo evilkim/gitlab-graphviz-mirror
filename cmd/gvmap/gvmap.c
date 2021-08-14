@@ -45,7 +45,7 @@ typedef struct {
     int color_scheme;
     real line_width;
     char *color_scheme_str;
-    char *opacity;
+    const char *opacity;
     char *plot_label;
     real *bg_color;
     int improve_contiguity_n;
@@ -254,7 +254,7 @@ init(int argc, char **argv, params_t* pm)
       break;
     case 'c':
       if (sscanf(optarg,"_opacity=%2s", stmp) > 0 && strlen(stmp) == 2){
-        pm->opacity = strdup(stmp);
+        pm->opacity = stmp;
       } else if ((sscanf(optarg,"%d",&r) > 0) && r >= COLOR_SCHEME_NONE && r <= COLOR_SCHEME_GREY){
         pm->color_scheme = r;
       } else if (knownColorScheme(optarg)) {
