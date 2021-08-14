@@ -184,7 +184,6 @@ typedef struct
 	Print_t*	args;
 	Extype_t	value;
 	Exnode_t*	actuals;
-	Sfio_t*		tmp;
 } Fmt_t;
 
 static bool streqn(const char *s1, const char *s2, size_t n) {
@@ -433,8 +432,6 @@ print(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 		if (fmt.actuals->data.operand.right)
 			exerror("(s)printf: \"%s\": too many arguments", fmt.fmt.form);
 	}
-	if (fmt.tmp)
-		sfstrclose(fmt.tmp);
 	return 0;
 }
 
@@ -544,7 +541,6 @@ scan(Expr_t* ex, Exnode_t* expr, void* env, Sfio_t* sp)
 	fmt.fmt.form = u.string;
 	fmt.actuals = expr->data.scan.args;
 	n = sp ? sfscanf(sp, "%!", &fmt) : sfsscanf(v.string, "%!", &fmt);
-	if (fmt.tmp) sfstrclose(fmt.tmp);
 	if (fmt.actuals && !*fmt.fmt.form)
 		exerror("scanf: %s: too many arguments", fmt.actuals->data.operand.left->data.variable.symbol->name);
 	return n;
