@@ -418,7 +418,6 @@ void on_gvprbuttonsave_clicked(GtkWidget * widget, gpointer user_data)
     FILE *output_file = NULL;
     agxbuf xbuf;
     GtkTextBuffer *gtkbuf;	/*GTK buffer from glade GUI */
-    int charcnt;
     char *bf2;
     GtkTextIter startit;
     GtkTextIter endit;
@@ -434,7 +433,6 @@ void on_gvprbuttonsave_clicked(GtkWidget * widget, gpointer user_data)
 		gtk_text_view_get_buffer((GtkTextView *)
 					 glade_xml_get_widget(xml,
 							      "gvprtextinput"));
-	    charcnt = gtk_text_buffer_get_char_count(gtkbuf);
 	    gtk_text_buffer_get_start_iter(gtkbuf, &startit);
 	    gtk_text_buffer_get_end_iter(gtkbuf, &endit);
 	    bf2 = gtk_text_buffer_get_text(gtkbuf, &startit, &endit, 0);
