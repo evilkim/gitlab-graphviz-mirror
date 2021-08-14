@@ -94,7 +94,6 @@ extern "C" {
     UTILS_API char* scanEntity (char* t, agxbuf* xb);
 
     UTILS_API pointf dotneato_closest(splines * spl, pointf p);
-    UTILS_API pointf neato_closest(splines * spl, pointf p);
     UTILS_API pointf spline_at_y(splines * spl, double y);
 
     UTILS_API Agsym_t *setAttr(graph_t*, void*, char*name, char *value, Agsym_t*);

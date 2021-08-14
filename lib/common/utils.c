@@ -588,13 +588,6 @@ pointf spline_at_y(splines * spl, double y)
     return p;
 }
 
-pointf neato_closest(splines * spl, pointf p)
-{
-/* this is a stub so that we can share a common emit.c between dot and neato */
-
-    return spline_at_y(spl, p.y);
-}
-
 static int Tflag;
 void gvToggle(int s)
 {
