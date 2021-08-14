@@ -596,18 +596,15 @@ int strgrpmatch(const char *b, const char *p, int *sub, int n, int flags)
 	match.best.next_s = 0;
 	match.current.groups = 0;
 	match.current.beg[0] = 0;
-	if ((i = grpmatch(&match, 0, s, (char *) p, e, flags))
-	    || match.best.next_s) {
+	if ((i = grpmatch(&match, 0, s, (char *) p, e, flags)) || match.best.next_s) {
 	    if (!(flags & STR_RIGHT) || (match.current.next_s == e)) {
 		if (!i)
 		    match.current = match.best;
 		match.current.groups++;
 		match.current.end[0] = match.current.next_s;
 #ifdef _DEBUG_MATCH
-		error(-1,
-		      "match i=%d s=\"%s\" p=\"%s\" flags=%o groups=%d next=\"%s\"",
-		      i, s, p, flags, match.current.groups,
-		      match.current.next_s);
+		error(-1, "match i=%d s=\"%s\" p=\"%s\" flags=%o groups=%d next=\"%s\"",
+		      i, s, p, flags, match.current.groups, match.current.next_s);
 #endif
 		break;
 	    }
@@ -626,8 +623,7 @@ int strgrpmatch(const char *b, const char *p, int *sub, int n, int flags)
 	n = match.current.groups;
     for (i = 0; i < n; i++) {
 	sub[i * 2] = match.current.end[i] ? match.current.beg[i] - s : 0;
-	sub[i * 2 + 1] =
-	    match.current.end[i] ? match.current.end[i] - s : 0;
+	sub[i * 2 + 1] = match.current.end[i] ? match.current.end[i] - s : 0;
     }
     return n;
 }

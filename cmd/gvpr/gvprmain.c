@@ -44,17 +44,17 @@ static ssize_t errfn (void* sp, const char *buf, size_t nbyte, void* dp)
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
-    return read(sffileno((Sfio_t *) chan), buf, bufsize);
+    return read(sffileno(chan), buf, bufsize);
 }
 
 static int ioputstr(void *chan, const char *str)
 {
-    return sfputr((Sfio_t *) chan, str, -1);
+    return sfputr(chan, str, -1);
 }
 
 static int ioflush(void *chan)
 {
-    return sfsync((Sfio_t *) chan);
+    return sfsync(chan);
 }
 
 static Agiodisc_t gprIoDisc = { iofread, ioputstr, ioflush };

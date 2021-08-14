@@ -764,30 +764,80 @@ static char *str_mpy(Expr_t *ex, const char *l, const char *r) {
   return result;
 }
 
+// a dynamically resizable vmalloc-allocated buffer
+typedef struct {
+  Vmalloc_t *allocator;
+  char *base;
+  size_t size;
+  size_t capacity;
+} buffer_t;
+
+/** append new string content to a buffer
+ *
+ * \param b Buffer to append to
+ * \param s Start of string content to append
+ * \param len Number of bytes in `s`
+ * \return 0 on success
+ */
+static int buffer_append(buffer_t *b, const char *s, size_t len) {
+
+  // do we need to expand the buffer?
+  if (b->capacity - b->size < len + 1) {
+    size_t c = b->capacity == 0 ? BUFSIZ : (b->capacity * 2);
+    // is this new adjustment still not large enough?
+    if (c - b->size < len + 1)
+      c = b->size + len + 1;
+    char *p = vmresize(b->allocator, b->base, c);
+    if (p == NULL)
+      return -1;
+    b->base = p;
+    b->capacity = c;
+  }
+
+  assert(b->capacity - b->size >= len + 1 &&
+         "incorrect logic in buffer expansion; still no room for appended "
+         "string");
+
+  strncpy(b->base + b->size, s, len);
+  b->size += len;
+  b->base[b->size] = '\0'; // keep buffer NUL-terminated
+
+  return 0;
+}
+
 /* replace:
  * Add replacement string.
  * \digit is replaced with a subgroup match, if any.
  */
-static void
-replace(Sfio_t * s, char *base, char *repl, int ng, int *sub)
-{
-	char c;
-	int idx, offset;
+static int replace(buffer_t *s, char *base, char *repl, int ng, int *sub) {
+  char c;
+  int idx, offset;
 
-	while ((c = *repl++)) {
-	if (c == '\\') {
-	    if ((c = *repl) && isdigit(c)) {
-			idx = c - '0';
-			if (idx < ng) {
-		    	offset = sub[2 * idx];
-		    	sfwrite(s, base + offset, sub[2 * idx + 1] - offset);
-			}
-			repl++;
-	    } else
-			sfputc(s, '\\');
-	} else
-	    sfputc(s, c);
-	}
+  while ((c = *repl++)) {
+    if (c == '\\') {
+      if ((c = *repl) && isdigit(c)) {
+        idx = c - '0';
+        if (idx < ng) {
+          offset = sub[2 * idx];
+          if (buffer_append(s, base + offset,
+                            (size_t)(sub[2 * idx + 1] - offset)) != 0) {
+            return -1;
+          }
+        }
+        repl++;
+      } else {
+        if (buffer_append(s, "\\", 1) != 0) {
+          return -1;
+        }
+      }
+    } else {
+      if (buffer_append(s, &c, 1) != 0) {
+        return -1;
+      }
+    }
+  }
+
+  return 0;
 }
 
 #define MCNT(s) (sizeof(s)/(2*sizeof(int)))
@@ -907,7 +957,7 @@ extokens(Expr_t * ex, Exnode_t * expr, void *env)
  * return string after pattern substitution
  */
 static Extype_t
-exsub(Expr_t * ex, Exnode_t * expr, void *env, int global)
+exsub(Expr_t * ex, Exnode_t * expr, void *env, bool global)
 {
 	char *str;
 	char *pat;
@@ -961,22 +1011,44 @@ exsub(Expr_t * ex, Exnode_t * expr, void *env, int global)
 		v.string = vmstrdup(ex->ve, str);
 		return v;
     } 
-	sfwrite(ex->tmp, str, sub[0]);
-	if (repl)
-		replace(ex->tmp, str, repl, ng, sub);
+
+	buffer_t buffer = {.allocator = ex->ve};
+
+	if (buffer_append(&buffer, str, (size_t)sub[0]) != 0) {
+		v.string = exnospace();
+		return v;
+	}
+
+	if (repl) {
+		if (replace(&buffer, str, repl, ng, sub) != 0) {
+			v.string = exnospace();
+			return v;
+		}
+	}
 
 	s = str + sub[1];
 	if (global) {
 		while ((ng = strgrpmatch(s, pat, sub, MCNT(sub), flags))) {
-	   	 sfwrite(ex->tmp, s, sub[0]);
-	   	 if (repl)
-			replace(ex->tmp, s, repl, ng, sub);
-	   	 s = s + sub[1];
+			if (buffer_append(&buffer, s, (size_t)sub[0]) != 0) {
+				v.string = exnospace();
+				return v;
+			}
+			if (repl) {
+				if (replace(&buffer, s, repl, ng, sub) != 0) {
+					v.string = exnospace();
+					return v;
+				}
+			}
+			s = s + sub[1];
 		}
 	}
 
-	sfputr(ex->tmp, s, -1);
-	v.string = exstash(ex->tmp,ex->ve);
+	if (buffer_append(&buffer, s, strlen(s)) != 0) {
+		v.string = exnospace();
+		return v;
+	}
+
+	v.string = buffer.base;
 	return v;
 }
 
@@ -1153,9 +1225,9 @@ eval(Expr_t* ex, Exnode_t* expr, void* env)
 	case TOKENS:
 		return extokens(ex, expr, env);
 	case GSUB:
-		return exsub(ex, expr, env, 1);
+		return exsub(ex, expr, env, /* global = */ true);
 	case SUB:
-		return exsub(ex, expr, env, 0);
+		return exsub(ex, expr, env, /* global = */ false);
 	case SUBSTR:
 		return exsubstr(ex, expr, env);
 	case SRAND:
