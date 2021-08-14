@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include	<limits.h>
 #include	<sfio/sfhdr.h>
 
 /*	Convert a floating point value to ASCII
@@ -48,7 +49,7 @@ char *_sfcvt(void * dv, int n_digit, int *decpt, int *sign, int format)
 	    dval = -dval;
 
 	n = 0;
-	if (dval >= (double) SF_MAXLONG) {	/* scale to a small enough number to fit an int */
+	if (dval >= (double)LONG_MAX) {	/* scale to a small enough number to fit an int */
 	    v = SF_MAXEXP10 - 1;
 	    do {
 		if (dval < _Sfpos10[v])
@@ -58,7 +59,7 @@ char *_sfcvt(void * dv, int n_digit, int *decpt, int *sign, int format)
 		    if ((n += (1 << v)) >= SF_IDIGITS)
 			return SF_INFINITE;
 		}
-	    } while (dval >= (double) SF_MAXLONG);
+	    } while (dval >= (double)LONG_MAX);
 	}
 	*decpt = (int) n;
 

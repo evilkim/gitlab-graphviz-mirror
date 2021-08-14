@@ -477,8 +477,6 @@ extern "C" {
 
 #define	SF_RADIX	64	/* maximum integer conversion base */
 
-#define SF_MAXLONG	((long)(((ulong)~0L) >> 1))
-
 /* floating point to ascii conversion */
 #define SF_MAXEXP10	6
 #define SF_MAXPOW10	(1 << SF_MAXEXP10)
