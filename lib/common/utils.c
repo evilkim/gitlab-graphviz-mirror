@@ -17,6 +17,7 @@
 #include <gvc/gvc.h>
 #include <cgraph/strcasecmp.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #ifdef _WIN32
 #define R_OK 4
@@ -1626,13 +1627,10 @@ boolean overlap_label(textlabel_t *lp, boxf b)
     return OVERLAP(b, bb);
 }
 
-static boolean overlap_arrow(pointf p, pointf u, double scale, boxf b)
+static bool overlap_arrow(pointf p, pointf u, double scale, boxf b)
 {
-    if (OVERLAP(b, arrow_bb(p, u, scale))) {
-	/* FIXME - check inside arrow shape */
-	return TRUE;
-    }
-    return FALSE;
+    // FIXME - check inside arrow shape
+    return OVERLAP(b, arrow_bb(p, u, scale));
 }
 
 static boolean overlap_bezier(bezier bz, boxf b)
