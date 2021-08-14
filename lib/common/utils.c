@@ -1626,7 +1626,7 @@ boolean overlap_label(textlabel_t *lp, boxf b)
     return OVERLAP(b, bb);
 }
 
-static boolean overlap_arrow(pointf p, pointf u, double scale, int flag, boxf b)
+static boolean overlap_arrow(pointf p, pointf u, double scale, boxf b)
 {
     if (OVERLAP(b, arrow_bb(p, u, scale))) {
 	/* FIXME - check inside arrow shape */
@@ -1651,11 +1651,11 @@ static boolean overlap_bezier(bezier bz, boxf b)
 
     /* check arrows */
     if (bz.sflag) {
-	if (overlap_arrow(bz.sp, bz.list[0], 1, bz.sflag, b))
+	if (overlap_arrow(bz.sp, bz.list[0], 1, b))
 	    return TRUE;
     }
     if (bz.eflag) {
-	if (overlap_arrow(bz.ep, bz.list[bz.size - 1], 1, bz.eflag, b))
+	if (overlap_arrow(bz.ep, bz.list[bz.size - 1], 1, b))
 	    return TRUE;
     }
     return FALSE;
