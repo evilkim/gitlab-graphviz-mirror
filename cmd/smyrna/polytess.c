@@ -66,7 +66,7 @@ static int Render_Contour2(GLUtesselator *tobj,sdot_op* p)
     GLdouble** d;
     int x=0;
 
-    d= malloc(sizeof(GLdouble)* p->op.u.polygon.cnt);
+    d = calloc(p->op.u.polygon.cnt, sizeof(GLdouble*));
     for (x=0;x < p->op.u.polygon.cnt; x++)
     {
 	d[x]=malloc(sizeof(GLdouble)*3);
