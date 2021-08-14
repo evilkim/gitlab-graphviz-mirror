@@ -190,7 +190,6 @@ void mNewClusterSlot(GtkWidget * widget, gpointer user_data)
 
 void mGraphPropertiesSlot(GtkWidget * widget, gpointer user_data)
 {
-    int respond;
     //there has to be an active graph to open the graph prop page
     if (view->activeGraph > -1) {
 	load_graph_properties(view->g[view->activeGraph]);	//load from graph to gui              
@@ -202,9 +201,7 @@ void mGraphPropertiesSlot(GtkWidget * widget, gpointer user_data)
 					  glade_xml_get_widget(xml,
 							       "dlgOpenGraph"),
 					  2, 1);
-	respond = gtk_dialog_run((GtkDialog *)
-				 glade_xml_get_widget(xml,
-						      "dlgOpenGraph"));
+	gtk_dialog_run((GtkDialog *)glade_xml_get_widget(xml, "dlgOpenGraph"));
 	//need to hide the dialog , again freaking GTK!!!!
 	gtk_widget_hide(glade_xml_get_widget(xml, "dlgOpenGraph"));
     }
