@@ -63,20 +63,18 @@ static int Set_Winding_Rule(GLUtesselator *tobj,GLenum winding_rule)
 
 static int Render_Contour2(GLUtesselator *tobj,sdot_op* p)
 {
-    GLdouble** d;
     int x=0;
 
-    d = calloc(p->op.u.polygon.cnt, sizeof(GLdouble*));
+    GLdouble* d = calloc(p->op.u.polygon.cnt * 3, sizeof(GLdouble));
     for (x=0;x < p->op.u.polygon.cnt; x++)
     {
-	d[x]=malloc(sizeof(GLdouble)*3);
-	d[x][0]=p->op.u.polygon.pts[x].x;
-	d[x][1]=p->op.u.polygon.pts[x].y;
-	d[x][2]=p->op.u.polygon.pts[x].z+view->Topview->global_z;
+        d[x * 3] = p->op.u.polygon.pts[x].x;
+        d[x * 3 + 1] = p->op.u.polygon.pts[x].y;
+        d[x * 3 + 2] = p->op.u.polygon.pts[x].z + view->Topview->global_z;
     }
     for (x = 0; x < p->op.u.polygon.cnt; x++) //loop through the vertices
     {
-	gluTessVertex(tobj, d[x],d[x]); //store the vertex
+        gluTessVertex(tobj, &d[x * 3], &d[x * 3]); //store the vertex
     }
 
     return(1);
