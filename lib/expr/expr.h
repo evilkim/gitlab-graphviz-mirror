@@ -90,12 +90,6 @@ extern "C" {
 
 #define exalloc(p,n)		vmalloc((p)->vm, (n))
 
-#if LONG_MAX > INT_MAX
-typedef int Exshort_t;
-#else
-typedef short Exshort_t;
-#endif
-
 typedef EXSTYPE Extype_t;
 
 typedef union Exdata_u Exdata_t;
@@ -179,10 +173,9 @@ union Exdata_u
 
 struct Exnode_s				/* expression tree node		*/
 {
-	Exshort_t	type;		/* value type			*/
-	Exshort_t	op;		/* operator			*/
-	Exshort_t	binary;		/* data.operand.{left,right} ok	*/
-	Exshort_t	pad_1;		/* padding to help cc		*/
+	int	type;		/* value type			*/
+	int	op;		/* operator			*/
+	int	binary;		/* data.operand.{left,right} ok	*/
 	Exlocal_t	local;		/* user defined local stuff	*/
 	union
 	{

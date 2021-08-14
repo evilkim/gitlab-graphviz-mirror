@@ -32,10 +32,6 @@ extern "C" {
 	char *id;
     } Error_info_t;
 
-#ifndef ERROR_catalog
-#define ERROR_catalog(t)        t
-#endif
-
 #define ERROR_INFO	0	/* info message -- no err_id    */
 #define ERROR_WARNING	1	/* warning message              */
 #define ERROR_ERROR	2	/* error message -- no err_exit */

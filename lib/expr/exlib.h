@@ -101,8 +101,7 @@ typedef struct Print_s			/* compiled printf arg node	*/
 	}		scan;		/* printf			*/
 
 #define _EX_NODE_PRIVATE_ \
-	Exshort_t	subop;		/* operator qualifier		*/ \
-	Exshort_t	pad_2;		/* padding			*/
+	int	subop;		/* operator qualifier		*/
 
 #define _EX_PROG_PRIVATE_ \
 	Vmalloc_t*	ve;		/* eval tmp region		*/ \

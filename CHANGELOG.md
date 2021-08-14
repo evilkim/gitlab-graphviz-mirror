@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the generated gdefs.h header is no longer installed
 - `ccomps` out-of-memory message no longer incorrectly refers to `gc`
 - do not abort when `calloc(0, x)` or `calloc(x, 0)` in `gcalloc` return `NULL`
+- failed Exshort_t type discrimination #1799
 
 ## [2.48.0] - 2021-07-17
 
