@@ -5,6 +5,7 @@ include(FeatureSummary)
 
 # =============================== Build options ================================
 option(enable_ltdl     "Support on-demand plugin loading" ON)
+option(with_expat      "Support HTML-like labels through expat" ON )
 option(with_digcola    "DIGCOLA features in neato layout engine" ON )
 option(with_ipsepcola  "IPSEPCOLA features in neato layout engine (disabled by default - C++ portability issues)." OFF )
 option(with_ortho      "ORTHO features in neato layout engine." ON )
@@ -81,7 +82,11 @@ endif()
 
 find_package(ANN)
 find_package(Cairo)
-find_package(EXPAT)
+
+if(with_expat)
+  find_package(EXPAT)
+endif()
+
 find_package(GD)
 
 if(enable_ltdl)

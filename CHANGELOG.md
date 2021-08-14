@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   libraries: lib/cgraph++ and lib/gvc++. It is experimental, meaning
   that it might have breaking changes also in upcoming patch or minor
   releases (towards #2001)
+- CMake builds now support an `with_expat` option that allows the support for
+  using HTML-like labels through the optional expat library to be explicitly
+  enabled (default) or disabled
 
 ### Changed
 
