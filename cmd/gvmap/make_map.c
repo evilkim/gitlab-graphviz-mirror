@@ -314,8 +314,11 @@ static void plot_dot_polygons(agxbuf *sbuff, real line_width,
 
 }
 
-void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels,
-		  float *fsz, float *r, float *g, float *b, char* opacity, SparseMatrix A, FILE* f){
+void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys,
+                  SparseMatrix poly_lines, real line_width,
+                  const char *line_color, real *x_poly, int *polys_groups,
+                  char **labels, float *fsz, float *r, float *g, float *b,
+                  char* opacity, SparseMatrix A, FILE* f) {
   /* if graph object exist, we just modify some attributes, otherwise we dump the whole graph */
   int plot_polyQ = TRUE;
   agxbuf sbuff;
