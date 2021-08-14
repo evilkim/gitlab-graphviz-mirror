@@ -1598,13 +1598,13 @@ utf8ToLatin1 (char* s)
     return ns;
 }
 
-boolean overlap_node(node_t *n, boxf b)
+bool overlap_node(node_t *n, boxf b)
 {
     inside_t ictxt;
     pointf p;
 
     if (! OVERLAP(b, ND_bb(n)))
-        return FALSE;
+        return false;
 
 /*  FIXME - need to do something better about CLOSEENOUGH */
     p = sub_pointf(ND_coord(n), mid_pointf(b.UR, b.LL));
