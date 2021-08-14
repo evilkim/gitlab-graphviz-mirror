@@ -1633,7 +1633,7 @@ static bool overlap_arrow(pointf p, pointf u, double scale, boxf b)
     return OVERLAP(b, arrow_bb(p, u, scale));
 }
 
-static boolean overlap_bezier(bezier bz, boxf b)
+static bool overlap_bezier(bezier bz, boxf b)
 {
     int i;
     pointf p, u;
@@ -1643,20 +1643,20 @@ static boolean overlap_bezier(bezier bz, boxf b)
     for (i = 1; i < bz.size; i++) {
 	p = bz.list[i];
 	if (lineToBox(p, u, b) != -1)
-	    return TRUE;
+	    return true;
 	u = p;
     }
 
     /* check arrows */
     if (bz.sflag) {
 	if (overlap_arrow(bz.sp, bz.list[0], 1, b))
-	    return TRUE;
+	    return true;
     }
     if (bz.eflag) {
 	if (overlap_arrow(bz.ep, bz.list[bz.size - 1], 1, b))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 boolean overlap_edge(edge_t *e, boxf b)
