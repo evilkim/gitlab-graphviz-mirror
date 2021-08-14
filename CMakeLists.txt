@@ -11,6 +11,7 @@ option(with_ipsepcola  "IPSEPCOLA features in neato layout engine (disabled by d
 option(with_ortho      "ORTHO features in neato layout engine." ON )
 option(with_sfdp       "sfdp layout engine." ON )
 option(with_smyrna     "SMYRNA large graph viewer (disabled by default - experimental)" OFF)
+option(with_zlib       "Support raster image compression through zlib" ON)
 option(use_sanitizers  "enables using address and undefined behavior sanitizer" OFF)
 option(use_coverage    "enables analyzing code coverage" OFF)
 option(with_cxx_api    "enables building the C++ API" OFF)
@@ -97,7 +98,10 @@ if(enable_ltdl)
 endif ()
 
 find_package(PangoCairo)
-find_package(ZLIB)
+
+if(with_zlib)
+  find_package(ZLIB)
+endif()
 
 if (UNIX)
     find_library(MATH_LIB m)
