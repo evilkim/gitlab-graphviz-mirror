@@ -305,9 +305,7 @@ void change_cursor(GdkCursorType C)
 {
 
     GdkCursor *cursor;
-    GdkWindow *w;
     cursor = gdk_cursor_new(C);
-    w = (GdkWindow *) glade_xml_get_widget(xml, "frmMain");
     gdk_window_set_cursor((GdkWindow *) view->drawing_area->window,
 			  cursor);
     gdk_cursor_destroy(cursor);
