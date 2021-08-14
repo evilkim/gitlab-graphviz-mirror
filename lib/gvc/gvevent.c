@@ -17,11 +17,9 @@
 #include <gvc/gvplugin_layout.h>
 #include <gvc/gvcint.h>
 #include <gvc/gvcproc.h>
+#include <common/utils.h>
 
-extern char *strdup_and_subst_obj(char *str, void * n);
 extern void emit_graph(GVJ_t * job, graph_t * g);
-extern boolean overlap_edge(edge_t *e, boxf b);
-extern boolean overlap_node(node_t *n, boxf b);
 extern int gvLayout(GVC_t *gvc, graph_t *g, const char *engine);
 extern int gvRenderFilename(GVC_t *gvc, graph_t *g, const char *format, const char *filename);
 extern void graph_cleanup(graph_t *g);
