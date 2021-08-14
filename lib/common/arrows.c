@@ -423,6 +423,8 @@ void arrowOrthoClip(edge_t* e, pointf* ps, int startp, int endp, bezier* spl, in
 
 static void arrow_type_normal(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+
     pointf q, v, a[5];
     double arrowwidth;
 
@@ -519,6 +521,10 @@ static void arrow_type_crow(GVJ_t * job, pointf p, pointf u, double arrowsize, d
 
 static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+    (void)flag;
+
     pointf q, a[2];
 
     q.x = p.x + u.x;
@@ -530,6 +536,9 @@ static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_tee(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf m, n, q, v, a[4];
 
     v.x = -u.y;
@@ -563,6 +572,9 @@ static void arrow_type_tee(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_box(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf m, q, v, a[4];
 
     v.x = -u.y * 0.4;
@@ -594,6 +606,9 @@ static void arrow_type_box(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_diamond(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf q, r, v, a[5];
 
     v.x = -u.y / 3.;
@@ -618,6 +633,9 @@ static void arrow_type_diamond(GVJ_t * job, pointf p, pointf u, double arrowsize
 
 static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     double r;
     pointf AF[2];
 
@@ -635,6 +653,8 @@ static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, do
  */
 static void arrow_type_curve(GVJ_t* job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+
     double arrowwidth = penwidth > 4 ? 0.5 * penwidth / 4 : 0.5;
     pointf q, v, w;
     pointf AF[4], a[2];
