@@ -119,7 +119,7 @@ static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 static void arrow_type_curve(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag);
 static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag);
 
-static arrowtype_t Arrowtypes[] = {
+static const arrowtype_t Arrowtypes[] = {
     {ARR_TYPE_NORM, 1.0, arrow_type_normal},
     {ARR_TYPE_CROW, 1.0, arrow_type_crow},
     {ARR_TYPE_TEE, 0.5, arrow_type_tee},
