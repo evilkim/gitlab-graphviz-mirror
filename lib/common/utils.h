@@ -11,6 +11,8 @@
 #ifndef _UTILS_H
 #define _UTILS_H 1
 
+#include <cgraph/agxbuf.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
