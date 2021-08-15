@@ -353,7 +353,8 @@ CGRAPH_API char *agget(void *obj, char *name);
 CGRAPH_API char *agxget(void *obj, Agsym_t * sym);
 CGRAPH_API int agset(void *obj, char *name, const char *value);
 CGRAPH_API int agxset(void *obj, Agsym_t * sym, const char *value);
-CGRAPH_API int agsafeset(void* obj, char* name, char* value, char* def);
+CGRAPH_API int agsafeset(void* obj, char* name, const char* value,
+                         const char* def);
 
 /* definitions for subgraphs */
 CGRAPH_API Agraph_t *agsubg(Agraph_t * g, char *name, int cflag);	/* constructor */
