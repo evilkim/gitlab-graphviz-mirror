@@ -25,6 +25,7 @@
 #include <neatogen/neatoprocs.h>
 #include <ingraphs/ingraphs.h>
 #include <pack/pack.h>
+#include <stddef.h>
 
 #if defined(_WIN32)
   __declspec(dllimport)
@@ -753,7 +754,7 @@ static Agraph_t *cloneGraph(Agraph_t ** gs, int cnt, GVC_t * gvc)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 /* readGraphs:

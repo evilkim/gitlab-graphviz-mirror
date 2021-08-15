@@ -280,7 +280,7 @@ void init_viewport(ViewInfo * view)
 		view->template_file);
 	exit(-1);
     } 
-    view->systemGraphs.def_attrs = agread(input_file, 0);
+    view->systemGraphs.def_attrs = agread(input_file, NULL);
     fclose (input_file);
 
     if (!view->systemGraphs.def_attrs) {
@@ -297,7 +297,7 @@ void init_viewport(ViewInfo * view)
 	exit(-1);
 
     }
-    view->systemGraphs.attrs_widgets = agread(input_file2, 0);
+    view->systemGraphs.attrs_widgets = agread(input_file2, NULL);
     fclose (input_file2);
     if (!(view->systemGraphs.attrs_widgets )) {
 	fprintf(stderr,"could not load default attribute widgets graph file \"%s\"\n",smyrnaPath("attr_widgets.dot"));

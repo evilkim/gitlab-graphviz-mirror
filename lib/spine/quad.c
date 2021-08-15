@@ -116,7 +116,7 @@ findQuads(Agnode_t * v, Agnode_t * w, Dt_t * subset, void *state)
 
 int main()
 {
-	Agraph_t *g = agread(stdin, 0);
+	Agraph_t *g = agread(stdin, NULL);
 	genQuads(g, findQuads, 0);
 	return 0;
 }

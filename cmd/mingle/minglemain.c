@@ -15,6 +15,7 @@
 #include <ingraphs/ingraphs.h>
 #include <common/pointset.h>
 #include <getopt.h>
+#include <stddef.h>
 
 #include <sparse/DotIO.h>
 #include <mingle/edge_bundling.h>
@@ -475,7 +476,7 @@ bundle (Agraph_t* g, opts_t* opts)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char *argv[])

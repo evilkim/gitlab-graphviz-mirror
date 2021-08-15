@@ -15,6 +15,7 @@
 
 #include "config.h"
 
+#include <stddef.h>
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -339,7 +340,7 @@ static int eval(Agraph_t * g, int root)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char *argv[])

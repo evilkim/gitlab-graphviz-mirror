@@ -649,7 +649,7 @@ static void doOpts(int argc, char *argv[], opts_t * op)
 
 static Agraph_t *gread(FILE * fp)
 {
-	return agread(fp, (Agdisc_t *) 0);
+	return agread(fp, NULL);
 }
 
 int main(int argc, char *argv[])

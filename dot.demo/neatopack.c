@@ -10,6 +10,7 @@
 
 #include <graphviz/gvc.h>
 #include <graphviz/pack.h>
+#include <stddef.h>
 
 int main (int argc, char* argv[])
 {
@@ -26,7 +27,7 @@ int main (int argc, char* argv[])
         fp = fopen(argv[1], "r");
     else
         fp = stdin;
-    g = agread(fp, 0);
+    g = agread(fp, NULL);
 
     cc = ccomps(g, &ncc, (char*)0);
 
