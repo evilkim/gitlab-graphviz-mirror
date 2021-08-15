@@ -30,7 +30,7 @@ install(
 # Specify man pages to be installed
 install(
     FILES xdot.3
-    DESTINATION ${MAN_INSTALL_DIR}
+    DESTINATION ${MAN_INSTALL_DIR}/man3
 )
 
 # Specify library version and soversion

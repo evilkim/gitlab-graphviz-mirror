@@ -32,5 +32,5 @@ install(
 # Specify man pages to be installed
 install(
     FILES pack.3
-    DESTINATION ${MAN_INSTALL_DIR}
+    DESTINATION ${MAN_INSTALL_DIR}/man3
 )
