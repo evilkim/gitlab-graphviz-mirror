@@ -77,8 +77,8 @@ static Dict_t *agdictof(Agraph_t * g, int kind)
     return dict;
 }
 
-static Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
-{
+static Agsym_t *agnewsym(Agraph_t * g, const char *name, const char *value,
+                         int id, int kind) {
     Agsym_t *sym;
     sym = agalloc(g, sizeof(Agsym_t));
     sym->kind = (unsigned char) kind;
