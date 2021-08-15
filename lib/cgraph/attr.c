@@ -249,8 +249,7 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
 }
 
 
-static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
-{
+static Agsym_t *setattr(Agraph_t * g, int kind, char *name, const char *value) {
     Dict_t *ldict, *rdict;
     Agsym_t *lsym, *psym, *rsym, *rv;
     Agraph_t *root;
