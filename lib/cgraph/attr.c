@@ -320,8 +320,7 @@ static Agsym_t *getattr(Agraph_t * g, int kind, char *name)
  * when a new attribute is created, existing graphs/nodes/edges
  * receive its default value.
  */
-Agsym_t *agattr(Agraph_t * g, int kind, char *name, char *value)
-{
+Agsym_t *agattr(Agraph_t * g, int kind, char *name, const char *value) {
     Agsym_t *rv;
 
     if (g == 0) {
