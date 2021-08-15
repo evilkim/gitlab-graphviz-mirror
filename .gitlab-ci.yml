@@ -498,6 +498,31 @@ ubuntu21-04-cmake-build:
     variables:
       IMAGE: ubuntu-21.04
 
+ubuntu21-04-cmake-minimal-build:
+    <<: *deb_build_definition
+    needs:
+        - job: docker_build_ubuntu-21.04
+          artifacts: false
+    before_script:
+        - export build_system="cmake"
+        # fail on any compiler warnings
+        - export CFLAGS=-Werror
+        - export CXXFLAGS=-Werror
+        - export CMAKE_OPTIONS=""
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Denable_ltdl=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_expat=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_digcola=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_ipsepcola=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_ortho=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_sfdp=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_smyrna=OFF"
+        - export CMAKE_OPTIONS="$CMAKE_OPTIONS -Dwith_zlib=OFF"
+        - echo experimental > COLLECTION
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
 ubuntu21-04-cmake-ASan-build-for-ctest:
     <<: *deb_build_definition
     needs:
