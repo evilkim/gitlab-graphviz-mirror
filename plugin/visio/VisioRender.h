@@ -21,10 +21,10 @@
 
 namespace Visio
 {
-	typedef std::map<Agnode_t*, unsigned int> NodeIds;
-	typedef std::vector<std::unique_ptr<Graphic>> Graphics;
-	typedef std::vector<Text> Texts;
-	typedef std::vector<Hyperlink> Hyperlinks;
+	using NodeIds = std::map<Agnode_t*, unsigned int>;
+	using Graphics = std::vector<std::unique_ptr<Graphic>>;
+	using Texts = std::vector<Text>;
+	using Hyperlinks = std::vector<Hyperlink>;
 
 	/* object wrapper for render function callback */
 	class Render
