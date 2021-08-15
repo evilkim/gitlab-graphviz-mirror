@@ -77,7 +77,7 @@ namespace Visio
 	class Text
 	{
 	public:
-		static Text* CreateText(GVJ_t* job, pointf p, textspan_t* span);
+		static Text CreateText(GVJ_t* job, pointf p, textspan_t* span);
 		
 		boxf GetBounds() const;
 		

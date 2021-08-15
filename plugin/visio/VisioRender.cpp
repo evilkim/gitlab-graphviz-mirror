@@ -227,9 +227,6 @@ namespace Visio
 	{
 		_graphics.clear();
 		
-		/* clear texts */
-		for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-			delete *nextText;
 		_texts.clear();
 
 		_hyperlinks.clear();
@@ -245,7 +242,7 @@ namespace Visio
 			PrintOuterShape(job, *graphic);		
 	}
 
-	void Render::AddText(GVJ_t*, const Text* text)
+	void Render::AddText(GVJ_t*, const Text &text)
 	{
 		/* if in component, accumulate for end node/edge */
 		if (_inComponent)
@@ -412,8 +409,8 @@ namespace Visio
 				outerTextBounds.UR.x = std::numeric_limits<double>::min();
 				outerTextBounds.UR.y = std::numeric_limits<double>::min();
 				
-				for (const Text *t : _texts) {
-					boxf innerTextBounds = t->GetBounds();
+				for (const Text &t : _texts) {
+					boxf innerTextBounds = t.GetBounds();
 					outerTextBounds.LL.x = std::min(outerTextBounds.LL.x, innerTextBounds.LL.x);
 					outerTextBounds.LL.y = std::min(outerTextBounds.LL.y, innerTextBounds.LL.y);
 					outerTextBounds.UR.x = std::max(outerTextBounds.UR.x, innerTextBounds.UR.x);
@@ -453,13 +450,13 @@ namespace Visio
 		if (!_texts.empty())
 		{
 			/* output Para, Char */
-			for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-				(*nextText)->Print(job);
+			for (const Text &t : _texts)
+				t.Print(job);
 			
 			/* output Text. each run references above Para + Char */
 			gvputs(job, "<Text>");
 			for (unsigned int index = 0, count = _texts.size(); index < count; ++index)
-				(_texts[index])->PrintRun(job, index);
+				_texts[index].PrintRun(job, index);
 			gvputs(job, "</Text>");
 		}
 	}
