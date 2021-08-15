@@ -447,8 +447,7 @@ char *agxget(void *obj, Agsym_t * sym)
     return rv;
 }
 
-int agset(void *obj, char *name, char *value)
-{
+int agset(void *obj, char *name, const char *value) {
     Agsym_t *sym;
     int rv;
 

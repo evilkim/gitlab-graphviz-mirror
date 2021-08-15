@@ -351,7 +351,7 @@ CGRAPH_API void agclean(Agraph_t * g, int kind, char *rec_name);
 
 CGRAPH_API char *agget(void *obj, char *name);
 CGRAPH_API char *agxget(void *obj, Agsym_t * sym);
-CGRAPH_API int agset(void *obj, char *name, char *value);
+CGRAPH_API int agset(void *obj, char *name, const char *value);
 CGRAPH_API int agxset(void *obj, Agsym_t * sym, const char *value);
 CGRAPH_API int agsafeset(void* obj, char* name, char* value, char* def);
 
