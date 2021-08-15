@@ -153,11 +153,10 @@ Agsym_t *agattrsym(void *obj, char *name)
 {
     Agattr_t *data;
     Agsym_t *rv;
-    char *arg = name;
 
     data = agattrrec(obj);
     if (data)
-	rv = agdictsym(data->dict, arg);
+	rv = agdictsym(data->dict, name);
     else
 	rv = NULL;
     return rv;
