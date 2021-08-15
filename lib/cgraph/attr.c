@@ -463,7 +463,7 @@ int agset(void *obj, char *name, char *value)
     return rv;
 }
 
-int agxset(void *obj, Agsym_t * sym, char *value)
+int agxset(void *obj, Agsym_t * sym, const char *value)
 {
     Agraph_t *g;
     Agobj_t *hdr;
