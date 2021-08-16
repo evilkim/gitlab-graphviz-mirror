@@ -249,7 +249,7 @@ static void quartzgen_begin_page(GVJ_t * job)
 
     /* set up the context transformation */
     CGContextScaleCTM(context, job->scale.x, job->scale.y);
-    CGContextRotateCTM(context, -job->rotation * M_PI / 180.0);
+    CGContextRotateCTM(context, job->rotation * M_PI / 180.0);
     CGContextTranslateCTM(context, job->translation.x, job->translation.y);
 }
 
