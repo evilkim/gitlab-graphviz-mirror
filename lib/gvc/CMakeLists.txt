@@ -45,7 +45,6 @@ target_include_directories(gvc PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${LTDL_INCLUDE_DIRS}
 )
 
 target_link_libraries(gvc PRIVATE
@@ -66,6 +65,7 @@ target_link_libraries(gvc PUBLIC
 )
 
 if (LTDL_FOUND)
+    target_include_directories(gvc PRIVATE ${LTDL_INCLUDE_DIRS})
     if (NOT WIN32)
         target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
     endif()
