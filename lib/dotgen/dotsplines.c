@@ -336,6 +336,8 @@ static void _dot_splines(graph_t * g, int normalize)
 	    orthoEdges (g, 0);
 	goto finish;
     } 
+#else
+    (void) setEdgeLabelPos;
 #endif
 
     mark_lowclusters(g);
