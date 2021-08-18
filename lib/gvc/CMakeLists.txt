@@ -65,7 +65,7 @@ target_link_libraries(gvc PUBLIC
 
 if (LTDL_FOUND)
     target_include_directories(gvc PRIVATE ${LTDL_INCLUDE_DIRS})
-    if (NOT WIN32)
+    if (NOT WIN32 OR MINGW)
         target_link_libraries(gvc PUBLIC ${LTDL_LIBRARIES})
     endif()
 endif()
