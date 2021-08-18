@@ -85,9 +85,7 @@ static arrowname_t Arrownames[] = {
     {"box", ARR_TYPE_BOX},
     {"diamond", ARR_TYPE_DIAMOND},
     {"dot", ARR_TYPE_DOT},
-//    {"none", ARR_TYPE_NONE},
     {"none", ARR_TYPE_GAP},
-//    {"gap", ARR_TYPE_GAP},
     /* ARR_MOD_INV is used only here to define two additional shapes
        since not all types can use it */
     {"inv", (ARR_TYPE_NORM | ARR_MOD_INV)},
@@ -121,7 +119,7 @@ static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 static void arrow_type_curve(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag);
 static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag);
 
-static arrowtype_t Arrowtypes[] = {
+static const arrowtype_t Arrowtypes[] = {
     {ARR_TYPE_NORM, 1.0, arrow_type_normal},
     {ARR_TYPE_CROW, 1.0, arrow_type_crow},
     {ARR_TYPE_TEE, 0.5, arrow_type_tee},
@@ -130,8 +128,10 @@ static arrowtype_t Arrowtypes[] = {
     {ARR_TYPE_DOT, 0.8, arrow_type_dot},
     {ARR_TYPE_CURVE, 1.0, arrow_type_curve},
     {ARR_TYPE_GAP, 0.5, arrow_type_gap},
-    {ARR_TYPE_NONE, 0.0, NULL}
 };
+
+static const size_t Arrowtypes_size =
+  sizeof(Arrowtypes) / sizeof(Arrowtypes[0]);
 
 static char *arrow_match_name_frag(char *name, arrowname_t * arrownames, int *flag)
 {
@@ -237,14 +237,14 @@ void arrow_flags(Agedge_t * e, int *sflag, int *eflag)
 
 double arrow_length(edge_t * e, int flag)
 {
-    arrowtype_t *arrowtype;
     double lenfact = 0.0;
     int f, i;
 
     for (i = 0; i < NUMB_OF_ARROW_HEADS; i++) {
         /* we don't simply index with flag because arrowtypes are not necessarily sorted */
         f = (flag >> (i * BITS_PER_ARROW)) & ((1 << BITS_PER_ARROW_TYPE) - 1);
-        for (arrowtype = Arrowtypes; arrowtype->gen; arrowtype++) {
+        for (size_t j = 0; j < Arrowtypes_size; ++j) {
+	    const arrowtype_t *arrowtype = &Arrowtypes[j];
 	    if (f == arrowtype->type) {
 	        lenfact += arrowtype->lenfact;
 	        break;
@@ -423,6 +423,8 @@ void arrowOrthoClip(edge_t* e, pointf* ps, int startp, int endp, bezier* spl, in
 
 static void arrow_type_normal(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+
     pointf q, v, a[5];
     double arrowwidth;
 
@@ -519,6 +521,10 @@ static void arrow_type_crow(GVJ_t * job, pointf p, pointf u, double arrowsize, d
 
 static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+    (void)flag;
+
     pointf q, a[2];
 
     q.x = p.x + u.x;
@@ -530,6 +536,9 @@ static void arrow_type_gap(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_tee(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf m, n, q, v, a[4];
 
     v.x = -u.y;
@@ -563,6 +572,9 @@ static void arrow_type_tee(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_box(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf m, q, v, a[4];
 
     v.x = -u.y * 0.4;
@@ -594,6 +606,9 @@ static void arrow_type_box(GVJ_t * job, pointf p, pointf u, double arrowsize, do
 
 static void arrow_type_diamond(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     pointf q, r, v, a[5];
 
     v.x = -u.y / 3.;
@@ -618,6 +633,9 @@ static void arrow_type_diamond(GVJ_t * job, pointf p, pointf u, double arrowsize
 
 static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+    (void)penwidth;
+
     double r;
     pointf AF[2];
 
@@ -635,6 +653,8 @@ static void arrow_type_dot(GVJ_t * job, pointf p, pointf u, double arrowsize, do
  */
 static void arrow_type_curve(GVJ_t* job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
+    (void)arrowsize;
+
     double arrowwidth = penwidth > 4 ? 0.5 * penwidth / 4 : 0.5;
     pointf q, v, w;
     pointf AF[4], a[2];
@@ -681,10 +701,10 @@ static void arrow_type_curve(GVJ_t* job, pointf p, pointf u, double arrowsize, d
 static pointf arrow_gen_type(GVJ_t * job, pointf p, pointf u, double arrowsize, double penwidth, int flag)
 {
     int f;
-    arrowtype_t *arrowtype;
 
     f = flag & ((1 << BITS_PER_ARROW_TYPE) - 1);
-    for (arrowtype = Arrowtypes; arrowtype->type; arrowtype++) {
+    for (size_t i = 0; i < Arrowtypes_size; ++i) {
+	const arrowtype_t *arrowtype = &Arrowtypes[i];
 	if (f == arrowtype->type) {
 	    u.x *= arrowtype->lenfact * arrowsize;
 	    u.y *= arrowtype->lenfact * arrowsize;
@@ -697,7 +717,7 @@ static pointf arrow_gen_type(GVJ_t * job, pointf p, pointf u, double arrowsize, 
     return p;
 }
 
-boxf arrow_bb(pointf p, pointf u, double arrowsize, int flag)
+boxf arrow_bb(pointf p, pointf u, double arrowsize)
 {
     double s;
     boxf bb;

@@ -17,6 +17,7 @@
 #include <gvc/gvc.h>
 #include <cgraph/strcasecmp.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #ifdef _WIN32
 #define R_OK 4
@@ -585,13 +586,6 @@ pointf spline_at_y(splines * spl, double y)
     }
     p.y = y;
     return p;
-}
-
-pointf neato_closest(splines * spl, pointf p)
-{
-/* this is a stub so that we can share a common emit.c between dot and neato */
-
-    return spline_at_y(spl, p.y);
 }
 
 static int Tflag;
@@ -1597,13 +1591,13 @@ utf8ToLatin1 (char* s)
     return ns;
 }
 
-boolean overlap_node(node_t *n, boxf b)
+bool overlap_node(node_t *n, boxf b)
 {
     inside_t ictxt;
     pointf p;
 
     if (! OVERLAP(b, ND_bb(n)))
-        return FALSE;
+        return false;
 
 /*  FIXME - need to do something better about CLOSEENOUGH */
     p = sub_pointf(ND_coord(n), mid_pointf(b.UR, b.LL));
@@ -1614,7 +1608,7 @@ boolean overlap_node(node_t *n, boxf b)
     return ND_shape(n)->fns->insidefn(&ictxt, p);
 }
 
-boolean overlap_label(textlabel_t *lp, boxf b)
+bool overlap_label(textlabel_t *lp, boxf b)
 {
     pointf s;
     boxf bb;
@@ -1626,16 +1620,13 @@ boolean overlap_label(textlabel_t *lp, boxf b)
     return OVERLAP(b, bb);
 }
 
-static boolean overlap_arrow(pointf p, pointf u, double scale, int flag, boxf b)
+static bool overlap_arrow(pointf p, pointf u, double scale, boxf b)
 {
-    if (OVERLAP(b, arrow_bb(p, u, scale, flag))) {
-	/* FIXME - check inside arrow shape */
-	return TRUE;
-    }
-    return FALSE;
+    // FIXME - check inside arrow shape
+    return OVERLAP(b, arrow_bb(p, u, scale));
 }
 
-static boolean overlap_bezier(bezier bz, boxf b)
+static bool overlap_bezier(bezier bz, boxf b)
 {
     int i;
     pointf p, u;
@@ -1645,23 +1636,23 @@ static boolean overlap_bezier(bezier bz, boxf b)
     for (i = 1; i < bz.size; i++) {
 	p = bz.list[i];
 	if (lineToBox(p, u, b) != -1)
-	    return TRUE;
+	    return true;
 	u = p;
     }
 
     /* check arrows */
     if (bz.sflag) {
-	if (overlap_arrow(bz.sp, bz.list[0], 1, bz.sflag, b))
-	    return TRUE;
+	if (overlap_arrow(bz.sp, bz.list[0], 1, b))
+	    return true;
     }
     if (bz.eflag) {
-	if (overlap_arrow(bz.ep, bz.list[bz.size - 1], 1, bz.eflag, b))
-	    return TRUE;
+	if (overlap_arrow(bz.ep, bz.list[bz.size - 1], 1, b))
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
-boolean overlap_edge(edge_t *e, boxf b)
+bool overlap_edge(edge_t *e, boxf b)
 {
     int i;
     splines *spl;
@@ -1671,13 +1662,13 @@ boolean overlap_edge(edge_t *e, boxf b)
     if (spl && boxf_overlap(spl->bb, b))
         for (i = 0; i < spl->size; i++)
             if (overlap_bezier(spl->list[i], b))
-                return TRUE;
+                return true;
 
     lp = ED_label(e);
     if (lp && overlap_label(lp, b))
-        return TRUE;
+        return true;
 
-    return FALSE;
+    return false;
 }
 
 /* edgeType:

@@ -14,6 +14,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
@@ -2467,24 +2468,24 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
     }
 }
 
-static boolean edge_in_box(edge_t *e, boxf b)
+static bool edge_in_box(edge_t *e, boxf b)
 {
     splines *spl;
     textlabel_t *lp;
 
     spl = ED_spl(e);
     if (spl && boxf_overlap(spl->bb, b))
-        return TRUE;
+        return true;
 
     lp = ED_label(e);
     if (lp && overlap_label(lp, b))
-        return TRUE;
+        return true;
 
     lp = ED_xlabel(e);
     if (lp && lp->set && overlap_label(lp, b))
-        return TRUE;
+        return true;
 
-    return FALSE;
+    return false;
 }
 
 static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
@@ -3922,11 +3923,11 @@ static void init_splines_bb(splines *spl)
             EXPANDBB(bb, b);
         }
         if (bz.sflag) {
-            b = arrow_bb(bz.sp, bz.list[0], 1, bz.sflag);
+            b = arrow_bb(bz.sp, bz.list[0], 1);
             EXPANDBB(bb, b);
         }
         if (bz.eflag) {
-            b = arrow_bb(bz.ep, bz.list[bz.size - 1], 1, bz.eflag);
+            b = arrow_bb(bz.ep, bz.list[bz.size - 1], 1);
             EXPANDBB(bb, b);
         }
     }

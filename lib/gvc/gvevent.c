@@ -17,11 +17,9 @@
 #include <gvc/gvplugin_layout.h>
 #include <gvc/gvcint.h>
 #include <gvc/gvcproc.h>
+#include <common/utils.h>
 
-extern char *strdup_and_subst_obj(char *str, void * n);
 extern void emit_graph(GVJ_t * job, graph_t * g);
-extern boolean overlap_edge(edge_t *e, boxf b);
-extern boolean overlap_node(node_t *n, boxf b);
 extern int gvLayout(GVC_t *gvc, graph_t *g, const char *engine);
 extern int gvRenderFilename(GVC_t *gvc, graph_t *g, const char *format, const char *filename);
 extern void graph_cleanup(graph_t *g);
@@ -75,7 +73,7 @@ static void gv_graph_state(GVJ_t *job, graph_t *g)
     if (!a)
 	a = agfindgraphattr(g, s_URL);
     if (a)
-	job->selected_href = strdup_and_subst_obj(agxget(g, a), (void*)g);
+	job->selected_href = strdup_and_subst_obj(agxget(g, a), g);
 }
 
 static void gv_node_state(GVJ_t *job, node_t *n)
@@ -104,7 +102,7 @@ static void gv_node_state(GVJ_t *job, node_t *n)
     if (!a)
         a = agfindnodeattr(agraphof(n), s_URL);
     if (a)
-	job->selected_href = strdup_and_subst_obj(agxget(n, a), (void*)n);
+	job->selected_href = strdup_and_subst_obj(agxget(n, a), n);
 }
 
 static void gv_edge_state(GVJ_t *job, edge_t *e)
@@ -159,7 +157,7 @@ static void gv_edge_state(GVJ_t *job, edge_t *e)
     if (!a)
 	a = agfindedgeattr(agraphof(aghead(e)), s_URL);
     if (a)
-	job->selected_href = strdup_and_subst_obj(agxget(e, a), (void*)e);
+	job->selected_href = strdup_and_subst_obj(agxget(e, a), e);
 }
 
 static void gvevent_refresh(GVJ_t * job)
@@ -203,18 +201,18 @@ static void * gvevent_find_obj(graph_t *g, boxf b)
     for (n = agfstnode(g); n; n = agnxtnode(g, n))
 	for (e = agfstout(g, n); e; e = agnxtout(g, e))
 	    if (overlap_edge(e, b))
-	        return (void *)e;
+	        return e;
     /* search graph backwards to get topmost node, in case of overlap */
     for (n = aglstnode(g); n; n = agprvnode(g, n))
 	if (overlap_node(n, b))
-	    return (void *)n;
+	    return n;
     /* search for innermost cluster */
     sg = gvevent_find_cluster(g, b);
     if (sg)
-	return (void *)sg;
+	return sg;
 
     /* otherwise - we're always in the graph */
-    return (void *)g;
+    return g;
 }
 
 static void gvevent_leave_obj(GVJ_t * job)
@@ -251,21 +249,21 @@ static void gvevent_enter_obj(GVJ_t * job)
     if (obj) {
         switch (agobjkind(obj)) {
         case AGRAPH:
-	    g = (graph_t*)obj;
+	    g = obj;
 	    GD_gui_state(g) |= GUI_STATE_ACTIVE;
 	    a = agfindgraphattr(g, s_tooltip);
 	    if (a)
 		job->active_tooltip = strdup_and_subst_obj(agxget(g, a), obj);
 	    break;
         case AGNODE:
-	    n = (node_t*)obj;
+	    n = obj;
 	    ND_gui_state(n) |= GUI_STATE_ACTIVE;
 	    a = agfindnodeattr(agraphof(n), s_tooltip);
 	    if (a)
 		job->active_tooltip = strdup_and_subst_obj(agxget(n, a), obj);
 	    break;
         case AGEDGE:
-	    e = (edge_t*)obj;
+	    e = obj;
 	    ED_gui_state(e) |= GUI_STATE_ACTIVE;
 	    a = agfindedgeattr(agraphof(aghead(e)), s_tooltip);
 	    if (a)
@@ -328,16 +326,16 @@ static void gvevent_select_current_obj(GVJ_t * job)
     if (obj) {
         switch (agobjkind(obj)) {
         case AGRAPH:
-	    GD_gui_state((graph_t*)obj) |= GUI_STATE_VISITED;
-	    GD_gui_state((graph_t*)obj) &= ~GUI_STATE_SELECTED;
+	    GD_gui_state(obj) |= GUI_STATE_VISITED;
+	    GD_gui_state(obj) &= ~GUI_STATE_SELECTED;
 	    break;
         case AGNODE:
-	    ND_gui_state((node_t*)obj) |= GUI_STATE_VISITED;
-	    ND_gui_state((node_t*)obj) &= ~GUI_STATE_SELECTED;
+	    ND_gui_state(obj) |= GUI_STATE_VISITED;
+	    ND_gui_state(obj) &= ~GUI_STATE_SELECTED;
 	    break;
         case AGEDGE:
-	    ED_gui_state((edge_t*)obj) |= GUI_STATE_VISITED;
-	    ED_gui_state((edge_t*)obj) &= ~GUI_STATE_SELECTED;
+	    ED_gui_state(obj) |= GUI_STATE_VISITED;
+	    ED_gui_state(obj) &= ~GUI_STATE_SELECTED;
 	    break;
         }
     }
@@ -349,16 +347,16 @@ static void gvevent_select_current_obj(GVJ_t * job)
     if (obj) {
         switch (agobjkind(obj)) {
         case AGRAPH:
-	    GD_gui_state((graph_t*)obj) |= GUI_STATE_SELECTED;
-	    gv_graph_state(job, (graph_t*)obj);
+	    GD_gui_state(obj) |= GUI_STATE_SELECTED;
+	    gv_graph_state(job, obj);
 	    break;
         case AGNODE:
-	    ND_gui_state((node_t*)obj) |= GUI_STATE_SELECTED;
-	    gv_node_state(job, (node_t*)obj);
+	    ND_gui_state(obj) |= GUI_STATE_SELECTED;
+	    gv_node_state(job, obj);
 	    break;
         case AGEDGE:
-	    ED_gui_state((edge_t*)obj) |= GUI_STATE_SELECTED;
-	    gv_edge_state(job, (edge_t*)obj);
+	    ED_gui_state(obj) |= GUI_STATE_SELECTED;
+	    gv_edge_state(job, obj);
 	    break;
         }
     }
