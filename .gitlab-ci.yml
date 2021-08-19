@@ -29,7 +29,6 @@ portable-source:
         expire_in: 1 week
         paths:
             - VERSION
-            - DATE
             - COLLECTION
             - graphviz-*.tar.gz
             - graphviz-*.tar.xz
