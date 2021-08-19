@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <graphviz/gvc.h>
+#include <stddef.h>
 
 int main(int argc, char **argv)
 {
@@ -22,7 +23,7 @@ int main(int argc, char **argv)
 	fp = fopen(argv[1], "r");
     else
 	fp = stdin;
-    g = agread(fp, 0);
+    g = agread(fp, NULL);
 
     gvLayout(gvc, g, "dot");
 

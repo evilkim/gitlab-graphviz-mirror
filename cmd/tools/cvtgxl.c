@@ -17,6 +17,7 @@
 
 #include <ctype.h>
 #include <getopt.h>
+#include <stddef.h>
 
 #include "convert.h"
 #include <ingraphs/ingraphs.h>
@@ -172,7 +173,7 @@ static void initargs(int argc, char **argv)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char **argv)

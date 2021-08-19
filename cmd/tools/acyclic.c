@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 
     init(argc, argv);
 
-    if ((g = agread(inFile,  (Agdisc_t *) 0)) != 0) {
+    if ((g = agread(inFile, NULL)) != NULL) {
 	if (agisdirected (g)) {
 	    aginit(g, AGNODE, "info", sizeof(Agnodeinfo_t), TRUE);
 	    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {

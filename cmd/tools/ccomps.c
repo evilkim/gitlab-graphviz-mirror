@@ -877,7 +877,7 @@ static int process(Agraph_t * g, char* graphName)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 /* chkGraphName:

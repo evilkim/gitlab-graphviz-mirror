@@ -251,7 +251,7 @@ Both options `-n' and `-N' can be used multiple times on the command line.\n", p
 /* wrapper to match libcgraph conventions with libingraph */
 Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 /* add element to attribute list */

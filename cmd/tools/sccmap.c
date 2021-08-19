@@ -375,7 +375,7 @@ static void scanArgs(int argc, char **argv)
 
 static Agraph_t *gread(FILE * fp)
 {
-    return agread(fp, (Agdisc_t *) 0);
+    return agread(fp, NULL);
 }
 
 int main(int argc, char **argv)

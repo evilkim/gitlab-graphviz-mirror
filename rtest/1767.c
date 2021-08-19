@@ -21,7 +21,7 @@ static void load(const char *filename) {
   file = fopen(filename, "r");
   assert(file != NULL);
 
-  g = agread(file, 0);
+  g = agread(file, NULL);
   printf("Loaded graph:%s\n", agnameof(g));
 
   r = gvLayout(gvc, g, "dot");
