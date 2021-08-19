@@ -55,7 +55,7 @@ htmlparse.c htmlparse.h: $(top_srcdir)/lib/common/htmlparse.y
 DISTCLEANFILES = brewer_lib color_lib colortbl.h \
 	htmlparse.[ch]
 
-EXTRA_DIST = README.imap chars.tcl \
+EXTRA_DIST = README.imap \
 	htmlparse.c htmlparse.h \
 	entities.html entities.tcl \
 	brewer_colors brewer_lib svgcolor_names svgcolor_lib \
