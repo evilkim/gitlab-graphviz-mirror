@@ -471,16 +471,8 @@ extern "C" {
 #ifndef O_TEXT
 #define O_TEXT		000
 #endif
-#ifndef O_TEMPORARY
-#define O_TEMPORARY	000
-#endif
 
 #define	SF_RADIX	64	/* maximum integer conversion base */
-
-#define SF_MAXINT	((int)(((uint)~0) >> 1))
-#define SF_MAXLONG	((long)(((ulong)~0L) >> 1))
-
-#define SF_MAXCHAR	((uchar)(~0))
 
 /* floating point to ascii conversion */
 #define SF_MAXEXP10	6
@@ -510,9 +502,9 @@ extern "C" {
 	int sf_cvinit;		/* initialization state         */
 	Fmtpos_t *(*sf_fmtposf) (Sfio_t *, const char *, va_list, int);
 	char *(*sf_fmtintf) (const char *, int *);
-	uchar sf_cv36[SF_MAXCHAR + 1];	/* conversion for base [2-36]   */
-	uchar sf_cv64[SF_MAXCHAR + 1];	/* conversion for base [37-64]  */
-	uchar sf_type[SF_MAXCHAR + 1];	/* conversion formats&types     */
+	uchar sf_cv36[UCHAR_MAX + 1];	/* conversion for base [2-36]   */
+	uchar sf_cv64[UCHAR_MAX + 1];	/* conversion for base [37-64]  */
+	uchar sf_type[UCHAR_MAX + 1];	/* conversion formats&types     */
     } Sftab_t;
 
 /* thread-safe macro/function to initialize _Sfcv* conversion tables */
@@ -607,7 +599,6 @@ extern "C" {
     extern int access(const char *, int);
     extern uint sleep(uint);
     extern int execl(const char *, const char *, ...);
-    extern int execv(const char *, char **);
 
 #endif /*HAVE_UNISTD_H*/
 #endif /* _WIN32 */

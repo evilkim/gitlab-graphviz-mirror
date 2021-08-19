@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include	<limits.h>
 #include	<sfio/sfhdr.h>
 #include	<stddef.h>
 
@@ -384,7 +385,7 @@ static int sfcvinit(void)
 {
     int d, l;
 
-    for (d = 0; d <= SF_MAXCHAR; ++d) {
+    for (d = 0; d <= UCHAR_MAX; ++d) {
 	_Sfcv36[d] = SF_RADIX;
 	_Sfcv64[d] = SF_RADIX;
     }

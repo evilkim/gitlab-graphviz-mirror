@@ -9,6 +9,7 @@
  *************************************************************************/
 
 #include <inttypes.h>
+#include	<limits.h>
 #include	<sfio/sfhdr.h>
 #include	<stddef.h>
 
@@ -33,7 +34,7 @@ static char *setclass(char *form, char *accept)
     } else
 	yes = 1;
 
-    for (c = 0; c <= SF_MAXCHAR; ++c)
+    for (c = 0; c <= UCHAR_MAX; ++c)
 	accept[c] = !yes;
 
     if (fmt == ']' || fmt == '-') {	/* special first char */
