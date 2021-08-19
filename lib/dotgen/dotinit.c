@@ -256,7 +256,6 @@ removeFill (Agraph_t * g)
 
 }
 
-#define ag_xset(x,a,v) agxset(x,a,v)
 #define agnodeattr(g,n,v) agattr(g,AGNODE,n,v)
 
 static void
@@ -270,11 +269,11 @@ attach_phase_attrs (Agraph_t * g, int maxphase)
     for (n = agfstnode(g); n; n = agnxtnode(g,n)) {
 	if (maxphase >= 1) {
 	    snprintf(buf, sizeof(buf), "%d", ND_rank(n));
-	    ag_xset(n,rk,buf);
+	    agxset(n,rk,buf);
 	}
 	if (maxphase >= 2) {
 	    snprintf(buf, sizeof(buf), "%d", ND_order(n));
-	    ag_xset(n,order,buf);
+	    agxset(n,order,buf);
 	}
     }
 }

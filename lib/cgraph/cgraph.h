@@ -335,7 +335,8 @@ struct Agdatadict_s {		/* set of dictionaries per graph */
     } dict;
 };
 
-CGRAPH_API Agsym_t *agattr(Agraph_t * g, int kind, char *name, char *value);
+CGRAPH_API Agsym_t *agattr(Agraph_t * g, int kind, char *name,
+                           const char *value);
 CGRAPH_API Agsym_t *agattrsym(void *obj, char *name);
 CGRAPH_API Agsym_t *agnxtattr(Agraph_t * g, int kind, Agsym_t * attr);
 CGRAPH_API int      agcopyattr(void *oldobj, void *newobj);
@@ -350,9 +351,10 @@ CGRAPH_API void agclean(Agraph_t * g, int kind, char *rec_name);
 
 CGRAPH_API char *agget(void *obj, char *name);
 CGRAPH_API char *agxget(void *obj, Agsym_t * sym);
-CGRAPH_API int agset(void *obj, char *name, char *value);
-CGRAPH_API int agxset(void *obj, Agsym_t * sym, char *value);
-CGRAPH_API int agsafeset(void* obj, char* name, char* value, char* def);
+CGRAPH_API int agset(void *obj, char *name, const char *value);
+CGRAPH_API int agxset(void *obj, Agsym_t * sym, const char *value);
+CGRAPH_API int agsafeset(void* obj, char* name, const char* value,
+                         const char* def);
 
 /* definitions for subgraphs */
 CGRAPH_API Agraph_t *agsubg(Agraph_t * g, char *name, int cflag);	/* constructor */

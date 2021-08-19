@@ -175,9 +175,7 @@ static void use_library(GVC_t *gvc, const char *name)
     gvc->common.lib = Lib;
 }
 
-static void global_def(agxbuf* xb, char *dcl, int kind,
-         attrsym_t * ((*dclfun) (Agraph_t *, int kind, char *, char *)) )
-{
+static void global_def(agxbuf* xb, char *dcl, int kind) {
     char *p;
     char *rhs = "true";
 
@@ -188,7 +186,7 @@ static void global_def(agxbuf* xb, char *dcl, int kind,
     }
     else
 	agxbput (xb, dcl);
-    sym = dclfun(NULL, kind, agxbuse (xb), rhs);
+    sym = agattr(NULL, kind, agxbuse (xb), rhs);
     sym->fixed = 1;
 }
 
@@ -269,7 +267,7 @@ int dotneato_args_initialize(GVC_t * gvc, int argc, char **argv)
 	    switch (c = argv[i][1]) {
 	    case 'G':
 		if (*rest)
-		    global_def(&xb, rest, AGRAPH, agattr);
+		    global_def(&xb, rest, AGRAPH);
 		else {
 		    fprintf(stderr, "Missing argument for -G flag\n");
 		    return (dotneato_usage(1));
@@ -277,7 +275,7 @@ int dotneato_args_initialize(GVC_t * gvc, int argc, char **argv)
 		break;
 	    case 'N':
 		if (*rest)
-		    global_def(&xb, rest, AGNODE,agattr);
+		    global_def(&xb, rest, AGNODE);
 		else {
 		    fprintf(stderr, "Missing argument for -N flag\n");
 		    return (dotneato_usage(1));
@@ -285,7 +283,7 @@ int dotneato_args_initialize(GVC_t * gvc, int argc, char **argv)
 		break;
 	    case 'E':
 		if (*rest)
-		    global_def(&xb, rest, AGEDGE,agattr);
+		    global_def(&xb, rest, AGEDGE);
 		else {
 		    fprintf(stderr, "Missing argument for -E flag\n");
 		    return (dotneato_usage(1));

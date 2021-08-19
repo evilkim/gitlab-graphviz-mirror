@@ -504,7 +504,7 @@ static void doApply (GtkWidget * widget, int doAll)
     attr = binarySearch(view->Topview->attributes, attr_name);
     assert(attr);
     attr->propagate = prog;
-    sym = agattr(g, objKind, attr_name, (char *) 0);
+    sym = agattr(g, objKind, attr_name, NULL);
     if (!sym)			/*it shouldnt be null, just in case it is null */
 	sym = agattr(g, objKind, attr_name, def_val);
     /*graph */

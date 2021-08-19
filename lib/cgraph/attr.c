@@ -77,8 +77,8 @@ static Dict_t *agdictof(Agraph_t * g, int kind)
     return dict;
 }
 
-static Agsym_t *agnewsym(Agraph_t * g, char *name, char *value, int id, int kind)
-{
+static Agsym_t *agnewsym(Agraph_t * g, const char *name, const char *value,
+                         int id, int kind) {
     Agsym_t *sym;
     sym = agalloc(g, sizeof(Agsym_t));
     sym->kind = (unsigned char) kind;
@@ -153,11 +153,10 @@ Agsym_t *agattrsym(void *obj, char *name)
 {
     Agattr_t *data;
     Agsym_t *rv;
-    char *arg = name;
 
     data = agattrrec(obj);
     if (data)
-	rv = agdictsym(data->dict, arg);
+	rv = agdictsym(data->dict, name);
     else
 	rv = NULL;
     return rv;
@@ -249,8 +248,7 @@ static void addattr(Agraph_t * g, Agobj_t * obj, Agsym_t * sym)
 }
 
 
-static Agsym_t *setattr(Agraph_t * g, int kind, char *name, char *value)
-{
+static Agsym_t *setattr(Agraph_t * g, int kind, char *name, const char *value) {
     Dict_t *ldict, *rdict;
     Agsym_t *lsym, *psym, *rsym, *rv;
     Agraph_t *root;
@@ -321,8 +319,7 @@ static Agsym_t *getattr(Agraph_t * g, int kind, char *name)
  * when a new attribute is created, existing graphs/nodes/edges
  * receive its default value.
  */
-Agsym_t *agattr(Agraph_t * g, int kind, char *name, char *value)
-{
+Agsym_t *agattr(Agraph_t * g, int kind, char *name, const char *value) {
     Agsym_t *rv;
 
     if (g == 0) {
@@ -450,8 +447,7 @@ char *agxget(void *obj, Agsym_t * sym)
     return rv;
 }
 
-int agset(void *obj, char *name, char *value)
-{
+int agset(void *obj, char *name, const char *value) {
     Agsym_t *sym;
     int rv;
 
@@ -463,7 +459,7 @@ int agset(void *obj, char *name, char *value)
     return rv;
 }
 
-int agxset(void *obj, Agsym_t * sym, char *value)
+int agxset(void *obj, Agsym_t * sym, const char *value)
 {
     Agraph_t *g;
     Agobj_t *hdr;
@@ -492,8 +488,7 @@ int agxset(void *obj, Agsym_t * sym, char *value)
     return SUCCESS;
 }
 
-int agsafeset(void *obj, char *name, char *value, char *def)
-{
+int agsafeset(void *obj, char *name, const char *value, const char *def) {
     Agsym_t *a;
 
     a = agattr(agraphof(obj), AGTYPE(obj), name, 0);

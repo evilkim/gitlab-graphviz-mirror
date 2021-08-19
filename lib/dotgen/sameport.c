@@ -15,7 +15,7 @@
 
 #include <math.h>
 #include	<dotgen/dot.h>
-
+#include	<stddef.h>
 
 #define MAXSAME 5		/* max no of same{head,tail} groups on a node */
 
@@ -41,8 +41,8 @@ void dot_sameports(graph_t * g)
     int n_sametail;		/* number of same_t groups on current node */
     int i;
 
-    E_samehead = agattr(g, AGEDGE, "samehead",(char*)0);
-    E_sametail = agattr(g, AGEDGE, "sametail",(char*)0);
+    E_samehead = agattr(g, AGEDGE, "samehead", NULL);
+    E_sametail = agattr(g, AGEDGE, "sametail", NULL);
     if (!(E_samehead || E_sametail))
 	return;
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
