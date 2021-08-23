@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   libraries: lib/cgraph++ and lib/gvc++. It is experimental, meaning
   that it might have breaking changes also in upcoming patch or minor
   releases (towards #2001)
+- CMake builds now support an `with_expat` option that allows the support for
+  using HTML-like labels through the optional expat library to be explicitly
+  enabled (default) or disabled
+- CMake builds now support an with_zlib option that allows the support for
+  raster image compression through the optional zlib library to be explicitly
+  enabled (default) or disabled
 
 ### Changed
 
@@ -41,6 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - do not abort when `calloc(0, x)` or `calloc(x, 0)` in `gcalloc` return `NULL`
 - failed Exshort_t type discrimination #1799
 - dot manpage is in wrong directory on Windows #1936
+- CMake builds fail when when the ltdl library is not available even if the
+  `enable_ltdl` option is `ON`
+- CMake builds fail when when the optional `zlib` library is not available
 
 ## [2.48.0] - 2021-07-17
 

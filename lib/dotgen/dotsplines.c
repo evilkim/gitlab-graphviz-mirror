@@ -336,6 +336,8 @@ static void _dot_splines(graph_t * g, int normalize)
 	    orthoEdges (g, 0);
 	goto finish;
     } 
+#else
+    (void) setEdgeLabelPos;
 #endif
 
     mark_lowclusters(g);
@@ -527,7 +529,9 @@ static void _dot_splines(graph_t * g, int normalize)
     if (normalize)
 	edge_normalize(g);
 
+#ifdef ORTHO
 finish :
+#endif
     /* vladimir: place port labels */
     /* FIX: head and tail labels are not part of cluster bbox */
     if ((E_headlabel || E_taillabel) && (E_labelangle || E_labeldistance)) {
