@@ -17,7 +17,7 @@ static int r2i(float r){
   return (int)(255*r+0.5);
 }
 
-void rgb2hex(float r, float g, float b, char *cstring, char *opacity){
+void rgb2hex(float r, float g, float b, char *cstring, const char *opacity) {
   sprintf(cstring, "#%02x%02x%02x", r2i(r), r2i(g), r2i(b));
   //set to semitransparent for multiple sets vis
   if (opacity && strlen(opacity) >= 2){

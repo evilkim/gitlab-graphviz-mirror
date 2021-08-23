@@ -51,60 +51,44 @@ static GLUtesselator* Init()
     return tobj;
 }
 
-
-
-static int Set_Winding_Rule(GLUtesselator *tobj,GLenum winding_rule)
+static void Set_Winding_Rule(GLUtesselator *tobj, GLenum winding_rule)
 {
-
 // Set the winding rule
     gluTessProperty(tobj, GLU_TESS_WINDING_RULE, winding_rule); 
-    return 1 ;
 }
 
-static int Render_Contour2(GLUtesselator *tobj,sdot_op* p)
+static void Render_Contour2(GLUtesselator *tobj, sdot_op* p)
 {
-    GLdouble** d;
     int x=0;
 
-    d= malloc(sizeof(GLdouble)* p->op.u.polygon.cnt);
+    GLdouble* d = calloc(p->op.u.polygon.cnt * 3, sizeof(GLdouble));
     for (x=0;x < p->op.u.polygon.cnt; x++)
     {
-	d[x]=malloc(sizeof(GLdouble)*3);
-	d[x][0]=p->op.u.polygon.pts[x].x;
-	d[x][1]=p->op.u.polygon.pts[x].y;
-	d[x][2]=p->op.u.polygon.pts[x].z+view->Topview->global_z;
+        d[x * 3] = p->op.u.polygon.pts[x].x;
+        d[x * 3 + 1] = p->op.u.polygon.pts[x].y;
+        d[x * 3 + 2] = p->op.u.polygon.pts[x].z + view->Topview->global_z;
     }
     for (x = 0; x < p->op.u.polygon.cnt; x++) //loop through the vertices
     {
-	gluTessVertex(tobj, d[x],d[x]); //store the vertex
+        gluTessVertex(tobj, &d[x * 3], &d[x * 3]); //store the vertex
     }
-
-    return(1);
-
 }
 
-static int Begin_Polygon(GLUtesselator *tobj)
+static void Begin_Polygon(GLUtesselator *tobj)
 {
     gluTessBeginPolygon(tobj, NULL);
-    return(1);
 }
-static int End_Polygon(GLUtesselator *tobj)
+static void End_Polygon(GLUtesselator *tobj)
 {
     gluTessEndPolygon(tobj);
-    return(1);
-
 }
-static int Begin_Contour(GLUtesselator *tobj)
+static void Begin_Contour(GLUtesselator *tobj)
 {
     gluTessBeginContour(tobj);
-    return(1);
-
 }
-static int End_Contour(GLUtesselator *tobj)
+static void End_Contour(GLUtesselator *tobj)
 {
     gluTessEndContour(tobj);
-    return(1);
-
 }
 
 int drawTessPolygon(sdot_op* p)

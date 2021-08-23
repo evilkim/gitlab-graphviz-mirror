@@ -245,7 +245,7 @@ static void plot_dot_labels(FILE *f, int n, int dim, real *x, char **labels, flo
 }
 
 static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_width,  
-			int fill, char *cstring){
+                        int fill, const char *cstring){
 
   if (np > 0){
     if (fill >= 0){
@@ -265,11 +265,15 @@ static void dot_polygon(agxbuf *sbuff, int np, float *xp, float *yp, real line_w
   }
 }
 
-static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np, float *xp, float *yp, char *cstring){
+static void dot_one_poly(agxbuf *sbuff, real line_width, int fill, int np,
+                         float *xp, float *yp, const char *cstring) {
   dot_polygon(sbuff, np, xp, yp, line_width, fill, cstring);
 }
 
-static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, SparseMatrix polys, real *x_poly, int *polys_groups, float *r, float *g, float *b, char *opacity){
+static void plot_dot_polygons(agxbuf *sbuff, real line_width,
+                              const char *line_color, SparseMatrix polys,
+                              real *x_poly, int *polys_groups, float *r,
+                              float *g, float *b, const char *opacity) {
   int i, j, *ia = polys->ia, *ja = polys->ja, *a = (int*) polys->a, npolys = polys->m, nverts = polys->n, ipoly,first;
   int np = 0, maxlen = 0;
   float *xp, *yp;
@@ -310,8 +314,11 @@ static void plot_dot_polygons(agxbuf *sbuff, real line_width, char *line_color, 
 
 }
 
-void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys, SparseMatrix poly_lines, real line_width, char *line_color, real *x_poly, int *polys_groups, char **labels,
-		  float *fsz, float *r, float *g, float *b, char* opacity, SparseMatrix A, FILE* f){
+void plot_dot_map(Agraph_t* gr, int n, int dim, real *x, SparseMatrix polys,
+                  SparseMatrix poly_lines, real line_width,
+                  const char *line_color, real *x_poly, int *polys_groups,
+                  char **labels, float *fsz, float *r, float *g, float *b,
+                  const char* opacity, SparseMatrix A, FILE* f) {
   /* if graph object exist, we just modify some attributes, otherwise we dump the whole graph */
   int plot_polyQ = TRUE;
   agxbuf sbuff;

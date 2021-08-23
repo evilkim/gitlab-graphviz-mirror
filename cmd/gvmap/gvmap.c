@@ -45,7 +45,7 @@ typedef struct {
     int color_scheme;
     real line_width;
     char *color_scheme_str;
-    char *opacity;
+    const char *opacity;
     char *plot_label;
     real *bg_color;
     int improve_contiguity_n;
@@ -53,7 +53,7 @@ typedef struct {
     bool color_optimize;
     int maxcluster;
     int nedgep;
-    char *line_color;
+    const char *line_color;
     int include_OK_points;
     int highlight_cluster;
     int seed;      /* seed used to calculate Fiedler vector */
@@ -175,7 +175,7 @@ init(int argc, char **argv, params_t* pm)
 
   pm->cmd = cmd;
   pm->infiles = NULL;
-  pm->line_color = strdup("#000000");
+  pm->line_color = "#000000";
   pm->include_OK_points = FALSE;
   pm->seed = 123;
 
@@ -186,7 +186,7 @@ init(int argc, char **argv, params_t* pm)
   while ((c = getopt(argc, argv, ":evODQko:m:s:r:p:c:C:l:b:g:t:a:h:z:d:?")) != -1) {
     switch (c) {
     case 'm':
-      if ((sscanf(optarg,"%lf",&s) > 0) && (s != 0)){
+      if (sscanf(optarg, "%lf", &s) > 0 && s != 0) {
 	    pm->bbox_margin[0] =  pm->bbox_margin[1] = s;
       } else {
         usage(cmd, 1);
@@ -196,34 +196,35 @@ init(int argc, char **argv, params_t* pm)
       pm->clusterMethod = CLUSTERING_MQ;
       break;
     case 's':
-      if ((sscanf(optarg,"%lf",&s) > 0)){
+      if (sscanf(optarg, "%lf", &s) > 0) {
         pm->shore_depth_tol = s;
       } else {
         usage(cmd,1);
       }
       break;
     case 'h':
-      if ((sscanf(optarg,"%d",&v) > 0)){
+      if (sscanf(optarg, "%d", &v) > 0) {
         pm->nedgep = MAX(0, v);
-      } else if (!strncmp(optarg, HLPFX, N_HLPFX) && (sscanf(optarg+N_HLPFX,"%d",&v) > 0)) {
+      } else if (!strncmp(optarg, HLPFX, N_HLPFX) &&
+                 sscanf(optarg + N_HLPFX, "%d", &v) > 0) {
         pm->highlight_cluster = MAX(0, v);
       } else {
         usage(cmd,1);
       }
       break;
      case 'r':
-      if ((sscanf(optarg,"%d",&r) > 0)){
+      if (sscanf(optarg, "%d", &r) > 0) {
         pm->nrandom = r;
       }
       break;
     case 't':
-      if ((sscanf(optarg,"%d",&r) > 0) && r > 0){
+      if (sscanf(optarg, "%d", &r) > 0 && r > 0) {
         pm->improve_contiguity_n = r;
       }
       break;
     case 'p':
       pm->show_points = 1;
-      if ((sscanf(optarg,"%d",&r) > 0)){
+      if (sscanf(optarg, "%d", &r) > 0) {
         pm->show_points = MIN(3, r);
       }
       break;
@@ -246,7 +247,7 @@ init(int argc, char **argv, params_t* pm)
       pm->color_optimize = false;
       break;
     case 'a':
-      if ((sscanf(optarg,"%d",&r) > 0)){
+      if (sscanf(optarg, "%d", &r) > 0) {
 	    pm->nart = r;
       } else {
 	    usage(cmd,1);
@@ -254,8 +255,9 @@ init(int argc, char **argv, params_t* pm)
       break;
     case 'c':
       if (sscanf(optarg,"_opacity=%2s", stmp) > 0 && strlen(stmp) == 2){
-        pm->opacity = strdup(stmp);
-      } else if ((sscanf(optarg,"%d",&r) > 0) && r >= COLOR_SCHEME_NONE && r <= COLOR_SCHEME_GREY){
+        pm->opacity = stmp;
+      } else if (sscanf(optarg, "%d", &r) > 0 && r >= COLOR_SCHEME_NONE &&
+                 r <= COLOR_SCHEME_GREY) {
         pm->color_scheme = r;
       } else if (knownColorScheme(optarg)) {
         pm->color_scheme = COLOR_SCHEME_NONE;
@@ -273,7 +275,7 @@ init(int argc, char **argv, params_t* pm)
         pm->seed = v;
       break;
     case 'C':
-      if (!((sscanf(optarg,"%d",&v) > 0) && v >= 0)){
+      if (!(sscanf(optarg, "%d", &v) > 0 && v >= 0)) {
         usage(cmd,1);
       }
       else
@@ -290,8 +292,7 @@ init(int argc, char **argv, params_t* pm)
       break;
     }
     case 'z': {
-      FREE (pm->line_color);
-      pm->line_color = strdup (optarg);
+      pm->line_color = optarg;
       break;
     }
     case 'b':

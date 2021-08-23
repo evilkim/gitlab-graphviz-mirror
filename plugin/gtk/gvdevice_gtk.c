@@ -36,10 +36,8 @@ attr_value_edited_cb(GtkCellRendererText *renderer, gchar *pathStr, gchar *newTe
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	gchar *old_attr;
-	gint row;
 	
 	path = gtk_tree_path_new_from_string(pathStr);
-	row = gtk_tree_path_get_indices(path)[0];
 	
 	// need to free old attr value in job and allocate new attr value - how?
 	
