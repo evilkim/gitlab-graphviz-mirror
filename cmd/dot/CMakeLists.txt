@@ -72,7 +72,7 @@ endif()
 # Specify man pages to be installed
 install(
     FILES dot.1 osage.1 patchwork.1
-    DESTINATION ${MAN_INSTALL_DIR}
+    DESTINATION ${MAN_INSTALL_DIR}/man1
 )
 
 install(

@@ -14,7 +14,7 @@ function(tool_defaults name)
 
     install(
         FILES ${name}.1
-        DESTINATION ${MAN_INSTALL_DIR}
+        DESTINATION ${MAN_INSTALL_DIR}/man1
     )
 endfunction(tool_defaults)
 

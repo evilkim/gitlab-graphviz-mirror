@@ -35,5 +35,5 @@ install(
 # Specify man pages to be installed
 install(
     FILES gvpr.1
-    DESTINATION ${MAN_INSTALL_DIR}
+    DESTINATION ${MAN_INSTALL_DIR}/man1
 )
