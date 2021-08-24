@@ -9,7 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
 	-I$(top_srcdir)/lib/cdt
 
-noinst_HEADERS = exgram.h exlib.h exop.h expr.h
+noinst_HEADERS = exgram.h exlib.h exop.h exparse.h expr.h
 noinst_LTLIBRARIES = libexpr_C.la
 
 ### expr.h includes ast.h and vmalloc.h which we don't install
@@ -44,12 +44,6 @@ exparse.c: y.tab.c
 		@SED@ "s/FILE/Sfio_t/g" | \
 		@SED@ "s/stderr/sfstderr/g" > exparse.c
 
-exparse.h: y.tab.h
-	echo "#ifndef _EXPARSE_H" > exparse.h
-	echo "#define _EXPARSE_H" >> exparse.h
-	cat y.tab.h >> exparse.h
-	echo "#endif /* _EXPARSE_H */" >> exparse.h
-
 y.tab.c y.tab.h: y.output
 
 y.output: $(top_srcdir)/lib/expr/exparse.y
@@ -67,7 +61,7 @@ endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) \
 	Makefile.nmake Makefile.orig \
-	exparse.c exparse.h \
+	exparse.c \
 	y.tab.c y.tab.h y.output expr.vcxproj*
 
-DISTCLEANFILES = $(pdf) exparse.[ch] y.tab.[ch] y.output expr.3.ps
+DISTCLEANFILES = $(pdf) exparse.c y.tab.[ch] y.output expr.3.ps

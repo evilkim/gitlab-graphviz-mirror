@@ -164,7 +164,6 @@ lib/common/htmlparse.h
 lib/common/htmlparse.output
 lib/common/svgcolor_lib
 lib/expr/exparse.c
-lib/expr/exparse.h
 lib/vpsc/pairingheap/.dirstamp
 plugin/core/ps.h
 plugin/lasi/ps.h
