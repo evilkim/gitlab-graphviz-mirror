@@ -26,10 +26,12 @@
 
 #include "VisioRender.h"
 
+#include <algorithm>
 #include <common/const.h>
 #include <common/macros.h>
 #include <gvc/gvcjob.h>
 #include <gvc/gvio.h>
+#include <limits>
 #include <memory>
 
 namespace Visio
@@ -225,9 +227,6 @@ namespace Visio
 	{
 		_graphics.clear();
 		
-		/* clear texts */
-		for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-			delete *nextText;
 		_texts.clear();
 
 		_hyperlinks.clear();
@@ -243,7 +242,7 @@ namespace Visio
 			PrintOuterShape(job, *graphic);		
 	}
 
-	void Render::AddText(GVJ_t*, const Text* text)
+	void Render::AddText(GVJ_t*, const Text &text)
 	{
 		/* if in component, accumulate for end node/edge */
 		if (_inComponent)
@@ -403,21 +402,19 @@ namespace Visio
 			pointf textCenter;
 			if (!_texts.empty())
 			{
-				boxf outerTextBounds = _texts[0]->GetBounds();
+				// create a box with invalid dimensions that we will refine to a tight bound
+				boxf outerTextBounds;
+				outerTextBounds.LL.x = std::numeric_limits<double>::max();
+				outerTextBounds.LL.y = std::numeric_limits<double>::max();
+				outerTextBounds.UR.x = std::numeric_limits<double>::min();
+				outerTextBounds.UR.y = std::numeric_limits<double>::min();
 				
-				for (Texts::const_iterator nextText = _texts.begin() + 1, lastText = _texts.end();
-					 nextText != lastText;
-					 ++nextText)
-				{
-					boxf innerTextBounds = (*nextText)->GetBounds();
-					if (outerTextBounds.LL.x > innerTextBounds.LL.x)
-						outerTextBounds.LL.x = innerTextBounds.LL.x;
-					if (outerTextBounds.LL.y > innerTextBounds.LL.y)
-						outerTextBounds.LL.y = innerTextBounds.LL.y;
-					if (outerTextBounds.UR.x < innerTextBounds.UR.x)
-						outerTextBounds.UR.x = innerTextBounds.UR.x;
-					if (outerTextBounds.UR.y < innerTextBounds.UR.y)
-						outerTextBounds.UR.y = innerTextBounds.UR.y;
+				for (const Text &t : _texts) {
+					boxf innerTextBounds = t.GetBounds();
+					outerTextBounds.LL.x = std::min(outerTextBounds.LL.x, innerTextBounds.LL.x);
+					outerTextBounds.LL.y = std::min(outerTextBounds.LL.y, innerTextBounds.LL.y);
+					outerTextBounds.UR.x = std::max(outerTextBounds.UR.x, innerTextBounds.UR.x);
+					outerTextBounds.UR.y = std::max(outerTextBounds.UR.y, innerTextBounds.UR.y);
 				}
 				textCenter.x = (outerTextBounds.LL.x + outerTextBounds.UR.x) / 2.0;
 				textCenter.y = (outerTextBounds.LL.y + outerTextBounds.UR.y) / 2.0;
@@ -453,13 +450,13 @@ namespace Visio
 		if (!_texts.empty())
 		{
 			/* output Para, Char */
-			for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-				(*nextText)->Print(job);
+			for (const Text &t : _texts)
+				t.Print(job);
 			
 			/* output Text. each run references above Para + Char */
 			gvputs(job, "<Text>");
 			for (unsigned int index = 0, count = _texts.size(); index < count; ++index)
-				(_texts[index])->PrintRun(job, index);
+				_texts[index].PrintRun(job, index);
 			gvputs(job, "</Text>");
 		}
 	}

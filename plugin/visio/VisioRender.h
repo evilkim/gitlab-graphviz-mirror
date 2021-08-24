@@ -21,10 +21,10 @@
 
 namespace Visio
 {
-	typedef std::map<Agnode_t*, unsigned int> NodeIds;
-	typedef std::vector<std::unique_ptr<Graphic>> Graphics;
-	typedef std::vector<const Text*> Texts;
-	typedef std::vector<Hyperlink> Hyperlinks;
+	using NodeIds = std::map<Agnode_t*, unsigned int>;
+	using Graphics = std::vector<std::unique_ptr<Graphic>>;
+	using Texts = std::vector<Text>;
+	using Hyperlinks = std::vector<Hyperlink>;
 
 	/* object wrapper for render function callback */
 	class Render
@@ -52,7 +52,7 @@ namespace Visio
 		/* graphics and texts maintenance */
 		void ClearGraphicsAndTexts();
 		void AddGraphic(GVJ_t* job, Graphic* graphic);
-		void AddText(GVJ_t* job, const Text* text);
+		void AddText(GVJ_t* job, const Text &text);
 		void AddHyperlink(GVJ_t* job, const Hyperlink &hyperlink);
 		
 		/* output the graphic as top level shape */

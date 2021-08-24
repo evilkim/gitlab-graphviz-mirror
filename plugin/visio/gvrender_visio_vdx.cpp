@@ -19,7 +19,7 @@
 
 #include "VisioRender.h"
 
-typedef enum { FORMAT_VDX } format_type;
+enum { FORMAT_VDX };
 
 static void vdxgen_begin_job(GVJ_t * job)
 {

@@ -69,7 +69,7 @@ namespace Visio
 		gvprintf(job, "<pp IX='%u'/><cp IX='%u'/>%s\n", index, index, xml_string(_text.c_str()));	/* para mark + char mark + actual text */
 	}
 	
-	Text* Text::CreateText(GVJ_t* job, pointf p, textspan_t* span)
+	Text Text::CreateText(GVJ_t* job, pointf p, textspan_t* span)
 	{
 		Para::HorzAlign horzAlign;
 		
@@ -98,7 +98,7 @@ namespace Visio
 				break;
 		}
 		
-		return new Text(
+		return Text(
 			Para(
 				horzAlign),
 			Char(
