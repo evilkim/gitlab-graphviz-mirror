@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CMake builds fail when when the ltdl library is not available even if the
   `enable_ltdl` option is `ON`
 - CMake builds fail when when the optional `zlib` library is not available
+- fix graph rotation in quartz plugin
 
 ## [2.48.0] - 2021-07-17
 
