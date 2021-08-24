@@ -122,7 +122,6 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
     <ClInclude Include="common\colortbl.h" />
     <ClInclude Include="common\const.h" />
     <ClInclude Include="common\entities.h" />
-    <ClInclude Include="common\exparse.h" />
     <ClInclude Include="common\geom.h" />
     <ClInclude Include="common\geomprocs.h" />
     <ClInclude Include="common\globals.h" />

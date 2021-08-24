@@ -33,9 +33,6 @@
     <ClInclude Include="common\entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\exparse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="common\geom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
