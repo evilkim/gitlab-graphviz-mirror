@@ -119,6 +119,12 @@ target_link_libraries(common PRIVATE
     pathplan
 )
 
+if(EXPAT_FOUND)
+    target_link_libraries(common PUBLIC
+        ${EXPAT_LIBRARIES}
+    )
+endif()
+
 # Specify headers to be installed
 install(
     FILES
