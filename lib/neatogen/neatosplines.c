@@ -16,9 +16,6 @@
 #include <pathplan/pathplan.h>
 #include <pathplan/vispath.h>
 #include <neatogen/multispline.h>
-#ifndef HAVE_DRAND48
-extern double drand48(void);
-#endif
 
 #ifdef ORTHO
 #include <ortho/ortho.h>

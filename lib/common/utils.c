@@ -1863,7 +1863,6 @@ void gv_nodesize(node_t * n, boolean flip)
 }
 
 #ifndef HAVE_DRAND48
-#pragma weak drand48
 double drand48(void)
 {
     double d;
