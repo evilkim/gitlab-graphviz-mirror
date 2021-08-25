@@ -362,8 +362,6 @@ target_link_libraries(mm2gv
 tool_defaults(mm2gv)
 
 # =================================== sccmap ===================================
-if(EXPAT_FOUND)
-
 add_executable(sccmap
     # Source files
     sccmap.c
@@ -379,19 +377,15 @@ target_include_directories(sccmap PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${EXPAT_INCLUDE_DIRS}
     ${Getopt_INCLUDE_DIRS}
 )
 
 target_link_libraries(sccmap
     cgraph
     ingraphs
-    ${EXPAT_LIBRARIES}
 )
 
 tool_defaults(sccmap)
-
-endif(EXPAT_FOUND)
 
 # ===================== Install third party DLLs on Windows ====================
 
