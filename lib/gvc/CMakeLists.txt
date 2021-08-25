@@ -62,7 +62,6 @@ target_link_libraries(gvc PUBLIC
     label
     pack
     xdot
-    ${EXPAT_LIBRARIES}
     ${MATH_LIB}
 )
 
