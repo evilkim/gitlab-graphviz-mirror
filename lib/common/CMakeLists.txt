@@ -114,6 +114,10 @@ add_library(common STATIC
     $<TARGET_OBJECTS:common_obj>
 )
 
+target_link_libraries(common PRIVATE
+    pathplan
+)
+
 # Specify headers to be installed
 install(
     FILES
