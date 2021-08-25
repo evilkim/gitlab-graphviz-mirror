@@ -244,7 +244,6 @@ target_include_directories(gvgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
-    ${EXPAT_INCLUDE_DIRS}
     ${Getopt_INCLUDE_DIRS}
 )
 
