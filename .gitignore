@@ -1,17 +1,5 @@
 syntax: glob
 
-
-#*~
-#*.a
-#rtest*.tar.gz*
-#*.lai
-#*.Po
-#*.Plo
-#*.so
-#*.so.*
-#*.soT
-#COPYING
-
 doxygen
 
 CMakeFiles
