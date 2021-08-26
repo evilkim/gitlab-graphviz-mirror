@@ -1,17 +1,5 @@
 syntax: glob
 
-
-#*~
-#*.a
-#rtest*.tar.gz*
-#*.lai
-#*.Po
-#*.Plo
-#*.so
-#*.so.*
-#*.soT
-#COPYING
-
 doxygen
 
 CMakeFiles
@@ -54,7 +42,6 @@ Makefile.in
 /libtool
 /redhat/graphviz.spec.fedora
 /redhat/graphviz.spec.rhel
-/stamp-h1
 .deps
 Makefile
 !contrib/pangotest/Makefile
@@ -69,7 +56,6 @@ doc/schema/Makefile
 *.pc
 cmd/gvedit/gvedit.pro
 debian/changelog
-lib/common/stamp-h2
 macosx/Info.plist
 macosx/build/graphviz.pmdoc/01local.xml
 macosx/build/graphviz.pmdoc/02graphviz.xml
