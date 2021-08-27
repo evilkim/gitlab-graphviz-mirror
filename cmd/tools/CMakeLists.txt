@@ -349,7 +349,6 @@ target_link_libraries(mm2gv
     sparse
     cgraph
     gvc
-    pathplan
 )
 
 tool_defaults(mm2gv)
