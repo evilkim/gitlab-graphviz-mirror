@@ -23,7 +23,6 @@ target_link_libraries(gvplugin_neato_layout
     neatogen
     osage
     patchwork
-    pathplan
     rbtree
     sparse
     twopigen
