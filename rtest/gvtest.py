@@ -10,9 +10,14 @@ from typing import List, Optional, Tuple
 ROOT = Path(__file__).resolve().parent.parent
 """absolute path to the root of the repository"""
 
-def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
+def compile_c(src: Path, cflags: List[str] = None, link: List[str] = None,
             dst: Optional[Path] = None) -> Path:
   """compile a C program"""
+
+  if cflags is None:
+    cflags = []
+  if link is None:
+    link = []
 
   # include compiler flags from both the caller and the environment
   cflags = os.environ.get("CFLAGS", "").split() + cflags
@@ -50,9 +55,17 @@ def compile_c(src: Path, cflags: List[str] = [], link: List[str] = [],
 
   return dst
 
-def run_c(src: Path, args: List[str] = [], input: str = "",
-        cflags: List[str] = [], link: List[str] = []) -> Tuple[int, str, str]:
+def run_c(src: Path, args: List[str] = None, input: str = "",
+          cflags: List[str] = None, link: List[str] = None
+          ) -> Tuple[int, str, str]:
   """compile and run a C program"""
+
+  if args is None:
+    args = []
+  if cflags is None:
+    cflags = []
+  if link is None:
+    link = []
 
   # create some temporary space to work in
   with tempfile.TemporaryDirectory() as tmp:
