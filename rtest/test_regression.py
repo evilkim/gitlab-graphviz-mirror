@@ -42,18 +42,22 @@ def is_ndebug_defined() -> bool:
 # saying "== Failed ==" which thus is not counted as a failure at the
 # end.
 
-# First run a subset of all the tests that produces equal output files
-# for all platforms and fail the test if there are differences.
-
 def test_regression_subset_differences():
+  """
+  First run a subset of all the tests that produces equal output files
+  for all platforms and fail the test if there are differences.
+  """
+
   os.chdir(Path(__file__).resolve().parent)
   subprocess.check_call([sys.executable, "rtest.py", "tests_subset.txt"])
 
-# Secondly, run all tests but ignore differences and fail the test
-# only if there is a crash. This will leave the differences for png
-# output in rtest/nhtml/index.html for review.
-
 def test_regression_failure():
+  """
+  Secondly, run all tests but ignore differences and fail the test
+  only if there is a crash. This will leave the differences for png
+  output in rtest/nhtml/index.html for review.
+  """
+
   os.chdir(Path(__file__).resolve().parent)
   result = subprocess.Popen([sys.executable, "rtest.py"],
                             stderr=subprocess.PIPE, universal_newlines=True)
@@ -788,6 +792,9 @@ for (prefix, _, files) in os.walk(ROOT):
 @pytest.mark.parametrize("src", html)
 @pytest.mark.skipif(shutil.which("xmllint") is None, reason="xmllint not found")
 def test_html(src: Path):
+  """
+  check that HTML files are valid and conforming
+  """
 
   # validate the file
   p = subprocess.Popen(["xmllint", "--nonet", "--noout", "--html", "--valid",
