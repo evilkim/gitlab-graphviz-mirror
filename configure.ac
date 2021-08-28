@@ -1184,8 +1184,6 @@ else
           PYTHON=
         else
           PYTHON_VERSION_MAJOR=`echo $PYTHON_VERSION | cut -d '.' -f 1`
-          PYTHON_VERSION_MINOR=`echo $PYTHON_VERSION | cut -d '.' -f 2`
-          PYTHON_VERSION_SHORT=$PYTHON_VERSION_MAJOR.$PYTHON_VERSION_MINOR
           if test $PYTHON_VERSION_MAJOR -lt 3; then
             PYTHON=
           fi
@@ -1195,7 +1193,7 @@ else
 	use_python="No (python is too old)"
       else
         PYTHON_PREFIX=`$PYTHON -c "import sys; print(sys.prefix)"`
-        PYTHON_INCLUDES=-I$PYTHON_PREFIX/include/python$PYTHON_VERSION_SHORT
+        PYTHON_INCLUDES=-I$PYTHON_PREFIX/include/python$PYTHON_VERSION
 	PYTHON_LIBS="-undefined dynamic_lookup"
         PYTHON_INSTALL_DIR="`$PYTHON $srcdir/config/config_python.py archsitelib`"
         save_CPPFLAGS=$CPPFLAGS
