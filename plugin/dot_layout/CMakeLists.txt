@@ -19,7 +19,6 @@ target_link_libraries(gvplugin_dot_layout
     cgraph
     dotgen
     gvc
-    pathplan
 )
 
 # Installation location of library files

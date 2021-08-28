@@ -28,3 +28,7 @@ target_include_directories(fdpgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
 )
+
+target_link_libraries(fdpgen PRIVATE
+    pathplan
+)

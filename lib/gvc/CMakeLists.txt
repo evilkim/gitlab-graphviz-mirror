@@ -52,12 +52,15 @@ target_link_libraries(gvc PRIVATE
     $<TARGET_OBJECTS:pack_obj>
 )
 
+target_link_libraries(gvc PRIVATE
+    common
+)
+
 target_link_libraries(gvc PUBLIC
     cdt
     cgraph
     label
     pack
-    pathplan
     xdot
     ${EXPAT_LIBRARIES}
     ${MATH_LIB}
