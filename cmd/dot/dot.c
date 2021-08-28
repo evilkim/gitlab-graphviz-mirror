@@ -14,6 +14,7 @@
 
 #include "config.h"
 
+#include <cgraph/cgraph.h>
 #include <gvc/gvc.h>
 #include <gvc/gvio.h>
 
