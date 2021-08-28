@@ -39,7 +39,7 @@ EXTRA_DIST = $(txt) $(html) graphviz.spec \
 	builddate.h \
 	m4/README m4/lib-ld.m4 m4/lib-link.m4 m4/lib-prefix.m4 \
 	graphviz.7 Doxyfile.in Doxyfile awk \
-	config/config_perl.pl config/config_python.py \
+	config/config_perl.pl \
 	config/config_ruby.rb config/config_tcl.tcl dot.demo  plugin.demo \
 	macosx windows debian redhat graphviz.sln
 

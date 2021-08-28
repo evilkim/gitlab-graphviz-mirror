@@ -1195,7 +1195,7 @@ else
         PYTHON_PREFIX=`$PYTHON -c "import sys; print(sys.prefix)"`
         PYTHON_INCLUDES=-I$PYTHON_PREFIX/include/python$PYTHON_VERSION
 	PYTHON_LIBS="-undefined dynamic_lookup"
-        PYTHON_INSTALL_DIR="`$PYTHON $srcdir/config/config_python.py archsitelib`"
+        PYTHON_INSTALL_DIR="`$PYTHON -c 'from distutils import sysconfig; print(sysconfig.get_python_lib(1,0))'`"
         save_CPPFLAGS=$CPPFLAGS
         CPPFLAGS="$CPPFLAGS $PYTHON_INCLUDES"
         AC_CHECK_HEADER(Python.h,,[
@@ -1255,7 +1255,7 @@ else
 	           use_python3="No (python-$PYTHON3_VERSION.pc not found)"
           fi
         fi
-        PYTHON3_INSTALL_DIR="`$PYTHON3 $srcdir/config/config_python.py archsitelib`"
+        PYTHON3_INSTALL_DIR="`$PYTHON3 -c 'from distutils import sysconfig; print(sysconfig.get_python_lib(1,0))'`"
         save_CPPFLAGS=$CPPFLAGS
         CPPFLAGS="$CPPFLAGS $PYTHON3_INCLUDES"
         AC_CHECK_HEADER(Python.h,,[
