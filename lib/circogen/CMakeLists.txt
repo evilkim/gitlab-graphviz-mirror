@@ -32,3 +32,7 @@ target_include_directories(circogen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan)
+
+target_link_libraries(circogen PRIVATE
+    cgraph
+)
