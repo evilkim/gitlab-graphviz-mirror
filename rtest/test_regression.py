@@ -1275,10 +1275,10 @@ for root, _, files in os.walk(ROOT):
     if stem in ("VCTargetsPath.vcxproj", "CompilerIdC.vcxproj",
                 "CompilerIdCXX.vcxproj"):
       continue
-    p = Path(root) / stem
-    if p.suffix != ".vcxproj":
+    full_path = Path(root) / stem
+    if full_path.suffix != ".vcxproj":
       continue
-    VCXPROJS.append(p)
+    VCXPROJS.append(full_path)
 
 @pytest.mark.parametrize("vcxproj", VCXPROJS)
 def test_vcxproj_inclusive(vcxproj: Path):
