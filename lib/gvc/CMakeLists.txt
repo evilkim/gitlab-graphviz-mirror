@@ -61,7 +61,6 @@ target_link_libraries(gvc PUBLIC
     cdt
     label
     pack
-    xdot
     ${MATH_LIB}
 )
 
