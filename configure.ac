@@ -1187,13 +1187,7 @@ else
           PYTHON_VERSION_MINOR=`echo $PYTHON_VERSION | cut -d '.' -f 2`
           PYTHON_VERSION_SHORT=$PYTHON_VERSION_MAJOR.$PYTHON_VERSION_MINOR
           if test $PYTHON_VERSION_MAJOR -lt 3; then
-            if test $PYTHON_VERSION_MAJOR -lt 2; then
-	      PYTHON=
-            else
-              if test $PYTHON_VERSION_MINOR -lt 3; then
-	        PYTHON=
-              fi
-            fi
+            PYTHON=
           fi
         fi
       fi
