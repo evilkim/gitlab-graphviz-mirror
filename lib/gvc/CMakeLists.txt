@@ -59,7 +59,6 @@ target_link_libraries(gvc PRIVATE
 
 target_link_libraries(gvc PUBLIC
     cdt
-    label
     pack
     ${MATH_LIB}
 )
