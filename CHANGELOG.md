@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.49.0] – 2021-08-28
+
 ### Added
 - a very basic C++ API for a subset of the functions in lib/cgraph and
   lib/gvc, allowing a graph to be rendered from DOT source to a
@@ -1511,7 +1513,8 @@ March 13, 2000: Use AM_PROG_LIBTOOL instead of AC_PROG_LIBTOOL
    in configure.in.  John Ellson <ellson@graphviz.org>
 ```
 
-[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.48.0...main
+[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.49.0...main
+[2.49.0]: https://gitlab.com/graphviz/graphviz/compare/2.48.0...2.49.0
 [2.48.0]: https://gitlab.com/graphviz/graphviz/compare/2.47.3...2.48.0
 [2.47.3]: https://gitlab.com/graphviz/graphviz/compare/2.47.2...2.47.3
 [2.47.2]: https://gitlab.com/graphviz/graphviz/compare/2.47.1...2.47.2
