@@ -53,12 +53,12 @@ target_link_libraries(gvc PRIVATE
 )
 
 target_link_libraries(gvc PRIVATE
+    cgraph
     common
 )
 
 target_link_libraries(gvc PUBLIC
     cdt
-    cgraph
     label
     pack
     xdot
