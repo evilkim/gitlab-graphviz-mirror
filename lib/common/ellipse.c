@@ -400,13 +400,13 @@ estimateError(ellipse_t * ep, int degree, double etaA, double etaB)
  */
 static int bufsize;
 
-static void moveTo(Ppolyline_t * path, double x, double y)
+static void moveTo(Ppolyline_t *polypath, double x, double y)
 {
     bufsize = 100;
-    path->ps = N_NEW(bufsize, pointf);
-    path->ps[0].x = x;
-    path->ps[0].y = y;
-    path->pn = 1;
+    polypath->ps = N_NEW(bufsize, pointf);
+    polypath->ps[0].x = x;
+    polypath->ps[0].y = y;
+    polypath->pn = 1;
 }
 
 static void
