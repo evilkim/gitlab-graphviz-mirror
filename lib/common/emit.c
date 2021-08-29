@@ -910,7 +910,7 @@ static double bisect (pointf pp, pointf cp, pointf np)
   ang = theta - phi;
   if (ang > 0) ang -= 2*M_PI;
 
-  return (phi + ang/2.0);
+  return phi + ang / 2.0;
 }
 
 /* mkSegPts:
