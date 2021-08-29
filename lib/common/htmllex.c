@@ -555,7 +555,7 @@ doAttrs(void *tp, attr_item * items, int nel, char **atts, char *s)
     while ((name = *atts++) != NULL) {
 	val = *atts++;
 	key.name = name;
-	ip = (attr_item *) bsearch(&key, items, nel, ISIZE, (bcmpfn) icmp);
+	ip = bsearch(&key, items, nel, ISIZE, (bcmpfn) icmp);
 	if (ip)
 	    state.warn |= ip->action(tp, val);
 	else {
