@@ -1761,9 +1761,9 @@ static bool clust_in_layer(GVJ_t *job, graph_t * sg)
     return false;
 }
 
-static boolean node_in_box(node_t *n, boxf b)
+static bool node_in_box(node_t *n, boxf b)
 {
-    return boxf_overlap(ND_bb(n), b);
+    return boxf_overlap(ND_bb(n), b) != 0;
 }
 
 static void emit_begin_node(GVJ_t * job, node_t * n)
