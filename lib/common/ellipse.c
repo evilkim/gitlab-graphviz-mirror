@@ -435,12 +435,10 @@ static void lineTo(Ppolyline_t * path, double x, double y)
     curveTo(path, curp.x, curp.y, x, y, x, y);
 }
 
-static void endPath(Ppolyline_t * path, boolean close)
+static void endPath(Ppolyline_t * path)
 {
-    if (close) {
-	pointf p0 = path->ps[0];
-	lineTo(path, p0.x, p0.y);
-    }
+    pointf p0 = path->ps[0];
+    lineTo(path, p0.x, p0.y);
 
     path->ps = realloc(path->ps, path->pn * sizeof(pointf));
     bufsize = 0;
@@ -541,7 +539,7 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
 
     }
 
-    endPath(path, TRUE);
+    endPath(path);
 
     return path;
 }
