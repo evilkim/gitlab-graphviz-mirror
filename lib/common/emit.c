@@ -357,7 +357,7 @@ static void map_point(GVJ_t *job, pointf pf)
 static char **checkClusterStyle(graph_t* sg, int *flagp)
 {
     char *style;
-    char **pstyle = 0;
+    char **pstyle = NULL;
     int istyle = 0;
 
     if (((style = agget(sg, "style")) != 0) && style[0]) {
@@ -1486,7 +1486,7 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
     pointf* pts = N_GNEW(INITPTS, pointf);
     exdot_op* op;
     int i, angle;
-    char** styles = 0;
+    char** styles = NULL;
     int filled = FILL;
 
     op = (exdot_op*)(xd->ops);
@@ -1925,7 +1925,7 @@ static void emit_node(GVJ_t * job, node_t * n)
     GVC_t *gvc = job->gvc;
     char *s;
     char *style;
-    char **styles = 0;
+    char **styles = NULL;
     char **sp;
     char *p;
 
@@ -2832,7 +2832,7 @@ static void emit_edge(GVJ_t * job, edge_t * e)
 {
     char *s;
     char *style;
-    char **styles = 0;
+    char **styles = NULL;
     char **sp;
     char *p;
 
@@ -3836,7 +3836,7 @@ char **parse_style(char *s)
 	case '(':
 	    if (in_parens) {
 		agerr(AGERR, "nesting not allowed in style: %s\n", s);
-		parse[0] = (char *) 0;
+		parse[0] = NULL;
 		agxbfree(&xb);
 		return parse;
 	    }
@@ -3846,7 +3846,7 @@ char **parse_style(char *s)
 	case ')':
 	    if (!in_parens) {
 		agerr(AGERR, "unmatched ')' in style: %s\n", s);
-		parse[0] = (char *) 0;
+		parse[0] = NULL;
 		agxbfree(&xb);
 		return parse;
 	    }
@@ -3857,7 +3857,7 @@ char **parse_style(char *s)
 	    if (!in_parens) {
 		if (fun == FUNLIMIT - 1) {
 		    agerr(AGWARN, "truncating style '%s'\n", s);
-		    parse[fun] = (char *) 0;
+		    parse[fun] = NULL;
 		    agxbfree(&xb);
 		    return parse;
 		}
@@ -3871,11 +3871,11 @@ char **parse_style(char *s)
 
     if (in_parens) {
 	agerr(AGERR, "unmatched '(' in style: %s\n", s);
-	parse[0] = (char *) 0;
+	parse[0] = NULL;
 	agxbfree(&xb);
 	return parse;
     }
-    parse[fun] = (char *) 0;
+    parse[fun] = NULL;
     agxbfree(&xb);
     (void)agxbuse(&ps_xb);		/* adds final '\0' to buffer */
     return parse;
