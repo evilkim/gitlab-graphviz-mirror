@@ -239,11 +239,11 @@ static char* resolveColor (char* str)
 int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 {
     static hsvrgbacolor_t *last;
-    static unsigned char *canon;
+    static char *canon;
     static size_t allocated;
-    unsigned char *p, *q;
+    char *p, *q;
     hsvrgbacolor_t fake;
-    unsigned char c;
+    char c;
     double H, S, V, A, R, G, B;
     double C, M, Y, K;
     unsigned int r, g, b, a;
@@ -254,13 +254,13 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 
     rc = COLOR_OK;
     for (; *str == ' '; str++);	/* skip over any leading whitespace */
-    p = (unsigned char *) str;
+    p = str;
 
     /* test for rgb value such as: "#ff0000"
        or rgba value such as "#ff000080" */
     a = 255;			/* default alpha channel value=opaque in case not supplied */
     if ((*p == '#')
-	&& (sscanf((char *) p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3)) {
+	&& (sscanf(p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3)) {
 	switch (target_type) {
 	case HSVA_DOUBLE:
 	    R = (double) r / 255.0;
@@ -311,7 +311,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 
     /* test for hsv value such as: ".6,.5,.3" */
     if (((c = *p) == '.') || isdigit(c)) {
-	len = strlen((char*)p);
+	len = strlen(p);
 	if (len >= allocated) {
 	    allocated = len + 1 + 10;
 	    canon = grealloc(canon, allocated);
@@ -324,7 +324,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	}
 	*q = '\0';
 
-	if (sscanf((char *) canon, "%lf%lf%lf", &H, &S, &V) == 3) {
+	if (sscanf(canon, "%lf%lf%lf", &H, &S, &V) == 3) {
 	    /* clip to reasonable values */
 	    H = MAX(MIN(H, 1.0), 0.0);
 	    S = MAX(MIN(S, 1.0), 0.0);
