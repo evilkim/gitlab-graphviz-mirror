@@ -1737,7 +1737,7 @@ static bool edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
 	return false;
     for (cnt = 0; cnt < 2; cnt++) {
 	pn = late_string(cnt < 1 ? agtail(e) : aghead(e), N_layer, "");
-	if ((pn[0] == '\0') || selectedlayer(job, pn))
+	if (pn[0] == '\0' || selectedlayer(job, pn))
 	    return true;
     }
     return false;
