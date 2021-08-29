@@ -722,19 +722,19 @@ static bool isRect(polygon_t * p)
 }
 
 /*
- * isFilled function returns 1 if filled style has been set for node 'n'
- * otherwise returns 0. it accepts pointer to node_t as an argument
+ * isFilled function returns true if filled style has been set for node 'n'
+ * otherwise returns false. it accepts pointer to node_t as an argument
  */
-static int isFilled(node_t * n)
+static bool isFilled(node_t * n)
 {
     char *style, *p, **pp;
-    int r = 0;
+    bool r = false;
     style = late_nnstring(n, N_style, "");
     if (style[0]) {
         pp = parse_style(style);
         while ((p = *pp)) {
             if (strcmp(p, "filled") == 0)
-                r = 1;
+                r = true;
             pp++;
         }
     }
@@ -1770,7 +1770,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
 {
     obj_state_t *obj;
     int flags = job->flags;
-    int sides, peripheries, i, j, filled = 0, rect = 0, shape, nump = 0;
+    int sides, peripheries, i, j, rect = 0, shape, nump = 0;
     polygon_t *poly = NULL;
     pointf *vertices, *p = NULL;
     pointf coord;
@@ -1797,7 +1797,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
         /* node coordinate */
         coord = ND_coord(n);
         /* checking if filled style has been set for node */
-        filled = isFilled(n);
+        bool filled = isFilled(n);
 
         if (shape == SH_POLY || shape == SH_POINT) {
             poly = (polygon_t *) ND_shape_info(n);
