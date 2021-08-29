@@ -442,12 +442,10 @@ static void endPath(Ppolyline_t * path)
 
 /* genEllipticPath:
  * Approximate an elliptical arc via Beziers of given degree
- * threshold indicates quality of approximation
  * The path begins and ends with line segments to the center of the ellipse.
  * Returned path must be freed by the caller.
  */
-static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
-                                    double threshold) {
+static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree) {
     double dEta;
     double etaB;
     double cosEtaB;
@@ -464,6 +462,8 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
     double alpha;
     Ppolyline_t *path = NEW(Ppolyline_t);
 
+    static const double THRESHOLD = 0.00001; // quality of approximation
+
     // find the number of Bezier curves needed
     bool found = false;
     int i, n = 1;
@@ -475,7 +475,7 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
 	    for (i = 0; found && i < n; ++i) {
 		double etaA = etaB;
 		etaB += dEta;
-		found = estimateError(ep, degree, etaA, etaB) <= threshold;
+		found = estimateError(ep, degree, etaA, etaB) <= THRESHOLD;
 	    }
 	}
 	n = n << 1;
@@ -553,7 +553,7 @@ Ppolyline_t *ellipticWedge(pointf ctr, double xsemi, double ysemi,
     Ppolyline_t *pp;
 
     initEllipse(&ell, ctr.x, ctr.y, xsemi, ysemi, 0, angle0, angle1);
-    pp = genEllipticPath(&ell, 3, 0.00001);
+    pp = genEllipticPath(&ell, 3);
     return pp;
 }
 
@@ -565,7 +565,7 @@ main()
     int i;
 
     initEllipse(&ell, 200, 200, 100, 50, 0, M_PI / 4, 3 * M_PI / 2);
-    pp = genEllipticPath(&ell, 3, 0.00001);
+    pp = genEllipticPath(&ell, 3);
 
     printf("newpath %.02lf %.02lf moveto\n", pp->ps[0].x, pp->ps[0].y);
     for (i = 1; i < pp->pn; i += 3) {
