@@ -425,10 +425,10 @@ curveTo(Ppolyline_t * path, double x1, double y1,
     path->ps[path->pn++].y = y3;
 }
 
-static void lineTo(Ppolyline_t * path, double x, double y)
+static void lineTo(Ppolyline_t *polypath, double x, double y)
 {
-    pointf curp = path->ps[path->pn - 1];
-    curveTo(path, curp.x, curp.y, x, y, x, y);
+    pointf curp = polypath->ps[polypath->pn - 1];
+    curveTo(polypath, curp.x, curp.y, x, y, x, y);
 }
 
 static void endPath(Ppolyline_t * path)
