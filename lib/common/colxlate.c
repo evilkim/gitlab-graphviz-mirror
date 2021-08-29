@@ -259,8 +259,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     /* test for rgb value such as: "#ff0000"
        or rgba value such as "#ff000080" */
     a = 255;			/* default alpha channel value=opaque in case not supplied */
-    if ((*p == '#')
-	&& (sscanf(p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3)) {
+    if (*p == '#' && sscanf(p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3) {
 	switch (target_type) {
 	case HSVA_DOUBLE:
 	    R = (double) r / 255.0;
@@ -310,7 +309,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     }
 
     /* test for hsv value such as: ".6,.5,.3" */
-    if (((c = *p) == '.') || isdigit(c)) {
+    if ((c = *p) == '.' || isdigit(c)) {
 	len = strlen(p);
 	if (len >= allocated) {
 	    allocated = len + 1 + 10;
@@ -378,8 +377,7 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     fake.name = resolveColor(str);
     if (!fake.name)
 	return COLOR_MALLOC_FAIL;
-    if ((last == NULL)
-	|| (strcmp(last->name, fake.name))) {
+    if (last == NULL || strcmp(last->name, fake.name)) {
 	last = (hsvrgbacolor_t *) bsearch((void *) &fake,
 				      (void *) color_lib,
 				      sizeof(color_lib) /
@@ -401,9 +399,9 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    color->u.rgba[3] = last->a;
 	    break;
 	case CMYK_BYTE:
-	    R = (last->r) / 255.0;
-	    G = (last->g) / 255.0;
-	    B = (last->b) / 255.0;
+	    R = last->r / 255.0;
+	    G = last->g / 255.0;
+	    B = last->b / 255.0;
 	    rgb2cmyk(R, G, B, &C, &M, &Y, &K);
 	    color->u.cmyk[0] = (int) C * 255;
 	    color->u.cmyk[1] = (int) M * 255;
