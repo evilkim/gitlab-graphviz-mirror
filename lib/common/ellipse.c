@@ -61,10 +61,10 @@
 
 #define PI            3.14159265358979323846
 
-typedef struct pointf_s {
+typedef struct {
     double x, y;
 } pointf;
-typedef struct Ppoly_t {
+typedef struct {
     pointf *ps;
     int pn;
 } Ppoly_t;
