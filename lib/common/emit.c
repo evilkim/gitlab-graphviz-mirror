@@ -1723,24 +1723,24 @@ static bool node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
     return false;
 }
 
-static boolean edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
+static bool edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
 {
     char *pe, *pn;
     int cnt;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pe = late_string(e, E_layer, "");
     if (selectedlayer(job, pe))
-	return TRUE;
+	return true;
     if (pe[0])
-	return FALSE;
+	return false;
     for (cnt = 0; cnt < 2; cnt++) {
 	pn = late_string(cnt < 1 ? agtail(e) : aghead(e), N_layer, "");
 	if ((pn[0] == '\0') || selectedlayer(job, pn))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static boolean clust_in_layer(GVJ_t *job, graph_t * sg)
