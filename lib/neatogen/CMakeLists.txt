@@ -103,4 +103,5 @@ target_include_directories(neatogen PRIVATE
 
 target_link_libraries(neatogen PRIVATE
     cgraph
+    pathplan
 )
