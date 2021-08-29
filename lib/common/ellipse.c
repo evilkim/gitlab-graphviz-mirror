@@ -441,11 +441,11 @@ static void endPath(Ppolyline_t * path)
 }
 
 /* genEllipticPath:
- * Approximate an elliptical arc via Beziers of given degree
+ * Approximate an elliptical arc via Beziers of degree 3
  * The path begins and ends with line segments to the center of the ellipse.
  * Returned path must be freed by the caller.
  */
-static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree) {
+static Ppolyline_t *genEllipticPath(ellipse_t * ep) {
     double dEta;
     double etaB;
     double cosEtaB;
@@ -463,6 +463,7 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree) {
     Ppolyline_t *path = NEW(Ppolyline_t);
 
     static const double THRESHOLD = 0.00001; // quality of approximation
+    static const int DEGREE = 3;
 
     // find the number of Bezier curves needed
     bool found = false;
@@ -475,7 +476,7 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree) {
 	    for (i = 0; found && i < n; ++i) {
 		double etaA = etaB;
 		etaB += dEta;
-		found = estimateError(ep, degree, etaA, etaB) <= THRESHOLD;
+		found = estimateError(ep, DEGREE, etaA, etaB) <= THRESHOLD;
 	    }
 	}
 	n = n << 1;
@@ -520,19 +521,8 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree) {
 	xBDot = -aSinEtaB * ep->cosTheta - bCosEtaB * ep->sinTheta;
 	yBDot = -aSinEtaB * ep->sinTheta + bCosEtaB * ep->cosTheta;
 
-	if (degree == 1) {
-	    lineTo(path, xB, yB);
-#if DO_QUAD
-	} else if (degree == 2) {
-	    double k = (yBDot * (xB - xA) - xBDot * (yB - yA))
-		/ (xADot * yBDot - yADot * xBDot);
-	    quadTo(path, xA + k * xADot, yA + k * yADot, xB, yB);
-#endif
-	} else {
-	    curveTo(path, xA + alpha * xADot, yA + alpha * yADot,
-		    xB - alpha * xBDot, yB - alpha * yBDot, xB, yB);
-	}
-
+	curveTo(path, xA + alpha * xADot, yA + alpha * yADot, xB - alpha * xBDot,
+	        yB - alpha * yBDot, xB, yB);
     }
 
     endPath(path);
@@ -553,7 +543,7 @@ Ppolyline_t *ellipticWedge(pointf ctr, double xsemi, double ysemi,
     Ppolyline_t *pp;
 
     initEllipse(&ell, ctr.x, ctr.y, xsemi, ysemi, 0, angle0, angle1);
-    pp = genEllipticPath(&ell, 3);
+    pp = genEllipticPath(&ell);
     return pp;
 }
 
@@ -565,7 +555,7 @@ main()
     int i;
 
     initEllipse(&ell, 200, 200, 100, 50, 0, M_PI / 4, 3 * M_PI / 2);
-    pp = genEllipticPath(&ell, 3);
+    pp = genEllipticPath(&ell);
 
     printf("newpath %.02lf %.02lf moveto\n", pp->ps[0].x, pp->ps[0].y);
     for (i = 1; i < pp->pn; i += 3) {
