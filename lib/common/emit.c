@@ -1009,14 +1009,14 @@ static void map_output_bspline (pointf **pbs, int **pbs_n, int *pbs_poly_n, bezi
     }
 }
 
-static boolean is_natural_number(char *sstr)
+static bool is_natural_number(char *sstr)
 {
     unsigned char *str = (unsigned char *) sstr;
 
     while (*str)
 	if (!isdigit(*str++))
-	    return FALSE;
-    return TRUE;
+	    return false;
+    return true;
 }
 
 static int layer_index(GVC_t *gvc, char *str, int all)
