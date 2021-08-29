@@ -1246,7 +1246,7 @@ static void firstlayer(GVJ_t *job, int** listp)
     }
 }
 
-static boolean validlayer(GVJ_t *job)
+static bool validlayer(GVJ_t *job)
 {
     return (job->layerNum <= job->numLayers);
 }
