@@ -1701,26 +1701,26 @@ static void setup_page(GVJ_t * job, graph_t * g)
     }
 }
 
-static boolean node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
+static bool node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
 {
     char *pn, *pe;
     edge_t *e;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pn = late_string(n, N_layer, "");
     if (selectedlayer(job, pn))
-	return TRUE;
+	return true;
     if (pn[0])
-	return FALSE;		/* Only check edges if pn = "" */
+	return false;		/* Only check edges if pn = "" */
     if ((e = agfstedge(g, n)) == NULL)
-	return TRUE;
+	return true;
     for (e = agfstedge(g, n); e; e = agnxtedge(g, e, n)) {
 	pe = late_string(e, E_layer, "");
 	if ((pe[0] == '\0') || selectedlayer(job, pe))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static boolean edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
