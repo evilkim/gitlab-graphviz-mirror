@@ -624,7 +624,7 @@ stripedBox (GVJ_t * job, pointf* AF, char* clrs, int rotate)
     double save_penwidth = job->obj->penwidth;
 
     rv = parseSegs (clrs, 0, &segs);
-    if ((rv == 1) || (rv == 2)) return rv;
+    if (rv == 1 || rv == 2) return rv;
     if (rotate) {
 	pts[0] = AF[2];
 	pts[1] = AF[3];
