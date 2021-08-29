@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef INTSET_H
-#define INTSET_H
+#pragma once
 
 #include <cdt.h>
 
@@ -21,4 +20,3 @@ typedef struct {
 extern Dt_t* openIntSet (void);
 extern void addIntSet (Dt_t*, int);
 extern int inIntSet (Dt_t*, int);
-#endif

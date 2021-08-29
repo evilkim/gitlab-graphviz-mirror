@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef TABLE_H
-#define TABLE_H
 
 #define FIXED_FLAG 1
 #define HALIGN_RIGHT (1 << 1)
@@ -172,8 +171,6 @@ extern "C" {
     extern boxf *html_port(node_t * n, char *pname, int* sides);
     extern int html_path(node_t * n, port* p, int side, boxf * rv, int *k);
     extern int html_inside(node_t * n, pointf p, edge_t * e);
-
-#endif
 
 #ifdef __cplusplus
 }

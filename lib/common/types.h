@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_TYPES_H
-#define GV_TYPES_H
+#pragma once
 
 /* Define if you want CGRAPH */
 #define WITH_CGRAPH 1
@@ -616,5 +615,4 @@ typedef enum {NATIVEFONTS,PSFONTS,SVGFONTS} fontname_kind;
 
 #ifdef __cplusplus
 }
-#endif
 #endif

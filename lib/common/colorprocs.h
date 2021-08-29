@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_COLORPROCS_H
-#define GV_COLORPROCS_H
+#pragma once
 
 #include "color.h"
 
@@ -24,5 +23,4 @@ extern int colorCvt(gvcolor_t *ocolor, gvcolor_t *ncolor);
 
 #ifdef __cplusplus
 }
-#endif
 #endif

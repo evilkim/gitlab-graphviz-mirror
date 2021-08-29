@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -111,5 +110,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

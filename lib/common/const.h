@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_CONST_H
-#define GV_CONST_H
+#pragma once
 
 #define SMALLBUF	128
 #define LPAREN		'('
@@ -286,5 +285,3 @@
 #define FONTSIZE_MUCH_TOO_SMALL 0.15
 /* fontsize at which text is rendered by a simple line */
 #define FONTSIZE_TOO_SMALL 1.5
-
-#endif

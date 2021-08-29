@@ -11,8 +11,7 @@
 /* geometric functions (e.g. on points and boxes) with application to, but
  * no specific dependence on graphs */
 
-#ifndef GV_GEOMPROCS_H
-#define GV_GEOMPROCS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -191,6 +190,4 @@ static inline pointf scale (double c, pointf p)
 #undef GEOMPROCS_API
 #ifdef __cplusplus
 }
-#endif
-
 #endif
