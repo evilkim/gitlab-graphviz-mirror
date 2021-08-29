@@ -201,12 +201,12 @@ getObjId (GVJ_t* job, void* obj, agxbuf* xb)
     layerPagePrefix (job, xb);
 
     id = agget(obj, "id");
-    if (id && (*id != '\0')) {
+    if (id && *id != '\0') {
 	agxbput (xb, id);
 	return agxbuse(xb);
     }
 
-    if ((obj != root) && gid) {
+    if (obj != root && gid) {
 	agxbprint (xb, "%s_", gid);
     }
 
