@@ -2254,7 +2254,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
     pointf pf0, pf1, pf2 = { 0, 0 }, pf3, *offlist, *tmplist;
     double arrowsize, numc2, penwidth=job->obj->penwidth;
     char* p;
-    boolean tapered = 0;
+    bool tapered = false;
 
 #define SEP 2.0
 
@@ -2267,7 +2267,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
 	    char** sp = styles;
 	    while ((p = *sp++)) {
 		if (streq(p, "tapered")) {
-		    tapered = 1;
+		    tapered = true;
 		    break;
 		}
 	    }
