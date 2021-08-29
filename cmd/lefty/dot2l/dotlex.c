@@ -194,7 +194,7 @@ static void error_context (void) {
     if (lexptr == NULL)
         return;
     fprintf (stderr, "context: ");
-    for (p = lexptr - 1; (p > lexbuf) && (isspace (*p) == FALSE); p--)
+    for (p = lexptr - 1; (p > lexbuf) && !isspace(*p); p--)
         ;
     for (q = lexbuf; q < p; q++)
         fputc (*q, stderr);

@@ -1014,7 +1014,7 @@ static boolean is_natural_number(char *sstr)
     unsigned char *str = (unsigned char *) sstr;
 
     while (*str)
-	if (NOT(isdigit(*str++)))
+	if (!isdigit(*str++))
 	    return FALSE;
     return TRUE;
 }
@@ -1999,7 +1999,7 @@ static void emit_attachment(GVJ_t * job, textlabel_t * lp, splines * spl)
     unsigned char *s;
 
     for (s = (unsigned char *) (lp->text); *s; s++) {
-	if (isspace(*s) == FALSE)
+	if (!isspace(*s))
 	    break;
     }
     if (*s == 0)

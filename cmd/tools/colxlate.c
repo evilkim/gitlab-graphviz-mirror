@@ -15,18 +15,6 @@
 #include <search.h>
 #endif
 #include <ctype.h>
-#ifndef FALSE
-#define FALSE (0)
-#endif
-#ifndef TRUE
-#define TRUE (!FALSE)
-#endif
-#ifndef NOT
-#define NOT(x)                  (!(x))
-#endif
-#ifndef NIL
-#define NIL(type)               ((type)0)
-#endif
 typedef struct hsbcolor_t {
     char *name;
     unsigned char h, s, b;
@@ -41,7 +29,7 @@ static unsigned char *canoncolor(char *orig, unsigned char *out)
     unsigned char c;
     unsigned char *p = out;
     while ((c = *(unsigned char *) orig++)) {
-	if (isalnum(c) == FALSE)
+	if (!isalnum(c))
 	    continue;
 	if (isupper(c))
 	    c = tolower(c);
@@ -71,7 +59,7 @@ char *colorxlate(char *str, char *buf)
 	               sizeof(fake), colorcmpf);
     }
     if (last == NULL) {
-	if (isdigit(canon[0]) == FALSE) {
+	if (!isdigit(canon[0])) {
 	    fprintf(stderr, "warning: %s is not a known color\n", str);
 	    strcpy(buf, str);
 	} else
