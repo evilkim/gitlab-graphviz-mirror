@@ -8,10 +8,6 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-/* this is to get the following win32 DLL junk to work.
- * if ever tempted to remove this, first please read:
- * http://joel.editthispage.com/stories/storyReader$47
- */
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
