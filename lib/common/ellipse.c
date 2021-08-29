@@ -431,12 +431,12 @@ static void lineTo(Ppolyline_t *polypath, double x, double y)
     curveTo(polypath, curp.x, curp.y, x, y, x, y);
 }
 
-static void endPath(Ppolyline_t * path)
+static void endPath(Ppolyline_t *polypath)
 {
-    pointf p0 = path->ps[0];
-    lineTo(path, p0.x, p0.y);
+    pointf p0 = polypath->ps[0];
+    lineTo(polypath, p0.x, p0.y);
 
-    path->ps = realloc(path->ps, path->pn * sizeof(pointf));
+    polypath->ps = realloc(polypath->ps, polypath->pn * sizeof(pointf));
     bufsize = 0;
 }
 
