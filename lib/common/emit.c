@@ -1414,10 +1414,10 @@ static void firstpage(GVJ_t *job)
 
 static bool validpage(GVJ_t *job)
 {
-    return ((job->pagesArrayElem.x >= 0)
-	 && (job->pagesArrayElem.x < job->pagesArraySize.x)
-	 && (job->pagesArrayElem.y >= 0)
-	 && (job->pagesArrayElem.y < job->pagesArraySize.y));
+    return job->pagesArrayElem.x >= 0
+	 && job->pagesArrayElem.x < job->pagesArraySize.x
+	 && job->pagesArrayElem.y >= 0
+	 && job->pagesArrayElem.y < job->pagesArraySize.y;
 }
 
 static void nextpage(GVJ_t *job)
