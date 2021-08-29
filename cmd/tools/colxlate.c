@@ -59,8 +59,8 @@ static unsigned char *canoncolor(char *orig, unsigned char *out)
 
 static int colorcmpf(const void *a0, const void *a1)
 {
-    const hsbcolor_t *p0 = (const hsbcolor_t *) a0;
-    const hsbcolor_t *p1 = (const hsbcolor_t *) a1;
+    const hsbcolor_t *p0 = a0;
+    const hsbcolor_t *p1 = a1;
     int i = (p0->name[0] - p1->name[0]);
     return (i ? i : strcmp(p0->name, p1->name));
 }
