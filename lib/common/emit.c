@@ -3816,7 +3816,7 @@ static agxbuf ps_xb;
 char **parse_style(char *s)
 {
     static char *parse[FUNLIMIT];
-    static boolean is_first = TRUE;
+    static bool is_first = true;
     int fun = 0;
     boolean in_parens = FALSE;
     unsigned char buf[SMALLBUF];
@@ -3826,7 +3826,7 @@ char **parse_style(char *s)
 
     if (is_first) {
 	agxbinit(&ps_xb, SMALLBUF, outbuf);
-	is_first = FALSE;
+	is_first = false;
     }
 
     agxbinit(&xb, SMALLBUF, buf);
