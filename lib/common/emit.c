@@ -1743,22 +1743,22 @@ static bool edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
     return false;
 }
 
-static boolean clust_in_layer(GVJ_t *job, graph_t * sg)
+static bool clust_in_layer(GVJ_t *job, graph_t * sg)
 {
     char *pg;
     node_t *n;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pg = late_string(sg, agattr(sg, AGRAPH, "layer", 0), "");
     if (selectedlayer(job, pg))
-	return TRUE;
+	return true;
     if (pg[0])
-	return FALSE;
+	return false;
     for (n = agfstnode(sg); n; n = agnxtnode(sg, n))
 	if (node_in_layer(job, sg, n))
-	    return TRUE;
-    return FALSE;
+	    return true;
+    return false;
 }
 
 static boolean node_in_box(node_t *n, boxf b)
@@ -3605,7 +3605,7 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
     
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
-	if (clust_in_layer(job, sg) == FALSE)
+	if (!clust_in_layer(job, sg))
 	    continue;
 	/* when mapping, detect events on clusters after sub_clusters */
 	if (flags & EMIT_CLUSTERS_LAST)
