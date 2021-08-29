@@ -35,6 +35,7 @@ target_include_directories(sfdpgen PRIVATE
 
 target_link_libraries(sfdpgen PRIVATE
     gvc
+    neatogen
     sparse
 )
 
