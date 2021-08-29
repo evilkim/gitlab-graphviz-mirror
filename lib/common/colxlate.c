@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -86,8 +86,8 @@ static void rgb2hsv(double r, double g, double b,
     double rc, bc, gc;
     double ht = 0.0, st = 0.0;
 
-    rgbmin = MIN(r, MIN(g, b));
-    rgbmax = MAX(r, MAX(g, b));
+    rgbmin = fmin(r, fmin(g, b));
+    rgbmax = fmax(r, fmax(g, b));
 
     if (rgbmax > 0.0)
 	st = (rgbmax - rgbmin) / rgbmax;
@@ -323,9 +323,9 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 
 	if (sscanf(canon, "%lf%lf%lf", &H, &S, &V) == 3) {
 	    /* clip to reasonable values */
-	    H = MAX(MIN(H, 1.0), 0.0);
-	    S = MAX(MIN(S, 1.0), 0.0);
-	    V = MAX(MIN(V, 1.0), 0.0);
+	    H = fmax(fmin(H, 1.0), 0.0);
+	    S = fmax(fmin(S, 1.0), 0.0);
+	    V = fmax(fmin(V, 1.0), 0.0);
 	    switch (target_type) {
 	    case HSVA_DOUBLE:
 		color->u.HSVA[0] = H;
