@@ -725,7 +725,7 @@ static bool isRect(polygon_t * p)
  * isFilled function returns 1 if filled style has been set for node 'n'
  * otherwise returns 0. it accepts pointer to node_t as an argument
  */
-static int ifFilled(node_t * n)
+static int isFilled(node_t * n)
 {
     char *style, *p, **pp;
     int r = 0;
@@ -1797,7 +1797,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
         /* node coordinate */
         coord = ND_coord(n);
         /* checking if filled style has been set for node */
-        filled = ifFilled(n);
+        filled = isFilled(n);
 
         if (shape == SH_POLY || shape == SH_POINT) {
             poly = (polygon_t *) ND_shape_info(n);
