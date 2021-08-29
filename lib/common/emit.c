@@ -1035,27 +1035,27 @@ static int layer_index(GVC_t *gvc, char *str, int all)
     return -1;
 }
 
-static boolean selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec)
+static bool selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec)
 {
     int n0, n1;
     unsigned char buf[SMALLBUF];
     char *w0, *w1;
     char *buf_part_p = NULL, *buf_p = NULL, *cur, *part_in_p;
     agxbuf xb;
-    boolean rval = FALSE;
+    bool rval = false;
 
     agxbinit(&xb, SMALLBUF, buf);
     agxbput(&xb, spec);
     part_in_p = agxbuse(&xb);
 
     /* Thanks to Matteo Nastasi for this extended code. */
-    while ((rval == FALSE) && (cur = strtok_r(part_in_p, gvc->layerListDelims, &buf_part_p))) {
+    while (!rval && (cur = strtok_r(part_in_p, gvc->layerListDelims, &buf_part_p))) {
 	w1 = w0 = strtok_r (cur, gvc->layerDelims, &buf_p);
 	if (w0)
 	    w1 = strtok_r (NULL, gvc->layerDelims, &buf_p);
 	switch ((w0 != NULL) + (w1 != NULL)) {
 	case 0:
-	    rval = FALSE;
+	    rval = false;
 	    break;
 	case 1:
 	    n0 = layer_index(gvc, w0, layerNum);
@@ -1080,7 +1080,7 @@ static boolean selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec
     return rval;
 }
 
-static boolean selectedlayer(GVJ_t *job, char *spec)
+static bool selectedlayer(GVJ_t *job, char *spec)
 {
     return selectedLayer (job->gvc, job->layerNum, job->numLayers, spec);
 }
