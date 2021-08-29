@@ -573,7 +573,7 @@ wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs)
     double angle0, angle1;
 
     rv = parseSegs (clrs, 0, &segs);
-    if ((rv == 1) || (rv == 2)) return rv;
+    if (rv == 1 || rv == 2) return rv;
     ctr.x = (pf[0].x + pf[1].x) / 2.;
     ctr.y = (pf[0].y + pf[1].y) / 2.;
     semi.x = pf[1].x - ctr.x;
@@ -589,7 +589,7 @@ wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs)
 	if (s[1].color == NULL) 
 	    angle1 = 2*M_PI;
 	else
-	    angle1 = angle0 + 2*M_PI*(s->t);
+	    angle1 = angle0 + 2 * M_PI * s->t;
 	pp = ellipticWedge (ctr, semi.x, semi.y, angle0, angle1);
 	gvrender_beziercurve(job, pp->ps, pp->pn, 0, 0, 1);
 	angle0 = angle1;
