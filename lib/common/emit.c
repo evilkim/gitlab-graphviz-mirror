@@ -1445,7 +1445,7 @@ static bool write_edge_test(Agraph_t * g, Agedge_t * e)
     return true;
 }
 
-static boolean write_node_test(Agraph_t * g, Agnode_t * n)
+static bool write_node_test(Agraph_t * g, Agnode_t * n)
 {
     Agraph_t *sg;
     int c;
@@ -1453,9 +1453,9 @@ static boolean write_node_test(Agraph_t * g, Agnode_t * n)
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
 	if (agcontains(sg, n))
-	    return FALSE;
+	    return false;
     }
-    return TRUE;
+    return true;
 }
 
 #define INITPTS 1000
