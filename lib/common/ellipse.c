@@ -410,19 +410,19 @@ static void moveTo(Ppolyline_t *polypath, double x, double y)
 }
 
 static void
-curveTo(Ppolyline_t * path, double x1, double y1,
+curveTo(Ppolyline_t *polypath, double x1, double y1,
 	double x2, double y2, double x3, double y3)
 {
-    if (path->pn + 3 >= bufsize) {
+    if (polypath->pn + 3 >= bufsize) {
 	bufsize *= 2;
-	path->ps = realloc(path->ps, bufsize * sizeof(pointf));
+	polypath->ps = realloc(polypath->ps, bufsize * sizeof(pointf));
     }
-    path->ps[path->pn].x = x1;
-    path->ps[path->pn++].y = y1;
-    path->ps[path->pn].x = x2;
-    path->ps[path->pn++].y = y2;
-    path->ps[path->pn].x = x3;
-    path->ps[path->pn++].y = y3;
+    polypath->ps[polypath->pn].x = x1;
+    polypath->ps[polypath->pn++].y = y1;
+    polypath->ps[polypath->pn].x = x2;
+    polypath->ps[polypath->pn++].y = y2;
+    polypath->ps[polypath->pn].x = x3;
+    polypath->ps[polypath->pn++].y = y3;
 }
 
 static void lineTo(Ppolyline_t *polypath, double x, double y)
