@@ -717,8 +717,8 @@ static void map_label(GVJ_t *job, textlabel_t *lab)
  */
 static bool isRect(polygon_t * p)
 {
-    return (p->sides == 4 && (ROUND(p->orientation) % 90) == 0
-            && p->distortion == 0.0 && p->skew == 0.0);
+    return p->sides == 4 && ROUND(p->orientation) % 90 == 0
+            && p->distortion == 0.0 && p->skew == 0.0;
 }
 
 /*
