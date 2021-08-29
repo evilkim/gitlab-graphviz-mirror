@@ -1009,9 +1009,9 @@ static void map_output_bspline (pointf **pbs, int **pbs_n, int *pbs_poly_n, bezi
     }
 }
 
-static bool is_natural_number(char *sstr)
+static bool is_natural_number(const char *sstr)
 {
-    unsigned char *str = (unsigned char *) sstr;
+    const char *str = sstr;
 
     while (*str)
 	if (!isdigit(*str++))
