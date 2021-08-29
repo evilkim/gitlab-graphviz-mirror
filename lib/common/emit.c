@@ -3759,16 +3759,16 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
     }
 }
 
-static boolean is_style_delim(int c)
+static bool is_style_delim(int c)
 {
     switch (c) {
     case '(':
     case ')':
     case ',':
     case '\0':
-	return TRUE;
+	return true;
     default:
-	return FALSE;
+	return false;
     }
 }
 
