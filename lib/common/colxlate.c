@@ -21,6 +21,7 @@
 #include <common/colortbl.h>
 #include <common/memory.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/unreachable.h>
 
 static char* colorscheme;
 
@@ -302,6 +303,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    break;
 	case COLOR_INDEX:
 	    break;
+	default:
+	    UNREACHABLE();
 	}
 	return rc;
     }
@@ -366,6 +369,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 		break;
 	    case COLOR_INDEX:
 		break;
+	    default:
+		UNREACHABLE();
 	    }
 	    return rc;
 	}
@@ -419,6 +424,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    break;
 	case COLOR_INDEX:
 	    break;
+	default:
+	    UNREACHABLE();
 	}
 	return rc;
     }
@@ -450,6 +457,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	break;
     case COLOR_INDEX:
 	break;
+    default:
+	UNREACHABLE();
     }
     return rc;
 }
