@@ -188,7 +188,6 @@ target_include_directories(graphml2gv PRIVATE
 target_link_libraries(graphml2gv
     cdt
     cgraph
-    ingraphs
     ${EXPAT_LIBRARIES}
 )
 
