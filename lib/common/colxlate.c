@@ -41,8 +41,8 @@ static void hsv2rgb(double h, double s, double v,
 	i = (int) h;
 	f = h - (double) i;
 	p = v * (1 - s);
-	q = v * (1 - (s * f));
-	t = v * (1 - (s * (1 - f)));
+	q = v * (1 - s * f);
+	t = v * (1 - s * (1 - f));
 	switch (i) {
 	case 0:
 	    *r = v;
