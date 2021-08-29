@@ -247,7 +247,7 @@ interpretCRNL (char* ins)
     char* rets = ins;
     char* outs = ins;
     char c;
-    boolean backslash_seen = FALSE;
+    bool backslash_seen = false;
 
     while ((c = *ins++)) {
 	if (backslash_seen) {
@@ -263,11 +263,11 @@ interpretCRNL (char* ins)
 		*outs++ = c;
 		break;
 	    }
-	    backslash_seen = FALSE;
+	    backslash_seen = false;
 	}
 	else {
 	    if (c == '\\')
-		backslash_seen = TRUE;
+		backslash_seen = true;
 	    else
 		*outs++ = c;
 	}
