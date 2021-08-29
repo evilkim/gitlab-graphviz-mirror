@@ -79,7 +79,6 @@ target_include_directories(dijkstra PRIVATE
 )
 
 target_link_libraries(dijkstra
-    cdt
     cgraph
     ingraphs
 )
