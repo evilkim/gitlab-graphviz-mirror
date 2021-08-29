@@ -181,7 +181,7 @@ layerPagePrefix (GVJ_t* job, agxbuf* xb)
     if (job->layerNum > 1 && (job->flags & GVDEVICE_DOES_LAYERS)) {
 	agxbprint (xb, "%s_", job->gvc->layerIDs[job->layerNum]);
     }
-    if ((job->pagesArrayElem.x > 0) || (job->pagesArrayElem.y > 0)) {
+    if (job->pagesArrayElem.x > 0 || job->pagesArrayElem.y > 0) {
 	agxbprint (xb, "page%d,%d_", job->pagesArrayElem.x, job->pagesArrayElem.y);
     }
 }
