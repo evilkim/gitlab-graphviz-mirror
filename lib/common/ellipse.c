@@ -47,7 +47,7 @@
  */
 
 #include <stdbool.h>
-#if STANDALONE
+#ifdef STANDALONE
 #include <limits.h>
 #include <math.h>
 #include <stdlib.h>
