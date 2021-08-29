@@ -46,6 +46,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdbool.h>
 #if STANDALONE
 #include <limits.h>
 #include <math.h>
@@ -472,13 +473,13 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
     Ppolyline_t *path = NEW(Ppolyline_t);
 
     // find the number of Bezier curves needed
-    boolean found = FALSE;
+    bool found = false;
     int i, n = 1;
     while ((!found) && (n < 1024)) {
 	double dEta = (ep->eta2 - ep->eta1) / n;
 	if (dEta <= 0.5 * M_PI) {
 	    double etaB = ep->eta1;
-	    found = TRUE;
+	    found = true;
 	    for (i = 0; found && (i < n); ++i) {
 		double etaA = etaB;
 		etaB += dEta;
