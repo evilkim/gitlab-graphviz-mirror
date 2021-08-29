@@ -276,7 +276,6 @@ target_include_directories(gvpack PRIVATE
 )
 
 target_link_libraries(gvpack
-    cdt
     cgraph
     gvc
     gvplugin_neato_layout
