@@ -2740,18 +2740,18 @@ static void nodeIntersect (GVJ_t * job, pointf p,
 {
     obj_state_t *obj = job->obj;
     char* url;
-    boolean explicit;
+    bool explicit;
 
     if (explicit_iurl) url = iurl;
     else url = obj->url;
     if (explicit_itooltip) {
-	explicit = TRUE;
+	explicit = true;
     }
     else if (obj->explicit_tooltip) {
-	explicit = TRUE;
+	explicit = true;
     }
     else {
-	explicit = FALSE;
+	explicit = false;
     }
 
     if (url || explicit) {
