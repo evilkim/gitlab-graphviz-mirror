@@ -475,16 +475,15 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
     // find the number of Bezier curves needed
     bool found = false;
     int i, n = 1;
-    while ((!found) && (n < 1024)) {
+    while (!found && n < 1024) {
 	double dEta = (ep->eta2 - ep->eta1) / n;
 	if (dEta <= 0.5 * M_PI) {
 	    double etaB = ep->eta1;
 	    found = true;
-	    for (i = 0; found && (i < n); ++i) {
+	    for (i = 0; found && i < n; ++i) {
 		double etaA = etaB;
 		etaB += dEta;
-		found =
-		    (estimateError(ep, degree, etaA, etaB) <= threshold);
+		found = estimateError(ep, degree, etaA, etaB) <= threshold;
 	    }
 	}
 	n = n << 1;
@@ -539,11 +538,11 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
 	} else if (degree == 2) {
 	    double k = (yBDot * (xB - xA) - xBDot * (yB - yA))
 		/ (xADot * yBDot - yADot * xBDot);
-	    quadTo(path, (xA + k * xADot), (yA + k * yADot), xB, yB);
+	    quadTo(path, xA + k * xADot, yA + k * yADot, xB, yB);
 #endif
 	} else {
-	    curveTo(path, (xA + alpha * xADot), (yA + alpha * yADot),
-		    (xB - alpha * xBDot), (yB - alpha * yBDot), xB, yB);
+	    curveTo(path, xA + alpha * xADot, yA + alpha * yADot,
+		    xB - alpha * xBDot, yB - alpha * yBDot, xB, yB);
 	}
 
     }
