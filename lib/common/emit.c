@@ -1412,7 +1412,7 @@ static void firstpage(GVJ_t *job)
     job->pagesArrayElem = job->pagesArrayFirst;
 }
 
-static boolean validpage(GVJ_t *job)
+static bool validpage(GVJ_t *job)
 {
     return ((job->pagesArrayElem.x >= 0)
 	 && (job->pagesArrayElem.x < job->pagesArraySize.x)
@@ -1423,7 +1423,7 @@ static boolean validpage(GVJ_t *job)
 static void nextpage(GVJ_t *job)
 {
     job->pagesArrayElem = add_point(job->pagesArrayElem, job->pagesArrayMinor);
-    if (validpage(job) == FALSE) {
+    if (!validpage(job)) {
 	if (job->pagesArrayMajor.y)
 	    job->pagesArrayElem.x = job->pagesArrayFirst.x;
 	else
