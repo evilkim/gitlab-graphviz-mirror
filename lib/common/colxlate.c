@@ -514,15 +514,12 @@ int colorCvt(gvcolor_t *ocolor, gvcolor_t *ncolor)
 	s = ocolor->u.string;
 	break;
     case CMYK_BYTE :
-	/* agerr (AGWARN, "Input color type 'CMYK_BYTE' not supported for conversion\n"); */
 	return COLOR_UNKNOWN;
 	break;
     case COLOR_INDEX:
-	/* agerr (AGWARN, "Input color type 'COLOR_INDEX' not supported for conversion\n"); */
 	return COLOR_UNKNOWN;
 	break;
     default:
-	/* agerr (AGWARN, "Unknown input color type value '%u'\n", ncolor->type); */
 	return COLOR_UNKNOWN;
 	break;
     }
@@ -537,6 +534,3 @@ void setColorScheme (char* s)
 {
     colorscheme = s;
 }
-
-
-
