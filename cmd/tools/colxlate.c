@@ -72,7 +72,7 @@ char *colorxlate(char *str, char *buf)
     char *p;
     hsbcolor_t fake;
 
-    if ((last == NULL) || (last->name[0] != str[0])
+    if ((last == NULL)
 	|| (strcmp(last->name, str))) {
 	fake.name = (char *) canoncolor(str, canon);
 	last = bsearch(&fake, color_lib, sizeof(color_lib) / sizeof(hsbcolor_t),
