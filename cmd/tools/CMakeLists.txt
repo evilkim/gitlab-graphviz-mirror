@@ -309,7 +309,6 @@ target_include_directories(gxl2gv PRIVATE
 )
 
 target_link_libraries(gxl2gv
-    cdt
     cgraph
     ingraphs
     ${EXPAT_LIBRARIES}
