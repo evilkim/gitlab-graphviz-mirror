@@ -115,7 +115,6 @@ target_include_directories(gml2gv PRIVATE
 
 target_link_libraries(gml2gv
     cgraph
-    ingraphs
 )
 
 tool_defaults(gml2gv)
