@@ -1717,7 +1717,7 @@ static bool node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
 	return true;
     for (e = agfstedge(g, n); e; e = agnxtedge(g, e, n)) {
 	pe = late_string(e, E_layer, "");
-	if ((pe[0] == '\0') || selectedlayer(job, pe))
+	if (pe[0] == '\0' || selectedlayer(job, pe))
 	    return true;
     }
     return false;
