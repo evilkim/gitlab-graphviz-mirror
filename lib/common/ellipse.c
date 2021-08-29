@@ -460,7 +460,7 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep) {
     double yBDot;
     double t;
     double alpha;
-    Ppolyline_t *path = NEW(Ppolyline_t);
+    Ppolyline_t *polypath = NEW(Ppolyline_t);
 
     static const double THRESHOLD = 0.00001; // quality of approximation
     static const int DEGREE = 3;
@@ -496,8 +496,8 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep) {
     xBDot = -aSinEtaB * ep->cosTheta - bCosEtaB * ep->sinTheta;
     yBDot = -aSinEtaB * ep->sinTheta + bCosEtaB * ep->cosTheta;
 
-    moveTo(path, ep->cx, ep->cy);
-    lineTo(path, xB, yB);
+    moveTo(polypath, ep->cx, ep->cy);
+    lineTo(polypath, xB, yB);
 
     t = tan(0.5 * dEta);
     alpha = sin(dEta) * (sqrt(4 + 3 * t * t) - 1) / 3;
@@ -521,13 +521,13 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep) {
 	xBDot = -aSinEtaB * ep->cosTheta - bCosEtaB * ep->sinTheta;
 	yBDot = -aSinEtaB * ep->sinTheta + bCosEtaB * ep->cosTheta;
 
-	curveTo(path, xA + alpha * xADot, yA + alpha * yADot, xB - alpha * xBDot,
+	curveTo(polypath, xA + alpha * xADot, yA + alpha * yADot, xB - alpha * xBDot,
 	        yB - alpha * yBDot, xB, yB);
     }
 
-    endPath(path);
+    endPath(polypath);
 
-    return path;
+    return polypath;
 }
 
 /* ellipticWedge:
