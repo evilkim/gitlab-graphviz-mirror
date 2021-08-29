@@ -3818,7 +3818,7 @@ char **parse_style(char *s)
     static char *parse[FUNLIMIT];
     static bool is_first = true;
     int fun = 0;
-    boolean in_parens = FALSE;
+    bool in_parens = false;
     unsigned char buf[SMALLBUF];
     char *p;
     int c;
@@ -3840,21 +3840,21 @@ char **parse_style(char *s)
 		agxbfree(&xb);
 		return parse;
 	    }
-	    in_parens = TRUE;
+	    in_parens = true;
 	    break;
 
 	case ')':
-	    if (in_parens == FALSE) {
+	    if (!in_parens) {
 		agerr(AGERR, "unmatched ')' in style: %s\n", s);
 		parse[0] = (char *) 0;
 		agxbfree(&xb);
 		return parse;
 	    }
-	    in_parens = FALSE;
+	    in_parens = false;
 	    break;
 
 	default:
-	    if (in_parens == FALSE) {
+	    if (!in_parens) {
 		if (fun == FUNLIMIT - 1) {
 		    agerr(AGWARN, "truncating style '%s'\n", s);
 		    parse[fun] = (char *) 0;
