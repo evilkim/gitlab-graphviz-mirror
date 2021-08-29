@@ -131,12 +131,12 @@ static int colorcmpf(const void *p0, const void *p1)
 
 char *canontoken(char *str)
 {
-    static unsigned char *canon;
+    static char *canon;
     static size_t allocated;
-    unsigned char c, *p, *q;
+    char c, *p, *q;
     size_t len;
 
-    p = (unsigned char *) str;
+    p = str;
     len = strlen(str);
     if (len >= allocated) {
 	allocated = len + 1 + 10;
@@ -145,11 +145,11 @@ char *canontoken(char *str)
     q = canon;
     while ((c = *p++)) {
 	if (isupper(c))
-	    c = (unsigned char) tolower(c);
+	    c = (char)tolower(c);
 	*q++ = c;
     }
     *q = '\0';
-    return (char*)canon;
+    return canon;
 }
 
 /* fullColor:
