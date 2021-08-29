@@ -1432,7 +1432,7 @@ static void nextpage(GVJ_t *job)
     }
 }
 
-static boolean write_edge_test(Agraph_t * g, Agedge_t * e)
+static bool write_edge_test(Agraph_t * g, Agedge_t * e)
 {
     Agraph_t *sg;
     int c;
@@ -1440,9 +1440,9 @@ static boolean write_edge_test(Agraph_t * g, Agedge_t * e)
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
 	if (agcontains(sg, e))
-	    return FALSE;
+	    return false;
     }
-    return TRUE;
+    return true;
 }
 
 static boolean write_node_test(Agraph_t * g, Agnode_t * n)
