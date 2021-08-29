@@ -33,4 +33,8 @@ target_include_directories(sfdpgen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pathplan
 )
 
+target_link_libraries(sfdpgen PRIVATE
+    gvc
+)
+
 endif (with_sfdp)
