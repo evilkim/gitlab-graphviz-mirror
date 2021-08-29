@@ -401,7 +401,7 @@ static char **checkClusterStyle(graph_t* sg, int *flagp)
 typedef struct {
     char* color;   /* segment color */
     float t;       /* segment size >= 0 */
-    boolean hasFraction;  /* true if color explicitly specifies its fraction */
+    bool hasFraction;  /* true if color explicitly specifies its fraction */
 } colorseg_t;
 /* Sum of segment sizes should add to 1 */
 typedef struct {
@@ -499,7 +499,7 @@ parseSegs (char* clrs, int nseg, colorsegs_t** psegs)
 		v = left;
 	    }
 	    left -= v;
-	    if (v > 0) s[cnum].hasFraction = TRUE;
+	    if (v > 0) s[cnum].hasFraction = true;
 	    if (*color) s[cnum].color = color;
 	    s[cnum++].t = v;
 	}
