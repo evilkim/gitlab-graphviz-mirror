@@ -991,7 +991,7 @@ static void map_output_bspline (pointf **pbs, int **pbs_n, int *pbs_poly_n, bezi
         segnext = segp->next;
         mkSegPts (segprev, segp, segnext, pt1+cnt, pt2+cnt, w2);
         cnt++;
-        if ((segnext == NULL) || (cnt == 50)) {
+        if (segnext == NULL || cnt == 50) {
             map_bspline_poly (pbs, pbs_n, pbs_poly_n, cnt, pt1, pt2);
             pt1[0] = pt1[cnt-1];
             pt2[0] = pt2[cnt-1];
