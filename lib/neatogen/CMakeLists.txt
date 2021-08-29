@@ -105,4 +105,5 @@ target_link_libraries(neatogen PRIVATE
     cgraph
     gvc
     pathplan
+    sparse
 )
