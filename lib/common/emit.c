@@ -360,7 +360,7 @@ static char **checkClusterStyle(graph_t* sg, int *flagp)
     char **pstyle = NULL;
     int istyle = 0;
 
-    if (((style = agget(sg, "style")) != 0) && style[0]) {
+    if ((style = agget(sg, "style")) != 0 && style[0]) {
 	char **pp;
 	char **qp;
 	char *p;
