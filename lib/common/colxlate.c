@@ -117,8 +117,8 @@ static void rgb2cmyk(double r, double g, double b, double *c, double *m,
     *c = 1.0 - r;
     *m = 1.0 - g;
     *y = 1.0 - b;
-    *k = *c < *m ? *c : *m;
-    *k = *y < *k ? *y : *k;
+    *k = fmin(*c, *m);
+    *k = fmin(*y, *k);
     *c -= *k;
     *m -= *k;
     *y -= *k;
