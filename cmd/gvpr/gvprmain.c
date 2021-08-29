@@ -26,6 +26,7 @@
 
 
 
+#include <cgraph/cgraph.h>
 #include <gvpr/gvpr.h>
 
 #ifdef DEBUG

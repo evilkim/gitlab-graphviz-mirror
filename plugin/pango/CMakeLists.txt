@@ -27,6 +27,7 @@ target_include_directories(gvplugin_pango PRIVATE
 )
 
 target_link_libraries(gvplugin_pango
+    cgraph
     gvc
     ${Cairo_LINK_LIBRARIES}
     ${PangoCairo_LINK_LIBRARIES}

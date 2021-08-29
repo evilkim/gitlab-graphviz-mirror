@@ -100,3 +100,7 @@ target_include_directories(neatogen PRIVATE
     ${GRAPHVIZ_LIB_DIR}/pack
     ${GRAPHVIZ_LIB_DIR}/pathplan
 )
+
+target_link_libraries(neatogen PRIVATE
+    cgraph
+)

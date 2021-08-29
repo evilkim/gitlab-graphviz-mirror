@@ -30,5 +30,6 @@ target_include_directories(fdpgen PRIVATE
 )
 
 target_link_libraries(fdpgen PRIVATE
+    cgraph
     pathplan
 )

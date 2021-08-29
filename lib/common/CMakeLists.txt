@@ -115,6 +115,7 @@ add_library(common STATIC
 )
 
 target_link_libraries(common PRIVATE
+    cgraph
     pathplan
 )
 
