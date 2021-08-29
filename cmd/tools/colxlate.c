@@ -36,12 +36,6 @@ typedef struct hsbcolor_t {
 #ifndef NOCOLORNAMES
 #include "colortbl.h"
 
-/*
-	char *bsearch ((char *) key, (char *) base, nel, sizeof (*key), compar)
-	unsigned nel;
-	int (*compar)( );
-*/
-
 static unsigned char *canoncolor(char *orig, unsigned char *out)
 {
     unsigned char c;
