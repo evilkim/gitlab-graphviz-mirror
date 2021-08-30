@@ -2237,7 +2237,7 @@ taperfun (edge_t* e)
 	if (streq(attr, "both")) return bothfunc;
 	if (streq(attr, "none")) return nonefunc;
     }
-    return (agisdirected(agraphof(aghead(e))) ? forfunc : nonefunc);
+    return agisdirected(agraphof(aghead(e))) ? forfunc : nonefunc;
 }
 
 static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
