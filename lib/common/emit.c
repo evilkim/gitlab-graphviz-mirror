@@ -3051,7 +3051,7 @@ static void init_gvc(GVC_t * gvc, graph_t * g)
     /* pagesize */
     gvc->graph_sets_pageSize = FALSE;
     gvc->pageSize = GD_drawing(g)->page;
-    if ((GD_drawing(g)->page.x > 0.001) && (GD_drawing(g)->page.y > 0.001))
+    if (GD_drawing(g)->page.x > 0.001 && GD_drawing(g)->page.y > 0.001)
         gvc->graph_sets_pageSize = TRUE;
 
     /* rotation */
