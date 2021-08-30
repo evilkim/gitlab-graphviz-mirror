@@ -79,7 +79,6 @@ target_include_directories(dijkstra PRIVATE
 )
 
 target_link_libraries(dijkstra
-    cdt
     cgraph
     ingraphs
 )
@@ -115,7 +114,6 @@ target_include_directories(gml2gv PRIVATE
 
 target_link_libraries(gml2gv
     cgraph
-    ingraphs
 )
 
 tool_defaults(gml2gv)
@@ -187,9 +185,7 @@ target_include_directories(graphml2gv PRIVATE
 )
 
 target_link_libraries(graphml2gv
-    cdt
     cgraph
-    ingraphs
     ${EXPAT_LIBRARIES}
 )
 
@@ -280,7 +276,6 @@ target_include_directories(gvpack PRIVATE
 )
 
 target_link_libraries(gvpack
-    cdt
     cgraph
     gvc
     gvplugin_neato_layout
@@ -314,7 +309,6 @@ target_include_directories(gxl2gv PRIVATE
 )
 
 target_link_libraries(gxl2gv
-    cdt
     cgraph
     ingraphs
     ${EXPAT_LIBRARIES}

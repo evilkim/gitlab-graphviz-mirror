@@ -20,3 +20,7 @@ target_include_directories(label PRIVATE
     ${GRAPHVIZ_LIB_DIR}/cgraph
     ${GRAPHVIZ_LIB_DIR}/common
 )
+
+target_link_libraries(label PRIVATE
+    cdt
+)

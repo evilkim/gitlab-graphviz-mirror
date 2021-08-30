@@ -22,7 +22,6 @@ target_include_directories(gvplugin_gd PRIVATE
 )
 
 target_link_libraries(gvplugin_gd
-    cdt
     cgraph
     gvc
     ${GD_LIBRARIES}

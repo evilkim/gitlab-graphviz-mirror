@@ -53,13 +53,13 @@ target_link_libraries(gvc PRIVATE
 )
 
 target_link_libraries(gvc PRIVATE
+    cdt
     cgraph
     common
+    pack
 )
 
 target_link_libraries(gvc PUBLIC
-    cdt
-    pack
     ${MATH_LIB}
 )
 

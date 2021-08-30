@@ -15,7 +15,6 @@ target_include_directories(gvplugin_neato_layout PRIVATE
 )
 
 target_link_libraries(gvplugin_neato_layout
-    cdt
     circogen
     fdpgen
     gvc

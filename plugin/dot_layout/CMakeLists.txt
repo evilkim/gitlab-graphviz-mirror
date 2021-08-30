@@ -15,7 +15,6 @@ target_include_directories(gvplugin_dot_layout PRIVATE
 )
 
 target_link_libraries(gvplugin_dot_layout
-    cdt
     dotgen
     gvc
 )
