@@ -117,7 +117,15 @@ add_library(common STATIC
 target_link_libraries(common PRIVATE
     cgraph
     pathplan
+    label
+    xdot
 )
+
+if(EXPAT_FOUND)
+    target_link_libraries(common PUBLIC
+        ${EXPAT_LIBRARIES}
+    )
+endif()
 
 # Specify headers to be installed
 install(

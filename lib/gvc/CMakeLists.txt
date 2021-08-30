@@ -59,10 +59,7 @@ target_link_libraries(gvc PRIVATE
 
 target_link_libraries(gvc PUBLIC
     cdt
-    label
     pack
-    xdot
-    ${EXPAT_LIBRARIES}
     ${MATH_LIB}
 )
 
