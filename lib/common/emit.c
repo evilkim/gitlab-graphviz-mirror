@@ -2207,7 +2207,7 @@ typedef double (*radfunc_t)(double,double,double);
 
 static double forfunc (double curlen, double totallen, double initwid)
 {
-    return ((1 - (curlen/totallen))*initwid/2.0);
+    return (1 - curlen / totallen) * initwid / 2.0;
 }
 
 static double revfunc (double curlen, double totallen, double initwid)
