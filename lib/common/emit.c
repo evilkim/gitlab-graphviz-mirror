@@ -2167,7 +2167,7 @@ static int multicolor (GVJ_t * job, edge_t * e, char** styles, char* colors, int
 	    }
 	    else {
 		bz0 = bz_r;
-		splitBSpline (&bz0, (s->t)/(left+s->t), &bz_l, &bz_r);
+		splitBSpline(&bz0, s->t / (left + s->t), &bz_l, &bz_r);
 		free (bz0.list);
 		gvrender_beziercurve(job, bz_l.list, bz_l.size, FALSE, FALSE, FALSE);
 		free (bz_l.list);
@@ -2188,7 +2188,7 @@ static int multicolor (GVJ_t * job, edge_t * e, char** styles, char* colors, int
     	    gvrender_set_fillcolor(job, endcolor);
 	    arrow_gen(job, EMIT_HDRAW, bz.ep, bz.list[bz.size - 1], arrowsize, penwidth, bz.eflag);
 	}
-	if ((ED_spl(e)->size>1) && (bz.sflag||bz.eflag) && styles) 
+	if (ED_spl(e)->size > 1 && (bz.sflag || bz.eflag) && styles)
 	    gvrender_set_style(job, styles);
     }
     freeSegs (segs);
