@@ -1226,7 +1226,7 @@ static void firstlayer(GVJ_t *job, int** listp)
     if (job->gvc->layerlist) {
 	int *list = job->gvc->layerlist;
 	int cnt = *list++;
-	if ((cnt > 1) && (! (job->flags & GVDEVICE_DOES_LAYERS))) {
+	if (cnt > 1 && !(job->flags & GVDEVICE_DOES_LAYERS)) {
 	    agerr(AGWARN, "layers not supported in %s output\n",
 		job->output_langname);
 	    list[1] = job->numLayers + 1; /* only one layer printed */
@@ -1235,8 +1235,7 @@ static void firstlayer(GVJ_t *job, int** listp)
 	*listp = list;
     }
     else {
-	if ((job->numLayers > 1)
-		&& (! (job->flags & GVDEVICE_DOES_LAYERS))) {
+	if (job->numLayers > 1 && !(job->flags & GVDEVICE_DOES_LAYERS)) {
 	    agerr(AGWARN, "layers not supported in %s output\n",
 		job->output_langname);
 	    job->numLayers = 1;
