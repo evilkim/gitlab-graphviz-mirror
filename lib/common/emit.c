@@ -4136,7 +4136,7 @@ boolean findStopColor (char* colorlist, char* clrs[2], float* frac)
     int rv;
 
     rv = parseSegs (colorlist, 0, &segs);
-    if (rv || (segs->numc < 2) || (segs->segs[0].color == NULL)) {
+    if (rv || segs->numc < 2 || segs->segs[0].color == NULL) {
 	clrs[0] = NULL;
 	if (segs) freeSegs (segs);
 	return FALSE;
