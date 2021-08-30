@@ -2543,27 +2543,27 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
 	agxbinit(&xb, SMALLBUF, xbuf);
 	s = getObjId (job, e, &xb);
-	obj->id = strdup_and_subst_obj(s, (void*)e);
+	obj->id = strdup_and_subst_obj(s, e);
 	agxbfree(&xb);
 
         if (((s = agget(e, "href")) && s[0]) || ((s = agget(e, "URL")) && s[0]))
-            dflt_url = strdup_and_subst_obj(s, (void*)e);
+            dflt_url = strdup_and_subst_obj(s, e);
 	if (((s = agget(e, "edgehref")) && s[0]) || ((s = agget(e, "edgeURL")) && s[0]))
-            obj->url = strdup_and_subst_obj(s, (void*)e);
+            obj->url = strdup_and_subst_obj(s, e);
 	else if (dflt_url)
 	    obj->url = strdup(dflt_url);
 	if (((s = agget(e, "labelhref")) && s[0]) || ((s = agget(e, "labelURL")) && s[0]))
-            obj->labelurl = strdup_and_subst_obj(s, (void*)e);
+            obj->labelurl = strdup_and_subst_obj(s, e);
 	else if (dflt_url)
 	    obj->labelurl = strdup(dflt_url);
 	if (((s = agget(e, "tailhref")) && s[0]) || ((s = agget(e, "tailURL")) && s[0])) {
-            obj->tailurl = strdup_and_subst_obj(s, (void*)e);
+            obj->tailurl = strdup_and_subst_obj(s, e);
             obj->explicit_tailurl = TRUE;
 	}
 	else if (dflt_url)
 	    obj->tailurl = strdup(dflt_url);
 	if (((s = agget(e, "headhref")) && s[0]) || ((s = agget(e, "headURL")) && s[0])) {
-            obj->headurl = strdup_and_subst_obj(s, (void*)e);
+            obj->headurl = strdup_and_subst_obj(s, e);
             obj->explicit_headurl = TRUE;
 	}
 	else if (dflt_url)
@@ -2572,26 +2572,26 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
     if (flags & GVRENDER_DOES_TARGETS) {
         if ((s = agget(e, "target")) && s[0])
-            dflt_target = strdup_and_subst_obj(s, (void*)e);
+            dflt_target = strdup_and_subst_obj(s, e);
         if ((s = agget(e, "edgetarget")) && s[0]) {
 	    obj->explicit_edgetarget = TRUE;
-            obj->target = strdup_and_subst_obj(s, (void*)e);
+            obj->target = strdup_and_subst_obj(s, e);
 	}
 	else if (dflt_target)
 	    obj->target = strdup(dflt_target);
         if ((s = agget(e, "labeltarget")) && s[0])
-            obj->labeltarget = strdup_and_subst_obj(s, (void*)e);
+            obj->labeltarget = strdup_and_subst_obj(s, e);
 	else if (dflt_target)
 	    obj->labeltarget = strdup(dflt_target);
         if ((s = agget(e, "tailtarget")) && s[0]) {
-            obj->tailtarget = strdup_and_subst_obj(s, (void*)e);
+            obj->tailtarget = strdup_and_subst_obj(s, e);
 	    obj->explicit_tailtarget = TRUE;
 	}
 	else if (dflt_target)
 	    obj->tailtarget = strdup(dflt_target);
         if ((s = agget(e, "headtarget")) && s[0]) {
 	    obj->explicit_headtarget = TRUE;
-            obj->headtarget = strdup_and_subst_obj(s, (void*)e);
+            obj->headtarget = strdup_and_subst_obj(s, e);
 	}
 	else if (dflt_target)
 	    obj->headtarget = strdup(dflt_target);
@@ -2601,7 +2601,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
         if (((s = agget(e, "tooltip")) && s[0]) ||
             ((s = agget(e, "edgetooltip")) && s[0])) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->tooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->tooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_tooltip = TRUE;
 	}
@@ -2610,7 +2610,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "labeltooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->labeltooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->labeltooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_labeltooltip = TRUE;
 	}
@@ -2619,7 +2619,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "tailtooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->tailtooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->tailtooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_tailtooltip = TRUE;
 	}
@@ -2628,7 +2628,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "headtooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->headtooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->headtooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_headtooltip = TRUE;
 	}
