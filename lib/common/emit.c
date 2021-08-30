@@ -2223,8 +2223,8 @@ static double nonefunc (double curlen, double totallen, double initwid)
 static double bothfunc (double curlen, double totallen, double initwid)
 {
     double fr = curlen/totallen;
-    if (fr <= 0.5) return (fr*initwid);
-    else return ((1-fr)*initwid);
+    if (fr <= 0.5) return fr * initwid;
+    return (1 - fr) * initwid;
 }
 
 static radfunc_t 
