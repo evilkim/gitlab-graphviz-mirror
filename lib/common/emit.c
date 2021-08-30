@@ -3133,7 +3133,7 @@ static void init_job_dpi(GVJ_t *job, graph_t *g)
     GVJ_t *firstjob = job->gvc->active_jobs;
 
     if (GD_drawing(g)->dpi != 0) {
-        job->dpi.x = job->dpi.y = (double)(GD_drawing(g)->dpi);
+        job->dpi.x = job->dpi.y = (double)GD_drawing(g)->dpi;
     }
     else if (firstjob && firstjob->device_sets_dpi) {
         job->dpi = firstjob->device_dpi;   /* some devices set dpi in initialize() */
@@ -3145,7 +3145,7 @@ static void init_job_dpi(GVJ_t *job, graph_t *g)
             job->dpi = job->device.features->default_dpi;
             break;
         default:
-            job->dpi.x = job->dpi.y = (double)(DEFAULT_DPI);
+            job->dpi.x = job->dpi.y = (double)DEFAULT_DPI;
             break;
         }
     }
