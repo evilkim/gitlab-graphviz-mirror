@@ -1993,13 +1993,13 @@ static pointf computeoffset_qr(pointf p, pointf q, pointf r, pointf s,
 static void emit_attachment(GVJ_t * job, textlabel_t * lp, splines * spl)
 {
     pointf sz, AF[3];
-    unsigned char *s;
+    const char *s;
 
-    for (s = (unsigned char *) (lp->text); *s; s++) {
+    for (s = lp->text; *s; s++) {
 	if (!isspace(*s))
 	    break;
     }
-    if (*s == 0)
+    if (*s == '\0')
 	return;
 
     sz = lp->dimen;
