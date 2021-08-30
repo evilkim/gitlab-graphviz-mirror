@@ -1829,7 +1829,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
              * points are allowed. To simplify things to fit with the 120 points
              * used for skewed ellipses, we set the bound at 60.
              */
-            if ((nump < 4) || (nump > 60))
+            if (nump < 4 || nump > 60)
                 nump = DFLT_SAMPLE;
             /* use bounding box of text label or node image for mapping
              * when polygon has no peripheries and node is not filled
@@ -1865,7 +1865,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
             }
             /* all other polygonal shape */
             else {
-                int offset = (peripheries - 1)*(poly->sides);
+                int offset = (peripheries - 1) * poly->sides;
                 obj->url_map_shape = MAP_POLYGON;
                 /* distorted or skewed ellipses and circles are polygons with 120
                  * sides. For mapping we convert them into polygon with sample sides
