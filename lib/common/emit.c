@@ -3773,7 +3773,7 @@ static int style_token(char **s, agxbuf * xb)
     int token;
     char c;
 
-    while (*p && (isspace(*p) || (*p == ',')))
+    while (*p && (isspace(*p) || *p == ','))
 	p++;
     switch (*p) {
     case '\0':
