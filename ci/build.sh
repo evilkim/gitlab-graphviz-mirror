@@ -51,6 +51,16 @@ if [ "${build_system}" = "cmake" ]; then
         echo "Error: OSTYPE=${OSTYPE} is unknown" >&2
         exit 1
     fi
+elif [[ "${CONFIGURE_OPTIONS:-}" =~ "--enable-static" ]]; then
+    GV_VERSION=$( cat GRAPHVIZ_VERSION )
+    tar xfz graphviz-${GV_VERSION}.tar.gz
+    pushd graphviz-${GV_VERSION}
+    ./configure $CONFIGURE_OPTIONS --prefix=$( pwd )/build | tee >(../ci/extract-configure-log.sh >../${META_DATA_DIR}/configure.log)
+    make
+    make install
+    popd
+    tar cf - -C graphviz-${GV_VERSION}/build . | xz -9 -c - > graphviz-${GV_VERSION}-${ARCH}.tar.xz
+    mv graphviz-${GV_VERSION}-${ARCH}.tar.xz ${DIR}/os/${ARCH}/
 else
     GV_VERSION=$( cat GRAPHVIZ_VERSION )
     if [ "$OSTYPE" = "linux-gnu" ]; then
