@@ -2874,14 +2874,10 @@ static char adjust[] = {'l', 'n', 'r'};
 static void
 expandBB (boxf* bb, pointf p)
 {
-    if (p.x > bb->UR.x)
-	bb->UR.x = p.x;
-    if (p.x < bb->LL.x)
-	bb->LL.x = p.x;
-    if (p.y > bb->UR.y)
-	bb->UR.y = p.y;
-    if (p.y < bb->LL.y)
-	bb->LL.y = p.y;
+    bb->UR.x = fmax(bb->UR.x, p.x);
+    bb->LL.x = fmin(bb->LL.x, p.x);
+    bb->UR.y = fmax(bb->UR.y, p.y);
+    bb->LL.y = fmin(bb->LL.y, p.y);
 }
 
 static boxf
