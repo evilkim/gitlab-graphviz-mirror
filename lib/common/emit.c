@@ -1494,21 +1494,23 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
 		pts[0].y = op->op.u.ellipse.y - op->op.u.ellipse.h;
 		pts[1].x = op->op.u.ellipse.x + op->op.u.ellipse.w;
 		pts[1].y = op->op.u.ellipse.y + op->op.u.ellipse.h;
-		gvrender_ellipse(job, pts, 2, (op->op.kind == xd_filled_ellipse?filled:0));
+		gvrender_ellipse(job, pts, 2, op->op.kind == xd_filled_ellipse ? filled : 0);
 	    }
 	    break;
 	case xd_filled_polygon :
 	case xd_unfilled_polygon :
     	    if (boxf_overlap(op->bb, job->clip)) {
 		pts = copyPts (pts, &ptsize, op->op.u.polygon.pts, op->op.u.polygon.cnt);
-		gvrender_polygon(job, pts, op->op.u.polygon.cnt, (op->op.kind == xd_filled_polygon?filled:0));
+		gvrender_polygon(job, pts, op->op.u.polygon.cnt,
+		                 op->op.kind == xd_filled_polygon ? filled : 0);
 	    }
 	    break;
 	case xd_filled_bezier :
 	case xd_unfilled_bezier :
     	    if (boxf_overlap(op->bb, job->clip)) {
 		pts = copyPts (pts, &ptsize, op->op.u.bezier.pts, op->op.u.bezier.cnt);
-		gvrender_beziercurve(job, pts, op->op.u.bezier.cnt, 0, 0, (op->op.kind == xd_filled_bezier?filled:0));
+		gvrender_beziercurve(job, pts, op->op.u.bezier.cnt, 0, 0,
+		                     op->op.kind == xd_filled_bezier ? filled : 0);
 	    }
 	    break;
 	case xd_polyline :
@@ -1542,7 +1544,7 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
 		    clr0 = p->stops[0].color;
 		    clr1 = p->stops[1].color;
 		    frac = p->stops[1].frac;
-		    if ((p->x1 == p->x0) && (p->y1 == p->y0))
+		    if (p->x1 == p->x0 && p->y1 == p->y0)
 			angle = 0;
 		    else
 			angle = (int)(180.0*acos((p->x0 - p->x1)/p->r0)/M_PI);
