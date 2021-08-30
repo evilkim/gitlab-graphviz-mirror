@@ -41,9 +41,6 @@ libgv_d_la_CPPFLAGS = $(BASECPPFLAGS) $(D_INCLUDES)
 # $(D_data): gv_d.cpp
 gv_d.cpp: gv.i
 	$(SWIG) -c++ -d -o gv_d.cpp $(srcdir)/gv.i
-	mv $@ $@.orig
-	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
-	rm $@.orig
 
 pkggodir = $(pkglibdir)/go
 GO_data = runtime.h gv.go
@@ -55,9 +52,6 @@ libgv_go_la_CPPFLAGS = $(BASECPPFLAGS) $(GO_INCLUDES)
 gv_gc.c gv.go: gv_go.cpp
 gv_go.cpp: gv.i
 	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -o gv_go.cpp $(srcdir)/gv.i 
-	mv $@ $@.orig
-	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
-	rm $@.orig
 runtime.h:
 	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -external-runtime runtime.h
 gv.go:
@@ -126,9 +120,6 @@ libgv_javascript_la_CPPFLAGS = $(BASECPPFLAGS) $(JAVASCRIPT_INCLUDES)
 # $(D_data): gv_javascript.cpp
 gv_javascript.cpp: gv.i
 	$(SWIG) -c++ -javascript -o gv_d.cpp $(srcdir)/gv.i
-	mv $@ $@.orig
-	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
-	rm $@.orig
 
 pkgluadir = $(pkglibdir)/lua
 LUA_data = 
@@ -140,9 +131,6 @@ libgv_lua_la_CPPFLAGS = $(BASECPPFLAGS) $(LUA_INCLUDES)
 # $(LUA_data): gv_lua.cpp
 gv_lua.cpp: gv.i
 	$(SWIG) -c++ -lua -o gv_lua.cpp $(srcdir)/gv.i
-	mv $@ $@.orig
-	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
-	rm $@.orig
 
 pkgocamldir = $(pkglibdir)/ocaml
 OCAML_data = gv.cmo gv.cma gv.cmi META.gv
