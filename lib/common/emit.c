@@ -1198,7 +1198,7 @@ static void init_layering(GVC_t * gvc, graph_t * g)
     gvc->layerlist = NULL;
     if ((str = agget(g, "layers")) != 0) {
 	gvc->numLayers = parse_layers(gvc, g, str);
- 	if (((str = agget(g, "layerselect")) != 0) && *str) {
+ 	if ((str = agget(g, "layerselect")) != 0 && *str) {
 	    gvc->layerlist = parse_layerselect(gvc, g, str);
 	}
     } else {
