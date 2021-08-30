@@ -1683,7 +1683,7 @@ static void setup_page(GVJ_t * job, graph_t * g)
     /* Test with and without assymmetric margins, e.g: -Gmargin="1,0" */
     if (job->rotation) {
 	job->translation.y = - job->clip.UR.y - job->canvasBox.LL.y / job->zoom;
-        if ((job->flags & GVRENDER_Y_GOES_DOWN) || (Y_invert))
+        if ((job->flags & GVRENDER_Y_GOES_DOWN) || Y_invert)
             job->translation.x = - job->clip.UR.x - job->canvasBox.LL.x / job->zoom;
         else
             job->translation.x = - job->clip.LL.x + job->canvasBox.LL.x / job->zoom;
@@ -1691,7 +1691,7 @@ static void setup_page(GVJ_t * job, graph_t * g)
     else {
 	/* pre unscale margins to keep them constant under scaling */
         job->translation.x = - job->clip.LL.x + job->canvasBox.LL.x / job->zoom;
-        if ((job->flags & GVRENDER_Y_GOES_DOWN) || (Y_invert))
+        if ((job->flags & GVRENDER_Y_GOES_DOWN) || Y_invert)
             job->translation.y = - job->clip.UR.y - job->canvasBox.LL.y / job->zoom;
         else
             job->translation.y = - job->clip.LL.y + job->canvasBox.LL.y / job->zoom;
