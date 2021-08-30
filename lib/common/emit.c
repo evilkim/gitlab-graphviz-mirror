@@ -2457,7 +2457,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
 			arrow_gen(job, EMIT_HDRAW, bz.ep, bz.list[bz.size - 1],
 				arrowsize, penwidth, bz.eflag);
 		    }
-		    if ((ED_spl(e)->size>1) && (bz.sflag||bz.eflag) && styles) 
+		    if (ED_spl(e)->size > 1 && (bz.sflag || bz.eflag) && styles)
 			gvrender_set_style(job, styles);
 		}
 	    }
