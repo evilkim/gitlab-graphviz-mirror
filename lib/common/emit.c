@@ -1333,20 +1333,16 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
 	/* page not set by user, use default from renderer */
 	if (job->render.features) {
 	    pageSize.x = job->device.features->default_pagesize.x - 2*margin.x;
-	    if (pageSize.x < 0.)
-		pageSize.x = 0.;
+	    pageSize.x = fmax(pageSize.x, 0);
 	    pageSize.y = job->device.features->default_pagesize.y - 2*margin.y;
-	    if (pageSize.y < 0.)
-		pageSize.y = 0.;
+	    pageSize.y = fmax(pageSize.y, 0);
 	}
 	else
 	    pageSize.x = pageSize.y = 0.;
 	job->pagesArraySize.x = job->pagesArraySize.y = job->numPages = 1;
         
-        if (pageSize.x < imageSize.x)
-	    pageSize.x = imageSize.x;
-        if (pageSize.y < imageSize.y)
-	    pageSize.y = imageSize.y;
+        pageSize.x = fmax(pageSize.x, imageSize.x);
+        pageSize.y = fmax(pageSize.y, imageSize.y);
     }
 
     /* initial window size */
