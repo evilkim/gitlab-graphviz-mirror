@@ -2954,12 +2954,12 @@ boxf xdotBB (Agraph_t* g)
 
     if (!xd) return bb;
 
-    if ((bb.LL.x == bb.UR.x) && (bb.LL.y == bb.UR.y)) {
+    if (bb.LL.x == bb.UR.x && bb.LL.y == bb.UR.y) {
 	bb.LL.x = bb.LL.y = MAXDOUBLE;
 	bb.UR.x = bb.UR.y = -MAXDOUBLE;
     }
 
-    op = (exdot_op*)(xd->ops);
+    op = (exdot_op*)xd->ops;
     for (i = 0; i < xd->cnt; i++) {
 	tf = null_tf;
 	switch (op->op.kind) {
