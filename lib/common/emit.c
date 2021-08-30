@@ -2678,7 +2678,7 @@ emit_edge_label(GVJ_t* job, textlabel_t* lbl, emit_state_t lkind, int explicit,
     char* newid;
     char* type;
 
-    if ((lbl == NULL) || !(lbl->set)) return;
+    if (lbl == NULL || !lbl->set) return;
     if (id) { /* non-NULL if needed */
 	newid = N_NEW(strlen(id) + sizeof("-headlabel"),char);
 	switch (lkind) {
