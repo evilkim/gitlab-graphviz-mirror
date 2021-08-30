@@ -1314,14 +1314,14 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
 	    job->pagesArraySize.x = 1;
 	else {
 	    job->pagesArraySize.x = (int)(imageSize.x / pageSize.x);
-	    if ((imageSize.x - (job->pagesArraySize.x * pageSize.x)) > EPSILON)
+	    if (imageSize.x - job->pagesArraySize.x * pageSize.x > EPSILON)
 		job->pagesArraySize.x++;
 	}
 	if (pageSize.y < EPSILON)
 	    job->pagesArraySize.y = 1;
 	else {
 	    job->pagesArraySize.y = (int)(imageSize.y / pageSize.y);
-	    if ((imageSize.y - (job->pagesArraySize.y * pageSize.y)) > EPSILON)
+	    if (imageSize.y - job->pagesArraySize.y * pageSize.y > EPSILON)
 		job->pagesArraySize.y++;
 	}
 	job->numPages = job->pagesArraySize.x * job->pagesArraySize.y;
@@ -1360,8 +1360,8 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
     job->pagesArrayFirst.x = job->pagesArrayFirst.y = 0;
     job->pagesArrayMajor = pagecode(job, gvc->pagedir[0]);
     job->pagesArrayMinor = pagecode(job, gvc->pagedir[1]);
-    if ((abs(job->pagesArrayMajor.x + job->pagesArrayMinor.x) != 1)
-     || (abs(job->pagesArrayMajor.y + job->pagesArrayMinor.y) != 1)) {
+    if (abs(job->pagesArrayMajor.x + job->pagesArrayMinor.x) != 1
+     || abs(job->pagesArrayMajor.y + job->pagesArrayMinor.y) != 1) {
 	job->pagesArrayMajor = pagecode(job, 'B');
 	job->pagesArrayMinor = pagecode(job, 'L');
 	agerr(AGWARN, "pagedir=%s ignored\n", gvc->pagedir);
