@@ -1929,7 +1929,7 @@ static void emit_node(GVJ_t * job, node_t * n)
     if (ND_shape(n) 				     /* node has a shape */
 	    && node_in_layer(job, agraphof(n), n)    /* and is in layer */
 	    && node_in_box(n, job->clip)             /* and is in page/view */
-	    && (ND_state(n) != gvc->common.viewNum)) /* and not already drawn */
+	    && ND_state(n) != gvc->common.viewNum) /* and not already drawn */
     {
 	ND_state(n) = gvc->common.viewNum; 	     /* mark node as drawn */
 
