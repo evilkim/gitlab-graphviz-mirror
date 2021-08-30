@@ -2212,7 +2212,7 @@ static double forfunc (double curlen, double totallen, double initwid)
 
 static double revfunc (double curlen, double totallen, double initwid)
 {
-    return (((curlen/totallen))*initwid/2.0);
+    return curlen / totallen * initwid / 2.0;
 }
 
 static double nonefunc (double curlen, double totallen, double initwid)
