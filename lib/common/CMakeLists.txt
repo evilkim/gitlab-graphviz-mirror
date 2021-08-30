@@ -122,7 +122,7 @@ target_link_libraries(common PRIVATE
 )
 
 if(EXPAT_FOUND)
-    target_link_libraries(common PUBLIC
+    target_link_libraries(common PRIVATE
         ${EXPAT_LIBRARIES}
     )
 endif()
