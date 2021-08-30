@@ -40,7 +40,6 @@ target_include_directories(gvplugin_core PRIVATE
 )
 
 target_link_libraries(gvplugin_core
-    cdt
     cgraph
     gvc
     xdot
