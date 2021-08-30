@@ -3605,7 +3605,7 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
 	    emit_clusters(job, sg, flags);
 	emit_begin_cluster(job, sg);
 	obj = job->obj;
-	doAnchor = (obj->url || obj->explicit_tooltip);
+	doAnchor = obj->url || obj->explicit_tooltip;
 	setColorScheme (agget (sg, "colorscheme"));
 	if (doAnchor && !(flags & EMIT_CLUSTERS_LAST)) {
 	    emit_map_rect(job, GD_bb(sg));
@@ -3641,18 +3641,18 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
 	    filled = TRUE;
 	}
 	else {
-	    if (((color = agget(sg, "color")) != 0) && color[0])
+	    if ((color = agget(sg, "color")) != 0 && color[0])
 		fillcolor = pencolor = color;
-	    if (((color = agget(sg, "pencolor")) != 0) && color[0])
+	    if ((color = agget(sg, "pencolor")) != 0 && color[0])
 		pencolor = color;
-	    if (((color = agget(sg, "fillcolor")) != 0) && color[0])
+	    if ((color = agget(sg, "fillcolor")) != 0 && color[0])
 		fillcolor = color;
 	    /* bgcolor is supported for backward compatibility 
 	       if fill is set, fillcolor trumps bgcolor, so
                don't bother checking.
                if gradient is set fillcolor trumps bgcolor
              */
-	    if ((!filled || !fillcolor) && ((color = agget(sg, "bgcolor")) != 0) && color[0]) {
+	    if ((!filled || !fillcolor) && (color = agget(sg, "bgcolor")) != 0 && color[0]) {
 		fillcolor = color;
 	        filled = FILL;
             }
