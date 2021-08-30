@@ -4067,7 +4067,7 @@ int gvRenderJobs (GVC_t * gvc, graph_t * g)
         firstjob = gvc->active_jobs;
         if (firstjob) {
 	    if (! (firstjob->flags & GVDEVICE_DOES_PAGES)
-	      || (strcmp(job->output_langname,firstjob->output_langname))) {
+	      || strcmp(job->output_langname, firstjob->output_langname)) {
 
 	        gvrender_end_job(firstjob);
 	    
