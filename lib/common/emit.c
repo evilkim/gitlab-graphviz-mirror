@@ -2509,7 +2509,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
      */
     if (styles && ED_spl(e)) gvrender_set_style(job, styles);
 
-    if (E_penwidth && ((s=agxget(e,E_penwidth)) && s[0])) {
+    if (E_penwidth && (s = agxget(e, E_penwidth)) && s[0]) {
 	penwidth = late_double(e, E_penwidth, 1.0, 0.0);
 	gvrender_set_penwidth(job, penwidth);
     }
