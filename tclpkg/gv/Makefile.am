@@ -118,7 +118,7 @@ libgv_javascript_la_LIBADD = $(BASELIBS) $(JAVASCRIPT_LIBS)
 libgv_javascript_la_LDFLAGS = -module -avoid-version
 libgv_javascript_la_CPPFLAGS = $(BASECPPFLAGS) $(JAVASCRIPT_INCLUDES)
 gv_javascript.cpp: gv.i
-	$(SWIG) -c++ -javascript -o $@ $(srcdir)/gv.i
+	$(SWIG) -c++ -javascript -jsc -o $@ $(srcdir)/gv.i
 
 pkgluadir = $(pkglibdir)/lua
 LUA_data = 
