@@ -84,9 +84,6 @@ BuildRequires: golang gcc-go swig >= 3.0.2
 %endif
 %if %{GTK}
 BuildRequires: libglade2-devel gtkglext-devel
-%if 0%{?fedora} <= 32
-BuildRequires: glade3-libgladeui-devel
-%endif
 %endif
 %if %{GTS}
 BuildRequires: gts-devel
