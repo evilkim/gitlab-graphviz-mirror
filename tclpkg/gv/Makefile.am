@@ -117,9 +117,8 @@ libgv_javascript_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_javascript_la_LIBADD = $(BASELIBS) $(JAVASCRIPT_LIBS)
 libgv_javascript_la_LDFLAGS = -module -avoid-version
 libgv_javascript_la_CPPFLAGS = $(BASECPPFLAGS) $(JAVASCRIPT_INCLUDES)
-# $(D_data): gv_javascript.cpp
 gv_javascript.cpp: gv.i
-	$(SWIG) -c++ -javascript -o gv_d.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -javascript -o gv_javascript.cpp $(srcdir)/gv.i
 
 pkgluadir = $(pkglibdir)/lua
 LUA_data = 
@@ -653,6 +652,7 @@ CLEANFILES = test_*/* pkgIndex.tcl \
 	gv_guile.cpp $(GUILE_data) \
 	gv_io.cpp $(IO_data) \
 	gv_java.cpp $(JAVA_data) \
+	gv_javascript.cpp \
 	gv_lua.cpp $(LUA_data) \
 	gv_ocaml.cpp gv.cma gv.cmi gv.mli swig.mli swig.ml swig.cmi swig.cmo gv.ml gv.cmo gv.cmx gv.cmxa gv.a gv.o \
 	gv_perl.cpp $(PERL_data) \
