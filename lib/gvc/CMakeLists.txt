@@ -119,7 +119,7 @@ set_target_properties(gvc PROPERTIES
 )
 
 # Include DLLs with this library on Windows
-if (WIN32)
+if (WIN32 AND EXPAT_FOUND)
     install(
         FILES
             ${EXPAT_RUNTIME_LIBRARIES}
