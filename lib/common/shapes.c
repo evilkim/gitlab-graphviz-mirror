@@ -21,7 +21,7 @@ typedef struct {
     void (*vertex_gen) (pointf*, pointf*);
 } poly_desc_t;
  
-static port Center = { {0, 0}, -1, 0, 0, 0, 1, 0, 0, 0 };
+static port Center = {.theta = -1, .clip = 1};
 
 #define ATTR_SET(a,n) ((a) && (*(agxget(n,a->index)) != '\0'))
   /* Default point size = 0.05 inches or 3.6 points */
