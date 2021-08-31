@@ -80,7 +80,7 @@ static poly_desc_t cylinder_gen = {
 /* polygon descriptions.  "polygon" with 0 sides takes all user control */
 
 /*			       regul perip sides orien disto skew */
-static polygon_t p_polygon = { FALSE, 1, 0, 0., 0., 0. };
+static polygon_t p_polygon = {.peripheries = 1};
 
 /* builtin polygon descriptions */
 static polygon_t p_ellipse = { FALSE, 1, 1, 0., 0., 0. };
