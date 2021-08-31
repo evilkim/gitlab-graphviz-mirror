@@ -85,7 +85,7 @@ static polygon_t p_polygon = {.peripheries = 1};
 /* builtin polygon descriptions */
 static polygon_t p_ellipse = {.peripheries = 1, .sides = 1};
 static polygon_t p_circle = {.regular = TRUE, .peripheries = 1, .sides = 1};
-static polygon_t p_egg = { FALSE, 1, 1, 0., -.3, 0. };
+static polygon_t p_egg = {.peripheries = 1, .sides = 1, .distortion = -0.3};
 static polygon_t p_triangle = { FALSE, 1, 3, 0., 0., 0. };
 static polygon_t p_box = { FALSE, 1, 4, 0., 0., 0. };
 static polygon_t p_square = { TRUE, 1, 4, 0., 0., 0. };
