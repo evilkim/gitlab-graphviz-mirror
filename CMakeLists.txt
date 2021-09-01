@@ -16,6 +16,7 @@ option(use_sanitizers  "enables using address and undefined behavior sanitizer" 
 option(use_coverage    "enables analyzing code coverage" OFF)
 option(with_cxx_api    "enables building the C++ API" OFF)
 option(with_cxx_tests  "enables building the C++ tests" OFF)
+option(use_win_pre_inst_libs "enables building using pre-installed Windows libraries" ON)
 
 if (with_digcola)
     add_definitions(-DDIGCOLA)
@@ -75,8 +76,10 @@ set(GVPLUGIN_CONFIG_FILE config${GRAPHVIZ_PLUGIN_VERSION})
 
 # ============================ Library dependencies ============================
 if (WIN32)
-    list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_DIR})
-    list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_VCPKG_DIR})
+    if (use_win_pre_inst_libs)
+        list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_DIR})
+        list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_VCPKG_DIR})
+    endif()
 else()
     list(APPEND CMAKE_INCLUDE_PATH /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu)
 endif()
@@ -111,7 +114,7 @@ if (WIN32)
     # Find Windows specific dependencies
 
     # Find DLLs on Windows
-    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll)
+    find_program(EXPAT_RUNTIME_LIBRARIES NAMES libexpat.dll expat.dll msys-expat-1.dll)
     if (CMAKE_CL_64)
         find_program(MSYS_RUNTIME_LIBRARIES NAMES msys-2.0.dll)
     endif()

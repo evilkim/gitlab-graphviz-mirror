@@ -657,6 +657,44 @@ windows-msbuild-Win32-debug-build:
         - $Env:configuration = "Debug"
         - $Env:build_system = "msbuild"
 
+windows-mingw32-cmake-build:
+    stage: build
+    needs: []
+    script:
+        - choco install --yes --no-progress msys2
+        - echo experimental > COLLECTION
+        - $Env:build_system = "cmake"
+        - C:\tools\msys64\usr\bin\env MSYSTEM=MINGW32 C:\tools\msys64\usr\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/mingw-build.sh'
+    artifacts:
+        when: always
+        expire_in: 1 week
+        paths:
+            - VERSION
+            - COLLECTION
+    tags:
+        - windows
+    except:
+        - tags
+
+windows-mingw64-cmake-build:
+    stage: build
+    needs: []
+    script:
+        - choco install --yes --no-progress msys2
+        - echo experimental > COLLECTION
+        - $Env:build_system = "cmake"
+        - C:\tools\msys64\usr\bin\env MSYSTEM=MINGW64 C:\tools\msys64\usr\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/mingw-build.sh'
+    artifacts:
+        when: always
+        expire_in: 1 week
+        paths:
+            - VERSION
+            - COLLECTION
+    tags:
+        - windows
+    except:
+        - tags
+
 meta-data:
     stage: test
     script:

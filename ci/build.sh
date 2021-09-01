@@ -35,6 +35,9 @@ if [ "${build_system}" = "cmake" ]; then
         mv build/*.deb ${DIR}/os/${ARCH}/
     elif [ "${ID}" = "Darwin" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
+    elif [ "${ID}" = "msys2" ]; then
+        mv build/*.zip ${DIR}/os/${ARCH}/
+        mv build/*.exe ${DIR}/os/${ARCH}/
     else
         mv build/*.rpm ${DIR}/os/${ARCH}/
     fi
