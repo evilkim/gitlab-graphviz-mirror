@@ -609,7 +609,7 @@ AC_ARG_ENABLE(d,
   [], [enable_d=no])
 
 if test "x$enable_d" != "xyes"; then
-  use_d="No (disabled by default - incomplete"
+  use_d="No (disabled by default - incomplete)"
 else
   if test "x$use_swig" != "xYes"; then
     use_d="No (swig not available)"
