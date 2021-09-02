@@ -210,18 +210,18 @@ def genOutname(name, alg, fmt):
   OUTFILE = f"{name}_{alg}{XFMT}{J}.{F}"
   return OUTFILE
 
-def doTest(TEST):
+def doTest(test):
   """
   Run a single test.
   """
   global TOT_CNT
   global CRASH_CNT
   global TESTTYPES
-  TESTNAME = TEST["TESTNAME"]
-  SUBTESTS = TEST["SUBTESTS"]
+  TESTNAME = test["TESTNAME"]
+  SUBTESTS = test["SUBTESTS"]
   if len(SUBTESTS) == 0:
     return
-  GRAPH = TEST["GRAPH"]
+  GRAPH = test["GRAPH"]
   if GRAPH == "=":
     INFILE = os.path.join(GRAPHDIR, f"{TESTNAME}.gv")
   elif GRAPH.startswith("graph") or GRAPH.startswith("digraph"):
