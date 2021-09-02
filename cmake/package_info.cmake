@@ -13,6 +13,7 @@ set(CPACK_GENERATOR ZIP)
 
 if(CYGWIN)
     LIST(APPEND CPACK_GENERATOR CygwinBinary)
+    SET(CPACK_CYGWIN_PATCH_NUMBER 1)
 elseif (UNIX)
     if (NOT APPLE)
         if (EXISTS "/etc/os-release")
