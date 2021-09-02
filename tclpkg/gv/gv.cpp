@@ -438,27 +438,19 @@ char *nameof(Agsym_t *a)
 //-------------------------------------------------
 bool ok(Agraph_t *g)
 {
-    if (!g) 
-        return false;
-    return true;
+    return g != nullptr;
 }
 bool ok(Agnode_t *n)
 {
-    if (!n) 
-        return false;
-    return true;
+    return n != nullptr;
 }
 bool ok(Agedge_t *e)
 {
-    if (!e) 
-        return false;
-    return true;
+    return e != nullptr;
 }
 bool ok(Agsym_t *a)
 {
-    if (!a) 
-        return false;
-    return true;
+    return a != nullptr;
 }
 //-------------------------------------------------
 Agraph_t *firstsubg(Agraph_t *g)
