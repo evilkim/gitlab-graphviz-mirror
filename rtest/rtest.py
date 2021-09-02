@@ -40,17 +40,21 @@ TMPINFILE = f"tmp{os.getpid()}.gv"
 TMPFILE1 = f"tmpnew{os.getpid()}"
 TMPFILE2 = f"tmpref{os.getpid()}"
 
-# Read single line, storing it in LINE.
-# Returns the line on success, else returns None
 def readLine():
+  """
+  Read single line, storing it in LINE.
+  Returns the line on success, else returns None
+  """
   LINE = f3.readline()
   if LINE != "":
     return LINE.strip()
   return None
 
-# Skip blank lines and comments (lines starting with #)
-# Use first real line as the test name
 def skipLines():
+  """
+  Skip blank lines and comments (lines starting with #)
+  Use first real line as the test name
+  """
   while True:
     LINE = readLine()
     if LINE is None:
@@ -58,10 +62,12 @@ def skipLines():
     if LINE and not LINE.startswith("#"):
       return LINE
 
-# Subtests have the form: layout format optional_flags
-# Store the 3 parts in the arrays ALG, FMT, FLAGS.
-# Stop at a blank line
 def readSubtests():
+  """
+  Subtests have the form: layout format optional_flags
+  Store the 3 parts in the arrays ALG, FMT, FLAGS.
+  Stop at a blank line
+  """
   while True:
     LINE = readLine()
     if LINE == "":
@@ -75,6 +81,9 @@ def readSubtests():
             }
 
 def readTest():
+  """
+  Read and parse a test.
+  """
   # read test name
   LINE = skipLines()
   if LINE is not None:
@@ -96,9 +105,11 @@ def readTest():
       "SUBTESTS": SUBTESTS,
       }
 
-# Compare old and new output and report if different.
-#  Args: testname index fmt
 def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
+  """
+  Compare old and new output and report if different.
+   Args: testname index fmt
+  """
   global DIFF_CNT
   FILE1 = os.path.join(OUTDIR, OUTFILE)
   FILE2 = os.path.join(REFDIR, OUTFILE)
@@ -172,12 +183,14 @@ def doDiff(OUTFILE, OUTDIR, REFDIR, testname, subtest_index, fmt):
     if VERBOSE:
       print(f"Test {testname}:{subtest_index} : == OK == {OUTFILE}", file=sys.stderr)
 
-# Generate output file name given 3 parameters.
-#   testname layout format
-# If format ends in :*, remove this, change the colons to underscores,
-# and append to basename
-# If the last two parameters have been used before, add numeric suffix.
 def genOutname(name, alg, fmt):
+  """
+  Generate output file name given 3 parameters.
+    testname layout format
+  If format ends in :*, remove this, change the colons to underscores,
+  and append to basename
+  If the last two parameters have been used before, add numeric suffix.
+  """
   global TESTTYPES
   fmt_split = fmt.split(":")
   if len(fmt_split) >= 2:
@@ -199,6 +212,9 @@ def genOutname(name, alg, fmt):
   return OUTFILE
 
 def doTest(TEST):
+  """
+  Run a single test.
+  """
   global TOT_CNT
   global CRASH_CNT
   global TESTTYPES
@@ -304,6 +320,9 @@ def doTest(TEST):
   TESTTYPES = {}
 
 def cleanup():
+  """
+  Delete temporary files.
+  """
   shutil.rmtree(TMPFILE1, ignore_errors=True)
   shutil.rmtree(TMPFILE2, ignore_errors=True)
   shutil.rmtree(TMPINFILE, ignore_errors=True)
