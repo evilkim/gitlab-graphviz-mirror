@@ -726,7 +726,7 @@ bool layout(Agraph_t *g, const char *engine)
         return false;
     (void)gvFreeLayout(gvc, g); // ignore errors
     int err = gvLayout(gvc, g, engine);
-    return (! err);
+    return err == 0;
 }
 
 // annotate the graph with layout information
@@ -744,7 +744,7 @@ bool render(Agraph_t *g, const char *format)
     if (!g)
         return false;
     int err = gvRender(gvc, g, format, stdout);
-    return (! err);
+    return err == 0;
 }
 
 // render to an open FILE
@@ -753,7 +753,7 @@ bool render(Agraph_t *g, const char *format, FILE *f)
     if (!g)
         return false;
     int err = gvRender(gvc, g, format, f);
-    return (! err);
+    return err == 0;
 }
 
 // render to an open channel  
@@ -764,7 +764,7 @@ bool renderchannel(Agraph_t *g, const char *format, const char *channelname)
     gv_channel_writer_init(gvc);
     int err = gvRender(gvc, g, format, (FILE*)channelname);
     gv_writer_reset (gvc);   /* Reset to default */
-    return (! err);
+    return err == 0;
 }
 
 // render to a filename 
@@ -773,7 +773,7 @@ bool render(Agraph_t *g, const char *format, const char *filename)
     if (!g)
         return false;
     int err = gvRenderFilename(gvc, g, format, filename);
-    return (! err);
+    return err == 0;
 }
 
 typedef struct {
@@ -829,7 +829,7 @@ bool write(Agraph_t *g, FILE *f)
     if (!g)
         return false;
     int err = agwrite(g, f);
-    return (! err);
+    return err == 0;
 }
 
 bool write(Agraph_t *g, const char *filename)
@@ -841,7 +841,7 @@ bool write(Agraph_t *g, const char *filename)
         return false;
     int err = agwrite(g, f);
     fclose(f);
-    return (! err);
+    return err == 0;
 }
 
 bool tred(Agraph_t *g)
@@ -849,5 +849,5 @@ bool tred(Agraph_t *g)
     if (!g)
         return false;
     int err = gvToolTred(g);
-    return (! err);
+    return err == 0;
 }
