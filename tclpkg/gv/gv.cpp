@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <gvc/gvc.h>
+#include <string>
 
 extern "C" {
 extern void gv_string_writer_init(GVC_t *gvc);
@@ -174,16 +175,11 @@ char *getv(Agraph_t *g, char *attr)
 }
 static void myagxset(void *obj, Agsym_t *a, char *val)
 {
-    int len;
-    char *hs;
-
     if (strcmp(a->name, "label") == 0 && val[0] == '<') {
-        len = strlen(val);
+        size_t len = strlen(val);
         if (val[len-1] == '>') {
-            hs = strdup(val+1);
-                *(hs+len-2) = '\0';
-            val = agstrdup_html(agraphof(obj),hs);
-            free(hs);
+            std::string hs(val + 1, len - 2);
+            val = agstrdup_html(agraphof(obj), hs.c_str());
         }
     }
     agxset(obj, a, val);
