@@ -150,7 +150,7 @@ static char* myagxget(void *obj, Agsym_t *a)
         return emptystring;
     if (strcmp(a->name, "label") == 0 && aghtmlstr(val)) {
         len = strlen(val);
-        hs = (char*)malloc(len + 3);
+        hs = reinterpret_cast<char*>(malloc(len + 3));
         hs[0] = '<';
         strcpy(hs+1, val);
         hs[len+1] = '>';
@@ -246,7 +246,7 @@ char *setv(Agnode_t *n, char *attr, char *val)
     if (!n || !attr || !val)
         return nullptr;
     if (AGTYPE(n) == AGRAPH) { // protonode   
-	g = (Agraph_t*)n;
+	g = reinterpret_cast<Agraph_t*>(n);
     	a = agattr(g, AGNODE, attr, val); // create default attribute in psuodo protonode
 	    // FIXME? - deal with html in "label" attributes
 	return val;
@@ -297,7 +297,7 @@ char *setv(Agedge_t *e, char *attr, char *val)
     if (!e || !attr || !val)
         return nullptr;
     if (AGTYPE(e) == AGRAPH) { // protoedge   
-	g = (Agraph_t*)e;
+	g = reinterpret_cast<Agraph_t*>(e);
     	a = agattr(g, AGEDGE, attr, val); // create default attribute in pseudo protoedge
 	    // FIXME? - deal with html in "label" attributes
 	return val;
@@ -386,7 +386,7 @@ Agraph_t *graphof(Agedge_t *e)
     if (!e)
         return nullptr;
     if (AGTYPE(e) == AGRAPH)
-	return (Agraph_t*)e; /* graph of protoedge is itself recast */
+	return reinterpret_cast<Agraph_t*>(e); // graph of protoedge is itself recast
     return agraphof(agtail(e));
 }
 
@@ -395,7 +395,7 @@ Agraph_t *graphof(Agnode_t *n)
     if (!n)
         return nullptr;
     if (AGTYPE(n) == AGRAPH)
-	return (Agraph_t*)n;  /* graph of protonode is itself recast */
+	return reinterpret_cast<Agraph_t*>(n); // graph of protonode is itself recast
     return agraphof(n);
 }
 
@@ -411,14 +411,14 @@ Agnode_t *protonode(Agraph_t *g)
 {
     if (!g)
         return nullptr;
-    return (Agnode_t *)g;    // gross abuse of the type system!
+    return reinterpret_cast<Agnode_t*>(g); // gross abuse of the type system!
 }
 
 Agedge_t *protoedge(Agraph_t *g)
 {
     if (!g)
         return nullptr;
-    return (Agedge_t *)g;    // gross abuse of the type system!
+    return reinterpret_cast<Agedge_t*>(g); // gross abuse of the type system!
 }
 
 //-------------------------------------------------
@@ -868,12 +868,13 @@ char* renderresult(Agraph_t *g, const char *format)
     if (!GD_alg(g))
         return nullptr;
     ba.sz = BUFSIZ;
-    ba.data = (char*)malloc(ba.sz*sizeof(char));  /* must be freed by wrapper code */
+    // must be freed by wrapper code
+    ba.data = reinterpret_cast<char*>(malloc(ba.sz * sizeof(char)));
     ba.len = 0;
     gv_string_writer_init(gvc);
-    (void)gvRender(gvc, g, format, (FILE*)&ba);
+    (void)gvRender(gvc, g, format, reinterpret_cast<FILE*>(&ba));
     gv_writer_reset (gvc);   /* Reset to default */
-    *((int*)GD_alg(g)) = ba.len;
+    *reinterpret_cast<int*>(GD_alg(g)) = ba.len;
     return ba.data;
 }
 
@@ -883,7 +884,7 @@ void renderresult(Agraph_t *g, const char *format, char *outdata)
     if (!g)
         return;
     gv_string_writer_init(gvc);
-    (void)gvRender(gvc, g, format, (FILE*)outdata);
+    (void)gvRender(gvc, g, format, reinterpret_cast<FILE*>(outdata));
     gv_writer_reset (gvc);   /* Reset to default */
 }
 
