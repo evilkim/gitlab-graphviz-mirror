@@ -77,15 +77,12 @@ Agraph_t *read(FILE *f)
 
 Agraph_t *read(const char *filename)
 {
-    FILE *f;
-    Agraph_t *g;
-
-    f = fopen(filename, "r");
+    FILE *f = fopen(filename, "r");
     if (!f)
         return nullptr;
     if (!gvc)
         gv_init();
-    g = agread(f, nullptr);
+    Agraph_t *g = agread(f, nullptr);
     fclose(f);
     return g;
 }
@@ -141,17 +138,14 @@ Agedge_t *edge(Agraph_t *g, char *tname, char *hname)
 //-------------------------------------------------
 static char* myagxget(void *obj, Agsym_t *a)
 {
-    int len;
-    char *val, *hs;
-
     if (!obj || !a)
         return emptystring;
-    val = agxget(obj, a);
+    char *val = agxget(obj, a);
     if (!val)
         return emptystring;
     if (strcmp(a->name, "label") == 0 && aghtmlstr(val)) {
-        len = strlen(val);
-        hs = reinterpret_cast<char*>(malloc(len + 3));
+        size_t len = strlen(val);
+        auto hs = reinterpret_cast<char*>(malloc(len + 3));
         hs[0] = '<';
         strcpy(hs+1, val);
         hs[len+1] = '>';
@@ -166,11 +160,9 @@ char *getv(Agraph_t *g, Agsym_t *a)
 }
 char *getv(Agraph_t *g, char *attr)
 {
-    Agsym_t *a;
-
     if (!g || !attr)
         return nullptr;
-    a = agfindattr(agroot(g), attr);
+    Agsym_t *a = agfindattr(agroot(g), attr);
     return myagxget(g, a);
 }
 static void myagxset(void *obj, Agsym_t *a, char *val)
@@ -193,11 +185,9 @@ char *setv(Agraph_t *g, Agsym_t *a, char *val)
 }
 char *setv(Agraph_t *g, char *attr, char *val)
 {
-    Agsym_t *a;
-
     if (!g || !attr || !val)
         return nullptr;
-    a = agfindattr(agroot(g), attr);
+    Agsym_t *a = agfindattr(agroot(g), attr);
     if (!a)
         a = agraphattr(g->root, attr, emptystring);
     myagxset(g, a, val);
@@ -214,15 +204,12 @@ char *getv(Agnode_t *n, Agsym_t *a)
 }
 char *getv(Agnode_t *n, char *attr)
 {
-    Agraph_t *g;
-    Agsym_t *a;
-
     if (!n || !attr)
         return nullptr;
     if (AGTYPE(n) == AGRAPH) // protonode   
 	return nullptr;   // FIXME ??
-    g = agroot(agraphof(n));
-    a = agattr(g, AGNODE, attr, nullptr);
+    Agraph_t *g = agroot(agraphof(n));
+    Agsym_t *a = agattr(g, AGNODE, attr, nullptr);
     return myagxget(n, a);
 }
 char *setv(Agnode_t *n, Agsym_t *a, char *val)
@@ -236,19 +223,17 @@ char *setv(Agnode_t *n, Agsym_t *a, char *val)
 }
 char *setv(Agnode_t *n, char *attr, char *val)
 {
-    Agraph_t *g;
-    Agsym_t *a;
 
     if (!n || !attr || !val)
         return nullptr;
     if (AGTYPE(n) == AGRAPH) { // protonode   
-	g = reinterpret_cast<Agraph_t*>(n);
-    	a = agattr(g, AGNODE, attr, val); // create default attribute in psuodo protonode
+	auto g = reinterpret_cast<Agraph_t*>(n);
+    	(void)agattr(g, AGNODE, attr, val); // create default attribute in psuodo protonode
 	    // FIXME? - deal with html in "label" attributes
 	return val;
     }
-    g = agroot(agraphof(n));
-    a = agattr(g, AGNODE, attr, nullptr);
+    Agraph_t *g = agroot(agraphof(n));
+    Agsym_t *a = agattr(g, AGNODE, attr, nullptr);
     if (!a)
         a = agnodeattr(g, attr, emptystring);
     myagxset(n, a, val);
@@ -265,15 +250,12 @@ char *getv(Agedge_t *e, Agsym_t *a)
 }
 char *getv(Agedge_t *e, char *attr)
 {
-    Agraph_t *g;
-    Agsym_t *a;
-
     if (!e || !attr)
         return nullptr;
     if (AGTYPE(e) == AGRAPH) // protoedge   
 	return nullptr;   // FIXME ??
-    g = agraphof(agtail(e));
-    a = agattr(g, AGEDGE, attr, nullptr);
+    Agraph_t *g = agraphof(agtail(e));
+    Agsym_t *a = agattr(g, AGEDGE, attr, nullptr);
     return myagxget(e, a);
 }
 char *setv(Agedge_t *e, Agsym_t *a, char *val)
@@ -287,19 +269,16 @@ char *setv(Agedge_t *e, Agsym_t *a, char *val)
 }
 char *setv(Agedge_t *e, char *attr, char *val)
 {
-    Agraph_t *g;
-    Agsym_t *a;
-
     if (!e || !attr || !val)
         return nullptr;
     if (AGTYPE(e) == AGRAPH) { // protoedge   
-	g = reinterpret_cast<Agraph_t*>(e);
-    	a = agattr(g, AGEDGE, attr, val); // create default attribute in pseudo protoedge
+	auto g = reinterpret_cast<Agraph_t*>(e);
+    	(void)agattr(g, AGEDGE, attr, val); // create default attribute in pseudo protoedge
 	    // FIXME? - deal with html in "label" attributes
 	return val;
     }
-    g = agroot(agraphof(agtail(e)));
-    a = agattr(g, AGEDGE, attr, nullptr);
+    Agraph_t *g = agroot(agraphof(agtail(e)));
+    Agsym_t *a = agattr(g, AGEDGE, attr, nullptr);
     if (!a)
         a = agattr(g, AGEDGE, attr, emptystring);
     myagxset(e, a, val);
@@ -480,13 +459,10 @@ Agraph_t *nextsupg(Agraph_t*, Agraph_t*)
 
 Agedge_t *firstout(Agraph_t *g)
 {
-    Agnode_t *n;
-    Agedge_t *e;
-
     if (!g)
         return nullptr;
-    for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	e = agfstout(g, n);
+    for (Agnode_t *n = agfstnode(g); n; n = agnxtnode(g, n)) {
+	Agedge_t *e = agfstout(g, n);
 	if (e) return e;
     }
     return nullptr;
@@ -494,15 +470,12 @@ Agedge_t *firstout(Agraph_t *g)
 
 Agedge_t *nextout(Agraph_t *g, Agedge_t *e)
 {
-    Agnode_t *n;
-    Agedge_t *ne;
-
     if (!g || !e)
         return nullptr;
-    ne = agnxtout(g, e);
+    Agedge_t *ne = agnxtout(g, e);
     if (ne)
         return (ne);
-    for (n = agnxtnode(g, agtail(e)); n; n = agnxtnode(g, n)) {
+    for (Agnode_t *n = agnxtnode(g, agtail(e)); n; n = agnxtnode(g, n)) {
 	ne = agfstout(g, n);
 	if (ne) return ne;
     }
@@ -535,11 +508,9 @@ Agedge_t *nextout(Agnode_t *n, Agedge_t *e)
 
 Agnode_t *firsthead(Agnode_t *n)
 {
-    Agedge_t *e;
-
     if (!n)
         return nullptr;
-    e = agfstout(agraphof(n), n);
+    Agedge_t *e = agfstout(agraphof(n), n);
     if (!e)
         return nullptr;
     return aghead(e);
@@ -547,13 +518,10 @@ Agnode_t *firsthead(Agnode_t *n)
 
 Agnode_t *nexthead(Agnode_t *n, Agnode_t *h)
 {
-    Agedge_t *e;
-    Agraph_t *g;
-
     if (!n || !h)
         return nullptr;
-    g = agraphof(n);
-    e = agfindedge(g, n, h);
+    Agraph_t *g = agraphof(n);
+    Agedge_t *e = agfindedge(g, n, h);
     if (!e)
         return nullptr;
     do {
@@ -580,11 +548,9 @@ Agedge_t *nextedge(Agnode_t *n, Agedge_t *e)
 
 Agedge_t *firstin(Agraph_t *g)
 {
-    Agnode_t *n;
-
     if (!g)
         return nullptr;
-    n = agfstnode(g);
+    Agnode_t *n = agfstnode(g);
     if (!n)
         return nullptr;
     return agfstin(g, n);
@@ -592,15 +558,12 @@ Agedge_t *firstin(Agraph_t *g)
 
 Agedge_t *nextin(Agraph_t *g, Agedge_t *e)
 {
-    Agnode_t *n;
-    Agedge_t *ne;
-
     if (!g || !e)
         return nullptr;
-    ne = agnxtin(g, e);
+    Agedge_t *ne = agnxtin(g, e);
     if (ne)
         return (ne);
-    n = agnxtnode(g, aghead(e));
+    Agnode_t *n = agnxtnode(g, aghead(e));
     if (!n)
         return nullptr;
     return agfstin(g, n);
@@ -622,11 +585,9 @@ Agedge_t *nextin(Agnode_t *n, Agedge_t *e)
 
 Agnode_t *firsttail(Agnode_t *n)
 {
-    Agedge_t *e;
-
     if (!n)
         return nullptr;
-    e = agfstin(agraphof(n), n);
+    Agedge_t *e = agfstin(agraphof(n), n);
     if (!e)
         return nullptr;
     return agtail(e);
@@ -634,13 +595,10 @@ Agnode_t *firsttail(Agnode_t *n)
 
 Agnode_t *nexttail(Agnode_t *n, Agnode_t *t)
 {
-    Agedge_t *e;
-    Agraph_t *g;
-
     if (!n || !t)
         return nullptr;
-    g = agraphof(n);
-    e = agfindedge(g, t, n);
+    Agraph_t *g = agraphof(n);
+    Agedge_t *e = agfindedge(g, t, n);
     if (!e)
         return nullptr;
     do {
@@ -697,41 +655,33 @@ Agsym_t *nextattr(Agraph_t *g, Agsym_t *a)
 
 Agsym_t *firstattr(Agnode_t *n)
 {
-    Agraph_t *g;
-
     if (!n)
         return nullptr;
-    g = agraphof(n);
+    Agraph_t *g = agraphof(n);
     return agnxtattr(g,AGNODE,nullptr);
 }
 
 Agsym_t *nextattr(Agnode_t *n, Agsym_t *a)
 {
-    Agraph_t *g;
-
     if (!n || !a)
         return nullptr;
-    g = agraphof(n);
+    Agraph_t *g = agraphof(n);
     return agnxtattr(g,AGNODE,a);
 }
 
 Agsym_t *firstattr(Agedge_t *e)
 {
-    Agraph_t *g;
-
     if (!e)
         return nullptr;
-    g = agraphof(agtail(e));
+    Agraph_t *g = agraphof(agtail(e));
     return agnxtattr(g,AGEDGE,nullptr);
 }
 
 Agsym_t *nextattr(Agedge_t *e, Agsym_t *a)
 {
-    Agraph_t *g;
-
     if (!e || !a)
         return nullptr;
-    g = agraphof(agtail(e));
+    Agraph_t *g = agraphof(agtail(e));
     return agnxtattr(g,AGEDGE,a);
 }
 
@@ -772,12 +722,10 @@ bool rm(Agedge_t *e)
 
 bool layout(Agraph_t *g, const char *engine)
 {
-    int err;
-
     if (!g)
         return false;
-    err = gvFreeLayout(gvc, g);  /* ignore errors */
-    err = gvLayout(gvc, g, engine);
+    (void)gvFreeLayout(gvc, g); // ignore errors
+    int err = gvLayout(gvc, g, engine);
     return (! err);
 }
 
@@ -793,34 +741,28 @@ bool render(Agraph_t *g)
 // render to stdout
 bool render(Agraph_t *g, const char *format)
 {
-    int err;
-
     if (!g)
         return false;
-    err = gvRender(gvc, g, format, stdout);
+    int err = gvRender(gvc, g, format, stdout);
     return (! err);
 }
 
 // render to an open FILE
 bool render(Agraph_t *g, const char *format, FILE *f)
 {
-    int err;
-
     if (!g)
         return false;
-    err = gvRender(gvc, g, format, f);
+    int err = gvRender(gvc, g, format, f);
     return (! err);
 }
 
 // render to an open channel  
 bool renderchannel(Agraph_t *g, const char *format, const char *channelname)
 {
-    int err;
-
     if (!g)
         return false;
     gv_channel_writer_init(gvc);
-    err = gvRender(gvc, g, format, (FILE*)channelname);
+    int err = gvRender(gvc, g, format, (FILE*)channelname);
     gv_writer_reset (gvc);   /* Reset to default */
     return (! err);
 }
@@ -828,11 +770,9 @@ bool renderchannel(Agraph_t *g, const char *format, const char *channelname)
 // render to a filename 
 bool render(Agraph_t *g, const char *format, const char *filename)
 {
-    int err;
-
     if (!g)
         return false;
-    err = gvRenderFilename(gvc, g, format, filename);
+    int err = gvRenderFilename(gvc, g, format, filename);
     return (! err);
 }
 
@@ -845,12 +785,11 @@ typedef struct {
 // render to string result, using binding-dependent gv_string_writer()
 char* renderresult(Agraph_t *g, const char *format)
 {
-    BA ba;
-
     if (!g)
         return nullptr;
     if (!GD_alg(g))
         return nullptr;
+    BA ba;
     ba.sz = BUFSIZ;
     // must be freed by wrapper code
     ba.data = reinterpret_cast<char*>(malloc(ba.sz * sizeof(char)));
@@ -875,13 +814,11 @@ void renderresult(Agraph_t *g, const char *format, char *outdata)
 // render to a malloc'ed data string, to be free'd by caller.
 char* renderdata(Agraph_t *g, const char *format)
 {
-    int err;
-    char *data;
-    unsigned int length;
-
     if (!g)
 	return nullptr;
-    err = gvRenderData(gvc, g, format, &data, &length);
+    char *data;
+    unsigned int length;
+    int err = gvRenderData(gvc, g, format, &data, &length);
     if (err)
 	return nullptr;
     return data;
@@ -889,36 +826,28 @@ char* renderdata(Agraph_t *g, const char *format)
 
 bool write(Agraph_t *g, FILE *f)
 {
-    int err;
-
     if (!g)
         return false;
-    err = agwrite(g, f);
+    int err = agwrite(g, f);
     return (! err);
 }
 
 bool write(Agraph_t *g, const char *filename)
 {
-    FILE *f;
-    int err;
-
     if (!g)
         return false;
-    f = fopen(filename, "w");
+    FILE *f = fopen(filename, "w");
     if (!f)
         return false;
-    err = agwrite(g, f);
+    int err = agwrite(g, f);
     fclose(f);
     return (! err);
 }
 
 bool tred(Agraph_t *g)
 {
-    int err;
-
     if (!g)
         return false;
-    err = gvToolTred(g);
+    int err = gvToolTred(g);
     return (! err);
 }
-
