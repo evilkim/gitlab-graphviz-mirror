@@ -31,7 +31,6 @@ NOOP = False                          # If set, just print list of tests
 DOT = os.environ.get("DOT", shutil.which("dot"))
 DIFFIMG = os.environ.get("DIFFIMG", shutil.which("diffimg"))
 
-TESTNAME = ""   # name of test
 CRASH_CNT = 0
 DIFF_CNT = 0
 TOT_CNT = 0
