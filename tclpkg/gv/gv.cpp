@@ -228,7 +228,7 @@ char *setv(Agnode_t *n, char *attr, char *val)
         return nullptr;
     if (AGTYPE(n) == AGRAPH) { // protonode   
 	auto g = reinterpret_cast<Agraph_t*>(n);
-    	(void)agattr(g, AGNODE, attr, val); // create default attribute in psuodo protonode
+    	(void)agattr(g, AGNODE, attr, val); // create default attribute in pseudo protonode
 	    // FIXME? - deal with html in "label" attributes
 	return val;
     }
