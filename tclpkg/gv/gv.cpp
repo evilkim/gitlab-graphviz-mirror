@@ -436,14 +436,6 @@ char *nameof(Agnode_t *n)
 	return nullptr;
     return agnameof(n);
 }
-//char *nameof(Agedge_t *e)
-//{
-//    if (!e)
-//        return NULL;
-//    if (AGTYPE(e) == AGRAPH)
-//	return NULL;
-//    return agnameof(e);
-//}
 char *nameof(Agsym_t *a)
 {
     if (!a)
@@ -763,15 +755,6 @@ bool rm(Agraph_t *g)
 {
     if (!g)
         return false;
-#if 0
-    Agraph_t* sg;
-    for (sg = agfstsubg (g); sg; sg = agnxtsubg (sg))
-	rm(sg);
-    if (g == agroot(g))
-	agclose(g);
-    else
-        agdelete(agparent(g), g);
-#endif
     /* The rm function appears to have the semantics of agclose, so
      * we should just do that, and let cgraph take care of all the
      * details.
