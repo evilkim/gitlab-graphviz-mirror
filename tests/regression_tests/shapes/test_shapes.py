@@ -1,3 +1,7 @@
+"""
+Tests that built-in shape types are emitted correctly.
+"""
+
 import os.path
 from pathlib import Path
 from subprocess import Popen, PIPE
@@ -81,6 +85,9 @@ output_types = [
 ]
 
 def generate_shape_graph(shape, output_type):
+  """
+  Produce a graph of the given shape and output format.
+  """
   if not Path("output").exists():
     Path("output").mkdir(parents=True)
 
@@ -114,6 +121,9 @@ def generate_shape_graph(shape, output_type):
                           for output_type in output_types]
 )
 def test_shape(shape, output_type):
+  """
+  Check a shape corresponds to its reference.
+  """
   os.chdir(Path(__file__).resolve().parent)
   generate_shape_graph(shape, output_type)
   assert compare_graphs(shape, output_type)
