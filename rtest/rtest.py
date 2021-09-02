@@ -104,7 +104,7 @@ def readTest():
       "SUBTESTS": SUBTESTS,
       }
 
-def doDiff(OUTFILE, OUTDIR, testname, subtest_index, fmt):
+def doDiff(OUTFILE, testname, subtest_index, fmt):
   """
   Compare old and new output and report if different.
    Args: testname index fmt
@@ -310,7 +310,7 @@ def doTest(TEST):
     elif GENERATE:
       continue
     elif os.path.exists(os.path.join(REFDIR, OUTFILE)):
-      doDiff(OUTFILE, OUTDIR, TESTNAME, i, SUBTEST["FMT"])
+      doDiff(OUTFILE, TESTNAME, i, SUBTEST["FMT"])
     else:
       sys.stderr.write(f"Test {TESTNAME}:{i} : == No file {REFDIR}/{OUTFILE} "
                        "for comparison ==\n")
