@@ -405,15 +405,11 @@ Agraph_t *rootof(Agraph_t *g)
 //-------------------------------------------------
 Agnode_t *protonode(Agraph_t *g)
 {
-    if (!g)
-        return nullptr;
     return reinterpret_cast<Agnode_t*>(g); // gross abuse of the type system!
 }
 
 Agedge_t *protoedge(Agraph_t *g)
 {
-    if (!g)
-        return nullptr;
     return reinterpret_cast<Agedge_t*>(g); // gross abuse of the type system!
 }
 
