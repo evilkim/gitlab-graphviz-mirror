@@ -73,7 +73,6 @@
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)windows\dependencies\libraries\x86\bin\cairo.dll $(OutDir)cairo.dll
-copy $(SolutionDir)windows\dependencies\libraries\x86\bin\expat.dll $(OutDir)expat.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\fontconfig.dll $(OutDir)fontconfig.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\glib-2.dll $(OutDir)glib-2.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\gobject-2.dll $(OutDir)gobject-2.dll
@@ -115,7 +114,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)windows\dependencies\libraries\x86\bin\cairo.dll $(OutDir)cairo.dll
-copy $(SolutionDir)windows\dependencies\libraries\x86\bin\expat.dll $(OutDir)expat.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\fontconfig.dll $(OutDir)fontconfig.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\glib-2.dll $(OutDir)glib-2.dll
 copy $(SolutionDir)windows\dependencies\libraries\x86\bin\gobject-2.dll $(OutDir)gobject-2.dll
