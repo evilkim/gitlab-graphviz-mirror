@@ -4,7 +4,8 @@ from pathlib import Path
 
 # Import helper function to compare graphs from tests/regressions_tests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from regression_test_helpers import compare_graphs
+from regression_test_helpers import compare_graphs \
+  # pylint: disable=wrong-import-position
 
 vulnfiles = [
     "nullderefrebuildlist"
