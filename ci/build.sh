@@ -48,7 +48,7 @@ else
         (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
         mv *.deb ${DIR}/os/${ARCH}/
         mv *.ddeb ${DIR}/debug/${ARCH}/
-    elif [ "${ID}" = "Darwin" ]; then
+    elif [[ "${OSTYPE}" =~ "darwin" ]]; then
         ./autogen.sh
         ./configure --prefix=$( pwd )/build --with-quartz=yes
         make
