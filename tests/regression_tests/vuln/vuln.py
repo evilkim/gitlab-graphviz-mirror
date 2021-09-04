@@ -22,6 +22,9 @@ output_types = [
 ]
 
 def generate_vuln_graph(vulnfile, output_type):
+  """
+  Generate a graph from the given file in the given output format.
+  """
   if not Path("output").exists():
     Path("output").mkdir(parents=True)
 
