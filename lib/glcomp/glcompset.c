@@ -16,6 +16,7 @@
 #include <glcomp/glcompmouse.h>
 
 #include <glcomp/glutils.h>
+#include <stdlib.h>
 
 static GLfloat startX, startY;
 
@@ -204,7 +205,7 @@ glCompSet *glCompSetNew(int w, int h)
     s->common.height = (GLfloat) h;
     s->groupCount = 0;
     s->objcnt = 0;
-    s->obj = (glCompObj **) 0;
+    s->obj = NULL;
     s->textureCount = 0;
     s->textures = (glCompTex **) 0;
     s->common.font = glNewFontFromParent((glCompObj *) s, NULL);
