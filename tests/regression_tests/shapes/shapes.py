@@ -83,6 +83,9 @@ output_types = [
 ]
 
 def generate_shape_graph(shape, output_type):
+  """
+  Generate a graph of the given shape and output format.
+  """
   if not Path("output").exists():
     Path("output").mkdir(parents=True)
 
