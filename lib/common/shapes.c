@@ -91,7 +91,7 @@ static polygon_t p_box = {.peripheries = 1, .sides = 4};
 static polygon_t p_square = {.regular = TRUE, .peripheries = 1, .sides = 4};
 static polygon_t p_plaintext = {.sides = 4};
 static polygon_t p_plain = {.sides = 4};
-static polygon_t p_diamond = { FALSE, 1, 4, 45., 0., 0. };
+static polygon_t p_diamond = {.peripheries = 1, .sides = 4, .orientation = 45.0};
 static polygon_t p_trapezium = { FALSE, 1, 4, 0., -.4, 0. };
 static polygon_t p_parallelogram = { FALSE, 1, 4, 0., 0., .6 };
 static polygon_t p_house = { FALSE, 1, 5, 0., -.64, 0. };
