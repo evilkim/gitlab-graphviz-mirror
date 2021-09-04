@@ -11,8 +11,7 @@
 /* geometric types and macros (e.g. points and boxes) with application to, but
  * no specific dependence on graphs */
 
-#ifndef GV_GEOM_H
-#define GV_GEOM_H
+#pragma once
 
 #include "arith.h"
 
@@ -75,6 +74,4 @@ typedef struct { pointf LL, UR; } boxf;
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

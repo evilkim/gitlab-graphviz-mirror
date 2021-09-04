@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_MEMORY_H
-#define GV_MEMORY_H
+#pragma once
 
 #include <stdlib.h>
 
@@ -49,6 +48,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef _UTILS_H
-#define _UTILS_H 1
+#pragma once
 
 #include "config.h"
 
@@ -121,5 +120,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* _UTILS_H */

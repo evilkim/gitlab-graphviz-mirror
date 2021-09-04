@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_TIMING_H
-#define GV_TIMING_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,6 +19,4 @@ extern double elapsed_sec(void);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GV_MACROS_H
-#define GV_MACROS_H
+#pragma once
 
 #ifndef NOTUSED
 #define NOTUSED(var) (void) var
@@ -36,5 +35,3 @@
 #define XPAD(d) ((d).x += 4*GAP)
 #define YPAD(d) ((d).y += 2*GAP)
 #define PAD(d)  {XPAD(d); YPAD(d);}
-
-#endif

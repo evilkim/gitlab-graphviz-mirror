@@ -8,12 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef HTMLLEX_H
-#define HTMLLEX_H
 
 #include <agxbuf.h>
 
@@ -22,8 +21,6 @@ extern "C" {
     extern int htmllineno(void);
     extern int clearHTMLlexer(void);
     void htmlerror(const char *);
-
-#endif
 
 #ifdef __cplusplus
 }

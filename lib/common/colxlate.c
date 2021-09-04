@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -21,6 +21,7 @@
 #include <common/colortbl.h>
 #include <common/memory.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/unreachable.h>
 
 static char* colorscheme;
 
@@ -41,8 +42,8 @@ static void hsv2rgb(double h, double s, double v,
 	i = (int) h;
 	f = h - (double) i;
 	p = v * (1 - s);
-	q = v * (1 - (s * f));
-	t = v * (1 - (s * (1 - f)));
+	q = v * (1 - s * f);
+	t = v * (1 - s * (1 - f));
 	switch (i) {
 	case 0:
 	    *r = v;
@@ -86,8 +87,8 @@ static void rgb2hsv(double r, double g, double b,
     double rc, bc, gc;
     double ht = 0.0, st = 0.0;
 
-    rgbmin = MIN(r, MIN(g, b));
-    rgbmax = MAX(r, MAX(g, b));
+    rgbmin = fmin(r, fmin(g, b));
+    rgbmax = fmax(r, fmax(g, b));
 
     if (rgbmax > 0.0)
 	st = (rgbmax - rgbmin) / rgbmax;
@@ -117,8 +118,8 @@ static void rgb2cmyk(double r, double g, double b, double *c, double *m,
     *c = 1.0 - r;
     *m = 1.0 - g;
     *y = 1.0 - b;
-    *k = *c < *m ? *c : *m;
-    *k = *y < *k ? *y : *k;
+    *k = fmin(*c, *m);
+    *k = fmin(*y, *k);
     *c -= *k;
     *m -= *k;
     *y -= *k;
@@ -131,12 +132,12 @@ static int colorcmpf(const void *p0, const void *p1)
 
 char *canontoken(char *str)
 {
-    static unsigned char *canon;
+    static char *canon;
     static size_t allocated;
-    unsigned char c, *p, *q;
+    char c, *p, *q;
     size_t len;
 
-    p = (unsigned char *) str;
+    p = str;
     len = strlen(str);
     if (len >= allocated) {
 	allocated = len + 1 + 10;
@@ -144,14 +145,12 @@ char *canontoken(char *str)
     }
     q = canon;
     while ((c = *p++)) {
-	/* if (isalnum(c) == FALSE) */
-	    /* continue; */
 	if (isupper(c))
-	    c = (unsigned char) tolower(c);
+	    c = (char)tolower(c);
 	*q++ = c;
     }
     *q = '\0';
-    return (char*)canon;
+    return canon;
 }
 
 /* fullColor:
@@ -239,11 +238,11 @@ static char* resolveColor (char* str)
 int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 {
     static hsvrgbacolor_t *last;
-    static unsigned char *canon;
+    static char *canon;
     static size_t allocated;
-    unsigned char *p, *q;
+    char *p, *q;
     hsvrgbacolor_t fake;
-    unsigned char c;
+    char c;
     double H, S, V, A, R, G, B;
     double C, M, Y, K;
     unsigned int r, g, b, a;
@@ -254,13 +253,12 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 
     rc = COLOR_OK;
     for (; *str == ' '; str++);	/* skip over any leading whitespace */
-    p = (unsigned char *) str;
+    p = str;
 
     /* test for rgb value such as: "#ff0000"
        or rgba value such as "#ff000080" */
     a = 255;			/* default alpha channel value=opaque in case not supplied */
-    if ((*p == '#')
-	&& (sscanf((char *) p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3)) {
+    if (*p == '#' && sscanf(p, "#%2x%2x%2x%2x", &r, &g, &b, &a) >= 3) {
 	switch (target_type) {
 	case HSVA_DOUBLE:
 	    R = (double) r / 255.0;
@@ -274,10 +272,10 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    color->u.HSVA[3] = A;
 	    break;
 	case RGBA_BYTE:
-	    color->u.rgba[0] = r;
-	    color->u.rgba[1] = g;
-	    color->u.rgba[2] = b;
-	    color->u.rgba[3] = a;
+	    color->u.rgba[0] = (unsigned char)r;
+	    color->u.rgba[1] = (unsigned char)g;
+	    color->u.rgba[2] = (unsigned char)b;
+	    color->u.rgba[3] = (unsigned char)a;
 	    break;
 	case CMYK_BYTE:
 	    R = (double) r / 255.0;
@@ -290,10 +288,10 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    color->u.cmyk[3] = (int) K *255;
 	    break;
 	case RGBA_WORD:
-	    color->u.rrggbbaa[0] = r * 65535 / 255;
-	    color->u.rrggbbaa[1] = g * 65535 / 255;
-	    color->u.rrggbbaa[2] = b * 65535 / 255;
-	    color->u.rrggbbaa[3] = a * 65535 / 255;
+	    color->u.rrggbbaa[0] = (int)(r * 65535 / 255);
+	    color->u.rrggbbaa[1] = (int)(g * 65535 / 255);
+	    color->u.rrggbbaa[2] = (int)(b * 65535 / 255);
+	    color->u.rrggbbaa[3] = (int)(a * 65535 / 255);
 	    break;
 	case RGBA_DOUBLE:
 	    color->u.RGBA[0] = (double) r / 255.0;
@@ -305,13 +303,15 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    break;
 	case COLOR_INDEX:
 	    break;
+	default:
+	    UNREACHABLE();
 	}
 	return rc;
     }
 
     /* test for hsv value such as: ".6,.5,.3" */
-    if (((c = *p) == '.') || isdigit(c)) {
-	len = strlen((char*)p);
+    if ((c = *p) == '.' || isdigit(c)) {
+	len = strlen(p);
 	if (len >= allocated) {
 	    allocated = len + 1 + 10;
 	    canon = grealloc(canon, allocated);
@@ -324,11 +324,11 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	}
 	*q = '\0';
 
-	if (sscanf((char *) canon, "%lf%lf%lf", &H, &S, &V) == 3) {
+	if (sscanf(canon, "%lf%lf%lf", &H, &S, &V) == 3) {
 	    /* clip to reasonable values */
-	    H = MAX(MIN(H, 1.0), 0.0);
-	    S = MAX(MIN(S, 1.0), 0.0);
-	    V = MAX(MIN(V, 1.0), 0.0);
+	    H = fmax(fmin(H, 1.0), 0.0);
+	    S = fmax(fmin(S, 1.0), 0.0);
+	    V = fmax(fmin(V, 1.0), 0.0);
 	    switch (target_type) {
 	    case HSVA_DOUBLE:
 		color->u.HSVA[0] = H;
@@ -369,6 +369,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 		break;
 	    case COLOR_INDEX:
 		break;
+	    default:
+		UNREACHABLE();
 	    }
 	    return rc;
 	}
@@ -378,14 +380,9 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
     fake.name = resolveColor(str);
     if (!fake.name)
 	return COLOR_MALLOC_FAIL;
-    if ((last == NULL)
-	|| (last->name[0] != fake.name[0])
-	|| (strcmp(last->name, fake.name))) {
-	last = (hsvrgbacolor_t *) bsearch((void *) &fake,
-				      (void *) color_lib,
-				      sizeof(color_lib) /
-				      sizeof(hsvrgbacolor_t), sizeof(fake),
-				      colorcmpf);
+    if (last == NULL || strcmp(last->name, fake.name)) {
+	last = bsearch(&fake, color_lib, sizeof(color_lib) / sizeof(hsvrgbacolor_t),
+	               sizeof(fake), colorcmpf);
     }
     if (last != NULL) {
 	switch (target_type) {
@@ -402,9 +399,9 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    color->u.rgba[3] = last->a;
 	    break;
 	case CMYK_BYTE:
-	    R = (last->r) / 255.0;
-	    G = (last->g) / 255.0;
-	    B = (last->b) / 255.0;
+	    R = last->r / 255.0;
+	    G = last->g / 255.0;
+	    B = last->b / 255.0;
 	    rgb2cmyk(R, G, B, &C, &M, &Y, &K);
 	    color->u.cmyk[0] = (int) C * 255;
 	    color->u.cmyk[1] = (int) M * 255;
@@ -427,6 +424,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	    break;
 	case COLOR_INDEX:
 	    break;
+	default:
+	    UNREACHABLE();
 	}
 	return rc;
     }
@@ -458,6 +457,8 @@ int colorxlate(char *str, gvcolor_t * color, color_type_t target_type)
 	break;
     case COLOR_INDEX:
 	break;
+    default:
+	UNREACHABLE();
     }
     return rc;
 }
@@ -522,15 +523,12 @@ int colorCvt(gvcolor_t *ocolor, gvcolor_t *ncolor)
 	s = ocolor->u.string;
 	break;
     case CMYK_BYTE :
-	/* agerr (AGWARN, "Input color type 'CMYK_BYTE' not supported for conversion\n"); */
 	return COLOR_UNKNOWN;
 	break;
     case COLOR_INDEX:
-	/* agerr (AGWARN, "Input color type 'COLOR_INDEX' not supported for conversion\n"); */
 	return COLOR_UNKNOWN;
 	break;
     default:
-	/* agerr (AGWARN, "Unknown input color type value '%u'\n", ncolor->type); */
 	return COLOR_UNKNOWN;
 	break;
     }
@@ -545,6 +543,3 @@ void setColorScheme (char* s)
 {
     colorscheme = s;
 }
-
-
-

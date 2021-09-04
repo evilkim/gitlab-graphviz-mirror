@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef USERSHAPE_H
-#define USERSHAPE_H
+#pragma once
 
 #include "cdt.h"
 
@@ -62,5 +61,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
 #endif

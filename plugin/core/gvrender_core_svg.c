@@ -316,7 +316,7 @@ static void svg_begin_edge(GVJ_t * job)
     GVPUTS(job, ">\n"
 
                 "<title>");
-    ename = strdup_and_subst_obj("\\E", (void *) (obj->u.e));
+    ename = strdup_and_subst_obj("\\E", obj->u.e);
     gvputs(job, xml_string(ename));
     free(ename);
     GVPUTS(job, "</title>\n");

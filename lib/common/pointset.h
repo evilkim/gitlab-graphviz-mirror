@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef _POINTSET_H
-#define _POINTSET_H 1
+#pragma once
 
 #include <cdt.h>
 #include <geom.h>
@@ -57,5 +56,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* _POINTSET_H */

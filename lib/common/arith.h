@@ -11,8 +11,7 @@
 /* geometric functions (e.g. on points and boxes) with application to, but
  * no specific dependence on graphs */
 
-#ifndef GV_ARITH_H
-#define GV_ARITH_H
+#pragma once
 
 /* for sincos */
 #ifndef _GNU_SOURCE
@@ -87,6 +86,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

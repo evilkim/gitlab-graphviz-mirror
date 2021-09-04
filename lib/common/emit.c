@@ -181,7 +181,7 @@ layerPagePrefix (GVJ_t* job, agxbuf* xb)
     if (job->layerNum > 1 && (job->flags & GVDEVICE_DOES_LAYERS)) {
 	agxbprint (xb, "%s_", job->gvc->layerIDs[job->layerNum]);
     }
-    if ((job->pagesArrayElem.x > 0) || (job->pagesArrayElem.y > 0)) {
+    if (job->pagesArrayElem.x > 0 || job->pagesArrayElem.y > 0) {
 	agxbprint (xb, "page%d,%d_", job->pagesArrayElem.x, job->pagesArrayElem.y);
     }
 }
@@ -201,12 +201,12 @@ getObjId (GVJ_t* job, void* obj, agxbuf* xb)
     layerPagePrefix (job, xb);
 
     id = agget(obj, "id");
-    if (id && (*id != '\0')) {
+    if (id && *id != '\0') {
 	agxbput (xb, id);
 	return agxbuse(xb);
     }
 
-    if ((obj != root) && gid) {
+    if (obj != root && gid) {
 	agxbprint (xb, "%s_", gid);
     }
 
@@ -247,7 +247,7 @@ interpretCRNL (char* ins)
     char* rets = ins;
     char* outs = ins;
     char c;
-    boolean backslash_seen = FALSE;
+    bool backslash_seen = false;
 
     while ((c = *ins++)) {
 	if (backslash_seen) {
@@ -263,11 +263,11 @@ interpretCRNL (char* ins)
 		*outs++ = c;
 		break;
 	    }
-	    backslash_seen = FALSE;
+	    backslash_seen = false;
 	}
 	else {
 	    if (c == '\\')
-		backslash_seen = TRUE;
+		backslash_seen = true;
 	    else
 		*outs++ = c;
 	}
@@ -357,10 +357,10 @@ static void map_point(GVJ_t *job, pointf pf)
 static char **checkClusterStyle(graph_t* sg, int *flagp)
 {
     char *style;
-    char **pstyle = 0;
+    char **pstyle = NULL;
     int istyle = 0;
 
-    if (((style = agget(sg, "style")) != 0) && style[0]) {
+    if ((style = agget(sg, "style")) != 0 && style[0]) {
 	char **pp;
 	char **qp;
 	char *p;
@@ -401,7 +401,7 @@ static char **checkClusterStyle(graph_t* sg, int *flagp)
 typedef struct {
     char* color;   /* segment color */
     float t;       /* segment size >= 0 */
-    boolean hasFraction;  /* true if color explicitly specifies its fraction */
+    bool hasFraction;  /* true if color explicitly specifies its fraction */
 } colorseg_t;
 /* Sum of segment sizes should add to 1 */
 typedef struct {
@@ -499,7 +499,7 @@ parseSegs (char* clrs, int nseg, colorsegs_t** psegs)
 		v = left;
 	    }
 	    left -= v;
-	    if (v > 0) s[cnum].hasFraction = TRUE;
+	    if (v > 0) s[cnum].hasFraction = true;
 	    if (*color) s[cnum].color = color;
 	    s[cnum++].t = v;
 	}
@@ -573,7 +573,7 @@ wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs)
     double angle0, angle1;
 
     rv = parseSegs (clrs, 0, &segs);
-    if ((rv == 1) || (rv == 2)) return rv;
+    if (rv == 1 || rv == 2) return rv;
     ctr.x = (pf[0].x + pf[1].x) / 2.;
     ctr.y = (pf[0].y + pf[1].y) / 2.;
     semi.x = pf[1].x - ctr.x;
@@ -589,7 +589,7 @@ wedgedEllipse (GVJ_t* job, pointf * pf, char* clrs)
 	if (s[1].color == NULL) 
 	    angle1 = 2*M_PI;
 	else
-	    angle1 = angle0 + 2*M_PI*(s->t);
+	    angle1 = angle0 + 2 * M_PI * s->t;
 	pp = ellipticWedge (ctr, semi.x, semi.y, angle0, angle1);
 	gvrender_beziercurve(job, pp->ps, pp->pn, 0, 0, 1);
 	angle0 = angle1;
@@ -624,7 +624,7 @@ stripedBox (GVJ_t * job, pointf* AF, char* clrs, int rotate)
     double save_penwidth = job->obj->penwidth;
 
     rv = parseSegs (clrs, 0, &segs);
-    if ((rv == 1) || (rv == 2)) return rv;
+    if (rv == 1 || rv == 2) return rv;
     if (rotate) {
 	pts[0] = AF[2];
 	pts[1] = AF[3];
@@ -715,26 +715,26 @@ static void map_label(GVJ_t *job, textlabel_t *lab)
  * regular rectangular shape. Rectangle is regular when
  * it is not skewed and distorted and orientation is almost zero
  */
-static boolean isRect(polygon_t * p)
+static bool isRect(polygon_t * p)
 {
-    return (p->sides == 4 && (ROUND(p->orientation) % 90) == 0
-            && p->distortion == 0.0 && p->skew == 0.0);
+    return p->sides == 4 && ROUND(p->orientation) % 90 == 0
+            && p->distortion == 0.0 && p->skew == 0.0;
 }
 
 /*
- * isFilled function returns 1 if filled style has been set for node 'n'
- * otherwise returns 0. it accepts pointer to node_t as an argument
+ * isFilled function returns true if filled style has been set for node 'n'
+ * otherwise returns false. it accepts pointer to node_t as an argument
  */
-static int ifFilled(node_t * n)
+static bool isFilled(node_t * n)
 {
     char *style, *p, **pp;
-    int r = 0;
+    bool r = false;
     style = late_nnstring(n, N_style, "");
     if (style[0]) {
         pp = parse_style(style);
         while ((p = *pp)) {
             if (strcmp(p, "filled") == 0)
-                r = 1;
+                r = true;
             pp++;
         }
     }
@@ -910,7 +910,7 @@ static double bisect (pointf pp, pointf cp, pointf np)
   ang = theta - phi;
   if (ang > 0) ang -= 2*M_PI;
 
-  return (phi + ang/2.0);
+  return phi + ang / 2.0;
 }
 
 /* mkSegPts:
@@ -991,7 +991,7 @@ static void map_output_bspline (pointf **pbs, int **pbs_n, int *pbs_poly_n, bezi
         segnext = segp->next;
         mkSegPts (segprev, segp, segnext, pt1+cnt, pt2+cnt, w2);
         cnt++;
-        if ((segnext == NULL) || (cnt == 50)) {
+        if (segnext == NULL || cnt == 50) {
             map_bspline_poly (pbs, pbs_n, pbs_poly_n, cnt, pt1, pt2);
             pt1[0] = pt1[cnt-1];
             pt2[0] = pt2[cnt-1];
@@ -1009,14 +1009,14 @@ static void map_output_bspline (pointf **pbs, int **pbs_n, int *pbs_poly_n, bezi
     }
 }
 
-static boolean is_natural_number(char *sstr)
+static bool is_natural_number(const char *sstr)
 {
-    unsigned char *str = (unsigned char *) sstr;
+    const char *str = sstr;
 
     while (*str)
-	if (NOT(isdigit(*str++)))
-	    return FALSE;
-    return TRUE;
+	if (!isdigit(*str++))
+	    return false;
+    return true;
 }
 
 static int layer_index(GVC_t *gvc, char *str, int all)
@@ -1035,27 +1035,27 @@ static int layer_index(GVC_t *gvc, char *str, int all)
     return -1;
 }
 
-static boolean selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec)
+static bool selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec)
 {
     int n0, n1;
     unsigned char buf[SMALLBUF];
     char *w0, *w1;
     char *buf_part_p = NULL, *buf_p = NULL, *cur, *part_in_p;
     agxbuf xb;
-    boolean rval = FALSE;
+    bool rval = false;
 
     agxbinit(&xb, SMALLBUF, buf);
     agxbput(&xb, spec);
     part_in_p = agxbuse(&xb);
 
     /* Thanks to Matteo Nastasi for this extended code. */
-    while ((rval == FALSE) && (cur = strtok_r(part_in_p, gvc->layerListDelims, &buf_part_p))) {
+    while (!rval && (cur = strtok_r(part_in_p, gvc->layerListDelims, &buf_part_p))) {
 	w1 = w0 = strtok_r (cur, gvc->layerDelims, &buf_p);
 	if (w0)
 	    w1 = strtok_r (NULL, gvc->layerDelims, &buf_p);
 	switch ((w0 != NULL) + (w1 != NULL)) {
 	case 0:
-	    rval = FALSE;
+	    rval = false;
 	    break;
 	case 1:
 	    n0 = layer_index(gvc, w0, layerNum);
@@ -1064,7 +1064,7 @@ static boolean selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec
 	case 2:
 	    n0 = layer_index(gvc, w0, 0);
 	    n1 = layer_index(gvc, w1, numLayers);
-	    if ((n0 >= 0) || (n1 >= 0)) {
+	    if (n0 >= 0 || n1 >= 0) {
 		if (n0 > n1) {
 		    int t = n0;
 		    n0 = n1;
@@ -1080,7 +1080,7 @@ static boolean selectedLayer(GVC_t *gvc, int layerNum, int numLayers, char *spec
     return rval;
 }
 
-static boolean selectedlayer(GVJ_t *job, char *spec)
+static bool selectedlayer(GVJ_t *job, char *spec)
 {
     return selectedLayer (job->gvc, job->layerNum, job->numLayers, spec);
 }
@@ -1198,7 +1198,7 @@ static void init_layering(GVC_t * gvc, graph_t * g)
     gvc->layerlist = NULL;
     if ((str = agget(g, "layers")) != 0) {
 	gvc->numLayers = parse_layers(gvc, g, str);
- 	if (((str = agget(g, "layerselect")) != 0) && *str) {
+ 	if ((str = agget(g, "layerselect")) != 0 && *str) {
 	    gvc->layerlist = parse_layerselect(gvc, g, str);
 	}
     } else {
@@ -1226,7 +1226,7 @@ static void firstlayer(GVJ_t *job, int** listp)
     if (job->gvc->layerlist) {
 	int *list = job->gvc->layerlist;
 	int cnt = *list++;
-	if ((cnt > 1) && (! (job->flags & GVDEVICE_DOES_LAYERS))) {
+	if (cnt > 1 && !(job->flags & GVDEVICE_DOES_LAYERS)) {
 	    agerr(AGWARN, "layers not supported in %s output\n",
 		job->output_langname);
 	    list[1] = job->numLayers + 1; /* only one layer printed */
@@ -1235,8 +1235,7 @@ static void firstlayer(GVJ_t *job, int** listp)
 	*listp = list;
     }
     else {
-	if ((job->numLayers > 1)
-		&& (! (job->flags & GVDEVICE_DOES_LAYERS))) {
+	if (job->numLayers > 1 && !(job->flags & GVDEVICE_DOES_LAYERS)) {
 	    agerr(AGWARN, "layers not supported in %s output\n",
 		job->output_langname);
 	    job->numLayers = 1;
@@ -1246,9 +1245,9 @@ static void firstlayer(GVJ_t *job, int** listp)
     }
 }
 
-static boolean validlayer(GVJ_t *job)
+static bool validlayer(GVJ_t *job)
 {
-    return (job->layerNum <= job->numLayers);
+    return job->layerNum <= job->numLayers;
 }
 
 static void nextlayer(GVJ_t *job, int** listp)
@@ -1315,14 +1314,14 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
 	    job->pagesArraySize.x = 1;
 	else {
 	    job->pagesArraySize.x = (int)(imageSize.x / pageSize.x);
-	    if ((imageSize.x - (job->pagesArraySize.x * pageSize.x)) > EPSILON)
+	    if (imageSize.x - job->pagesArraySize.x * pageSize.x > EPSILON)
 		job->pagesArraySize.x++;
 	}
 	if (pageSize.y < EPSILON)
 	    job->pagesArraySize.y = 1;
 	else {
 	    job->pagesArraySize.y = (int)(imageSize.y / pageSize.y);
-	    if ((imageSize.y - (job->pagesArraySize.y * pageSize.y)) > EPSILON)
+	    if (imageSize.y - job->pagesArraySize.y * pageSize.y > EPSILON)
 		job->pagesArraySize.y++;
 	}
 	job->numPages = job->pagesArraySize.x * job->pagesArraySize.y;
@@ -1334,20 +1333,16 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
 	/* page not set by user, use default from renderer */
 	if (job->render.features) {
 	    pageSize.x = job->device.features->default_pagesize.x - 2*margin.x;
-	    if (pageSize.x < 0.)
-		pageSize.x = 0.;
+	    pageSize.x = fmax(pageSize.x, 0);
 	    pageSize.y = job->device.features->default_pagesize.y - 2*margin.y;
-	    if (pageSize.y < 0.)
-		pageSize.y = 0.;
+	    pageSize.y = fmax(pageSize.y, 0);
 	}
 	else
 	    pageSize.x = pageSize.y = 0.;
 	job->pagesArraySize.x = job->pagesArraySize.y = job->numPages = 1;
         
-        if (pageSize.x < imageSize.x)
-	    pageSize.x = imageSize.x;
-        if (pageSize.y < imageSize.y)
-	    pageSize.y = imageSize.y;
+        pageSize.x = fmax(pageSize.x, imageSize.x);
+        pageSize.y = fmax(pageSize.y, imageSize.y);
     }
 
     /* initial window size */
@@ -1361,8 +1356,8 @@ static void init_job_pagination(GVJ_t * job, graph_t *g)
     job->pagesArrayFirst.x = job->pagesArrayFirst.y = 0;
     job->pagesArrayMajor = pagecode(job, gvc->pagedir[0]);
     job->pagesArrayMinor = pagecode(job, gvc->pagedir[1]);
-    if ((abs(job->pagesArrayMajor.x + job->pagesArrayMinor.x) != 1)
-     || (abs(job->pagesArrayMajor.y + job->pagesArrayMinor.y) != 1)) {
+    if (abs(job->pagesArrayMajor.x + job->pagesArrayMinor.x) != 1
+     || abs(job->pagesArrayMajor.y + job->pagesArrayMinor.y) != 1) {
 	job->pagesArrayMajor = pagecode(job, 'B');
 	job->pagesArrayMinor = pagecode(job, 'L');
 	agerr(AGWARN, "pagedir=%s ignored\n", gvc->pagedir);
@@ -1412,18 +1407,18 @@ static void firstpage(GVJ_t *job)
     job->pagesArrayElem = job->pagesArrayFirst;
 }
 
-static boolean validpage(GVJ_t *job)
+static bool validpage(GVJ_t *job)
 {
-    return ((job->pagesArrayElem.x >= 0)
-	 && (job->pagesArrayElem.x < job->pagesArraySize.x)
-	 && (job->pagesArrayElem.y >= 0)
-	 && (job->pagesArrayElem.y < job->pagesArraySize.y));
+    return job->pagesArrayElem.x >= 0
+	 && job->pagesArrayElem.x < job->pagesArraySize.x
+	 && job->pagesArrayElem.y >= 0
+	 && job->pagesArrayElem.y < job->pagesArraySize.y;
 }
 
 static void nextpage(GVJ_t *job)
 {
     job->pagesArrayElem = add_point(job->pagesArrayElem, job->pagesArrayMinor);
-    if (validpage(job) == FALSE) {
+    if (!validpage(job)) {
 	if (job->pagesArrayMajor.y)
 	    job->pagesArrayElem.x = job->pagesArrayFirst.x;
 	else
@@ -1432,7 +1427,7 @@ static void nextpage(GVJ_t *job)
     }
 }
 
-static boolean write_edge_test(Agraph_t * g, Agedge_t * e)
+static bool write_edge_test(Agraph_t * g, Agedge_t * e)
 {
     Agraph_t *sg;
     int c;
@@ -1440,12 +1435,12 @@ static boolean write_edge_test(Agraph_t * g, Agedge_t * e)
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
 	if (agcontains(sg, e))
-	    return FALSE;
+	    return false;
     }
-    return TRUE;
+    return true;
 }
 
-static boolean write_node_test(Agraph_t * g, Agnode_t * n)
+static bool write_node_test(Agraph_t * g, Agnode_t * n)
 {
     Agraph_t *sg;
     int c;
@@ -1453,9 +1448,9 @@ static boolean write_node_test(Agraph_t * g, Agnode_t * n)
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
 	if (agcontains(sg, n))
-	    return FALSE;
+	    return false;
     }
-    return TRUE;
+    return true;
 }
 
 #define INITPTS 1000
@@ -1486,7 +1481,7 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
     pointf* pts = N_GNEW(INITPTS, pointf);
     exdot_op* op;
     int i, angle;
-    char** styles = 0;
+    char** styles = NULL;
     int filled = FILL;
 
     op = (exdot_op*)(xd->ops);
@@ -1499,21 +1494,23 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
 		pts[0].y = op->op.u.ellipse.y - op->op.u.ellipse.h;
 		pts[1].x = op->op.u.ellipse.x + op->op.u.ellipse.w;
 		pts[1].y = op->op.u.ellipse.y + op->op.u.ellipse.h;
-		gvrender_ellipse(job, pts, 2, (op->op.kind == xd_filled_ellipse?filled:0));
+		gvrender_ellipse(job, pts, 2, op->op.kind == xd_filled_ellipse ? filled : 0);
 	    }
 	    break;
 	case xd_filled_polygon :
 	case xd_unfilled_polygon :
     	    if (boxf_overlap(op->bb, job->clip)) {
 		pts = copyPts (pts, &ptsize, op->op.u.polygon.pts, op->op.u.polygon.cnt);
-		gvrender_polygon(job, pts, op->op.u.polygon.cnt, (op->op.kind == xd_filled_polygon?filled:0));
+		gvrender_polygon(job, pts, op->op.u.polygon.cnt,
+		                 op->op.kind == xd_filled_polygon ? filled : 0);
 	    }
 	    break;
 	case xd_filled_bezier :
 	case xd_unfilled_bezier :
     	    if (boxf_overlap(op->bb, job->clip)) {
 		pts = copyPts (pts, &ptsize, op->op.u.bezier.pts, op->op.u.bezier.cnt);
-		gvrender_beziercurve(job, pts, op->op.u.bezier.cnt, 0, 0, (op->op.kind == xd_filled_bezier?filled:0));
+		gvrender_beziercurve(job, pts, op->op.u.bezier.cnt, 0, 0,
+		                     op->op.kind == xd_filled_bezier ? filled : 0);
 	    }
 	    break;
 	case xd_polyline :
@@ -1547,7 +1544,7 @@ static void emit_xdot (GVJ_t * job, xdot* xd)
 		    clr0 = p->stops[0].color;
 		    clr1 = p->stops[1].color;
 		    frac = p->stops[1].frac;
-		    if ((p->x1 == p->x0) && (p->y1 == p->y0))
+		    if (p->x1 == p->x0 && p->y1 == p->y0)
 			angle = 0;
 		    else
 			angle = (int)(180.0*acos((p->x0 - p->x1)/p->r0)/M_PI);
@@ -1686,7 +1683,7 @@ static void setup_page(GVJ_t * job, graph_t * g)
     /* Test with and without assymmetric margins, e.g: -Gmargin="1,0" */
     if (job->rotation) {
 	job->translation.y = - job->clip.UR.y - job->canvasBox.LL.y / job->zoom;
-        if ((job->flags & GVRENDER_Y_GOES_DOWN) || (Y_invert))
+        if ((job->flags & GVRENDER_Y_GOES_DOWN) || Y_invert)
             job->translation.x = - job->clip.UR.x - job->canvasBox.LL.x / job->zoom;
         else
             job->translation.x = - job->clip.LL.x + job->canvasBox.LL.x / job->zoom;
@@ -1694,83 +1691,83 @@ static void setup_page(GVJ_t * job, graph_t * g)
     else {
 	/* pre unscale margins to keep them constant under scaling */
         job->translation.x = - job->clip.LL.x + job->canvasBox.LL.x / job->zoom;
-        if ((job->flags & GVRENDER_Y_GOES_DOWN) || (Y_invert))
+        if ((job->flags & GVRENDER_Y_GOES_DOWN) || Y_invert)
             job->translation.y = - job->clip.UR.y - job->canvasBox.LL.y / job->zoom;
         else
             job->translation.y = - job->clip.LL.y + job->canvasBox.LL.y / job->zoom;
     }
 }
 
-static boolean node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
+static bool node_in_layer(GVJ_t *job, graph_t * g, node_t * n)
 {
     char *pn, *pe;
     edge_t *e;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pn = late_string(n, N_layer, "");
     if (selectedlayer(job, pn))
-	return TRUE;
+	return true;
     if (pn[0])
-	return FALSE;		/* Only check edges if pn = "" */
+	return false;		/* Only check edges if pn = "" */
     if ((e = agfstedge(g, n)) == NULL)
-	return TRUE;
+	return true;
     for (e = agfstedge(g, n); e; e = agnxtedge(g, e, n)) {
 	pe = late_string(e, E_layer, "");
-	if ((pe[0] == '\0') || selectedlayer(job, pe))
-	    return TRUE;
+	if (pe[0] == '\0' || selectedlayer(job, pe))
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
-static boolean edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
+static bool edge_in_layer(GVJ_t *job, graph_t * g, edge_t * e)
 {
     char *pe, *pn;
     int cnt;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pe = late_string(e, E_layer, "");
     if (selectedlayer(job, pe))
-	return TRUE;
+	return true;
     if (pe[0])
-	return FALSE;
+	return false;
     for (cnt = 0; cnt < 2; cnt++) {
 	pn = late_string(cnt < 1 ? agtail(e) : aghead(e), N_layer, "");
-	if ((pn[0] == '\0') || selectedlayer(job, pn))
-	    return TRUE;
+	if (pn[0] == '\0' || selectedlayer(job, pn))
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
-static boolean clust_in_layer(GVJ_t *job, graph_t * sg)
+static bool clust_in_layer(GVJ_t *job, graph_t * sg)
 {
     char *pg;
     node_t *n;
 
     if (job->numLayers <= 1)
-	return TRUE;
+	return true;
     pg = late_string(sg, agattr(sg, AGRAPH, "layer", 0), "");
     if (selectedlayer(job, pg))
-	return TRUE;
+	return true;
     if (pg[0])
-	return FALSE;
+	return false;
     for (n = agfstnode(sg); n; n = agnxtnode(sg, n))
 	if (node_in_layer(job, sg, n))
-	    return TRUE;
-    return FALSE;
+	    return true;
+    return false;
 }
 
-static boolean node_in_box(node_t *n, boxf b)
+static bool node_in_box(node_t *n, boxf b)
 {
-    return boxf_overlap(ND_bb(n), b);
+    return boxf_overlap(ND_bb(n), b) != 0;
 }
 
 static void emit_begin_node(GVJ_t * job, node_t * n)
 {
     obj_state_t *obj;
     int flags = job->flags;
-    int sides, peripheries, i, j, filled = 0, rect = 0, shape, nump = 0;
+    int sides, peripheries, i, j, rect = 0, shape, nump = 0;
     polygon_t *poly = NULL;
     pointf *vertices, *p = NULL;
     pointf coord;
@@ -1797,7 +1794,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
         /* node coordinate */
         coord = ND_coord(n);
         /* checking if filled style has been set for node */
-        filled = ifFilled(n);
+        bool filled = isFilled(n);
 
         if (shape == SH_POLY || shape == SH_POINT) {
             poly = (polygon_t *) ND_shape_info(n);
@@ -1832,7 +1829,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
              * points are allowed. To simplify things to fit with the 120 points
              * used for skewed ellipses, we set the bound at 60.
              */
-            if ((nump < 4) || (nump > 60))
+            if (nump < 4 || nump > 60)
                 nump = DFLT_SAMPLE;
             /* use bounding box of text label or node image for mapping
              * when polygon has no peripheries and node is not filled
@@ -1868,7 +1865,7 @@ static void emit_begin_node(GVJ_t * job, node_t * n)
             }
             /* all other polygonal shape */
             else {
-                int offset = (peripheries - 1)*(poly->sides);
+                int offset = (peripheries - 1) * poly->sides;
                 obj->url_map_shape = MAP_POLYGON;
                 /* distorted or skewed ellipses and circles are polygons with 120
                  * sides. For mapping we convert them into polygon with sample sides
@@ -1925,14 +1922,14 @@ static void emit_node(GVJ_t * job, node_t * n)
     GVC_t *gvc = job->gvc;
     char *s;
     char *style;
-    char **styles = 0;
+    char **styles = NULL;
     char **sp;
     char *p;
 
     if (ND_shape(n) 				     /* node has a shape */
 	    && node_in_layer(job, agraphof(n), n)    /* and is in layer */
 	    && node_in_box(n, job->clip)             /* and is in page/view */
-	    && (ND_state(n) != gvc->common.viewNum)) /* and not already drawn */
+	    && ND_state(n) != gvc->common.viewNum) /* and not already drawn */
     {
 	ND_state(n) = gvc->common.viewNum; 	     /* mark node as drawn */
 
@@ -1996,13 +1993,13 @@ static pointf computeoffset_qr(pointf p, pointf q, pointf r, pointf s,
 static void emit_attachment(GVJ_t * job, textlabel_t * lp, splines * spl)
 {
     pointf sz, AF[3];
-    unsigned char *s;
+    const char *s;
 
-    for (s = (unsigned char *) (lp->text); *s; s++) {
-	if (isspace(*s) == FALSE)
+    for (s = lp->text; *s; s++) {
+	if (!isspace(*s))
 	    break;
     }
-    if (*s == 0)
+    if (*s == '\0')
 	return;
 
     sz = lp->dimen;
@@ -2170,7 +2167,7 @@ static int multicolor (GVJ_t * job, edge_t * e, char** styles, char* colors, int
 	    }
 	    else {
 		bz0 = bz_r;
-		splitBSpline (&bz0, (s->t)/(left+s->t), &bz_l, &bz_r);
+		splitBSpline(&bz0, s->t / (left + s->t), &bz_l, &bz_r);
 		free (bz0.list);
 		gvrender_beziercurve(job, bz_l.list, bz_l.size, FALSE, FALSE, FALSE);
 		free (bz_l.list);
@@ -2191,7 +2188,7 @@ static int multicolor (GVJ_t * job, edge_t * e, char** styles, char* colors, int
     	    gvrender_set_fillcolor(job, endcolor);
 	    arrow_gen(job, EMIT_HDRAW, bz.ep, bz.list[bz.size - 1], arrowsize, penwidth, bz.eflag);
 	}
-	if ((ED_spl(e)->size>1) && (bz.sflag||bz.eflag) && styles) 
+	if (ED_spl(e)->size > 1 && (bz.sflag || bz.eflag) && styles)
 	    gvrender_set_style(job, styles);
     }
     freeSegs (segs);
@@ -2210,24 +2207,24 @@ typedef double (*radfunc_t)(double,double,double);
 
 static double forfunc (double curlen, double totallen, double initwid)
 {
-    return ((1 - (curlen/totallen))*initwid/2.0);
+    return (1 - curlen / totallen) * initwid / 2.0;
 }
 
 static double revfunc (double curlen, double totallen, double initwid)
 {
-    return (((curlen/totallen))*initwid/2.0);
+    return curlen / totallen * initwid / 2.0;
 }
 
 static double nonefunc (double curlen, double totallen, double initwid)
 {
-    return (initwid/2.0);
+    return initwid / 2.0;
 }
 
 static double bothfunc (double curlen, double totallen, double initwid)
 {
     double fr = curlen/totallen;
-    if (fr <= 0.5) return (fr*initwid);
-    else return ((1-fr)*initwid);
+    if (fr <= 0.5) return fr * initwid;
+    return (1 - fr) * initwid;
 }
 
 static radfunc_t 
@@ -2240,7 +2237,7 @@ taperfun (edge_t* e)
 	if (streq(attr, "both")) return bothfunc;
 	if (streq(attr, "none")) return nonefunc;
     }
-    return (agisdirected(agraphof(aghead(e))) ? forfunc : nonefunc);
+    return agisdirected(agraphof(aghead(e))) ? forfunc : nonefunc;
 }
 
 static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
@@ -2254,7 +2251,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
     pointf pf0, pf1, pf2 = { 0, 0 }, pf3, *offlist, *tmplist;
     double arrowsize, numc2, penwidth=job->obj->penwidth;
     char* p;
-    boolean tapered = 0;
+    bool tapered = false;
 
 #define SEP 2.0
 
@@ -2267,7 +2264,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
 	    char** sp = styles;
 	    while ((p = *sp++)) {
 		if (streq(p, "tapered")) {
-		    tapered = 1;
+		    tapered = true;
 		    break;
 		}
 	    }
@@ -2460,7 +2457,7 @@ static void emit_edge_graphics(GVJ_t * job, edge_t * e, char** styles)
 			arrow_gen(job, EMIT_HDRAW, bz.ep, bz.list[bz.size - 1],
 				arrowsize, penwidth, bz.eflag);
 		    }
-		    if ((ED_spl(e)->size>1) && (bz.sflag||bz.eflag) && styles) 
+		    if (ED_spl(e)->size > 1 && (bz.sflag || bz.eflag) && styles)
 			gvrender_set_style(job, styles);
 		}
 	    }
@@ -2512,7 +2509,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
      */
     if (styles && ED_spl(e)) gvrender_set_style(job, styles);
 
-    if (E_penwidth && ((s=agxget(e,E_penwidth)) && s[0])) {
+    if (E_penwidth && (s = agxget(e, E_penwidth)) && s[0]) {
 	penwidth = late_double(e, E_penwidth, 1.0, 0.0);
 	gvrender_set_penwidth(job, penwidth);
     }
@@ -2546,27 +2543,27 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
 	agxbinit(&xb, SMALLBUF, xbuf);
 	s = getObjId (job, e, &xb);
-	obj->id = strdup_and_subst_obj(s, (void*)e);
+	obj->id = strdup_and_subst_obj(s, e);
 	agxbfree(&xb);
 
         if (((s = agget(e, "href")) && s[0]) || ((s = agget(e, "URL")) && s[0]))
-            dflt_url = strdup_and_subst_obj(s, (void*)e);
+            dflt_url = strdup_and_subst_obj(s, e);
 	if (((s = agget(e, "edgehref")) && s[0]) || ((s = agget(e, "edgeURL")) && s[0]))
-            obj->url = strdup_and_subst_obj(s, (void*)e);
+            obj->url = strdup_and_subst_obj(s, e);
 	else if (dflt_url)
 	    obj->url = strdup(dflt_url);
 	if (((s = agget(e, "labelhref")) && s[0]) || ((s = agget(e, "labelURL")) && s[0]))
-            obj->labelurl = strdup_and_subst_obj(s, (void*)e);
+            obj->labelurl = strdup_and_subst_obj(s, e);
 	else if (dflt_url)
 	    obj->labelurl = strdup(dflt_url);
 	if (((s = agget(e, "tailhref")) && s[0]) || ((s = agget(e, "tailURL")) && s[0])) {
-            obj->tailurl = strdup_and_subst_obj(s, (void*)e);
+            obj->tailurl = strdup_and_subst_obj(s, e);
             obj->explicit_tailurl = TRUE;
 	}
 	else if (dflt_url)
 	    obj->tailurl = strdup(dflt_url);
 	if (((s = agget(e, "headhref")) && s[0]) || ((s = agget(e, "headURL")) && s[0])) {
-            obj->headurl = strdup_and_subst_obj(s, (void*)e);
+            obj->headurl = strdup_and_subst_obj(s, e);
             obj->explicit_headurl = TRUE;
 	}
 	else if (dflt_url)
@@ -2575,26 +2572,26 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
     if (flags & GVRENDER_DOES_TARGETS) {
         if ((s = agget(e, "target")) && s[0])
-            dflt_target = strdup_and_subst_obj(s, (void*)e);
+            dflt_target = strdup_and_subst_obj(s, e);
         if ((s = agget(e, "edgetarget")) && s[0]) {
 	    obj->explicit_edgetarget = TRUE;
-            obj->target = strdup_and_subst_obj(s, (void*)e);
+            obj->target = strdup_and_subst_obj(s, e);
 	}
 	else if (dflt_target)
 	    obj->target = strdup(dflt_target);
         if ((s = agget(e, "labeltarget")) && s[0])
-            obj->labeltarget = strdup_and_subst_obj(s, (void*)e);
+            obj->labeltarget = strdup_and_subst_obj(s, e);
 	else if (dflt_target)
 	    obj->labeltarget = strdup(dflt_target);
         if ((s = agget(e, "tailtarget")) && s[0]) {
-            obj->tailtarget = strdup_and_subst_obj(s, (void*)e);
+            obj->tailtarget = strdup_and_subst_obj(s, e);
 	    obj->explicit_tailtarget = TRUE;
 	}
 	else if (dflt_target)
 	    obj->tailtarget = strdup(dflt_target);
         if ((s = agget(e, "headtarget")) && s[0]) {
 	    obj->explicit_headtarget = TRUE;
-            obj->headtarget = strdup_and_subst_obj(s, (void*)e);
+            obj->headtarget = strdup_and_subst_obj(s, e);
 	}
 	else if (dflt_target)
 	    obj->headtarget = strdup(dflt_target);
@@ -2604,7 +2601,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
         if (((s = agget(e, "tooltip")) && s[0]) ||
             ((s = agget(e, "edgetooltip")) && s[0])) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->tooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->tooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_tooltip = TRUE;
 	}
@@ -2613,7 +2610,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "labeltooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->labeltooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->labeltooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_labeltooltip = TRUE;
 	}
@@ -2622,7 +2619,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "tailtooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->tailtooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->tailtooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_tailtooltip = TRUE;
 	}
@@ -2631,7 +2628,7 @@ static void emit_begin_edge(GVJ_t * job, edge_t * e, char** styles)
 
         if ((s = agget(e, "headtooltip")) && s[0]) {
 	    char* tooltip = preprocessTooltip (s, e);
-            obj->headtooltip = strdup_and_subst_obj(tooltip, (void*)e);
+            obj->headtooltip = strdup_and_subst_obj(tooltip, e);
 	    free (tooltip);
 	    obj->explicit_headtooltip = TRUE;
 	}
@@ -2681,7 +2678,7 @@ emit_edge_label(GVJ_t* job, textlabel_t* lbl, emit_state_t lkind, int explicit,
     char* newid;
     char* type;
 
-    if ((lbl == NULL) || !(lbl->set)) return;
+    if (lbl == NULL || !lbl->set) return;
     if (id) { /* non-NULL if needed */
 	newid = N_NEW(strlen(id) + sizeof("-headlabel"),char);
 	switch (lkind) {
@@ -2740,18 +2737,18 @@ static void nodeIntersect (GVJ_t * job, pointf p,
 {
     obj_state_t *obj = job->obj;
     char* url;
-    boolean explicit;
+    bool explicit;
 
     if (explicit_iurl) url = iurl;
     else url = obj->url;
     if (explicit_itooltip) {
-	explicit = TRUE;
+	explicit = true;
     }
     else if (obj->explicit_tooltip) {
-	explicit = TRUE;
+	explicit = true;
     }
     else {
-	explicit = FALSE;
+	explicit = false;
     }
 
     if (url || explicit) {
@@ -2832,7 +2829,7 @@ static void emit_edge(GVJ_t * job, edge_t * e)
 {
     char *s;
     char *style;
-    char **styles = 0;
+    char **styles = NULL;
     char **sp;
     char *p;
 
@@ -2877,14 +2874,10 @@ static char adjust[] = {'l', 'n', 'r'};
 static void
 expandBB (boxf* bb, pointf p)
 {
-    if (p.x > bb->UR.x)
-	bb->UR.x = p.x;
-    if (p.x < bb->LL.x)
-	bb->LL.x = p.x;
-    if (p.y > bb->UR.y)
-	bb->UR.y = p.y;
-    if (p.y < bb->LL.y)
-	bb->LL.y = p.y;
+    bb->UR.x = fmax(bb->UR.x, p.x);
+    bb->LL.x = fmin(bb->LL.x, p.x);
+    bb->UR.y = fmax(bb->UR.y, p.y);
+    bb->LL.y = fmin(bb->LL.y, p.y);
 }
 
 static boxf
@@ -2961,12 +2954,12 @@ boxf xdotBB (Agraph_t* g)
 
     if (!xd) return bb;
 
-    if ((bb.LL.x == bb.UR.x) && (bb.LL.y == bb.UR.y)) {
+    if (bb.LL.x == bb.UR.x && bb.LL.y == bb.UR.y) {
 	bb.LL.x = bb.LL.y = MAXDOUBLE;
 	bb.UR.x = bb.UR.y = -MAXDOUBLE;
     }
 
-    op = (exdot_op*)(xd->ops);
+    op = (exdot_op*)xd->ops;
     for (i = 0; i < xd->cnt; i++) {
 	tf = null_tf;
 	switch (op->op.kind) {
@@ -3058,7 +3051,7 @@ static void init_gvc(GVC_t * gvc, graph_t * g)
     /* pagesize */
     gvc->graph_sets_pageSize = FALSE;
     gvc->pageSize = GD_drawing(g)->page;
-    if ((GD_drawing(g)->page.x > 0.001) && (GD_drawing(g)->page.y > 0.001))
+    if (GD_drawing(g)->page.x > 0.001 && GD_drawing(g)->page.y > 0.001)
         gvc->graph_sets_pageSize = TRUE;
 
     /* rotation */
@@ -3140,7 +3133,7 @@ static void init_job_dpi(GVJ_t *job, graph_t *g)
     GVJ_t *firstjob = job->gvc->active_jobs;
 
     if (GD_drawing(g)->dpi != 0) {
-        job->dpi.x = job->dpi.y = (double)(GD_drawing(g)->dpi);
+        job->dpi.x = job->dpi.y = (double)GD_drawing(g)->dpi;
     }
     else if (firstjob && firstjob->device_sets_dpi) {
         job->dpi = firstjob->device_dpi;   /* some devices set dpi in initialize() */
@@ -3152,7 +3145,7 @@ static void init_job_dpi(GVJ_t *job, graph_t *g)
             job->dpi = job->device.features->default_dpi;
             break;
         default:
-            job->dpi.x = job->dpi.y = (double)(DEFAULT_DPI);
+            job->dpi.x = job->dpi.y = (double)DEFAULT_DPI;
             break;
         }
     }
@@ -3185,9 +3178,9 @@ static void init_job_viewport(GVJ_t * job, graph_t * g)
 	size = GD_drawing(g)->size;
 	if (sz.x == 0) sz.x = size.x;
 	if (sz.y == 0) sz.y = size.y;
-	if ((size.x < sz.x) || (size.y < sz.y) /* drawing is too big (in either axis) ... */
-	    || ((GD_drawing(g)->filled) /* or ratio=filled requested and ... */
-		&& (size.x > sz.x) && (size.y > sz.y))) /* drawing is too small (in both axes) ... */
+	if (size.x < sz.x || size.y < sz.y /* drawing is too big (in either axis) ... */
+	    || (GD_drawing(g)->filled /* or ratio=filled requested and ... */
+		&& size.x > sz.x && size.y > sz.y)) /* drawing is too small (in both axes) ... */
 	    Z = MIN(size.x/sz.x, size.y/sz.y);
     }
     
@@ -3605,14 +3598,14 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
     
     for (c = 1; c <= GD_n_cluster(g); c++) {
 	sg = GD_clust(g)[c];
-	if (clust_in_layer(job, sg) == FALSE)
+	if (!clust_in_layer(job, sg))
 	    continue;
 	/* when mapping, detect events on clusters after sub_clusters */
 	if (flags & EMIT_CLUSTERS_LAST)
 	    emit_clusters(job, sg, flags);
 	emit_begin_cluster(job, sg);
 	obj = job->obj;
-	doAnchor = (obj->url || obj->explicit_tooltip);
+	doAnchor = obj->url || obj->explicit_tooltip;
 	setColorScheme (agget (sg, "colorscheme"));
 	if (doAnchor && !(flags & EMIT_CLUSTERS_LAST)) {
 	    emit_map_rect(job, GD_bb(sg));
@@ -3648,18 +3641,18 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
 	    filled = TRUE;
 	}
 	else {
-	    if (((color = agget(sg, "color")) != 0) && color[0])
+	    if ((color = agget(sg, "color")) != 0 && color[0])
 		fillcolor = pencolor = color;
-	    if (((color = agget(sg, "pencolor")) != 0) && color[0])
+	    if ((color = agget(sg, "pencolor")) != 0 && color[0])
 		pencolor = color;
-	    if (((color = agget(sg, "fillcolor")) != 0) && color[0])
+	    if ((color = agget(sg, "fillcolor")) != 0 && color[0])
 		fillcolor = color;
 	    /* bgcolor is supported for backward compatibility 
 	       if fill is set, fillcolor trumps bgcolor, so
                don't bother checking.
                if gradient is set fillcolor trumps bgcolor
              */
-	    if ((!filled || !fillcolor) && ((color = agget(sg, "bgcolor")) != 0) && color[0]) {
+	    if ((!filled || !fillcolor) && (color = agget(sg, "bgcolor")) != 0 && color[0]) {
 		fillcolor = color;
 	        filled = FILL;
             }
@@ -3759,16 +3752,16 @@ void emit_clusters(GVJ_t * job, Agraph_t * g, int flags)
     }
 }
 
-static boolean is_style_delim(int c)
+static bool is_style_delim(int c)
 {
     switch (c) {
     case '(':
     case ')':
     case ',':
     case '\0':
-	return TRUE;
+	return true;
     default:
-	return FALSE;
+	return false;
     }
 }
 
@@ -3780,7 +3773,7 @@ static int style_token(char **s, agxbuf * xb)
     int token;
     char c;
 
-    while (*p && (isspace(*p) || (*p == ',')))
+    while (*p && (isspace(*p) || *p == ','))
 	p++;
     switch (*p) {
     case '\0':
@@ -3816,9 +3809,9 @@ static agxbuf ps_xb;
 char **parse_style(char *s)
 {
     static char *parse[FUNLIMIT];
-    static boolean is_first = TRUE;
+    static bool is_first = true;
     int fun = 0;
-    boolean in_parens = FALSE;
+    bool in_parens = false;
     unsigned char buf[SMALLBUF];
     char *p;
     int c;
@@ -3826,7 +3819,7 @@ char **parse_style(char *s)
 
     if (is_first) {
 	agxbinit(&ps_xb, SMALLBUF, outbuf);
-	is_first = FALSE;
+	is_first = false;
     }
 
     agxbinit(&xb, SMALLBUF, buf);
@@ -3836,28 +3829,28 @@ char **parse_style(char *s)
 	case '(':
 	    if (in_parens) {
 		agerr(AGERR, "nesting not allowed in style: %s\n", s);
-		parse[0] = (char *) 0;
+		parse[0] = NULL;
 		agxbfree(&xb);
 		return parse;
 	    }
-	    in_parens = TRUE;
+	    in_parens = true;
 	    break;
 
 	case ')':
-	    if (in_parens == FALSE) {
+	    if (!in_parens) {
 		agerr(AGERR, "unmatched ')' in style: %s\n", s);
-		parse[0] = (char *) 0;
+		parse[0] = NULL;
 		agxbfree(&xb);
 		return parse;
 	    }
-	    in_parens = FALSE;
+	    in_parens = false;
 	    break;
 
 	default:
-	    if (in_parens == FALSE) {
+	    if (!in_parens) {
 		if (fun == FUNLIMIT - 1) {
 		    agerr(AGWARN, "truncating style '%s'\n", s);
-		    parse[fun] = (char *) 0;
+		    parse[fun] = NULL;
 		    agxbfree(&xb);
 		    return parse;
 		}
@@ -3871,11 +3864,11 @@ char **parse_style(char *s)
 
     if (in_parens) {
 	agerr(AGERR, "unmatched '(' in style: %s\n", s);
-	parse[0] = (char *) 0;
+	parse[0] = NULL;
 	agxbfree(&xb);
 	return parse;
     }
-    parse[fun] = (char *) 0;
+    parse[fun] = NULL;
     agxbfree(&xb);
     (void)agxbuse(&ps_xb);		/* adds final '\0' to buffer */
     return parse;
@@ -4074,7 +4067,7 @@ int gvRenderJobs (GVC_t * gvc, graph_t * g)
         firstjob = gvc->active_jobs;
         if (firstjob) {
 	    if (! (firstjob->flags & GVDEVICE_DOES_PAGES)
-	      || (strcmp(job->output_langname,firstjob->output_langname))) {
+	      || strcmp(job->output_langname, firstjob->output_langname)) {
 
 	        gvrender_end_job(firstjob);
 	    
@@ -4143,7 +4136,7 @@ boolean findStopColor (char* colorlist, char* clrs[2], float* frac)
     int rv;
 
     rv = parseSegs (colorlist, 0, &segs);
-    if (rv || (segs->numc < 2) || (segs->segs[0].color == NULL)) {
+    if (rv || segs->numc < 2 || segs->segs[0].color == NULL) {
 	clrs[0] = NULL;
 	if (segs) freeSegs (segs);
 	return FALSE;

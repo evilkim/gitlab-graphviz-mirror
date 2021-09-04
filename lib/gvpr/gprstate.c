@@ -84,7 +84,7 @@ findBinding (Gpr_t* state, char* fname)
     }
 
     key.name = fname;
-    bp = (gvprbinding*)bsearch(&key, state->bindings, state->n_bindings, sizeof(gvprbinding), bindingcmpf); 
+    bp = bsearch(&key, state->bindings, state->n_bindings, sizeof(gvprbinding), bindingcmpf);
     if (!bp)
 	error(ERROR_ERROR, "No binding for \"%s\" in call()", fname);
     return bp;
