@@ -100,7 +100,7 @@ static polygon_t p_hexagon = {.peripheries = 1, .sides = 6};
 static polygon_t p_septagon = {.peripheries = 1, .sides = 7};
 static polygon_t p_octagon = {.peripheries = 1, .sides = 8};
 static polygon_t p_note = {.peripheries = 1, .sides = 4, .option = DOGEAR};
-static polygon_t p_tab = { FALSE, 1, 4, 0., 0., 0., TAB };
+static polygon_t p_tab = {.peripheries = 1, .sides = 4, .option = TAB};
 static polygon_t p_folder = { FALSE, 1, 4, 0., 0., 0., FOLDER };
 static polygon_t p_box3d = { FALSE, 1, 4, 0., 0., 0., BOX3D };
 static polygon_t p_component = { FALSE, 1, 4, 0., 0., 0., COMPONENT };
