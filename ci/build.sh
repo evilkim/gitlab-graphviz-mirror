@@ -33,7 +33,7 @@ if [ "${build_system}" = "cmake" ]; then
     cd ..
     if [ "${ID_LIKE}" = "debian" ]; then
         mv build/*.deb ${DIR}/os/${ARCH}/
-    elif [ "${ID}" = "Darwin" ]; then
+    elif [[ "${OSTYPE}" =~ "darwin" ]]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
     elif [ "${ID}" = "msys2" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
