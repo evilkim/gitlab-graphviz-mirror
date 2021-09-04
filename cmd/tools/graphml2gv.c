@@ -596,11 +596,11 @@ static void characterDataHandler(void *userData, const char *s, int length)
 	return;
 
     if (ud->compositeReadState) {
-	agxbput_n(&ud->composite_buffer, (char *) s, length);
+	agxbput_n(&ud->composite_buffer, s, length);
 	return;
     }
 
-    agxbput_n(&ud->xml_attr_value, (char *) s, length);
+    agxbput_n(&ud->xml_attr_value, s, length);
 }
 
 static Agraph_t *graphml_to_gv(char* gname, FILE * graphmlFile, int* rv)
