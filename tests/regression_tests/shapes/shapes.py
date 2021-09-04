@@ -1,3 +1,7 @@
+"""
+Tests of various shape generation against reference examples.
+"""
+
 from pathlib import Path
 from subprocess import Popen, PIPE
 import sys

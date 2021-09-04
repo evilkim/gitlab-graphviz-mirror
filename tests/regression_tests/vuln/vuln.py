@@ -1,3 +1,9 @@
+"""
+Some legacy tests against previous bugs.
+
+FIXME: this should probably be integrated into ../../../rtest/test_regression.py
+"""
+
 from subprocess import Popen, PIPE
 import sys
 from pathlib import Path

@@ -1,3 +1,9 @@
+"""
+Support functions for some other test files.
+
+FIXME: This should probably be integrated into ../../rtest/gvtest.py
+"""
+
 import difflib
 from pathlib import Path
 
