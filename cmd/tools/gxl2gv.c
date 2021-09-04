@@ -102,7 +102,7 @@ static void freeString(slist * stk)
     }
 }
 
-typedef struct userdata {
+typedef struct {
     agxbuf xml_attr_name;
     agxbuf xml_attr_value;
     agxbuf composite_buffer;
