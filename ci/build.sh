@@ -7,11 +7,6 @@ set -o pipefail
 if [ -f /etc/os-release ]; then
     cat /etc/os-release
     . /etc/os-release
-    if [ -z ${ID_LIKE:+x} ]; then
-        if [ ! -z ${ID:+x} ]; then
-            ID_LIKE=${ID}
-        fi
-    fi
 else
     ID=$( uname -s )
     VERSION_ID=$( uname -r )
