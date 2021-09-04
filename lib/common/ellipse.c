@@ -46,7 +46,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if STANDALONE
+#include <stdbool.h>
+#ifdef STANDALONE
 #include <limits.h>
 #include <math.h>
 #include <stdlib.h>
@@ -60,14 +61,10 @@
 
 #define PI            3.14159265358979323846
 
-#define TRUE 1
-#define FALSE 0
-typedef unsigned char boolean;
-
-typedef struct pointf_s {
+typedef struct {
     double x, y;
 } pointf;
-typedef struct Ppoly_t {
+typedef struct {
     pointf *ps;
     int pn;
 } Ppoly_t;
@@ -403,58 +400,52 @@ estimateError(ellipse_t * ep, int degree, double etaA, double etaB)
  */
 static int bufsize;
 
-static void moveTo(Ppolyline_t * path, double x, double y)
+static void moveTo(Ppolyline_t *polypath, double x, double y)
 {
     bufsize = 100;
-    path->ps = N_NEW(bufsize, pointf);
-    path->ps[0].x = x;
-    path->ps[0].y = y;
-    path->pn = 1;
+    polypath->ps = N_NEW(bufsize, pointf);
+    polypath->ps[0].x = x;
+    polypath->ps[0].y = y;
+    polypath->pn = 1;
 }
 
 static void
-curveTo(Ppolyline_t * path, double x1, double y1,
+curveTo(Ppolyline_t *polypath, double x1, double y1,
 	double x2, double y2, double x3, double y3)
 {
-    if (path->pn + 3 >= bufsize) {
+    if (polypath->pn + 3 >= bufsize) {
 	bufsize *= 2;
-	path->ps = realloc(path->ps, bufsize * sizeof(pointf));
+	polypath->ps = realloc(polypath->ps, bufsize * sizeof(pointf));
     }
-    path->ps[path->pn].x = x1;
-    path->ps[path->pn++].y = y1;
-    path->ps[path->pn].x = x2;
-    path->ps[path->pn++].y = y2;
-    path->ps[path->pn].x = x3;
-    path->ps[path->pn++].y = y3;
+    polypath->ps[polypath->pn].x = x1;
+    polypath->ps[polypath->pn++].y = y1;
+    polypath->ps[polypath->pn].x = x2;
+    polypath->ps[polypath->pn++].y = y2;
+    polypath->ps[polypath->pn].x = x3;
+    polypath->ps[polypath->pn++].y = y3;
 }
 
-static void lineTo(Ppolyline_t * path, double x, double y)
+static void lineTo(Ppolyline_t *polypath, double x, double y)
 {
-    pointf curp = path->ps[path->pn - 1];
-    curveTo(path, curp.x, curp.y, x, y, x, y);
+    pointf curp = polypath->ps[polypath->pn - 1];
+    curveTo(polypath, curp.x, curp.y, x, y, x, y);
 }
 
-static void endPath(Ppolyline_t * path, boolean close)
+static void endPath(Ppolyline_t *polypath)
 {
-    if (close) {
-	pointf p0 = path->ps[0];
-	lineTo(path, p0.x, p0.y);
-    }
+    pointf p0 = polypath->ps[0];
+    lineTo(polypath, p0.x, p0.y);
 
-    path->ps = realloc(path->ps, path->pn * sizeof(pointf));
+    polypath->ps = realloc(polypath->ps, polypath->pn * sizeof(pointf));
     bufsize = 0;
 }
 
 /* genEllipticPath:
- * Approximate an elliptical arc via Beziers of given degree
- * threshold indicates quality of approximation
- * if isSlice is true, the path begins and ends with line segments
- * to the center of the ellipse.
+ * Approximate an elliptical arc via Beziers of degree 3
+ * The path begins and ends with line segments to the center of the ellipse.
  * Returned path must be freed by the caller.
  */
-static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
-				    double threshold, boolean isSlice)
-{
+static Ppolyline_t *genEllipticPath(ellipse_t * ep) {
     double dEta;
     double etaB;
     double cosEtaB;
@@ -469,21 +460,23 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
     double yBDot;
     double t;
     double alpha;
-    Ppolyline_t *path = NEW(Ppolyline_t);
+    Ppolyline_t *polypath = NEW(Ppolyline_t);
+
+    static const double THRESHOLD = 0.00001; // quality of approximation
+    static const int DEGREE = 3;
 
     // find the number of Bezier curves needed
-    boolean found = FALSE;
+    bool found = false;
     int i, n = 1;
-    while ((!found) && (n < 1024)) {
-	double dEta = (ep->eta2 - ep->eta1) / n;
-	if (dEta <= 0.5 * M_PI) {
-	    double etaB = ep->eta1;
-	    found = TRUE;
-	    for (i = 0; found && (i < n); ++i) {
-		double etaA = etaB;
-		etaB += dEta;
-		found =
-		    (estimateError(ep, degree, etaA, etaB) <= threshold);
+    while (!found && n < 1024) {
+	double diffEta = (ep->eta2 - ep->eta1) / n;
+	if (diffEta <= 0.5 * M_PI) {
+	    double etaOne = ep->eta1;
+	    found = true;
+	    for (i = 0; found && i < n; ++i) {
+		double etaA = etaOne;
+		etaOne += diffEta;
+		found = estimateError(ep, DEGREE, etaA, etaOne) <= THRESHOLD;
 	    }
 	}
 	n = n << 1;
@@ -503,12 +496,8 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
     xBDot = -aSinEtaB * ep->cosTheta - bCosEtaB * ep->sinTheta;
     yBDot = -aSinEtaB * ep->sinTheta + bCosEtaB * ep->cosTheta;
 
-    if (isSlice) {
-	moveTo(path, ep->cx, ep->cy);
-	lineTo(path, xB, yB);
-    } else {
-	moveTo(path, xB, yB);
-    }
+    moveTo(polypath, ep->cx, ep->cy);
+    lineTo(polypath, xB, yB);
 
     t = tan(0.5 * dEta);
     alpha = sin(dEta) * (sqrt(4 + 3 * t * t) - 1) / 3;
@@ -532,24 +521,13 @@ static Ppolyline_t *genEllipticPath(ellipse_t * ep, int degree,
 	xBDot = -aSinEtaB * ep->cosTheta - bCosEtaB * ep->sinTheta;
 	yBDot = -aSinEtaB * ep->sinTheta + bCosEtaB * ep->cosTheta;
 
-	if (degree == 1) {
-	    lineTo(path, xB, yB);
-#if DO_QUAD
-	} else if (degree == 2) {
-	    double k = (yBDot * (xB - xA) - xBDot * (yB - yA))
-		/ (xADot * yBDot - yADot * xBDot);
-	    quadTo(path, (xA + k * xADot), (yA + k * yADot), xB, yB);
-#endif
-	} else {
-	    curveTo(path, (xA + alpha * xADot), (yA + alpha * yADot),
-		    (xB - alpha * xBDot), (yB - alpha * yBDot), xB, yB);
-	}
-
+	curveTo(polypath, xA + alpha * xADot, yA + alpha * yADot, xB - alpha * xBDot,
+	        yB - alpha * yBDot, xB, yB);
     }
 
-    endPath(path, isSlice);
+    endPath(polypath);
 
-    return path;
+    return polypath;
 }
 
 /* ellipticWedge:
@@ -565,7 +543,7 @@ Ppolyline_t *ellipticWedge(pointf ctr, double xsemi, double ysemi,
     Ppolyline_t *pp;
 
     initEllipse(&ell, ctr.x, ctr.y, xsemi, ysemi, 0, angle0, angle1);
-    pp = genEllipticPath(&ell, 3, 0.00001, 1);
+    pp = genEllipticPath(&ell);
     return pp;
 }
 
@@ -577,7 +555,7 @@ main()
     int i;
 
     initEllipse(&ell, 200, 200, 100, 50, 0, M_PI / 4, 3 * M_PI / 2);
-    pp = genEllipticPath(&ell, 3, 0.00001, 1);
+    pp = genEllipticPath(&ell);
 
     printf("newpath %.02lf %.02lf moveto\n", pp->ps[0].x, pp->ps[0].y);
     for (i = 1; i < pp->pn; i += 3) {
