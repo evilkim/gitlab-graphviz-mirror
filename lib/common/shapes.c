@@ -21,7 +21,7 @@ typedef struct {
     void (*vertex_gen) (pointf*, pointf*);
 } poly_desc_t;
  
-static port Center = { {0, 0}, -1, 0, 0, 0, 1, 0, 0, 0 };
+static port Center = {.theta = -1, .clip = 1};
 
 #define ATTR_SET(a,n) ((a) && (*(agxget(n,a->index)) != '\0'))
   /* Default point size = 0.05 inches or 3.6 points */
@@ -80,17 +80,17 @@ static poly_desc_t cylinder_gen = {
 /* polygon descriptions.  "polygon" with 0 sides takes all user control */
 
 /*			       regul perip sides orien disto skew */
-static polygon_t p_polygon = { FALSE, 1, 0, 0., 0., 0. };
+static polygon_t p_polygon = {.peripheries = 1};
 
 /* builtin polygon descriptions */
-static polygon_t p_ellipse = { FALSE, 1, 1, 0., 0., 0. };
-static polygon_t p_circle = { TRUE, 1, 1, 0., 0., 0. };
-static polygon_t p_egg = { FALSE, 1, 1, 0., -.3, 0. };
-static polygon_t p_triangle = { FALSE, 1, 3, 0., 0., 0. };
-static polygon_t p_box = { FALSE, 1, 4, 0., 0., 0. };
-static polygon_t p_square = { TRUE, 1, 4, 0., 0., 0. };
-static polygon_t p_plaintext = { FALSE, 0, 4, 0., 0., 0. };
-static polygon_t p_plain = { FALSE, 0, 4, 0., 0., 0. };
+static polygon_t p_ellipse = {.peripheries = 1, .sides = 1};
+static polygon_t p_circle = {.regular = TRUE, .peripheries = 1, .sides = 1};
+static polygon_t p_egg = {.peripheries = 1, .sides = 1, .distortion = -0.3};
+static polygon_t p_triangle = {.peripheries = 1, .sides = 3};
+static polygon_t p_box = {.peripheries = 1, .sides = 4};
+static polygon_t p_square = {.regular = TRUE, .peripheries = 1, .sides = 4};
+static polygon_t p_plaintext = {.sides = 4};
+static polygon_t p_plain = {.sides = 4};
 static polygon_t p_diamond = { FALSE, 1, 4, 45., 0., 0. };
 static polygon_t p_trapezium = { FALSE, 1, 4, 0., -.4, 0. };
 static polygon_t p_parallelogram = { FALSE, 1, 4, 0., 0., .6 };
