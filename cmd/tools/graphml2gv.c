@@ -406,7 +406,7 @@ static void
 startElementHandler(void *userData, const char *name, const char **atts)
 {
     int pos;
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
     Agraph_t *g = NULL;
 
     if (strcmp(name, "graphml") == 0) {
@@ -523,7 +523,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 
 static void endElementHandler(void *userData, const char *name)
 {
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
 
     if (strcmp(name, "graph") == 0) {
 	pop_subg();
@@ -590,7 +590,7 @@ static void endElementHandler(void *userData, const char *name)
 
 static void characterDataHandler(void *userData, const char *s, int length)
 {
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
 
     if (!ud->listen)
 	return;
