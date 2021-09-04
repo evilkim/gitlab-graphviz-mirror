@@ -34,10 +34,10 @@ def generate_vuln_graph(vulnfile, output_type):
     sys.exit(1)
 
 failures = 0
-for vulnfile in vulnfiles:
-  for output_type in output_types:
-    generate_vuln_graph(vulnfile, output_type)
-    if not compare_graphs(vulnfile, output_type[0]):
+for v in vulnfiles:
+  for o in output_types:
+    generate_vuln_graph(v, o)
+    if not compare_graphs(v, o[0]):
       failures += 1
 
 print("")
