@@ -96,7 +96,7 @@ static polygon_t p_trapezium = {.peripheries = 1, .sides = 4, .distortion = -0.4
 static polygon_t p_parallelogram = {.peripheries = 1, .sides = 4, .skew = 0.6};
 static polygon_t p_house = {.peripheries = 1, .sides = 5, .distortion = -0.64};
 static polygon_t p_pentagon = {.peripheries = 1, .sides = 5};
-static polygon_t p_hexagon = { FALSE, 1, 6, 0., 0., 0. };
+static polygon_t p_hexagon = {.peripheries = 1, .sides = 6};
 static polygon_t p_septagon = { FALSE, 1, 7, 0., 0., 0. };
 static polygon_t p_octagon = { FALSE, 1, 8, 0., 0., 0. };
 static polygon_t p_note = { FALSE, 1, 4, 0., 0., 0., DOGEAR };
