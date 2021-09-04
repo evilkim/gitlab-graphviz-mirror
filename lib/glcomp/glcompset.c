@@ -118,8 +118,7 @@ static void glCompSetMouseUp(void *obj, GLfloat x, GLfloat y,
 	((glCompSet *) obj)->mouse.pos.y = tempY;
 	((glCompSet *) obj)->mouse.pos.z = 0;
 	if (o_clicked)
-	    o = glCompGetObjByMouse((glCompSet *) obj,
-				    &((glCompSet *) obj)->mouse, 1);
+	    o = glCompGetObjByMouse(obj, &((glCompSet *) obj)->mouse, 1);
 	if (!o)
 	    return;
 	if (o == o_clicked)
