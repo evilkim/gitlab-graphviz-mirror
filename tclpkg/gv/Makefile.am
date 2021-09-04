@@ -29,7 +29,7 @@ libgv_sharp_la_LDFLAGS = -module -avoid-version
 libgv_sharp_la_CPPFLAGS = $(BASECPPFLAGS) $(SHARP_INCLUDES)
 $(SHARP_data): gv_sharp.cpp
 gv_sharp.cpp: gv.i
-	$(SWIG) -c++ -csharp -namespace gv -o gv_sharp.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -csharp -namespace gv -o $@ $(srcdir)/gv.i
 
 pkgddir = $(pkglibdir)/d
 D_data = 
@@ -51,11 +51,11 @@ libgv_go_la_LDFLAGS = -module -avoid-version
 libgv_go_la_CPPFLAGS = $(BASECPPFLAGS) $(GO_INCLUDES)
 gv_gc.c gv.go: gv_go.cpp
 gv_go.cpp: gv.i
-	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -o gv_go.cpp $(srcdir)/gv.i 
+	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -o $@ $(srcdir)/gv.i
 runtime.h:
-	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -external-runtime runtime.h
+	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -external-runtime $@
 gv.go:
-	echo "package gv" >gv.go
+	echo "package gv" >$@
 	
 
 gvgotest: gv.i gvgotest.go gv.go runtime.h
@@ -83,9 +83,9 @@ libgv_guile_la_CPPFLAGS = $(BASECPPFLAGS) $(GUILE_INCLUDES)
 libgv_guile_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(GUILE_data): gv_guile.cpp
 gv_guile.cpp: gv.i
-	$(SWIG) -c++ -guile -o gv_guile.cpp $(srcdir)/gv.i
-	$(SED) -e 's/SWIG_GUILE_INIT_STATIC void/void/' <gv_guile.cpp >t$$
-	mv -f t$$ gv_guile.cpp
+	$(SWIG) -c++ -guile -o $@ $(srcdir)/gv.i
+	$(SED) -e 's/SWIG_GUILE_INIT_STATIC void/void/' <$@ >t$$
+	mv -f t$$ $@
 
 pkgiodir = $(pkglibdir)/io
 IO_data = 
@@ -96,7 +96,7 @@ libgv_io_la_LDFLAGS = -module -avoid-version
 libgv_io_la_CPPFLAGS = $(BASECPPFLAGS) $(IO_INCLUDES)
 # $(IO_data): gv_io.cpp
 gv_io.cpp: gv.i
-	$(SWIG) -c++ -io -o gv_io.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -io -o $@ $(srcdir)/gv.i
 
 libjavadir = $(pkglibdir)/java
 pkgjavadir = $(libjavadir)/org/graphviz
@@ -108,7 +108,7 @@ libgv_java_la_LDFLAGS = -module -avoid-version $(JNI_EXTRA_LDFLAGS)
 libgv_java_la_CPPFLAGS = $(BASECPPFLAGS) $(SWIGJAVA_CPPFLAGS) $(JAVA_INCLUDES)
 $(JAVA_data): gv_java.cpp
 gv_java.cpp: gv.i
-	$(SWIG) -package org.graphviz -java -c++ -o gv_java.cpp $(srcdir)/gv.i
+	$(SWIG) -package org.graphviz -java -c++ -o $@ $(srcdir)/gv.i
 
 pkgjavascriptdir = $(pkglibdir)/javascript
 JAVASCRIPT_data = 
@@ -117,9 +117,8 @@ libgv_javascript_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_javascript_la_LIBADD = $(BASELIBS) $(JAVASCRIPT_LIBS)
 libgv_javascript_la_LDFLAGS = -module -avoid-version
 libgv_javascript_la_CPPFLAGS = $(BASECPPFLAGS) $(JAVASCRIPT_INCLUDES)
-# $(D_data): gv_javascript.cpp
 gv_javascript.cpp: gv.i
-	$(SWIG) -c++ -javascript -o gv_d.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -javascript -jsc -o $@ $(srcdir)/gv.i
 
 pkgluadir = $(pkglibdir)/lua
 LUA_data = 
@@ -130,7 +129,7 @@ libgv_lua_la_LDFLAGS = -module -avoid-version
 libgv_lua_la_CPPFLAGS = $(BASECPPFLAGS) $(LUA_INCLUDES)
 # $(LUA_data): gv_lua.cpp
 gv_lua.cpp: gv.i
-	$(SWIG) -c++ -lua -o gv_lua.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -lua -o $@ $(srcdir)/gv.i
 
 pkgocamldir = $(pkglibdir)/ocaml
 OCAML_data = gv.cmo gv.cma gv.cmi META.gv
@@ -151,14 +150,14 @@ libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function \
 	-Wno-unused-variable
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
-	$(SWIG) -c++ -ocaml -o gv_ocaml.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -ocaml -o $@ $(srcdir)/gv.i
 	mv $@ $@.orig
 	sed '/int caml_array_length/d' $@.orig > $@
 	rm $@.orig
 swig.mli:
-	$(SWIG) -ocaml -co swig.mli
+	$(SWIG) -ocaml -co $@
 swig.ml:
-	$(SWIG) -ocaml -co swig.ml
+	$(SWIG) -ocaml -co $@
 swig.cmi: swig.mli
 	ocamlc -c swig.mli
 swig.cmo: swig.ml swig.cmi
@@ -168,11 +167,11 @@ gv.cmi: gv.mli swig.cmi
 gv.cmo: gv.ml gv.cmi
 	ocamlc -c gv.ml
 gv.cma: swig.cmo gv.cmo
-	ocamlc -a -dllib dllgv.so -custom -o gv.cma swig.cmo gv.cmo
+	ocamlc -a -dllib dllgv.so -custom -o $@ swig.cmo gv.cmo
 gv.cmx: gv.ml gv.cma
 	ocamlopt -c gv.ml
 gv.cmxa: gv.cmx
-	ocamlopt -a -o gv.cmxa gv.cmx
+	ocamlopt -a -o $@ gv.cmx
 gv.a:	gv.cmxa
 
 pkgperldir = $(pkglibdir)/perl
@@ -190,7 +189,7 @@ libgv_perl_la_LDFLAGS = -module -avoid-version $(PERL_LD)
 libgv_perl_la_CPPFLAGS = $(BASECPPFLAGS) $(PERL_CC)
 $(PERL_data): gv_perl.cpp
 gv_perl.cpp: gv.i
-	$(SWIG) -c++ $(SWIG_PERL_OPT) -o gv_perl.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ $(SWIG_PERL_OPT) -o $@ $(srcdir)/gv.i
 
 pkgphpdir = $(pkglibdir)/php
 PHP_data = gv.php
@@ -203,7 +202,7 @@ libgv_php_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-label -Wno-unused-parameter
 gv.php: gv_php.cpp
 php_gv.h: gv_php.cpp
 gv_php.cpp: gv.i
-	$(SWIG) -c++ $(SWIG_PHP_OPT) -o gv_php.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ $(SWIG_PHP_OPT) -o $@ $(srcdir)/gv.i
 
 pkgpythondir = $(pkglibdir)/python
 PYTHON_data = gv.py
@@ -214,7 +213,7 @@ libgv_python_la_LDFLAGS = -module -avoid-version
 libgv_python_la_CPPFLAGS = $(BASECPPFLAGS) $(PYTHON_INCLUDES)
 $(PYTHON_data): gv_python.cpp
 gv_python.cpp: gv.i
-	$(SWIG) -c++ -python -o gv_python.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -python -o $@ $(srcdir)/gv.i
 
 pkgpython3dir = $(pkglibdir)/python3
 PYTHON3_data = gv.py
@@ -225,7 +224,7 @@ libgv_python3_la_LDFLAGS = -module -avoid-version
 libgv_python3_la_CPPFLAGS = $(BASECPPFLAGS) $(PYTHON3_INCLUDES)
 $(PYTHON3_data): gv_python3.cpp
 gv_python3.cpp: gv.i
-	$(SWIG) -c++ -python -o gv_python3.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -python -o $@ $(srcdir)/gv.i
 
 pkgRdir = $(pkglibdir)/R
 R_data = 
@@ -236,7 +235,7 @@ libgv_R_la_LDFLAGS = -module -avoid-version
 libgv_R_la_CPPFLAGS = $(BASECPPFLAGS) $(R_CFLAGS)
 # $(R_data): gv_R.cpp
 gv_R.cpp: gv.i
-	$(SWIG) -c++ -r -o gv_R.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -r -o $@ $(srcdir)/gv.i
 
 pkgrubydir = $(pkglibdir)/ruby
 RUBY_data = 
@@ -248,7 +247,7 @@ libgv_ruby_la_CPPFLAGS = $(BASECPPFLAGS) $(RUBY_CFLAGS)
 libgv_ruby_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(RUBY_data): gv_ruby.cpp
 gv_ruby.cpp: gv.i
-	$(SWIG) -c++ -ruby -o gv_ruby.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -ruby -o $@ $(srcdir)/gv.i
 
 pkgtcldir = $(pkglibdir)/tcl
 TCL_data = 
@@ -259,7 +258,7 @@ libgv_tcl_la_LDFLAGS = -module -avoid-version
 libgv_tcl_la_CPPFLAGS = $(BASECPPFLAGS) $(TCL_INCLUDES)
 # $(TCL_data): gv_tcl.cpp
 gv_tcl.cpp: gv.i
-	$(SWIG) -c++ -tcl -namespace -o gv_tcl.cpp $(srcdir)/gv.i
+	$(SWIG) -c++ -tcl -namespace -o $@ $(srcdir)/gv.i
 
 pkginclude_HEADERS = gv.i gv.cpp
 pkglib_LTLIBRARIES = 
@@ -653,6 +652,7 @@ CLEANFILES = test_*/* pkgIndex.tcl \
 	gv_guile.cpp $(GUILE_data) \
 	gv_io.cpp $(IO_data) \
 	gv_java.cpp $(JAVA_data) \
+	gv_javascript.cpp \
 	gv_lua.cpp $(LUA_data) \
 	gv_ocaml.cpp gv.cma gv.cmi gv.mli swig.mli swig.ml swig.cmi swig.cmo gv.ml gv.cmo gv.cmx gv.cmxa gv.a gv.o \
 	gv_perl.cpp $(PERL_data) \

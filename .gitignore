@@ -113,6 +113,7 @@ tclpkg/gv/gv_d.cpp
 tclpkg/gv/gv_d.in
 tclpkg/gv/gv_guile.cpp
 tclpkg/gv/gv_java.cpp
+tclpkg/gv/gv_javascript.cpp
 tclpkg/gv/gv_lua.cpp
 tclpkg/gv/gv_ocaml.cpp
 tclpkg/gv/gv_perl.cpp

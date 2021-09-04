@@ -837,11 +837,11 @@ dnl -----------------------------------
 dnl INCLUDES and LIBS for JAVASCRIPT (disabled by default - incomplete)
 
 AC_ARG_ENABLE(javascript,
-  [AS_HELP_STRING([--enable-javascript=no],[d language bindings])],
+  [AS_HELP_STRING([--enable-javascript=no],[Javascript language bindings])],
   [], [enable_javascript=no])
 
 if test "x$enable_javascript" != "xyes"; then
-  use_javascript="No (disabled by default - incomplete"
+  use_javascript="No (disabled by default - incomplete)"
 else
   if test "x$use_swig" != "xYes"; then
     use_javascript="No (swig not available)"
@@ -855,12 +855,10 @@ else
       else
         JAVASCRIPT_INCLUDES=
         JAVASCRIPT_LIBS=
-	if test "x$D" != "x"; then
-	  use_javascript="Yes"
-          AC_SUBST([JAVASCRIPT_INCLUDES])
-          AC_SUBST([JAVASCRIPT_LIBS])
-          AC_SUBST([INTJAVASCRIPTSIZE])
-        fi
+        use_javascript="Yes"
+        AC_SUBST([JAVASCRIPT_INCLUDES])
+        AC_SUBST([JAVASCRIPT_LIBS])
+        AC_SUBST([INTJAVASCRIPTSIZE])
       fi
     fi
   fi

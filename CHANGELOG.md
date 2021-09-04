@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- various problems in the generation of Javascript bindings
+
 ## [2.49.0] – 2021-08-28
 
 ### Added
