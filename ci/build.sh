@@ -48,11 +48,19 @@ if [ "${build_system}" = "cmake" ]; then
     fi
 else
     GV_VERSION=$( cat VERSION )
-    if [ "${ID_LIKE}" = "debian" ]; then
-        tar xfz graphviz-${GV_VERSION}.tar.gz
-        (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
-        mv *.deb ${DIR}/os/${ARCH}/
-        mv *.ddeb ${DIR}/debug/${ARCH}/
+    if [ "$OSTYPE" = "linux-gnu" ]; then
+        if [ "${ID_LIKE:-}" = "debian" ]; then
+            tar xfz graphviz-${GV_VERSION}.tar.gz
+            (cd graphviz-${GV_VERSION}; fakeroot make -f debian/rules binary) | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
+            mv *.deb ${DIR}/os/${ARCH}/
+            mv *.ddeb ${DIR}/debug/${ARCH}/
+        else
+            rm -rf ${HOME}/rpmbuild
+            rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
+            mv ${HOME}/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
+            mv ${HOME}/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/
+            mv ${HOME}/rpmbuild/RPMS/*/*.rpm ${DIR}/os/${ARCH}/
+        fi
     elif [[ "${OSTYPE}" =~ "darwin" ]]; then
         ./autogen.sh
         ./configure --prefix=$( pwd )/build --with-quartz=yes
@@ -60,11 +68,5 @@ else
         make install
         tar cfz graphviz-${GV_VERSION}-${ARCH}.tar.gz --options gzip:compression-level=9 build
         mv graphviz-${GV_VERSION}-${ARCH}.tar.gz ${DIR}/os/${ARCH}/
-    else
-        rm -rf ${HOME}/rpmbuild
-        rpmbuild -ta graphviz-${GV_VERSION}.tar.gz | tee >(ci/extract-configure-log.sh >${META_DATA_DIR}/configure.log)
-        mv ${HOME}/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
-        mv ${HOME}/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/
-        mv ${HOME}/rpmbuild/RPMS/*/*.rpm ${DIR}/os/${ARCH}/
     fi
 fi
