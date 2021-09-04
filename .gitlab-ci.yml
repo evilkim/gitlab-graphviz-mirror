@@ -299,18 +299,6 @@ centos8-build:
     variables:
       IMAGE: centos8
 
-fedora32-build:
-    <<: *rpm_build_definition
-    needs:
-        - job: docker_build_fedora32
-          artifacts: false
-        - job: portable-source
-          artifacts: true
-    tags:
-        - linux
-    variables:
-      IMAGE: fedora32
-
 fedora33-build:
     <<: *rpm_build_definition
     needs:
@@ -584,22 +572,6 @@ centos7-cmake-build:
     variables:
       IMAGE: centos7
 
-fedora32-cmake-build:
-    <<: *rpm_build_definition
-    needs:
-        - job: docker_build_fedora32
-          artifacts: false
-    before_script:
-        - export build_system="cmake"
-        # fail on any compiler warnings
-        - export CFLAGS=-Werror
-        - export CXXFLAGS=-Werror
-        - echo experimental > COLLECTION
-    tags:
-        - linux
-    variables:
-      IMAGE: fedora32
-
 macos-cmake-build:
     <<: *macos_build_definition
     before_script:
@@ -781,18 +753,6 @@ centos8-test:
     variables:
       IMAGE: centos8
 
-fedora32-test:
-    <<: *linux_test_definition
-    before_script:
-        - export build_system="autotools"
-    needs:
-        - job: "fedora32-build"
-          artifacts: true
-    tags:
-        - linux
-    variables:
-      IMAGE: fedora32
-
 fedora33-test:
     <<: *linux_test_definition
     before_script:
@@ -935,20 +895,6 @@ centos7-cmake-test:
     variables:
       IMAGE: centos7
 
-fedora32-cmake-test:
-    <<: *linux_test_definition
-    before_script:
-        - export build_system="cmake"
-        - python3 gen_version.py > VERSION
-        - echo experimental > COLLECTION
-    needs:
-        - job: "fedora32-cmake-build"
-          artifacts: true
-    tags:
-        - linux
-    variables:
-      IMAGE: fedora32
-
 macos-cmake-test:
     <<: *test_definition
     before_script:
@@ -1045,11 +991,6 @@ docker_build_centos8:
   variables:
     IMAGE: centos8
 
-docker_build_fedora32:
-  <<: *docker_build_definition
-  variables:
-    IMAGE: fedora32
-
 docker_build_fedora33:
   <<: *docker_build_definition
   variables:
@@ -1093,13 +1034,6 @@ docker_push_centos8:
     IMAGE: centos8
   needs:
     - docker_build_centos8
-
-docker_push_fedora32:
-  <<: *docker_push_definition
-  variables:
-    IMAGE: fedora32
-  needs:
-    - docker_build_fedora32
 
 docker_push_fedora33:
   <<: *docker_push_definition
