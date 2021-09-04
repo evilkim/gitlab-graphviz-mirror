@@ -98,7 +98,7 @@ static polygon_t p_house = {.peripheries = 1, .sides = 5, .distortion = -0.64};
 static polygon_t p_pentagon = {.peripheries = 1, .sides = 5};
 static polygon_t p_hexagon = {.peripheries = 1, .sides = 6};
 static polygon_t p_septagon = {.peripheries = 1, .sides = 7};
-static polygon_t p_octagon = { FALSE, 1, 8, 0., 0., 0. };
+static polygon_t p_octagon = {.peripheries = 1, .sides = 8};
 static polygon_t p_note = { FALSE, 1, 4, 0., 0., 0., DOGEAR };
 static polygon_t p_tab = { FALSE, 1, 4, 0., 0., 0., TAB };
 static polygon_t p_folder = { FALSE, 1, 4, 0., 0., 0., FOLDER };
