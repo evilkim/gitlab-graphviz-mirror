@@ -345,7 +345,7 @@ static void chkPos(graph_t* g, node_t* n, layout_info* infop, boxf* bbp)
 	if (g != infop->rootg) {
 	    parent =agparent(g);
 	    pp = agxget(parent, G_coord);
-	    if (pp == p || !strcmp(p, pp))
+	    if (!strcmp(p, pp))
 		return;
 	}
 	c = '\0';
