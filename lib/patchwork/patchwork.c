@@ -52,11 +52,8 @@ void dumpTree (treenode_t* r, int ind)
 static double fullArea (treenode_t* p, attrsym_t* mp)
 {
     double m = late_double (p->u.subg, mp, 0, 0);
-    if (m == 0) return p->child_area;
-    else {
-	double wid = (2.0*m + sqrt(p->child_area));
-	return wid*wid;
-    }
+    double wid = 2.0 * m + sqrt(p->child_area);
+    return wid * wid;
 }
 
 static double getArea (void* obj, attrsym_t* ap)
