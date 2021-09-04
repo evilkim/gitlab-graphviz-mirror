@@ -108,10 +108,10 @@ def generate_shape_graph(shape, output_type):
         file.write(line)
 
 failures = 0
-for shape in shapes:
-  for output_type in output_types:
-    generate_shape_graph(shape, output_type)
-    if not compare_graphs(shape, output_type):
+for s in shapes:
+  for o in output_types:
+    generate_shape_graph(s, o)
+    if not compare_graphs(s, o):
       failures += 1
 
 print("")
