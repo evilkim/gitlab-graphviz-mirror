@@ -259,7 +259,7 @@ int glCompSetDraw(glCompSet * s)
     int ind = 0;
     glCompDrawBegin();
     for (; ind < s->objcnt; ind++) {
-	s->obj[ind]->common.functions.draw((void *) s->obj[ind]);
+	s->obj[ind]->common.functions.draw(s->obj[ind]);
     }
     glCompDrawEnd();
     return 1;
