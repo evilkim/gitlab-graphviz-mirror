@@ -31,15 +31,17 @@ if [ "${build_system}" = "cmake" ]; then
     cmake --build .
     cpack
     cd ..
-    if [ "${ID_LIKE}" = "debian" ]; then
-        mv build/*.deb ${DIR}/os/${ARCH}/
+    if [ "${OSTYPE}" = "linux-gnu" ]; then
+        if [ "${ID_LIKE:-}" = "debian" ]; then
+            mv build/*.deb ${DIR}/os/${ARCH}/
+        else
+            mv build/*.rpm ${DIR}/os/${ARCH}/
+        fi
     elif [[ "${OSTYPE}" =~ "darwin" ]]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
     elif [ "${OSTYPE}" = "msys" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
         mv build/*.exe ${DIR}/os/${ARCH}/
-    else
-        mv build/*.rpm ${DIR}/os/${ARCH}/
     fi
 else
     GV_VERSION=$( cat VERSION )
