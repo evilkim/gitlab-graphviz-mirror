@@ -107,9 +107,8 @@ static void glCompSetMouseUp(void *obj, GLfloat x, GLfloat y,
 			     glMouseButtonType t)
 {
 
-    static GLfloat tempX, tempY;
-    tempX = x;
-    tempY = ((glCompObj *) obj)->common.height - y;
+    GLfloat tempX = x;
+    GLfloat tempY = ((glCompObj *) obj)->common.height - y;
 
     ((glCompSet *) obj)->mouse.down = 0;
     if (t == glMouseLeftButton) {
