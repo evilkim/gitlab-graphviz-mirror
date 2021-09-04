@@ -94,7 +94,7 @@ static polygon_t p_plain = {.sides = 4};
 static polygon_t p_diamond = {.peripheries = 1, .sides = 4, .orientation = 45.0};
 static polygon_t p_trapezium = {.peripheries = 1, .sides = 4, .distortion = -0.4};
 static polygon_t p_parallelogram = {.peripheries = 1, .sides = 4, .skew = 0.6};
-static polygon_t p_house = { FALSE, 1, 5, 0., -.64, 0. };
+static polygon_t p_house = {.peripheries = 1, .sides = 5, .distortion = -0.64};
 static polygon_t p_pentagon = { FALSE, 1, 5, 0., 0., 0. };
 static polygon_t p_hexagon = { FALSE, 1, 6, 0., 0., 0. };
 static polygon_t p_septagon = { FALSE, 1, 7, 0., 0., 0. };
