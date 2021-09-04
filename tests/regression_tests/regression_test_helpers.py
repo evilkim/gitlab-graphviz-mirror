@@ -8,6 +8,9 @@ import difflib
 from pathlib import Path
 
 def compare_graphs(name, output_type):
+  """
+  Compare a given graph in the given output format against its reference.
+  """
   filename = Path(f"{name}.{output_type}")
   filename_reference = Path("reference") / filename
   filename_output = Path("output") / filename
