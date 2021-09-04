@@ -71,7 +71,6 @@ portable-source:
         expire_in: 1 week
         paths:
             - Packages/*/*/*/*/*/*deb
-            - Packages/*/*/*/*/*.gz
             - Metadata/*/*/*/configure.log
             - GRAPHVIZ_VERSION
             - COLLECTION
