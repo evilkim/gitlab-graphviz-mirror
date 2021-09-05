@@ -50,7 +50,10 @@ def compile_c(src: Path, cflags: List[str] = None, link: List[str] = None,
   try:
     subprocess.check_call(args)
   except subprocess.CalledProcessError:
-    dst.unlink(missing_ok=True)
+    try:
+      os.remove(dst)
+    except FileNotFoundError:
+      pass
     raise
 
   return dst
