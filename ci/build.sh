@@ -42,6 +42,9 @@ if [ "${build_system}" = "cmake" ]; then
     elif [ "${OSTYPE}" = "msys" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
         mv build/*.exe ${DIR}/os/${ARCH}/
+    else
+        echo "Error: OSTYPE=${OSTYPE} is unknown" >&2
+        exit 1
     fi
 else
     GV_VERSION=$( cat VERSION )
