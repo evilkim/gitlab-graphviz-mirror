@@ -85,8 +85,6 @@ libgv_guile_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-parameter
 # $(GUILE_data): gv_guile.cpp
 gv_guile.cpp: gv.i
 	$(SWIG) -c++ -guile -o $@ $(srcdir)/gv.i
-	$(SED) -e 's/SWIG_GUILE_INIT_STATIC void/void/' <$@ >t$$
-	mv -f t$$ $@
 
 pkgiodir = $(pkglibdir)/io
 IO_data = 
