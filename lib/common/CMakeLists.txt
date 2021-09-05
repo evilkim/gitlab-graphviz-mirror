@@ -22,12 +22,12 @@ configure_file(
 )
 add_custom_command(
     OUTPUT color_lib
-    DEPENDS svgcolor_lib brewer_lib ${CMAKE_CURRENT_SOURCE_DIR}/color_names
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/svgcolor_lib ${CMAKE_CURRENT_BINARY_DIR}/brewer_lib ${CMAKE_CURRENT_SOURCE_DIR}/color_names
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/generate_color_lib.cmake
 )
 add_custom_command(
     OUTPUT common/colortbl.h
-    DEPENDS color_lib
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/color_lib
     COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/common"
     COMMAND ${AWK_EXECUTABLE} -f ${TOP_SOURCE_DIR}/awk/colortbl.awk
             ${CMAKE_CURRENT_BINARY_DIR}/color_lib > ${CMAKE_CURRENT_BINARY_DIR}/common/colortbl.h
