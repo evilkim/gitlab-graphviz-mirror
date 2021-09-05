@@ -5,13 +5,13 @@ from pathlib import Path
 import platform
 import subprocess
 import tempfile
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 
 ROOT = Path(__file__).resolve().parent.parent
 """absolute path to the root of the repository"""
 
 def compile_c(src: Path, cflags: List[str] = None, link: List[str] = None,
-            dst: Optional[Path] = None) -> Path:
+            dst: Optional[Union[Path, str]] = None) -> Path:
   """compile a C program"""
 
   if cflags is None:
