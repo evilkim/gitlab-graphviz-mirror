@@ -66,7 +66,7 @@ pkg: dist
 
 # codespell is a python script:
 #      https://github.com/lucasdemarchi/codespell
-# install on Fedora26 with:
+# install with:
 #      pip install codespell
 .PHONY: spellcheck
 spellcheck:
