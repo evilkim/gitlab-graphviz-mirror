@@ -19,6 +19,7 @@ ARCH=$( uname -m )
 mkdir -p ${DIR}/os/${ARCH}
 mkdir -p ${DIR}/debug/${ARCH}
 mkdir -p ${DIR}/source
+build_system=${build_system:-autotools}
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     cd build
