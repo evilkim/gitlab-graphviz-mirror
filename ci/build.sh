@@ -23,7 +23,7 @@ build_system=${build_system:-autotools}
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     cd build
-    cmake ${CMAKE_OPTIONS} ..
+    cmake ${CMAKE_OPTIONS:-} ..
     cmake --build .
     cpack
     cd ..
