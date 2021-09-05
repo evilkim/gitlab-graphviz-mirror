@@ -2,6 +2,7 @@
 
 set -x
 set -e
+set -u
 set -o pipefail
 
 if [ -f /etc/os-release ]; then
