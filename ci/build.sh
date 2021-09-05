@@ -68,5 +68,8 @@ else
         make install
         tar cfz graphviz-${GV_VERSION}-${ARCH}.tar.gz --options gzip:compression-level=9 build
         mv graphviz-${GV_VERSION}-${ARCH}.tar.gz ${DIR}/os/${ARCH}/
+    else
+        echo "Error: OSTYPE=${OSTYPE} is unknown" >&2
+        exit 1
     fi
 fi
