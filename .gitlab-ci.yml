@@ -643,6 +643,8 @@ windows-mingw32-cmake-build:
         paths:
             - VERSION
             - COLLECTION
+            - Packages/*/*/*/*/*/*.exe
+            - Packages/*/*/*/*/*/*.zip
     tags:
         - windows
     except:
