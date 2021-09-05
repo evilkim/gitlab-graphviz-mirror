@@ -7,6 +7,10 @@ set -o pipefail
 if [ -f /etc/os-release ]; then
     cat /etc/os-release
     . /etc/os-release
+    if [ "${OSTYPE}" = "msys" ]; then
+        # MSYS2/MinGW doesn't have VERSION_ID in /etc/os-release
+        VERSION_ID=$( uname -r )
+    fi
 else
     ID=$( uname -s )
     VERSION_ID=$( uname -r )
