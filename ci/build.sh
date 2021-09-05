@@ -4,10 +4,7 @@ set -x
 set -e
 set -o pipefail
 
-if [ "$( uname -s )" = "Darwin" ]; then
-    ID=$( uname -s )
-    VERSION_ID=$( uname -r )
-else
+if [ -f /etc/os-release ]; then
     cat /etc/os-release
     . /etc/os-release
     if [ -z ${ID_LIKE:+x} ]; then
@@ -15,6 +12,9 @@ else
             ID_LIKE=${ID}
         fi
     fi
+else
+    ID=$( uname -s )
+    VERSION_ID=$( uname -r )
 fi
 COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
