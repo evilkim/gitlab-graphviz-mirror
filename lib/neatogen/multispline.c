@@ -88,6 +88,8 @@ static void *newItem(Dt_t * d, item * objp, Dtdisc_t * disc)
 
 static void freeItem(Dt_t * d, item * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 
