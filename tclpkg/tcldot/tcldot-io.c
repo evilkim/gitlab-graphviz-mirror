@@ -102,21 +102,3 @@ int myiodisc_memiofread(void *chan, char *buf, int bufsize)
     s->cur += l;
     return l;
 }
-
-#if 0
-Agraph_t *agread_usergets (ictx_t *ictx, FILE * fp, int (*usergets)(void *chan, char *buf, int bufsize))
-{
-    Agraph_t* g;
-    Agiodisc_t ioDisc;
-
-    ioDisc.afread = usergets;
-    ioDisc.putstr = AgIoDisc.putstr;
-    ioDisc.flush = AgIoDisc.flush;
-
-    ictx->mydisc.io = &ioDisc;
-    g = agread (fp, (Agdisc_t *)ictx);
-    ictx->mydisc.io = &AgIoDisc;   /* restore io */
-    return g;
-}
-
-#endif
