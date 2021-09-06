@@ -44,13 +44,13 @@ int myiodisc_afread(void* channel, char *ubuf, int n)
 	nput = Tcl_DStringLength(&dstr) - strpos;
 	if (nput > n) {
 	    /* chunk between first and last */
-	    memcpy(ubuf, (strpos + Tcl_DStringValue(&dstr)), n);
+	    memcpy(ubuf, strpos + Tcl_DStringValue(&dstr), n);
 	    strpos += n;
 	    nput = n;
 	    ubuf[n] = '\0';
 	} else {
 	    /* last chunk */
-	    memcpy(ubuf, (strpos + Tcl_DStringValue(&dstr)), nput);
+	    memcpy(ubuf, strpos + Tcl_DStringValue(&dstr), nput);
 	    strpos = 0;
 	}
     } else {
@@ -98,7 +98,7 @@ int myiodisc_memiofread(void *chan, char *buf, int bufsize)
     do {
         *optr++ = c = *ptr++;
         l++;
-    } while (c && (c != '\n') && (l < bufsize));
+    } while (c && c != '\n' && l < bufsize);
     s->cur += l;
     return l;
 }
