@@ -26,6 +26,7 @@ extern int in_poly(Ppoly_t argpoly, Ppoint_t q);
 
 static boolean spline_merge(node_t * n)
 {
+    (void)n;
     return FALSE;
 }
 
