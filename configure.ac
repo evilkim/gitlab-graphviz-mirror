@@ -413,8 +413,8 @@ AM_CONDITIONAL([DEBUG], [test $enable_debug = "yes"])
 if test "x$enable_debug" = "xyes"; then
   dnl add -O0 only if GCC or ICC is used
   if test "$GCC" = "yes" || test "$ICC" = "yes"; then
-    CFLAGS="$CFLAGS -g -O0 -Wall"
-    CXXFLAGS="$CXXFLAGS -g -O0 -Wall"
+    CFLAGS="$CFLAGS -g -O0"
+    CXXFLAGS="$CXXFLAGS -g -O0"
   fi
 fi
 
