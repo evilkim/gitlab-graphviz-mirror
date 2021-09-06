@@ -22,6 +22,7 @@ static boolean spline_merge(node_t * n)
 
 static boolean swap_ends_p(edge_t * e)
 {
+    (void)e;
     return FALSE;
 }
 
