@@ -17,11 +17,11 @@ BinaryHeap BinaryHeap_new(int (*cmp)(void*item1, void*item2)){
   h = MALLOC(sizeof(struct BinaryHeap_struct));
   h->max_len = max_len;
   h->len = 0;
-  h->heap = MALLOC(sizeof(h->heap[0]) * max_len);
-  h->id_to_pos = MALLOC(sizeof(h->id_to_pos[0]) * max_len);
+  h->heap = CALLOC(max_len, sizeof(h->heap[0]));
+  h->id_to_pos = CALLOC(max_len, sizeof(h->id_to_pos[0]));
   for (i = 0; i < max_len; i++) (h->id_to_pos)[i] = -1;
 
-  h->pos_to_id = MALLOC(sizeof(h->pos_to_id[0]) * max_len);
+  h->pos_to_id = CALLOC(max_len, sizeof(h->pos_to_id[0]));
   h->id_stack = IntStack_new();
   h->cmp = cmp;
   return h;
@@ -242,7 +242,7 @@ void BinaryHeap_sanity_check(BinaryHeap h){
     assert((h->cmp)(heap[i], heap[parentPos]) >= 0);
   }
 
-  mask = MALLOC(sizeof(mask[0]) * (h->len + IntStack_get_length(h->id_stack)));
+  mask = CALLOC(h->len + IntStack_get_length(h->id_stack), sizeof(mask[0]));
   for (i = 0; i < h->len + IntStack_get_length(h->id_stack); i++) mask[i] = -1;
 
   /* check that spare keys has negative id_to_pos mapping */
