@@ -16,6 +16,7 @@
 
 static boolean spline_merge(node_t * n)
 {
+    (void)n;
     return FALSE;
 }
 
