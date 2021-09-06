@@ -145,9 +145,8 @@ libgv_ocaml_la_LDFLAGS = -module -avoid-version
 libgv_ocaml_la_CPPFLAGS = \
 	$(BASECPPFLAGS) \
 	$(OCAML_INCLUDES) \
-	-Dint64=int64_t \
-	-fpermissive
-libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function \
+	-Dint64=int64_t
+libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -fpermissive -Wno-unused-function \
 	-Wno-unused-variable
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
