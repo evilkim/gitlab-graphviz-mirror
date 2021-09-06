@@ -17,11 +17,11 @@ BinaryHeap BinaryHeap_new(int (*cmp)(void*item1, void*item2)){
   h = MALLOC(sizeof(struct BinaryHeap_struct));
   h->max_len = max_len;
   h->len = 0;
-  h->heap = MALLOC(sizeof(void*)*max_len);
-  h->id_to_pos = MALLOC(sizeof(int)*max_len);
+  h->heap = MALLOC(sizeof(h->heap[0]) * max_len);
+  h->id_to_pos = MALLOC(sizeof(h->id_to_pos[0]) * max_len);
   for (i = 0; i < max_len; i++) (h->id_to_pos)[i] = -1;
 
-  h->pos_to_id = MALLOC(sizeof(int)*max_len);
+  h->pos_to_id = MALLOC(sizeof(h->pos_to_id[0]) * max_len);
   h->id_stack = IntStack_new();
   h->cmp = cmp;
   return h;
@@ -44,13 +44,13 @@ static BinaryHeap BinaryHeap_realloc(BinaryHeap h){
   max_len = max_len + MAX(max_len / 5, 10);
   h->max_len = max_len;
 
-  h->heap = REALLOC(h->heap, sizeof(void*)*max_len);
+  h->heap = REALLOC(h->heap, sizeof(h->heap[0]) * max_len);
   if (!(h->heap)) return NULL;
 
-  h->id_to_pos = REALLOC(h->id_to_pos, sizeof(int)*max_len);
+  h->id_to_pos = REALLOC(h->id_to_pos, sizeof(h->id_to_pos[0]) * max_len);
   if (!(h->id_to_pos)) return NULL;
 
-  h->pos_to_id = REALLOC(h->pos_to_id, sizeof(int)*max_len);
+  h->pos_to_id = REALLOC(h->pos_to_id, sizeof(h->pos_to_id[0]) * max_len);
   if (!(h->pos_to_id)) return NULL;
 
   for (i = max_len0; i < max_len; i++) (h->id_to_pos)[i] = -1;
@@ -242,7 +242,7 @@ void BinaryHeap_sanity_check(BinaryHeap h){
     assert((h->cmp)(heap[i], heap[parentPos]) >= 0);
   }
 
-  mask = MALLOC(sizeof(int)*(h->len + IntStack_get_length(h->id_stack)));
+  mask = MALLOC(sizeof(mask[0]) * (h->len + IntStack_get_length(h->id_stack)));
   for (i = 0; i < h->len + IntStack_get_length(h->id_stack); i++) mask[i] = -1;
 
   /* check that spare keys has negative id_to_pos mapping */
