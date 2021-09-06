@@ -34,7 +34,8 @@ static boolean swap_ends_p(edge_t * e)
     return FALSE;
 }
 
-static splineInfo sinfo = { swap_ends_p, spline_merge };
+static splineInfo sinfo = {.swapEnds = swap_ends_p,
+                           .splineMerge = spline_merge};
 
 static void
 make_barriers(Ppoly_t ** poly, int npoly, int pp, int qp,
