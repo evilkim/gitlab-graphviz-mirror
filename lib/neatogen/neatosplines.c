@@ -11,6 +11,7 @@
 
 #include "config.h"
 
+#include <cgraph/unreachable.h>
 #include <neatogen/neato.h>
 #include <neatogen/adjust.h>
 #include <pathplan/pathplan.h>
@@ -359,6 +360,8 @@ Ppoly_t *makeObstacle(node_t * n, expand_t* pmargin, boolean isOrtho)
 			    xmargin = margin.x;
 			    ymargin = -margin.y;
 			    break;
+			default:
+			    UNREACHABLE();
 			}
 			polyp.x = verts[j].x + xmargin;
 			polyp.y = verts[j].y + ymargin;
