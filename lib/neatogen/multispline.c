@@ -189,6 +189,8 @@ static void *newIpair(Dt_t * d, Ipair * objp, Dtdisc_t * disc)
 
 static void freeIpair(Dt_t * d, Ipair * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 
