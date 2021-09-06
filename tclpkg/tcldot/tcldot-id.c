@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <cgraph/unreachable.h>
 #include "tcldot.h"
 
 // Agiddisc functions
@@ -90,6 +90,7 @@ static void myiddisc_idregister(void *state, int objtype, void *obj) {
         case AGNODE: proc=nodecmd; break;
         case AGINEDGE:
         case AGOUTEDGE: proc=edgecmd; break;
+        default: UNREACHABLE();
     }
 #ifndef TCLOBJ
     Tcl_CreateCommand(interp, obj2cmd(obj), proc, (ClientData) gctx, (Tcl_CmdDeleteProc *) NULL);
