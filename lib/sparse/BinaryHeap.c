@@ -41,7 +41,7 @@ void BinaryHeap_delete(BinaryHeap h, void (*del)(void* item)){
 
 static BinaryHeap BinaryHeap_realloc(BinaryHeap h){
   int max_len0 = h->max_len, max_len = h->max_len, i;
-  max_len = max_len + MAX(0.2*max_len, 10);
+  max_len = max_len + MAX(max_len / 5, 10);
   h->max_len = max_len;
 
   h->heap = REALLOC(h->heap, sizeof(void*)*max_len);
