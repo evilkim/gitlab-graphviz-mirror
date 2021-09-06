@@ -126,6 +126,8 @@ static void *newitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 
 static void freeitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 
