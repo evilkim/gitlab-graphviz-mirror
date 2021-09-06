@@ -22,6 +22,8 @@ static void *myiddisc_open(Agraph_t *g, Agdisc_t *disc) {
     return (void *)gctx;
 }
 static long myiddisc_map(void *state, int objtype, char *str, uint64_t *id, int createflag) {
+    (void)objtype;
+
     gctx_t *gctx = (gctx_t *)state;
     ictx_t *ictx = gctx->ictx;
     char *s;
