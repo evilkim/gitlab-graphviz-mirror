@@ -88,6 +88,8 @@ static void deleteNodeEdges(gctx_t *gctx, Agraph_t *g, Agnode_t *n)
 }
 void deleteNode(gctx_t * gctx, Agraph_t *g, Agnode_t *n)
 {
+    (void)g;
+
     char *hndl;
 
     deleteNodeEdges(gctx, gctx->g, n); /* delete all edges to/from node in root graph */
