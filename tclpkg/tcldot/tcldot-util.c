@@ -67,6 +67,8 @@ char *obj2cmd (void *obj) {
 
 void deleteEdge(gctx_t *gctx, Agraph_t * g, Agedge_t *e)
 {
+    (void)g;
+
     char *hndl;
 
     hndl = obj2cmd(e);
