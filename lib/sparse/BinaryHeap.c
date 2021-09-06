@@ -246,8 +246,6 @@ void BinaryHeap_sanity_check(BinaryHeap h){
 
   mask = CALLOC(h->len + (size_t)IntStack_get_length(h->id_stack),
                 sizeof(mask[0]));
-  for (size_t i = 0; i < h->len + (size_t)IntStack_get_length(h->id_stack); i++)
-    mask[i] = -1;
 
   /* check that spare keys has negative id_to_pos mapping */
   for (int i = 0; i <= h->id_stack->last; i++){
@@ -261,14 +259,14 @@ void BinaryHeap_sanity_check(BinaryHeap h){
      id_to_pos[pos_to_id[i]] = i, 0 <= i < len
   */
   for (size_t i = 1; i < h->len; i++){
-    assert(mask[pos_to_id[i]] == -1);/* that id is in use so can't be spare */
+    assert(mask[pos_to_id[i]] == 0);/* that id is in use so can't be spare */
     mask[pos_to_id[i]] = 1;
     assert(id_to_pos[pos_to_id[i]] == i);
   }
 
   /* all IDs, spare or in use, are accounted for and give a contiguous set */
   for (size_t i = 0; i < h->len + (size_t)IntStack_get_length(h->id_stack); i++)
-    assert(mask[i] != -1);
+    assert(mask[i] != 0);
 
   FREE(mask);
 }
