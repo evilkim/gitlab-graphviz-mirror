@@ -77,6 +77,7 @@ static void *newItem(Dt_t * d, item * objp, Dtdisc_t * disc)
 {
     item *newp = NEW(item);
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp->a[0] = objp->a[0];
     newp->a[1] = objp->a[1];
