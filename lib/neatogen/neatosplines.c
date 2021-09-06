@@ -134,8 +134,6 @@ static void freeitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 static int
 cmpitems(Dt_t * d, edgeinfo * key1, edgeinfo * key2, Dtdisc_t * disc)
 {
-    int x;
-
     if (key1->n1 > key2->n1)
 	return 1;
     if (key1->n1 < key2->n1)
@@ -145,13 +143,23 @@ cmpitems(Dt_t * d, edgeinfo * key1, edgeinfo * key2, Dtdisc_t * disc)
     if (key1->n2 < key2->n2)
 	return -1;
 
-    if ((x = key1->p1.x - key2->p1.x))
-	return x;
-    if ((x = key1->p1.y - key2->p1.y))
-	return x;
-    if ((x = key1->p2.x - key2->p2.x))
-	return x;
-    return (key1->p2.y - key2->p2.y);
+    if (key1->p1.x > key2->p1.x)
+	return 1;
+    if (key1->p1.x < key2->p1.x)
+	return -1;
+    if (key1->p1.y > key2->p1.y)
+	return 1;
+    if (key1->p1.y < key2->p1.y)
+	return -1;
+    if (key1->p2.x > key2->p2.x)
+	return 1;
+    if (key1->p2.x < key2->p2.x)
+	return -1;
+    if (key1->p2.y > key2->p2.y)
+	return 1;
+    if (key1->p2.y < key2->p2.y)
+	return -1;
+    return 0;
 }
 
 Dtdisc_t edgeItemDisc = {
