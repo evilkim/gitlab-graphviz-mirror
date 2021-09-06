@@ -11,6 +11,7 @@
 
 #include "tcldot.h"
 #include <cgraph/strcasecmp.h>
+#include <cgraph/unreachable.h>
 
 size_t Tcldot_string_writer(GVJ_t *job, const char *s, size_t len)
 {
@@ -58,6 +59,7 @@ char *obj2cmd (void *obj) {
         case AGNODE:    snprintf(buf, sizeof(buf), "node%p",  obj); break;
         case AGINEDGE: 
         case AGOUTEDGE: snprintf(buf, sizeof(buf), "edge%p",  obj); break;
+        default:        UNREACHABLE();
     }
     return buf;
 }
