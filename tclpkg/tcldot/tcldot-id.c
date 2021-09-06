@@ -49,6 +49,8 @@ static long myiddisc_alloc(void *state, int objtype, uint64_t request_id) {
     return FALSE;
 }
 static void myiddisc_free(void *state, int objtype, uint64_t id) {
+    (void)objtype;
+
     gctx_t *gctx = (gctx_t *)state;
 
 /* FIXME no obj* available
