@@ -179,6 +179,7 @@ static void *newIpair(Dt_t * d, Ipair * objp, Dtdisc_t * disc)
 {
     Ipair *newp = NEW(Ipair);
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp->i = objp->i;
     newp->j = objp->j;
