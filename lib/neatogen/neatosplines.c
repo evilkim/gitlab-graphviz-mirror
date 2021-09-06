@@ -114,6 +114,7 @@ static void *newitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 {
     edgeitem *newp;
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp = NEW(edgeitem);
     newp->id = obj->id;
