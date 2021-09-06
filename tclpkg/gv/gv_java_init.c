@@ -43,6 +43,8 @@ void gv_string_writer_init(GVC_t *gvc)
 
 static size_t gv_channel_writer(GVJ_t *job, const char *s, size_t len)
 {
+    (void)job;
+    (void)s;
     return len;
 }
 
