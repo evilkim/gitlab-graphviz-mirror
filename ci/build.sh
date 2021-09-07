@@ -14,7 +14,8 @@ if [ -f /etc/os-release ]; then
     fi
 else
     ID=$( uname -s )
-    VERSION_ID=$( uname -r )
+    # remove trailing text after actual version
+    VERSION_ID=$( uname -r | sed "s/\([0-9\.]*\).*/\1/")
 fi
 COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
