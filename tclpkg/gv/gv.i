@@ -112,7 +112,6 @@ extern char *getv(Agedge_t *e, Agsym_t *a);
 /** Obtain names from handles */
 extern char *nameof(Agraph_t *g);
 extern char *nameof(Agnode_t *n);
-//extern char *nameof(Agedge_t *e);
 extern char *nameof(Agsym_t *a);
 
 /** Find handles from names */
