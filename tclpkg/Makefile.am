@@ -27,6 +27,7 @@ pkgIndex.tcl: @TCL_PKGINDEX@ @TCL_PKGINDEX_GD@ @TCL_PKGINDEX_SWIG@
 	cat @TCL_PKGINDEX@ @TCL_PKGINDEX_GD@ @TCL_PKGINDEX_SWIG@ end >$@
 	rm -f end
 
+if ENABLE_SHARED
 # Installation of softlinks into non-owned directories is done as a
 # separate step, with soft failures, so that a developer can do:
 #    ./configure --prefix=$HOME/graphviz; make; make install
@@ -112,6 +113,7 @@ if WITH_TCL
 		echo "Warning: @TCL_INSTALL_DIR@ is not writable."; \
 		echo "Skipping system installation of tcl bindings."; \
 	fi
+endif
 endif
 
 # removal of installs into @xxx_INSTALL_DIR@ fail if root

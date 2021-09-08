@@ -71,7 +71,6 @@ portable-source:
         expire_in: 1 week
         paths:
             - Packages/*/*/*/*/*/*deb
-            - Packages/*/*/*/*/*.gz
             - Metadata/*/*/*/configure.log
             - GRAPHVIZ_VERSION
             - COLLECTION
@@ -385,6 +384,32 @@ ubuntu21-04-build:
           artifacts: false
         - job: portable-source
           artifacts: true
+    tags:
+        - linux
+    variables:
+      IMAGE: ubuntu-21.04
+
+ubuntu21-04-static-build:
+    <<: *deb_build_definition
+    before_script:
+        - export CONFIGURE_OPTIONS="--disable-shared --enable-static"
+        - echo experimental > COLLECTION
+    needs:
+        - job: docker_build_ubuntu-21.04
+          artifacts: false
+        - job: portable-source
+          artifacts: true
+    artifacts:
+        when: on_success
+        expire_in: 1 week
+        paths:
+            - Packages/*/*/*/*/*/*deb
+            - Packages/*/*/*/*/*/*.xz
+            - Metadata/*/*/*/configure.log
+            - GRAPHVIZ_VERSION
+            - COLLECTION
+        reports:
+            metrics: metrics.txt
     tags:
         - linux
     variables:
