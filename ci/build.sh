@@ -48,7 +48,7 @@ if [ "${build_system}" = "cmake" ]; then
         exit 1
     fi
 else
-    GV_VERSION=$( cat VERSION )
+    GV_VERSION=$( cat GRAPHVIZ_VERSION )
     if [ "$OSTYPE" = "linux-gnu" ]; then
         if [ "${ID_LIKE:-}" = "debian" ]; then
             tar xfz graphviz-${GV_VERSION}.tar.gz

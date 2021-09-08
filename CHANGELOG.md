@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 2.48.0: test suite is failing #2112
 - Ensure correct file-level dependency for generated file in cmake generated
   projects #2119
+- compile failures with a C++20-compatible toolchain #2122
 
 ## [2.49.0] – 2021-08-28
 

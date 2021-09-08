@@ -11,7 +11,7 @@ set -o pipefail
 uname -rms
 cat /etc/os-release
 
-GV_VERSION=$(cat VERSION)
+GV_VERSION=$(cat GRAPHVIZ_VERSION)
 
 # unpack the portable source tarball
 tar xfz graphviz-${GV_VERSION}.tar.gz
