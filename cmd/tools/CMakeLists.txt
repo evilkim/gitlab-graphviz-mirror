@@ -123,7 +123,11 @@ tool_defaults(gml2gv)
 
 # Aliases to the gml2gv executable (not including '.exe' suffix)
 list(APPEND gml2gv_aliases gv2gml)
-if(WIN32)
+
+# We use copying instead of symlinking for Cygwin to avoid
+# https://gitlab.com/graphviz/graphviz/-/issues/2123
+
+if(WIN32 OR CYGWIN)
     # Copy gml2gv executable to each alias name then install copies to bindir
     foreach(cmd_alias IN LISTS gml2gv_aliases)
         set(gml2gvcopy "${CMAKE_CURRENT_BINARY_DIR}/${cmd_alias}${CMAKE_EXECUTABLE_SUFFIX}")

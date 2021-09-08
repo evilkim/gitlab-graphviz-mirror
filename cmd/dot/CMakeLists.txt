@@ -31,7 +31,11 @@ install(
 
 # Aliases to the dot executable (not including '.exe' suffix)
 list(APPEND dot_aliases circo fdp neato osage patchwork sfdp twopi)
-if(WIN32)
+
+# We use copying instead of symlinking for Cygwin to avoid
+# https://gitlab.com/graphviz/graphviz/-/issues/2123
+
+if(WIN32 OR CYGWIN)
     # Copy dot executable to each alias name then install copies to bindir
     foreach(cmd_alias IN LISTS dot_aliases)
         set(dotcopy "${CMAKE_CURRENT_BINARY_DIR}/${cmd_alias}${CMAKE_EXECUTABLE_SUFFIX}")

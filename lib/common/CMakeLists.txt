@@ -6,7 +6,7 @@ add_definitions(-DGVC_EXPORTS -D_BLD_gvc=1)
 add_custom_command(
     OUTPUT svgcolor_lib
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/svgcolor_names ${TOP_SOURCE_DIR}/awk/svgcolor.awk
-    COMMAND ${AWK_EXECUTABLE} -f ${TOP_SOURCE_DIR}/awk/svgcolor.awk
+    COMMAND ${AWK_EXECUTABLE} -v RS="\\r*\\n" -f ${TOP_SOURCE_DIR}/awk/svgcolor.awk
             ${CMAKE_CURRENT_SOURCE_DIR}/svgcolor_names > ${CMAKE_CURRENT_BINARY_DIR}/svgcolor_lib
 )
 add_custom_command(

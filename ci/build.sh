@@ -14,7 +14,8 @@ if [ -f /etc/os-release ]; then
     fi
 else
     ID=$( uname -s )
-    VERSION_ID=$( uname -r )
+    # remove trailing text after actual version
+    VERSION_ID=$( uname -r | sed "s/\([0-9\.]*\).*/\1/")
 fi
 COLLECTION=$( cat COLLECTION )
 META_DATA_DIR=Metadata/${COLLECTION}/${ID}/${VERSION_ID}
@@ -43,6 +44,9 @@ if [ "${build_system}" = "cmake" ]; then
     elif [ "${OSTYPE}" = "msys" ]; then
         mv build/*.zip ${DIR}/os/${ARCH}/
         mv build/*.exe ${DIR}/os/${ARCH}/
+    elif [[ "${OSTYPE}" =~ "cygwin" ]]; then
+        mv build/*.zip ${DIR}/os/${ARCH}/
+        mv build/*.tar.bz2 ${DIR}/os/${ARCH}/
     else
         echo "Error: OSTYPE=${OSTYPE} is unknown" >&2
         exit 1

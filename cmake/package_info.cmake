@@ -11,7 +11,10 @@ set(CPACK_RESOURCE_FILE_README          "${TOP_SOURCE_DIR}/README.md"   )
 
 set(CPACK_GENERATOR ZIP)
 
-if (UNIX)
+if(CYGWIN)
+    LIST(APPEND CPACK_GENERATOR CygwinBinary)
+    SET(CPACK_CYGWIN_PATCH_NUMBER 1)
+elseif (UNIX)
     if (NOT APPLE)
         if (EXISTS "/etc/os-release")
             file(READ "/etc/os-release" OS_RELEASE)
