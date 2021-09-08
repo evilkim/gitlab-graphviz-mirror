@@ -101,8 +101,8 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
   # parse command line arguments
   parser = argparse.ArgumentParser(description="Graphviz deployment script")
   parser.add_argument("--version", help="Override version number used to "
-    "create a release. Without this, the contents of the VERSION file will be "
-    "used.")
+    "create a release. Without this, the contents of the GRAPHVIZ_VERSION file "
+    "will be used.")
   parser.add_argument("--force", action="store_true", help="Force creating a "
     "Gitlab release, even if the version number does not match \\d+.\\d+.\\d+.")
   parser.add_argument("--verbose", action="store_true", help="Print more "
@@ -131,12 +131,13 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
     return -1
 
   # retrieve version name left by prior CI tasks
-  log.info("reading VERSION")
-  with open("VERSION") as f:
+  log.info("reading GRAPHVIZ_VERSION")
+  with open("GRAPHVIZ_VERSION") as f:
     gv_version = f.read().strip()
-  log.info(f"VERSION == {gv_version}")
+  log.info(f"GRAPHVIZ_VERSION == {gv_version}")
 
-  # if we were not passed an explicit version, use the one from the VERSION file
+  # if we were not passed an explicit version, use the one from the
+  # GRAPHVIZ_VERSION file
   if options.version is None:
     options.version = gv_version
 
