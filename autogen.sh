@@ -1,9 +1,5 @@
 #! /bin/sh
 
-if ! GRAPHVIZ_VERSION=$( python3 gen_version.py ) ; then
-    echo "Error: Failed to set version" >&2
-    exit 1
-fi
 GRAPHVIZ_VERSION_MAJOR=$( python3 gen_version.py --major )
 GRAPHVIZ_VERSION_MINOR=$( python3 gen_version.py --minor )
 GRAPHVIZ_VERSION_PATCH=$( python3 gen_version.py --patch )
