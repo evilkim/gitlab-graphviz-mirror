@@ -35,6 +35,7 @@
 #define clear_flag(a, flag) ((a) &=(~(flag)))
 
 #ifdef STANDALONE
+#define CALLOC calloc
 #define MALLOC malloc
 #define REALLOC realloc
 
@@ -61,6 +62,7 @@ typedef unsigned int boolean;
 extern unsigned char Verbose;
 
 #else  /* STANDALONE */
+#define CALLOC gcalloc
 #define MALLOC gmalloc
 #define REALLOC grealloc
 #endif    /* STANDALONE */
