@@ -165,7 +165,8 @@ static boolean swap_ends_p(edge_t * e)
     return TRUE;
 }
 
-static splineInfo sinfo = { swap_ends_p, spline_merge };
+static splineInfo sinfo = {.swapEnds = swap_ends_p,
+                           .splineMerge = spline_merge};
 
 int portcmp(port p0, port p1)
 {

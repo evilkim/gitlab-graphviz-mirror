@@ -11,6 +11,7 @@
 
 #include "config.h"
 
+#include <cgraph/unreachable.h>
 #include <neatogen/neato.h>
 #include <neatogen/adjust.h>
 #include <pathplan/pathplan.h>
@@ -26,15 +27,18 @@ extern int in_poly(Ppoly_t argpoly, Ppoint_t q);
 
 static boolean spline_merge(node_t * n)
 {
+    (void)n;
     return FALSE;
 }
 
 static boolean swap_ends_p(edge_t * e)
 {
+    (void)e;
     return FALSE;
 }
 
-static splineInfo sinfo = { swap_ends_p, spline_merge };
+static splineInfo sinfo = {.swapEnds = swap_ends_p,
+                           .splineMerge = spline_merge};
 
 static void
 make_barriers(Ppoly_t ** poly, int npoly, int pp, int qp,
@@ -111,6 +115,7 @@ static void *newitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 {
     edgeitem *newp;
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp = NEW(edgeitem);
     newp->id = obj->id;
@@ -122,13 +127,16 @@ static void *newitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 
 static void freeitem(Dt_t * d, edgeitem * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 
 static int
 cmpitems(Dt_t * d, edgeinfo * key1, edgeinfo * key2, Dtdisc_t * disc)
 {
-    int x;
+    NOTUSED(d);
+    NOTUSED(disc);
 
     if (key1->n1 > key2->n1)
 	return 1;
@@ -139,13 +147,23 @@ cmpitems(Dt_t * d, edgeinfo * key1, edgeinfo * key2, Dtdisc_t * disc)
     if (key1->n2 < key2->n2)
 	return -1;
 
-    if ((x = key1->p1.x - key2->p1.x))
-	return x;
-    if ((x = key1->p1.y - key2->p1.y))
-	return x;
-    if ((x = key1->p2.x - key2->p2.x))
-	return x;
-    return (key1->p2.y - key2->p2.y);
+    if (key1->p1.x > key2->p1.x)
+	return 1;
+    if (key1->p1.x < key2->p1.x)
+	return -1;
+    if (key1->p1.y > key2->p1.y)
+	return 1;
+    if (key1->p1.y < key2->p1.y)
+	return -1;
+    if (key1->p2.x > key2->p2.x)
+	return 1;
+    if (key1->p2.x < key2->p2.x)
+	return -1;
+    if (key1->p2.y > key2->p2.y)
+	return 1;
+    if (key1->p2.y < key2->p2.y)
+	return -1;
+    return 0;
 }
 
 Dtdisc_t edgeItemDisc = {
@@ -342,6 +360,8 @@ Ppoly_t *makeObstacle(node_t * n, expand_t* pmargin, boolean isOrtho)
 			    xmargin = margin.x;
 			    ymargin = -margin.y;
 			    break;
+			default:
+			    UNREACHABLE();
 			}
 			polyp.x = verts[j].x + xmargin;
 			polyp.y = verts[j].y + ymargin;

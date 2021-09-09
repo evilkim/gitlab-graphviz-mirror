@@ -16,15 +16,18 @@
 
 static boolean spline_merge(node_t * n)
 {
+    (void)n;
     return FALSE;
 }
 
 static boolean swap_ends_p(edge_t * e)
 {
+    (void)e;
     return FALSE;
 }
 
-static splineInfo sinfo = { swap_ends_p, spline_merge };
+static splineInfo sinfo = {.swapEnds = swap_ends_p,
+                           .splineMerge = spline_merge};
 
 typedef struct {
     int i, j;
@@ -74,6 +77,7 @@ static void *newItem(Dt_t * d, item * objp, Dtdisc_t * disc)
 {
     item *newp = NEW(item);
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp->a[0] = objp->a[0];
     newp->a[1] = objp->a[1];
@@ -84,6 +88,8 @@ static void *newItem(Dt_t * d, item * objp, Dtdisc_t * disc)
 
 static void freeItem(Dt_t * d, item * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 
@@ -173,6 +179,7 @@ static void *newIpair(Dt_t * d, Ipair * objp, Dtdisc_t * disc)
 {
     Ipair *newp = NEW(Ipair);
 
+    NOTUSED(d);
     NOTUSED(disc);
     newp->i = objp->i;
     newp->j = objp->j;
@@ -182,6 +189,8 @@ static void *newIpair(Dt_t * d, Ipair * objp, Dtdisc_t * disc)
 
 static void freeIpair(Dt_t * d, Ipair * obj, Dtdisc_t * disc)
 {
+    NOTUSED(d);
+    NOTUSED(disc);
     free(obj);
 }
 

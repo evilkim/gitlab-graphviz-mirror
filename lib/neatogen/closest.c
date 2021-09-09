@@ -174,7 +174,7 @@ find_closest_pairs(double *place, int n, int num_pairs,
     PairHeap heap;
     int *left = N_GNEW(n, int);
     int *right = N_GNEW(n, int);
-    Pair pair = { 0, 0 }, new_pair;
+    Pair pair = {0}, new_pair;
 
     /* Order the nodes according to their place */
     int *ordering = N_GNEW(n, int);
