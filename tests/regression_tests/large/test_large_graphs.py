@@ -1,3 +1,7 @@
+"""
+Tests of large and/or expensive graphs.
+"""
+
 import os
 import platform
 import subprocess

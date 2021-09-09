@@ -1141,7 +1141,7 @@ lint_pylint:
     - echo "$CI_JOB_NAME-warnings `egrep -c '\<[CRWEF][[:digit:]]{4}\>' $logfile`" > metrics.txt
     - rm $logfile
     - cat metrics.txt
-    - python3 -m pylint --errors-only --rcfile=.pylintrc `find . -name '*.py' | xargs`
+    - python3 -m pylint --rcfile=.pylintrc --disable=fixme `find . -name '*.py' | xargs`
   artifacts:
     when: on_success
     expire_in: 1 week

@@ -1,3 +1,7 @@
+"""
+Tests of Graphviz output against expected reference output.
+"""
+
 import difflib
 from pathlib import Path
 import subprocess

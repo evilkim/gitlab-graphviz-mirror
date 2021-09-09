@@ -147,7 +147,8 @@ disable=print-statement,
         invalid-name,
         too-many-locals,
         global-statement,
-        too-many-lines
+        too-many-lines,
+        duplicate-code
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

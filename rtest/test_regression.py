@@ -552,7 +552,7 @@ def test_1767():
   dot = (Path(__file__).parent / "1767.dot").resolve()
   assert dot.exists(), "missing test case"
 
-  ret, stdout, _ = run_c(c_src, [dot], link=["cgraph", "gvc"])
+  ret, _, _ = run_c(c_src, [dot], link=["cgraph", "gvc"])
   assert ret == 0
 
   # FIXME: uncomment this when #1767 is fixed
