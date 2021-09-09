@@ -49,6 +49,7 @@ libgv_go_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_go_la_LIBADD = $(BASELIBS) $(GO_LIBS)
 libgv_go_la_LDFLAGS = -module -avoid-version
 libgv_go_la_CPPFLAGS = $(BASECPPFLAGS) $(GO_INCLUDES)
+libgv_go_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function
 gv_gc.c gv.go: gv_go.cpp
 gv_go.cpp: gv.i
 	$(SWIG) -c++ -go -intgosize $(INTGOSIZE) -o $@ $(srcdir)/gv.i
@@ -144,9 +145,8 @@ libgv_ocaml_la_LDFLAGS = -module -avoid-version
 libgv_ocaml_la_CPPFLAGS = \
 	$(BASECPPFLAGS) \
 	$(OCAML_INCLUDES) \
-	-Dint64=int64_t \
-	-fpermissive
-libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unused-function \
+	-Dint64=int64_t
+libgv_ocaml_la_CXXFLAGS = $(AM_CXXFLAGS) -fpermissive -Wno-unused-function \
 	-Wno-unused-variable
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
