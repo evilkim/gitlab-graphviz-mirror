@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <cgraph/unreachable.h>
 #include "tcldot.h"
 
 // Agiddisc functions
@@ -22,7 +22,9 @@ static void *myiddisc_open(Agraph_t *g, Agdisc_t *disc) {
     return (void *)gctx;
 }
 static long myiddisc_map(void *state, int objtype, char *str, uint64_t *id, int createflag) {
-    gctx_t *gctx = (gctx_t *)state;
+    (void)objtype;
+
+    gctx_t *gctx = state;
     ictx_t *ictx = gctx->ictx;
     char *s;
 
@@ -47,7 +49,9 @@ static long myiddisc_alloc(void *state, int objtype, uint64_t request_id) {
     return FALSE;
 }
 static void myiddisc_free(void *state, int objtype, uint64_t id) {
-    gctx_t *gctx = (gctx_t *)state;
+    (void)objtype;
+
+    gctx_t *gctx = state;
 
 /* FIXME no obj* available
     ictx_t *ictx = gctx->ictx;
@@ -76,7 +80,7 @@ static void myiddisc_close(void *state) {
     free(state);
 }
 static void myiddisc_idregister(void *state, int objtype, void *obj) {
-    gctx_t *gctx = (gctx_t *)state;
+    gctx_t *gctx = state;
     ictx_t *ictx = gctx->ictx;
     Tcl_Interp *interp = ictx->interp;
     Tcl_CmdProc *proc = NULL;
@@ -86,6 +90,7 @@ static void myiddisc_idregister(void *state, int objtype, void *obj) {
         case AGNODE: proc=nodecmd; break;
         case AGINEDGE:
         case AGOUTEDGE: proc=edgecmd; break;
+        default: UNREACHABLE();
     }
 #ifndef TCLOBJ
     Tcl_CreateCommand(interp, obj2cmd(obj), proc, (ClientData) gctx, (Tcl_CmdDeleteProc *) NULL);

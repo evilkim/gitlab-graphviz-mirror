@@ -44,13 +44,13 @@ int myiodisc_afread(void* channel, char *ubuf, int n)
 	nput = Tcl_DStringLength(&dstr) - strpos;
 	if (nput > n) {
 	    /* chunk between first and last */
-	    memcpy(ubuf, (strpos + Tcl_DStringValue(&dstr)), n);
+	    memcpy(ubuf, strpos + Tcl_DStringValue(&dstr), n);
 	    strpos += n;
 	    nput = n;
 	    ubuf[n] = '\0';
 	} else {
 	    /* last chunk */
-	    memcpy(ubuf, (strpos + Tcl_DStringValue(&dstr)), nput);
+	    memcpy(ubuf, strpos + Tcl_DStringValue(&dstr), nput);
 	    strpos = 0;
 	}
     } else {
@@ -89,7 +89,7 @@ int myiodisc_memiofread(void *chan, char *buf, int bufsize)
     rdr_t *s;
 
     if (bufsize == 0) return 0;
-    s = (rdr_t *) chan;
+    s = chan;
     if (s->cur >= s->len)
         return 0;
     l = 0;
@@ -98,25 +98,7 @@ int myiodisc_memiofread(void *chan, char *buf, int bufsize)
     do {
         *optr++ = c = *ptr++;
         l++;
-    } while (c && (c != '\n') && (l < bufsize));
+    } while (c && c != '\n' && l < bufsize);
     s->cur += l;
     return l;
 }
-
-#if 0
-Agraph_t *agread_usergets (ictx_t *ictx, FILE * fp, int (*usergets)(void *chan, char *buf, int bufsize))
-{
-    Agraph_t* g;
-    Agiodisc_t ioDisc;
-
-    ioDisc.afread = usergets;
-    ioDisc.putstr = AgIoDisc.putstr;
-    ioDisc.flush = AgIoDisc.flush;
-
-    ictx->mydisc.io = &ioDisc;
-    g = agread (fp, (Agdisc_t *)ictx);
-    ictx->mydisc.io = &AgIoDisc;   /* restore io */
-    return g;
-}
-
-#endif

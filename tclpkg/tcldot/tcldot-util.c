@@ -11,10 +11,11 @@
 
 #include "tcldot.h"
 #include <cgraph/strcasecmp.h>
+#include <cgraph/unreachable.h>
 
 size_t Tcldot_string_writer(GVJ_t *job, const char *s, size_t len)
 {
-    Tcl_AppendResult((Tcl_Interp*)(job->context), s, NULL);
+    Tcl_AppendResult(job->context, s, NULL);
     return len;
 }
 
@@ -58,6 +59,7 @@ char *obj2cmd (void *obj) {
         case AGNODE:    snprintf(buf, sizeof(buf), "node%p",  obj); break;
         case AGINEDGE: 
         case AGOUTEDGE: snprintf(buf, sizeof(buf), "edge%p",  obj); break;
+        default:        UNREACHABLE();
     }
     return buf;
 }
@@ -65,6 +67,8 @@ char *obj2cmd (void *obj) {
 
 void deleteEdge(gctx_t *gctx, Agraph_t * g, Agedge_t *e)
 {
+    (void)g;
+
     char *hndl;
 
     hndl = obj2cmd(e);
@@ -84,6 +88,8 @@ static void deleteNodeEdges(gctx_t *gctx, Agraph_t *g, Agnode_t *n)
 }
 void deleteNode(gctx_t * gctx, Agraph_t *g, Agnode_t *n)
 {
+    (void)g;
+
     char *hndl;
 
     deleteNodeEdges(gctx, gctx->g, n); /* delete all edges to/from node in root graph */
@@ -124,11 +130,10 @@ void deleteGraph(gctx_t * gctx, Agraph_t *g)
 
 static void myagxset(void *obj, Agsym_t *a, char *val)
 {
-    int len;
     char *hs;
 
     if (strcmp(a->name, "label") == 0 && val[0] == '<') {
-        len = strlen(val);
+        size_t len = strlen(val);
         if (val[len-1] == '>') {
             hs = strdup(val+1);
                 *(hs+len-2) = '\0';
