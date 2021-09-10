@@ -327,8 +327,7 @@ static int countOverlap(int iter)
     for (i = 0; i < nsites - 1; i++) {
 	jp = ip + 1;
 	for (j = i + 1; j < nsites; j++) {
-	    if (polyOverlap
-		(ip->site.coord, &ip->poly, jp->site.coord, &jp->poly)) {
+	    if (polyOverlap(ip->site.coord, &ip->poly, jp->site.coord, &jp->poly)) {
 		count++;
 		ip->overlaps = 1;
 		jp->overlaps = 1;
