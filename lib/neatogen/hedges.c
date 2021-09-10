@@ -72,7 +72,7 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
     xint = (e1->c * e2->b - e2->c * e1->b) / d;
     yint = (e2->c * e1->a - e1->c * e2->a) / d;
 
-    if ((e1->reg[1]->coord.y < e2->reg[1]->coord.y) ||
+    if (e1->reg[1]->coord.y < e2->reg[1]->coord.y ||
 	(e1->reg[1]->coord.y == e2->reg[1]->coord.y &&
 	 e1->reg[1]->coord.x < e2->reg[1]->coord.x)) {
 	el = el1;
@@ -90,7 +90,7 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
     v->refcnt = 0;
     v->coord.x = xint;
     v->coord.y = yint;
-    return (v);
+    return v;
 }
 
 /* returns 1 if p is to right of halfedge e */
@@ -105,9 +105,9 @@ int right_of(Halfedge * el, Point * p)
     topsite = e->reg[1];
     right_of_site = p->x > topsite->coord.x;
     if (right_of_site && el->ELpm == le)
-	return (1);
+	return 1;
     if (!right_of_site && el->ELpm == re)
-	return (0);
+	return 0;
 
     if (e->a == 1.0) {
 	dyp = p->y - topsite->coord.y;
@@ -138,7 +138,7 @@ int right_of(Halfedge * el, Point * p)
 	t3 = yl - topsite->coord.y;
 	above = t1 * t1 > t2 * t2 + t3 * t3;
     };
-    return (el->ELpm == le ? above : !above);
+    return el->ELpm == le ? above : !above;
 }
 
 Halfedge *HEcreate(Edge * e, char pm)
@@ -150,7 +150,7 @@ Halfedge *HEcreate(Edge * e, char pm)
     answer->PQnext = NULL;
     answer->vertex = NULL;
     answer->ELrefcnt = 0;
-    return (answer);
+    return answer;
 }
 
 
@@ -171,7 +171,7 @@ static Halfedge *ELgethash(int b)
 	return NULL;
     he = ELhash[b];
     if (he == NULL || he->ELedge != (Edge *) DELETED)
-	return (he);
+	return he;
 
 /* Hash table points to deleted half edge.  Patch as necessary. */
     ELhash[b] = NULL;
@@ -220,7 +220,7 @@ Halfedge *ELleftbnd(Point * p)
 	ELhash[bucket] = he;
 	ELhash[bucket]->ELrefcnt += 1;
     };
-    return (he);
+    return he;
 }
 
 
@@ -236,12 +236,12 @@ void ELdelete(Halfedge * he)
 
 Halfedge *ELright(Halfedge * he)
 {
-    return (he->ELright);
+    return he->ELright;
 }
 
 Halfedge *ELleft(Halfedge * he)
 {
-    return (he->ELleft);
+    return he->ELleft;
 }
 
 
@@ -249,12 +249,12 @@ Site *leftreg(Halfedge * he)
 {
     if (he->ELedge == NULL)
 	return (bottomsite);
-    return (he->ELpm == le ? he->ELedge->reg[le] : he->ELedge->reg[re]);
+    return he->ELpm == le ? he->ELedge->reg[le] : he->ELedge->reg[re];
 }
 
 Site *rightreg(Halfedge * he)
 {
     if (he->ELedge == NULL)
 	return (bottomsite);
-    return (he->ELpm == le ? he->ELedge->reg[re] : he->ELedge->reg[le]);
+    return he->ELpm == le ? he->ELedge->reg[re] : he->ELedge->reg[le];
 }
