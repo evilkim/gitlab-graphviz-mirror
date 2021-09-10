@@ -764,7 +764,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
 		   ELSCHEME_NONE, 0, NULL, NULL, mapBool (agget(g, "overlap_shrink"), TRUE));
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	real *npos = pos + (Ndim * ND_id(n));
+	real *npos = pos + Ndim * ND_id(n);
 	for (i = 0; i < Ndim; i++) {
 	    ND_pos(n)[i] = npos[i];
 	}
