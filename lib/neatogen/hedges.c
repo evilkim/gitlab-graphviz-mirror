@@ -97,12 +97,12 @@ int right_of(Halfedge * el, Point * p)
 {
     Edge *e;
     Site *topsite;
-    int right_of_site, above, fast;
+    int above, fast;
     double dxp, dyp, dxs, t1, t2, t3, yl;
 
     e = el->ELedge;
     topsite = e->reg[1];
-    right_of_site = p->x > topsite->coord.x;
+    bool right_of_site = p->x > topsite->coord.x;
     if (right_of_site && el->ELpm == le)
 	return 1;
     if (!right_of_site && el->ELpm == re)
