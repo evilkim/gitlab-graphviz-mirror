@@ -275,7 +275,7 @@ static void renderSelectedNodes(Agraph_t * g)
 
     for (v = agfstnode(g); v; v = agnxtnode(g, v)) 
     {
-	if(!ND_selected(v));
+	if(!ND_selected(v))
 	    continue;
 	x=parseXdotwithattrs(v);
 	draw_xdot(x,-1);
