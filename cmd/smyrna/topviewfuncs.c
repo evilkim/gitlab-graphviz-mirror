@@ -8,6 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <assert.h>
 #include "topviewfuncs.h"
 #include <cgraph/cgraph.h>
 #include "smyrna_utils.h"
@@ -162,7 +163,8 @@ static int object_color(void* obj,glCompColor* c)
 	Alpha=getAttrFloat(g,objg,"defaultedgealpha",1);
 	vis = GE_visible (objg);
     }
-    else if(objType==AGNODE) {
+    else {
+	assert(objType == AGNODE);
 	Alpha=getAttrFloat(g,objg,"defaultnodealpha",1);
 	vis = GN_visible (objg);
     }
