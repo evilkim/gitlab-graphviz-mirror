@@ -17,6 +17,7 @@
 #include <cgraph/agxbuf.h>
 #include <common/utils.h>
 #include <ctype.h>
+#include <math.h>
 #include <neatogen/voronoi.h>
 #include <neatogen/info.h>
 #include <neatogen/edges.h>
@@ -106,18 +107,10 @@ static void chkBoundBox(Agraph_t * graph)
 	pp = &ip->poly;
 	x = ip->site.coord.x;
 	y = ip->site.coord.y;
-	double xmn = pp->origin.x + x;
-	double ymn = pp->origin.y + y;
-	double xmx = pp->corner.x + x;
-	double ymx = pp->corner.y + y;
-	if (xmn < x_min)
-	    x_min = xmn;
-	if (ymn < y_min)
-	    y_min = ymn;
-	if (xmx > x_max)
-	    x_max = xmx;
-	if (ymx > y_max)
-	    y_max = ymx;
+	x_min = fmin(x_min, pp->origin.x + x);
+	y_min = fmin(y_min, pp->origin.y + y);
+	x_max = fmax(x_max, pp->corner.x + x);
+	y_max = fmax(y_max, pp->corner.y + y);
     }
 
     char *marg = agget(graph, "voro_margin");
