@@ -236,10 +236,8 @@ static void geomUpdate(int doSort)
     xmin = sites[0]->coord.x;
     xmax = sites[0]->coord.x;
     for (i = 1; i < nsites; i++) {
-	if (sites[i]->coord.x < xmin)
-	    xmin = sites[i]->coord.x;
-	if (sites[i]->coord.x > xmax)
-	    xmax = sites[i]->coord.x;
+	xmin = fmin(xmin, sites[i]->coord.x);
+	xmax = fmax(xmax, sites[i]->coord.x);
     }
     ymin = sites[0]->coord.y;
     ymax = sites[nsites - 1]->coord.y;
