@@ -144,7 +144,7 @@ int right_of(Halfedge * el, Point * p)
 Halfedge *HEcreate(Edge * e, char pm)
 {
     Halfedge *answer;
-    answer = (Halfedge *) getfree(&hfl);
+    answer = getfree(&hfl);
     answer->ELedge = e;
     answer->ELpm = pm;
     answer->PQnext = (Halfedge *) NULL;

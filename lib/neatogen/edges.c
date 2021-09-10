@@ -31,7 +31,7 @@ Edge *gvbisect(Site * s1, Site * s2)
     double dx, dy, adx, ady;
     Edge *newedge;
 
-    newedge = (Edge *) getfree(&efl);
+    newedge = getfree(&efl);
 
     newedge->reg[0] = s1;
     newedge->reg[1] = s2;
