@@ -191,7 +191,7 @@ Halfedge *ELleftbnd(Point * p)
 	bucket = ELhashsize - 1;
     he = ELgethash(bucket);
     if (he == NULL) {
-	for (i = 1; 1; ++i) {
+	for (i = 1; ; ++i) {
 	    if ((he = ELgethash(bucket - i)) != NULL)
 		break;
 	    if ((he = ELgethash(bucket + i)) != NULL)
