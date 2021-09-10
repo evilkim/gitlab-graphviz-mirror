@@ -403,9 +403,9 @@ static void newpos(Info_t * ip)
     while (q != NULL) {
 	area = areaOf(anchor->p, p->p, q->p);
 	centroidOf(anchor->p, p->p, q->p, &x, &y);
-	cx = cx + area * x;
-	cy = cy + area * y;
-	totalArea = totalArea + area;
+	cx += area * x;
+	cy += area * y;
+	totalArea += area;
 	p = q;
 	q = q->next;
     }
