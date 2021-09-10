@@ -82,8 +82,7 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
 	e = e2;
     };
     right_of_site = xint >= e->reg[1]->coord.x;
-    if ((right_of_site && el->ELpm == le) ||
-	(!right_of_site && el->ELpm == re))
+    if ((right_of_site && el->ELpm == le) || (!right_of_site && el->ELpm == re))
 	return NULL;
 
     v = getsite();
