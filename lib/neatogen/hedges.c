@@ -37,7 +37,7 @@ void ELinitialize()
     ELhashsize = 2 * sqrt_nsites;
     if (ELhash == NULL)
 	ELhash = N_GNEW(ELhashsize, Halfedge *);
-    for (i = 0; i < ELhashsize; i += 1)
+    for (i = 0; i < ELhashsize; ++i)
 	ELhash[i] = NULL;
     ELleftend = HEcreate(NULL, 0);
     ELrightend = HEcreate(NULL, 0);
@@ -173,7 +173,7 @@ static Halfedge *ELgethash(int b)
 
 /* Hash table points to deleted half edge.  Patch as necessary. */
     ELhash[b] = NULL;
-    if ((he->ELrefcnt -= 1) == 0)
+    if (--he->ELrefcnt == 0)
 	makefree(he, &hfl);
     return NULL;
 }
@@ -191,7 +191,7 @@ Halfedge *ELleftbnd(Point * p)
 	bucket = ELhashsize - 1;
     he = ELgethash(bucket);
     if (he == NULL) {
-	for (i = 1; 1; i += 1) {
+	for (i = 1; 1; ++i) {
 	    if ((he = ELgethash(bucket - i)) != NULL)
 		break;
 	    if ((he = ELgethash(bucket + i)) != NULL)
@@ -199,7 +199,7 @@ Halfedge *ELleftbnd(Point * p)
 	};
 	totalsearch += i;
     };
-    ntry += 1;
+    ++ntry;
 /* Now search linear list of halfedges for the corect one */
     if (he == ELleftend || (he != ELrightend && right_of(he, p))) {
 	do {
@@ -214,9 +214,9 @@ Halfedge *ELleftbnd(Point * p)
 /* Update hash table and reference counts */
     if (bucket > 0 && bucket < ELhashsize - 1) {
 	if (ELhash[bucket] != NULL)
-	    ELhash[bucket]->ELrefcnt -= 1;
+	    --ELhash[bucket]->ELrefcnt;
 	ELhash[bucket] = he;
-	ELhash[bucket]->ELrefcnt += 1;
+	++ELhash[bucket]->ELrefcnt;
     };
     return he;
 }
