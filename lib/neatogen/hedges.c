@@ -11,7 +11,7 @@
 #include <neatogen/mem.h>
 #include <neatogen/hedges.h>
 #include <common/render.h>
-
+#include <stdbool.h>
 
 #define DELETED -2
 
@@ -55,7 +55,7 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
     Edge *e1, *e2, *e;
     Halfedge *el;
     double d, xint, yint;
-    int right_of_site;
+    bool right_of_site;
     Site *v;
 
     e1 = el1->ELedge;
