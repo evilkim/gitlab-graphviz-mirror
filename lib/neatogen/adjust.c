@@ -562,8 +562,8 @@ static double rePos(void)
     double f = 1.0 + incr;
 
     for (i = 0; i < nsites; i++) {
-	ip->site.coord.x = f * ip->site.coord.x;
-	ip->site.coord.y = f * ip->site.coord.y;
+	ip->site.coord.x *= f;
+	ip->site.coord.y *= f;
 	ip++;
     }
     return f;
