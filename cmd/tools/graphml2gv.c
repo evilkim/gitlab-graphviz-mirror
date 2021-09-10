@@ -97,7 +97,7 @@ static void freeString(slist * stk)
     }
 }
 
-typedef struct userdata {
+typedef struct {
     agxbuf xml_attr_name;
     agxbuf xml_attr_value;
     agxbuf composite_buffer;
@@ -406,7 +406,7 @@ static void
 startElementHandler(void *userData, const char *name, const char **atts)
 {
     int pos;
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
     Agraph_t *g = NULL;
 
     if (strcmp(name, "graphml") == 0) {
@@ -523,7 +523,7 @@ startElementHandler(void *userData, const char *name, const char **atts)
 
 static void endElementHandler(void *userData, const char *name)
 {
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
 
     if (strcmp(name, "graph") == 0) {
 	pop_subg();
@@ -590,17 +590,17 @@ static void endElementHandler(void *userData, const char *name)
 
 static void characterDataHandler(void *userData, const char *s, int length)
 {
-    userdata_t *ud = (userdata_t *) userData;
+    userdata_t *ud = userData;
 
     if (!ud->listen)
 	return;
 
     if (ud->compositeReadState) {
-	agxbput_n(&ud->composite_buffer, (char *) s, length);
+	agxbput_n(&ud->composite_buffer, s, length);
 	return;
     }
 
-    agxbput_n(&ud->xml_attr_value, (char *) s, length);
+    agxbput_n(&ud->xml_attr_value, s, length);
 }
 
 static Agraph_t *graphml_to_gv(char* gname, FILE * graphmlFile, int* rv)
