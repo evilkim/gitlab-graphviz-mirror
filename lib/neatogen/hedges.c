@@ -38,13 +38,13 @@ void ELinitialize()
     if (ELhash == NULL)
 	ELhash = N_GNEW(ELhashsize, Halfedge *);
     for (i = 0; i < ELhashsize; i += 1)
-	ELhash[i] = (Halfedge *) NULL;
-    ELleftend = HEcreate((Edge *) NULL, 0);
-    ELrightend = HEcreate((Edge *) NULL, 0);
-    ELleftend->ELleft = (Halfedge *) NULL;
+	ELhash[i] = NULL;
+    ELleftend = HEcreate(NULL, 0);
+    ELrightend = HEcreate(NULL, 0);
+    ELleftend->ELleft = NULL;
     ELleftend->ELright = ELrightend;
     ELrightend->ELleft = ELleftend;
-    ELrightend->ELright = (Halfedge *) NULL;
+    ELrightend->ELright = NULL;
     ELhash[0] = ELleftend;
     ELhash[ELhashsize - 1] = ELrightend;
 }
@@ -60,14 +60,14 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
 
     e1 = el1->ELedge;
     e2 = el2->ELedge;
-    if (e1 == (Edge *) NULL || e2 == (Edge *) NULL)
-	return ((Site *) NULL);
+    if (e1 == NULL || e2 == NULL)
+	return NULL;
     if (e1->reg[1] == e2->reg[1])
-	return ((Site *) NULL);
+	return NULL;
 
     d = e1->a * e2->b - e1->b * e2->a;
     if (-1.0e-10 < d && d < 1.0e-10)
-	return ((Site *) NULL);
+	return NULL;
 
     xint = (e1->c * e2->b - e2->c * e1->b) / d;
     yint = (e2->c * e1->a - e1->c * e2->a) / d;
@@ -84,7 +84,7 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
     right_of_site = xint >= e->reg[1]->coord.x;
     if ((right_of_site && el->ELpm == le) ||
 	(!right_of_site && el->ELpm == re))
-	return ((Site *) NULL);
+	return NULL;
 
     v = getsite();
     v->refcnt = 0;
@@ -147,8 +147,8 @@ Halfedge *HEcreate(Edge * e, char pm)
     answer = getfree(&hfl);
     answer->ELedge = e;
     answer->ELpm = pm;
-    answer->PQnext = (Halfedge *) NULL;
-    answer->vertex = (Site *) NULL;
+    answer->PQnext = NULL;
+    answer->vertex = NULL;
     answer->ELrefcnt = 0;
     return (answer);
 }
@@ -168,16 +168,16 @@ static Halfedge *ELgethash(int b)
     Halfedge *he;
 
     if (b < 0 || b >= ELhashsize)
-	return ((Halfedge *) NULL);
+	return NULL;
     he = ELhash[b];
-    if (he == (Halfedge *) NULL || he->ELedge != (Edge *) DELETED)
+    if (he == NULL || he->ELedge != (Edge *) DELETED)
 	return (he);
 
 /* Hash table points to deleted half edge.  Patch as necessary. */
-    ELhash[b] = (Halfedge *) NULL;
+    ELhash[b] = NULL;
     if ((he->ELrefcnt -= 1) == 0)
 	makefree(he, &hfl);
-    return ((Halfedge *) NULL);
+    return NULL;
 }
 
 Halfedge *ELleftbnd(Point * p)
@@ -192,11 +192,11 @@ Halfedge *ELleftbnd(Point * p)
     if (bucket >= ELhashsize)
 	bucket = ELhashsize - 1;
     he = ELgethash(bucket);
-    if (he == (Halfedge *) NULL) {
+    if (he == NULL) {
 	for (i = 1; 1; i += 1) {
-	    if ((he = ELgethash(bucket - i)) != (Halfedge *) NULL)
+	    if ((he = ELgethash(bucket - i)) != NULL)
 		break;
-	    if ((he = ELgethash(bucket + i)) != (Halfedge *) NULL)
+	    if ((he = ELgethash(bucket + i)) != NULL)
 		break;
 	};
 	totalsearch += i;
@@ -215,7 +215,7 @@ Halfedge *ELleftbnd(Point * p)
 
 /* Update hash table and reference counts */
     if (bucket > 0 && bucket < ELhashsize - 1) {
-	if (ELhash[bucket] != (Halfedge *) NULL)
+	if (ELhash[bucket] != NULL)
 	    ELhash[bucket]->ELrefcnt -= 1;
 	ELhash[bucket] = he;
 	ELhash[bucket]->ELrefcnt += 1;
@@ -247,14 +247,14 @@ Halfedge *ELleft(Halfedge * he)
 
 Site *leftreg(Halfedge * he)
 {
-    if (he->ELedge == (Edge *) NULL)
+    if (he->ELedge == NULL)
 	return (bottomsite);
     return (he->ELpm == le ? he->ELedge->reg[le] : he->ELedge->reg[re]);
 }
 
 Site *rightreg(Halfedge * he)
 {
-    if (he->ELedge == (Edge *) NULL)
+    if (he->ELedge == NULL)
 	return (bottomsite);
     return (he->ELpm == le ? he->ELedge->reg[re] : he->ELedge->reg[le]);
 }
