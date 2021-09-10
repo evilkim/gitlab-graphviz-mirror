@@ -754,8 +754,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
 	}
     }
 
-    if (!SparseMatrix_is_symmetric(A, FALSE)
-	|| A->type != MATRIX_TYPE_REAL) {
+    if (!SparseMatrix_is_symmetric(A, FALSE) || A->type != MATRIX_TYPE_REAL) {
 	A = SparseMatrix_get_real_adjacency_matrix_symmetrized(A);
     } else {
 	A = SparseMatrix_remove_diagonal(A);
