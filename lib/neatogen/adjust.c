@@ -184,14 +184,14 @@ static int scomp(const void *S1, const void *S2)
     s1 = *(Site *const *) S1;
     s2 = *(Site *const *) S2;
     if (s1->coord.y < s2->coord.y)
-	return (-1);
+	return -1;
     if (s1->coord.y > s2->coord.y)
-	return (1);
+	return 1;
     if (s1->coord.x < s2->coord.x)
-	return (-1);
+	return -1;
     if (s1->coord.x > s2->coord.x)
-	return (1);
-    return (0);
+	return 1;
+    return 0;
 }
 
  /* sortSites:
