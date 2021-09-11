@@ -111,10 +111,8 @@ int lu_decompose(double **a, int n)
 	pivot = lu[ps[k]][k];
 	for (i = k + 1; i < n; i++) {
 	    lu[ps[i]][k] = mult = lu[ps[i]][k] / pivot;
-	    if (mult != 0.0) {
-		for (j = k + 1; j < n; j++)
-		    lu[ps[i]][j] -= mult * lu[ps[k]][j];
-	    }
+	    for (j = k + 1; j < n; j++)
+		lu[ps[i]][j] -= mult * lu[ps[k]][j];
 	}
     }
 
