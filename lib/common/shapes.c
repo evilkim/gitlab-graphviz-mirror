@@ -107,7 +107,10 @@ static polygon_t p_component = {
     .peripheries = 1, .sides = 4, .option = COMPONENT};
 static polygon_t p_underline = {
     .peripheries = 1, .sides = 4, .option = UNDERLINE};
-static polygon_t p_cylinder = { FALSE, 1, 19, 0., 0., 0., CYLINDER, (pointf*)&cylinder_gen };
+static polygon_t p_cylinder = {.peripheries = 1,
+                               .sides = 19,
+                               .option = CYLINDER,
+                               .vertices = (pointf *)&cylinder_gen};
 
 /* redundant and undocumented builtin polygons */
 static polygon_t p_doublecircle = { TRUE, 2, 1, 0., 0., 0. };
