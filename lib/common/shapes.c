@@ -105,7 +105,8 @@ static polygon_t p_folder = {.peripheries = 1, .sides = 4, .option = FOLDER};
 static polygon_t p_box3d = {.peripheries = 1, .sides = 4, .option = BOX3D};
 static polygon_t p_component = {
     .peripheries = 1, .sides = 4, .option = COMPONENT};
-static polygon_t p_underline = { FALSE, 1, 4, 0., 0., 0., UNDERLINE };
+static polygon_t p_underline = {
+    .peripheries = 1, .sides = 4, .option = UNDERLINE};
 static polygon_t p_cylinder = { FALSE, 1, 19, 0., 0., 0., CYLINDER, (pointf*)&cylinder_gen };
 
 /* redundant and undocumented builtin polygons */
