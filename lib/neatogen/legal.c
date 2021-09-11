@@ -272,8 +272,9 @@ static int find_intersection(vertex *l,
     return realIntersect(l, m, p);
 }
 
-static int gt(vertex **i, vertex **j)
-{
+static int gt(const void *a, const void *b) {
+    const vertex *const *i = a;
+    const vertex *const *j = b;
     /* i > j if i.x > j.x or i.x = j.x and i.y > j.y  */
     double t;
     if ((t = (*i)->pos.x - (*j)->pos.x) != 0.)
@@ -305,8 +306,7 @@ find_ints(vertex vertex_list[], data *input, intersection ilist[]) {
 	pvertex[i] = vertex_list + i;
 
 /* sort vertices by x coordinate	*/
-    qsort(pvertex, input->nvertices, sizeof(vertex *),
-    	  (int (*)(const void *, const void *))gt);
+    qsort(pvertex, input->nvertices, sizeof(vertex *), gt);
 
 /* walk through the vertices in order of increasing x coordinate	*/
     for (i = 0; i < input->nvertices; i++) {
