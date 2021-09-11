@@ -2019,15 +2019,15 @@ typedef struct nodedata_struct* nodedata;
 static int cmp(void*i, void*j){
   nodedata d1, d2;
 
-  d1 = (nodedata) i;
-  d2 = (nodedata) j;
+  d1 = i;
+  d2 = j;
   if (d1->dist > d2->dist){
     return 1;
-  } else if (d1->dist == d2->dist){
-    return 0;
-  } else {
+  }
+  if (d1->dist < d2->dist) {
     return -1;
   }
+  return 0;
 }
 
 static int Dijkstra_internal(SparseMatrix A, int root, real *dist, int *nlist, int *list, real *dist_max, int *mask){

@@ -54,7 +54,8 @@ static void squarify(int n, real *area, rectangle *recs, int nadded, real maxare
     } else {
       /* aspectio worsen if add another area, fixed the already added recs */
       if (Verbose) fprintf(stderr,"adding %d items, total area = %f, w = %f, area/w=%f\n",nadded, totalarea, w, totalarea/w);
-      if (w == fillrec.size[0]){/* tall rec. fix the items along x direction, left to right, at top*/
+      if (fillrec.size[0] <= fillrec.size[1]) {
+        // tall rec. fix the items along x direction, left to right, at top
 	hh = totalarea/w;
 	xx = fillrec.x[0] - fillrec.size[0]/2;
 	for (i = 0; i < nadded; i++){

@@ -16,6 +16,7 @@
 #include <glcomp/glcompmouse.h>
 
 #include <glcomp/glutils.h>
+#include <stdlib.h>
 
 static GLfloat startX, startY;
 
@@ -49,7 +50,6 @@ glCompObj *glCompGetObjByMouse(glCompSet * s, glCompMouse * m,
     return rv;
 }
 
-
 static void glCompMouseMove(void *obj, GLfloat x, GLfloat y)
 {
     ((glCompSet *) obj)->mouse.pos.x = x;
@@ -69,9 +69,8 @@ static void glCompSetMouseClick(void *obj, GLfloat x, GLfloat y,
 {
     if (((glCompSet *) obj)->common.callbacks.click)
 	((glCompSet *) obj)->common.callbacks.click(obj, x, y, t);
-
-
 }
+
 static void glCompSetMouseDown(void *obj, GLfloat x, GLfloat y,
 			       glMouseButtonType t)
 {
@@ -98,18 +97,14 @@ static void glCompSetMouseDown(void *obj, GLfloat x, GLfloat y,
     startY = ((glCompObj *) obj)->common.height - y;
     if (((glCompSet *) obj)->common.callbacks.mousedown)
 	((glCompSet *) obj)->common.callbacks.mousedown(obj, x, y, t);
-
-
-
-
 }
+
 static void glCompSetMouseUp(void *obj, GLfloat x, GLfloat y,
 			     glMouseButtonType t)
 {
 
-    static GLfloat tempX, tempY;
-    tempX = x;
-    tempY = ((glCompObj *) obj)->common.height - y;
+    GLfloat tempX = x;
+    GLfloat tempY = ((glCompObj *) obj)->common.height - y;
 
     ((glCompSet *) obj)->mouse.down = 0;
     if (t == glMouseLeftButton) {
@@ -119,8 +114,7 @@ static void glCompSetMouseUp(void *obj, GLfloat x, GLfloat y,
 	((glCompSet *) obj)->mouse.pos.y = tempY;
 	((glCompSet *) obj)->mouse.pos.z = 0;
 	if (o_clicked)
-	    o = glCompGetObjByMouse((glCompSet *) obj,
-				    &((glCompSet *) obj)->mouse, 1);
+	    o = glCompGetObjByMouse(obj, &((glCompSet *) obj)->mouse, 1);
 	if (!o)
 	    return;
 	if (o == o_clicked)
@@ -131,12 +125,7 @@ static void glCompSetMouseUp(void *obj, GLfloat x, GLfloat y,
     /*check if mouse is clicked or dragged */
     if ((startX == (int) tempX) && (startY == tempY))
 	glCompSetMouseClick(obj, x, y, t);
-
-
-
 }
-
-
 
 void glCompInitCommon(glCompObj * childObj, glCompObj * parentObj,
 			     GLfloat x, GLfloat y)
@@ -207,16 +196,16 @@ void glCompEmptyCommon(glCompCommon * c)
 {
     glDeleteFont(c->font);
 }
+
 glCompSet *glCompSetNew(int w, int h)
 {
-
     glCompSet *s = NEW(glCompSet);
     glCompInitCommon((glCompObj *) s, NULL, (GLfloat) 0, (GLfloat) 0);
     s->common.width = (GLfloat) w;
     s->common.height = (GLfloat) h;
     s->groupCount = 0;
     s->objcnt = 0;
-    s->obj = (glCompObj **) 0;
+    s->obj = NULL;
     s->textureCount = 0;
     s->textures = (glCompTex **) 0;
     s->common.font = glNewFontFromParent((glCompObj *) s, NULL);
@@ -227,8 +216,6 @@ glCompSet *glCompSetNew(int w, int h)
     glCompMouseInit(&s->mouse);
     return s;
 }
-
-
 
 void glCompSetAddObj(glCompSet * s, glCompObj * obj)
 {
@@ -256,7 +243,6 @@ void glCompDrawBegin(void)	//pushes a gl stack
     glPushMatrix();
     glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
-
 }
 
 void glCompDrawEnd(void)	//pops the gl stack 
@@ -266,8 +252,6 @@ void glCompDrawEnd(void)	//pops the gl stack
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
-
-
 }
 
 int glCompSetDraw(glCompSet * s)
@@ -275,7 +259,7 @@ int glCompSetDraw(glCompSet * s)
     int ind = 0;
     glCompDrawBegin();
     for (; ind < s->objcnt; ind++) {
-	s->obj[ind]->common.functions.draw((void *) s->obj[ind]);
+	s->obj[ind]->common.functions.draw(s->obj[ind]);
     }
     glCompDrawEnd();
     return 1;
