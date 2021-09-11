@@ -14,7 +14,7 @@ AM_CPPFLAGS = \
 
 LIBS = -lc
 
-BASESOURCES = gv.cpp gv.i gv_builtins.c
+BASESOURCES = gv.cpp gv.i gv_builtins.c gv_channel.h
 BASELIBS = $(top_builddir)/lib/gvc/libgvc.la \
 	$(top_builddir)/lib/cgraph/libcgraph.la \
 	$(top_builddir)/lib/cdt/libcdt.la

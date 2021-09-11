@@ -14,6 +14,7 @@
 #include <gvc/gvplugin.h>
 #include <gvc/gvcjob.h>
 #include <gvc/gvcint.h>
+#include "gv_channel.h"
 
 typedef struct {
     char* data;
