@@ -275,14 +275,19 @@ static int find_intersection(vertex *l,
 static int gt(const void *a, const void *b) {
     const vertex *const *i = a;
     const vertex *const *j = b;
-    /* i > j if i.x > j.x or i.x = j.x and i.y > j.y  */
-    double t;
-    if ((t = (*i)->pos.x - (*j)->pos.x) != 0.)
-	return t > 0. ? 1 : -1;
-    if ((t = (*i)->pos.y - (*j)->pos.y) == 0.)
-	return 0;
-    else
-	return t > 0. ? 1 : -1;
+    if ((*i)->pos.x > (*j)->pos.x) {
+      return 1;
+    }
+    if ((*i)->pos.x < (*j)->pos.x) {
+      return -1;
+    }
+    if ((*i)->pos.y > (*j)->pos.y) {
+      return 1;
+    }
+    if ((*i)->pos.y < (*j)->pos.y) {
+      return -1;
+    }
+    return 0;
 }
 
 /* find_ints:
