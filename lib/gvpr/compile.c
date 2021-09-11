@@ -2265,8 +2265,7 @@ static Exdisc_t *initDisc(Gpr_t * state)
  * typed expression.
  */
 static Exnode_t *compile(Expr_t * prog, char *src, char *input, int line,
-			 char *lbl, char *sfx, int kind)
-{
+                         char *lbl, const char *sfx, int kind) {
     Exnode_t *e = 0;
     Sfio_t *sf;
     Sfio_t *prefix;
