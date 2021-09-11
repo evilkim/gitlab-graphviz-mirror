@@ -2326,7 +2326,7 @@ static void checkGuard(Exnode_t * gp, char *src, int line)
 /* mkStmts:
  */
 static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
-			  int cnt, char *lbl, Sfio_t *tmps)
+                          int cnt, const char *lbl, Sfio_t *tmps)
 {
     case_stmt *cs;
     int i;
