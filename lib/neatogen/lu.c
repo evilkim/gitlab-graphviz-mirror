@@ -79,8 +79,7 @@ int lu_decompose(double **a, int n)
 	/* Find the largest element in each row for row equilibration */
 	biggest = 0.0;
 	for (j = 0; j < n; j++)
-	    if (biggest < (tempf = fabs(lu[i][j] = a[i][j])))
-		biggest = tempf;
+	    biggest = fmax(biggest, fabs(lu[i][j] = a[i][j]));
 	if (biggest != 0.0)
 	    scales[i] = 1.0 / biggest;
 	else {
