@@ -2,9 +2,12 @@
 
 #include <stdio.h>
 
+// maximum number of bytes needed to print a NUL-terminated int
+enum { CHARS_FOR_NUL_TERM_INT = 12 };
+
 // return type of itos below
 struct itos_ {
-  char str[12];
+  char str[CHARS_FOR_NUL_TERM_INT];
 };
 
 /** convert an integer to a string
