@@ -80,7 +80,7 @@ int lu_decompose(double **a, int n)
 	biggest = 0.0;
 	for (j = 0; j < n; j++)
 	    biggest = fmax(biggest, fabs(lu[i][j] = a[i][j]));
-	if (biggest != 0.0)
+	if (biggest > 0.0)
 	    scales[i] = 1.0 / biggest;
 	else {
 	    scales[i] = 0.0;
@@ -98,7 +98,7 @@ int lu_decompose(double **a, int n)
 		pivotindex = i;
 	    }
 	}
-	if (biggest == 0.0)
+	if (biggest <= 0.0)
 	    return (0);		/* Zero column: singular matrix */
 	if (pivotindex != k) {	/* Update pivot sequence */
 	    j = ps[k];
