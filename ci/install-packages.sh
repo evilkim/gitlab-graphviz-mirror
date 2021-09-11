@@ -2,21 +2,12 @@
 
 set -x
 
-if test -f /etc/os-release; then
-    cat /etc/os-release
-    . /etc/os-release
-    if [ -z ${ID_LIKE:+x} ]; then
-        if [ ! -z ${ID:+x} ]; then
-            ID_LIKE=${ID}
-        fi
-    fi
-elif [ "$( uname -s )" = "Darwin" ]; then
+if [ "$( uname -s )" = "Darwin" ]; then
     ID=$( uname -s )
     VERSION_ID=$( uname -r )
 else
-    cat /etc/redhat-release
-    ID=$( cat /etc/redhat-release | cut -d' ' -f1 | tr 'A-Z' 'a-z' )
-    VERSION_ID=$( cat /etc/redhat-release | cut -d' ' -f3  | cut -d'.' -f1 )
+    cat /etc/os-release
+    . /etc/os-release
 fi
 printf '%s\n' "${ID}" >OS_ID
 GV_VERSION=$( cat GRAPHVIZ_VERSION )
