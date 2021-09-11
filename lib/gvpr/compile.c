@@ -2421,14 +2421,17 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 /* doFlags:
  * Convert command line flags to actions in END_G.
  */
-static char *doFlags(int flags, Sfio_t * s)
-{
-    sfprintf(s, "\n");
-    if (flags & SRCOUT)
-	sfprintf(s, "$O = $G;\n");
-    if (flags & INDUCE)
-	sfprintf(s, "induce($O);\n");
-    return sfstruse(s);
+static const char *doFlags(int flags) {
+  if (flags & SRCOUT) {
+    if (flags & INDUCE) {
+      return "\n$O = $G;\ninduce($O);\n";
+    }
+    return "\n$O = $G;\n";
+  }
+  if (flags & INDUCE) {
+    return "\ninduce($O);\n";
+  }
+  return "\n";
 }
 
 /* compileProg:
@@ -2455,7 +2458,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
     }
 
     if (flags) {
-	endg_sfx = strdup (doFlags(flags, tmps));
+	endg_sfx = strdup (doFlags(flags));
     }
 
     if (!initDisc(state))
