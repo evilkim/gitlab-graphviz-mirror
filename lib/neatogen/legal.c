@@ -263,10 +263,7 @@ static int gt(vertex **i, vertex **j)
  * Return 1 if intersection found, 0 for not found, -1 for error.
  */
 static int
-find_ints(vertex vertex_list[],
-	  polygon polygon_list[],
-	  data *input, intersection ilist[])
-{
+find_ints(vertex vertex_list[], data *input, intersection ilist[]) {
     int i, j, k, found = 0;
     active_edge_list all;
     active_edge *new, *tempa;
@@ -437,7 +434,7 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
     input.nvertices = nverts;
     input.npolygons = n_polys;
 
-    found = find_ints(vertex_list, polygon_list, &input, ilist);
+    found = find_ints(vertex_list, &input, ilist);
     if (found < 0) {
 	free(polygon_list);
 	free(vertex_list);
