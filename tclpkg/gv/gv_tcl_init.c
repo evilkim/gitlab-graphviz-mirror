@@ -14,6 +14,7 @@
 #include <gvc/gvcjob.h>
 #include <gvc/gvcint.h>
 #include <limits.h>
+#include "gv_channel.h"
 
 static size_t gv_string_writer(GVJ_t *job, const char *s, size_t len)
 {

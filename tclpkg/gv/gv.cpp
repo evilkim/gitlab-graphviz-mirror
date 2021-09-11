@@ -12,12 +12,7 @@
 #include <cstring>
 #include <gvc/gvc.h>
 #include <string>
-
-extern "C" {
-extern void gv_string_writer_init(GVC_t *gvc);
-extern void gv_channel_writer_init(GVC_t *gvc);
-extern void gv_writer_reset(GVC_t *gvc);
-}
+#include "gv_channel.h"
 
 #define agfindattr(x, s) agattrsym(x, s)
 #define agraphattr(g, n, s) agattr(g, AGRAPH, n, s)
