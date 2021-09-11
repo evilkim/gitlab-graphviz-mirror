@@ -121,7 +121,7 @@ static polygon_t p_invtrapezium = {
     .peripheries = 1, .sides = 4, .orientation = 180.0, .distortion = -0.4};
 static polygon_t p_invhouse = {
     .peripheries = 1, .sides = 5, .orientation = 180.0, .distortion = -0.64};
-static polygon_t p_doubleoctagon = { FALSE, 2, 8, 0., 0., 0. };
+static polygon_t p_doubleoctagon = {.peripheries = 2, .sides = 8};
 static polygon_t p_tripleoctagon = { FALSE, 3, 8, 0., 0., 0. };
 static polygon_t p_Mdiamond =
     { FALSE, 1, 4, 45., 0., 0., DIAGONALS | AUXLABELS };
