@@ -2441,7 +2441,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 {
     comp_prog *p;
     Sfio_t *tmps = state->tmp;
-    char *endg_sfx = 0;
+    const char *endg_sfx = NULL;
     int i, useflags = 0;
 
     /* Initialize default io */
@@ -2458,7 +2458,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
     }
 
     if (flags) {
-	endg_sfx = strdup (doFlags(flags));
+	endg_sfx = doFlags(flags);
     }
 
     if (!initDisc(state))
@@ -2522,7 +2522,6 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 	freeCompileProg (p);
 	p = 0;
     }
-    free (endg_sfx);
 
     return p;
 }
