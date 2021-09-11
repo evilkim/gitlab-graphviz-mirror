@@ -22,6 +22,7 @@
 #include <gvpr/compile.h>
 #include <assert.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/itos.h>
 #include <ast/error.h>
 #include <gvpr/actions.h>
 #include <ast/sfstr.h>
@@ -2382,11 +2383,12 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 
     codePhase = 2;
     if (inp->node_stmts) {
-	char label[BUFSIZ];
+	static const char PREFIX[] = "_nd";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
 	symbols[0].type = T_node;
 	tchk[V_this][1] = Y(V);
 	bp->n_nstmts = inp->n_nstmts;
-	snprintf(label, sizeof(label), "_nd%d", i);
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
 	bp->node_stmts = mkStmts(prog, src, inp->node_stmts,
 				inp->n_nstmts, label, tmps);
 	if (getErrorErrors())
@@ -2396,11 +2398,12 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 
     codePhase = 3;
     if (inp->edge_stmts) {
-	char label[BUFSIZ];
+	static const char PREFIX[] = "_eg";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
 	symbols[0].type = T_edge;
 	tchk[V_this][1] = Y(E);
 	bp->n_estmts = inp->n_estmts;
-	snprintf(label, sizeof(label), "_eg%d", i);
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
 	bp->edge_stmts = mkStmts(prog, src, inp->edge_stmts,
 				inp->n_estmts, label, tmps);
 	if (getErrorErrors())
