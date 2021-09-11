@@ -115,7 +115,8 @@ static polygon_t p_cylinder = {.peripheries = 1,
 /* redundant and undocumented builtin polygons */
 static polygon_t p_doublecircle = {
     .regular = TRUE, .peripheries = 2, .sides = 1};
-static polygon_t p_invtriangle = { FALSE, 1, 3, 180., 0., 0. };
+static polygon_t p_invtriangle = {
+    .peripheries = 1, .sides = 3, .orientation = 180.0};
 static polygon_t p_invtrapezium = { FALSE, 1, 4, 180., -.4, 0. };
 static polygon_t p_invhouse = { FALSE, 1, 5, 180., -.64, 0. };
 static polygon_t p_doubleoctagon = { FALSE, 2, 8, 0., 0., 0. };
