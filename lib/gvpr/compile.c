@@ -2371,11 +2371,13 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 
     codePhase = 1;
     if (inp->begg_stmt) {
-	sfprintf(tmps, "_begin_g_%d", i);
+	static const char PREFIX[] = "_begin_g_";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
 	symbols[0].type = T_graph;
 	tchk[V_this][1] = Y(G);
 	bp->begg_stmt = compile(prog, src, inp->begg_stmt,
-			       inp->l_beging, sfstruse(tmps), 0, VOIDTYPE);
+                          inp->l_beging, label, 0, VOIDTYPE);
 	if (getErrorErrors())
 	    goto finishBlk;
 	rv |= BEGG;
