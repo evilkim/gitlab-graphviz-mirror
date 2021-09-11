@@ -84,7 +84,7 @@ int lu_decompose(double **a, int n)
 	    scales[i] = 1.0 / biggest;
 	else {
 	    scales[i] = 0.0;
-	    return (0);		/* Zero row: singular matrix */
+	    return 0;		/* Zero row: singular matrix */
 	}
 	ps[i] = i;		/* Initialize pivot sequence */
     }
@@ -99,7 +99,7 @@ int lu_decompose(double **a, int n)
 	    }
 	}
 	if (biggest <= 0.0)
-	    return (0);		/* Zero column: singular matrix */
+	    return 0;		/* Zero column: singular matrix */
 	if (pivotindex != k) {	/* Update pivot sequence */
 	    j = ps[k];
 	    ps[k] = ps[pivotindex];
@@ -116,8 +116,8 @@ int lu_decompose(double **a, int n)
     }
 
     if (lu[ps[n - 1]][n - 1] == 0.0)
-	return (0);		/* Singular matrix */
-    return (1);
+	return 0;		/* Singular matrix */
+    return 1;
 }
 
 /* lu_solve() solves the linear equation (Ax = b) after the matrix A has
