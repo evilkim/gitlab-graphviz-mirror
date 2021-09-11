@@ -2326,25 +2326,31 @@ static void checkGuard(Exnode_t * gp, char *src, int line)
 /* mkStmts:
  */
 static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
-                          int cnt, const char *lbl, Sfio_t *tmps)
+                          int cnt, const char *lbl)
 {
     case_stmt *cs;
     int i;
+    static const char LONGEST_CALLER_PREFIX[] = "_begin_g_";
+    static const char LONGEST_INFIX[] = "__a";
+    char tmp[sizeof(LONGEST_CALLER_PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 +
+             sizeof(LONGEST_INFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1];
+
+    // the logic in our caller, mkBlock, should guarantee this
+    assert(strlen(lbl) + sizeof(LONGEST_INFIX) - 1 +
+           CHARS_FOR_NUL_TERM_INT - 1 + 1 <= sizeof(tmp));
 
     cs = newof(0, case_stmt, cnt, 0);
 
     for (i = 0; i < cnt; i++) {
 	if (sp->guard) {
-	    sfprintf(tmps, "%s_g%d", lbl, i);
-	    cs[i].guard = compile(prog, src, sp->guard, sp->gstart,
-				  sfstruse(tmps), 0, INTEGER);
+	    snprintf(tmp, sizeof(tmp), "%s_g%d", lbl, i);
+	    cs[i].guard = compile(prog, src, sp->guard, sp->gstart, tmp, 0, INTEGER);
 	    if (getErrorErrors()) break;
 	    checkGuard(cs[i].guard, src, sp->gstart);
 	}
 	if (sp->action) {
-	    sfprintf(tmps, "%s_a%d", lbl, i);
-	    cs[i].action = compile(prog, src, sp->action, sp->astart,
-				   sfstruse(tmps), 0, INTEGER);
+	    snprintf(tmp, sizeof(tmp), "%s_a%d", lbl, i);
+	    cs[i].action = compile(prog, src, sp->action, sp->astart, tmp, 0, INTEGER);
 	    if (getErrorErrors()) break;
 	    /* If no error but no compiled action, the input action must
 	     * have been essentially an empty block, which should be
@@ -2352,9 +2358,8 @@ static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
 	     * trivial block.
 	     */
 	    if (!cs[i].action) {
-		sfprintf(tmps, "%s__a%d", lbl, i);
-		cs[i].action = compile(prog, src, "1", sp->astart,
-				   sfstruse(tmps), 0, INTEGER);
+		snprintf(tmp, sizeof(tmp), "%s__a%d", lbl, i);
+		cs[i].action = compile(prog, src, "1", sp->astart, tmp, 0, INTEGER);
 	    }
 	}
 	sp = sp->next;
@@ -2365,7 +2370,7 @@ static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
 
 /* mkBlocks:
  */
-static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, Sfio_t* tmps, int i)
+static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, int i)
 {
     int rv = 0;
 
@@ -2391,8 +2396,7 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 	tchk[V_this][1] = Y(V);
 	bp->n_nstmts = inp->n_nstmts;
 	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
-	bp->node_stmts = mkStmts(prog, src, inp->node_stmts,
-				inp->n_nstmts, label, tmps);
+	bp->node_stmts = mkStmts(prog, src, inp->node_stmts, inp->n_nstmts, label);
 	if (getErrorErrors())
 	    goto finishBlk;
 	bp->walks |= WALKSG;
@@ -2406,8 +2410,7 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 	tchk[V_this][1] = Y(E);
 	bp->n_estmts = inp->n_estmts;
 	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
-	bp->edge_stmts = mkStmts(prog, src, inp->edge_stmts,
-				inp->n_estmts, label, tmps);
+	bp->edge_stmts = mkStmts(prog, src, inp->edge_stmts, inp->n_estmts, label);
 	if (getErrorErrors())
 	    goto finishBlk;
 	bp->walks |= WALKSG;
@@ -2446,7 +2449,6 @@ static const char *doFlags(int flags) {
 comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 {
     comp_prog *p;
-    Sfio_t *tmps = state->tmp;
     const char *endg_sfx = NULL;
     int i, useflags = 0;
 
@@ -2489,7 +2491,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 	p->blocks = bp = newof(0, comp_block, inp->n_blocks, 0);
 
 	for (i = 0; i < inp->n_blocks; bp++, i++) {
-	    useflags |= mkBlock (bp, p->prog, inp->source, ibp, tmps, i);
+	    useflags |= mkBlock(bp, p->prog, inp->source, ibp, i);
 	    if (getErrorErrors())
 		goto finish;
 	    else {
