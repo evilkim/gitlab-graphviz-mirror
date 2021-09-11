@@ -371,6 +371,9 @@ find_ints(vertex vertex_list[], data *input, intersection ilist[]) {
 		templ->active = 0;
 		break;		/* end of case 1        */
 
+	    default:
+		break; // same point; do nothing
+
 	    }			/* end switch   */
 
 	    pt2 = after(pvertex[i]);
