@@ -52,11 +52,13 @@ static void *int2ptr(Sflong_t i) {
 #endif
 }
 
+static Sflong_t ptr2int(const void *p) {
 #ifdef HAVE_INTPTR_T
-#define PTR2INT(v) ((Sflong_t)(intptr_t)(v))
+  return (Sflong_t)(intptr_t)p;
 #else
-#define PTR2INT(v) ((Sflong_t)(v))
+  return (Sflong_t)p;
 #endif
+}
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
@@ -434,7 +436,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	switch (sym->index) {
 	case M_head:
 	    if (isedge(objp))
-		v->integer = PTR2INT(AGHEAD((Agedge_t *) objp));
+		v->integer = ptr2int(AGHEAD((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "head of non-edge");
 		return -1;
@@ -442,7 +444,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_tail:
 	    if (isedge(objp))
-		v->integer = PTR2INT(AGTAIL((Agedge_t *) objp));
+		v->integer = ptr2int(AGTAIL((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "tail of non-edge");
 		return -1;
@@ -495,14 +497,14 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_parent:
 	    if (AGTYPE(objp) == AGRAPH)
-		v->integer = PTR2INT(agparent((Agraph_t *) objp));
+		v->integer = ptr2int(agparent((Agraph_t *) objp));
 	    else {
 		exerror("parent of non-graph");
 		return -1;
 	    }
 	    break;
 	case M_root:
-	    v->integer = PTR2INT(agroot(agraphof(objp)));
+	    v->integer = ptr2int(agroot(agraphof(objp)));
 	    break;
 	case M_n_edges:
 	    if (AGTYPE(objp) == AGRAPH)
@@ -683,13 +685,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	switch (sym->index) {
 	case F_graph:
 	    gp = openG(args[0].string, xargs(args[1].string));
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_subg:
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = openSubg(gp, args[1].string);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to subg()");
 		v.integer = 0;
@@ -698,7 +700,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	case F_issubg:
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
-		v.integer = PTR2INT(agsubg(gp, args[1].string, 0));
+		v.integer = ptr2int(agsubg(gp, args[1].string, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to isSubg()");
 		v.integer = 0;
@@ -708,7 +710,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = agfstsubg(gp);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to fstsubg()");
 		v.integer = 0;
@@ -718,7 +720,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = agnxtsubg(gp);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to nxtsubg()");
 		v.integer = 0;
@@ -728,7 +730,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		np = openNode(gp, args[1].string);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to node()");
 		v.integer = 0;
@@ -744,13 +746,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL node passed to addNode()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(addNode(gp, np, 1));
+		v.integer = ptr2int(addNode(gp, np, 1));
 	    break;
 	case F_fstnode:
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		np = agfstnode(gp);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to fstnode()");
 		v.integer = 0;
@@ -760,7 +762,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    np = int2ptr(args[0].integer);
 	    if (np) {
 		np = agnxtnode(agroot(np), np);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to nxtnode()");
 		v.integer = 0;
@@ -773,7 +775,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(np);
 	    if (np) {
 		np = agnxtnode(gp, np);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to nxtnode_sg()");
 		v.integer = 0;
@@ -782,7 +784,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	case F_isnode:
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
-		v.integer = PTR2INT(agnode(gp, args[1].string, 0));
+		v.integer = ptr2int(agnode(gp, args[1].string, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to isNode()");
 		v.integer = 0;
@@ -794,7 +796,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
-		v.integer = PTR2INT(addNode(gp, np, 0));
+		v.integer = ptr2int(addNode(gp, np, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to isSubnode()");
 		v.integer = 0;
@@ -858,7 +860,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL node passed to compOf()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(compOf(gp, np));
+		v.integer = ptr2int(compOf(gp, np));
 	    break;
 	case F_kindof:
 	    objp = int2ptr(args[0].integer);
@@ -892,7 +894,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = openEdge(0, np, hp, key);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_edgesg:
@@ -910,7 +912,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = openEdge(gp, np, hp, key);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_addedge:
@@ -923,7 +925,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL edge passed to addEdge()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(addEdge(gp, ep, 1));
+		v.integer = ptr2int(addEdge(gp, ep, 1));
 	    break;
 	case F_opp:
 	    ep = int2ptr(args[0].integer);
@@ -939,7 +941,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		    np = agtail(ep);
 		else
 		    np = aghead(ep);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    }
 	    break;
 	case F_isedge:
@@ -955,7 +957,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL head node passed to isEdge()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(isEdge(agroot(np), np, hp, key));
+		v.integer = ptr2int(isEdge(agroot(np), np, hp, key));
 	    break;
 	case F_isedgesg:
 	    key = args[3].string;
@@ -973,7 +975,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL head node passed to isEdge_sg()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(isEdge(gp, np, hp, key));
+		v.integer = ptr2int(isEdge(gp, np, hp, key));
 	    break;
 	case F_issubedge:
 	    gp = int2ptr(args[0].integer);
@@ -981,7 +983,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    if (!gp)
 		gp = agroot(ep);
 	    if (ep) {
-		v.integer = PTR2INT(addEdge(gp, ep, 0));
+		v.integer = ptr2int(addEdge(gp, ep, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to isSubedge()");
 		v.integer = 0;
@@ -991,7 +993,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstout(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstout()");
 		v.integer = 0;
@@ -1004,7 +1006,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstout(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstout_sg()");
 		v.integer = 0;
@@ -1014,7 +1016,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    ep = int2ptr(args[0].integer);
 	    if (ep) {
 		ep = agnxtout(agroot(ep), ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtout()");
 		v.integer = 0;
@@ -1027,7 +1029,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(ep);
 	    if (ep) {
 		ep = agnxtout(gp, ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtout_sg()");
 		v.integer = 0;
@@ -1037,7 +1039,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstin(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstin()");
 		v.integer = 0;
@@ -1050,7 +1052,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstin(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstin_sg()");
 		v.integer = 0;
@@ -1060,7 +1062,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    ep = int2ptr(args[0].integer);
 	    if (ep) {
 		ep = agnxtin(agroot(ep), ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtin()");
 		v.integer = 0;
@@ -1073,7 +1075,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(ep);
 	    if (ep) {
 		ep = agnxtin(gp, ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtin_sg()");
 		v.integer = 0;
@@ -1083,7 +1085,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstedge(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstedge()");
 		v.integer = 0;
@@ -1096,7 +1098,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstedge(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstedge_sg()");
 		v.integer = 0;
@@ -1113,7 +1115,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = agnxtedge(agroot(np), ep, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_nxtedgesg:
@@ -1130,7 +1132,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = agnxtedge(gp, ep, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_copy:
@@ -1140,7 +1142,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL object passed to clone()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(copy(gp, objp));
+		v.integer = ptr2int(copy(gp, objp));
 	    break;
 	case F_clone:
 	    gp = int2ptr(args[0].integer);
@@ -1149,13 +1151,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL object passed to clone()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(clone(gp, objp));
+		v.integer = ptr2int(clone(gp, objp));
 	    break;
 	case F_cloneG:
 	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = cloneG(gp, args[1].string);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to cloneG()");
 		v.integer = 0;
@@ -1198,7 +1200,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    break;
 	case F_readg:
 	    gp = readFile(args[0].string);
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_fwriteg:
 	    gp = int2ptr(args[0].integer);
@@ -1210,7 +1212,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    break;
 	case F_freadg:
 	    gp = freadFile(pgm, args[0].integer);
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_openf:
 	    v.integer = openFile(pgm, args[0].string, args[1].string);
@@ -1528,19 +1530,19 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
     } else if (sym->lex == ID && sym->index <= LAST_V) {
 	switch (sym->index) {
 	case V_this:
-	    v.integer = PTR2INT(state->curobj);
+	    v.integer = ptr2int(state->curobj);
 	    break;
 	case V_thisg:
-	    v.integer = PTR2INT(state->curgraph);
+	    v.integer = ptr2int(state->curgraph);
 	    break;
 	case V_nextg:
-	    v.integer = PTR2INT(state->nextgraph);
+	    v.integer = ptr2int(state->nextgraph);
 	    break;
 	case V_targt:
-	    v.integer = PTR2INT(state->target);
+	    v.integer = ptr2int(state->target);
 	    break;
 	case V_outgraph:
-	    v.integer = PTR2INT(state->outgraph);
+	    v.integer = ptr2int(state->outgraph);
 	    break;
 	case V_tgtname:
 	    v.string = state->tgtname;
@@ -1555,13 +1557,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.integer = state->tvt;
 	    break;
 	case V_travroot:
-	    v.integer = PTR2INT(state->tvroot);
+	    v.integer = ptr2int(state->tvroot);
 	    break;
 	case V_travnext:
-	    v.integer = PTR2INT(state->tvnext);
+	    v.integer = ptr2int(state->tvnext);
 	    break;
 	case V_travedge:
-	    v.integer = PTR2INT(state->tvedge);
+	    v.integer = ptr2int(state->tvedge);
 	    break;
 	}
 	return v;
