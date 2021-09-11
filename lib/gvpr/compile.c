@@ -2556,13 +2556,6 @@ int usesGraph(comp_prog * p)
     return p->flags;
 }
 
-void ptchk(void)
-{
-    int i;
-    for (i = 0; i <= LAST_M; i++)
-	printf("%d: %d %d\n", i, tchk[i][0], tchk[i][1]);
-}
-
 /* readG:
  * Read graph from file and initialize
  * dynamic data.
