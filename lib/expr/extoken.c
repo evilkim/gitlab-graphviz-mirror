@@ -69,7 +69,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 	case DYNAMIC:
 		s = " DYNAMIC ";
 		t = ex_lval.id->name;
-		x = (void *) (ex_lval.id);
+		x = (void*)ex_lval.id;
 		break;
 	case EQ:
 		s = " EQ ";
@@ -114,7 +114,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 	case NAME:
 		s = " NAME ";
 		t = ex_lval.id->name;
-		x = (void *) (ex_lval.id);
+		x = (void*)ex_lval.id;
 		break;
 	case NE:
 		s = " NE ";
