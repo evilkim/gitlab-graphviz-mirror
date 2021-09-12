@@ -127,7 +127,7 @@ L_ID      [a-zA-Z_][_a-zA-Z0-9]*
 
 %%
 
-void gmlerror(char *str)
+void gmlerror(const char *str)
 {
     if (errors)
 	return;

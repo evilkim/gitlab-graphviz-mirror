@@ -37,7 +37,7 @@ typedef struct gmlgraph {
 
 extern int gmllex(void);
 extern void gmllexeof(void);
-extern void gmlerror(char *);
+extern void gmlerror(const char *);
 extern int gmlerrors(void);
 extern void initgmlscan (FILE*);
 extern Agraph_t* gml_to_gv (char*, FILE*, int, int*);
