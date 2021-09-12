@@ -21,7 +21,7 @@ typedef void *Tobj;
 
 static char portstr[SMALLBUF];
 
-extern void yyerror(const char *fmt, ...);
+extern void yyerror(const char *message);
 %}
 
 %union {
