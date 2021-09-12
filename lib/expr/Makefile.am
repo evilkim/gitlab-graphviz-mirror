@@ -12,8 +12,6 @@ AM_CPPFLAGS = \
 noinst_HEADERS = exgram.h exlib.h exop.h exparse.h expr.h
 noinst_LTLIBRARIES = libexpr_C.la
 
-### expr.h includes ast.h and vmalloc.h which we don't install
-#lib_LTLIBRARIES = libexpr.la
 man_MANS = expr.3
 if ENABLE_MAN_PDFS
 pdf_DATA = expr.3.pdf
