@@ -176,7 +176,7 @@ extern Exid_t		exbuiltin[];
 extern const char*	exversion;
 extern Exstate_t	expr;
 
-extern int		exparse(void);	/* yacc should do this		*/
+extern int		ex_parse(void);	/* yacc should do this		*/
 
 #endif
 

@@ -31,7 +31,7 @@ extern "C" {
 #include <stddef.h>
 #include <string.h>
 
-#define exlex()		extoken_fn(expr.program)
+#define ex_lex()		extoken_fn(expr.program)
 
 #define ALLOCATE(p,x)	exalloc(p,sizeof(x))
 #define QUALIFY(r,s)	((r)&&(expr.program->disc->flags&EX_QUALIFY)?qualify(r,s):(s))
@@ -946,7 +946,7 @@ excomp(Expr_t* p, const char* name, int line, const char* sp, Sfio_t* fp)
 		return -1;
 	else
 		p->input->unit = line >= 0;
-	exparse();
+	ex_parse();
 	p->input->unit = 0;
 	expop(p);
 	p->eof = eof;

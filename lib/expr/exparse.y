@@ -14,7 +14,7 @@
    * contains multiple Bison-generated parsers, so we alter this prefix to avoid
    * symbol clashes.
    */
-%define api.prefix {ex}
+%define api.prefix {ex_}
 
 %{
 
@@ -179,6 +179,8 @@
 %{
 
 #include <expr/exgram.h>
+
+void ex_error(const char *message);
 
 %}
 
@@ -1323,6 +1325,10 @@ const char *exop(size_t index) {
 
   /* failed to find the requested token */
   return NULL;
+}
+
+void ex_error(const char *message) {
+  exerror("%s", message);
 }
 
 #include <expr/exgram.h>
