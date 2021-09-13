@@ -90,7 +90,7 @@ extern "C" {
 
 #define exalloc(p,n)		vmalloc((p)->vm, (n))
 
-typedef EXSTYPE Extype_t;
+typedef EX_STYPE Extype_t;
 
 typedef union Exdata_u Exdata_t;
 typedef struct Exdisc_s Exdisc_t;

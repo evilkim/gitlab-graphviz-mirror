@@ -23,7 +23,7 @@
 #include <cghdr.h>
 #include <cgraph/unreachable.h>
 #include <stddef.h>
-extern void aagerror(char *);
+extern void aagerror(const char*);
 
 static char Key[] = "key";
 static int SubgraphDepth = 0;

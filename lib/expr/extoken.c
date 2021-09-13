@@ -49,8 +49,8 @@ trace(Expr_t* ex, int lev, char* op, int c)
 	case '=':
 		s = t = buf;
 		*t++ = ' ';
-		if (!lev && exlval.op != c)
-			*t++ = exlval.op;
+		if (!lev && ex_lval.op != c)
+			*t++ = ex_lval.op;
 		*t++ = c;
 		*t = 0;
 		break;
@@ -64,12 +64,12 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case DECLARE:
 		s = " DECLARE ";
-		t = exlval.id->name;
+		t = ex_lval.id->name;
 		break;
 	case DYNAMIC:
 		s = " DYNAMIC ";
-		t = exlval.id->name;
-		x = (void *) (exlval.id);
+		t = ex_lval.id->name;
+		x = (void*)ex_lval.id;
 		break;
 	case EQ:
 		s = " EQ ";
@@ -77,7 +77,7 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case FLOATING:
 		s = " FLOATING ";
-		snprintf(t = buf, sizeof(buf), "%f", exlval.floating);
+		snprintf(t = buf, sizeof(buf), "%f", ex_lval.floating);
 		break;
 	case GE:
 		s = " GE ";
@@ -85,11 +85,11 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case CONSTANT:
 		s = " CONSTANT ";
-		t = exlval.id->name;
+		t = ex_lval.id->name;
 		break;
 	case ID:
 		s = " ID ";
-		t = exlval.id->name;
+		t = ex_lval.id->name;
 		break;
 	case INC:
 		s = "INC ";
@@ -97,11 +97,11 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case INTEGER:
 		s = " INTEGER ";
-		snprintf(t = buf, sizeof(buf), "%lld", (long long)exlval.integer);
+		snprintf(t = buf, sizeof(buf), "%lld", (long long)ex_lval.integer);
 		break;
 	case LABEL:
 		s = " LABEL ";
-		t = exlval.id->name;
+		t = ex_lval.id->name;
 		break;
 	case LE:
 		s = " LE ";
@@ -113,8 +113,8 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case NAME:
 		s = " NAME ";
-		t = exlval.id->name;
-		x = (void *) (exlval.id);
+		t = ex_lval.id->name;
+		x = (void*)ex_lval.id;
 		break;
 	case NE:
 		s = " NE ";
@@ -130,11 +130,11 @@ trace(Expr_t* ex, int lev, char* op, int c)
 		break;
 	case STRING:
 		s = " STRING ";
-		t = fmtesc(exlval.string);
+		t = fmtesc(ex_lval.string);
 		break;
 	case UNSIGNED:
 		s = " UNSIGNED ";
-		snprintf(t = buf, sizeof(buf), "%llu", (unsigned long long)exlval.integer);
+		snprintf(t = buf, sizeof(buf), "%llu", (unsigned long long)ex_lval.integer);
 		break;
 	case BREAK:
 		s = " break";
@@ -246,7 +246,7 @@ extoken_fn(Expr_t* ex)
 #define extoken_fn	_extoken_fn_
 
 	c = extoken_fn(ex);
-	trace(ex, 0, "exlex", c);
+	trace(ex, 0, "ex_lex", c);
 	return c;
 }
 
@@ -388,23 +388,23 @@ extoken_fn(Expr_t* ex)
 		case '{':
 		case '[':
 			ex->input->nesting++;
-			return exlval.op = c;
+			return ex_lval.op = c;
 		case ')':
 		case '}':
 		case ']':
 			ex->input->nesting--;
-			return exlval.op = c;
+			return ex_lval.op = c;
 		case '+':
 		case '-':
 			if ((q = lex(ex)) == c)
-				return exlval.op = c == '+' ? INC : DEC;
+				return ex_lval.op = c == '+' ? INC : DEC;
 			goto opeq;
 		case '*':
 		case '%':
 		case '^':
 			q = lex(ex);
 		opeq:
-			exlval.op = c;
+			ex_lval.op = c;
 			if (q == '=')
 				c = '=';
 			else if (q == '%' && c == '%')
@@ -420,18 +420,18 @@ extoken_fn(Expr_t* ex)
 		case '|':
 			if ((q = lex(ex)) == '=')
 			{
-				exlval.op = c;
+				ex_lval.op = c;
 				return '=';
 			}
 			if (q == c)
 				c = c == '&' ? AND : OR;
 			else exunlex(ex, q);
-			return exlval.op = c;
+			return ex_lval.op = c;
 		case '<':
 		case '>':
 			if ((q = lex(ex)) == c)
 			{
-				exlval.op = c = c == '<' ? LSH : RSH;
+				ex_lval.op = c = c == '<' ? LSH : RSH;
 				if ((q = lex(ex)) == '=')
 					c = '=';
 				else exunlex(ex, q);
@@ -458,7 +458,7 @@ extoken_fn(Expr_t* ex)
 				break;
 			}
 			else exunlex(ex, q);
-			return exlval.op = c;
+			return ex_lval.op = c;
 		case '#':
 			if (!ex->linewrap && !(ex->disc->flags & EX_PURE))
 			{
@@ -472,7 +472,7 @@ extoken_fn(Expr_t* ex)
 					case DYNAMIC:
 					case ID:
 					case NAME:
-						s = exlval.id->name;
+						s = ex_lval.id->name;
 						break;
 					default:
 						s = "";
@@ -482,7 +482,7 @@ extoken_fn(Expr_t* ex)
 					{
 						if (extoken_fn(ex) != STRING)
 							exerror("#%s: string argument expected", s);
-						else if (!expush(ex, exlval.string, 1, NULL, NULL))
+						else if (!expush(ex, ex_lval.string, 1, NULL, NULL))
 						{
 							setcontext(ex);
 							goto again;
@@ -491,7 +491,7 @@ extoken_fn(Expr_t* ex)
 					else exerror("unknown directive");
 				}
 			}
-			return exlval.op = c;
+			return ex_lval.op = c;
 		case '\'':
 		case '"':
 			q = c;
@@ -521,12 +521,12 @@ extoken_fn(Expr_t* ex)
 			s = exstash(ex->tmp, NULL);
 			if (q == '"' || (ex->disc->flags & EX_CHARSTRING))
 			{
-				if (!(exlval.string = vmstrdup(ex->vm, s)))
+				if (!(ex_lval.string = vmstrdup(ex->vm, s)))
 					goto eof;
-				stresc(exlval.string);
+				stresc(ex_lval.string);
 				return STRING;
 			}
-			exlval.integer = chrtoi(s);
+			ex_lval.integer = chrtoi(s);
 			return INTEGER;
 		case '.':
 			if (isdigit(c = lex(ex)))
@@ -537,7 +537,7 @@ extoken_fn(Expr_t* ex)
 				goto floating;
 			}
 			exunlex(ex, c);
-			return exlval.op = '.';
+			return ex_lval.op = '.';
 		case '0': case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8': case '9':
 			sfstrseek(ex->tmp, 0, SEEK_SET);
@@ -608,17 +608,17 @@ extoken_fn(Expr_t* ex)
 			}
 			s = exstash(ex->tmp, NULL);
 			if (q == FLOATING)
-				exlval.floating = strtod(s, &e);
+				ex_lval.floating = strtod(s, &e);
 			else
 			{
 				if (c == 'u' || c == 'U')
 				{
 					q = UNSIGNED;
 					c = lex(ex);
-					exlval.integer = strtoull(s, &e, b);
+					ex_lval.integer = strtoull(s, &e, b);
 				}
 				else
-					exlval.integer = strtoll(s, &e, b);
+					ex_lval.integer = strtoll(s, &e, b);
 			}
 			exunlex(ex, c);
 			if (*e || isalpha(c) || c == '_' || c == '$')
@@ -638,38 +638,38 @@ extoken_fn(Expr_t* ex)
 				s = exstash(ex->tmp, NULL);
 				/* v = expr.declare ? dtview(ex->symbols, NULL) : (Dt_t*)0; FIX */
 				v = (Dt_t*)0;
-				exlval.id = dtmatch(ex->symbols, s);
+				ex_lval.id = dtmatch(ex->symbols, s);
 				if (v)
 					dtview(ex->symbols, v);
-				if (!exlval.id)
+				if (!ex_lval.id)
 				{
-					if (!(exlval.id = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
+					if (!(ex_lval.id = newof(0, Exid_t, 1, strlen(s) - EX_NAMELEN + 1)))
 					{
 						exnospace();
 						goto eof;
 					}
-					strcpy(exlval.id->name, s);
-					exlval.id->lex = NAME;
-					expr.statics += exlval.id->isstatic = expr.instatic;
+					strcpy(ex_lval.id->name, s);
+					ex_lval.id->lex = NAME;
+					expr.statics += ex_lval.id->isstatic = expr.instatic;
 
 					/*
 					 * LABELs are in the parent scope!
 					 */
 
 					if (c == ':' && !expr.nolabel && ex->frame && ex->frame->view)
-						dtinsert(ex->frame->view, exlval.id);
+						dtinsert(ex->frame->view, ex_lval.id);
 					else
-						dtinsert(ex->symbols, exlval.id);
+						dtinsert(ex->symbols, ex_lval.id);
 				}
 
 				/*
 				 * lexical analyzer state controlled by the grammar
 				 */
 
-				switch (exlval.id->lex)
+				switch (ex_lval.id->lex)
 				{
 				case DECLARE:
-					if (exlval.id->index == CHARACTER)
+					if (ex_lval.id->index == CHARACTER)
 					{
 						/*
 						 * `char*' === `string'
@@ -679,7 +679,7 @@ extoken_fn(Expr_t* ex)
 						if (c == '*')
 						{
 							lex(ex);
-							exlval.id = id_string;
+							ex_lval.id = id_string;
 						}
 					}
 					break;
@@ -868,17 +868,17 @@ extoken_fn(Expr_t* ex)
 			}
 			break;
 		}
-		(*ex->disc->reff)(ex, NULL, exlval.id, NULL, exstash(ex->tmp, NULL), 0, ex->disc);
+		(*ex->disc->reff)(ex, NULL, ex_lval.id, NULL, exstash(ex->tmp, NULL), 0, ex->disc);
 
 						/*..INDENT*/
 					}
 					goto again;
 				}
-				return exlval.id->lex;
+				return ex_lval.id->lex;
 			}
-			return exlval.op = c;
+			return ex_lval.op = c;
 		}
  eof:
 	ex->eof = 1;
-	return exlval.op = ';';
+	return ex_lval.op = ';';
 }

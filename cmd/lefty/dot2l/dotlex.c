@@ -123,14 +123,17 @@ int yylex (void) {
     return token;
 }
 
-void
-yyerror (char *fmt, char *s) {
+static void yyerror_text(const char *fmt, const char *s) {
     if (syntax_errors++)
         return;
     fprintf (stderr, "graph parser: ");
     fprintf (stderr, fmt, s);
     fprintf (stderr, " near line %d\n", line_number);
     error_context ();
+}
+
+void yyerror(const char *message) {
+  yyerror_text(message, "");
 }
 
 static char *lex_gets (int curlen) {
@@ -284,7 +287,7 @@ static char *scan_num (char *p) {
     }
     *q = '\0';
     if (saw_digit && *z && (isalpha (*z)))
-        yyerror ("badly formed number %s", lexbuf);
+        yyerror_text("badly formed number %s", lexbuf);
 
     if (saw_digit == FALSE)
         z = NULL;
@@ -309,7 +312,7 @@ static char *quoted_string (char *p) {
         *q++ = *p++;
     }
     if (strcmp(p, "") == 0)
-        yyerror ("string ran past end of line", "");
+        yyerror("string ran past end of line");
     else
         p++;
     *q = 0;

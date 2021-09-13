@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ensure correct file-level dependency for generated file in cmake generated
   projects #2119
 - compile failures with a C++20-compatible toolchain #2122
+- compile errors on macOS when using Bison 3.8 #2127
 
 ## [2.49.0] – 2021-08-28
 

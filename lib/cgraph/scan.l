@@ -231,7 +231,7 @@ ID		({NAME}|{NUMBER})
 .						return aagtext[0];
 %%
 
-void aagerror(char *str)
+void aagerror(const char *str)
 {
 	unsigned char	xbuf[BUFSIZ];
 	agxbuf  xb;
