@@ -11,6 +11,7 @@ TODO:
 
 import filecmp
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -137,19 +138,11 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
       )
     returncode = 0 if filecmp.cmp(TMPFILE1, TMPFILE2) else -1
   elif F == "svg":
-    with open(TMPFILE1, mode="w") as fd:
-      subprocess.check_call(
-        ["sed", "/^<!--/d;/-->$/d", FILE1],
-        stdout=fd,
-      )
-    with open(TMPFILE2, mode="w") as fd:
-      subprocess.check_call(
-        ["sed", "/^<!--/d;/-->$/d", FILE2],
-        stdout=fd,
-      )
-    with open(TMPFILE1) as a:
-      with open(TMPFILE2) as b:
-        returncode = 0 if a.read().strip() == b.read().strip() else -1
+    with open(FILE1) as f:
+      a = re.sub(r"^<!--.*-->$", "", f.read(), flags=re.MULTILINE)
+    with open(FILE2) as f:
+      b = re.sub(r"^<!--.*-->$", "", f.read(), flags=re.MULTILINE)
+    returncode = 0 if a.strip() == b.strip() else -1
   elif F == "png":
     # FIXME: remove when https://gitlab.com/graphviz/graphviz/-/issues/1788 is fixed
     if os.environ.get("build_system") == "cmake":

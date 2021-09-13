@@ -411,16 +411,10 @@ AC_ARG_ENABLE([debug],
 	[enable_debug=no])
 AM_CONDITIONAL([DEBUG], [test $enable_debug = "yes"])
 if test "x$enable_debug" = "xyes"; then
-  changequote({,})
-  CFLAGS=`echo "$CFLAGS" | $SED -e 's/-O[0-9s]*//g'`
-  CXXFLAGS=`echo "$CXXFLAGS" | $SED -e 's/-O[0-9s]*//g'`
-  CFLAGS=`echo "$CFLAGS" | $SED -e 's/-g//g'`
-  CXXFLAGS=`echo "$CXXFLAGS" | $SED -e 's/-g//g'`
-  changequote([,])
   dnl add -O0 only if GCC or ICC is used
   if test "$GCC" = "yes" || test "$ICC" = "yes"; then
-    CFLAGS="$CFLAGS -g -O0 -Wall"
-    CXXFLAGS="$CXXFLAGS -g -O0 -Wall"
+    CFLAGS="$CFLAGS -g -O0"
+    CXXFLAGS="$CXXFLAGS -g -O0"
   fi
 fi
 
