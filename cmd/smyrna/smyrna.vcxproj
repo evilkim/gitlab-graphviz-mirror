@@ -157,7 +157,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     <ClInclude Include="topfisheyeview.h" />
     <ClInclude Include="topview.h" />
     <ClInclude Include="topviewdefs.h" />
-    <ClInclude Include="trackball.h" />
     <ClInclude Include="tvnodes.h" />
     <ClInclude Include="viewport.h" />
     <ClInclude Include="viewportcamera.h" />

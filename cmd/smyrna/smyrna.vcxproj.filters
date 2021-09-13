@@ -84,9 +84,6 @@
     <ClInclude Include="gui\topviewsettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="trackball.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tvnodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
