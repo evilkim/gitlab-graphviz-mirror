@@ -161,10 +161,7 @@ static void realize(GtkWidget * widget, gpointer data)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     gdk_gl_drawable_gl_end(gldrawable);
-
-
   /*** OpenGL END ***/
-    return;
 }
 
 /*
