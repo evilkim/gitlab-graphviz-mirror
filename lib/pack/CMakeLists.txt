@@ -30,7 +30,20 @@ install(
 )
 
 # Specify man pages to be installed
-install(
+if(GZIP)
+  add_custom_target(man-pack ALL DEPENDS pack.3.gz)
+  add_custom_command(
+    OUTPUT pack.3.gz
+    COMMAND ${GZIP} -9 --no-name --to-stdout pack.3
+      >"${CMAKE_CURRENT_BINARY_DIR}/pack.3.gz"
+    MAIN_DEPENDENCY pack.3
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/pack.3.gz
+    DESTINATION ${MAN_INSTALL_DIR}/man3)
+else()
+  install(
     FILES pack.3
     DESTINATION ${MAN_INSTALL_DIR}/man3
-)
+  )
+endif()

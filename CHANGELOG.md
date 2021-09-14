@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- the CMake build system installs gzipped man pages if `gzip` is available #1883
+
 ### Fixed
 
 - various problems in the generation of Javascript bindings

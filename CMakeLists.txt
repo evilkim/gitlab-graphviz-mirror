@@ -47,6 +47,7 @@ find_package(AWK REQUIRED)
 find_package(BISON 3.0 REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(Git REQUIRED)
+find_program(GZIP gzip)
 
 # ================== Convenient values for CMake configuration =================
 set(BINARY_INSTALL_DIR      bin)
