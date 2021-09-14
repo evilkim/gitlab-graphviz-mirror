@@ -22,13 +22,6 @@ extern "C" {
 
     void init_viewport(ViewInfo * view);
     void set_viewport_settings_from_template(ViewInfo * view, Agraph_t *);
-#if 0
-    void clear_viewport(ViewInfo * view);
-    colorschemaset *create_color_theme(int themeid);
-    void movenode(void *n, float dx, float dy);
-    void please_dont_wait(void);
-    void please_wait(void);
-#endif
     void switch_graph(int);
     void refreshViewport(int doClear);
     int add_graph_to_viewport_from_file(char *fileName);
