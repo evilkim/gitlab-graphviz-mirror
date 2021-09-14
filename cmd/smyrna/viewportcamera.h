@@ -17,7 +17,6 @@
 extern "C" {
 #endif
 
-    extern void attach_camera_widget(ViewInfo * view);
     extern void menu_click_add_camera(void *p);
 
 #ifdef __cplusplus
