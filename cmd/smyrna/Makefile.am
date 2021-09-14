@@ -43,7 +43,7 @@ noinst_HEADERS = arcball.h draw.h glexpose.h \
 	glmotion.h gltemplate.h gui/appmouse.h gui/callbacks.h \
 	hotkeymap.h materials.h polytess.h selectionfuncs.h \
 	smyrna_utils.h smyrnadefs.h topfisheyeview.h \
-	topviewdefs.h topviewfuncs.h trackball.h tvnodes.h \
+	topviewdefs.h topviewfuncs.h tvnodes.h \
 	viewport.h viewportcamera.h support.h \
 	gui/datalistcallbacks.h gui/frmobjectui.h \
 	gui/glcompui.h gui/gui.h gui/menucallbacks.h \
@@ -53,7 +53,7 @@ smyrna_SOURCES = arcball.c draw.c glexpose.c \
 	glmotion.c gltemplate.c gui/appmouse.c gui/callbacks.c \
 	gvprpipe.c hier.c hotkeymap.c main.c polytess.c \
 	selectionfuncs.c smyrna_utils.c topfisheyeview.c \
-	topviewfuncs.c trackball.c  tvnodes.c \
+	topviewfuncs.c tvnodes.c \
 	viewport.c viewportcamera.c \
 	gui/datalistcallbacks.c gui/frmobjectui.c \
 	gui/glcompui.c gui/gui.c gui/menucallbacks.c \
