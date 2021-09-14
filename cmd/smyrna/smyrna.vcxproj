@@ -149,7 +149,6 @@ copy $(SolutionDir)windows\dependencies\libraries\vcpkg\installed\x86-windows\bi
     <ClInclude Include="gui\topviewsettings.h" />
     <ClInclude Include="hier.h" />
     <ClInclude Include="hotkeymap.h" />
-    <ClInclude Include="materials.h" />
     <ClInclude Include="selection.h" />
     <ClInclude Include="selectionfuncs.h" />
     <ClInclude Include="smyrnadefs.h" />

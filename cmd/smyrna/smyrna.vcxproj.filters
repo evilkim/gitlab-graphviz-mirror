@@ -51,9 +51,6 @@
     <ClInclude Include="hotkeymap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="materials.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gui\menucallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
