@@ -11,13 +11,6 @@
 #pragma once
 
 #include "gui.h"
-#define LOCATION_X_CHKSELECTED 16
-#define LOCATION_X_IDLABEL 45
-#define LOCATION_X_CHKVISIBLE 139
-#define LOCATION_X_CHKHIGHLIGHTED 202
-#define LOCATION_X_NAME  276
-#define LOCATION_X_DATA1 356
-#define LOCATION_X_DATA2 561
 
 #ifdef __cplusplus
 extern "C" {
