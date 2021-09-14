@@ -34,8 +34,6 @@
 
 static colorschemaset *create_color_theme(int themeid);
 
-#define countof( array ) ( sizeof( array )/sizeof( array[0] ) )
-
 ViewInfo *view;
 /* these two global variables should be wrapped in something else */
 GtkMessageDialog *Dlg;
