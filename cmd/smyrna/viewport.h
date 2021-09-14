@@ -41,7 +41,6 @@ extern "C" {
 
 
     /* helper functions */
-    extern int setGdkColor(GdkColor * c, char *color);
     extern char *get_attribute_value(char *attr, ViewInfo * view,
 				     Agraph_t * g);
 
