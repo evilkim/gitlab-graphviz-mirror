@@ -12,10 +12,23 @@ function(tool_defaults name)
         RUNTIME DESTINATION ${BINARY_INSTALL_DIR}
     )
 
-    install(
+    if(GZIP)
+      add_custom_target(man-${name} ALL DEPENDS ${name}.1.gz)
+      add_custom_command(
+        OUTPUT ${name}.1.gz
+        COMMAND ${GZIP} -9 --no-name --to-stdout ${name}.1
+          >"${CMAKE_CURRENT_BINARY_DIR}/${name}.1.gz"
+        MAIN_DEPENDENCY ${name}.1
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+      install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/${name}.1.gz
+        DESTINATION ${MAN_INSTALL_DIR}/man1)
+    else()
+      install(
         FILES ${name}.1
         DESTINATION ${MAN_INSTALL_DIR}/man1
-    )
+      )
+    endif()
 endfunction(tool_defaults)
 
 # ================================ simple tools ================================

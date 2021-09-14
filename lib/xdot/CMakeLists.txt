@@ -28,10 +28,23 @@ install(
 )
 
 # Specify man pages to be installed
-install(
+if(GZIP)
+  add_custom_target(man-xdot ALL DEPENDS xdot.3.gz)
+  add_custom_command(
+    OUTPUT xdot.3.gz
+    COMMAND ${GZIP} -9 --no-name --to-stdout xdot.3
+      >"${CMAKE_CURRENT_BINARY_DIR}/xdot.3.gz"
+    MAIN_DEPENDENCY xdot.3
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/xdot.3.gz
+    DESTINATION ${MAN_INSTALL_DIR}/man3)
+else()
+  install(
     FILES xdot.3
     DESTINATION ${MAN_INSTALL_DIR}/man3
-)
+  )
+endif()
 
 # Specify library version and soversion
 set_target_properties(xdot PROPERTIES

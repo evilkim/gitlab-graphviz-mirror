@@ -74,10 +74,43 @@ else()
 endif()
 
 # Specify man pages to be installed
-install(
+if(GZIP)
+  add_custom_target(man-dot ALL DEPENDS dot.1.gz)
+  add_custom_command(
+    OUTPUT dot.1.gz
+    COMMAND ${GZIP} -9 --no-name --to-stdout dot.1
+      >"${CMAKE_CURRENT_BINARY_DIR}/dot.1.gz"
+    MAIN_DEPENDENCY dot.1
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/dot.1.gz
+    DESTINATION ${MAN_INSTALL_DIR}/man1)
+  add_custom_target(man-osage ALL DEPENDS osage.1.gz)
+  add_custom_command(
+    OUTPUT osage.1.gz
+    COMMAND ${GZIP} -9 --no-name --to-stdout osage.1
+      >"${CMAKE_CURRENT_BINARY_DIR}/osage.1.gz"
+    MAIN_DEPENDENCY osage.1
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/osage.1.gz
+    DESTINATION ${MAN_INSTALL_DIR}/man1)
+  add_custom_target(man-patchwork ALL DEPENDS patchwork.1.gz)
+  add_custom_command(
+    OUTPUT patchwork.1.gz
+    COMMAND ${GZIP} -9 --no-name --to-stdout patchwork.1
+      >"${CMAKE_CURRENT_BINARY_DIR}/patchwork.1.gz"
+    MAIN_DEPENDENCY patchwork.1
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/patchwork.1.gz
+    DESTINATION ${MAN_INSTALL_DIR}/man1)
+else()
+  install(
     FILES dot.1 osage.1 patchwork.1
     DESTINATION ${MAN_INSTALL_DIR}/man1
-)
+  )
+endif()
 
 install(
       SCRIPT ${TOP_SOURCE_DIR}/cmake/configure_plugins.cmake
