@@ -45,7 +45,6 @@ static void apply_actions(ViewInfo* v,int x,int y)
 	    g_timer_start(view->timer3);
 	}
 	return;
-	break;
     case MM_PAN :
 	glmotion_pan(v);
 	break;
