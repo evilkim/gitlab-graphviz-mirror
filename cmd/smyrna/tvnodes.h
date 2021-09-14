@@ -11,7 +11,6 @@
 #pragma once
 
 #include "gui.h"
-#define MAX_NODE_PER_PAGE 100
 #define LOCATION_X_CHKSELECTED 16
 #define LOCATION_X_IDLABEL 45
 #define LOCATION_X_CHKVISIBLE 139
@@ -23,79 +22,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-    typedef struct token_info {
-	int op_index;		// has to 
-	int op1_length;
-	int op2_length;
-
-    } token_info;
-
-    typedef struct btree_node {
-	int child_count;
-	struct btree_node **childs;
-	struct btree_node *parent;
-	int rank;		//0 root
-	char op;		// & | + - whatever
-	int node_type;		//0 and 1 or 2 atom
-	char *attr_name;
-	char *regex;
-	float min;
-	float max;
-	int value;		//filter result true false, 0 , 1
-	int active;
-    } btree_node;
-
-    typedef struct _tv_filter {
-	btree_node *root;
-	char *min_data1;
-	char *min_data2;
-	char *max_data1;
-	char *max_data2;
-	char *filter_string;
-	int active;
-	int visible;		//-1 all 0 not not visible 1 only visibles
-	int highlighted;	//same above
-	int selected;		//same above
-    } tv_filter;
-
-    typedef struct _tv_node {
-	int index;
-	GtkCheckButton *chkSelected;
-	GtkCheckButton *chkVisible;
-	GtkCheckButton *chkHighlighted;
-	GtkLabel *IDLabel;
-	GtkEntry *Name;
-	GtkEntry *Data1;
-	GtkEntry *Data2;
-	int valid;
-    } tv_node;
-
-
-    typedef struct _tv_nodes {
-	int pagecount;
-	int activepage;
-	int firstnodeid;
-	int *page_history;
-	int page_history_count;
-	int recordperpage;	//dynamic so that can be changed by plugins etc 
-	int filtered;
-	int page_data_index;
-	int page_data_node_index;
-	tv_node TV_Node[MAX_NODE_PER_PAGE];
-	tv_filter filter;
-	int Y;
-	int Y_Gap;
-	int initial_Y;
-	int chkSelected_X;
-	int IDLabel_X;
-	int chkVisible_X;
-	int chkHighlighted_X;
-	int Data1_X;
-	int Data2_X;
-	int initialized;
-	int general_purpose_flag;	//dont forget to to set it back
-    } tv_nodes;
 
     int tv_show_all(void);
     int tv_hide_all(void);
