@@ -700,6 +700,9 @@ windows-cygwin-cmake-build:
     stage: build
     needs: []
     script:
+        # change line endings from crlf to lf
+        - git rm --cached -r .
+        - git -c core.autocrlf=false reset --hard
         - choco install --yes --no-progress cygwin
         # avoid BOM in COLLECTION file
         - echo experimental | Out-File COLLECTION -Encoding ascii
