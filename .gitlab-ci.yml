@@ -707,8 +707,6 @@ windows-cygwin-cmake-build:
         # avoid BOM in COLLECTION file
         - echo experimental | Out-File COLLECTION -Encoding ascii
         - $Env:build_system = "cmake"
-        # make Cygwin tolerate CRLF
-        - $Env:SHELLOPTS = "igncr"
         - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
     artifacts:
         when: always
