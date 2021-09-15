@@ -64,7 +64,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -dy -Wno-yacc exparse.y -o exparse.c</Command>
+      <Command>win_bison -dy -Wno-yacc exparse.y -o y.tab.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,7 +78,7 @@
     </ClCompile>
     <Lib />
     <PreBuildEvent>
-      <Command>win_bison -dy -Wno-yacc exparse.y -o exparse.c</Command>
+      <Command>win_bison -dy -Wno-yacc exparse.y -o y.tab.c</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -89,7 +89,6 @@
     <ClInclude Include="expr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="exparse.c" />
     <ClCompile Include="excc.c" />
     <ClCompile Include="excontext.c" />
     <ClCompile Include="exdata.c" />
@@ -102,6 +101,7 @@
     <ClCompile Include="extoken.c" />
     <ClCompile Include="extype.c" />
     <ClCompile Include="exzero.c" />
+    <ClCompile Include="y.tab.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
