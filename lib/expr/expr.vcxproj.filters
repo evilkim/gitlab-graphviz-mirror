@@ -68,7 +68,7 @@
     <ClCompile Include="exzero.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="exparse.c">
+    <ClCompile Include="y.tab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
