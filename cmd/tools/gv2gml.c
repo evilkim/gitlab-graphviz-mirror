@@ -418,7 +418,8 @@ static void
 emitNode (Agraph_t* G, Agnode_t* n, FILE* outFile)
 {
     agbindrec (n, "nodeinfo", sizeof(Agnodeinfo_t), TRUE);
-    fprintf (outFile, "  node [\n    id %lu\n    name \"%s\"\n", id, agnameof(n));
+    fprintf(outFile, "  node [\n    id %" PRIu64 "\n    name \"%s\"\n", id,
+            agnameof(n));
     ID(n) = id++;
     emitNodeAttrs (G, n, outFile, 2);
     fprintf (outFile, "  ]\n");
@@ -597,9 +598,9 @@ emitEdgeAttrs (Agraph_t* G, Agedge_t* ep, FILE* outFile, int ix)
 static void 
 emitEdge (Agraph_t* G, Agedge_t* e, FILE* outFile)
 {
-    fprintf (outFile, "  edge [\n    id %lu\n", (uint64_t)AGSEQ(e));
-    fprintf (outFile, "    source %lu\n", ID(agtail(e)));
-    fprintf (outFile, "    target %lu\n", ID(aghead(e)));
+    fprintf(outFile, "  edge [\n    id %" PRIu64 "\n", (uint64_t)AGSEQ(e));
+    fprintf(outFile, "    source %" PRIu64 "\n", ID(agtail(e)));
+    fprintf(outFile, "    target %" PRIu64 "\n", ID(aghead(e)));
     emitEdgeAttrs (G, e, outFile, 2);
     fprintf (outFile, "  ]\n");
 }

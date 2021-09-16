@@ -47,15 +47,6 @@ int lex_begin (int ioi) {
     return 0;
 }
 
-int myyylex (void) {        /* for debugging */
-    int rv = myyylex ();
-
-    fprintf (stderr, "returning %d\n", rv);
-    if (rv == T_id)
-        fprintf (stderr, "string val is %s\n", yylval.s);
-    return rv;
-}
-
 int yylex (void) {
     int token;
     char *p;

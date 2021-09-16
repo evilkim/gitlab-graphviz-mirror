@@ -330,7 +330,7 @@ static void clearGrid(grid * g)
     g->flds = 0;
 }
 
-static grid *initGrid()
+static grid *initGrid(void)
 {
     grid *gr = NEW(grid);
     gr->columns = NULL;
@@ -351,7 +351,7 @@ static grid *update_columns(grid * g, char *str)
 	else
 	    return g;
     } else
-	g = initGrid(str);
+	g = initGrid();
     add_column(g, Name, 0, G_TYPE_STRING);
     if (!str)
 	return g;
