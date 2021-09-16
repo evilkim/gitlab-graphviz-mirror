@@ -901,7 +901,7 @@ int stress_majorization_kD_mkernel(vtx_data * graph,	/* Input graph in sparse re
     int step;
     float val;
     double old_stress, new_stress;
-    boolean converged;
+    bool converged;
     float **b = NULL;
     float *tmp_coords = NULL;
     float *dist_accumulator = NULL;
@@ -1128,7 +1128,7 @@ int stress_majorization_kD_mkernel(vtx_data * graph,	/* Input graph in sparse re
 	start_timer();
     }
 
-    for (converged = FALSE, iterations = 0;
+    for (converged = false, iterations = 0;
 	 iterations < maxi && !converged; iterations++) {
 
 	/* First, construct Laplacian of 1/(d_ij*|p_i-p_j|)  */
@@ -1237,8 +1237,7 @@ int stress_majorization_kD_mkernel(vtx_data * graph,	/* Input graph in sparse re
 	{
 	    double diff = old_stress - new_stress;
 	    double change = fabs(diff);
-	    converged = (((change / old_stress) < Epsilon)
-			 || (new_stress < Epsilon));
+	    converged = change / old_stress < Epsilon || new_stress < Epsilon;
 	}
 	old_stress = new_stress;
 
