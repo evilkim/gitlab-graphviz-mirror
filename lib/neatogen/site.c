@@ -28,7 +28,7 @@ void siteinit()
 
 Site *getsite()
 {
-    return ((Site *) getfree(&sfl));
+    return getfree(&sfl);
 }
 
 double dist(Site * s, Site * t)

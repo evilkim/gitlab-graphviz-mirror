@@ -11,7 +11,7 @@
 #include <neatogen/mem.h>
 #include <neatogen/hedges.h>
 #include <common/render.h>
-
+#include <stdbool.h>
 
 #define DELETED -2
 
@@ -37,14 +37,14 @@ void ELinitialize()
     ELhashsize = 2 * sqrt_nsites;
     if (ELhash == NULL)
 	ELhash = N_GNEW(ELhashsize, Halfedge *);
-    for (i = 0; i < ELhashsize; i += 1)
-	ELhash[i] = (Halfedge *) NULL;
-    ELleftend = HEcreate((Edge *) NULL, 0);
-    ELrightend = HEcreate((Edge *) NULL, 0);
-    ELleftend->ELleft = (Halfedge *) NULL;
+    for (i = 0; i < ELhashsize; ++i)
+	ELhash[i] = NULL;
+    ELleftend = HEcreate(NULL, 0);
+    ELrightend = HEcreate(NULL, 0);
+    ELleftend->ELleft = NULL;
     ELleftend->ELright = ELrightend;
     ELrightend->ELleft = ELleftend;
-    ELrightend->ELright = (Halfedge *) NULL;
+    ELrightend->ELright = NULL;
     ELhash[0] = ELleftend;
     ELhash[ELhashsize - 1] = ELrightend;
 }
@@ -55,24 +55,24 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
     Edge *e1, *e2, *e;
     Halfedge *el;
     double d, xint, yint;
-    int right_of_site;
+    bool right_of_site;
     Site *v;
 
     e1 = el1->ELedge;
     e2 = el2->ELedge;
-    if (e1 == (Edge *) NULL || e2 == (Edge *) NULL)
-	return ((Site *) NULL);
+    if (e1 == NULL || e2 == NULL)
+	return NULL;
     if (e1->reg[1] == e2->reg[1])
-	return ((Site *) NULL);
+	return NULL;
 
     d = e1->a * e2->b - e1->b * e2->a;
     if (-1.0e-10 < d && d < 1.0e-10)
-	return ((Site *) NULL);
+	return NULL;
 
     xint = (e1->c * e2->b - e2->c * e1->b) / d;
     yint = (e2->c * e1->a - e1->c * e2->a) / d;
 
-    if ((e1->reg[1]->coord.y < e2->reg[1]->coord.y) ||
+    if (e1->reg[1]->coord.y < e2->reg[1]->coord.y ||
 	(e1->reg[1]->coord.y == e2->reg[1]->coord.y &&
 	 e1->reg[1]->coord.x < e2->reg[1]->coord.x)) {
 	el = el1;
@@ -82,15 +82,14 @@ Site *hintersect(Halfedge * el1, Halfedge * el2)
 	e = e2;
     };
     right_of_site = xint >= e->reg[1]->coord.x;
-    if ((right_of_site && el->ELpm == le) ||
-	(!right_of_site && el->ELpm == re))
-	return ((Site *) NULL);
+    if ((right_of_site && el->ELpm == le) || (!right_of_site && el->ELpm == re))
+	return NULL;
 
     v = getsite();
     v->refcnt = 0;
     v->coord.x = xint;
     v->coord.y = yint;
-    return (v);
+    return v;
 }
 
 /* returns 1 if p is to right of halfedge e */
@@ -98,23 +97,22 @@ int right_of(Halfedge * el, Point * p)
 {
     Edge *e;
     Site *topsite;
-    int right_of_site, above, fast;
+    int above, fast;
     double dxp, dyp, dxs, t1, t2, t3, yl;
 
     e = el->ELedge;
     topsite = e->reg[1];
-    right_of_site = p->x > topsite->coord.x;
+    bool right_of_site = p->x > topsite->coord.x;
     if (right_of_site && el->ELpm == le)
-	return (1);
+	return 1;
     if (!right_of_site && el->ELpm == re)
-	return (0);
+	return 0;
 
     if (e->a == 1.0) {
 	dyp = p->y - topsite->coord.y;
 	dxp = p->x - topsite->coord.x;
 	fast = 0;
-	if ((!right_of_site & (e->b < 0.0)) |
-	    (right_of_site & (e->b >= 0.0))) {
+	if ((!right_of_site && e->b < 0.0) || (right_of_site && e->b >= 0.0)) {
 	    above = dyp >= e->b * dxp;
 	    fast = above;
 	} else {
@@ -138,19 +136,19 @@ int right_of(Halfedge * el, Point * p)
 	t3 = yl - topsite->coord.y;
 	above = t1 * t1 > t2 * t2 + t3 * t3;
     };
-    return (el->ELpm == le ? above : !above);
+    return el->ELpm == le ? above : !above;
 }
 
 Halfedge *HEcreate(Edge * e, char pm)
 {
     Halfedge *answer;
-    answer = (Halfedge *) getfree(&hfl);
+    answer = getfree(&hfl);
     answer->ELedge = e;
     answer->ELpm = pm;
-    answer->PQnext = (Halfedge *) NULL;
-    answer->vertex = (Site *) NULL;
+    answer->PQnext = NULL;
+    answer->vertex = NULL;
     answer->ELrefcnt = 0;
-    return (answer);
+    return answer;
 }
 
 
@@ -168,16 +166,16 @@ static Halfedge *ELgethash(int b)
     Halfedge *he;
 
     if (b < 0 || b >= ELhashsize)
-	return ((Halfedge *) NULL);
+	return NULL;
     he = ELhash[b];
-    if (he == (Halfedge *) NULL || he->ELedge != (Edge *) DELETED)
-	return (he);
+    if (he == NULL || he->ELedge != (Edge *) DELETED)
+	return he;
 
 /* Hash table points to deleted half edge.  Patch as necessary. */
-    ELhash[b] = (Halfedge *) NULL;
-    if ((he->ELrefcnt -= 1) == 0)
+    ELhash[b] = NULL;
+    if (--he->ELrefcnt == 0)
 	makefree(he, &hfl);
-    return ((Halfedge *) NULL);
+    return NULL;
 }
 
 Halfedge *ELleftbnd(Point * p)
@@ -192,16 +190,16 @@ Halfedge *ELleftbnd(Point * p)
     if (bucket >= ELhashsize)
 	bucket = ELhashsize - 1;
     he = ELgethash(bucket);
-    if (he == (Halfedge *) NULL) {
-	for (i = 1; 1; i += 1) {
-	    if ((he = ELgethash(bucket - i)) != (Halfedge *) NULL)
+    if (he == NULL) {
+	for (i = 1; ; ++i) {
+	    if ((he = ELgethash(bucket - i)) != NULL)
 		break;
-	    if ((he = ELgethash(bucket + i)) != (Halfedge *) NULL)
+	    if ((he = ELgethash(bucket + i)) != NULL)
 		break;
 	};
 	totalsearch += i;
     };
-    ntry += 1;
+    ++ntry;
 /* Now search linear list of halfedges for the corect one */
     if (he == ELleftend || (he != ELrightend && right_of(he, p))) {
 	do {
@@ -215,12 +213,12 @@ Halfedge *ELleftbnd(Point * p)
 
 /* Update hash table and reference counts */
     if (bucket > 0 && bucket < ELhashsize - 1) {
-	if (ELhash[bucket] != (Halfedge *) NULL)
-	    ELhash[bucket]->ELrefcnt -= 1;
+	if (ELhash[bucket] != NULL)
+	    --ELhash[bucket]->ELrefcnt;
 	ELhash[bucket] = he;
-	ELhash[bucket]->ELrefcnt += 1;
+	++ELhash[bucket]->ELrefcnt;
     };
-    return (he);
+    return he;
 }
 
 
@@ -236,25 +234,25 @@ void ELdelete(Halfedge * he)
 
 Halfedge *ELright(Halfedge * he)
 {
-    return (he->ELright);
+    return he->ELright;
 }
 
 Halfedge *ELleft(Halfedge * he)
 {
-    return (he->ELleft);
+    return he->ELleft;
 }
 
 
 Site *leftreg(Halfedge * he)
 {
-    if (he->ELedge == (Edge *) NULL)
+    if (he->ELedge == NULL)
 	return (bottomsite);
-    return (he->ELpm == le ? he->ELedge->reg[le] : he->ELedge->reg[re]);
+    return he->ELpm == le ? he->ELedge->reg[le] : he->ELedge->reg[re];
 }
 
 Site *rightreg(Halfedge * he)
 {
-    if (he->ELedge == (Edge *) NULL)
+    if (he->ELedge == NULL)
 	return (bottomsite);
-    return (he->ELpm == le ? he->ELedge->reg[re] : he->ELedge->reg[le]);
+    return he->ELpm == le ? he->ELedge->reg[re] : he->ELedge->reg[le];
 }

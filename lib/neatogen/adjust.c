@@ -17,6 +17,7 @@
 #include <cgraph/agxbuf.h>
 #include <common/utils.h>
 #include <ctype.h>
+#include <math.h>
 #include <neatogen/voronoi.h>
 #include <neatogen/info.h>
 #include <neatogen/edges.h>
@@ -106,18 +107,10 @@ static void chkBoundBox(Agraph_t * graph)
 	pp = &ip->poly;
 	x = ip->site.coord.x;
 	y = ip->site.coord.y;
-	double xmn = pp->origin.x + x;
-	double ymn = pp->origin.y + y;
-	double xmx = pp->corner.x + x;
-	double ymx = pp->corner.y + y;
-	if (xmn < x_min)
-	    x_min = xmn;
-	if (ymn < y_min)
-	    y_min = ymn;
-	if (xmx > x_max)
-	    x_max = xmx;
-	if (ymx > y_max)
-	    y_max = ymx;
+	x_min = fmin(x_min, pp->origin.x + x);
+	y_min = fmin(y_min, pp->origin.y + y);
+	x_max = fmax(x_max, pp->corner.x + x);
+	y_max = fmax(y_max, pp->corner.y + y);
     }
 
     char *marg = agget(graph, "voro_margin");
@@ -191,14 +184,14 @@ static int scomp(const void *S1, const void *S2)
     s1 = *(Site *const *) S1;
     s2 = *(Site *const *) S2;
     if (s1->coord.y < s2->coord.y)
-	return (-1);
+	return -1;
     if (s1->coord.y > s2->coord.y)
-	return (1);
+	return 1;
     if (s1->coord.x < s2->coord.x)
-	return (-1);
+	return -1;
     if (s1->coord.x > s2->coord.x)
-	return (1);
-    return (0);
+	return 1;
+    return 0;
 }
 
  /* sortSites:
@@ -243,10 +236,8 @@ static void geomUpdate(int doSort)
     xmin = sites[0]->coord.x;
     xmax = sites[0]->coord.x;
     for (i = 1; i < nsites; i++) {
-	if (sites[i]->coord.x < xmin)
-	    xmin = sites[i]->coord.x;
-	if (sites[i]->coord.x > xmax)
-	    xmax = sites[i]->coord.x;
+	xmin = fmin(xmin, sites[i]->coord.x);
+	xmax = fmax(xmax, sites[i]->coord.x);
     }
     ymin = sites[0]->coord.y;
     ymax = sites[nsites - 1]->coord.y;
@@ -336,8 +327,7 @@ static int countOverlap(int iter)
     for (i = 0; i < nsites - 1; i++) {
 	jp = ip + 1;
 	for (j = i + 1; j < nsites; j++) {
-	    if (polyOverlap
-		(ip->site.coord, &ip->poly, jp->site.coord, &jp->poly)) {
+	    if (polyOverlap(ip->site.coord, &ip->poly, jp->site.coord, &jp->poly)) {
 		count++;
 		ip->overlaps = 1;
 		jp->overlaps = 1;
@@ -378,12 +368,7 @@ static void increaseBoundBox(void)
   */
 static double areaOf(Point a, Point b, Point c)
 {
-    double area;
-
-    area = fabs
-		  (a.x * (b.y - c.y) + b.x * (c.y - a.y) +
-		   c.x * (a.y - b.y)) / 2;
-    return area;
+    return fabs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2;
 }
 
  /* centroidOf:
@@ -418,9 +403,9 @@ static void newpos(Info_t * ip)
     while (q != NULL) {
 	area = areaOf(anchor->p, p->p, q->p);
 	centroidOf(anchor->p, p->p, q->p, &x, &y);
-	cx = cx + area * x;
-	cy = cy + area * y;
-	totalArea = totalArea + area;
+	cx += area * x;
+	cy += area * y;
+	totalArea += area;
 	p = q;
 	q = q->next;
     }
@@ -577,8 +562,8 @@ static double rePos(void)
     double f = 1.0 + incr;
 
     for (i = 0; i < nsites; i++) {
-	ip->site.coord.x = f * ip->site.coord.x;
-	ip->site.coord.y = f * ip->site.coord.y;
+	ip->site.coord.x *= f;
+	ip->site.coord.y *= f;
 	ip++;
     }
     return f;
@@ -769,8 +754,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
 	}
     }
 
-    if (!SparseMatrix_is_symmetric(A, FALSE)
-	|| A->type != MATRIX_TYPE_REAL) {
+    if (!SparseMatrix_is_symmetric(A, FALSE) || A->type != MATRIX_TYPE_REAL) {
 	A = SparseMatrix_get_real_adjacency_matrix_symmetrized(A);
     } else {
 	A = SparseMatrix_remove_diagonal(A);
@@ -780,7 +764,7 @@ fdpAdjust (graph_t* g, adjust_data* am)
 		   ELSCHEME_NONE, 0, NULL, NULL, mapBool (agget(g, "overlap_shrink"), TRUE));
 
     for (n = agfstnode(g); n; n = agnxtnode(g, n)) {
-	real *npos = pos + (Ndim * ND_id(n));
+	real *npos = pos + Ndim * ND_id(n);
 	for (i = 0; i < Ndim; i++) {
 	    ND_pos(n)[i] = npos[i];
 	}
