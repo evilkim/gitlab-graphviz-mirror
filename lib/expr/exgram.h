@@ -1069,7 +1069,7 @@ cmpKey(Dt_t * d, Extype_t * key1, Extype_t * key2, Dtdisc_t * disc)
 int
 exisAssign(Exnode_t * n) 
 {
-	return ((n->op == '=') && (n->subop == '='));
+	return n->op == '=' && n->subop == '=';
 }
 
 #endif
