@@ -621,6 +621,8 @@ gen(Excc_t* cc, Exnode_t* expr)
 static int
 global(Dt_t* table, void* object, void* handle)
 {
+	(void)table;
+
 	Excc_t*	cc = handle;
 	Exid_t*	sym = object;
 
