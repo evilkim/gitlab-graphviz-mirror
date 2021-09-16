@@ -106,7 +106,6 @@ static void
 print(Excc_t* cc, Exnode_t* expr)
 {
 	Print_t*	x;
-	int		i;
 
 	if ((x = expr->data.print.args))
 	{
@@ -118,7 +117,7 @@ print(Excc_t* cc, Exnode_t* expr)
 		{
 			if (x->arg)
 			{
-				for (i = 0; i < elementsof(x->param) && x->param[i]; i++)
+				for (size_t i = 0; i < elementsof(x->param) && x->param[i]; i++)
 				{
 					sfprintf(cc->ccdisc->text, ", (");
 					gen(cc, x->param[i]);
