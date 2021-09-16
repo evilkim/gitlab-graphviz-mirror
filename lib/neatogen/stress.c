@@ -318,7 +318,7 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
     double *b_restricted;
     double L_ij;
     double old_stress, new_stress;
-    boolean converged;
+    bool converged;
 
     for (i = 0; i < subspace_dim; i++) {
 	subspace[i] = d_storage + i * n;
@@ -622,7 +622,7 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
     b = N_GNEW(n, double);
     b_restricted = N_GNEW(subspace_dim, double);
     old_stress = compute_stress1(coords, distances, dim, n, exp);
-    for (converged = FALSE, iterations = 0;
+    for (converged = false, iterations = 0;
 	 iterations < n_iterations && !converged; iterations++) {
 
 	/* Axis-by-axis optimization: */
@@ -659,11 +659,9 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
 					     directions[k], coords[k]);
 	}
 
-	if ((converged = (iterations % 2 == 0))) {	/* check for convergence each two iterations */
+	if ((converged = iterations % 2 == 0)) {	/* check for convergence each two iterations */
 	    new_stress = compute_stress1(coords, distances, dim, n, exp);
-	    converged =
-		fabs(new_stress - old_stress) / (new_stress + 1e-10) <
-		Epsilon;
+	    converged = fabs(new_stress - old_stress) / (new_stress + 1e-10) < Epsilon;
 	    old_stress = new_stress;
 	}
     }
