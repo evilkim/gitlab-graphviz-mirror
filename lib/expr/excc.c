@@ -621,8 +621,8 @@ gen(Excc_t* cc, Exnode_t* expr)
 static int
 global(Dt_t* table, void* object, void* handle)
 {
-	Excc_t*	cc = (Excc_t*)handle;
-	Exid_t*	sym = (Exid_t*)object;
+	Excc_t*	cc = handle;
+	Exid_t*	sym = object;
 
 	if (sym->lex == DYNAMIC)
 		sfprintf(cc->ccdisc->text, "static %s	%s;\n", extype(sym->type), sym->name);
