@@ -19,6 +19,7 @@
 #include <neatogen/kkutils.h>
 #include <neatogen/stress.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -48,7 +49,7 @@ typedef struct {
     int nedges;
     int *edges;
     DistType *edist;
-    boolean free_mem;
+    bool free_mem;
 } dist_data;
 
 static double compute_stressf(float **coords, float *lap, int dim, int n, int exp)
@@ -433,7 +434,7 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
 	    distances[i].edist = N_GNEW(n - 1, DistType);
 	    distances[i].nedges = n - 1;
 	    nedges += n - 1;
-	    distances[i].free_mem = TRUE;
+	    distances[i].free_mem = true;
 	    index = CenterIndex[i];
 	    for (j = 0; j < i; j++) {
 		distances[i].edges[j] = j;
@@ -477,9 +478,9 @@ static int sparse_stress_subspace_majorization_kD(vtx_data * graph,	/* Input gra
 	    available_space = (dist_bound + 1) * n;
 	    storage1 = N_GNEW(available_space, int);
 	    storage2 = N_GNEW(available_space, DistType);
-	    distances[i].free_mem = TRUE;
+	    distances[i].free_mem = true;
 	} else {
-	    distances[i].free_mem = FALSE;
+	    distances[i].free_mem = false;
 	}
 	distances[i].edges = storage1;
 	distances[i].edist = storage2;
