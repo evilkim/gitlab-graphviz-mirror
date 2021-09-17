@@ -14,6 +14,7 @@
 #ifdef HAVE_EXPAT
 #include    <expat.h>
 #include    <ctype.h>
+#include    <limits.h>
 #include    <stdbool.h>
 #include    <stdlib.h>
 
@@ -726,7 +727,8 @@ Agraph_t *gxl_to_gv(FILE * gxlFile)
 	if (len == 0)
 	    break;
 	done = len < sizeof(buf);
-	if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
+	assert(len <= (size_t)INT_MAX && "too large data for Expat API");
+	if (XML_Parse(parser, buf, (int)len, done) == XML_STATUS_ERROR) {
 	    fprintf(stderr,
 		    "%s at line %lu\n",
 		    XML_ErrorString(XML_GetErrorCode(parser)),
