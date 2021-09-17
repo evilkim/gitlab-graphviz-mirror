@@ -15,6 +15,7 @@
 #include    <expat.h>
 #include    <ctype.h>
 #include    <stdbool.h>
+#include    <stdlib.h>
 
 #ifndef XML_STATUS_ERROR
 #define XML_STATUS_ERROR 0
@@ -64,7 +65,7 @@ static void *gcalloc(size_t nmemb, size_t size)
 
 static void pushString(slist ** stk, const char *s)
 {
-    int sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
+    size_t sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
     slist *sp = gcalloc(sz, sizeof(char));
     strcpy(sp->buf, s);
     sp->next = *stk;
