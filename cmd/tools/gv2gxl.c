@@ -54,6 +54,9 @@ typedef struct {
 
 static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     namev_t *np = NEW(namev_t);
     np->name = objp->name;
     np->unique_name = 0;
@@ -62,6 +65,9 @@ static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 
 static void free_nitem(Dt_t * d, namev_t * np, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(np);
 }
 
@@ -84,6 +90,9 @@ typedef struct {
 
 static void free_iditem(Dt_t * d, idv_t * idp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(idp->name);
     free(idp);
 }
@@ -409,6 +418,8 @@ static void
 writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 	  int isGraph)
 {
+    (void)g;
+
     Dict_t *view;
     Agsym_t *sym, *psym;
 
