@@ -752,7 +752,7 @@ static int balance(graph_t * g)
     return rv;
 }
 
-static int transpose_step(graph_t * g, int r, int reverse)
+static int transpose_step(graph_t * g, int r, bool reverse)
 {
     int i, c0, c1, rv;
     node_t *v, *w;
@@ -793,7 +793,7 @@ static int transpose_step(graph_t * g, int r, int reverse)
     return rv;
 }
 
-static void transpose(graph_t * g, int reverse)
+static void transpose(graph_t * g, bool reverse)
 {
     int r, delta;
 
@@ -1550,7 +1550,7 @@ static void flat_reorder(graph_t * g)
 	free(temprank);
 }
 
-static void reorder(graph_t * g, int r, int reverse, bool hasfixed)
+static void reorder(graph_t * g, int r, bool reverse, bool hasfixed)
 {
     int changed = 0, nelt;
     node_t **vlist = GD_rank(g)[r].v;
@@ -1605,12 +1605,8 @@ static void reorder(graph_t * g, int r, int reverse, bool hasfixed)
 static void mincross_step(graph_t * g, int pass)
 {
     int r, other, first, last, dir;
-    int reverse;
 
-    if (pass % 4 < 2)
-	reverse = TRUE;
-    else
-	reverse = FALSE;
+    bool reverse = pass % 4 < 2;
 
     if (pass % 2 == 0) {	/* down pass */
 	first = GD_minrank(g) + 1;
@@ -1631,7 +1627,7 @@ static void mincross_step(graph_t * g, int pass)
 	bool hasfixed = medians(g, r, other);
 	reorder(g, r, reverse, hasfixed);
     }
-    transpose(g, NOT(reverse));
+    transpose(g, !reverse);
 }
 
 static int local_cross(elist l, int dir)
