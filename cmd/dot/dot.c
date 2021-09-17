@@ -38,6 +38,8 @@ static graph_t * G;
 #ifndef _WIN32
 static void intr(int s)
 {
+    (void)s;
+
 /* if interrupted we try to produce a partial rendering before exiting */
     if (G)
 	gvRenderJobs(Gvc, G);
