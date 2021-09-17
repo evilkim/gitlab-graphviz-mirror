@@ -17,7 +17,8 @@
 
 #include <ctype.h>
 #include <getopt.h>
-#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "convert.h"
 #include <ingraphs/ingraphs.h>
@@ -157,6 +158,10 @@ static void initargs(int argc, char **argv)
 			optopt);
 		exit(1);
 	    }
+	    break;
+	default:
+	    fprintf(stderr, "cvtgxl: unexpected error\n");
+	    exit(EXIT_FAILURE);
 	}
     }
 
