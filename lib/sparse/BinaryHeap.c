@@ -244,11 +244,10 @@ void BinaryHeap_sanity_check(BinaryHeap h){
     assert((h->cmp)(heap[i], heap[parentPos]) >= 0);
   }
 
-  mask = CALLOC(h->len + (size_t)IntStack_get_length(h->id_stack),
-                sizeof(mask[0]));
+  mask = CALLOC(h->len + IntStack_get_length(h->id_stack), sizeof(mask[0]));
 
   /* check that spare keys has negative id_to_pos mapping */
-  for (int i = 0; i <= h->id_stack->last; i++){
+  for (size_t i = 0; i <= h->id_stack->last; i++) {
     int key_spare = h->id_stack->stack[i];
     assert(h->id_to_pos[key_spare] == SIZE_MAX);
     mask[key_spare] = 1;/* mask spare ID */
@@ -265,7 +264,7 @@ void BinaryHeap_sanity_check(BinaryHeap h){
   }
 
   /* all IDs, spare or in use, are accounted for and give a contiguous set */
-  for (size_t i = 0; i < h->len + (size_t)IntStack_get_length(h->id_stack); i++)
+  for (size_t i = 0; i < h->len + IntStack_get_length(h->id_stack); i++)
     assert(mask[i] != 0);
 
   FREE(mask);
@@ -282,7 +281,7 @@ void BinaryHeap_print(BinaryHeap h, void (*pnt)(void*)){
     }
   }
   fprintf(stderr, "\nSpare keys =");
-  for (int i = 0; i <= h->id_stack->last; i++){
+  for (size_t i = 0; i <= h->id_stack->last; i++) {
     fprintf(stderr, "%d(%zu) ", h->id_stack->stack[i],
             h->id_to_pos[h->id_stack->stack[i]]);
   }
