@@ -893,7 +893,7 @@ static gxlstate_t *initState(Agraph_t * g)
     stp->idList = dtopen(&idDisc, Dtoset);
     stp->attrsNotWritten = 0;
     stp->root = g;
-    stp->directed = agisdirected(g);
+    stp->directed = agisdirected(g) != 0;
     return stp;
 }
 
