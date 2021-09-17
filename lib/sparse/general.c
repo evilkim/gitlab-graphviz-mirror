@@ -98,9 +98,8 @@ void vector_float_take(int n, float *v, int m, int *p, float **u){
 }
 
 static int comp_ascend(const void *s1, const void *s2){
-  const real *ss1, *ss2;
-  ss1 = (const real*) s1;
-  ss2 = (const real*) s2;
+  const real *ss1 = s1;
+  const real *ss2 = s2;
 
   if ((ss1)[0] > (ss2)[0]){
     return 1;
@@ -111,9 +110,8 @@ static int comp_ascend(const void *s1, const void *s2){
 }
 
 static int comp_ascend_int(const void *s1, const void *s2){
-  const int *ss1, *ss2;
-  ss1 = (const int*) s1;
-  ss2 = (const int*) s2;
+  const int *ss1 = s1;
+  const int *ss2 = s2;
 
   if ((ss1)[0] > (ss2)[0]){
     return 1;
