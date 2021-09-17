@@ -15,8 +15,8 @@
 
 #include "config.h"
 
-#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -129,6 +129,9 @@ static void init(int argc, char *argv[])
 		usage(1);
 	    }
 	    break;
+	default:
+	    fprintf(stderr, "gc: unexpected error\n");
+	    exit(EXIT_FAILURE);
 	}
     }
     argv += optind;
