@@ -11,7 +11,7 @@
 
 #include "convert.h"
 #include <ctype.h>
-#include <stddef.h>
+#include <stdlib.h>
 
 #define SMALLBUF    128
 
@@ -183,9 +183,9 @@ static int xml_isentity(char *s)
 static char *_xml_string(char *s, int notURL)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
+    static size_t bufsize = 0;
     char *p, *sub, *prev = NULL;
-    int len, pos = 0;
+    size_t len, pos = 0;
 
     if (!buf) {
 	bufsize = 64;
