@@ -1553,7 +1553,6 @@ static void flat_reorder(graph_t * g)
 static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 {
     int changed = 0, nelt;
-    boolean muststay, sawclust;
     node_t **vlist = GD_rank(g)[r].v;
     node_t **lp, **rp, **ep = vlist + GD_rank(g)[r].n;
 
@@ -1566,18 +1565,19 @@ static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 	    if (lp >= ep)
 		break;
 	    /* find the node that can be compared */
-	    sawclust = muststay = FALSE;
+	    bool sawclust = false;
+	    bool muststay = false;
 	    for (rp = lp + 1; rp < ep; rp++) {
 		if (sawclust && ND_clust(*rp))
 		    continue;	/* ### */
 		if (left2right(g, *lp, *rp)) {
-		    muststay = TRUE;
+		    muststay = true;
 		    break;
 		}
 		if (ND_mval(*rp) >= 0)
 		    break;
 		if (ND_clust(*rp))
-		    sawclust = TRUE;	/* ### */
+		    sawclust = true;	/* ### */
 	    }
 	    if (rp >= ep)
 		break;
