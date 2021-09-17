@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef VECTOR_H
-#define VECTOR_H
+#pragma once
+
 #include <stdlib.h>
 struct vector_struct {
   int maxlen;
@@ -35,5 +35,3 @@ void* Vector_get(Vector v, int i);
 int Vector_get_length(Vector v);
 
 Vector Vector_reset(Vector v, void *stuff, int i);
-
-#endif

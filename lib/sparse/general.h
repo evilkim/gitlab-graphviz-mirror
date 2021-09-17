@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef GENERAL_H
-#define GENERAL_H
+#pragma once
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -121,8 +120,3 @@ real point_distance(real *p1, real *p2, int dim);
 char *strip_dir(char *s);
 
 void scale_to_box(real xmin, real ymin, real xmax, real ymax, int n, int dim, real *x);
-
-#endif
-
-
-

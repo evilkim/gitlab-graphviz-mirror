@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef QUAD_TREE_H
-#define QUAD_TREE_H
+#pragma once
 
 #include <sparse/LinkedList.h>
 #include <stdio.h>
@@ -56,5 +55,3 @@ void QuadTree_get_repulsive_force(QuadTree qt, real *force, real *x, real bh, re
 void QuadTree_get_nearest(QuadTree qt, real *x, real *ymin, int *imin, real *min, int *flag);
 
 QuadTree QuadTree_new_in_quadrant(int dim, real *center, real width, int max_level, int i);
-
-#endif

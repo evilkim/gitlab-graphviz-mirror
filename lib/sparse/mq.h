@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef MG_H
-#define MG_H
+#pragma once
 
 typedef struct Multilevel_MQ_Clustering_struct *Multilevel_MQ_Clustering;
 
@@ -56,5 +55,3 @@ struct Multilevel_MQ_Clustering_struct {
 */
 void mq_clustering(SparseMatrix A, int inplace, int maxcluster, int use_value,
 			   int *nclusters, int **assignment, real *mq, int *flag);
-
-#endif
