@@ -27,7 +27,7 @@ import os
 import subprocess
 import sys
 
-collection = "development"
+collection = "stable"
 
 version = "2.49.1"
 
