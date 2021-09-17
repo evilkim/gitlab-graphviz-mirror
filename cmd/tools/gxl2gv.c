@@ -8,7 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include    <assert.h>
 #include    "convert.h"
 #include    <cgraph/agxbuf.h>
 #ifdef HAVE_EXPAT
@@ -689,15 +689,18 @@ static void characterDataHandler(void *userData, const char *s, int length)
 {
     userdata_t *ud = userData;
 
+    assert(length >= 0 && "Expat returned negative length data");
+    size_t len = (size_t)length;
+
     if (!ud->listen)
 	return;
 
     if (ud->compositeReadState) {
-	agxbput_n(&ud->composite_buffer, s, length);
+	agxbput_n(&ud->composite_buffer, s, len);
 	return;
     }
 
-    agxbput_n(&ud->xml_attr_value, s, length);
+    agxbput_n(&ud->xml_attr_value, s, len);
 }
 
 Agraph_t *gxl_to_gv(FILE * gxlFile)
