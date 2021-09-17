@@ -377,7 +377,7 @@ setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud,
  * The names always begin with "edge:".
  */
 static void
-setGlobalEdgeAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
+setGlobalEdgeAttr(Agraph_t * g, char *name, char *value)
 {
     if (strncmp(name, EDGELBL, ELBLLEN))
 	fprintf(stderr,
@@ -659,7 +659,7 @@ static void endElementHandler(void *userData, const char *name)
 	    setGlobalNodeAttr(G, name, value);
 	    break;
 	case TAG_EDGE:
-	    setGlobalEdgeAttr(G, name, value, ud);
+	    setGlobalEdgeAttr(G, name, value);
 	    break;
 	case TAG_GRAPH:
 	    setGraphAttr(G, name, value, ud);
