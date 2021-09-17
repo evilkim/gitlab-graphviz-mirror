@@ -20,6 +20,7 @@
 #include <cgraph/cgraph.h>
 #include <dotgen/dot.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -70,7 +71,7 @@ static graph_t *Root;
 static int GlobalMinRank, GlobalMaxRank;
 static edge_t **TE_list;
 static int *TI_list;
-static boolean ReMincross;
+static bool ReMincross;
 
 #if defined(DEBUG) && DEBUG > 1
 static void indent(graph_t* g)
@@ -373,7 +374,7 @@ void dot_mincross(graph_t * g, int doBalance)
 
     if (GD_n_cluster(g) > 0 && (!(s = agget(g, "remincross")) || mapbool(s))) {
 	mark_lowclusters(g);
-	ReMincross = TRUE;
+	ReMincross = true;
 	nc = mincross(g, 2, 2, doBalance);
 #ifdef DEBUG
 	for (c = 1; c <= GD_n_cluster(g); c++)
@@ -548,7 +549,7 @@ static int left2right(graph_t * g, node_t * v, node_t * w)
     int rv;
 
     /* CLUSTER indicates orig nodes of clusters, and vnodes of skeletons */
-    if (ReMincross == FALSE) {
+    if (!ReMincross) {
 	if (ND_clust(v) != ND_clust(w) && ND_clust(v) && ND_clust(w)) {
 	    /* the following allows cluster skeletons to be swapped */
 	    if (ND_ranktype(v) == CLUSTER && ND_node_type(v) == VIRTUAL)
@@ -1160,7 +1161,7 @@ static void init_mincross(graph_t * g)
     if (Verbose)
 	start_timer();
 
-    ReMincross = FALSE;
+    ReMincross = false;
     Root = g;
     /* alloc +1 for the null terminator usage in do_ordering() */
     size = agnedges(dot_root(g)) + 1;
