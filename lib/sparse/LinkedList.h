@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#pragma once
 
 typedef struct SingleLinkedList_struct* SingleLinkedList;
 
@@ -48,4 +47,3 @@ void* DoubleLinkedList_get_data(DoubleLinkedList l);
 DoubleLinkedList DoubleLinkedList_get_next(DoubleLinkedList l);
 
 void DoubleLinkedList_delete_element(DoubleLinkedList l,  void (*linklist_deallocator)(void*), DoubleLinkedList *head);
-#endif

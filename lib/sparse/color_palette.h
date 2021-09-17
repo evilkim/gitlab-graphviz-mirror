@@ -8,8 +8,8 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef COLOR_PALLETE_H
-#define COLOR_PALLETE_H
+#pragma once
+
 #include "stdio.h"
 enum {MAX_COLOR = 1001};
 
@@ -31,7 +31,3 @@ extern float palette_sequential_singlehue_red[1001][3];
 extern float palette_sequential_singlehue_red_lighter[1001][3];
 extern float palette_adam_blend[1001][3];
 extern float palette_adam[11][3];
-
-#endif
-
-

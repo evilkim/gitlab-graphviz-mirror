@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef CLUSTERING_H
-#define CLUSTERING_H
+#pragma once
 
 typedef struct Multilevel_Modularity_Clustering_struct *Multilevel_Modularity_Clustering;
 
@@ -50,5 +49,3 @@ enum {CLUSTERING_MODULARITY = 0, CLUSTERING_MQ};
 */
 void modularity_clustering(SparseMatrix A, int inplace, int maxcluster, int use_value,
 			   int *nclusters, int **assignment, real *modularity, int *flag);
-
-#endif

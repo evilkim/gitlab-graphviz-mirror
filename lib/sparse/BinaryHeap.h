@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef BinaryHeap_H
-#define  BinaryHeap_H
+#pragma once
 
 #include <sparse/general.h>
 #include <sparse/IntStack.h>
@@ -71,5 +70,3 @@ size_t BinaryHeap_reset(BinaryHeap h, int id, void *item);/* reset value of an i
 void BinaryHeap_print(BinaryHeap h, void (*pnt)(void*));
 
 void BinaryHeap_sanity_check(BinaryHeap h);
-
-#endif

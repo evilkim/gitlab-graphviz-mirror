@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef COLORUTIL_H
-#define COLORUTIL_H
+#pragma once
 
 #include <color.h>
 
@@ -19,5 +18,3 @@ void rgb2hex(float r, float g, float b, char *cstring, const char* opacity);
   /* dimension of cstring must be >=7 */
 
 char* hue2rgb(real hue, char *color);
-
-#endif

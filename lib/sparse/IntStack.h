@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef IntStack_H
-#define IntStack_H
+#pragma once
 
 #include <stddef.h>
 
@@ -34,5 +33,3 @@ size_t IntStack_push(IntStack s, int i); // add an item and return the pos
 int IntStack_pop(IntStack s, int *flag);/* remove the last item. If none exist, flag = -1, and return -1. */
 
 void IntStack_print(IntStack s);
-
-#endif
