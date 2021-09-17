@@ -333,8 +333,8 @@ static char *createEdgeId(gxlstate_t * stp, Agedge_t * e)
     char buf[BUFSIZ];
     char *hname = nodeID(stp, AGHEAD(e));
     char *tname = nodeID(stp, AGTAIL(e));
-    int baselen = strlen(hname) + strlen(tname) + sizeof(EDGEOP);
-    int len = baselen + EXTRA;
+    size_t baselen = strlen(hname) + strlen(tname) + sizeof(EDGEOP);
+    size_t len = baselen + EXTRA;
     char *bp;
     char *endp;			/* where to append ':' and number */
     char *rv;
