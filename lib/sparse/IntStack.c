@@ -8,16 +8,18 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <limits.h>
 #include <sparse/general.h>
 #include <sparse/IntStack.h>
+#include <stdlib.h>
 
 IntStack IntStack_new(void){
   IntStack s;
-  int max_len = 1<<5;
+  size_t max_len = 1<<5;
 
   s = MALLOC(sizeof(struct IntStack_struct));
   s->max_len = max_len;
-  s->last = -1;
+  s->last = SIZE_MAX;
   s->stack = MALLOC(sizeof(int)*max_len);
   return s;
 }
@@ -30,7 +32,7 @@ void IntStack_delete(IntStack s){
 }
 
 static IntStack IntStack_realloc(IntStack s){
-  int max_len = s->max_len;
+  size_t max_len = s->max_len;
 
   max_len += MAX(10, max_len / 5);
   s->max_len = max_len;
@@ -39,10 +41,10 @@ static IntStack IntStack_realloc(IntStack s){
   return s;
 }
 
-int IntStack_push(IntStack s, int i){
-  /* add an item and return the pos. Return negative value of malloc failed */
-  if (s->last >= s->max_len - 1){
-    if (!(IntStack_realloc(s))) return -1;
+size_t IntStack_push(IntStack s, int i){
+  // add an item and return the pos. Return SIZE_MAX if malloc failed
+  if (s->last != SIZE_MAX && s->last >= s->max_len - 1) {
+    if (!IntStack_realloc(s)) return SIZE_MAX;
   }
   s->stack[++(s->last)] = i;
   return s->last;
@@ -50,14 +52,13 @@ int IntStack_push(IntStack s, int i){
 int IntStack_pop(IntStack s, int *flag){
   /* remove the last item. If none exist, return -1 */
   *flag = 0;
-  if (s->last < 0){
+  if (s->last == SIZE_MAX) {
     *flag = -1;
     return -1;
   }
   return s->stack[(s->last)--];
 }
 void IntStack_print(IntStack s){
-  int i;
-  for (i = 0; i <= s->last; i++) fprintf(stderr,"%d,",s->stack[i]);
+  for (size_t i = 0; i <= s->last; i++) fprintf(stderr, "%d,", s->stack[i]);
   fprintf(stderr,"\n");
 }
