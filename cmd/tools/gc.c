@@ -266,7 +266,7 @@ static void ipr(long num)
 }
 
 static void
-wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *fname)
+wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *filename)
 {
     int i;
 
@@ -283,7 +283,7 @@ wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *fname)
     if (flags & CL)
 	ipr(ncl);
     if (fname)
-	printf(" %s (%s)\n", gname, fname);
+	printf(" %s (%s)\n", gname, filename);
     else
 	printf(" %s\n", gname);
 }
