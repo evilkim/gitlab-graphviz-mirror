@@ -62,31 +62,3 @@ void IntStack_print(IntStack s){
   for (i = 0; i <= s->last; i++) fprintf(stderr,"%d,",s->stack[i]);
   fprintf(stderr,"\n");
 }
-
-/*
-main(){
-
-  IntStack s;
-  int i, len = 1, pos, flag;
-
-  for (;;){
-    s = IntStack_new();
-    fprintf(stderr,"=============== stack with %d elements ============\n",len);
-    for (i = 0; i < len; i++){
-      pos = IntStack_push(s, i);
-      if (pos < 0){
-	fprintf(stderr," fail to push element %d, quit\n", i);
-	exit(1);
-      }
-    }    
-    for (i = 0; i < len+1; i++){
-      IntStack_pop(s, &flag);
-      if (flag) {
-	fprintf(stderr, "no more element\n");
-      }
-    }
-    IntStack_delete(s);
-    len *= 2;
-  }
-}
-*/
