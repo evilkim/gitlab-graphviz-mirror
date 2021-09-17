@@ -627,7 +627,7 @@ static void endElementHandler(void *userData, const char *name)
 	ud->closedElementType = TAG_EDGE;
 	ud->edgeinverted = FALSE;
     } else if (strcmp(name, "attr") == 0) {
-	char *name;
+	char *new_name;
 	char *value;
 	char buf[SMALLBUF] = GXL_COMP;
 	char *dynbuf = 0;
@@ -636,36 +636,36 @@ static void endElementHandler(void *userData, const char *name)
 	if (ud->compositeReadState) {
 	    size_t len = sizeof(GXL_COMP) + (size_t)agxblen(&ud->xml_attr_name);
 	    if (len <= SMALLBUF) {
-		name = buf;
+		new_name = buf;
 	    } else {
-		name = dynbuf = gcalloc(len, sizeof(char));
-		strcpy(name, GXL_COMP);
+		new_name = dynbuf = gcalloc(len, sizeof(char));
+		strcpy(new_name, GXL_COMP);
 	    }
-	    strcpy(name + sizeof(GXL_COMP) - 1,
+	    strcpy(new_name + sizeof(GXL_COMP) - 1,
 		   agxbuse(&ud->xml_attr_name));
 	    value = agxbuse(&ud->composite_buffer);
 	    agxbclear(&ud->xml_attr_value);
 	    ud->compositeReadState = FALSE;
 	} else {
-	    name = agxbuse(&ud->xml_attr_name);
+	    new_name = agxbuse(&ud->xml_attr_name);
 	    value = agxbuse(&ud->xml_attr_value);
 	}
 
 	switch (ud->globalAttrType) {
 	case TAG_NONE:
-	    setAttr(name, value, ud, false);
+	    setAttr(new_name, value, ud, false);
 	    break;
 	case TAG_NODE:
-	    setGlobalNodeAttr(G, name, value);
+	    setGlobalNodeAttr(G, new_name, value);
 	    break;
 	case TAG_EDGE:
-	    setGlobalEdgeAttr(G, name, value);
+	    setGlobalEdgeAttr(G, new_name, value);
 	    break;
 	case TAG_GRAPH:
-	    setGraphAttr(G, name, value, ud);
+	    setGraphAttr(G, new_name, value, ud);
 	    break;
 	case TAG_HTML_LIKE_STRING:
-	    setAttr(name, value, ud, true);
+	    setAttr(new_name, value, ud, true);
 	    break;
 	}
 	free(dynbuf);
