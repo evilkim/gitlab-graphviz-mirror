@@ -46,7 +46,7 @@ size_t IntStack_push(IntStack s, int i){
   if (s->last != SIZE_MAX && s->last >= s->max_len - 1) {
     if (!IntStack_realloc(s)) return SIZE_MAX;
   }
-  s->stack[++(s->last)] = i;
+  s->stack[++s->last] = i;
   return s->last;
 }
 int IntStack_pop(IntStack s, int *flag){
@@ -56,7 +56,7 @@ int IntStack_pop(IntStack s, int *flag){
     *flag = -1;
     return -1;
   }
-  return s->stack[(s->last)--];
+  return s->stack[s->last--];
 }
 void IntStack_print(IntStack s){
   for (size_t i = 0; i <= s->last; i++) fprintf(stderr, "%d,", s->stack[i]);
