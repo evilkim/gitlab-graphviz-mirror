@@ -133,6 +133,9 @@ typedef struct {
 
 static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     namev_t *np = malloc(sizeof(namev_t));
     if (np == NULL)
 	return NULL;
@@ -143,6 +146,9 @@ static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 
 static void free_nitem(Dt_t * d, namev_t * np, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(np->unique_name);
     free(np);
 }
