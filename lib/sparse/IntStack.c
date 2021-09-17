@@ -57,7 +57,6 @@ int IntStack_pop(IntStack s, int *flag){
   return s->stack[(s->last)--];
 }
 void IntStack_print(IntStack s){
-  /* remove the last item. If none exist, return -1 */
   int i;
   for (i = 0; i <= s->last; i++) fprintf(stderr,"%d,",s->stack[i]);
   fprintf(stderr,"\n");
