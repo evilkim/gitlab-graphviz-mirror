@@ -506,7 +506,7 @@ writeHdr(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile, int top)
     char buf[BUFSIZ];
     char *bp;
     char *dynbuf = 0;
-    int len;
+    size_t len;
 
     Level++;
     stp->attrsNotWritten = AGATTRWF(g);
