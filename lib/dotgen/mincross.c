@@ -30,7 +30,7 @@
 #define flatindex(v)	ND_low(v)
 
 	/* forward declarations */
-static boolean medians(graph_t * g, int r0, int r1);
+static bool medians(graph_t * g, int r0, int r1);
 static int nodeposcmpf(node_t ** n0, node_t ** n1);
 static int edgeidcmpf(edge_t ** e0, edge_t ** e1);
 static void flat_breakcycles(graph_t * g);
@@ -1550,7 +1550,7 @@ static void flat_reorder(graph_t * g)
 	free(temprank);
 }
 
-static void reorder(graph_t * g, int r, int reverse, int hasfixed)
+static void reorder(graph_t * g, int r, int reverse, bool hasfixed)
 {
     int changed = 0, nelt;
     node_t **vlist = GD_rank(g)[r].v;
@@ -1605,7 +1605,7 @@ static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 static void mincross_step(graph_t * g, int pass)
 {
     int r, other, first, last, dir;
-    int hasfixed, reverse;
+    int reverse;
 
     if (pass % 4 < 2)
 	reverse = TRUE;
@@ -1628,7 +1628,7 @@ static void mincross_step(graph_t * g, int pass)
 
     for (r = first; r != last + dir; r += dir) {
 	other = r - dir;
-	hasfixed = medians(g, r, other);
+	bool hasfixed = medians(g, r, other);
 	reorder(g, r, reverse, hasfixed);
     }
     transpose(g, NOT(reverse));
@@ -1738,7 +1738,7 @@ static int ordercmpf(int *i0, int *i1)
  * a.mval is > 0.
  * Return true if n.mval is left -1, indicating a fixed node for sorting.
  */
-static int flat_mval(node_t * n)
+static bool flat_mval(node_t * n)
 {
     int i;
     edge_t *e, **fl;
@@ -1752,7 +1752,7 @@ static int flat_mval(node_t * n)
 		nn = agtail(e);
 	if (ND_mval(nn) >= 0) {
 	    ND_mval(n) = ND_mval(nn) + 1;
-	    return FALSE;
+	    return false;
 	}
     } else if (ND_flat_out(n).size > 0) {
 	fl = ND_flat_out(n).list;
@@ -1762,20 +1762,20 @@ static int flat_mval(node_t * n)
 		nn = aghead(e);
 	if (ND_mval(nn) > 0) {
 	    ND_mval(n) = ND_mval(nn) - 1;
-	    return FALSE;
+	    return false;
 	}
     }
-    return TRUE;
+    return true;
 }
 
 #define VAL(node,port) (MC_SCALE * ND_order(node) + (port).order)
 
-static boolean medians(graph_t * g, int r0, int r1)
+static bool medians(graph_t * g, int r0, int r1)
 {
     int i, j, j0, lm, rm, lspan, rspan, *list;
     node_t *n, **v;
     edge_t *e;
-    boolean hasfixed = FALSE;
+    bool hasfixed = false;
 
     list = TI_list;
     v = GD_rank(g)[r0].v;
