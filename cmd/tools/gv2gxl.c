@@ -597,7 +597,7 @@ static void writeSubgs(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile)
     }
 }
 
-static int writeEdgeName(Agedge_t * e, FILE * gxlFile, int terminate)
+static int writeEdgeName(Agedge_t * e, FILE * gxlFile)
 {
     int rv;
     char *p;
@@ -625,7 +625,7 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
     int cnt = 0;
 
     if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
-	if (writeEdgeName(obj, gxlFile, FALSE))
+	if (writeEdgeName(obj, gxlFile))
 	    cnt++;
     }
     data = (Agattr_t *) agattrrec(obj);
@@ -793,7 +793,7 @@ writeEdge(gxlstate_t * stp, Agedge_t * e, FILE * gxlFile, Dict_t * d)
     if (!(attrs_written(stp, e)))
 	writeNondefaultAttr(e, gxlFile, d);
     else
-	writeEdgeName(e, gxlFile, TRUE);
+	writeEdgeName(e, gxlFile);
     tabover(gxlFile);
     fprintf(gxlFile, "</edge>\n");
     Level--;
