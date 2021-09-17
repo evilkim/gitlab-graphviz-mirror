@@ -234,7 +234,8 @@ getComp (graph_t* g, node_t* n, graph_t* comp, int* indices)
 static void
 fixLabelOrder (graph_t* g, rank_t* rk)
 {
-    int cnt, haveBackedge = FALSE;
+    int cnt;
+    bool haveBackedge = false;
     Agnode_t** arr;
     int* indices;
     Agraph_t* sg;
@@ -246,7 +247,7 @@ fixLabelOrder (graph_t* g, rank_t* rk)
 	v = nxtp = agnxtnode(g, n);
 	for (; v; v = agnxtnode(g, v)) {
 	    if (ND_hi(v) <= ND_lo(n)) { 
-		haveBackedge = TRUE;
+		haveBackedge = true;
 		agedge(g, v, n, NULL, 1);
 	    }
 	    else if (ND_hi(n) <= ND_lo(v)) { 
