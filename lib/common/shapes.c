@@ -135,7 +135,8 @@ static polygon_t p_Mcircle = {.regular = TRUE,
                               .option = DIAGONALS | AUXLABELS};
 
 /* non-convex polygons */
-static polygon_t p_star = { FALSE, 1, 10, 0., 0., 0., 0, (pointf*)&star_gen };
+static polygon_t p_star = {
+    .peripheries = 1, .sides = 10, .vertices = (pointf *)&star_gen};
 
 /* biological circuit shapes, as specified by SBOLv*/
 /** gene expression symbols **/
