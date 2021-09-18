@@ -142,7 +142,7 @@ static polygon_t p_star = {
 /** gene expression symbols **/
 static polygon_t p_promoter = {
     .peripheries = 1, .sides = 4, .option = PROMOTER};
-static polygon_t p_cds = { FALSE, 1, 4, 0., 0., 0., CDS };
+static polygon_t p_cds = {.peripheries = 1, .sides = 4, .option = CDS};
 static polygon_t p_terminator = { FALSE, 1, 4, 0., 0., 0., TERMINATOR};
 static polygon_t p_utr = { FALSE, 1, 4, 0., 0., 0., UTR};
 static polygon_t p_insulator = { FALSE, 1, 4, 0., 0., 0., INSULATOR};
