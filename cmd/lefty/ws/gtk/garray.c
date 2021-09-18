@@ -212,24 +212,12 @@ void Gawdefcoordscb(int wi, Gawdata_t * dp)
 	dp->sx = csx;
 }
 
-
-static void dolayout(Gwidget_t * widget, int flag)
-{
-
-
-}
-
-
 int Gawsetmode(Gwidget_t * widget, int mode)
 {
-
-    dolayout(widget, TRUE);
     return 0;
 }
 
 
 int Gaworder(Gwidget_t * widget, void *data, Gawordercb func)
 {
-
-    dolayout(widget, TRUE);
 }
