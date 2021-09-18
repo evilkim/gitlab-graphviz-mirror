@@ -22,6 +22,7 @@
 #include <gvpr/compile.h>
 #include <assert.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/itos.h>
 #include <ast/error.h>
 #include <gvpr/actions.h>
 #include <ast/sfstr.h>
@@ -2272,8 +2273,7 @@ static Exdisc_t *initDisc(Gpr_t * state)
  * typed expression.
  */
 static Exnode_t *compile(Expr_t * prog, char *src, char *input, int line,
-			 char *lbl, char *sfx, int kind)
-{
+                         const char *lbl, const char *sfx, int kind) {
     Exnode_t *e = 0;
     Sfio_t *sf;
     Sfio_t *prefix;
@@ -2326,25 +2326,31 @@ static void checkGuard(Exnode_t * gp, char *src, int line)
 /* mkStmts:
  */
 static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
-			  int cnt, char *lbl, Sfio_t *tmps)
+                          int cnt, const char *lbl)
 {
     case_stmt *cs;
     int i;
+    static const char LONGEST_CALLER_PREFIX[] = "_begin_g_";
+    static const char LONGEST_INFIX[] = "__a";
+    char tmp[sizeof(LONGEST_CALLER_PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 +
+             sizeof(LONGEST_INFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1];
+
+    // the logic in our caller, mkBlock, should guarantee this
+    assert(strlen(lbl) + sizeof(LONGEST_INFIX) - 1 +
+           CHARS_FOR_NUL_TERM_INT - 1 + 1 <= sizeof(tmp));
 
     cs = newof(0, case_stmt, cnt, 0);
 
     for (i = 0; i < cnt; i++) {
 	if (sp->guard) {
-	    sfprintf(tmps, "%s_g%d", lbl, i);
-	    cs[i].guard = compile(prog, src, sp->guard, sp->gstart,
-				  sfstruse(tmps), 0, INTEGER);
+	    snprintf(tmp, sizeof(tmp), "%s_g%d", lbl, i);
+	    cs[i].guard = compile(prog, src, sp->guard, sp->gstart, tmp, 0, INTEGER);
 	    if (getErrorErrors()) break;
 	    checkGuard(cs[i].guard, src, sp->gstart);
 	}
 	if (sp->action) {
-	    sfprintf(tmps, "%s_a%d", lbl, i);
-	    cs[i].action = compile(prog, src, sp->action, sp->astart,
-				   sfstruse(tmps), 0, INTEGER);
+	    snprintf(tmp, sizeof(tmp), "%s_a%d", lbl, i);
+	    cs[i].action = compile(prog, src, sp->action, sp->astart, tmp, 0, INTEGER);
 	    if (getErrorErrors()) break;
 	    /* If no error but no compiled action, the input action must
 	     * have been essentially an empty block, which should be
@@ -2352,9 +2358,8 @@ static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
 	     * trivial block.
 	     */
 	    if (!cs[i].action) {
-		sfprintf(tmps, "%s__a%d", lbl, i);
-		cs[i].action = compile(prog, src, "1", sp->astart,
-				   sfstruse(tmps), 0, INTEGER);
+		snprintf(tmp, sizeof(tmp), "%s__a%d", lbl, i);
+		cs[i].action = compile(prog, src, "1", sp->astart, tmp, 0, INTEGER);
 	    }
 	}
 	sp = sp->next;
@@ -2365,18 +2370,19 @@ static case_stmt *mkStmts(Expr_t * prog, char *src, case_info * sp,
 
 /* mkBlocks:
  */
-static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, Sfio_t* tmps, int i)
+static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, int i)
 {
     int rv = 0;
-    char label[BUFSIZ];
 
     codePhase = 1;
     if (inp->begg_stmt) {
-	sfprintf(tmps, "_begin_g_%d", i);
+	static const char PREFIX[] = "_begin_g_";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
 	symbols[0].type = T_graph;
 	tchk[V_this][1] = Y(G);
 	bp->begg_stmt = compile(prog, src, inp->begg_stmt,
-			       inp->l_beging, sfstruse(tmps), 0, VOIDTYPE);
+                          inp->l_beging, label, 0, VOIDTYPE);
 	if (getErrorErrors())
 	    goto finishBlk;
 	rv |= BEGG;
@@ -2384,12 +2390,13 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 
     codePhase = 2;
     if (inp->node_stmts) {
+	static const char PREFIX[] = "_nd";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
 	symbols[0].type = T_node;
 	tchk[V_this][1] = Y(V);
 	bp->n_nstmts = inp->n_nstmts;
-	snprintf(label, sizeof(label), "_nd%d", i);
-	bp->node_stmts = mkStmts(prog, src, inp->node_stmts,
-				inp->n_nstmts, label, tmps);
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
+	bp->node_stmts = mkStmts(prog, src, inp->node_stmts, inp->n_nstmts, label);
 	if (getErrorErrors())
 	    goto finishBlk;
 	bp->walks |= WALKSG;
@@ -2397,12 +2404,13 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 
     codePhase = 3;
     if (inp->edge_stmts) {
+	static const char PREFIX[] = "_eg";
+	char label[sizeof(PREFIX) - 1 + CHARS_FOR_NUL_TERM_INT - 1 + 1 /* for NUL */];
 	symbols[0].type = T_edge;
 	tchk[V_this][1] = Y(E);
 	bp->n_estmts = inp->n_estmts;
-	snprintf(label, sizeof(label), "_eg%d", i);
-	bp->edge_stmts = mkStmts(prog, src, inp->edge_stmts,
-				inp->n_estmts, label, tmps);
+	snprintf(label, sizeof(label), "%s%d", PREFIX, i);
+	bp->edge_stmts = mkStmts(prog, src, inp->edge_stmts, inp->n_estmts, label);
 	if (getErrorErrors())
 	    goto finishBlk;
 	bp->walks |= WALKSG;
@@ -2422,14 +2430,17 @@ static int mkBlock(comp_block* bp, Expr_t * prog, char *src, parse_block *inp, S
 /* doFlags:
  * Convert command line flags to actions in END_G.
  */
-static char *doFlags(int flags, Sfio_t * s)
-{
-    sfprintf(s, "\n");
-    if (flags & SRCOUT)
-	sfprintf(s, "$O = $G;\n");
-    if (flags & INDUCE)
-	sfprintf(s, "induce($O);\n");
-    return sfstruse(s);
+static const char *doFlags(int flags) {
+  if (flags & SRCOUT) {
+    if (flags & INDUCE) {
+      return "\n$O = $G;\ninduce($O);\n";
+    }
+    return "\n$O = $G;\n";
+  }
+  if (flags & INDUCE) {
+    return "\ninduce($O);\n";
+  }
+  return "\n";
 }
 
 /* compileProg:
@@ -2438,8 +2449,7 @@ static char *doFlags(int flags, Sfio_t * s)
 comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 {
     comp_prog *p;
-    Sfio_t *tmps = state->tmp;
-    char *endg_sfx = 0;
+    const char *endg_sfx = NULL;
     int i, useflags = 0;
 
     /* Initialize default io */
@@ -2456,11 +2466,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
     }
 
     if (flags) {
-	endg_sfx = strdup (doFlags(flags, tmps));
-	if (*endg_sfx == '\0') {
-	    free(endg_sfx);
-	    endg_sfx = 0;
-	}
+	endg_sfx = doFlags(flags);
     }
 
     if (!initDisc(state))
@@ -2485,7 +2491,7 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 	p->blocks = bp = newof(0, comp_block, inp->n_blocks, 0);
 
 	for (i = 0; i < inp->n_blocks; bp++, i++) {
-	    useflags |= mkBlock (bp, p->prog, inp->source, ibp, tmps, i);
+	    useflags |= mkBlock(bp, p->prog, inp->source, ibp, i);
 	    if (getErrorErrors())
 		goto finish;
 	    else {
@@ -2524,7 +2530,6 @@ comp_prog *compileProg(parse_prog * inp, Gpr_t * state, int flags)
 	freeCompileProg (p);
 	p = 0;
     }
-    free (endg_sfx);
 
     return p;
 }
@@ -2562,13 +2567,6 @@ int walksGraph(comp_block * p)
 int usesGraph(comp_prog * p)
 {
     return p->flags;
-}
-
-void ptchk(void)
-{
-    int i;
-    for (i = 0; i <= LAST_M; i++)
-	printf("%d: %d %d\n", i, tchk[i][0], tchk[i][1]);
 }
 
 /* readG:
