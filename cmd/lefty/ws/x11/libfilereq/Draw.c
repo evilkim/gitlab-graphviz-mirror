@@ -153,8 +153,8 @@ void SFclearList (int n, int doScroll) {
                 ) ? dir->nChars : SFcharsPerEntry)) / dir->nChars)
             );
         } else {
-            XawScrollbarSetThumb (selFileVScrolls[n], (float) 0.0, (float) 1.0);
-            XawScrollbarSetThumb (selFileHScrolls[n], (float) 0.0, (float) 1.0);
+            XawScrollbarSetThumb(selFileVScrolls[n], 0.0f, 1.0f);
+            XawScrollbarSetThumb(selFileHScrolls[n], 0.0f, 1.0f);
         }
     }
 }
