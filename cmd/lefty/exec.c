@@ -168,12 +168,6 @@ Tobj Eunit (Tobj co) {
 
     jmp_buf eljbuf;
 
-#if 0
-    if (running && !Eoktorun) {
-        err (ERRRECRUN, ERR2, NULL, 0);
-        return NULL;
-    }
-#endif
     Eoktorun = FALSE;
 
     if (!co)
