@@ -145,7 +145,7 @@ static polygon_t p_promoter = {
 static polygon_t p_cds = {.peripheries = 1, .sides = 4, .option = CDS};
 static polygon_t p_terminator = {
     .peripheries = 1, .sides = 4, .option = TERMINATOR};
-static polygon_t p_utr = { FALSE, 1, 4, 0., 0., 0., UTR};
+static polygon_t p_utr = {.peripheries = 1, .sides = 4, .option = UTR};
 static polygon_t p_insulator = { FALSE, 1, 4, 0., 0., 0., INSULATOR};
 static polygon_t p_ribosite = { FALSE, 1, 4, 0., 0., 0., RIBOSITE};
 static polygon_t p_rnastab = { FALSE, 1, 4, 0., 0., 0., RNASTAB};
