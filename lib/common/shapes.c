@@ -127,7 +127,8 @@ static polygon_t p_Mdiamond = {.peripheries = 1,
                                .sides = 4,
                                .orientation = 45.0,
                                .option = DIAGONALS | AUXLABELS};
-static polygon_t p_Msquare = { TRUE, 1, 4, 0., 0., 0., DIAGONALS };
+static polygon_t p_Msquare = {
+    .regular = TRUE, .peripheries = 1, .sides = 4, .option = DIAGONALS};
 static polygon_t p_Mcircle =
     { TRUE, 1, 1, 0., 0., 0., DIAGONALS | AUXLABELS };
 
