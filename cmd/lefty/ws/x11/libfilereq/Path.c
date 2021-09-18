@@ -59,13 +59,6 @@ extern uid_t getuid ();
 #include "SFDecls.h"
 
 #include <stdint.h>
-#ifdef HAVE_INTPTR_T
-#define INT2PTR(t,v) ((t)(intptr_t)(v))
-#define PTR2INT(v) ((Sflong_t)(intptr_t)(v))
-#else
-#define INT2PTR(t,v) ((t)(v))
-#define PTR2INT(v) ((Sflong_t)(v))
-#endif
 
 typedef struct {
     char *name;
