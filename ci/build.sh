@@ -28,11 +28,11 @@ mkdir -p ${DIR}/source
 build_system=${build_system:-autotools}
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
-    cd build
+    pushd build
     cmake ${CMAKE_OPTIONS:-} ..
     cmake --build .
     cpack
-    cd ..
+    popd
     if [ "${OSTYPE}" = "linux-gnu" ]; then
         if [ "${ID_LIKE:-}" = "debian" ]; then
             mv build/*.deb ${DIR}/os/${ARCH}/
