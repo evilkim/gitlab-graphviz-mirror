@@ -43,13 +43,22 @@ static int isedge(Agobj_t *obj) {
 #include <gvpr/trie.c>
 
 #define BITS_PER_BYTE 8
+
+static void *int2ptr(Sflong_t i) {
 #ifdef HAVE_INTPTR_T
-#define INT2PTR(t,v) ((t)(intptr_t)(v))
-#define PTR2INT(v) ((Sflong_t)(intptr_t)(v))
+  return (void*)(intptr_t)i;
 #else
-#define INT2PTR(t,v) ((t)(v))
-#define PTR2INT(v) ((Sflong_t)(v))
+  return (void*)i;
 #endif
+}
+
+static Sflong_t ptr2int(const void *p) {
+#ifdef HAVE_INTPTR_T
+  return (Sflong_t)(intptr_t)p;
+#else
+  return (Sflong_t)p;
+#endif
+}
 
 static int iofread(void *chan, char *buf, int bufsize)
 {
@@ -276,9 +285,7 @@ static Agobj_t *deref(Expr_t * pgm, Exnode_t * x, Exref_t * ref,
     if (ref == 0)
 	return objp;
     else if (ref->symbol->lex == DYNAMIC) {
-	ptr =
-	    INT2PTR(void *,
-		    x->data.variable.dyna->data.variable.dyna->data.
+	ptr = int2ptr(x->data.variable.dyna->data.variable.dyna->data.
 		    constant.value.integer);
 	if (!ptr) {
 	    exerror("null reference %s in expression %s.%s",
@@ -429,7 +436,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	switch (sym->index) {
 	case M_head:
 	    if (isedge(objp))
-		v->integer = PTR2INT(AGHEAD((Agedge_t *) objp));
+		v->integer = ptr2int(AGHEAD((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "head of non-edge");
 		return -1;
@@ -437,7 +444,7 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_tail:
 	    if (isedge(objp))
-		v->integer = PTR2INT(AGTAIL((Agedge_t *) objp));
+		v->integer = ptr2int(AGTAIL((Agedge_t *) objp));
 	    else {
 		error(ERROR_WARNING, "tail of non-edge");
 		return -1;
@@ -490,14 +497,14 @@ static int lookup(Expr_t * pgm, Agobj_t * objp, Exid_t * sym, Extype_t * v,
 	    break;
 	case M_parent:
 	    if (AGTYPE(objp) == AGRAPH)
-		v->integer = PTR2INT(agparent((Agraph_t *) objp));
+		v->integer = ptr2int(agparent((Agraph_t *) objp));
 	    else {
 		exerror("parent of non-graph");
 		return -1;
 	    }
 	    break;
 	case M_root:
-	    v->integer = PTR2INT(agroot(agraphof(objp)));
+	    v->integer = ptr2int(agroot(agraphof(objp)));
 	    break;
 	case M_n_edges:
 	    if (AGTYPE(objp) == AGRAPH)
@@ -678,60 +685,60 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	switch (sym->index) {
 	case F_graph:
 	    gp = openG(args[0].string, xargs(args[1].string));
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_subg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = openSubg(gp, args[1].string);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to subg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_issubg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
-		v.integer = PTR2INT(agsubg(gp, args[1].string, 0));
+		v.integer = ptr2int(agsubg(gp, args[1].string, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to isSubg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstsubg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = agfstsubg(gp);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to fstsubg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtsubg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = agnxtsubg(gp);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to nxtsubg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_node:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		np = openNode(gp, args[1].string);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to node()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_addnode:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to addNode()");
 		v.integer = 0;
@@ -739,65 +746,65 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL node passed to addNode()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(addNode(gp, np, 1));
+		v.integer = ptr2int(addNode(gp, np, 1));
 	    break;
 	case F_fstnode:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		np = agfstnode(gp);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to fstnode()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtnode:
-	    np = INT2PTR(Agnode_t *, args[0].integer);
+	    np = int2ptr(args[0].integer);
 	    if (np) {
 		np = agnxtnode(agroot(np), np);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to nxtnode()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtnodesg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
 		np = agnxtnode(gp, np);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to nxtnode_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_isnode:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
-		v.integer = PTR2INT(agnode(gp, args[1].string, 0));
+		v.integer = ptr2int(agnode(gp, args[1].string, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to isNode()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_issubnode:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
-		v.integer = PTR2INT(addNode(gp, np, 0));
+		v.integer = ptr2int(addNode(gp, np, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to isSubnode()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_indegree:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
@@ -808,8 +815,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_outdegree:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
@@ -820,8 +827,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_degree:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
@@ -832,8 +839,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_isin:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    objp = INT2PTR(Agobj_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    objp = int2ptr(args[1].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to isIn()");
 		v.integer = 0;
@@ -844,8 +851,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = agcontains (gp, objp);
 	    break;
 	case F_compof:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to compOf()");
 		v.integer = 0;
@@ -853,10 +860,10 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL node passed to compOf()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(compOf(gp, np));
+		v.integer = ptr2int(compOf(gp, np));
 	    break;
 	case F_kindof:
-	    objp = INT2PTR(Agobj_t *, args[0].integer);
+	    objp = int2ptr(args[0].integer);
 	    if (!objp) {
 		exerror("NULL object passed to kindOf()");
 		v.string = 0;
@@ -877,8 +884,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    key = args[2].string;
 	    if (*key == '\0')
 		key = 0;
-	    np = INT2PTR(Agnode_t *, args[0].integer);
-	    hp = INT2PTR(Agnode_t *, args[1].integer);
+	    np = int2ptr(args[0].integer);
+	    hp = int2ptr(args[1].integer);
 	    if (!np) {
 		error(ERROR_WARNING, "NULL tail node passed to edge()");
 		v.integer = 0;
@@ -887,16 +894,16 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = openEdge(0, np, hp, key);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_edgesg:
 	    key = args[3].string;
 	    if (*key == '\0')
 		key = 0;
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
-	    hp = INT2PTR(Agnode_t *, args[2].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
+	    hp = int2ptr(args[2].integer);
 	    if (!np) {
 		error(ERROR_WARNING, "NULL tail node passed to edge_sg()");
 		v.integer = 0;
@@ -905,12 +912,12 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = openEdge(gp, np, hp, key);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_addedge:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    ep = INT2PTR(Agedge_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    ep = int2ptr(args[1].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to addEdge()");
 		v.integer = 0;
@@ -918,11 +925,11 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL edge passed to addEdge()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(addEdge(gp, ep, 1));
+		v.integer = ptr2int(addEdge(gp, ep, 1));
 	    break;
 	case F_opp:
-	    ep = INT2PTR(Agedge_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    ep = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!ep) {
 		error(ERROR_WARNING, "NULL edge passed to opp()");
 		v.integer = 0;
@@ -934,15 +941,15 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		    np = agtail(ep);
 		else
 		    np = aghead(ep);
-		v.integer = PTR2INT(np);
+		v.integer = ptr2int(np);
 	    }
 	    break;
 	case F_isedge:
 	    key = args[2].string;
 	    if (*key == '\0')
 		key = 0;
-	    np = INT2PTR(Agnode_t *, args[0].integer);
-	    hp = INT2PTR(Agnode_t *, args[1].integer);
+	    np = int2ptr(args[0].integer);
+	    hp = int2ptr(args[1].integer);
 	    if (!np) {
 		error(ERROR_WARNING, "NULL tail node passed to isEdge()");
 		v.integer = 0;
@@ -950,15 +957,15 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL head node passed to isEdge()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(isEdge(agroot(np), np, hp, key));
+		v.integer = ptr2int(isEdge(agroot(np), np, hp, key));
 	    break;
 	case F_isedgesg:
 	    key = args[3].string;
 	    if (*key == '\0')
 		key = 0;
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
-	    hp = INT2PTR(Agnode_t *, args[2].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
+	    hp = int2ptr(args[2].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (!np) {
@@ -968,138 +975,138 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		error(ERROR_WARNING, "NULL head node passed to isEdge_sg()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(isEdge(gp, np, hp, key));
+		v.integer = ptr2int(isEdge(gp, np, hp, key));
 	    break;
 	case F_issubedge:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    ep = INT2PTR(Agedge_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    ep = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(ep);
 	    if (ep) {
-		v.integer = PTR2INT(addEdge(gp, ep, 0));
+		v.integer = ptr2int(addEdge(gp, ep, 0));
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to isSubedge()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstout:
-	    np = INT2PTR(Agnode_t *, args[0].integer);
+	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstout(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstout()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstoutsg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstout(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstout_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtout:
-	    ep = INT2PTR(Agedge_t *, args[0].integer);
+	    ep = int2ptr(args[0].integer);
 	    if (ep) {
 		ep = agnxtout(agroot(ep), ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtout()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtoutsg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    ep = INT2PTR(Agedge_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    ep = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(ep);
 	    if (ep) {
 		ep = agnxtout(gp, ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtout_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstin:
-	    np = INT2PTR(Agnode_t *, args[0].integer);
+	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstin(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstin()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstinsg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstin(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstin_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtin:
-	    ep = INT2PTR(Agedge_t *, args[0].integer);
+	    ep = int2ptr(args[0].integer);
 	    if (ep) {
 		ep = agnxtin(agroot(ep), ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtin()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtinsg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    ep = INT2PTR(Agedge_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    ep = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(ep);
 	    if (ep) {
 		ep = agnxtin(gp, ep);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL edge passed to nxtin_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstedge:
-	    np = INT2PTR(Agnode_t *, args[0].integer);
+	    np = int2ptr(args[0].integer);
 	    if (np) {
 		ep = agfstedge(agroot(np), np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstedge()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_fstedgesg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (np) {
 		ep = agfstedge(gp, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    } else {
 		error(ERROR_WARNING, "NULL node passed to fstedge_sg()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_nxtedge:
-	    ep = INT2PTR(Agedge_t *, args[0].integer);
-	    np = INT2PTR(Agnode_t *, args[1].integer);
+	    ep = int2ptr(args[0].integer);
+	    np = int2ptr(args[1].integer);
 	    if (!ep) {
 		error(ERROR_WARNING, "NULL edge passed to nxtedge()");
 		v.integer = 0;
@@ -1108,13 +1115,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = agnxtedge(agroot(np), ep, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_nxtedgesg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    ep = INT2PTR(Agedge_t *, args[1].integer);
-	    np = INT2PTR(Agnode_t *, args[2].integer);
+	    gp = int2ptr(args[0].integer);
+	    ep = int2ptr(args[1].integer);
+	    np = int2ptr(args[2].integer);
 	    if (!gp)
 		gp = agroot(np);
 	    if (!ep) {
@@ -1125,40 +1132,40 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = 0;
 	    } else {
 		ep = agnxtedge(gp, ep, np);
-		v.integer = PTR2INT(ep);
+		v.integer = ptr2int(ep);
 	    }
 	    break;
 	case F_copy:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    objp = INT2PTR(Agobj_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    objp = int2ptr(args[1].integer);
 	    if (!objp) {
 		error(ERROR_WARNING, "NULL object passed to clone()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(copy(gp, objp));
+		v.integer = ptr2int(copy(gp, objp));
 	    break;
 	case F_clone:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    objp = INT2PTR(Agobj_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    objp = int2ptr(args[1].integer);
 	    if (!objp) {
 		error(ERROR_WARNING, "NULL object passed to clone()");
 		v.integer = 0;
 	    } else
-		v.integer = PTR2INT(clone(gp, objp));
+		v.integer = ptr2int(clone(gp, objp));
 	    break;
 	case F_cloneG:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		gp = cloneG(gp, args[1].string);
-		v.integer = PTR2INT(gp);
+		v.integer = ptr2int(gp);
 	    } else {
 		error(ERROR_WARNING, "NULL graph passed to cloneG()");
 		v.integer = 0;
 	    }
 	    break;
 	case F_copya:
-	    objp = INT2PTR(Agobj_t *, args[0].integer);
-	    objp1 = INT2PTR(Agobj_t *, args[1].integer);
+	    objp = int2ptr(args[0].integer);
+	    objp1 = int2ptr(args[1].integer);
 	    if (!(objp && objp1)) {
 		error(ERROR_WARNING, "NULL object passed to copyA()");
 		v.integer = 0;
@@ -1166,7 +1173,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = copyAttr(objp, objp1);
 	    break;
 	case F_induce:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to induce()");
 		v.integer = 1;
@@ -1176,7 +1183,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_write:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to write()");
 		v.integer = 1;
@@ -1184,7 +1191,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = sfioWrite (gp, state->outFile, state->dfltIO);
 	    break;
 	case F_writeg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to writeG()");
 		v.integer = 1;
@@ -1193,10 +1200,10 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    break;
 	case F_readg:
 	    gp = readFile(args[0].string);
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_fwriteg:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to fwriteG()");
 		v.integer = 1;
@@ -1205,7 +1212,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    break;
 	case F_freadg:
 	    gp = freadFile(pgm, args[0].integer);
-	    v.integer = PTR2INT(gp);
+	    v.integer = ptr2int(gp);
 	    break;
 	case F_openf:
 	    v.integer = openFile(pgm, args[0].string, args[1].string);
@@ -1217,7 +1224,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.string = readLine(pgm, args[0].integer);
 	    break;
 	case F_isdirect:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to isDirect()");
 		v.integer = 0;
@@ -1226,7 +1233,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_isstrict:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to isStrict()");
 		v.integer = 0;
@@ -1235,8 +1242,8 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_delete:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
-	    objp = INT2PTR(Agobj_t *, args[1].integer);
+	    gp = int2ptr(args[0].integer);
+	    objp = int2ptr(args[1].integer);
 	    if (!objp) {
 		error(ERROR_WARNING, "NULL object passed to delete()");
 		v.integer = 1;
@@ -1253,7 +1260,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = deleteObj(gp, objp);
 	    break;
 	case F_lock:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to lock()");
 		v.integer = -1;
@@ -1261,7 +1268,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 		v.integer = lockGraph(gp, args[1].integer);
 	    break;
 	case F_nnodes:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to nNodes()");
 		v.integer = 0;
@@ -1270,7 +1277,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_nedges:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (!gp) {
 		error(ERROR_WARNING, "NULL graph passed to nEdges()");
 		v.integer = 0;
@@ -1316,7 +1323,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    break;
 	case F_hasattr:
 	case F_get:
-	    objp = INT2PTR(Agobj_t *, args[0].integer);
+	    objp = int2ptr(args[0].integer);
 	    name = args[1].string;
 	    if (!objp) {
 		exerror("NULL object passed to aget()/hasAttr()");
@@ -1339,7 +1346,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
             }
 	    break;
 	case F_set:
-	    objp = INT2PTR(Agobj_t *, args[0].integer);
+	    objp = int2ptr(args[0].integer);
 	    if (!objp) {
 		error(ERROR_WARNING, "NULL object passed to aset()");
 		v.integer = 1;
@@ -1360,7 +1367,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
             }
 	    break;
 	case F_dset:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		char* kind = args[1].string;
 		char* name = args[2].string;
@@ -1386,7 +1393,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case F_fstattr:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		char* kind = args[1].string;
 		if (!kind) {
@@ -1404,7 +1411,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	case F_nxtattr:
 	case F_isattr:
 	case F_dget:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		char* kind = args[1].string;
 		char* name = args[2].string;
@@ -1437,7 +1444,7 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.integer = aghtmlstr(args[0].string);
 	    break;
 	case F_html:
-	    gp = INT2PTR(Agraph_t *, args[0].integer);
+	    gp = int2ptr(args[0].integer);
 	    if (gp) {
 		v.string = toHtml(gp, args[1].string);
 	    } else {
@@ -1523,19 +1530,19 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
     } else if (sym->lex == ID && sym->index <= LAST_V) {
 	switch (sym->index) {
 	case V_this:
-	    v.integer = PTR2INT(state->curobj);
+	    v.integer = ptr2int(state->curobj);
 	    break;
 	case V_thisg:
-	    v.integer = PTR2INT(state->curgraph);
+	    v.integer = ptr2int(state->curgraph);
 	    break;
 	case V_nextg:
-	    v.integer = PTR2INT(state->nextgraph);
+	    v.integer = ptr2int(state->nextgraph);
 	    break;
 	case V_targt:
-	    v.integer = PTR2INT(state->target);
+	    v.integer = ptr2int(state->target);
 	    break;
 	case V_outgraph:
-	    v.integer = PTR2INT(state->outgraph);
+	    v.integer = ptr2int(state->outgraph);
 	    break;
 	case V_tgtname:
 	    v.string = state->tgtname;
@@ -1550,13 +1557,13 @@ getval(Expr_t * pgm, Exnode_t * node, Exid_t * sym, Exref_t * ref,
 	    v.integer = state->tvt;
 	    break;
 	case V_travroot:
-	    v.integer = PTR2INT(state->tvroot);
+	    v.integer = ptr2int(state->tvroot);
 	    break;
 	case V_travnext:
-	    v.integer = PTR2INT(state->tvnext);
+	    v.integer = ptr2int(state->tvnext);
 	    break;
 	case V_travedge:
-	    v.integer = PTR2INT(state->tvedge);
+	    v.integer = ptr2int(state->tvedge);
 	    break;
 	}
 	return v;
@@ -1613,7 +1620,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
     } else if (MINNAME <= sym->index && sym->index <= MAXNAME) {
 	switch (sym->index) {
 	case V_outgraph:
-	    state->outgraph = INT2PTR(Agraph_t *, v.integer);
+	    state->outgraph = int2ptr(v.integer);
 	    break;
 	case V_travtype:
 	    iv = v.integer;
@@ -1624,7 +1631,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 		      iv, typeName(pgm, T_tvtyp));
 	    break;
 	case V_travroot:
-	    np = INT2PTR(Agnode_t *, v.integer);
+	    np = int2ptr(v.integer);
 	    if (!np || agroot(np) == state->curgraph)
 		state->tvroot = np;
 	    else {
@@ -1633,7 +1640,7 @@ setval(Expr_t * pgm, Exnode_t * x, Exid_t * sym, Exref_t * ref,
 	    }
 	    break;
 	case V_travnext:
-	    np = INT2PTR(Agnode_t *, v.integer);
+	    np = int2ptr(v.integer);
 	    if (!np || agroot(np) == state->curgraph) {
 		state->tvnext = np;
 		state->flags |= GV_NEXT_SET;
@@ -1929,9 +1936,9 @@ binary(Expr_t * pg, Exnode_t * l, Exnode_t * ex, Exnode_t * r, int arg,
     if (r && r->type == T_tvtyp)
 	return -1;
 
-    lobjp = INT2PTR(Agobj_t *, l->data.constant.value.integer);
+    lobjp = int2ptr(l->data.constant.value.integer);
     if (r)
-	robjp = INT2PTR(Agobj_t *, r->data.constant.value.integer);
+	robjp = int2ptr(r->data.constant.value.integer);
     else
 	robjp = 0;
     switch (ex->op) {
@@ -2093,7 +2100,7 @@ static int stringOf(Expr_t * prog, Exnode_t * x, int arg, Exdisc_t* disc)
 	    tvtypeToStr (x->data.constant.value.integer)))
 	    rv = -1;
     } else {
-	objp = INT2PTR(Agobj_t *, x->data.constant.value.integer);
+	objp = int2ptr(x->data.constant.value.integer);
 	if (!objp) {
 	    exerror("cannot generate name for NULL %s",
 		    typeName(prog, x->type));
@@ -2137,7 +2144,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 	    if (type != FLOATING && type <= T_obj)
 		ret = 0;
 	} else {
-	    objp = INT2PTR(Agobj_t *, x->data.constant.value.integer);
+	    objp = int2ptr(x->data.constant.value.integer);
 	    switch (type) {
 	    case T_graph:
 		if (!objp || AGTYPE(objp) == AGRAPH)
@@ -2197,7 +2204,7 @@ convert(Expr_t * prog, Exnode_t * x, int type,
 static Extype_t keyval(Expr_t * pgm, Extype_t v, int type, Exdisc_t * disc)
 {
     if (type <= T_obj) {
-	v.integer = AGID(INT2PTR(Agobj_t *, v.integer));
+	v.integer = AGID(int2ptr(v.integer));
     }
     return v;
 }
