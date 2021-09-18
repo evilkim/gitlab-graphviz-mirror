@@ -101,18 +101,27 @@ static polygon_t p_septagon = {.peripheries = 1, .sides = 7};
 static polygon_t p_octagon = {.peripheries = 1, .sides = 8};
 static polygon_t p_note = {.peripheries = 1, .sides = 4, .option = DOGEAR};
 static polygon_t p_tab = {.peripheries = 1, .sides = 4, .option = TAB};
-static polygon_t p_folder = { FALSE, 1, 4, 0., 0., 0., FOLDER };
-static polygon_t p_box3d = { FALSE, 1, 4, 0., 0., 0., BOX3D };
-static polygon_t p_component = { FALSE, 1, 4, 0., 0., 0., COMPONENT };
-static polygon_t p_underline = { FALSE, 1, 4, 0., 0., 0., UNDERLINE };
-static polygon_t p_cylinder = { FALSE, 1, 19, 0., 0., 0., CYLINDER, (pointf*)&cylinder_gen };
+static polygon_t p_folder = {.peripheries = 1, .sides = 4, .option = FOLDER};
+static polygon_t p_box3d = {.peripheries = 1, .sides = 4, .option = BOX3D};
+static polygon_t p_component = {
+    .peripheries = 1, .sides = 4, .option = COMPONENT};
+static polygon_t p_underline = {
+    .peripheries = 1, .sides = 4, .option = UNDERLINE};
+static polygon_t p_cylinder = {.peripheries = 1,
+                               .sides = 19,
+                               .option = CYLINDER,
+                               .vertices = (pointf *)&cylinder_gen};
 
 /* redundant and undocumented builtin polygons */
-static polygon_t p_doublecircle = { TRUE, 2, 1, 0., 0., 0. };
-static polygon_t p_invtriangle = { FALSE, 1, 3, 180., 0., 0. };
-static polygon_t p_invtrapezium = { FALSE, 1, 4, 180., -.4, 0. };
-static polygon_t p_invhouse = { FALSE, 1, 5, 180., -.64, 0. };
-static polygon_t p_doubleoctagon = { FALSE, 2, 8, 0., 0., 0. };
+static polygon_t p_doublecircle = {
+    .regular = TRUE, .peripheries = 2, .sides = 1};
+static polygon_t p_invtriangle = {
+    .peripheries = 1, .sides = 3, .orientation = 180.0};
+static polygon_t p_invtrapezium = {
+    .peripheries = 1, .sides = 4, .orientation = 180.0, .distortion = -0.4};
+static polygon_t p_invhouse = {
+    .peripheries = 1, .sides = 5, .orientation = 180.0, .distortion = -0.64};
+static polygon_t p_doubleoctagon = {.peripheries = 2, .sides = 8};
 static polygon_t p_tripleoctagon = { FALSE, 3, 8, 0., 0., 0. };
 static polygon_t p_Mdiamond =
     { FALSE, 1, 4, 45., 0., 0., DIAGONALS | AUXLABELS };
