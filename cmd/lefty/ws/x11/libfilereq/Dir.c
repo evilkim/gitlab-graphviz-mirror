@@ -39,6 +39,10 @@
 
 #include "config.h"
 #include <stdio.h>
+#include <string.h>
+#ifndef _MSC_VER
+#include <strings.h>
+#endif
 
 #ifdef SEL_FILE_IGNORE_CASE
 #include <ctype.h>
@@ -58,44 +62,18 @@ extern void qsort ();
 
 #include "SFDecls.h"
 
+int SFcompareEntries (const void *vp, const void *vq) {
+    const SFEntry *p = vp, *q = vq;
 #ifdef SEL_FILE_IGNORE_CASE
-int SFcompareEntries (const void *vp, const void *vq) {
-    const SFEntry *p = vp, *q = vq;
-    char *r, *s;
-    char c1, c2;
-
-    r = p->real;
-    s = q->real;
-    c1 = *r++;
-    if (islower (c1)) {
-        c1 = toupper (c1);
-    }
-    c2 = *s++;
-    if (islower (c2)) {
-        c2 = toupper (c2);
-    }
-    while (c1 == c2) {
-        if (!c1) {
-            return strcmp (p->real, q->real);
-        }
-        c1 = *r++;
-        if (islower (c1)) {
-            c1 = toupper (c1);
-        }
-        c2 = *s++;
-        if (islower (c2)) {
-            c2 = toupper (c2);
-        }
-    }
-    return c1 - c2;
-}
+#ifdef _MSC_VER
+    return _stricmp(p->real, q->real);
+#else
+    return strcasecmp(p->real, q->real);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
-int SFcompareEntries (const void *vp, const void *vq) {
-    const SFEntry *p = vp, *q = vq;
-
     return strcmp (p->real, q->real);
-}
 #endif /* def SEL_FILE_IGNORE_CASE */
+}
 
 int SFgetDir (SFDir *dir) {
     SFEntry       *result = NULL;
