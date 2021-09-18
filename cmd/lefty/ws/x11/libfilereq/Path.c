@@ -40,10 +40,6 @@
 #include "config.h"
 #include <stdio.h>
 
-#ifdef SEL_FILE_IGNORE_CASE
-#include <ctype.h>
-#endif /* def SEL_FILE_IGNORE_CASE */
-
 #include <X11/Xos.h>
 #include <pwd.h>
 #include "SFinternal.h"
@@ -55,6 +51,10 @@ extern uid_t getuid ();
 #endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
 
 #include <stdlib.h>
+#include <string.h>
+#ifndef _MSC_VER
+#include <strings.h>
+#endif
 
 #include "SFDecls.h"
 
@@ -135,43 +135,6 @@ static void SFunreadableDir (SFDir *dir) {
     dir->nEntries = 1;
     dir->nChars = strlen (cannotOpen);
 }
-
-#ifdef SEL_FILE_IGNORE_CASE
-static int SFstrncmp (char *p, char *q, int n) {
-    char c1, c2;
-    char *psave, *qsave;
-    int  nsave;
-
-    psave = p;
-    qsave = q;
-    nsave = n;
-    c1 = *p++;
-    if (islower (c1)) {
-        c1 = toupper (c1);
-    }
-    c2 = *q++;
-    if (islower (c2)) {
-        c2 = toupper (c2);
-    }
-    while ((--n >= 0) && (c1 == c2)) {
-        if (!c1) {
-            return strncmp (psave, qsave, nsave);
-        }
-        c1 = *p++;
-        if (islower (c1)) {
-            c1 = toupper (c1);
-        }
-        c2 = *q++;
-        if (islower (c2)) {
-            c2 = toupper (c2);
-        }
-    }
-    if (n < 0) {
-        return strncmp (psave, qsave, nsave);
-    }
-    return c1 - c2;
-}
-#endif /* def SEL_FILE_IGNORE_CASE */
 
 static void SFreplaceText (SFDir *dir, char *str) {
     int len;
@@ -256,7 +219,11 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-        result = SFstrncmp (str, name, len);
+#ifdef _MSC_VER
+        result = _strnicmp(str, name, len);
+#else
+        result = strncasecmp(str, name, len);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
@@ -275,7 +242,11 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-        result = SFstrncmp (str, name, len);
+#ifdef _MSC_VER
+        result = _strnicmp(str, name, len);
+#else
+        result = strncasecmp(str, name, len);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
