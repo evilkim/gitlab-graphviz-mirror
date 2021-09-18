@@ -54,10 +54,6 @@
 
 #include <sys/stat.h>
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-extern void qsort ();
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
-
 #include <stdlib.h>
 
 #include "SFDecls.h"
@@ -123,11 +119,7 @@ int SFgetDir (SFDir *dir) {
         i++;
     }
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-    qsort ((char *) result, (unsigned) i, sizeof (SFEntry), SFcompareEntries);
-#else /* defined (SVR4) || defined (SYSV) || defined (USG) */
-    qsort ((char *) result, i, sizeof (SFEntry), SFcompareEntries);
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
+    qsort(result, (size_t)i, sizeof(SFEntry), SFcompareEntries);
 
     dir->entries = result;
     dir->nEntries = i;
