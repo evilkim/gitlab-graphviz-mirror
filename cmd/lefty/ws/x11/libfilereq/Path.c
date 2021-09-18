@@ -52,7 +52,6 @@
 
 #if defined (SVR4) || defined (SYSV) || defined (USG)
 extern uid_t getuid ();
-extern void qsort ();
 #endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
 
 #include <stdlib.h>
@@ -400,13 +399,8 @@ static void SFgetHomeDirs (void) {
     SFhomeDir.beginSelection = -1;
     SFhomeDir.endSelection   = -1;
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-    qsort ((char *) entries, (unsigned)i, sizeof (SFEntry), SFcompareEntries);
-    qsort ((char *) SFlogins, (unsigned)i, sizeof (SFLogin), SFcompareLogins);
-#else /* defined (SVR4) || defined (SYSV) || defined (USG) */
-    qsort ((char *) entries, i, sizeof (SFEntry), SFcompareEntries);
-    qsort ((char *) SFlogins, i, sizeof (SFLogin), SFcompareLogins);
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
+    qsort(entries, (size_t)i, sizeof(SFEntry), SFcompareEntries);
+    qsort(SFlogins, (size_t)i, sizeof(SFLogin), SFcompareLogins);
 
     for (i--; i >= 0; i--) {
         strcat (entries[i].real, "/");
