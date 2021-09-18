@@ -129,8 +129,10 @@ static polygon_t p_Mdiamond = {.peripheries = 1,
                                .option = DIAGONALS | AUXLABELS};
 static polygon_t p_Msquare = {
     .regular = TRUE, .peripheries = 1, .sides = 4, .option = DIAGONALS};
-static polygon_t p_Mcircle =
-    { TRUE, 1, 1, 0., 0., 0., DIAGONALS | AUXLABELS };
+static polygon_t p_Mcircle = {.regular = TRUE,
+                              .peripheries = 1,
+                              .sides = 1,
+                              .option = DIAGONALS | AUXLABELS};
 
 /* non-convex polygons */
 static polygon_t p_star = { FALSE, 1, 10, 0., 0., 0., 0, (pointf*)&star_gen };
