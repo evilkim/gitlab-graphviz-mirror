@@ -85,7 +85,7 @@ void SFinitFont (void) {
     data = XtNew (TextData);
     XtGetApplicationResources (
         selFileForm, (XtPointer) data, textResources,
-        XtNumber (textResources), (Arg *) NULL, ZERO
+        XtNumber (textResources), NULL, ZERO
     );
 
     SFfont = XLoadQueryFont (SFdisplay, data->fontname);
@@ -352,7 +352,7 @@ static unsigned long SFscrollTimerInterval (void) {
     } else if (SFcurrentListY > SFupperY) {
         dist = SFcurrentListY - SFupperY;
     } else {
-        return (unsigned long) 1;
+        return 1;
     }
     t = maxVal - ((maxVal / varyDist) * (dist - minDist));
     if (t < 1) {
