@@ -309,7 +309,7 @@ static void SFunselect (void) {
 }
 
 static int SFcompareLogins (const void *vp, const void *vq) {
-    const SFLogin *p = (const SFLogin *) vp, *q = (const SFLogin *) vq;
+    const SFLogin *p = vp, *q = vq;
 
     return strcmp (p->name, q->name);
 }
