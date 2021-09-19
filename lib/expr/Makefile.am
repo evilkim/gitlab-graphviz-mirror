@@ -58,7 +58,6 @@ endif
 endif
 
 EXTRA_DIST = $(man_MANS) $(pdf) \
-	Makefile.nmake Makefile.orig \
 	exparse.c \
 	y.tab.c y.tab.h y.output expr.vcxproj*
 
