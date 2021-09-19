@@ -28,6 +28,3 @@ extern int point_in_polygon(glCompPoly* selPoly,glCompPoint p);
 extern int point_within_ellips_with_coords(float ex, float ey,
 					       float ea, float eb,
 					       float px, float py);
-extern int point_within_sphere_with_coords(float x0, float y0, float z0,
-					float r, float x, float y,
-					float z);
