@@ -156,7 +156,8 @@ static polygon_t p_proteasesite = {
 static polygon_t p_proteinstab = {
     .peripheries = 1, .sides = 4, .option = PROTEINSTAB};
 /** dna construction symbols **/
-static polygon_t p_primersite = { FALSE, 1, 4, 0., 0., 0., PRIMERSITE};
+static polygon_t p_primersite = {
+    .peripheries = 1, .sides = 4, .option = PRIMERSITE};
 static polygon_t p_restrictionsite = { FALSE, 1, 4, 0., 0., 0., RESTRICTIONSITE};
 static polygon_t p_fivepoverhang = { FALSE, 1, 4, 0., 0., 0., FIVEPOVERHANG};
 static polygon_t p_threepoverhang = { FALSE, 1, 4, 0., 0., 0., THREEPOVERHANG};
