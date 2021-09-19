@@ -728,7 +728,6 @@ typedef struct
     extern char *layout2s(gvk_layout gvkl);
     extern gvk_layout s2layout(char *s);
     extern char *element2s(gve_element);
-    extern unsigned char SmrynaVerbose;
 
 #ifdef __cplusplus
 }				/* end extern "C" */
