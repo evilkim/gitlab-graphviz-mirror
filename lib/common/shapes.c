@@ -153,7 +153,8 @@ static polygon_t p_ribosite = {
 static polygon_t p_rnastab = {.peripheries = 1, .sides = 4, .option = RNASTAB};
 static polygon_t p_proteasesite = {
     .peripheries = 1, .sides = 4, .option = PROTEASESITE};
-static polygon_t p_proteinstab = { FALSE, 1, 4, 0., 0., 0., PROTEINSTAB};
+static polygon_t p_proteinstab = {
+    .peripheries = 1, .sides = 4, .option = PROTEINSTAB};
 /** dna construction symbols **/
 static polygon_t p_primersite = { FALSE, 1, 4, 0., 0., 0., PRIMERSITE};
 static polygon_t p_restrictionsite = { FALSE, 1, 4, 0., 0., 0., RESTRICTIONSITE};
