@@ -705,14 +705,10 @@ vgpanecmd(ClientData clientData, Tcl_Interp * interp, int argc,
 		LL = UR = pp.ps[0];
 		for (j = 1; j < pp.pn; j++) {
 		    p = pp.ps[j];
-		    if (p.x > UR.x)
-			UR.x = p.x;
-		    if (p.y > UR.y)
-			UR.y = p.y;
-		    if (p.x < LL.x)
-			LL.x = p.x;
-		    if (p.y < LL.y)
-			LL.y = p.y;
+		    UR.x = fmax(UR.x, p.x);
+		    UR.y = fmax(UR.y, p.y);
+		    LL.x = fmin(LL.x, p.x);
+		    LL.y = fmin(LL.y, p.y);
 		}
 		appendpoint(interp, LL);
 		appendpoint(interp, UR);
