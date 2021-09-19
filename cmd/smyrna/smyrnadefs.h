@@ -725,10 +725,6 @@ typedef struct
 
     extern void glexpose(void);
 
-    extern char *layout2s(gvk_layout gvkl);
-    extern gvk_layout s2layout(char *s);
-    extern char *element2s(gve_element);
-
 #ifdef __cplusplus
 }				/* end extern "C" */
 #endif
