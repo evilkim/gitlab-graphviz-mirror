@@ -122,23 +122,32 @@ static polygon_t p_invtrapezium = {
 static polygon_t p_invhouse = {
     .peripheries = 1, .sides = 5, .orientation = 180.0, .distortion = -0.64};
 static polygon_t p_doubleoctagon = {.peripheries = 2, .sides = 8};
-static polygon_t p_tripleoctagon = { FALSE, 3, 8, 0., 0., 0. };
-static polygon_t p_Mdiamond =
-    { FALSE, 1, 4, 45., 0., 0., DIAGONALS | AUXLABELS };
-static polygon_t p_Msquare = { TRUE, 1, 4, 0., 0., 0., DIAGONALS };
-static polygon_t p_Mcircle =
-    { TRUE, 1, 1, 0., 0., 0., DIAGONALS | AUXLABELS };
+static polygon_t p_tripleoctagon = {.peripheries = 3, .sides = 8};
+static polygon_t p_Mdiamond = {.peripheries = 1,
+                               .sides = 4,
+                               .orientation = 45.0,
+                               .option = DIAGONALS | AUXLABELS};
+static polygon_t p_Msquare = {
+    .regular = TRUE, .peripheries = 1, .sides = 4, .option = DIAGONALS};
+static polygon_t p_Mcircle = {.regular = TRUE,
+                              .peripheries = 1,
+                              .sides = 1,
+                              .option = DIAGONALS | AUXLABELS};
 
 /* non-convex polygons */
-static polygon_t p_star = { FALSE, 1, 10, 0., 0., 0., 0, (pointf*)&star_gen };
+static polygon_t p_star = {
+    .peripheries = 1, .sides = 10, .vertices = (pointf *)&star_gen};
 
 /* biological circuit shapes, as specified by SBOLv*/
 /** gene expression symbols **/
-static polygon_t p_promoter = { FALSE, 1, 4, 0., 0., 0., PROMOTER };
-static polygon_t p_cds = { FALSE, 1, 4, 0., 0., 0., CDS };
-static polygon_t p_terminator = { FALSE, 1, 4, 0., 0., 0., TERMINATOR};
-static polygon_t p_utr = { FALSE, 1, 4, 0., 0., 0., UTR};
-static polygon_t p_insulator = { FALSE, 1, 4, 0., 0., 0., INSULATOR};
+static polygon_t p_promoter = {
+    .peripheries = 1, .sides = 4, .option = PROMOTER};
+static polygon_t p_cds = {.peripheries = 1, .sides = 4, .option = CDS};
+static polygon_t p_terminator = {
+    .peripheries = 1, .sides = 4, .option = TERMINATOR};
+static polygon_t p_utr = {.peripheries = 1, .sides = 4, .option = UTR};
+static polygon_t p_insulator = {
+    .peripheries = 1, .sides = 4, .option = INSULATOR};
 static polygon_t p_ribosite = { FALSE, 1, 4, 0., 0., 0., RIBOSITE};
 static polygon_t p_rnastab = { FALSE, 1, 4, 0., 0., 0., RNASTAB};
 static polygon_t p_proteasesite = { FALSE, 1, 4, 0., 0., 0., PROTEASESITE};
