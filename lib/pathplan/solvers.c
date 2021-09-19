@@ -74,16 +74,15 @@ int solve2(double *coeff, double *roots)
     c_over_a = c / a;
 
     disc = b_over_2a * b_over_2a - c_over_a;
-    if (disc < 0)
+    if (disc < 0) {
 	return 0;
-    else if (disc == 0) {
-	roots[0] = -b_over_2a;
-	return 1;
-    } else {
+    } else if (disc > 0) {
 	roots[0] = -b_over_2a + sqrt(disc);
 	roots[1] = -2 * b_over_2a - roots[0];
 	return 2;
     }
+    roots[0] = -b_over_2a;
+    return 1;
 }
 
 int solve1(double *coeff, double *roots)
