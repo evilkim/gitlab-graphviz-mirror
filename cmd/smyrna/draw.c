@@ -400,21 +400,6 @@ drawfunc_t OpFns[] = {
     (drawfunc_t)InsertImage,
 };
 
-void drawEllipse(float xradius, float yradius, int angle1, int angle2)
-{
-    int i;
-    glBegin(GL_LINE_STRIP);
-
-    for (i = angle1; i <= angle2; i++) {
-	//convert degrees into radians
-	float degInRad = (float) i * (float) DEG2RAD;
-	glVertex3f((GLfloat) (cos(degInRad) * xradius),
-		   (GLfloat) (sin(degInRad) * yradius), view->Topview->global_z);
-    }
-
-    glEnd();
-}
-
 void draw_selpoly(glCompPoly* selPoly)
 {
     int i;

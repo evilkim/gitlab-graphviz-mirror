@@ -28,7 +28,6 @@ extern "C" {
 extern drawfunc_t OpFns[];
 extern void drawCircle(float x, float y, float radius, float zdepth);
 extern void drawBorders(ViewInfo * view);
-extern void drawEllipse(float xradius, float yradius, int angle1, int angle2);
 extern void draw_selpoly(glCompPoly* selPoly);
 
 #ifdef __cplusplus
