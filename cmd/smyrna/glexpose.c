@@ -17,8 +17,6 @@
 #include "hotkeymap.h"
 #include "polytess.h"
 
-GLuint texture[3];
-
 static void drawRotatingAxis(void)
 {
     static GLUquadricObj *quadratic;
