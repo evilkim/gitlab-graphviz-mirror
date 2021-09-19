@@ -148,7 +148,8 @@ static polygon_t p_terminator = {
 static polygon_t p_utr = {.peripheries = 1, .sides = 4, .option = UTR};
 static polygon_t p_insulator = {
     .peripheries = 1, .sides = 4, .option = INSULATOR};
-static polygon_t p_ribosite = { FALSE, 1, 4, 0., 0., 0., RIBOSITE};
+static polygon_t p_ribosite = {
+    .peripheries = 1, .sides = 4, .option = RIBOSITE};
 static polygon_t p_rnastab = { FALSE, 1, 4, 0., 0., 0., RNASTAB};
 static polygon_t p_proteasesite = { FALSE, 1, 4, 0., 0., 0., PROTEASESITE};
 static polygon_t p_proteinstab = { FALSE, 1, 4, 0., 0., 0., PROTEINSTAB};
