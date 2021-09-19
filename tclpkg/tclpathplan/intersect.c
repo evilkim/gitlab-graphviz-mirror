@@ -34,12 +34,38 @@ static void sgnarea(struct vertex *l, struct vertex *m, int i[])
     i[2] = i[0] * i[1];
 }
 
-/* determine if g lies between f and h      */
-static int between(float f, float g, float h)
-{
-    if ((f == g) || (g == h))
-	return (0);
-    return ((f < g) ? (g < h ? 1 : -1) : (h < g ? 1 : -1));
+/** where is `g` relative to the interval delimited by `f` and `h`?
+ *
+ * The order of `f` and `h` is not assumed. That is, the interval defined may be
+ * `(f, h)` or `(h, f)` depending on whether `f` is less than or greater than
+ * `h`.
+ *
+ * \param f First boundary of the interval
+ * \param g Value to test
+ * \param h Second boundary of the interval
+ * \return -1 if g is not in the interval, 1 if g is in the interval, 0 if g is
+ *   on the boundary (that is, equal to f or equal to h)
+ */
+static int between(double f, double g, double h) {
+  if (f < g) {
+    if (g < h) {
+      return 1;
+    }
+    if (g > h) {
+      return -1;
+    }
+    return 0;
+  }
+  if (f > g) {
+    if (g > h) {
+      return 1;
+    }
+    if (g < h) {
+      return -1;
+    }
+    return 0;
+  }
+  return 0;
 }
 
 /* determine if vertex i of line m is on line l     */
