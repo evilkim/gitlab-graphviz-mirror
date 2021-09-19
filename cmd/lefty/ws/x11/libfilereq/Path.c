@@ -40,10 +40,6 @@
 #include "config.h"
 #include <stdio.h>
 
-#ifdef SEL_FILE_IGNORE_CASE
-#include <ctype.h>
-#endif /* def SEL_FILE_IGNORE_CASE */
-
 #include <X11/Xos.h>
 #include <pwd.h>
 #include "SFinternal.h"
@@ -52,21 +48,17 @@
 
 #if defined (SVR4) || defined (SYSV) || defined (USG)
 extern uid_t getuid ();
-extern void qsort ();
 #endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
 
 #include <stdlib.h>
+#include <string.h>
+#ifndef _MSC_VER
+#include <strings.h>
+#endif
 
 #include "SFDecls.h"
 
 #include <stdint.h>
-#ifdef HAVE_INTPTR_T
-#define INT2PTR(t,v) ((t)(intptr_t)(v))
-#define PTR2INT(v) ((Sflong_t)(intptr_t)(v))
-#else
-#define INT2PTR(t,v) ((t)(v))
-#define PTR2INT(v) ((Sflong_t)(v))
-#endif
 
 typedef struct {
     char *name;
@@ -136,43 +128,6 @@ static void SFunreadableDir (SFDir *dir) {
     dir->nEntries = 1;
     dir->nChars = strlen (cannotOpen);
 }
-
-#ifdef SEL_FILE_IGNORE_CASE
-static int SFstrncmp (char *p, char *q, int n) {
-    char c1, c2;
-    char *psave, *qsave;
-    int  nsave;
-
-    psave = p;
-    qsave = q;
-    nsave = n;
-    c1 = *p++;
-    if (islower (c1)) {
-        c1 = toupper (c1);
-    }
-    c2 = *q++;
-    if (islower (c2)) {
-        c2 = toupper (c2);
-    }
-    while ((--n >= 0) && (c1 == c2)) {
-        if (!c1) {
-            return strncmp (psave, qsave, nsave);
-        }
-        c1 = *p++;
-        if (islower (c1)) {
-            c1 = toupper (c1);
-        }
-        c2 = *q++;
-        if (islower (c2)) {
-            c2 = toupper (c2);
-        }
-    }
-    if (n < 0) {
-        return strncmp (psave, qsave, nsave);
-    }
-    return c1 - c2;
-}
-#endif /* def SEL_FILE_IGNORE_CASE */
 
 static void SFreplaceText (SFDir *dir, char *str) {
     int len;
@@ -257,7 +212,11 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-        result = SFstrncmp (str, name, len);
+#ifdef _MSC_VER
+        result = _strnicmp(str, name, len);
+#else
+        result = strncasecmp(str, name, len);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
@@ -276,7 +235,11 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-        result = SFstrncmp (str, name, len);
+#ifdef _MSC_VER
+        result = _strnicmp(str, name, len);
+#else
+        result = strncasecmp(str, name, len);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
@@ -339,7 +302,7 @@ static void SFunselect (void) {
 }
 
 static int SFcompareLogins (const void *vp, const void *vq) {
-    const SFLogin *p = (const SFLogin *) vp, *q = (const SFLogin *) vq;
+    const SFLogin *p = vp, *q = vq;
 
     return strcmp (p->name, q->name);
 }
@@ -400,13 +363,8 @@ static void SFgetHomeDirs (void) {
     SFhomeDir.beginSelection = -1;
     SFhomeDir.endSelection   = -1;
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-    qsort ((char *) entries, (unsigned)i, sizeof (SFEntry), SFcompareEntries);
-    qsort ((char *) SFlogins, (unsigned)i, sizeof (SFLogin), SFcompareLogins);
-#else /* defined (SVR4) || defined (SYSV) || defined (USG) */
-    qsort ((char *) entries, i, sizeof (SFEntry), SFcompareEntries);
-    qsort ((char *) SFlogins, i, sizeof (SFLogin), SFcompareLogins);
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
+    qsort(entries, (size_t)i, sizeof(SFEntry), SFcompareEntries);
+    qsort(SFlogins, (size_t)i, sizeof(SFLogin), SFcompareLogins);
 
     for (i--; i >= 0; i--) {
         strcat (entries[i].real, "/");

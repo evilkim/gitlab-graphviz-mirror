@@ -79,10 +79,6 @@
 
 #include "SFDecls.h"
 
-#if !defined (SVR4) && !defined (SYSV) && !defined (USG)
-extern char *getwd (char *);
-#endif /* !defined (SVR4) && !defined (SYSV) && !defined (USG) */
-
 #include <stdlib.h>
 
 #include <stdint.h>
