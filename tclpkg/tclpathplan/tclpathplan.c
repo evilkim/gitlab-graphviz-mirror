@@ -186,7 +186,7 @@ static void expandPercentsEval(Tcl_Interp * interp,	/* interpreter context */
     Tcl_DStringFree(&scripts);
 }
 
-void triangle_callback(void *vgparg, point pqr[])
+static void triangle_callback(void *vgparg, point pqr[])
 {
     char vbuf[20];
     vgpane_t *vgp;
