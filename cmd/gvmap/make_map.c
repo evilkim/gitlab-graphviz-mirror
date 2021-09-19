@@ -1152,10 +1152,10 @@ static int make_map_internal(int exclude_random, int include_OK_points,
 	fprintf (stderr, "bounding box margin: %.06f", MAX(boxsize[0]*0.2, 2*shore_depth_tol));
       if (bbm1 > 0)
 	fprintf (stderr, " %.06f\n", bbm1);
-      else if (bbm1 == 0)
-	fprintf (stderr, " %.06f\n", MAX(boxsize[1]*0.2, 2*shore_depth_tol));
-      else 
+      else if (bbm1 < 0)
 	fprintf (stderr, " (%.06f * %.06f)\n", boxsize[1], -bbm1);
+      else
+	fprintf (stderr, " %.06f\n", MAX(boxsize[1]*0.2, 2*shore_depth_tol));
     }
     if (*nrandom < 0) {
       real n1, n2, area2;
