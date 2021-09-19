@@ -14,7 +14,7 @@
 
 void find_intersection(struct vertex *l, struct vertex *m,
 		       struct intersection ilist[], struct data *input);
-static int gt(struct vertex **i, struct vertex **j);
+static int gt(const void *a, const void *b);
 
 void find_ints(struct vertex vertex_list[],
 	struct polygon polygon_list[],
@@ -36,8 +36,7 @@ void find_ints(struct vertex vertex_list[],
 	pvertex[i] = vertex_list + i;
 
 /* sort vertices by x coordinate	*/
-    qsort(pvertex, input->nvertices, sizeof(struct vertex *),
-    	  (int (*)(const void *, const void *))gt);
+    qsort(pvertex, input->nvertices, sizeof(struct vertex *), gt);
 
 /* walk through the vertices in order of increasing x coordinate	*/
     for (i = 0; i < input->nvertices; i++) {
@@ -103,8 +102,10 @@ void find_ints(struct vertex vertex_list[],
     free(pvertex);
 }
 
-static int gt(struct vertex **i, struct vertex **j)
+static int gt(const void *a, const void *b)
 {				/* i > j if i.x > j.x or i.x = j.x and i.y > j.y  */
+    const struct vertex *const *i = a;
+    const struct vertex *const *j = b;
     double t;
     if ((t = (*i)->pos.x - (*j)->pos.x) != 0.)
 	return ((t > 0.) ? 1 : -1);
