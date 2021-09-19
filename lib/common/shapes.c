@@ -164,7 +164,8 @@ static polygon_t p_fivepoverhang = {
     .peripheries = 1, .sides = 4, .option = FIVEPOVERHANG};
 static polygon_t p_threepoverhang = {
     .peripheries = 1, .sides = 4, .option = THREEPOVERHANG};
-static polygon_t p_noverhang = { FALSE, 1, 4, 0., 0., 0., NOVERHANG};
+static polygon_t p_noverhang = {
+    .peripheries = 1, .sides = 4, .option = NOVERHANG};
 static polygon_t p_assembly = { FALSE, 1, 4, 0., 0., 0., ASSEMBLY};
 static polygon_t p_signature = { FALSE, 1, 4, 0., 0., 0., SIGNATURE};
 static polygon_t p_rpromoter = { FALSE, 1, 4, 0., 0., 0., RPROMOTER};
