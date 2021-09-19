@@ -25,7 +25,6 @@ void find_ints(struct vertex vertex_list[],
     struct active_edge_list all;
     struct active_edge *new, *tempa;
     struct vertex *pt1, *pt2, *templ, **pvertex;
-/*      char *malloc(); */
 
     input->ninters = 0;
     all.first = all.final = NIL;
