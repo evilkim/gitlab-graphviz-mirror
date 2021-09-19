@@ -30,6 +30,7 @@ libgvplugin_visio_C_la_SOURCES = \
 libgvplugin_visio_la_LDFLAGS = -version-info @GVPLUGIN_VERSION_INFO@
 libgvplugin_visio_la_SOURCES = $(libgvplugin_visio_C_la_SOURCES)
 libgvplugin_visio_la_LIBADD = \
+	$(top_builddir)/lib/cgraph/libcgraph.la \
 	$(top_builddir)/lib/gvc/libgvc.la @VISIO_LIBS@ 
 
 if WITH_WIN32
