@@ -219,18 +219,6 @@ glCompPoint getPointFromStr(char* str)
     return p;
 }
 
-int point_within_ellips_with_coords(float ex, float ey, float ea, float eb,
-				    float px, float py)
-{
-
-    float dx, dy;
-    float a;
-    dx = px - ex;
-    dy = py - ey;
-    a = (dx * dx) / (ea * ea) + (dy * dy) / (eb * eb);
-    return (a <= 1);
-}
-
 int point_in_polygon(glCompPoly* selPoly,glCompPoint p)
 {
     int npol=selPoly->cnt;

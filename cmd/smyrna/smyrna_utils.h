@@ -25,6 +25,3 @@ extern void setColor(glCompColor* c,GLfloat R,GLfloat G,GLfloat B,GLfloat A);
 extern void getcolorfromschema(colorschemaset * sc, float l, float maxl,glCompColor * c);
 extern glCompPoint getPointFromStr(char* str);
 extern int point_in_polygon(glCompPoly* selPoly,glCompPoint p);
-extern int point_within_ellips_with_coords(float ex, float ey,
-					       float ea, float eb,
-					       float px, float py);
