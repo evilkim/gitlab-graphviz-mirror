@@ -52,9 +52,7 @@ extern uid_t getuid ();
 
 #include <stdlib.h>
 #include <string.h>
-#ifndef _MSC_VER
 #include <strings.h>
-#endif
 
 #include "SFDecls.h"
 
@@ -212,11 +210,7 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-#ifdef _MSC_VER
-        result = _strnicmp(str, name, len);
-#else
         result = strncasecmp(str, name, len);
-#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
@@ -235,11 +229,7 @@ static int SFfindFile (SFDir *dir, char *str) {
         name[last] = 0;
 
 #ifdef SEL_FILE_IGNORE_CASE
-#ifdef _MSC_VER
-        result = _strnicmp(str, name, len);
-#else
         result = strncasecmp(str, name, len);
-#endif
 #else /* def SEL_FILE_IGNORE_CASE */
         result = strncmp (str, name, len);
 #endif /* def SEL_FILE_IGNORE_CASE */
