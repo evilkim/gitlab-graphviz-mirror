@@ -20,7 +20,6 @@ extern "C" {
     int glexpose_main(ViewInfo * v);
     /* void glexpose_grid(ViewInfo * v); */
     /* int glexpose_drawgraph(ViewInfo * view); */
-    void drawRotatingTools(void);
     /* void drawtestpoly(void); */
     /* void draw_cube(void); */
 
