@@ -1133,12 +1133,12 @@ static int make_map_internal(int exclude_random, int include_OK_points,
       if (bounding_box_margin[i] > 0){
 	xmin[i] -= bounding_box_margin[i];
 	xmax[i] += bounding_box_margin[i];
-      } else if (bounding_box_margin[i] == 0) {/* auto bounding box */
-	xmin[i] -= MAX(boxsize[i]*0.2, 2.*shore_depth_tol);
-	xmax[i] += MAX(boxsize[i]*0.2, 2*shore_depth_tol);
-      } else {
+      } else if (bounding_box_margin[i] < 0) {
 	xmin[i] -= boxsize[i]*(-bounding_box_margin[i]);
 	xmax[i] += boxsize[i]*(-bounding_box_margin[i]);
+      } else { // auto bounding box
+	xmin[i] -= MAX(boxsize[i]*0.2, 2.*shore_depth_tol);
+	xmax[i] += MAX(boxsize[i]*0.2, 2*shore_depth_tol);
       }
     }
     if (Verbose) {
