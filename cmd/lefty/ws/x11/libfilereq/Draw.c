@@ -38,6 +38,7 @@
  */
 
 #include "config.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
 #include "SFinternal.h"
@@ -84,7 +85,7 @@ void SFinitFont (void) {
     data = XtNew (TextData);
     XtGetApplicationResources (
         selFileForm, (XtPointer) data, textResources,
-        XtNumber (textResources), (Arg *) NULL, ZERO
+        XtNumber (textResources), NULL, ZERO
     );
 
     SFfont = XLoadQueryFont (SFdisplay, data->fontname);
@@ -152,8 +153,8 @@ void SFclearList (int n, int doScroll) {
                 ) ? dir->nChars : SFcharsPerEntry)) / dir->nChars)
             );
         } else {
-            XawScrollbarSetThumb (selFileVScrolls[n], (float) 0.0, (float) 1.0);
-            XawScrollbarSetThumb (selFileHScrolls[n], (float) 0.0, (float) 1.0);
+            XawScrollbarSetThumb(selFileVScrolls[n], 0.0f, 1.0f);
+            XawScrollbarSetThumb(selFileHScrolls[n], 0.0f, 1.0f);
         }
     }
 }
@@ -200,21 +201,20 @@ static void SFdeleteEntry (SFDir *dir, SFEntry *entry) {
     );
 }
 
-static void SFwriteStatChar (char *name, int last, struct stat *statBuf) {
+static void SFwriteStatChar(char *name, size_t last, struct stat *statBuf) {
     name[last] = SFstatChar (statBuf);
 }
 
 static int SFstatAndCheck (SFDir *dir, SFEntry *entry) {
     struct stat statBuf;
     char        save;
-    int         last;
 
     /* must be restored before returning */
     save = *(dir->path);
     *(dir->path) = 0;
 
     if (!SFchdir (SFcurrentPath)) {
-        last = strlen (entry->real) - 1;
+        size_t last = strlen(entry->real) - 1;
         entry->real[last] = 0;
         entry->statDone = 1;
         if (
@@ -229,9 +229,7 @@ static int SFstatAndCheck (SFDir *dir, SFEntry *entry) {
                 shown = NULL;
                 if (SFfunc (entry->real, &shown, &statBuf)) {
                     if (shown) {
-                        int len;
-
-                        len = strlen (shown);
+                        size_t len = strlen(shown);
                         entry->shown = XtMalloc ((unsigned) (len + 2));
                         strcpy (entry->shown, shown);
                         SFwriteStatChar (entry->shown, len, &statBuf);
@@ -354,7 +352,7 @@ static unsigned long SFscrollTimerInterval (void) {
     } else if (SFcurrentListY > SFupperY) {
         dist = SFcurrentListY - SFupperY;
     } else {
-        return (unsigned long) 1;
+        return 1;
     }
     t = maxVal - ((maxVal / varyDist) * (dist - minDist));
     if (t < 1) {

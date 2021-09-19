@@ -53,15 +53,6 @@ int GVcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    c.red = attrp[ai].u.c.r * 257;
 	    c.green = attrp[ai].u.c.g * 257;
 	    c.blue = attrp[ai].u.c.b * 257;
-	    /* if (XAllocColor (
-	       Gdisplay, DefaultColormap (Gdisplay, Gscreenn), &c
-	       )) {
-	       if (color == 0)
-	       ADD2ARGS (XtNbackground, c.pixel);
-	       else
-	       ADD2ARGS (XtNforeground, c.pixel);
-	       }
-	     */
 	    break;
 	case G_ATTRZORDER:
 	    Gerr(POS, G_ERRCANNOTSETATTR1, "zorder");
@@ -80,14 +71,6 @@ int GVcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    return -1;
 	}
     }
-    /*  if (haveorigin) {
-       hints.x = po.x, hints.y = po.y;
-       hints.width = ps.x, hints.height = ps.y;
-       hints.flags = USPosition;
-       Glazyrealize (widget->w, TRUE, &hints);
-       } else
-       Glazyrealize (widget->w, FALSE, NULL);
-     */
 
     widget->w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_widget_set_events(widget->w, GDK_ALL_EVENTS_MASK);

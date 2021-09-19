@@ -66,15 +66,6 @@ int GAcreatewidget(Gwidget_t * parent, Gwidget_t * widget,
 	    c.red = attrp[ai].u.c.r * 257;
 	    c.green = attrp[ai].u.c.g * 257;
 	    c.blue = attrp[ai].u.c.b * 257;
-/*        			if (XAllocColor (
-				       Gdisplay, DefaultColormap (Gdisplay, Gscreenn), &c
-				)) {
-		                	if (color == 0)
-					        ADD2ARGS (XtNbackground, c.pixel);
-				        else
-					        ADD2ARGS (XtNforeground, c.pixel);
-					}
-*/
 	    break;
 	case G_ATTRWINDOWID:
 	    Gerr(POS, G_ERRCANNOTSETATTR1, "windowid");
@@ -221,25 +212,12 @@ void Gawdefcoordscb(int wi, Gawdata_t * dp)
 	dp->sx = csx;
 }
 
-
-static void dolayout(Gwidget_t * widget, int flag)
-{
-
-
-}
-
-
 int Gawsetmode(Gwidget_t * widget, int mode)
 {
-
-    dolayout(widget, TRUE);
     return 0;
 }
 
 
 int Gaworder(Gwidget_t * widget, void *data, Gawordercb func)
 {
-
-/*	(*func) (data, NULL);   */
-    dolayout(widget, TRUE);
 }

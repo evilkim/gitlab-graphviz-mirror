@@ -39,6 +39,10 @@
 
 #include "config.h"
 #include <stdio.h>
+#include <string.h>
+#ifndef _MSC_VER
+#include <strings.h>
+#endif
 
 #ifdef SEL_FILE_IGNORE_CASE
 #include <ctype.h>
@@ -50,52 +54,22 @@
 
 #include <sys/stat.h>
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-extern void qsort ();
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
-
 #include <stdlib.h>
 
 #include "SFDecls.h"
 
+int SFcompareEntries (const void *vp, const void *vq) {
+    const SFEntry *p = vp, *q = vq;
 #ifdef SEL_FILE_IGNORE_CASE
-int SFcompareEntries (const void *vp, const void *vq) {
-    SFEntry *p = (SFEntry *) vp, *q = (SFEntry *) vq;
-    char *r, *s;
-    char c1, c2;
-
-    r = p->real;
-    s = q->real;
-    c1 = *r++;
-    if (islower (c1)) {
-        c1 = toupper (c1);
-    }
-    c2 = *s++;
-    if (islower (c2)) {
-        c2 = toupper (c2);
-    }
-    while (c1 == c2) {
-        if (!c1) {
-            return strcmp (p->real, q->real);
-        }
-        c1 = *r++;
-        if (islower (c1)) {
-            c1 = toupper (c1);
-        }
-        c2 = *s++;
-        if (islower (c2)) {
-            c2 = toupper (c2);
-        }
-    }
-    return c1 - c2;
-}
+#ifdef _MSC_VER
+    return _stricmp(p->real, q->real);
+#else
+    return strcasecmp(p->real, q->real);
+#endif
 #else /* def SEL_FILE_IGNORE_CASE */
-int SFcompareEntries (const void *vp, const void *vq) {
-    const SFEntry *p = (const SFEntry *) vp, *q = (const SFEntry *) vq;
-
     return strcmp (p->real, q->real);
-}
 #endif /* def SEL_FILE_IGNORE_CASE */
+}
 
 int SFgetDir (SFDir *dir) {
     SFEntry       *result = NULL;
@@ -145,11 +119,7 @@ int SFgetDir (SFDir *dir) {
         i++;
     }
 
-#if defined (SVR4) || defined (SYSV) || defined (USG)
-    qsort ((char *) result, (unsigned) i, sizeof (SFEntry), SFcompareEntries);
-#else /* defined (SVR4) || defined (SYSV) || defined (USG) */
-    qsort ((char *) result, i, sizeof (SFEntry), SFcompareEntries);
-#endif /* defined (SVR4) || defined (SYSV) || defined (USG) */
+    qsort(result, (size_t)i, sizeof(SFEntry), SFcompareEntries);
 
     dir->entries = result;
     dir->nEntries = i;
