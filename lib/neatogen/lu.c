@@ -79,13 +79,12 @@ int lu_decompose(double **a, int n)
 	/* Find the largest element in each row for row equilibration */
 	biggest = 0.0;
 	for (j = 0; j < n; j++)
-	    if (biggest < (tempf = fabs(lu[i][j] = a[i][j])))
-		biggest = tempf;
-	if (biggest != 0.0)
+	    biggest = fmax(biggest, fabs(lu[i][j] = a[i][j]));
+	if (biggest > 0.0)
 	    scales[i] = 1.0 / biggest;
 	else {
 	    scales[i] = 0.0;
-	    return (0);		/* Zero row: singular matrix */
+	    return 0;		/* Zero row: singular matrix */
 	}
 	ps[i] = i;		/* Initialize pivot sequence */
     }
@@ -99,8 +98,8 @@ int lu_decompose(double **a, int n)
 		pivotindex = i;
 	    }
 	}
-	if (biggest == 0.0)
-	    return (0);		/* Zero column: singular matrix */
+	if (biggest <= 0.0)
+	    return 0;		/* Zero column: singular matrix */
 	if (pivotindex != k) {	/* Update pivot sequence */
 	    j = ps[k];
 	    ps[k] = ps[pivotindex];
@@ -111,16 +110,14 @@ int lu_decompose(double **a, int n)
 	pivot = lu[ps[k]][k];
 	for (i = k + 1; i < n; i++) {
 	    lu[ps[i]][k] = mult = lu[ps[i]][k] / pivot;
-	    if (mult != 0.0) {
-		for (j = k + 1; j < n; j++)
-		    lu[ps[i]][j] -= mult * lu[ps[k]][j];
-	    }
+	    for (j = k + 1; j < n; j++)
+		lu[ps[i]][j] -= mult * lu[ps[k]][j];
 	}
     }
 
     if (lu[ps[n - 1]][n - 1] == 0.0)
-	return (0);		/* Singular matrix */
-    return (1);
+	return 0;		/* Singular matrix */
+    return 1;
 }
 
 /* lu_solve() solves the linear equation (Ax = b) after the matrix A has

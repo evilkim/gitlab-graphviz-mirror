@@ -78,12 +78,38 @@ static void sgnarea(vertex *l, vertex *m, int i[])
     i[2] = i[0] * i[1];
 }
 
-/* determine if g lies between f and h      */
-static int between(double f, double g, double h)
-{
-    if (f == g || g == h)
-	return 0;
-    return f < g ? (g < h ? 1 : -1) : (h < g ? 1 : -1);
+/** where is `g` relative to the interval delimited by `f` and `h`?
+ *
+ * The order of `f` and `h` is not assumed. That is, the interval defined may be
+ * `(f, h)` or `(h, f)` depending on whether `f` is less than or greater than
+ * `h`.
+ *
+ * \param f First boundary of the interval
+ * \param g Value to test
+ * \param h Second boundary of the interval
+ * \return -1 if g is not in the interval, 1 if g is in the interval, 0 if g is
+ *   on the boundary (that is, equal to f or equal to h)
+ */
+static int between(double f, double g, double h) {
+  if (f < g) {
+    if (g < h) {
+      return 1;
+    }
+    if (g > h) {
+      return -1;
+    }
+    return 0;
+  }
+  if (f > g) {
+    if (g > h) {
+      return 1;
+    }
+    if (g < h) {
+      return -1;
+    }
+    return 0;
+  }
+  return 0;
 }
 
 /* determine if vertex i of line m is on line l     */
@@ -246,16 +272,22 @@ static int find_intersection(vertex *l,
     return realIntersect(l, m, p);
 }
 
-static int gt(vertex **i, vertex **j)
-{
-    /* i > j if i.x > j.x or i.x = j.x and i.y > j.y  */
-    double t;
-    if ((t = (*i)->pos.x - (*j)->pos.x) != 0.)
-	return t > 0. ? 1 : -1;
-    if ((t = (*i)->pos.y - (*j)->pos.y) == 0.)
-	return 0;
-    else
-	return t > 0. ? 1 : -1;
+static int gt(const void *a, const void *b) {
+    const vertex *const *i = a;
+    const vertex *const *j = b;
+    if ((*i)->pos.x > (*j)->pos.x) {
+      return 1;
+    }
+    if ((*i)->pos.x < (*j)->pos.x) {
+      return -1;
+    }
+    if ((*i)->pos.y > (*j)->pos.y) {
+      return 1;
+    }
+    if ((*i)->pos.y < (*j)->pos.y) {
+      return -1;
+    }
+    return 0;
 }
 
 /* find_ints:
@@ -263,10 +295,7 @@ static int gt(vertex **i, vertex **j)
  * Return 1 if intersection found, 0 for not found, -1 for error.
  */
 static int
-find_ints(vertex vertex_list[],
-	  polygon polygon_list[],
-	  data *input, intersection ilist[])
-{
+find_ints(vertex vertex_list[], data *input, intersection ilist[]) {
     int i, j, k, found = 0;
     active_edge_list all;
     active_edge *new, *tempa;
@@ -282,8 +311,7 @@ find_ints(vertex vertex_list[],
 	pvertex[i] = vertex_list + i;
 
 /* sort vertices by x coordinate	*/
-    qsort(pvertex, input->nvertices, sizeof(vertex *),
-    	  (int (*)(const void *, const void *))gt);
+    qsort(pvertex, input->nvertices, sizeof(vertex *), gt);
 
 /* walk through the vertices in order of increasing x coordinate	*/
     for (i = 0; i < input->nvertices; i++) {
@@ -342,6 +370,9 @@ find_ints(vertex vertex_list[],
 		all.number--;
 		templ->active = 0;
 		break;		/* end of case 1        */
+
+	    default:
+		break; // same point; do nothing
 
 	    }			/* end switch   */
 
@@ -437,7 +468,7 @@ int Plegal_arrangement(Ppoly_t ** polys, int n_polys)
     input.nvertices = nverts;
     input.npolygons = n_polys;
 
-    found = find_ints(vertex_list, polygon_list, &input, ilist);
+    found = find_ints(vertex_list, &input, ilist);
     if (found < 0) {
 	free(polygon_list);
 	free(vertex_list);
