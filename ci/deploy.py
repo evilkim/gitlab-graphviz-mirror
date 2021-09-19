@@ -157,8 +157,10 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # data for the website’s download page
   webdata = {
-    "version":f"graphviz-{options.version}",
-    "archives":[],
+    "version": f"graphviz-{options.version}",
+    "sources": [],
+    # TODO: fill in
+    "windows": [],
   }
 
   for tarball in (Path(f"graphviz-{gv_version}.tar.gz"),
@@ -168,18 +170,19 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
       log.error(f"source {tarball} not found")
       return -1
 
-    webentry = {"format":tarball.suffix[1:]}
-
     # accrue the source tarball and accompanying checksum(s)
     url = upload(package_version, tarball)
     assets.append(url)
-    webentry["url"] = url
+    webentry = {
+      "format": tarball.suffix[1:],
+      "url": url
+    }
     for check in checksum(tarball):
       url = upload(package_version, check)
       assets.append(url)
       webentry[check.suffix[1:]] = url
 
-    webdata["archives"].append(webentry)
+    webdata["sources"].append(webentry)
 
   for stem, _, leaves in os.walk("Packages"):
     for leaf in leaves:
