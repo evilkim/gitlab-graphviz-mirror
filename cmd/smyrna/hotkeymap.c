@@ -162,18 +162,6 @@ void load_mouse_actions(ViewInfo * v)
     free(action_file);
 }
 
-int get_key_action(ViewInfo * v, int key)
-{
-    int ind = 0;
-    for (; ind < v->mouse_action_count; ind++) {
-
-	if (v->mouse_actions[ind].hotkey == key)
-	    return v->mouse_actions[ind].action;
-    }
-    return -1;
-}
-
-
 int get_mode(ViewInfo * v)
 {
     int ind = 0;

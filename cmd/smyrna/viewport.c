@@ -34,8 +34,6 @@
 
 static colorschemaset *create_color_theme(int themeid);
 
-#define countof( array ) ( sizeof( array )/sizeof( array[0] ) )
-
 ViewInfo *view;
 /* these two global variables should be wrapped in something else */
 GtkMessageDialog *Dlg;
@@ -653,20 +651,6 @@ int save_as_graph(void)
 	}
     }
     return 0;
-}
-
-int setGdkColor(GdkColor * c, char *color)
-{
-    gvcolor_t cl;
-    if (color != '\0') {
-	colorxlate(color, &cl, RGBA_DOUBLE);
-	c->red = (int) (cl.u.RGBA[0] * 65535.0);
-	c->green = (int) (cl.u.RGBA[1] * 65535.0);
-	c->blue = (int) (cl.u.RGBA[2] * 65535.0);
-	return 1;
-    } else
-	return 0;
-
 }
 
 void glexpose(void)

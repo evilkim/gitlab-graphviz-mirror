@@ -16,25 +16,7 @@
 #define B_RSHIFT	    65506
 #define B_LCTRL		    65507
 #define B_RCTRL		    65508
-#define LEFT_MOUSE_BUTTON	glMouseLeftButton
-#define RIGHT_MOUSE_BUTTON	glMouseRightButton
-#define MIDDLE_MOUSE_BUTTON	glMouseMiddleButton
-
-
-
-/*key combinations defined here,dont modify the code above here*/
-#define F_BUTTON1   B_LSHIFT
-#define F_BUTTON2   B_RSHIFT
-#define F_BUTTON3   B_LCTRL
-#define F_BUTTON4   B_LCTRL
-
-#define MOUSE_BUTTON_1	LEFT_MOUSE_BUTTON
-#define MOUSE_BUTTON_2  RIGHT_MOUSE_BUTTON
-#define MOUSE_BUTTON_3	MIDDLE_MOUSE_BUTTON
-
-
 
 extern void load_mouse_actions (ViewInfo* v);
 
 extern int get_mode(ViewInfo* v);
-extern int get_key_action(ViewInfo* v,int key);
