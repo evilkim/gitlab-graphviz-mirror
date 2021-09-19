@@ -22,6 +22,7 @@
 	Exccdisc_t*	ccdisc;		/* excc() discipline		*/
 
 #include <expr/exlib.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -105,7 +106,6 @@ static void
 print(Excc_t* cc, Exnode_t* expr)
 {
 	Print_t*	x;
-	int		i;
 
 	if ((x = expr->data.print.args))
 	{
@@ -117,7 +117,7 @@ print(Excc_t* cc, Exnode_t* expr)
 		{
 			if (x->arg)
 			{
-				for (i = 0; i < elementsof(x->param) && x->param[i]; i++)
+				for (size_t i = 0; i < elementsof(x->param) && x->param[i]; i++)
 				{
 					sfprintf(cc->ccdisc->text, ", (");
 					gen(cc, x->param[i]);
@@ -140,7 +140,6 @@ static void
 scan(Excc_t* cc, Exnode_t* expr)
 {
 	Print_t*	x;
-	int		i;
 
 	if ((x = expr->data.print.args))
 	{
@@ -152,7 +151,7 @@ scan(Excc_t* cc, Exnode_t* expr)
 		{
 			if (x->arg)
 			{
-				for (i = 0; i < elementsof(x->param) && x->param[i]; i++)
+				for (size_t i = 0; i < elementsof(x->param) && x->param[i]; i++)
 				{
 					sfprintf(cc->ccdisc->text, ", &(");
 					gen(cc, x->param[i]);
@@ -622,8 +621,10 @@ gen(Excc_t* cc, Exnode_t* expr)
 static int
 global(Dt_t* table, void* object, void* handle)
 {
-	Excc_t*	cc = (Excc_t*)handle;
-	Exid_t*	sym = (Exid_t*)object;
+	(void)table;
+
+	Excc_t*	cc = handle;
+	Exid_t*	sym = object;
 
 	if (sym->lex == DYNAMIC)
 		sfprintf(cc->ccdisc->text, "static %s	%s;\n", extype(sym->type), sym->name);

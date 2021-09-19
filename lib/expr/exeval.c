@@ -42,7 +42,7 @@ static Extype_t	eval(Expr_t*, Exnode_t*, void*);
 #define MAXNAME		23
 #define FRAME		64
 
-static char*
+static const char*
 lexname(int op, int subop)
 {
 	char*	b;
@@ -51,7 +51,7 @@ lexname(int op, int subop)
 	static char	buf[TOTNAME][MAXNAME];
 
 	if (op > MINTOKEN && op < MAXTOKEN)
-		return (char*)exop((size_t)op - MINTOKEN);
+		return exop((size_t)op - MINTOKEN);
 	if (++n >= TOTNAME)
 		n = 0;
 	b = buf[n];

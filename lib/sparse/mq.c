@@ -83,9 +83,7 @@ static real get_mq(SparseMatrix A, int *assignment, int *ncluster0, real *mq_in0
   assert(A->n == n);
   if (A->type == MATRIX_TYPE_REAL) a = (real*) A->a;
 
-  counts = MALLOC(sizeof(int)*n);
-
-  for (i = 0; i < n; i++) counts[i] = 0;
+  counts = CALLOC(n, sizeof(int));
 
   for (i = 0; i < n; i++){
     assert(assignment[i] >= 0 && assignment[i] < n);
