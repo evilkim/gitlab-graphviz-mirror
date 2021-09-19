@@ -16,12 +16,7 @@
 extern "C" {
 #endif
 
-    /* int glupdatecamera(ViewInfo * v); */
     int glexpose_main(ViewInfo * v);
-    /* void glexpose_grid(ViewInfo * v); */
-    /* int glexpose_drawgraph(ViewInfo * view); */
-    /* void drawtestpoly(void); */
-    /* void draw_cube(void); */
 
 #ifdef __cplusplus
 }				/* end extern "C" */
