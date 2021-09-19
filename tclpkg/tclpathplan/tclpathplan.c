@@ -193,8 +193,6 @@ static void triangle_callback(void *vgparg, point pqr[])
 
     vgp = vgparg;
 
-/*	    TBL_ENTRY((tblHeader_pt)vgpaneTable, (ubyte_pt)vgp));*/
-
     if (vgp->triangle_cmd) {
 	snprintf(vbuf, sizeof(vbuf), "vgpane%" PRIu64,
 		((uint64_t)((uintptr_t)vgp - (uintptr_t)vgpaneTable->bodyPtr))
@@ -696,7 +694,6 @@ vgpanecmd(ClientData clientData, Tcl_Interp * interp, int argc,
 	}
 
 	if (vc_refresh(vgp)) {
-	    /*Pobspath(vgp->vc, p, pp, q, qp, &line); */
 	    Pobspath(vgp->vc, p, POLYID_UNKNOWN, q, POLYID_UNKNOWN, &line);
 	    make_barriers(vgp, pp, qp, &barriers, &n_barriers);
 	    slopes[0].x = slopes[0].y = 0.0;
