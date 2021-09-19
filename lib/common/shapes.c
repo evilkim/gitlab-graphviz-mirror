@@ -160,7 +160,8 @@ static polygon_t p_primersite = {
     .peripheries = 1, .sides = 4, .option = PRIMERSITE};
 static polygon_t p_restrictionsite = {
     .peripheries = 1, .sides = 4, .option = RESTRICTIONSITE};
-static polygon_t p_fivepoverhang = { FALSE, 1, 4, 0., 0., 0., FIVEPOVERHANG};
+static polygon_t p_fivepoverhang = {
+    .peripheries = 1, .sides = 4, .option = FIVEPOVERHANG};
 static polygon_t p_threepoverhang = { FALSE, 1, 4, 0., 0., 0., THREEPOVERHANG};
 static polygon_t p_noverhang = { FALSE, 1, 4, 0., 0., 0., NOVERHANG};
 static polygon_t p_assembly = { FALSE, 1, 4, 0., 0., 0., ASSEMBLY};
