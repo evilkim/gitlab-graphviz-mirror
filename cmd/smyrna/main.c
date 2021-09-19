@@ -44,7 +44,6 @@ gchar *package_data_dir;
 gchar *package_locale_dir;
 static char *smyrnaDir;		/* path to directory containin smyrna data files */
 char *smyrnaGlade;
-unsigned char SmyrnaVerbose;
 int width,height;/*glut window size*/
 
 
@@ -106,8 +105,7 @@ static char *parseArgs(int argc, char *argv[], ViewInfo * view)
 	case 'e':
 	    view->drawSplines = 1;
 	    break;
-	case 'v':
-	    SmyrnaVerbose = 1;
+	case 'v': // FIXME: deprecate and remove -v in future
 	    break;
 	case 'f':
 	    view->guiMode=GUI_FULLSCREEN;
