@@ -44,10 +44,6 @@
 #include <strings.h>
 #endif
 
-#ifdef SEL_FILE_IGNORE_CASE
-#include <ctype.h>
-#endif /* def SEL_FILE_IGNORE_CASE */
-
 #include "SFinternal.h"
 
 #include <dirent.h>
