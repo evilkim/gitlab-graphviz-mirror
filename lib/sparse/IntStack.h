@@ -8,13 +8,14 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef IntStack_H
-#define IntStack_H
+#pragma once
+
+#include <stddef.h>
 
 /* last in first out integer stack */
 struct IntStack_struct{
-  int last;/* position of the last element, If empty, last = -1 */
-  int max_len;
+  size_t last; // position of the last element, If empty, last = SIZE_MAX
+  size_t max_len;
   int *stack;
 };
 
@@ -26,11 +27,9 @@ void IntStack_delete(IntStack s);
 
 #define IntStack_get_length(s) (1+(s)->last)
 
-int IntStack_push(IntStack s, int i);/* add an item and return the pos (>=0).
-					Return negative value of malloc failed */
+size_t IntStack_push(IntStack s, int i); // add an item and return the pos
+                                         // Return SIZE_MAX if malloc failed
 
 int IntStack_pop(IntStack s, int *flag);/* remove the last item. If none exist, flag = -1, and return -1. */
 
 void IntStack_print(IntStack s);
-
-#endif

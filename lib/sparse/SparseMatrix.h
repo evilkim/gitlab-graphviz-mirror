@@ -7,8 +7,8 @@
  *
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
-#ifndef SPARSEMATRIX_H
-#define  SPARSEMATRIX_H
+
+#pragma once
 
 #include <sparse/general.h>
 #include <stdio.h>
@@ -113,5 +113,3 @@ SparseMatrix SparseMatrix_from_dense(int m, int n, real *x);
 #define SparseMatrix_known_undirected(A) test_flag((A)->property, MATRIX_UNDIRECTED)
 #define SparseMatrix_known_symmetric(A) test_flag((A)->property, MATRIX_SYMMETRIC)
 #define SparseMatrix_known_strucural_symmetric(A) test_flag((A)->property, MATRIX_PATTERN_SYMMETRIC)
-
-#endif

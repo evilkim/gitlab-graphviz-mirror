@@ -8,8 +8,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-#ifndef DOTIO_H
-#define DOTIO_H
+#pragma once
 
 #include <cgraph.h>
 #include <sparse/SparseMatrix.h>
@@ -32,4 +31,3 @@ void Dot_SetClusterColor(Agraph_t* g, float *rgb_r,  float *rgb_g,  float *rgb_b
 void attached_clustering(Agraph_t* g, int maxcluster, int clustering_scheme);
 
 int Import_dot_splines(Agraph_t* g, int *ne, char ***xsplines);
-#endif

@@ -20,6 +20,7 @@
 #include <cgraph/cgraph.h>
 #include <dotgen/dot.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -29,7 +30,7 @@
 #define flatindex(v)	ND_low(v)
 
 	/* forward declarations */
-static boolean medians(graph_t * g, int r0, int r1);
+static bool medians(graph_t * g, int r0, int r1);
 static int nodeposcmpf(node_t ** n0, node_t ** n1);
 static int edgeidcmpf(edge_t ** e0, edge_t ** e1);
 static void flat_breakcycles(graph_t * g);
@@ -70,7 +71,7 @@ static graph_t *Root;
 static int GlobalMinRank, GlobalMaxRank;
 static edge_t **TE_list;
 static int *TI_list;
-static boolean ReMincross;
+static bool ReMincross;
 
 #if defined(DEBUG) && DEBUG > 1
 static void indent(graph_t* g)
@@ -233,7 +234,8 @@ getComp (graph_t* g, node_t* n, graph_t* comp, int* indices)
 static void
 fixLabelOrder (graph_t* g, rank_t* rk)
 {
-    int cnt, haveBackedge = FALSE;
+    int cnt;
+    bool haveBackedge = false;
     Agnode_t** arr;
     int* indices;
     Agraph_t* sg;
@@ -245,7 +247,7 @@ fixLabelOrder (graph_t* g, rank_t* rk)
 	v = nxtp = agnxtnode(g, n);
 	for (; v; v = agnxtnode(g, v)) {
 	    if (ND_hi(v) <= ND_lo(n)) { 
-		haveBackedge = TRUE;
+		haveBackedge = true;
 		agedge(g, v, n, NULL, 1);
 	    }
 	    else if (ND_hi(n) <= ND_lo(v)) { 
@@ -373,7 +375,7 @@ void dot_mincross(graph_t * g, int doBalance)
 
     if (GD_n_cluster(g) > 0 && (!(s = agget(g, "remincross")) || mapbool(s))) {
 	mark_lowclusters(g);
-	ReMincross = TRUE;
+	ReMincross = true;
 	nc = mincross(g, 2, 2, doBalance);
 #ifdef DEBUG
 	for (c = 1; c <= GD_n_cluster(g); c++)
@@ -548,7 +550,7 @@ static int left2right(graph_t * g, node_t * v, node_t * w)
     int rv;
 
     /* CLUSTER indicates orig nodes of clusters, and vnodes of skeletons */
-    if (ReMincross == FALSE) {
+    if (!ReMincross) {
 	if (ND_clust(v) != ND_clust(w) && ND_clust(v) && ND_clust(w)) {
 	    /* the following allows cluster skeletons to be swapped */
 	    if (ND_ranktype(v) == CLUSTER && ND_node_type(v) == VIRTUAL)
@@ -751,7 +753,7 @@ static int balance(graph_t * g)
     return rv;
 }
 
-static int transpose_step(graph_t * g, int r, int reverse)
+static int transpose_step(graph_t * g, int r, bool reverse)
 {
     int i, c0, c1, rv;
     node_t *v, *w;
@@ -792,7 +794,7 @@ static int transpose_step(graph_t * g, int r, int reverse)
     return rv;
 }
 
-static void transpose(graph_t * g, int reverse)
+static void transpose(graph_t * g, bool reverse)
 {
     int r, delta;
 
@@ -1160,7 +1162,7 @@ static void init_mincross(graph_t * g)
     if (Verbose)
 	start_timer();
 
-    ReMincross = FALSE;
+    ReMincross = false;
     Root = g;
     /* alloc +1 for the null terminator usage in do_ordering() */
     size = agnedges(dot_root(g)) + 1;
@@ -1549,10 +1551,9 @@ static void flat_reorder(graph_t * g)
 	free(temprank);
 }
 
-static void reorder(graph_t * g, int r, int reverse, int hasfixed)
+static void reorder(graph_t * g, int r, bool reverse, bool hasfixed)
 {
     int changed = 0, nelt;
-    boolean muststay, sawclust;
     node_t **vlist = GD_rank(g)[r].v;
     node_t **lp, **rp, **ep = vlist + GD_rank(g)[r].n;
 
@@ -1565,18 +1566,19 @@ static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 	    if (lp >= ep)
 		break;
 	    /* find the node that can be compared */
-	    sawclust = muststay = FALSE;
+	    bool sawclust = false;
+	    bool muststay = false;
 	    for (rp = lp + 1; rp < ep; rp++) {
 		if (sawclust && ND_clust(*rp))
 		    continue;	/* ### */
 		if (left2right(g, *lp, *rp)) {
-		    muststay = TRUE;
+		    muststay = true;
 		    break;
 		}
 		if (ND_mval(*rp) >= 0)
 		    break;
 		if (ND_clust(*rp))
-		    sawclust = TRUE;	/* ### */
+		    sawclust = true;	/* ### */
 	    }
 	    if (rp >= ep)
 		break;
@@ -1604,12 +1606,8 @@ static void reorder(graph_t * g, int r, int reverse, int hasfixed)
 static void mincross_step(graph_t * g, int pass)
 {
     int r, other, first, last, dir;
-    int hasfixed, reverse;
 
-    if (pass % 4 < 2)
-	reverse = TRUE;
-    else
-	reverse = FALSE;
+    bool reverse = pass % 4 < 2;
 
     if (pass % 2 == 0) {	/* down pass */
 	first = GD_minrank(g) + 1;
@@ -1627,10 +1625,10 @@ static void mincross_step(graph_t * g, int pass)
 
     for (r = first; r != last + dir; r += dir) {
 	other = r - dir;
-	hasfixed = medians(g, r, other);
+	bool hasfixed = medians(g, r, other);
 	reorder(g, r, reverse, hasfixed);
     }
-    transpose(g, NOT(reverse));
+    transpose(g, !reverse);
 }
 
 static int local_cross(elist l, int dir)
@@ -1737,7 +1735,7 @@ static int ordercmpf(int *i0, int *i1)
  * a.mval is > 0.
  * Return true if n.mval is left -1, indicating a fixed node for sorting.
  */
-static int flat_mval(node_t * n)
+static bool flat_mval(node_t * n)
 {
     int i;
     edge_t *e, **fl;
@@ -1751,7 +1749,7 @@ static int flat_mval(node_t * n)
 		nn = agtail(e);
 	if (ND_mval(nn) >= 0) {
 	    ND_mval(n) = ND_mval(nn) + 1;
-	    return FALSE;
+	    return false;
 	}
     } else if (ND_flat_out(n).size > 0) {
 	fl = ND_flat_out(n).list;
@@ -1761,20 +1759,20 @@ static int flat_mval(node_t * n)
 		nn = aghead(e);
 	if (ND_mval(nn) > 0) {
 	    ND_mval(n) = ND_mval(nn) - 1;
-	    return FALSE;
+	    return false;
 	}
     }
-    return TRUE;
+    return true;
 }
 
 #define VAL(node,port) (MC_SCALE * ND_order(node) + (port).order)
 
-static boolean medians(graph_t * g, int r0, int r1)
+static bool medians(graph_t * g, int r0, int r1)
 {
     int i, j, j0, lm, rm, lspan, rspan, *list;
     node_t *n, **v;
     edge_t *e;
-    boolean hasfixed = FALSE;
+    bool hasfixed = false;
 
     list = TI_list;
     v = GD_rank(g)[r0].v;
