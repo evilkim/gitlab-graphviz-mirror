@@ -11,7 +11,7 @@
 
 #include "convert.h"
 #include <ctype.h>
-#include <stddef.h>
+#include <stdlib.h>
 
 #define SMALLBUF    128
 
@@ -54,6 +54,9 @@ typedef struct {
 
 static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     namev_t *np = NEW(namev_t);
     np->name = objp->name;
     np->unique_name = 0;
@@ -62,6 +65,9 @@ static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 
 static void free_nitem(Dt_t * d, namev_t * np, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(np);
 }
 
@@ -84,6 +90,9 @@ typedef struct {
 
 static void free_iditem(Dt_t * d, idv_t * idp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(idp->name);
     free(idp);
 }
@@ -174,9 +183,9 @@ static int xml_isentity(char *s)
 static char *_xml_string(char *s, int notURL)
 {
     static char *buf = NULL;
-    static int bufsize = 0;
+    static size_t bufsize = 0;
     char *p, *sub, *prev = NULL;
-    int len, pos = 0;
+    size_t len, pos = 0;
 
     if (!buf) {
 	bufsize = 64;
@@ -324,8 +333,8 @@ static char *createEdgeId(gxlstate_t * stp, Agedge_t * e)
     char buf[BUFSIZ];
     char *hname = nodeID(stp, AGHEAD(e));
     char *tname = nodeID(stp, AGTAIL(e));
-    int baselen = strlen(hname) + strlen(tname) + sizeof(EDGEOP);
-    int len = baselen + EXTRA;
+    size_t baselen = strlen(hname) + strlen(tname) + sizeof(EDGEOP);
+    size_t len = baselen + EXTRA;
     char *bp;
     char *endp;			/* where to append ':' and number */
     char *rv;
@@ -409,6 +418,8 @@ static void
 writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 	  int isGraph)
 {
+    (void)g;
+
     Dict_t *view;
     Agsym_t *sym, *psym;
 
@@ -495,7 +506,7 @@ writeHdr(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile, int top)
     char buf[BUFSIZ];
     char *bp;
     char *dynbuf = 0;
-    int len;
+    size_t len;
 
     Level++;
     stp->attrsNotWritten = AGATTRWF(g);
@@ -586,7 +597,7 @@ static void writeSubgs(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile)
     }
 }
 
-static int writeEdgeName(Agedge_t * e, FILE * gxlFile, int terminate)
+static int writeEdgeName(Agedge_t * e, FILE * gxlFile)
 {
     int rv;
     char *p;
@@ -614,7 +625,7 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
     int cnt = 0;
 
     if ((AGTYPE(obj) == AGINEDGE) || (AGTYPE(obj) == AGOUTEDGE)) {
-	if (writeEdgeName(obj, gxlFile, FALSE))
+	if (writeEdgeName(obj, gxlFile))
 	    cnt++;
     }
     data = (Agattr_t *) agattrrec(obj);
@@ -782,7 +793,7 @@ writeEdge(gxlstate_t * stp, Agedge_t * e, FILE * gxlFile, Dict_t * d)
     if (!(attrs_written(stp, e)))
 	writeNondefaultAttr(e, gxlFile, d);
     else
-	writeEdgeName(e, gxlFile, TRUE);
+	writeEdgeName(e, gxlFile);
     tabover(gxlFile);
     fprintf(gxlFile, "</edge>\n");
     Level--;
@@ -882,7 +893,7 @@ static gxlstate_t *initState(Agraph_t * g)
     stp->idList = dtopen(&idDisc, Dtoset);
     stp->attrsNotWritten = 0;
     stp->root = g;
-    stp->directed = agisdirected(g);
+    stp->directed = agisdirected(g) != 0;
     return stp;
 }
 

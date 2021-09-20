@@ -8,13 +8,15 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include    <assert.h>
 #include    "convert.h"
 #include    <cgraph/agxbuf.h>
 #ifdef HAVE_EXPAT
 #include    <expat.h>
 #include    <ctype.h>
+#include    <limits.h>
 #include    <stdbool.h>
+#include    <stdlib.h>
 
 #ifndef XML_STATUS_ERROR
 #define XML_STATUS_ERROR 0
@@ -64,7 +66,7 @@ static void *gcalloc(size_t nmemb, size_t size)
 
 static void pushString(slist ** stk, const char *s)
 {
-    int sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
+    size_t sz = ROUND2(sizeof(slist) + strlen(s), sizeof(void *));
     slist *sp = gcalloc(sz, sizeof(char));
     strcpy(sp->buf, s);
     sp->next = *stk;
@@ -132,6 +134,9 @@ typedef struct {
 
 static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     namev_t *np = malloc(sizeof(namev_t));
     if (np == NULL)
 	return NULL;
@@ -142,6 +147,9 @@ static namev_t *make_nitem(Dt_t * d, namev_t * objp, Dtdisc_t * disc)
 
 static void free_nitem(Dt_t * d, namev_t * np, Dtdisc_t * disc)
 {
+    (void)d;
+    (void)disc;
+
     free(np->unique_name);
     free(np);
 }
@@ -314,7 +322,7 @@ setNodeAttr(Agnode_t * np, char *name, char *value, userdata_t * ud,
  * The names must always begin with "node:".
  */
 static void
-setGlobalNodeAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
+setGlobalNodeAttr(Agraph_t * g, char *name, char *value)
 {
     if (strncmp(name, NODELBL, NLBLLEN))
 	fprintf(stderr,
@@ -370,7 +378,7 @@ setEdgeAttr(Agedge_t * ep, char *name, char *value, userdata_t * ud,
  * The names always begin with "edge:".
  */
 static void
-setGlobalEdgeAttr(Agraph_t * g, char *name, char *value, userdata_t * ud)
+setGlobalEdgeAttr(Agraph_t * g, char *name, char *value)
 {
     if (strncmp(name, EDGELBL, ELBLLEN))
 	fprintf(stderr,
@@ -620,45 +628,45 @@ static void endElementHandler(void *userData, const char *name)
 	ud->closedElementType = TAG_EDGE;
 	ud->edgeinverted = FALSE;
     } else if (strcmp(name, "attr") == 0) {
-	char *name;
+	char *new_name;
 	char *value;
 	char buf[SMALLBUF] = GXL_COMP;
 	char *dynbuf = 0;
 
 	ud->closedElementType = TAG_NONE;
 	if (ud->compositeReadState) {
-	    int len = sizeof(GXL_COMP) + agxblen(&ud->xml_attr_name);
+	    size_t len = sizeof(GXL_COMP) + (size_t)agxblen(&ud->xml_attr_name);
 	    if (len <= SMALLBUF) {
-		name = buf;
+		new_name = buf;
 	    } else {
-		name = dynbuf = gcalloc(len, sizeof(char));
-		strcpy(name, GXL_COMP);
+		new_name = dynbuf = gcalloc(len, sizeof(char));
+		strcpy(new_name, GXL_COMP);
 	    }
-	    strcpy(name + sizeof(GXL_COMP) - 1,
+	    strcpy(new_name + sizeof(GXL_COMP) - 1,
 		   agxbuse(&ud->xml_attr_name));
 	    value = agxbuse(&ud->composite_buffer);
 	    agxbclear(&ud->xml_attr_value);
 	    ud->compositeReadState = FALSE;
 	} else {
-	    name = agxbuse(&ud->xml_attr_name);
+	    new_name = agxbuse(&ud->xml_attr_name);
 	    value = agxbuse(&ud->xml_attr_value);
 	}
 
 	switch (ud->globalAttrType) {
 	case TAG_NONE:
-	    setAttr(name, value, ud, false);
+	    setAttr(new_name, value, ud, false);
 	    break;
 	case TAG_NODE:
-	    setGlobalNodeAttr(G, name, value, ud);
+	    setGlobalNodeAttr(G, new_name, value);
 	    break;
 	case TAG_EDGE:
-	    setGlobalEdgeAttr(G, name, value, ud);
+	    setGlobalEdgeAttr(G, new_name, value);
 	    break;
 	case TAG_GRAPH:
-	    setGraphAttr(G, name, value, ud);
+	    setGraphAttr(G, new_name, value, ud);
 	    break;
 	case TAG_HTML_LIKE_STRING:
-	    setAttr(name, value, ud, true);
+	    setAttr(new_name, value, ud, true);
 	    break;
 	}
 	free(dynbuf);
@@ -682,15 +690,18 @@ static void characterDataHandler(void *userData, const char *s, int length)
 {
     userdata_t *ud = userData;
 
+    assert(length >= 0 && "Expat returned negative length data");
+    size_t len = (size_t)length;
+
     if (!ud->listen)
 	return;
 
     if (ud->compositeReadState) {
-	agxbput_n(&ud->composite_buffer, s, length);
+	agxbput_n(&ud->composite_buffer, s, len);
 	return;
     }
 
-    agxbput_n(&ud->xml_attr_value, s, length);
+    agxbput_n(&ud->xml_attr_value, s, len);
 }
 
 Agraph_t *gxl_to_gv(FILE * gxlFile)
@@ -716,7 +727,8 @@ Agraph_t *gxl_to_gv(FILE * gxlFile)
 	if (len == 0)
 	    break;
 	done = len < sizeof(buf);
-	if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
+	assert(len <= (size_t)INT_MAX && "too large data for Expat API");
+	if (XML_Parse(parser, buf, (int)len, done) == XML_STATUS_ERROR) {
 	    fprintf(stderr,
 		    "%s at line %lu\n",
 		    XML_ErrorString(XML_GetErrorCode(parser)),

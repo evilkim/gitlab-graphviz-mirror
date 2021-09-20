@@ -15,8 +15,8 @@
 
 #include "config.h"
 
-#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -129,6 +129,9 @@ static void init(int argc, char *argv[])
 		usage(1);
 	    }
 	    break;
+	default:
+	    fprintf(stderr, "gc: unexpected error\n");
+	    exit(EXIT_FAILURE);
 	}
     }
     argv += optind;
@@ -231,6 +234,8 @@ static void cc_dfs(Agraph_t * g, Agnode_t * n)
 
 static void cntCluster(Agraph_t * g, Agobj_t * sg, void *arg)
 {
+    (void)g;
+
     char *sgname = agnameof(sg);
 
     if (strncmp(sgname, "cluster", 7) == 0)
@@ -261,7 +266,7 @@ static void ipr(long num)
 }
 
 static void
-wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *fname)
+wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *filename)
 {
     int i;
 
@@ -278,7 +283,7 @@ wcp(int nnodes, int nedges, int ncc, int ncl, char *gname, char *fname)
     if (flags & CL)
 	ipr(ncl);
     if (fname)
-	printf(" %s (%s)\n", gname, fname);
+	printf(" %s (%s)\n", gname, filename);
     else
 	printf(" %s\n", gname);
 }

@@ -24,15 +24,15 @@ typedef struct hsbcolor_t {
 #ifndef NOCOLORNAMES
 #include "colortbl.h"
 
-static unsigned char *canoncolor(char *orig, unsigned char *out)
+static char *canoncolor(const char *orig, char *out)
 {
-    unsigned char c;
-    unsigned char *p = out;
-    while ((c = *(unsigned char *) orig++)) {
+    char c;
+    char *p = out;
+    while ((c = *orig++)) {
 	if (!isalnum(c))
 	    continue;
 	if (isupper(c))
-	    c = tolower(c);
+	    c = (char)tolower(c);
 	*p++ = c;
     }
     *p = '\0';
@@ -49,12 +49,12 @@ static int colorcmpf(const void *a0, const void *a1)
 char *colorxlate(char *str, char *buf)
 {
     static hsbcolor_t *last;
-    unsigned char canon[128];
+    char canon[128];
     char *p;
     hsbcolor_t fake;
 
     if (last == NULL || strcmp(last->name, str)) {
-	fake.name = (char *) canoncolor(str, canon);
+	fake.name = canoncolor(str, canon);
 	last = bsearch(&fake, color_lib, sizeof(color_lib) / sizeof(hsbcolor_t),
 	               sizeof(fake), colorcmpf);
     }
