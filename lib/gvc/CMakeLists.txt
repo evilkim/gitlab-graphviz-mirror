@@ -36,15 +36,17 @@ add_library(gvc SHARED
     gvc.def
 )
 
-target_include_directories(gvc PRIVATE
-    ${GRAPHVIZ_LIB_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+target_include_directories(gvc
+  PUBLIC
+    $<BUILD_INTERFACE:${GRAPHVIZ_LIB_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${GRAPHVIZ_LIB_DIR}/cdt>
+    $<BUILD_INTERFACE:${GRAPHVIZ_LIB_DIR}/cgraph>
+    $<BUILD_INTERFACE:${GRAPHVIZ_LIB_DIR}/common>
+    $<BUILD_INTERFACE:${GRAPHVIZ_LIB_DIR}/pathplan>
+    $<INSTALL_INTERFACE:include/graphviz>
+  PRIVATE
     ${TOP_SOURCE_DIR}
-    ${GRAPHVIZ_LIB_DIR}/ast
-    ${GRAPHVIZ_LIB_DIR}/cdt
-    ${GRAPHVIZ_LIB_DIR}/cgraph
-    ${GRAPHVIZ_LIB_DIR}/common
-    ${GRAPHVIZ_LIB_DIR}/pathplan
 )
 
 target_link_libraries(gvc PRIVATE

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - the CMake build system installs gzipped man pages if `gzip` is available #1883
+- CMake projects using Graphviz as a subproject (`add_subdirectory`) can now
+  link against and use `gvc`.
 
 ### Fixed
 
@@ -18,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   projects #2119
 - compile failures with a C++20-compatible toolchain #2122
 - compile errors on macOS when using Bison 3.8 #2127
+- Make Graphviz buildable as a cmake subproject/subdirectory #1477
+- Header not found in Cmake project #2109
 
 ## [2.49.0] – 2021-08-28
 
