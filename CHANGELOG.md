@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.49.1] – 2021-09-22
+
 ### Changed
 
 - the CMake build system installs gzipped man pages if `gzip` is available #1883
@@ -1530,7 +1532,8 @@ March 13, 2000: Use AM_PROG_LIBTOOL instead of AC_PROG_LIBTOOL
    in configure.in.  John Ellson <ellson@graphviz.org>
 ```
 
-[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.49.0...main
+[Unreleased]: https://gitlab.com/graphviz/graphviz/compare/2.49.1...main
+[2.49.1]: https://gitlab.com/graphviz/graphviz/compare/2.49.0...2.49.1
 [2.49.0]: https://gitlab.com/graphviz/graphviz/compare/2.48.0...2.49.0
 [2.48.0]: https://gitlab.com/graphviz/graphviz/compare/2.47.3...2.48.0
 [2.47.3]: https://gitlab.com/graphviz/graphviz/compare/2.47.2...2.47.3
